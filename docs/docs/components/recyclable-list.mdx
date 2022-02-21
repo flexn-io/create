@@ -3,7 +3,7 @@ import Prop from '@site/src/components/Prop';
 
 # RecyclableList
 
-High performance listview designed to work with high amount of items. 
+High performance list view designed to work with high amount of items. 
 RecyclableList reusing views that are no longer visible to render items instead of creating new view object.
 
 ## Usage
@@ -126,14 +126,14 @@ export default MyComponent;
 ## Props
 
 Since as core of RecyclableList Flexn SDK using open source library, full API reference can be found at https://github.com/Flipkart/recyclerlistview#props. However this version 
-is optimized to work with multiplatform environment and our Focus Manager so it has some API changes which is described below.
+is optimized to work with multi platform environment and our Focus Manager so it has some API changes which is described below.
 
 <Prop value="rowRenderer" /><Badge required /> 
 
 Type: *(type: string | number, data: any, index: number, repeatContext: any) => JSX.Element | JSX.Element[] | null*
 
 Method which returns component to be rendered. It's important to note that `repeatContext`(last parameter of the function) always must be passed down to 
-Presable or TouchableOpacity component in your return.
+Pressable or TouchableOpacity component in your return.
 
 ```javascript
 <RecyclableList

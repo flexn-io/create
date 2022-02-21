@@ -60,3 +60,49 @@ During `rnv new` you will be given an option to choose between these templates (
 rnv new
 ```
 
+If you chose Hello World or Blank templates, you also need to install Flexn SDK. Add the code below in `renative.json`, which is located in the root of the project folder, under plugins:
+
+```json
+"plugins": {
+"@flexn/sdk": {
+    "version": "0.11.0",
+    "webpack": {
+        "modulePaths": true,
+        "moduleAliases": true
+    },
+    "tvos": {
+        "podName": "FlexnSDK"
+    },
+    "androidtv": {
+        "package": "io.flexn.sdk.FlexnSdkPackage",
+        "projectName": "flexn-io-sdk",
+        "activityImports": [
+            "io.flexn.sdk.TvRemoteHandlerModule",
+            "android.view.KeyEvent;"
+        ],
+        "activityMethods": [
+            "override fun dispatchKeyEvent(event: KeyEvent): Boolean {",
+            "   if (event.action == KeyEvent.ACTION_DOWN || event.action == KeyEvent.ACTION_UP) {",
+            "       TvRemoteHandlerModule.getInstance().onKeyEvent(event);",
+            "   }",
+            "   return super.dispatchKeyEvent(event);",
+            "}"
+        ]
+    },
+    "firetv": {
+        "package": "io.flexn.sdk.FlexnSdkPackage",
+        "projectName": "flexn-io-sdk",
+        "activityImports": [
+            "io.flexn.sdk.TvRemoteHandlerModule",
+            "android.view.KeyEvent;"
+        ],
+        "activityMethods": [
+            "override fun dispatchKeyEvent(event: KeyEvent): Boolean {",
+            "   if (event.action == KeyEvent.ACTION_DOWN || event.action == KeyEvent.ACTION_UP) {",
+            "       TvRemoteHandlerModule.getInstance().onKeyEvent(event);",
+            "   }",
+            "   return super.dispatchKeyEvent(event);",
+            "}"
+        ]
+    }
+```

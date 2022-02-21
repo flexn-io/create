@@ -257,7 +257,7 @@ Modal screen is the one which is rendered on the top of everything. Create a new
 
 ## Screen Cast
 
-Cast screen is super simplistic page which is purpose is only represent a simple text on your casting devide. Create a new file called `screens/screenCase.tsx` and copy this code there
+Cast screen is super simplistic page which is purpose is only represent a simple text on your casting device. Create a new file called `screens/screenCase.tsx` and copy this code there
 
 ```javascript
 import React from 'react';

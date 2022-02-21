@@ -15,14 +15,14 @@ Each platform has it's own navigation structure, navigational paradigms, compone
 - `index.tv.native.tsx` - defines navigation which is only for Android TV, Fire TV and Apple TV
 - `index.tsx` - defines navigation which would be applied for all platforms which is not mentioned above, but in our app it defined mobile(ios, android) navigation
 
-There is one exception. As you can see there is no specific file for web. According to order desribed above `index.tsx` should handle it, but that's not the case.
+There is one exception. As you can see there is no specific file for web. According to order described above `index.tsx` should handle it, but that's not the case.
 Since in our template as an web engine we're using [next.js](https://nextjs.org/) we're also have to apply rules which works for next.js. More about that [Web navigation](#web-navigation)
 
 ## Mobile navigation
 
-First let's start from most common one - mobile. Let's create first file at `navigation/index.tsx`. For mobile we choosen to have [Drawer navigation](https://reactnavigation.org/docs/drawer-based-navigation). It has very common use case of ReactNavigation without any specificness. We're utilizing multiplce different stacks to achieve following functionality:
+First let's start from most common one - mobile. Let's create first file at `navigation/index.tsx`. For mobile we choose to have [Drawer navigation](https://reactnavigation.org/docs/drawer-based-navigation). It has very common use case of ReactNavigation without any specificness. We're utilizing multiple different stacks to achieve following functionality:
 
-We're putting `Modal` out of our `DrawerNavigator` because regardless in which page we are we would like to be able to render Modal allways on the top independently.
+We're putting `Modal` out of our `DrawerNavigator` because regardless in which page we are we would like to be able to render Modal always on the top independently.
 ```javascript
 import React, { useContext } from 'react';
 import { StatusBar } from 'react-native';
@@ -195,7 +195,7 @@ export default App;
 
 ## Native TV navigation
 
-The next is TV `index.tv.native.tsx`. Native TV navigation is exceptional because for that we have created our custom `SideNavigator`. The reson of this choice is because all react navigation defaults like Drawer doesn't work well on TV and are very flaky. There are few important parts which we need to know here. 
+The next is TV `index.tv.native.tsx`. Native TV navigation is exceptional because for that we have created our custom `SideNavigator`. The reason of this choice is because all react navigation defaults like Drawer doesn't work well on TV and are very flaky. There are few important parts which we need to know here. 
 
 As you can see we're using `createNativeStackNavigator` instead if `createStackNavigator`. Native Stack Navigator offers native performance and are better designed to work with react-native-screens which is required for TV navigation to work. 
 
@@ -277,7 +277,7 @@ export default App;
 
 ```
 
-For SideNavigator we have created our own navigator which is simple enought, but at the same time are optimized to work on Native TV. What SideNavigator does essentially is very similar to Drawer. It keeps SideMenu allways visible on the left side and at the same time rendering the content. The main difference is that in this case we're using react-native-screens and also we're able to define our own menu container which has proper focus handling. 
+For SideNavigator we have created our own navigator which is simple enough, but at the same time are optimized to work on Native TV. What SideNavigator does essentially is very similar to Drawer. It keeps SideMenu always visible on the left side and at the same time rendering the content. The main difference is that in this case we're using react-native-screens and also we're able to define our own menu container which has proper focus handling. 
 
 ```javascript
 function Navigator({ initialRouteName, children, screenOptions, drawerContent, ...rest }) {
@@ -358,7 +358,7 @@ function Navigator({ initialRouteName, children, screenOptions, drawerContent, .
 ```
 ## Web navigation
 
-Web navigation is very different than others. Since it does not utilize react-navigation but instead of it's based on next.js navigational paradighms. As you can see there is no single file which would define how navigation structure for the web looks like. Instead of that we're folders structure itself which in next.js is definition of the page.
+Web navigation is very different than others. Since it does not utilize react-navigation but instead of it's based on next.js navigational paradigms. As you can see there is no single file which would define how navigation structure for the web looks like. Instead of that we're folders structure itself which in next.js is definition of the page.
 
 Let's create a files as following. 
 

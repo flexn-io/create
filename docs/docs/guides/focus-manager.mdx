@@ -2,7 +2,7 @@
 
 ## Focus Manager in React Native
 
-Focus Manager is an algorythm for TV's which controls focus. Based on your application struture and remote controller actions decides what to focus next.
+Focus Manager is an algorithm for TV's which controls focus. Based on your application structure and remote controller actions decides what to focus next.
 React Native doesn't have any specific Focus Manager implementation it utilizing native focus manager and
 exports some API functions for React Native developers to help control some parts of it.
 
@@ -10,17 +10,17 @@ exports some API functions for React Native developers to help control some part
 
 First we need to understand that whole communication between Javascript and native code happening via React Native Bridge which is capable to connect these two worlds.
 Native Focus Manager works in a way that whole decision making about what to focus next, what's initial focus and so on happens on native side and we as javascript developers have to obey
-to those decisions. The problem is that those decisions are not always right because of variuos reasons like:
+to those decisions. The problem is that those decisions are not always right because of various reasons like:
 
 - Each application has it own layout which sometimes can be very complex;
 - Sometimes our application have items which is not perfectly aligned;
-- We have different navigation paradighms in our apps;
+- We have different navigation paradigms in our apps;
 - and so on... 
 
-Therefore if we have real world application(something way more complex than "Hello world") we're start hiting the problem when native focus manager proving us wrong
+Therefore if we have real world application(something way more complex than "Hello world") we're start hitting the problem when native focus manager proving us wrong
 decisions and focus start working not as we expecting...
 
-To have better control over focus manager Google added API which allows developers based on their applications force Focus Manager to do what it wants. In Ract Native that
+To have better control over focus manager Google added API which allows developers based on their applications force Focus Manager to do what it wants. In React Native that
 works in a way that focusable item needs to provide reference to another focusable item. An example:
 
 ```javascript
@@ -62,14 +62,14 @@ Well it looks like we have some control, but it has some fundamental issues like
 
 - We are communicating with native code and React Native bridge has delay, so usually these focus enforcements makes focus manager do 2 actions: first native default one and second
 our which we wrote in javascript which eventually it can make very bad user experience;
-- Having complex apps which has a lot of different components and screens managing these references become tramenduos work which also makes our code base very fragile;
+- Having complex apps which has a lot of different components and screens managing these references become tremendous work which also makes our code base very fragile;
 - This focus enforcement was working on Android TV only, before React Native cut down support for TV's at all and [this library](https://github.com/react-native-tvos/react-native-tvos) was
 created which added support for tvOS also, but it works in slightly different way.
 
 ## Flexn Focus Manager
 
-With Flexn Focus Manager we took different approuch. After lot of discusions and investigation what we can do that javascript and native code communication regards to focus managment
-could be reliable enought and solve fundamental problems described above we came to the solution that we should remove native part from equation and turn all decistion making to Javascript
+With Flexn Focus Manager we took different approach. After lot of discussions and investigation what we can do that javascript and native code communication regards to focus management
+could be reliable enough and solve fundamental problems described above we came to the solution that we should remove native part from equation and turn all decision making to Javascript
 where we have best control over our applications.
 
 We still utilizing the best of native and created components library which puts all heavy operations and requires best code performance
@@ -77,13 +77,13 @@ like focus animations to native code. Having this combination in mind we managed
 
 ## How to use it
 
-Nevertheless Flexn Focus Manager is simple enought it has some fundamental rules which we need to comply to use it right. All primitive components must be exported from `@flexn/sdk` since
-each of them are designed for Flexn Focus Manager and helps it to understand our applicaation layout. API for each component is described in section above so here we will go trought some
+Nevertheless Flexn Focus Manager is simple enough it has some fundamental rules which we need to comply to use it right. All primitive components must be exported from `@flexn/sdk` since
+each of them are designed for Flexn Focus Manager and helps it to understand our application layout. API for each component is described in section above so here we will go through some
 real app examples and rules.
 
 ### Root of your app
 
-Root of your application must be wrapped with `import { App } from '@flexn/sdk';` it's a single import which initialize Flexn Focus Manager events to be accesible within whole app.
+Root of your application must be wrapped with `import { App } from '@flexn/sdk';` it's a single import which initialize Flexn Focus Manager events to be accessible within whole app.
 
 ```javascript
 import * as React from 'react';
@@ -102,14 +102,14 @@ export default MyApp;
 
 ### Screens
 
-Screen represents collection of the childrens which belongs only for particular block. Even though screen usually is wrapping separate pages of your application, but it not neccessary
+Screen represents collection of the children's which belongs only for particular block. Even though screen usually is wrapping separate pages of your application, but it not necessary
 has to be like that. With Screen you can create things like modals which overlaps the context, side navigation which typically always visible for user whatever you navigate or anything
 else depends on your application structure. There are few important rules working with screens:
 
 - You can never wrap screen into another screen. That doesn't work;
 - Screen must have states. More about those below;
 
-State of the screen tells focus manager whetever your screen is in foreground and visible for user or it's moved to background. Example bellow shows simple implementation with 
+State of the screen tells focus manager whenever your screen is in foreground and visible for user or it's moved to background. Example bellow shows simple implementation with 
 [react-navigation](https://reactnavigation.org/).
 
 ```javascript
@@ -208,7 +208,7 @@ There are only two states you have to deal with
 - `background` screen is removed from the focus finder;
 
 As example above shows we're changing screen state based on your activity. If we are in Screen1 we setting screen state as `foreground` and once we leave that screen `background`
-state is applied. Same story with Scrren2.
+state is applied. Same story with Screen2.
 
 **Full screen API can be found [here](../components/screen)**.
 
@@ -296,7 +296,7 @@ each other.
 
 ### Creating custom components
 
-Flexn Focus Manager understand app layout by creating `context` for each element in focus equation. Context holds all neccessary information of element for focus manager.
+Flexn Focus Manager understand app layout by creating `context` for each element in focus equation. Context holds all necessary information of element for focus manager.
 All primitive components which is exported from `@flexn/sdk` taking care of holding and passing context down to other elements by itself, but if you have created your custom component
 this needs to be done by manually(which is very easy):
 
