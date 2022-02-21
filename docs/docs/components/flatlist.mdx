@@ -1,0 +1,59 @@
+import Badge from '@site/src/components/Badge';
+import Prop from '@site/src/components/Prop';
+
+# FlatList
+
+Component which reflects [React Native FlatList](https://reactnative.dev/docs/flatlist) but has implementation with Flexn Focus Manager.
+
+## Usage
+```javascript
+import * as React from 'react';
+import { Screen, FlatList, Text, Pressable } from '@flexn/sdk';
+
+const DATA_ARRAY = [...Array(10).keys()];
+
+const MyComponent = () => {
+  return (
+    <Screen>
+      {DATA_ARRAY.map((key) => (
+        <View key={key}>
+          <FlatList
+            horizontal
+            data={DATA_ARRAY}
+            style={{ marginHorizontal: 15, marginVertical: 50 }}
+            renderItem={({ parentContext }) => (
+              <Pressable
+                parentContext={parentContext}
+                style={{
+                  width: 200,
+                  height: 200,
+                  backgroundColor: 'green',
+                  marginHorizontal: 25,
+                }}
+              />
+            )}
+          />
+        </View>
+      ))}
+    </Screen>
+  );
+};
+
+export default MyComponent;
+```
+
+## Props
+
+<Prop value="renderItem" /><Badge required /> 
+
+Type: *({ index, item, separators, parentContext }) => JSX.Element | JSX.Element[] | null*
+
+Method which returns component to be rendered. It's important to note that `parentContext` always must be passed down to Presable or TouchableOpacity component in your return.
+
+```javascript
+  <FlatList
+    rowRenderer={({ parentContext }) => {
+      return <TouchableOpacity parentContext={parentContext} />;
+    }}}
+  />
+```

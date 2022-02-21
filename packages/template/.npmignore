@@ -1,0 +1,3 @@
+buildHooks/dist
+.env
+.npmrc

@@ -1,0 +1,48 @@
+import Badge from '@site/src/components/Badge';
+
+# TouchableOpacity
+
+TouchableOpacity is one of [React Native core components](https://reactnative.dev/docs/touchableopacity) but optimized to work on multiplatform environment. 
+
+## Usage
+```javascript
+import * as React from 'react';
+import { App, Screen, Text, TouchableOpacity, StyleSheet } from '@flexn/sdk';
+
+const MyComponent = () => {
+  return (
+    <App>
+      <Screen style={styles.container}>
+        <TouchableOpacity style={styles.button} onPress={() => console.log('Pressed')}>
+          <Text>Press me</Text>
+        </TouchableOpacity>
+      </Screen>
+    </App>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+  button: {
+    marginHorizontal: 20,
+    borderWidth: 2,
+    borderRadius: 25,
+    borderColor: '#111111',
+    height: 50,
+    width: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+export default MyComponent;
+```
+
+## Props
+
+Inherits all properties and functionality from [React Native TouchableOpacity](https://reactnative.dev/docs/touchableopacity). Also sharing custom API with [Pressable](pressable.mdx). 

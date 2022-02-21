@@ -1,0 +1,232 @@
+import Badge from '@site/src/components/Badge';
+import Prop from '@site/src/components/Prop';
+
+# Pressable
+
+Pressable is one of [React Native core components](https://reactnative.dev/docs/pressable) but optimized to work on multiplatform environment. 
+
+## Usage
+```javascript
+import * as React from 'react';
+import { App, Screen, Text, Pressable, StyleSheet } from '@flexn/sdk';
+
+const MyComponent = () => {
+  return (
+    <App>
+      <Screen style={styles.container}>
+        <Pressable style={styles.button} onPress={() => console.log('Pressed')}>
+          <Text>Press me</Text>
+        </Pressable>
+      </Screen>
+    </App>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+  button: {
+    marginHorizontal: 20,
+    borderWidth: 2,
+    borderRadius: 25,
+    borderColor: '#111111',
+    height: 50,
+    width: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+export default MyComponent;
+```
+
+## Props
+
+<Prop value="focus" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+
+Type: *boolean*
+
+Default value: `true`
+
+Property which tells Focus Manager if component should be included in focus engine finding next focusable element.
+
+------------------------------------------------------------
+
+<Prop value="parentContext" /><Badge required /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+
+Type: *ParentContext*
+
+This property allows Focus Manager to understand what's the structure of the screen. Usually Focus Manager iterrates all the components
+and passes down `parentContext` of the parent component to it's children. But if you have to created custom component you must pass it down by
+yourself.
+
+```javascript
+import * as React from 'react';
+import { App, Screen, Text, Pressable, StyleSheet } from '@flexn/sdk';
+
+const MyCustomComponent = ({ parentContext }: { parentContext?: any }) => {
+  return (
+    <Pressable parentContext={parentContext} style={styles.button} onPress={() => console.log('Pressed')}>
+      <Text>Press me</Text>
+    </Pressable>
+  );
+};
+
+const MyComponent = () => {
+  return (
+    <App>
+      <Screen style={styles.container}>
+        <MyCustomComponent />
+      </Screen>
+    </App>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+  button: {
+    marginHorizontal: 20,
+    borderWidth: 2,
+    borderRadius: 25,
+    borderColor: '#111111',
+    height: 50,
+    width: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+export default MyComponent;
+```
+
+------------------------------------------------------------
+
+<Prop value="onPress" />
+
+Type: *() => void*
+
+Event fired when Pressable was pressed.
+
+------------------------------------------------------------
+
+<Prop value="onFocus" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+
+Type: *() => void*
+
+Event fired when Pressable gains focus.
+
+------------------------------------------------------------
+
+<Prop value="onBlur" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+
+Type: *() => void*
+
+Event fired when Pressable loose focus.
+
+------------------------------------------------------------
+
+<Prop value="focusOptions" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+
+Type: *ViewFocusOptions*
+
+Property which holds following related properties:
+
+<Prop value="focusOptions.forbiddenFocusDirections" subProperty />
+
+
+Type: *ForbiddenFocusDirections[]*
+
+Can contain one or more directions. When component is focused and direction is set an example to `right` then pressing right button on your remote will do nothing just keep focus as it is.
+
+<Prop value="focusOptions.focusKey" subProperty />
+
+Type: *string*
+
+An unique string which can be used to force focus on specific element by `focusKey`.
+
+<Prop value="focusOptions.hasInitialFocus" subProperty />
+
+Type: *boolean*
+
+Foces element to gain focus once screen is loaded.
+
+<Prop value="focusOptions.animatorOptions" subProperty />
+
+Type: *any*
+
+Default value: `Scale`
+
+Animator Options can define how your component will behave when it gains focus. It has multiple animation variations which can be controlled by following configurations:
+
+- Scale
+
+```javascript
+<Pressable
+  focusOptions={{
+    animatorOptions: {
+      type: 'scale',
+      scale: 1.1, // optional any value from 1
+      duration: 150, // optional how long time border transition should take
+    }
+  }}
+/>
+```
+
+- Scale with border
+
+```javascript
+<Pressable
+  focusOptions={{
+    animatorOptions: {
+      type: 'scale_with_border',
+      scale: 1.1, // optional any value from 1
+      borderStyle: 'solid', // optional any available border style
+      borderWidth: 1, // optional any integer value,
+      colorBlur: 'transparent', // optional if no value is set then transparent is applied
+      colorFocus: 'transparent', // optional if no value is set then black is applied,
+      duration: 150, // optional how long time border transition should take
+    }
+  }}
+/>
+
+```
+- Border
+
+```javascript
+<Pressable
+  focusOptions={{
+    animatorOptions: {
+      type: 'border',
+      borderStyle: 'solid', // optional any available border style
+      borderWidth: 1, // optional any integer value,
+      colorBlur: 'transparent', // optional if no value is set then transparent is applied
+      colorFocus: 'transparent', // optional if no value is set then black is applied,
+      duration: 150, // optional how long time border transition should take
+    }
+  }}
+/>
+```
+
+- Background
+
+```javascript
+<Pressable
+  focusOptions={{
+    animatorOptions: {
+      type: 'background_color',
+      colorBlur: 'transparent', // optional if no value is set then transparent is applied
+      colorFocus: 'transparent', // optional if no value is set then black is applied,
+      duration: 150, // optional how long time border transition should take
+    }
+  }}
+/>
+```

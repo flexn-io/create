@@ -1,0 +1,143 @@
+import Badge from '@site/src/components/Badge';
+import Prop from '@site/src/components/Prop';
+
+# Screen
+
+Wrapper component which should be wrapping each screen. It has actual functionality only for TV platform for the rest it just passing trought default React Native View.
+Screen defines the context of the page and tells Focus Manager about your app structure. Screen can't ever be inside another Screen.
+
+## Usage
+```javascript
+import * as React from 'react';
+import { Text } from 'react-native';
+import { App, Screen, StyleSheet } from '@flexn/sdk';
+
+const MyScreen = () => {
+  return (
+    <App>
+      <Screen style={styles.container}>
+        <Text style={styles.text}>Hello from Flexn SDK!</Text>
+      </Screen>
+    </App>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+  text: {
+    fontSize: 22,
+  },
+});
+
+export default MyScreen;
+```
+
+
+## Props
+
+<Prop value="children" /><Badge required /> 
+
+Type: *React.ReactNode*
+
+Content of the Screen
+
+------------------------------------------------------------
+
+<Prop value="screenState" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+
+Type: *foreground | background*
+
+Default value: `foreground`
+
+If screen has `background` state it remains in the bemory, but it's excluded from the Focus Manager engine. That means Focus Manager ignoring that screen when 
+trying to find next focusable element.
+
+------------------------------------------------------------
+
+<Prop value="screenOrder" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+
+Type: *number*
+
+Default value: `0`
+
+Property which is very usefull working with modals. You can have multiple `foreground` screens at the same time which overlapping each other, but once you define 
+`screenOrder` property Focus Manager searching for next focusable element only in those screens which has higher `screenOrder`.
+
+------------------------------------------------------------
+
+<Prop value="stealFocus" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+
+Type: *boolean*
+
+Default value: `true`
+
+If there are more screens on the singe page this property tells Focus Manager in which Scren context focus should be initially placed.
+
+------------------------------------------------------------
+
+<Prop value="style" />
+
+Type: *StyleProp< TextStyle >*
+
+Styles for the View.
+
+------------------------------------------------------------
+
+<Prop value="onFocus" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+
+Type: *() => void*
+
+Event fired when screen gains focus.
+
+------------------------------------------------------------
+
+<Prop value="onBlur" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+
+Type: *() => void*
+
+Event fired when screen lose focus.
+
+------------------------------------------------------------
+
+<Prop value="focusOptions" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+
+Type: *ScreenFocusOptions*
+
+Property which holds following related properties:
+
+<Prop value="forbiddenFocusDirections" subProperty />
+
+Type: *ForbiddenFocusDirections[]*
+
+Can contain one or more directions. It prevents screen to lose focus when specific direction is defined and that direction remote control button is pressed. 
+
+<Prop value="focusKey" subProperty/>
+
+Type: *string*
+
+An unique string which can be used to force focus on specific foreground screen by `focusKey`.
+
+<Prop value="horizontalWindowAlignment" subProperty />
+
+Type: *both-edge | low-edge*
+
+Default value: `low-edge`
+
+Property which makes viewport of the screen horizontally align according to provided value. 
+
+When `low-edge` is defined then viewport is allways keeping focused element at the top of the screen.
+
+When `both-edge` is defined then focused element is kept more less within the top.
+
+<Prop value="verticalWindowAlignment" subProperty />
+
+Type: *both-edge | low-edge*
+
+Default value: `low-edge`
+
+Same as `focusOptions.horizontalWindowAlignment` but instead controlling horizontal alingment it affects vertical one.

@@ -1,0 +1,38 @@
+{
+    "extendsTemplate": "renative.json",
+    "projectName": "app-harness",
+    "workspaceID": "flexn",
+    "currentTemplate": "@flexn/template",
+    "templates": {
+        "@flexn/template": {
+            "version": "0.11.0"
+        }
+    },
+    "defaults": {
+        "supportedPlatforms": [
+            "android",
+            "androidtv",
+            "ios",
+            "tvos",
+            "web",
+            "macos",
+            "linux",
+            "firetv",
+            "chromecast",
+            "androidwear"
+        ]
+    },
+    "plugins": {
+        "@sentry/react-native": "source:flexn",
+        "@sentry/react": "source:flexn",
+        "@sentry/tracing": "source:flexn",
+        "@react-navigation": "source:flexn",
+        "react-native-screens": "source:flexn",
+        "react-native-safe-area-context": "source:flexn",
+        "react-native-gesture-handler": "source:flexn",
+        "react-native-google-cast": "source:flexn",
+        "@lightningjs/sdk": "source:flexn",
+        "react-native-carplay": "source:flexn",
+        "react-native-snap-carousel": "3.9.1"
+    }
+}

@@ -1,0 +1,26 @@
+name: Lint, UT, Coverage, Quality - PR
+
+on:
+    pull_request:
+        types: [opened, synchronize, reopened]
+
+jobs:
+    code-checks-pr:
+        continue-on-error: true
+        runs-on: [self-hosted, macos]
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - name: Bootstrap
+              run: yarn bootstrap
+            - name: Linter
+              run: yarn lint
+            - name: Unit Tests
+              run: yarn test-ci
+              # Yes, I'm too lazy to login into all the minions and install it manually. :)
+              # Will leave this here for a week or so, until every minion has it installed
+            - name: install sonar-scanner
+              run: arch -arm64 brew install sonar-scanner || brew install sonar-scanner
+            - name: Sonar Scanner
+              run: sonar-scanner -Dsonar.pullrequest.key=${{ github.event.number }} -Dsonar.pullrequest.base=${{ github.base_ref }} -Dsonar.pullrequest.provider=github -Dsonar.pullrequest.branch=${{ github.head_ref }} -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}

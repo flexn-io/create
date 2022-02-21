@@ -1,0 +1,11 @@
+{
+    "extendsTemplate": "appConfigs/base/renative.json",
+    "id": "app",
+    "common": {
+        "id": "myapp.example.com",
+        "title": "My App",
+        "description": "My App",
+        "buildSchemes": {}
+    },
+    "platforms": {}
+}

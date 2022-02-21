@@ -1,0 +1,35 @@
+name: E2E Template App (iOS)
+
+defaults:
+    run:
+        shell: zsh -l {0}
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+            - 'release/**'
+        paths-ignore:
+            - 'docs/**'
+            - '**/README.md'
+    pull_request:
+        types: [labeled]
+
+jobs:
+    e2e-template-ios:
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event.label.name == 'e2e-template-ios' || github.event.label.name == 'e2e' }}
+        runs-on: [self-hosted, macos]
+        env:
+            GHP_AUTH_TOKEN: ${{ secrets.GHP_AUTH_TOKEN }}
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup
+              run: |
+                  security unlock-keychain -p ${{ secrets.FLEXN_KEYCHAIN_PASSWORD }} Flexn.keychain
+                  yarn config set network-timeout 300000
+            - name: Bootstrap
+              run: |
+                  yarn bootstrap-clean
+            - name: E2E Template App iOS
+              run: |
+                  yarn e2e-template-ios

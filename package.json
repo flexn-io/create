@@ -1,0 +1,109 @@
+{
+    "name": "flexn",
+    "private": true,
+    "scripts": {
+        "prepare": "yarn run lerna:link && npx lerna run prepare --parallel",
+        "watch": "concurrently \"yarn watch-sdk\" \"yarn watch-harness\" \"yarn watch-graybox\" \"yarn watch-template\" \"yarn watch-build-hooks\" --raw",
+        "watch2": "yarn watch-sdk & yarn watch-harness & yarn watch-graybox & yarn watch-template",
+        "watch3": "lerna run --parallel --concurrency 2 watch",
+        "watch-sdk": "cd packages/sdk && yarn watch",
+        "watch-harness": "cd packages/harness && yarn watch",
+        "watch-graybox": "cd packages/graybox && yarn watch",
+        "watch-template": "cd packages/template && yarn watch",
+        "watch-build-hooks": "cd packages/build-hooks && yarn watch",
+        "build:all:clean": "npx lerna run build:clean",
+        "build": "lerna run build",
+        "lint": "yarn lint:js",
+        "lint:js": "eslint packages/** --ext .js,.jsx,.ts,.tsx --max-warnings=13",
+        "lint:markdown": "prettier --check \"docs/**/*.md\"",
+        "lint:report": "eslint --output-file=eslint-report.json --format=json . --ext .js,.jsx,.ts,.tsx",
+        "tsc:compile": "tsc --project .",
+        "clean": "rimraf packages/*/{tsconfig.tsbuildinfo,lib}",
+        "lint:all": "yarn lint && yarn lint:markdown && yarn lint:spellcheck && yarn tsc:compile",
+        "bootstrap": "(rnv unlink|| true) && npx lerna bootstrap && yarn build",
+        "bootstrap-link": "(rnv unlink || true) && npx lerna bootstrap && (rnv link || true)",
+        "bootstrap-clean": "rm -rf ./node_modules; npx lerna clean --yes && yarn bootstrap",
+        "lerna:link": "npx lerna link",
+        "tsc": "tsc --build",
+        "lerna:clean": "npx lerna clean",
+        "test": "jest --coverage",
+        "tests:jest-watch": "jest --watch",
+        "tests:jest-coverage": "jest --coverage",
+        "e2e-harness-ios": "cd packages/harness && npx rnv build -p ios -s test && yarn e2e:ios",
+        "e2e-harness-android": "cd packages/harness && npx rnv build -p android -s test && yarn e2e:android",
+        "e2e-harness-tvos": "cd packages/harness && npx rnv build -p tvos -s test && yarn e2e:tvos",
+        "e2e-harness-androidtv": "cd packages/harness && npx rnv build -p androidtv -s test && yarn e2e:androidtv",
+        "e2e-harness-macos": "cd packages/harness && npx rnv build -p macos -s test && yarn e2e:macos",
+        "e2e-harness-web": "cd packages/harness && npx rnv start -p web -s test & sleep 60 && cd packages/harness && yarn e2e:web && kill $(lsof -t -i:8080)",
+        "e2e-template-ios": "cd packages/template && npx rnv build -p ios -s test && yarn e2e:ios",
+        "e2e-template-android": "cd packages/template && npx rnv build -p android -s test && yarn e2e:android",
+        "e2e-template-tvos": "cd packages/template && npx rnv build -p tvos -s test && yarn e2e:tvos",
+        "e2e-template-androidtv": "cd packages/template && npx rnv build -p androidtv -s test && yarn e2e:androidtv",
+        "e2e-template-macos": "cd packages/template && npx rnv build -p macos -s test && yarn e2e:macos",
+        "e2e-template-web": "cd packages/template && npx rnv start -p web -s test & sleep 60 && cd packages/template && yarn e2e:web && kill $(lsof -t -i:8080)",
+        "docs": "cd docs && yarn && yarn start",
+        "docs-build": "cd docs && yarn && yarn build",
+        "lint-ci": "yarn lint",
+        "test-ci": "yarn test",
+        "prepare-harness-nightly": "cd packages/harness && npx rnv hooks run -x prepareNightlyBuild --only",
+        "prepare-template-nightly": "cd packages/template && npx rnv hooks run -x prepareNightlyBuild --only",
+        "clean-harness-post-nightly": "cd packages/harness && npx rnv hooks run -x cleanupPostNightly --only",
+        "clean-template-post-nightly": "cd packages/template && npx rnv hooks run -x cleanupPostNightly --only",
+        "gitCommit": "npx rnv hooks run -x gitCommit --only",
+        "gitTag": "npx rnv hooks run -x gitTag --only",
+        "update-versions": "npx rnv hooks run -x updateVersions --only",
+        "release": "lerna version --force-publish --no-git-tag-version --no-push && yarn update-versions && yarn gitCommit && lerna publish from-package && yarn gitTag",
+        "release-alpha": "lerna version --force-publish --no-git-tag-version --no-push && yarn update-versions && yarn gitCommit && lerna publish from-package --dist-tag alpha --yes && yarn gitTag",
+        "release-dry": "lerna version --force-publish --no-git-tag-version --no-push && npx rnv hooks run -x updateVersions",
+        "deploy-packages": "npm run deploy-all && npx lerna publish from-package --yes && git push origin HEAD"
+    },
+    "devDependencies": {
+        "@flexn/eslint-config": "0.1.4",
+        "@flexn/prettier-config": "0.1.4",
+        "@flexn/typescript": "0.1.4",
+        "@types/jest": "^27.0.2",
+        "@types/lodash-es": "4.17.5",
+        "@types/lodash.debounce": "^4.0.6",
+        "@types/node": "^16.11.7",
+        "@types/react": "17.0.37",
+        "@types/react-dom": "17.0.11",
+        "@types/react-native": "0.63.4",
+        "@typescript-eslint/eslint-plugin": "^5.4.0",
+        "@typescript-eslint/parser": "^5.4.0",
+        "concurrently": "7.0.0",
+        "eslint": "^8.2.0",
+        "google-drive-connect": "^1.1.2",
+        "googleapis": "39",
+        "husky": "4.2.5",
+        "isomorphic-unfetch": "^3.1.0",
+        "jest": "^27.3.1",
+        "lerna": "4.0.0",
+        "lint-staged": "8.1.0",
+        "rimraf": "^2.6.3",
+        "rnv": "0.35.0-alpha.14",
+        "simple-git": "^2.46.0",
+        "ts-jest": "^27.0.7",
+        "tslib": "2.3.1",
+        "typescript": "4.5.4"
+    },
+    "resolutions": {
+        "resolve": "2.0.0-next.3"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "yarn build && yarn lint && yarn test"
+        }
+    },
+    "lint-staged": {
+        "*.ts": [
+            "eslint"
+        ]
+    },
+    "workspaces": {
+        "packages": [
+            "packages/*"
+        ],
+        "nohoist": []
+    },
+    "dependencies": {}
+}

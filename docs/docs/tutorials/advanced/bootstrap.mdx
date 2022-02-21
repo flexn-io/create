@@ -1,0 +1,74 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Bootstrap
+
+To avoid having to configure plugins, engines and various other settings we will start with `@flexn/template`, however unlike in quick start we will delete all the src files, meaning we get a fresh start and start focusing on what matters - the multiplatform code.
+
+> If you want to learn more about the configurations and plugin management or bootstrapping process, head over to [`rnv` website](https://www.renative.org).
+
+Let's start by creating a new RNV project:
+
+```shell
+rnv new --projectTemplate @flexn/template
+```
+
+-   Follow the instructions on your cli:
+-   Enter you project's name, title, app ID (or skip this step by clicking Enter), version;
+-   If you have multiple workspaces available, select rnv:
+
+<div style={{width: 400}}>
+
+![HelloFlexn](/img/tutorial/step1.png)
+
+</div>
+
+-   Select the template version you want to use - Latest is recommended;
+-   Follow the rest of instructions on your cli;
+-   Navigate to your project's folder;
+-   Run command below and select your preferable platform to run:
+
+```shell
+rnv run
+```
+
+-   Follow the rest of instructions on your cli;
+-   Now you should see the orginal template (you can see Apple TV example bellow);
+
+<div style={{width: 800}}>
+
+![HelloFlexn](/img/tutorial/step5.png)
+
+</div>
+
+# The advanced part
+
+In order to understand our process of creating this template and learn more about multiplatform development lets handicap ourselves first by deleting the `src` folder. You can do that using command below or do it manually via IDE/file manager.
+
+<Tabs groupId="operating-systems">
+<TabItem value="mac" label="macOS" default>
+
+```shell
+rm -R -f src
+```
+
+</TabItem>
+<TabItem value="win" label="Windows">
+
+```cmd
+rmdir src /s /q
+```
+
+</TabItem>
+<TabItem value="linux" label="Linux">
+
+```shell
+rm -R -f src
+```
+
+</TabItem>
+</Tabs>

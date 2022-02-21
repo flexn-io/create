@@ -1,0 +1,39 @@
+import Badge from '@site/src/components/Badge';
+
+# App
+
+Wrapper component which should be placed at the top of the app.
+
+[Read more](../guides/focus-manager#root-of-your-app) about this component 
+## Usage
+```javascript
+import * as React from 'react';
+import { Text } from 'react-native';
+import { App, StyleSheet } from '@flexn/sdk';
+
+const MyApp = () => {
+  return (
+    <App style={styles.container}>
+      <Text style={styles.text}>Hello from Flexn SDK!</Text>
+    </App>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+  text: {
+    fontSize: 22,
+  },
+});
+
+export default MyApp;
+```
+
+## Props
+
+Inherits all props from https://reactnative.dev/docs/view.

@@ -1,0 +1,74 @@
+import { TouchableOpacity, ImageBackground, View, Text, ScrollView, ActivityIndicator } from '@flexn/sdk';
+import React, { useContext, useState, useEffect } from 'react';
+import { isPlatformWeb } from 'renative';
+import { ThemeContext, ROUTES } from '../config';
+import { usePop, useReplace } from '../hooks';
+import { getRandomData } from '../utils';
+import Screen from './screen';
+
+const ScreenMyPage = ({ route, navigation, router }: { navigation?: any; router?: any; route?: any }) => {
+    const replace = useReplace({ navigation });
+    const pop = usePop({ navigation });
+    const [item, setItem] = useState<{ backgroundImage: string; title: string }>();
+    const { theme } = useContext(ThemeContext);
+
+    const focusAnimation = {
+        type: 'border',
+        colorFocus: theme.static.colorBrand,
+        colorBlur: '#EEEEEE',
+        borderWidth: 3,
+    };
+
+    useEffect(() => {
+        const params = isPlatformWeb ? router.query : route?.params;
+        setItem(getRandomData(params.row, params.index));
+    }, []);
+
+    if (!item) {
+        return (
+            <View style={theme.styles.center}>
+                <ActivityIndicator />
+            </View>
+        );
+    }
+
+    return (
+        <Screen style={[theme.styles.screen]}>
+            <ImageBackground
+                source={{
+                    uri: item.backgroundImage,
+                }}
+                style={{ flex: 1 }}
+                resizeMode="cover"
+            >
+                <ScrollView contentContainerStyle={theme.styles.center}>
+                    <View style={theme.styles.detailsInfoContainer}>
+                        <Text style={theme.styles.detailsTitle}>{item.title}</Text>
+                    </View>
+                    <TouchableOpacity
+                        style={theme.styles.button}
+                        onPress={() => pop()}
+                        focusOptions={{
+                            forbiddenFocusDirections: ['up'],
+                            animatorOptions: focusAnimation,
+                        }}
+                    >
+                        <Text style={[theme.styles.buttonText, { color: '#FFFFFF' }]}>Go back</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={theme.styles.button}
+                        onPress={() => replace(ROUTES.HOME)}
+                        focusOptions={{
+                            forbiddenFocusDirections: ['down'],
+                            animatorOptions: focusAnimation,
+                        }}
+                    >
+                        <Text style={[theme.styles.buttonText, { color: '#FFFFFF' }]}>Go to home</Text>
+                    </TouchableOpacity>
+                </ScrollView>
+            </ImageBackground>
+        </Screen>
+    );
+};
+
+export default ScreenMyPage;

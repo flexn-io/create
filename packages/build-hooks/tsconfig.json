@@ -1,0 +1,7 @@
+{
+  "extends": "@flexn/typescript/tsconfig.lib.node.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src"
+  }
+}

@@ -1,0 +1,178 @@
+{
+    "id": "template",
+    "skipBootstrapCopy": true,
+    "common": {
+        "id": "io.flexn.template",
+        "title": "Flexn Template",
+        "description": "Flexn Template App",
+        "teamID": "9VVQTZS9NN",
+        "buildSchemes": {
+            "debug": {
+                "id": "io.flexn.template.debug",
+                "title": "Flexn Debug"
+            },
+            "test": {
+                "id": "io.flexn.template.test",
+                "title": "Flexn Test"
+            },
+            "canary": {
+                "id": "io.flexn.template.alpha",
+                "title": "Flexn Alpha"
+            }
+        },
+        "ignoreWarnings": true,
+        "ignoreLogs": true,
+        "enableSourceMaps": true,
+        "firebaseGroups": "RS"
+    },
+    "platforms": {
+        "android": {
+            "buildSchemes": {
+                "canary": {
+                    "firebaseId": "1:107265600646:android:501a80365caee450987507",
+                    "multipleAPKs": false
+                },
+                "production": {
+                    "firebaseId": "1:107265600646:android:03a34d7213440015987507",
+                    "multipleAPKs": false
+                }
+            }
+        },
+        "androidtv": {
+            "buildSchemes": {
+                "canary": {
+                    "multipleAPKs": true,
+                    "aab": true
+                },
+                "production": {
+                    "multipleAPKs": true,
+                    "aab": true,
+                    "versionCodeOffset": 4
+                }
+            }
+        },
+        "firetv": {
+            "googleDriveFolderID": "1lK0F5m7C4hwh78hFOqiSzfgmpPG8oKkK"
+        },
+        "web": {
+            "vercelProjectName": "flexn-template-alpha"
+        },
+        "chromecast": {
+            "vercelProjectName": "flexn-template-chromecast-alpha"
+        },
+        "androidwear": {},
+        "ios": {
+            "entitlements": {
+                "aps-environment": "development",
+                "com.apple.developer.networking.wifi-info": true
+            },
+            "systemCapabilities": {
+                "com.apple.AccessWiFi": true,
+                "com.apple.Push": true,
+                "com.apple.iCloud": true
+            },
+            "buildSchemes": {
+                "canary": {
+                    "firebaseId": "1:107265600646:ios:2d32cf603dddc9cd987507",
+                    "id": "flexn.template.alpha",
+                    "provisionProfileSpecifier": "flexn.template.alpha-adhoc",
+                    "exportOptions": {
+                        "method": "ad-hoc",
+                        "signingStyle": "manual",
+                        "provisioningProfiles": {
+                            "flexn.template.alpha": "flexn.template.alpha-adhoc"
+                        }
+                    }
+                },
+                "production": {
+                    "firebaseId": "1:107265600646:ios:0a37ebb96e2c3a1e987507",
+                    "id": "flexn.template",
+                    "provisionProfileSpecifier": "flexn.template-adhoc",
+                    "exportOptions": {
+                        "method": "ad-hoc",
+                        "signingStyle": "manual",
+                        "provisioningProfiles": {
+                            "flexn.template": "flexn.template-adhoc"
+                        }
+                    }
+                }
+            }
+        },
+        "tvos": {
+            "entitlements": {
+                "aps-environment": "development"
+            },
+            "systemCapabilities": {
+                "com.apple.AccessWiFi": true,
+                "com.apple.Push": true,
+                "com.apple.iCloud": true
+            },
+            "buildSchemes": {
+                "canary": {
+                    "appleId": "1596662810",
+                    "id": "flexn.template.alpha",
+                    "provisionProfileSpecifier": "flexn.template.alpha-tvosappstore",
+                    "exportOptions": {
+                        "provisioningProfiles": {
+                            "flexn.template.alpha": "flexn.template.alpha-tvosappstore"
+                        }
+                    }
+                },
+                "production": {
+                    "appleId": "1596662633",
+                    "id": "flexn.template",
+                    "provisionProfileSpecifier": "flexn.template-tvosappstore",
+                    "exportOptions": {
+                        "provisioningProfiles": {
+                            "flexn.template": "flexn.template-tvosappstore"
+                        }
+                    }
+                }
+            }
+        },
+        "macos": {
+            "googleDriveFolderID": "1AmKVSgNkm6gZ8h2PeZ9DSEVuyBnY-gNm",
+            "buildSchemes": {
+                "canary": {
+                    "id": "flexn.template.alpha",
+                    "provisionProfileSpecifier": "flexn.template.alpha-catalyst-developerid",
+                    "plist": {
+                        "LSApplicationCategoryType": "public.app-category.utilities"
+                    },
+                    "exportOptions": {
+                        "provisioningProfiles": {
+                            "flexn.template.alpha": "flexn.template.alpha-catalyst-developerid"
+                        },
+                        "signingCertificate": "Developer ID Application: Flexn B.V. (9VVQTZS9NN)"
+                    }
+                },
+                "production": {
+                    "id": "flexn.template",
+                    "provisionProfileSpecifier": "flexn.template-catalyst-developerid",
+                    "plist": {
+                        "LSApplicationCategoryType": "public.app-category.utilities"
+                    },
+                    "exportOptions": {
+                        "provisioningProfiles": {
+                            "flexn.template": "flexn.template-catalyst-developerid"
+                        },
+                        "signingCertificate": "Developer ID Application: Flexn B.V. (9VVQTZS9NN)"
+                    }
+                }
+            }
+        },
+        "tizen": {
+            "package": "NkVRhWHJST",
+            "id": "NkVRhWHJST.Example"
+        },
+        "tizenwatch": {
+            "package": "cHIP2fIRQZ",
+            "id": "cHIP2fIRQZ.Example",
+            "appName": "Flexn App"
+        },
+        "tizenmobile": {
+            "package": "PauodvCU2r",
+            "id": "PauodvCU2r.Example"
+        }
+    }
+}

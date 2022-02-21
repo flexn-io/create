@@ -1,0 +1,36 @@
+{
+    "templateConfig": {
+        "includedPaths": [
+            "buildHooks",
+            "src",
+            "index.js",
+            "tsconfig.json"
+        ],
+        "packageTemplate": {
+            "devDependencies": {
+                "typescript": "4.5.4",
+                "@types/react": "17.0.37"
+            }
+        }
+    },
+    "defaults": {
+        "supportedPlatforms": [
+            "android",
+            "androidtv",
+            "firetv",
+            "androidwear",
+            "ios",
+            "web",
+            "macos",
+            "tvos"
+        ]
+    },
+    "engines": {
+        "@rnv/engine-rn": "source:rnv",
+        "@rnv/engine-rn-next": "source:rnv",
+        "@rnv/engine-rn-tvos": "source:rnv"
+    },
+    "plugins": {},
+    "platforms": {},
+    "extendsTemplate": "renative.json"
+}
