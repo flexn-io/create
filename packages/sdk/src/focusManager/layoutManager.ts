@@ -81,6 +81,12 @@ function measure(context: Context, ref: any, style: any) {
 
         // Calculate max X and Y width to prevent over scroll
         if (context.parent?.isScrollable && context.parent.layout) {
+            const pCtx = context?.repeatContext?.parentContext;
+            if (pCtx) {
+                const rLayout = pCtx.layouts[pCtx.layouts.length -1];
+                context.parent.layout.xMaxScroll = pCtx.layout.xMin + width + rLayout.x;
+            }
+
             if (context.parent.layout.xMaxScroll < layout.xMax) {
                 context.parent.layout.xMaxScroll = layout.xMax;
             }
