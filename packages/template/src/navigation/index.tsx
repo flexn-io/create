@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StatusBar } from 'react-native';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -15,14 +15,12 @@ const ModalStack = createStackNavigator();
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const CarouselsStack = () => {
-    return (
-        <Stack.Navigator headerMode="none">
-            <Stack.Screen name={ROUTES.CAROUSELS} component={ScreenCarousels} />
-            <Stack.Screen name={ROUTES.DETAILS} component={ScreenDetails} />
-        </Stack.Navigator>
-    );
-};
+const CarouselsStack = () => (
+    <Stack.Navigator headerMode="none">
+        <Stack.Screen name={ROUTES.CAROUSELS} component={ScreenCarousels} />
+        <Stack.Screen name={ROUTES.DETAILS} component={ScreenDetails} />
+    </Stack.Navigator>
+);
 
 const DrawerNavigator = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
@@ -59,7 +57,8 @@ const DrawerNavigator = ({ navigation }) => {
 
 const App = () => {
     const { theme } = useContext(ThemeContext);
-    React.useEffect(() => {
+    
+    useEffect(() => {
         StatusBar.setBarStyle(theme.static.statusBar);
         StatusBar.setBackgroundColor(theme.static.colorBgPrimary);
     }, [theme?.static]);

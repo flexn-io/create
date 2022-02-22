@@ -104,12 +104,9 @@ const SideNavigatorStack = createTVSideNavigator();
 
 const SideNavigator = () => (
     <SideNavigatorStack.Navigator
-        drawerContent={(props) => <Menu {...props} />}
-        removeClippedSubviews
-        swipeEnabled={false}
-        timingConfig={{ duration: 0.001 }}
+        drawerContent={({ navigation }: { navigation: any }) => <Menu navigation={navigation} />}
     >
-        <SideNavigatorStack.Screen name="home" component={ScreenHome} />
+        <SideNavigatorStack.Screen name={ROUTES.HOME} component={ScreenHome} />
         <SideNavigatorStack.Screen name={ROUTES.CAROUSELS} component={ScreenCarousels} />
         <SideNavigatorStack.Screen name={ROUTES.DETAILS} component={ScreenDetails} />
     </SideNavigatorStack.Navigator>

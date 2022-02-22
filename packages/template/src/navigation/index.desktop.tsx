@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StatusBar } from 'react-native';
 import { View } from '@flexn/sdk';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
@@ -36,9 +36,11 @@ const StackNavigator = ({ navigation }) => {
 
 const App = () => {
     const { theme } = useContext(ThemeContext);
-    React.useEffect(() => {
+
+    useEffect(() => {
         StatusBar.setBarStyle(theme.static.statusBar);
     }, []);
+    
     return (
         <View style={{ marginTop: 36, flex: 1 }}>
             <NavigationContainer>

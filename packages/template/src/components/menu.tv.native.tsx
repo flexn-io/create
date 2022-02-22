@@ -64,9 +64,7 @@ const Menu = ({ navigation }) => {
                 style={[theme.styles.sideMenuContainerAnimation, { transform: [{ translateX: translateBgAnim }] }]}
             />
             <TouchableOpacity
-                onPress={() => {
-                    navigate(ROUTES.HOME);
-                }}
+                onPress={() =>  navigate(ROUTES.HOME)}
                 style={theme.styles.menuButton}
                 focusOptions={{
                     forbiddenFocusDirections: ['up'],
@@ -93,9 +91,7 @@ const Menu = ({ navigation }) => {
                 </AnimatedText>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => {
-                    navigate(ROUTES.CAROUSELS);
-                }}
+                onPress={() => navigate(ROUTES.CAROUSELS)}
                 style={theme.styles.menuButton}
                 {...testProps('template-menu-my-page-button')}
             >
@@ -119,9 +115,7 @@ const Menu = ({ navigation }) => {
                 </AnimatedText>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => {
-                    navigate(ROUTES.MODAL);
-                }}
+                onPress={() => navigate(ROUTES.MODAL)}
                 style={theme.styles.menuButton}
                 focusOptions={{
                     forbiddenFocusDirections: ['down'],
