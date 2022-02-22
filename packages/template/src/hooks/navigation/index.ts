@@ -1,4 +1,4 @@
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Linking } from 'react-native';
 import { isPlatformIos, isPlatformAndroid, isPlatformMacos } from 'renative';
 
@@ -48,4 +48,4 @@ export function useOpenURL() {
     return openURL;
 }
 
-export { useFocusEffect };
+export { useFocusEffect, useNavigation };

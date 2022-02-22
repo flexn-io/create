@@ -1,5 +1,5 @@
 import { Linking } from 'react-native';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 
 export function useNavigate() {
     function navigate(route: string, params?: any) {
@@ -46,3 +46,5 @@ export function useOpenURL() {
 export function useFocusEffect() {
     return;
 }
+
+export { useRouter as useNavigation };
