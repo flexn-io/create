@@ -369,3 +369,287 @@ export default staticThemes.dark;
 ```
 
 ## `Menu` component
+
+On web and mobile our menu needs to be just a View, which wraps all the menu items, because we can utilize the default animation for drawer on mobile and on web we render the menu without any animation at all. Create `components/menu.tsx` file and paste the code below into it.
+
+```typescript
+import React, { useContext, useState } from 'react';
+import { View, TouchableOpacity, Text } from '@flexn/sdk';
+import { testProps } from '../utils';
+import { isFactorBrowser } from 'renative';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { ThemeContext, ROUTES } from '../config';
+import { useNavigate } from '../hooks';
+
+export const DrawerButton = ({ navigation }: { navigation?: any }) => {
+  const { theme } = useContext(ThemeContext);
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        if (navigation && navigation.dispatch) navigation.dispatch({ type: 'OPEN_DRAWER' });
+      }}
+      {...testProps('template-menu-open-drawer-button')}
+    >
+      <Icon name="menu" color={theme.static.colorTextPrimary} size={theme.static.buttonSize} />
+    </TouchableOpacity>
+  );
+};
+
+const Menu = ({ navigation }: { navigation?: any }) => {
+  const navigate = useNavigate({ navigation });
+  const { theme } = useContext(ThemeContext);
+  const [burgerMenuOpen, setBurgerMenuOpen] = useState<boolean>(false);
+
+  const onPress = (route: string) => {
+    navigate(route);
+    setBurgerMenuOpen(false);
+  };
+
+  const renderMenuItems = () => (
+    <>
+      <TouchableOpacity
+        onPress={() => onPress(ROUTES.HOME)}
+        style={theme.styles.menuButton}
+        {...testProps('template-menu-home-button')}
+      >
+        <Icon
+          name="md-home"
+          size={theme.static.iconSize}
+          color={theme.static.colorBrand}
+          {...testProps('template-menu-home-icon')}
+        />
+        <Text style={[theme.styles.buttonText, theme.styles.menuButtonText]}>Home</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => onPress(ROUTES.CAROUSELS)}
+        style={theme.styles.menuButton}
+        {...testProps('template-menu-my-page-button')}
+      >
+        <Icon
+          name="md-rocket"
+          size={theme.static.iconSize}
+          color={theme.static.colorBrand}
+          {...testProps('template-menu-my-page-rocket-icon')}
+        />
+        <Text style={[theme.styles.buttonText, theme.styles.menuButtonText]}>Carousels</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => onPress(ROUTES.MODAL)}
+        style={theme.styles.menuButton}
+        {...testProps('template-menu-my-modal-button')}
+      >
+        <Icon
+          name="ios-albums"
+          size={theme.static.iconSize}
+          color={theme.static.colorBrand}
+          {...testProps('template-menu-my-modal-albums-icon')}
+        />
+        <Text style={[theme.styles.buttonText, theme.styles.menuButtonText]}>My Modal</Text>
+      </TouchableOpacity>
+    </>
+  );
+
+  const renderMenu = () => {
+    if (isFactorBrowser) {
+      return (
+        <View
+          style={burgerMenuOpen ? theme.styles.menuItemsBurgerOpen : theme.styles.menuItems}
+          dataSet={{ media: burgerMenuOpen ? theme.ids.menuItemsBurgerOpen : theme.ids.menuItems }}
+        >
+          {renderMenuItems()}
+        </View>
+      );
+    }
+
+    return renderMenuItems();
+  };
+
+  const renderBurgerButton = () => {
+    if (isFactorBrowser) {
+      return (
+        <TouchableOpacity
+          style={[theme.styles.burgerMenuBtn, burgerMenuOpen && { display: 'flex' }]}
+          dataSet={{ media: theme.ids.burgerMenuBtn }}
+          onPress={() => setBurgerMenuOpen(!burgerMenuOpen)}
+        >
+          <Icon
+            name={burgerMenuOpen ? 'md-close' : 'md-menu'}
+            size={theme.static.iconSize}
+            color={theme.static.colorBrand}
+            {...testProps('template-menu-home-icon')}
+          />
+        </TouchableOpacity>
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <View
+      style={[theme.styles.menuContainer, burgerMenuOpen && theme.styles.menuContainerBurgerOpen]}
+      dataSet={{ media: `${theme.ids.menuContainer} ${burgerMenuOpen && theme.styles.menuContainerBurgerOpen}` }}
+    >
+      {renderBurgerButton()}
+      {renderMenu()}
+    </View>
+  );
+};
+
+export default Menu;
+```
+
+We also make sure to render a burger button to open the drawer on mobile as this is usually the expected behavior for the end user.
+
+However, default animations and layout from react navigation don't work that well when it comes to handling focus events, therefore on TV platforms we will need to customize the menu even further. Create a `components/menu.tv.native.tsx` file and paste the code below into it.
+
+```typescript
+import React, { useContext, useRef } from 'react';
+import { Animated } from 'react-native';
+import { TouchableOpacity, Text, Screen } from '@flexn/sdk';
+import { testProps } from '../utils';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { ThemeContext, ROUTES, Ratio } from '../config';
+import { useNavigate } from '../hooks';
+
+const AnimatedText = Animated.createAnimatedComponent(Text);
+
+const TRANSLATE_VAL_HIDDEN = Ratio(-300);
+
+const Menu = ({ navigation }) => {
+  const navigate = useNavigate({ navigation });
+  const { theme } = useContext(ThemeContext);
+
+  const translateBgAnim = useRef(new Animated.Value(TRANSLATE_VAL_HIDDEN)).current;
+  const opacityAnim = [
+    useRef(new Animated.Value(0)).current,
+    useRef(new Animated.Value(0)).current,
+    useRef(new Animated.Value(0)).current,
+  ];
+  const translateTextAnim = [
+    useRef(new Animated.Value(TRANSLATE_VAL_HIDDEN)).current,
+    useRef(new Animated.Value(TRANSLATE_VAL_HIDDEN)).current,
+    useRef(new Animated.Value(TRANSLATE_VAL_HIDDEN)).current,
+  ];
+
+  const timing = (object: Animated.AnimatedValue, toValue: number, duration = 200): Animated.CompositeAnimation => {
+    return Animated.timing(object, {
+      toValue,
+      duration,
+      useNativeDriver: true,
+    });
+  };
+
+  const onFocus = () => {
+    Animated.parallel([
+      timing(translateBgAnim, 0),
+      timing(opacityAnim[0], 1, 800),
+      timing(opacityAnim[1], 1, 800),
+      timing(opacityAnim[2], 1, 800),
+      timing(translateTextAnim[0], 0),
+      timing(translateTextAnim[1], 0),
+      timing(translateTextAnim[2], 0),
+    ]).start();
+  };
+
+  const onBlur = () => {
+    Animated.parallel([
+      timing(translateBgAnim, TRANSLATE_VAL_HIDDEN),
+      timing(opacityAnim[0], 0, 100),
+      timing(opacityAnim[1], 0, 100),
+      timing(opacityAnim[2], 0, 100),
+      timing(translateTextAnim[0], TRANSLATE_VAL_HIDDEN),
+      timing(translateTextAnim[1], TRANSLATE_VAL_HIDDEN),
+      timing(translateTextAnim[2], TRANSLATE_VAL_HIDDEN),
+    ]).start();
+  };
+
+  return (
+    <Screen style={theme.styles.menuContainer} onFocus={onFocus} onBlur={onBlur} stealFocus={false}>
+      <Animated.View
+        style={[theme.styles.sideMenuContainerAnimation, { transform: [{ translateX: translateBgAnim }] }]}
+      />
+      <TouchableOpacity
+        onPress={() => navigate(ROUTES.HOME)}
+        style={theme.styles.menuButton}
+        focusOptions={{
+          forbiddenFocusDirections: ['up'],
+        }}
+        {...testProps('template-menu-home-button')}
+      >
+        <Icon
+          name="md-home"
+          size={theme.static.iconSize}
+          color={theme.static.colorBrand}
+          {...testProps('template-menu-home-icon')}
+        />
+        <AnimatedText
+          style={[
+            theme.styles.buttonText,
+            theme.styles.menuButtonText,
+            {
+              transform: [{ translateX: translateTextAnim[0] }],
+              opacity: opacityAnim[0],
+            },
+          ]}
+        >
+          Home
+        </AnimatedText>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigate(ROUTES.CAROUSELS)}
+        style={theme.styles.menuButton}
+        {...testProps('template-menu-my-page-button')}
+      >
+        <Icon
+          name="md-rocket"
+          size={theme.static.iconSize}
+          color={theme.static.colorBrand}
+          {...testProps('template-menu-my-page-rocket-icon')}
+        />
+        <AnimatedText
+          style={[
+            theme.styles.buttonText,
+            theme.styles.menuButtonText,
+            {
+              transform: [{ translateX: translateTextAnim[1] }],
+              opacity: opacityAnim[1],
+            },
+          ]}
+        >
+          Carousels
+        </AnimatedText>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigate(ROUTES.MODAL)}
+        style={theme.styles.menuButton}
+        focusOptions={{
+          forbiddenFocusDirections: ['down'],
+        }}
+        {...testProps('template-menu-my-modal-button')}
+      >
+        <Icon
+          name="ios-albums"
+          size={theme.static.iconSize}
+          color={theme.static.colorBrand}
+          {...testProps('template-menu-my-modal-albums-icon')}
+        />
+        <AnimatedText
+          style={[
+            theme.styles.buttonText,
+            theme.styles.menuButtonText,
+            {
+              transform: [{ translateX: translateTextAnim[2] }],
+              opacity: opacityAnim[2],
+            },
+          ]}
+        >
+          My Modal
+        </AnimatedText>
+      </TouchableOpacity>
+    </Screen>
+  );
+};
+
+export default Menu;
+```
