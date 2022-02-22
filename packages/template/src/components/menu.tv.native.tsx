@@ -64,7 +64,7 @@ const Menu = ({ navigation }) => {
                 style={[theme.styles.sideMenuContainerAnimation, { transform: [{ translateX: translateBgAnim }] }]}
             />
             <TouchableOpacity
-                onPress={() =>  navigate(ROUTES.HOME)}
+                onPress={() => navigate(ROUTES.HOME)}
                 style={theme.styles.menuButton}
                 focusOptions={{
                     forbiddenFocusDirections: ['up'],

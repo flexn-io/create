@@ -35,8 +35,8 @@ const sidebars = {
             items: [
                 'tutorials/advanced/bootstrap',
                 'tutorials/advanced/app',
-                'tutorials/advanced/navigation',
                 'tutorials/advanced/screens',
+                'tutorials/advanced/navigation',
                 'tutorials/advanced/ui'
             ]
         },

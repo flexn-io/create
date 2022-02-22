@@ -6,7 +6,7 @@ import { usePop, useReplace } from '../hooks';
 import { getRandomData } from '../utils';
 import Screen from './screen';
 
-const ScreenMyPage = ({ route, navigation, router }: { navigation?: any; router?: any; route?: any }) => {
+const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router?: any; route?: any }) => {
     const replace = useReplace({ navigation });
     const pop = usePop({ navigation });
     const [item, setItem] = useState<{ backgroundImage: string; title: string }>();
@@ -34,13 +34,7 @@ const ScreenMyPage = ({ route, navigation, router }: { navigation?: any; router?
 
     return (
         <Screen style={[theme.styles.screen]}>
-            <ImageBackground
-                source={{
-                    uri: item.backgroundImage,
-                }}
-                style={{ flex: 1 }}
-                resizeMode="cover"
-            >
+            <ImageBackground source={{ uri: item.backgroundImage }} style={{ flex: 1 }} resizeMode="cover">
                 <ScrollView contentContainerStyle={theme.styles.center}>
                     <View style={theme.styles.detailsInfoContainer}>
                         <Text style={theme.styles.detailsTitle}>{item.title}</Text>
@@ -71,4 +65,4 @@ const ScreenMyPage = ({ route, navigation, router }: { navigation?: any; router?
     );
 };
 
-export default ScreenMyPage;
+export default ScreenDetails;
