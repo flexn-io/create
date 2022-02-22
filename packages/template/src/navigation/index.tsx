@@ -57,7 +57,7 @@ const DrawerNavigator = ({ navigation }) => {
 
 const App = () => {
     const { theme } = useContext(ThemeContext);
-    
+
     useEffect(() => {
         StatusBar.setBarStyle(theme.static.statusBar);
         StatusBar.setBackgroundColor(theme.static.colorBgPrimary);
