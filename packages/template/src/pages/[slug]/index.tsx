@@ -1,10 +1,10 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { View } from 'react-native';
-import ScreenHome from '../../screens/screenHome';
-import ScreenCarousels from '../../screens/screenCarousels';
-import ScreenDetails from '../../screens/screenDetails';
-import ScreenModal from '../../screens/screenModal';
+import ScreenHome from '../../screens/home';
+import ScreenCarousels from '../../screens/carousels';
+import ScreenDetails from '../../screens/details';
+import ScreenModal from '../../screens/modal';
 import { ROUTES } from '../../config';
 
 type NavigationScreenKey = '/' | 'modal' | 'my-page';

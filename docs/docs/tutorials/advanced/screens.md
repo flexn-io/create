@@ -7,18 +7,18 @@ sidebar_position: 4
 Let's start filling content of our application. Flexn Template contains several platform agnostics screens which means the same file is rendered on all the platforms. 
 
 ## Abstracted screen
-First let's create an abstracted screen wrapper which will hold logic repeated over each screen:
+First let's create an abstracted screen wrapper which will hold logic repeated over each screen. In screens folder create file called `screens.tsx` 
 
 ```javascript
 import { Screen as FMScreen, ScreenProps, ScreenStates } from '@flexn/sdk';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '../hooks';
 
 const Screen = ({ children, stealFocus, focusOptions, style, ...rest }: ScreenProps) => {
   const [screenState, setScreenState] = useState<ScreenStates>('foreground');
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       setScreenState('foreground');
 
       return () => {

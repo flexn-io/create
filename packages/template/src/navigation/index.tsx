@@ -4,10 +4,10 @@ import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { CastButton } from 'react-native-google-cast';
-import ScreenHome from '../screens/screenHome';
-import ScreenCarousels from '../screens/screenCarousels';
-import ScreenDetails from '../screens/screenDetails';
-import ScreenModal from '../screens/screenModal';
+import ScreenHome from '../screens/home';
+import ScreenCarousels from '../screens/carousels';
+import ScreenDetails from '../screens/details';
+import ScreenModal from '../screens/modal';
 import Menu, { DrawerButton } from '../components/menu';
 import { ROUTES, ThemeContext } from '../config';
 

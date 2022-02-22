@@ -14,10 +14,10 @@ import { isPlatformTvos } from 'renative';
 import { ScreenContainer } from 'react-native-screens'; //eslint-disable-line
 import ResourceSavingScene from '@react-navigation/drawer/src/views/ResourceSavingScene';
 
-import ScreenHome from '../screens/screenHome';
-import ScreenCarousels from '../screens/screenCarousels';
-import ScreenDetails from '../screens/screenDetails';
-import ScreenModal from '../screens/screenModal';
+import ScreenHome from '../screens/home';
+import ScreenCarousels from '../screens/carousels';
+import ScreenDetails from '../screens/details';
+import ScreenModal from '../screens/modal';
 import Menu from '../components/menu';
 import { ROUTES } from '../config';
 

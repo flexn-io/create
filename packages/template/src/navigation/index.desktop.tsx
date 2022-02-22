@@ -3,10 +3,10 @@ import { StatusBar } from 'react-native';
 import { View } from '@flexn/sdk';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import ScreenHome from '../screens/screenHome';
-import ScreenCarousels from '../screens/screenCarousels';
-import ScreenDetails from '../screens/screenDetails';
-import ScreenModal from '../screens/screenModal';
+import ScreenHome from '../screens/home';
+import ScreenCarousels from '../screens/carousels';
+import ScreenDetails from '../screens/details';
+import ScreenModal from '../screens/modal';
 import Menu from '../components/menu';
 import { ThemeContext, ROUTES } from '../config';
 
