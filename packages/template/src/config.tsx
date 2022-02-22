@@ -157,7 +157,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             position: 'absolute',
             backgroundColor: currentTheme.colorBgPrimary,
             top: hasHorizontalMenu && isEngineWeb ? -currentTheme.menuHeight : 0,
-            left: hasHorizontalMenu || isEngineNative || isPlatformMacos  ? 0 : -currentTheme.menuWidth,
+            left: hasHorizontalMenu || isEngineNative || isPlatformMacos ? 0 : -currentTheme.menuWidth,
             right: 0,
             bottom: 0,
             zIndex: 3,
@@ -297,7 +297,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             color: '#FFFFFF',
             marginBottom: Ratio(20),
             textAlign: 'center',
-        }
+        },
     });
 
 export const ROUTES = {
