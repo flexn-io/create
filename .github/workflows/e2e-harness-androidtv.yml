@@ -18,7 +18,7 @@ on:
 jobs:
     e2e-harness-androidtv:
         if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event.label.name == 'e2e-harness-androidtv' || github.event.label.name == 'e2e' }}
-        runs-on: [self-hosted, macos, min4]
+        runs-on: [self-hosted, macos]
         env:
             GHP_AUTH_TOKEN: ${{ secrets.GHP_AUTH_TOKEN }}
         steps:
