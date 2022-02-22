@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { View } from 'react-native';
+import Error from 'next/error';
 import ScreenHome from '../../screens/home';
 import ScreenCarousels from '../../screens/carousels';
 import ScreenDetails from '../../screens/details';
@@ -22,7 +22,7 @@ const App = () => {
     const Page = pages[router.query?.slug as NavigationScreenKey];
 
     if (!Page) {
-        return <View />;
+        return <Error statusCode={404} />;
     }
 
     return <Page key={router.asPath} router={router} route={router.query?.slug} />;

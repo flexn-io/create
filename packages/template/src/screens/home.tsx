@@ -49,9 +49,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                     <Text style={theme.styles.buttonText}>Try Me!</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => {
-                        navigate(ROUTES.CAROUSELS);
-                    }}
+                    onPress={() => navigate(ROUTES.CAROUSELS)}
                     style={theme.styles.button}
                     focusOptions={{
                         animatorOptions: focusAnimation,
@@ -63,9 +61,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                 <Text style={[theme.styles.textH3, { marginTop: 20 }]}>Explore more</Text>
                 <View style={{ marginTop: 10, flexDirection: 'row' }}>
                     <TouchableOpacity
-                        onPress={() => {
-                            openURL('https://github.com/flexn-io/flexn');
-                        }}
+                        onPress={() => openURL('https://github.com/flexn-io/flexn')}
                         style={theme.styles.icon}
                         focusOptions={{
                             forbiddenFocusDirections: ['left'],
@@ -75,18 +71,14 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                         <Icon name="github" size={theme.static.iconSize} color={theme.static.colorBrand} />
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => {
-                            openURL('https://sdk.flexn.org');
-                        }}
+                        onPress={() => openURL('https://sdk.flexn.org')}
                         style={theme.styles.icon}
                         {...testProps('template-screen-home-navigate-to-renative')}
                     >
                         <Icon name="chrome" size={theme.static.iconSize} color={theme.static.colorBrand} />
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => {
-                            openURL('https://twitter.com/flexn_io');
-                        }}
+                        onPress={() => openURL('https://twitter.com/flexn_io')}
                         style={theme.styles.icon}
                         focusOptions={{
                             forbiddenFocusDirections: ['right'],

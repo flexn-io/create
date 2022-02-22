@@ -40,7 +40,7 @@ const App = () => {
     useEffect(() => {
         StatusBar.setBarStyle(theme.static.statusBar);
     }, []);
-    
+
     return (
         <View style={{ marginTop: 36, flex: 1 }}>
             <NavigationContainer>

@@ -93,20 +93,20 @@ const RecyclerExample = ({ items, rowNumber, dimensions: { layout, item }, paren
 const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const { theme } = useContext(ThemeContext);
     const [recyclers, setRecyclers] = useState<
-        {
-            items: any;
-            dimensions: {
-                layout: {
-                    width: number;
-                    height: number;
-                };
-                item: {
-                    width: number;
-                    height: number;
-                };
-            };
-        }[]
-    >([]);
+    {
+      items: any;
+      dimensions: {
+        layout: {
+          width: number;
+          height: number;
+        };
+        item: {
+          width: number;
+          height: number;
+        };
+      };
+    }[]
+  >([]);
 
     useEffect(() => {
         setRecyclers(

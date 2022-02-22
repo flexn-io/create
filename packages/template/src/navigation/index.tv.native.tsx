@@ -131,12 +131,8 @@ const styles = StyleSheet.create({
         opacity: 1,
         position: 'absolute',
     },
-    content: {
-        flex: 1,
-    },
-    main: {
-        flex: 1,
-    },
+    content: { flex: 1 },
+    main: { flex: 1 },
 });
 
 export default App;
