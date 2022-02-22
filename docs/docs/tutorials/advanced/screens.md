@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 3
 ---
 
 # Screens
@@ -7,7 +7,7 @@ sidebar_position: 4
 Let's start filling content of our application. Flexn Template contains several platform agnostics screens which means the same file is rendered on all the platforms. 
 
 ## Abstracted screen
-First let's create an abstracted screen wrapper which will hold logic repeated over each screen. In `src/screens` folder create file called `screens.tsx` 
+First let's create an abstracted screen wrapper which will hold logic repeated over each screen. In `src/screens` folder create file called `screens.tsx` and fill with the following content:
 
 ```javascript
 import { Screen as FMScreen, ScreenProps, ScreenStates } from '@flexn/sdk';
@@ -37,11 +37,11 @@ const Screen = ({ children, stealFocus, focusOptions, style, ...rest }: ScreenPr
 export default Screen;
 ```
 
-We are using [Screen](../components/screen) component to wrap every template screen and by utilizing `useFocusEffect` hook setting state of the screen whatever screen is in background or foreground. It's worth to mention that [Screen](../components/screen)functionality is applied only for TV platforms for the rest behind the scenes it's only simple React Native View.
+We are using [Screen](../components/screen) component to wrap every template screen and by utilizing `useFocusEffect` hook setting state of the screen whatever screen is in background or foreground. It's worth to mention that [Screen](../components/screen) functionality is applied only for TV platforms for the rest behind the scenes it's only simple React Native View.
 
 ## Home screen
 
-It's a good practice to start from Home screen. Create a new file in `src/screens/home.tsx`. And copy over the code above:
+It's a good practice to start from Home screen. Create a new file called `src/screens/home.tsx` and copy over the code above:
 
 ```javascript
 import React, { useContext, useRef } from 'react';
@@ -227,9 +227,8 @@ function getRecyclerDimensions(itemsInViewport: number) {
   };
 }
 
-const RecyclerExample = () => {
+const RecyclerExample = ({ items, rowNumber, dimensions: { layout, item }, parentContext, navigation }: any) => {
   // implementation in next example
-  return null;
 };
 
 const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
@@ -274,9 +273,67 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
 export default ScreenCarousels;
 ```
 
+Finally add function which is rendering our carousels:
+
+```javascript
+const RecyclerExample = ({ items, rowNumber, dimensions: { layout, item }, parentContext, navigation }: any) => {
+  const navigate = useNavigate({ navigation });
+  const { theme } = useContext(ThemeContext);
+
+  const [dataProvider] = useState(
+    new RecyclableListDataProvider((r1: number, r2: number) => r1 !== r2).cloneWithRows(items)
+  );
+
+  const layoutProvider = useRef(
+    new RecyclableListLayoutProvider(
+      () => '_',
+      (_: string | number, dim: { width: number; height: number }) => {
+        dim.width = layout.width;
+        dim.height = layout.height;
+      }
+    )
+  ).current;
+
+  return (
+    <View parentContext={parentContext} style={theme.styles.recyclerContainer}>
+      <RecyclableList
+        dataProvider={dataProvider}
+        layoutProvider={layoutProvider}
+        rowRenderer={(_type: string | number, data: any, index: number, repeatContext: any) => {
+          return (
+            <TouchableOpacity
+              style={[theme.styles.recyclerItem, { width: item.width, height: item.height }]}
+              repeatContext={repeatContext}
+              onPress={() => {
+                navigate(ROUTES.DETAILS, { row: rowNumber, index: data.index });
+              }}
+              {...testProps(`template-my-page-image-pressable-${index}`)}
+            >
+              <Image source={{ uri: data.backgroundImage }} style={{ width: '100%', height: '80%' }} />
+              <Text style={theme.styles.recyclerItemText} numberOfLines={1}>
+                {data.title}
+              </Text>
+            </TouchableOpacity>
+          );
+        }}
+        isHorizontal
+        style={theme.styles.recycler}
+        contentContainerStyle={theme.styles.recyclerContent}
+        scrollViewProps={{
+          showsHorizontalScrollIndicator: false,
+        }}
+        focusOptions={{
+          forbiddenFocusDirections: ['right'],
+        }}
+      />
+    </View>
+  );
+};
+```
+
 ## Details screen
 
-Next is Details screen. That's the target page when we click on any of carousel items. Let's add it at `src/screens/details.tsx`. And copy code below:
+Next is Details screen. That's the target page when we click on any of carousel items. Let's add it at `src/screens/details.tsx` and copy code below:
 
 ```javascript
 import { TouchableOpacity, ImageBackground, View, Text, ScrollView, ActivityIndicator } from '@flexn/sdk';
@@ -355,7 +412,7 @@ export default ScreenDetails;
 
 ## Modal screen
 
-Modal screen is the one which is rendered on the top of everything. Create a new file called `src/screens/modal.tsx`. And copy this code there:
+Modal screen is the one which is rendered on the top of everything. Create a new file called `src/screens/modal.tsx` and copy this code there:
 
 ```javascript
 import React, { useContext } from 'react';
@@ -388,7 +445,7 @@ export default ScreenModal;
 
 ## Screen Cast
 
-Cast screen is super simplistic page which is purpose is only represent a simple text on your casting device. Create a new file called `src/screens/cast.tsx` and copy this code there
+Cast screen is super simplistic page which is purpose is only represent a simple text on your casting device. Create a new file called `src/screens/cast.tsx` and copy following code there:
 
 ```javascript
 import React from 'react';

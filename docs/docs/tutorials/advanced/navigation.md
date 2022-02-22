@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 # Navigation
@@ -20,7 +20,7 @@ Since in our template as an web engine we're using [next.js](https://nextjs.org/
 
 ## Mobile navigation
 
-First let's start from most common one - mobile. Let's create first file at `src/navigation/index.tsx`. For mobile we choose to have [Drawer navigation](https://reactnavigation.org/docs/drawer-based-navigation). It has very common use case of ReactNavigation without any specificness. We're utilizing multiple different stacks to achieve following functionality:
+First let's start from most common one - mobile. Let's create first file `src/navigation/index.tsx`. For mobile we choose to have [Drawer navigation](https://reactnavigation.org/docs/drawer-based-navigation). It has very common use case of ReactNavigation without any specificness. We're utilizing multiple different stacks to achieve following functionality:
 
 We're putting `Modal` out of our `DrawerNavigator` because regardless in which page we are we would like to be able to render Modal always on the top independently.
 ```javascript
@@ -193,7 +193,7 @@ export default App;
 
 ## Native TV navigation
 
-The next is TV `index.tv.native.tsx`. Native TV navigation is exceptional because for that we have created our custom `SideNavigator`. The reason of this choice is because all react navigation defaults like Drawer doesn't work well on TV and are very flaky. There are few important parts which we need to know here. 
+The next is TV `src/navigation/index.tv.native.tsx`. Native TV navigation is exceptional because for that we have created our custom `SideNavigator`. The reason of this choice is because all react navigation defaults like Drawer doesn't work well on TV and are very flaky. There are few important parts which we need to know here. 
 
 As you can see we're using `createNativeStackNavigator` instead if `createStackNavigator`. Native Stack Navigator offers native performance and are better designed to work with react-native-screens which is required for TV navigation to work. 
 
@@ -351,7 +351,7 @@ Web navigation is very different than others. Since it does not utilize react-na
 
 Let's create a files as following. 
 
-First `pages/index.tsx`. As you can guess it holds our home page.
+First `src/pages/index.tsx`. As you can guess it holds our home page.
 
 ```javascript
 import React from 'react';
@@ -361,7 +361,7 @@ const Page = () => <ScreenHome />;
 export default Page;
 ```
 
-Next is `pages/[slug]/index.tsx`. By having `[slug]` as folder name we can capture rest of our urls and map them as following:
+Next is `src/pages/[slug]/index.tsx`. By having `[slug]` as folder name we can capture rest of our urls and map them as following:
 
 ```javascript
 import React from 'react';
@@ -397,7 +397,7 @@ const App = () => {
 export default App;
 ```
 
-And finally in `pages/_app.tsx` we are defining our top menu:
+And finally create `src/pages/_app.tsx` define our pages wrapper and add top menu there:
 
 ```javascript
 import React from 'react';
@@ -418,7 +418,7 @@ export default function MyApp({ Component, pageProps }) {
 ```
 ## Chromecast navigation
 
-And finally most simplistic is chromecast navigation which is holding only on page to render text in casting device. It can be defined as simple as `navigation/index.chromecast.tsx`:
+And finally most simplistic is chromecast navigation which is holding only on page to render text in casting device. It can be defined as simple as `src/navigation/index.chromecast.tsx`:
 
 ```javascript
 import React from 'react';
