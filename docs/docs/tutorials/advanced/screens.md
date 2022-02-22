@@ -4,9 +4,10 @@ sidebar_position: 3
 
 # Screens
 
-Let's start filling content of our application. Flexn Template contains several platform agnostics screens which means the same file is rendered on all the platforms. 
+Let's start filling content of our application. Flexn Template contains several platform agnostics screens which means the same file is rendered on all the platforms.
 
 ## Abstracted screen
+
 First let's create an abstracted screen wrapper which will hold logic repeated over each screen. In `src/screens` folder create file called `screens.tsx` and fill with the following content:
 
 ```javascript
@@ -15,7 +16,7 @@ import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '../hooks';
 
 const Screen = ({ children, stealFocus, focusOptions, style, ...rest }: ScreenProps) => {
-  const [screenState, setScreenState] = useState<ScreenStates>('foreground');
+  const [screenState, setScreenState] = useState < ScreenStates > 'foreground';
 
   useFocusEffect(
     useCallback(() => {
@@ -41,7 +42,7 @@ We are using [Screen](../components/screen) component to wrap every template scr
 
 ## Home screen
 
-It's a good practice to start from Home screen. Create a new file called `src/screens/home.tsx` and copy over the code above:
+It's a good practice to start from Home screen. Create a new file called `src/screens/home.tsx` and copy over the code below:
 
 ```javascript
 import React, { useContext, useRef } from 'react';
@@ -142,47 +143,40 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
 export default ScreenHome;
 ```
 
-## Carousels screen 
+## Carousels screen
 
 One of the most dynamic screens in whole template. Let's add several rows with some nice images inside. First let's create a file `src/utils/index.ts` and write a function which generates a random data for us:
 
 ```javascript
 import { isFactorMobile } from 'renative';
 
-const kittyNames = [
-    'Abby',
-    'Angel',
-    'Annie',
-    'Baby',
-    'Bailey',
-    'Bandit'
-];
+const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
 function interval(min = 0, max = kittyNames.length - 1) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 const data = {};
 export function getRandomData(row: number, idx?: number, items = 50) {
-    const width = isFactorMobile ? 400 : 650;
-    const height = 200;
+  const width = isFactorMobile ? 400 : 650;
+  const height = 200;
 
-    if (data[row] && idx !== undefined) {
-        return data[row][idx];
-    }
+  if (data[row] && idx !== undefined) {
+    return data[row][idx];
+  }
 
-    const temp: { backgroundImage: string; title: string; index: number }[] = [];
-    for (let index = 0; index < items; index++) {
-        temp.push({
-            index,
-            backgroundImage: `https://placekitten.com/${width + row}/${height + index}`,
-            title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
-        });
-    }
+  const temp: { backgroundImage: string, title: string, index: number }[] = [];
+  for (let index = 0; index < items; index++) {
+    temp.push({
+      index,
+      backgroundImage: `https://placekitten.com/${width + row}/${height + index}`,
+      title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
+    });
+  }
 
-    data[row] = temp;
+  data[row] = temp;
 
-    return temp;
+  return temp;
 }
 ```
 
@@ -287,7 +281,7 @@ const RecyclerExample = ({ items, rowNumber, dimensions: { layout, item }, paren
   const layoutProvider = useRef(
     new RecyclableListLayoutProvider(
       () => '_',
-      (_: string | number, dim: { width: number; height: number }) => {
+      (_: string | number, dim: { width: number, height: number }) => {
         dim.width = layout.width;
         dim.height = layout.height;
       }
@@ -461,4 +455,3 @@ const ScreenCast = () => (
 
 export default ScreenCast;
 ```
-
