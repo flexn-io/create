@@ -18,8 +18,8 @@ class ScaleWithBorderAnimator: Animator {
     func onFocus(animated: Bool) {
         UIView.transition(with: self.view, duration: self.duration, options: .transitionCrossDissolve, animations: {
             self.view.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
-            self.view.layer.borderColor = UIColor.red.cgColor
-            self.view.layer.borderWidth = 3
+            self.view.layer.borderColor = self.borderAnimator?.borderColorFocus
+            self.view.layer.borderWidth = self.borderAnimator?.borderWidth ?? 1
         }, completion: nil)
     }
     

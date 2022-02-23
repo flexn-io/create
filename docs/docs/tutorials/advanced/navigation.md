@@ -22,7 +22,7 @@ Since in our template as an web engine we're using [next.js](https://nextjs.org/
 
 First let's start from most common one - mobile. Let's create first file `src/navigation/index.tsx`. For mobile we choose to have [Drawer navigation](https://reactnavigation.org/docs/drawer-based-navigation). It has very common use case of ReactNavigation without any specificness. We're utilizing multiple different stacks to achieve following functionality:
 
-We're putting `Modal` out of our `DrawerNavigator` because regardless in which page we are we would like to be able to render Modal always on the top independently.
+We're putting `Modal` out of our `DrawerNavigator` because regardless in which page we are we would like to be able to render Modal always on the top independently. Menu component can be found [here](./ui#menu-component).
 ```javascript
 import React, { useContext, useEffect } from 'react';
 import { StatusBar } from 'react-native';
@@ -124,7 +124,7 @@ const DrawerNavigator = ({ navigation }) => {
 
 ## Desktop navigation
 
-The next is desktop navigation create a file called `src/navigation/index.desktop.tsx`. Desktop navigation is even more simpler, but instead of Drawer and separate stacks we're using custom menu and single stack to hold all navigational pages:
+The next is desktop navigation create a file called `src/navigation/index.desktop.tsx`. Desktop navigation is even more simpler, but instead of Drawer and separate stacks we're using custom [menu](./ui#menu-component) and single stack to hold all navigational pages:
 
 ```javascript
 import React, { useContext, useEffect } from 'react';
@@ -195,7 +195,7 @@ export default App;
 
 The next is TV `src/navigation/index.tv.native.tsx`. Native TV navigation is exceptional because for that we have created our custom `SideNavigator`. The reason of this choice is because all react navigation defaults like Drawer doesn't work well on TV and are very flaky. There are few important parts which we need to know here. 
 
-As you can see we're using `createNativeStackNavigator` instead if `createStackNavigator`. Native Stack Navigator offers native performance and are better designed to work with react-native-screens which is required for TV navigation to work. 
+As you can see we're using `createNativeStackNavigator` instead if `createStackNavigator`. Native Stack Navigator offers native performance and are better designed to work with react-native-screens which is required for TV navigation to work. Menu component can be found [here](./ui#menu-component).
 
 ```javascript
 import React, { useEffect, useCallback } from 'react';
@@ -397,7 +397,7 @@ const App = () => {
 export default App;
 ```
 
-And finally create `src/pages/_app.tsx` define our pages wrapper and add top menu there:
+And finally create `src/pages/_app.tsx` define our pages wrapper and add top [menu](./ui#menu-component) there:
 
 ```javascript
 import React from 'react';

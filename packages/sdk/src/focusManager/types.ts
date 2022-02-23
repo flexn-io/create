@@ -65,7 +65,7 @@ export interface PressableProps extends RNPressableProps {
 }
 
 export interface ScrollViewProps extends RNScrollViewProps {
-    parentContext: any;
+    parentContext?: any;
     horizontal?: boolean;
     children?: React.ReactNode;
     ref?: React.MutableRefObject<ScrollView>;
