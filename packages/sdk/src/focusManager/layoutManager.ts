@@ -1,4 +1,3 @@
-import { getPaddingsValues } from './helpers';
 import type { Context } from './types';
 
 function recalculateAbsolutes(context: Context) {
@@ -35,26 +34,24 @@ function recalculateLayout(context: Context) {
     recalculateAbsolutes(context);
 }
 
-function measure(context: Context, ref: any, style: any) {
+function measure(context: Context, ref: any, _style: any) {
     ref.current.measure((_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
         let pgX;
         let pgY;
 
-        const paddingVertical = getPaddingsValues(style).top;
-        const paddingHorizontal = getPaddingsValues(style).left;
         if (context.repeatContext !== undefined) {
             // TODO: Check what about nested repeats?
             const pCtx = context.repeatContext.parentContext;
             
             if(pCtx !== undefined) {
                 const rLayout = pCtx.layouts[context.repeatContext.index || 0];
-                pgX = pCtx.layout.xMin + rLayout.x + paddingHorizontal;
-                pgY = pCtx.layout.yMin + rLayout.y + paddingVertical;
+                pgX = pCtx.layout.xMin + rLayout.x;
+                pgY = pCtx.layout.yMin + rLayout.y;
             }
             
         } else {
-            pgY = pageY + paddingVertical;
-            pgX = pageX + paddingHorizontal;
+            pgY = pageY;
+            pgX = pageX;
         }
 
         const layout = {
@@ -86,12 +83,8 @@ function measure(context: Context, ref: any, style: any) {
                 const rLayout = pCtx.layouts[pCtx.layouts.length -1];
                 context.parent.layout.xMaxScroll = pCtx.layout.xMin + width + rLayout.x;
             }
-
             if (context.parent.layout.xMaxScroll < layout.xMax) {
                 context.parent.layout.xMaxScroll = layout.xMax;
-            }
-            if (context.parent.layout.yMaxScroll < layout.yMax) {
-                context.parent.layout.yMaxScroll = layout.yMax;
             }
         }
 

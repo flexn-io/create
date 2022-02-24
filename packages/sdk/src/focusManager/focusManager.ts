@@ -81,6 +81,7 @@ export const distCalc = (
 
     const closestDistance = Math.abs(p5 - p6);
     const cornerDistance = p7 - p8;
+
     if (
         ix &&
         !inOneLine &&
@@ -249,19 +250,21 @@ const calculateVerticalScrollViewTarget = (direction: string, scrollView: any, c
         if (isVerticalBothEdge) {
             scrollTarget.y = Math.max(currentLayout.yMax - (windowHeight - VIEWPORT_PADDING), scrollView.scrollOffsetY);
         } else {
-            //Prevent OVERSCROLL
+            const yMaxScroll = scrollView.children[scrollView.children.length - 1].layout.yMax;
             const targetY = currentLayout.yMin - scrollView.layout.yMin - VIEWPORT_PADDING + windowHeight;
-            if (scrollView.layout.yMaxScroll >= targetY) {
+                        
+            //Prevent OVERSCROLL
+            if (yMaxScroll >= targetY) {
                 scrollTarget.y = currentLayout.yMin - scrollView.layout.yMin - VIEWPORT_PADDING;
             } else {
-                scrollTarget.y = scrollView.layout.yMaxScroll - windowHeight;
+                scrollTarget.y = yMaxScroll - windowHeight;
             }
-
         }
     }
 
     if (DIRECTION_UP.includes(direction)) {
-        scrollTarget.y = Math.min(currentLayout.yMin - VIEWPORT_PADDING, scrollView.scrollOffsetY);
+        const innerViewMin = scrollView.layout.innerView.yMin;
+        scrollTarget.y = Math.min(currentLayout.yMin - innerViewMin - VIEWPORT_PADDING, scrollView.scrollOffsetY);
     }
 
     if (scrollTarget.x < 0) scrollTarget.x = 0;
