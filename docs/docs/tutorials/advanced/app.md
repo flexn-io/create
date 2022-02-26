@@ -10,7 +10,7 @@ In this chapter we will quickly cover the state management of your application a
 
 You might be familiar with a lot of tools for that already like Redux, Recoil, Rematch or anything else, however this application is meant to be a simple template without too much of external dependencies, which users may or may not be familiar with, therefore we will stick with the most simple solution for state management, which already comes built in with React - Context API.
 
-We will be managing theme and the thing that depends upon it - the styles, therefore lets define a simple implementation of Context API at the bottom of `config.tsx`:
+We will be managing theme and the thing that depends upon it - the styles, therefore lets define a simple implementation of Context API at the bottom of `src/config.tsx` (you need to create this file if you haven't already):
 
 ```typescript
 const lightStyleSheet = createStyleSheet(staticThemes.light);
