@@ -235,7 +235,7 @@ class CoreManager {
             parents.push(p.id);
             p = p.parent;
         }
-        logger.log('FIND===============================', parents, ch);
+        logger.debug('FIND===============================', parents, ch);
         if (ch) {
             const output: {
                 match1: number;
@@ -302,8 +302,6 @@ class CoreManager {
                             // this._currentContext = this.findFirstFocusableOnScreen(s);
                             nextScreenContext = this.getNextFocusableContext(direction, s, false, true);
                         });
-
-                        console.log('nextScreenContext', nextScreenContext);
 
                         // DO NOT SEND EVENTS IF CURRENT SCREEN ALREADY FOCUSED
                         if (nextScreenContext && nextScreenContext.id !== currentContext.id) {
