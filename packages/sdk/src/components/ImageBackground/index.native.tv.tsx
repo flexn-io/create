@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground as RNImageBackgound, ImageBackgroundProps } from 'react-native';
+import { ImageBackground as RNImageBackground, ImageBackgroundProps } from 'react-native';
 import type { Context } from '../../focusManager/types';
 
 interface ImageBackgroundPropsExtended extends ImageBackgroundProps {
@@ -16,9 +16,9 @@ const ImageBackground = ({ children, parentContext, source, ...props }: ImageBac
     });
 
     return (
-        <RNImageBackgound source={source} {...props}>
+        <RNImageBackground source={source} {...props}>
             {childrenWithProps}
-        </RNImageBackgound>
+        </RNImageBackground>
     );
 };
 

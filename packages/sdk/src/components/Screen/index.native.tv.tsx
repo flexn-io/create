@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
 import { SCREEN_STATES, WINDOW_ALIGNMENT } from '../../focusManager/constants';
 import type { ScreenProps, Context } from '../../focusManager/types';
-import { mergeStyles, makeid, useCombinedRefs, alterForbiddenFocusDirections } from '../../focusManager/helpers';
+import { makeid, useCombinedRefs, alterForbiddenFocusDirections } from '../../focusManager/helpers';
 import CoreManager from '../../focusManager/core';
 import { measure } from '../../focusManager/layoutManager';
 
@@ -30,6 +30,8 @@ const Screen = React.forwardRef<any, ScreenProps>(
         const interval: { current: NodeJS.Timeout | null } = useRef(null);
         const {
             focusKey,
+            nextFocusRight,
+            nextFocusLeft,
             verticalWindowAlignment = WINDOW_ALIGNMENT.LOW_EDGE,
             horizontalWindowAlignment = WINDOW_ALIGNMENT.LOW_EDGE,
             forbiddenFocusDirections,
@@ -47,6 +49,8 @@ const Screen = React.forwardRef<any, ScreenProps>(
                 verticalWindowAlignment,
                 horizontalWindowAlignment,
                 forbiddenFocusDirections: alterForbiddenFocusDirections(forbiddenFocusDirections),
+                nextFocusRight,
+                nextFocusLeft,
                 onFocus,
                 onBlur,
             };
@@ -69,7 +73,7 @@ const Screen = React.forwardRef<any, ScreenProps>(
                 if (firstFocusable) {
                     setInitialFocus(firstFocusable);
                 } else {
-                    // NOTE: why is interval? Because screen lifecycle if independent of child complex components lifecycles
+                    // NOTE: why is interval? Because screen lifecycle if independent of child complex components life cycles
                     // so screen can be loaded but focusable elements not yet
                     interval.current = setInterval(() => {
                         firstFocusable = CoreManager.findFirstFocusableOnScreen(context);
@@ -102,7 +106,7 @@ const Screen = React.forwardRef<any, ScreenProps>(
         }, []);
 
         const onLayout = () => {
-            measure(context, ref, mergeStyles(style, null));
+            measure(context, ref);
         };
 
         const childrenWithProps = React.Children.map(children, (child) => {

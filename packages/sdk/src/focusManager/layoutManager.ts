@@ -17,7 +17,7 @@ function recalculateLayout(context: Context) {
     if (!context?.layout) {
         return;
     }
-    // This is needed because scrollview offsets
+    // This is needed because ScrollView offsets
     let offsetX = 0;
     let offsetY = 0;
     let { parent } = context;
@@ -34,7 +34,7 @@ function recalculateLayout(context: Context) {
     recalculateAbsolutes(context);
 }
 
-function measure(context: Context, ref: any, _style: any) {
+function measure(context: Context, ref: any) {
     ref.current.measure((_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
         let pgX;
         let pgY;
@@ -71,7 +71,6 @@ function measure(context: Context, ref: any, _style: any) {
         };
         if (context.layout) {
             layout.yOffset = context.layout.yOffset;
-            layout.xOffset = context.layout.xOffset;
         }
 
         context.layout = layout;
@@ -83,13 +82,14 @@ function measure(context: Context, ref: any, _style: any) {
                 const rLayout = pCtx.layouts[pCtx.layouts.length -1];
                 context.parent.layout.xMaxScroll = pCtx.layout.xMin + width + rLayout.x;
             }
-            if (context.parent.layout.xMaxScroll < layout.xMax) {
-                context.parent.layout.xMaxScroll = layout.xMax;
+            if (context.parent.layout.yMaxScroll < layout.yMax) {
+                context.parent.layout.yMaxScroll = layout.yMax;
             }
         }
 
         recalculateAbsolutes(context);
     });
+
     // get the layout of innerView in scroll
     if (context.type === 'scrollView')
         // eslint-disable-next-line no-underscore-dangle

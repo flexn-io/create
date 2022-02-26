@@ -6,7 +6,7 @@ import {
     RecyclerListView,
 } from '../../recyclerListView';
 import CoreManager from '../../focusManager/core';
-import { alterForbiddenFocusDirections, makeid, mergeStyles } from '../..//focusManager/helpers';
+import { alterForbiddenFocusDirections, makeid } from '../..//focusManager/helpers';
 import { measure } from '../../focusManager/layoutManager';
 import type { Context, RecyclerViewProps } from '../../focusManager/types';
 
@@ -86,7 +86,7 @@ export default function RecyclerView({
     }, []);
 
     const onLayout = () => {
-        measure(context, rnViewRef, mergeStyles(style, contentContainerStyle));
+        measure(context, rnViewRef);
     };
 
     return (

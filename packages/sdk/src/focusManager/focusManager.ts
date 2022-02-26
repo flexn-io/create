@@ -28,6 +28,9 @@ const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: numbe
     );
 };
 
+const intersectsOffset = (guideLine: number, startOfNext: number, endOfNext: number) =>
+    Math.abs(guideLine - Math.round((startOfNext + endOfNext) / 2));
+
 const nextIsVisible = (nextMax: number, direction: string) => {
     if (DIRECTION_VERTICAL.includes(direction)) {
         return nextMax > 0 && nextMax <= windowWidth;
@@ -35,9 +38,6 @@ const nextIsVisible = (nextMax: number, direction: string) => {
 
     return true;
 };
-
-const intersectsOffset = (guideLine: number, startOfNext: number, endOfNext: number) =>
-    Math.abs(guideLine - Math.round((startOfNext + endOfNext) / 2));
 
 const isInOneLine = (direction: string, nextContext: Context, currentContext: Context) => {
     const currentLayout = currentContext.layout;
@@ -53,7 +53,29 @@ const isInOneLine = (direction: string, nextContext: Context, currentContext: Co
     }
 
     const diff = Math.abs(nextLayout.xMin - currentLayout.xMin);
+
     return diff <= 20;
+};
+
+const findFirstFocusableInGroup = (context: Context): Context | null | undefined => {
+    for (let index = 0; index < context.children.length; index++) {
+        const ch: Context = context.children[index];
+        if (ch.isFocusable) {
+            return ch;
+        }
+
+        const next = findFirstFocusableInGroup(ch);
+
+        if (next?.isFocusable) {
+            return next;
+        }
+    }
+
+    if (context.isFocusable) {
+        return context;
+    }
+
+    return null;
 };
 
 export const distCalc = (
@@ -120,9 +142,16 @@ export const distCalc = (
         output.match3 >= closestDistance &&
         output.match3IxOffset >= ixOffset
     ) {
-        output.match3 = closestDistance;
-        output.match3Context = nextContext;
-        logger.debug('FOUND CLOSER M3', nextContext.id, closestDistance);
+        if (nextContext.isFocusable) {
+            output.match3 = closestDistance;
+            output.match3Context = nextContext;
+            logger.debug('FOUND CLOSER M3', nextContext.id, closestDistance);
+        } else {
+            const firstInNextGroup = findFirstFocusableInGroup(nextContext);
+            if (firstInNextGroup) {
+                contextParameters.findClosestNode(firstInNextGroup, direction, output);
+            }
+        }
     }
 };
 
@@ -143,19 +172,19 @@ const executeScroll = (direction: string, contextParameters: any) => {
         return;
     }
 
-    const scrollContexParents = [];
+    const scrollContextParents = [];
     let parent = currentContext?.parent;
     // We can only scroll 2 ScrollView at max. one Horz and Vert
     const directionsFilled: any[] = [];
     while (parent) {
         if (parent.isScrollable && !directionsFilled.includes(parent.isHorizontal)) {
             directionsFilled.push(parent.isHorizontal);
-            scrollContexParents.push(parent);
+            scrollContextParents.push(parent);
         }
         parent = parent?.parent;
     }
 
-    scrollContexParents.forEach((p: any) => {
+    scrollContextParents.forEach((p: any) => {
         const scrollTarget = p.isHorizontal
             ? calculateHorizontalScrollViewTarget(direction, p, contextParameters)
             : calculateVerticalScrollViewTarget(direction, p, contextParameters);
@@ -215,8 +244,10 @@ const calculateHorizontalScrollViewTarget = (direction: string, scrollView: any,
             scrollTarget.x = Math.min(currentLayout.xMin - VIEWPORT_PADDING, scrollView.scrollOffsetX);
             if (scrollTarget.x < scrollView.layout.innerView.xMin) scrollTarget.x = scrollView.layout.innerView.xMin;
         } else {
-
-            scrollTarget.x = Math.min(currentLayout.xMin - scrollView.layout.xMin - VIEWPORT_PADDING, scrollView.scrollOffsetX);
+            scrollTarget.x = Math.min(
+                currentLayout.xMin - scrollView.layout.xMin - VIEWPORT_PADDING,
+                scrollView.scrollOffsetX
+            );
         }
     }
 
@@ -252,7 +283,7 @@ const calculateVerticalScrollViewTarget = (direction: string, scrollView: any, c
         } else {
             const yMaxScroll = scrollView.children[scrollView.children.length - 1].layout.yMax;
             const targetY = currentLayout.yMin - scrollView.layout.yMin - VIEWPORT_PADDING + windowHeight;
-                        
+
             //Prevent OVERSCROLL
             if (yMaxScroll >= targetY) {
                 scrollTarget.y = currentLayout.yMin - scrollView.layout.yMin - VIEWPORT_PADDING;

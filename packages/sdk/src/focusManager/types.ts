@@ -11,14 +11,8 @@ import type {
 export type ForbiddenFocusDirections = 'down' | 'up' | 'left' | 'right';
 export type WindowAlignment = 'both-edge' | 'low-edge';
 export type ScreenStates = 'background' | 'foreground';
-export type FocusOptions = {
-    forbiddenFocusDirections?: ForbiddenFocusDirections[];
-    animatorOptions?: any;
-    focusKey?: string;
-    hasInitialFocus?: boolean;
-};
 
-export type ViewFocusOptions = {
+export type PressableFocusOptions = {
     forbiddenFocusDirections?: ForbiddenFocusDirections[];
     animatorOptions?: any;
     focusKey?: string;
@@ -30,6 +24,10 @@ export type ScreenFocusOptions = {
     focusKey?: string;
     verticalWindowAlignment?: WindowAlignment;
     horizontalWindowAlignment?: WindowAlignment;
+    nextFocusLeft?: string | string[];
+    nextFocusRight?: string | string[];
+    nextFocusUp?: string | string[];
+    nextFocusDown?: string | string[];
 };
 
 export type RecyclableListFocusOptions = {
@@ -38,7 +36,7 @@ export type RecyclableListFocusOptions = {
 
 export interface ViewProps extends RNViewProps {
     focus?: boolean;
-    focusOptions?: ViewFocusOptions;
+    focusOptions?: PressableFocusOptions;
     parentContext?: any;
     repeatContext?: any;
     onPress?: (e: GestureResponderEvent | any) => void;
@@ -52,7 +50,7 @@ export interface ViewProps extends RNViewProps {
 
 export interface PressableProps extends RNPressableProps {
     focus?: boolean;
-    focusOptions?: FocusOptions;
+    focusOptions?: PressableFocusOptions;
     parentContext?: any;
     repeatContext?: any;
     onPress?: (e: GestureResponderEvent | any) => void;
@@ -134,6 +132,10 @@ export interface Context {
     layouts?: any;
     index?: number;
     forbiddenFocusDirections?: string[];
+    nextFocusLeft?: string | string[];
+    nextFocusRight?: string | string[];
+    nextFocusUp?: string | string[];
+    nextFocusDown?: string | string[];
 }
 
 export type ContextMap = { [key: string]: Context };

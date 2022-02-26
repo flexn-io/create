@@ -1,6 +1,7 @@
 import { findNodeHandle, UIManager } from 'react-native';
 import { CONTEXT_TYPES, SCREEN_STATES } from './constants';
 import { distCalc, executeScroll as execScroll } from './focusManager';
+import { getNextForcedFocusKey } from './helpers';
 import { recalculateLayout } from './layoutManager';
 import logger from './logger';
 import type { Context } from './types';
@@ -10,7 +11,7 @@ class CoreManager {
         [key: string]: Context;
     };
 
-    private _currentContext: any;
+    private _currentContext: Context | null;
 
     private _debuggerEnabled: boolean;
 
@@ -94,7 +95,11 @@ class CoreManager {
     }
 
     public executeFocus(direction = '', focusAsNext?: Context) {
-        const nextFocusable = focusAsNext || this.getNextFocusableContext(direction, this._currentContext?.parent);
+        let nextFocusable;
+        if (focusAsNext) nextFocusable = focusAsNext;
+        else if (this.currentContext?.parent) {
+            nextFocusable = focusAsNext || this.getNextFocusableContext(direction, this.currentContext.parent);
+        }
         if (nextFocusable) {
             if (nextFocusable.id === this._currentContext?.id) {
                 return;
@@ -209,8 +214,9 @@ class CoreManager {
             return contextMap[Object.keys(contextMap)[0]];
         }
 
-        const currentContextHasForbidenDirection = currentContext.forbiddenFocusDirections?.includes(direction);
-        if (currentContextHasForbidenDirection) {
+        const currentContextHasForbiddenDirection = currentContext.forbiddenFocusDirections?.includes(direction);
+
+        if (currentContextHasForbiddenDirection) {
             return currentContext;
         }
 
@@ -229,7 +235,7 @@ class CoreManager {
             parents.push(p.id);
             p = p.parent;
         }
-        // log('FIND===============================', parents, ch);
+        logger.log('FIND===============================', parents, ch);
         if (ch) {
             const output: {
                 match1: number;
@@ -251,10 +257,10 @@ class CoreManager {
             };
             for (let i = 0; i < ch.length; i++) {
                 const ctx = ch[i];
-                const notFocusablaAndNoChildren = ctx.children.length < 1 && !ctx.isFocusable;
-                if (notFocusablaAndNoChildren) {
+                const notFocusableAndNoChildren = ctx.children.length < 1 && !ctx.isFocusable;
+                if (notFocusableAndNoChildren) {
                     logger.debug('FOUND GROUP WITH NO CHILDREN!', ctx.id);
-                } else if (!parents.includes(ctx.id) && !notFocusablaAndNoChildren) {
+                } else if (!parents.includes(ctx.id) && !notFocusableAndNoChildren) {
                     this.findClosestNode(ctx, direction, output);
                 }
             }
@@ -262,59 +268,76 @@ class CoreManager {
                 output.match1Context || output.match2Context || output.match3Context;
 
             if (!closestContext) {
-                const parentHasForbidenDirection = parentContext.forbiddenFocusDirections?.includes(direction);
-                if (parentContext.type === 'screen' && !inScreenContext && !parentHasForbidenDirection) {
-                    logger.debug('REACHED END SCREEN.');
-
-                    const focusableScreens: Context[] = [];
-                    const maxOrder = Math.max(
-                        ...Object.values(contextMap).map((o: any) => (isNaN(o.order) ? 0 : o.order))
-                    );
-                    Object.values(contextMap).forEach((s: any) => {
-                        if (s.type === 'screen' && s.id !== parentContext.id && s.state === SCREEN_STATES.FOREGROUND) {
-                            if (s.order >= maxOrder) {
-                                focusableScreens.push(s);
-                            }
-                        }
-                    });
-
-                    logger.debug('FOCUSABLE SCREENS', focusableScreens);
-                    let nextScreenContext: Context | null | undefined;
-                    focusableScreens.forEach((s) => {
-                        nextScreenContext = this.getNextFocusableContext(direction, s, false, true);
-                    });
-
-                    // DO NOT SEND EVENTS IF CURRENT SCREN ALREADY FOCUSED
-                    if (nextScreenContext && nextScreenContext.id !== currentContext.id) {
-                        currentContext.screen?.onBlur?.();
-                        nextScreenContext.screen?.onFocus?.();
-
-                        if (nextScreenContext.screen) {
-                            return this.findFirstFocusableOnScreen(nextScreenContext.screen);
-                        }
+                const parentHasForbiddenDirection = parentContext.forbiddenFocusDirections?.includes(direction);
+                if (parentContext.type === 'screen') {
+                    const nextForcedFocusKey = getNextForcedFocusKey(parentContext, direction, this.contextMap);
+                    if (nextForcedFocusKey) {
+                        logger.debug('FOUND FORCED FOCUS DIRECTION', direction, nextForcedFocusKey);
+                        this.focusElementByFocusKey(nextForcedFocusKey);
+                        return;
                     }
 
-                    // return nextScreenContext || currentContext;
-                    return currentContext;
+                    if (!inScreenContext && !parentHasForbiddenDirection) {
+                        logger.debug('REACHED END SCREEN.');
+
+                        const focusableScreens: Context[] = [];
+                        const maxOrder = Math.max(
+                            ...Object.values(contextMap).map((o: any) => (isNaN(o.order) ? 0 : o.order))
+                        );
+                        Object.values(contextMap).forEach((s: any) => {
+                            if (
+                                s.type === 'screen' &&
+                                s.id !== parentContext.id &&
+                                s.state === SCREEN_STATES.FOREGROUND
+                            ) {
+                                if (s.order >= maxOrder) {
+                                    focusableScreens.push(s);
+                                }
+                            }
+                        });
+
+                        logger.debug('FOCUSABLE SCREENS', focusableScreens);
+                        let nextScreenContext: Context | null | undefined;
+                        focusableScreens.forEach((s) => {
+                            // this._currentContext = this.findFirstFocusableOnScreen(s);
+                            nextScreenContext = this.getNextFocusableContext(direction, s, false, true);
+                        });
+
+                        console.log('nextScreenContext', nextScreenContext);
+
+                        // DO NOT SEND EVENTS IF CURRENT SCREEN ALREADY FOCUSED
+                        if (nextScreenContext && nextScreenContext.id !== currentContext.id) {
+                            currentContext.screen?.onBlur?.();
+                            nextScreenContext.screen?.onFocus?.();
+
+                            if (nextScreenContext.screen) {
+                                return this.findFirstFocusableOnScreen(nextScreenContext.screen);
+                            }
+                        }
+
+                        // return nextScreenContext || currentContext;
+                        return currentContext;
+                    }
                 }
+
                 if (!parentContext) {
                     logger.debug('REACHED NO PARENT.');
                     return currentContext;
                 }
 
-                if (parentHasForbidenDirection) {
-                    logger.debug('PARENT HAS FORBIDEN DIRECTION', direction);
+                if (parentHasForbiddenDirection) {
+                    logger.debug('PARENT HAS FORBIDDEN DIRECTION', direction);
                     return currentContext;
                 }
 
                 logger.debug('REACHED END. GOING OUT', parentContext);
                 if (mustPickContext) {
                     logger.debug('REACHED END OF GROUP. PICKING FIRST CHILD');
-                    // return parentContext.children[0]?.isFocusable ? parentContext.children[0] : currentContext;
                     return currentContext;
                 }
 
                 if (parentContext?.parent) {
+                    logger.debug('PICKING PARENT', parentContext?.parent);
                     return this.getNextFocusableContext(direction, parentContext?.parent, false, false);
                 }
                 return null;
@@ -333,7 +356,7 @@ class CoreManager {
     public findClosestNode = (nxt: Context, direction: string, output: any) => {
         recalculateLayout(nxt);
         const nextLayout = nxt.layout;
-        const currentLayout = this.currentContext.layout;
+        const currentLayout = this.currentContext?.layout;
         if (!nextLayout) {
             // eslint-disable-next-line
             logger.warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
@@ -345,9 +368,9 @@ class CoreManager {
             return;
         }
 
-        const currentXcenter = currentLayout.absolute.xCenter;
-        const currentYcenter = currentLayout.absolute.yCenter;
-        const currentXmin = currentLayout.absolute.xMin;
+        const currentXCenter = currentLayout.absolute.xCenter;
+        const currentYCenter = currentLayout.absolute.yCenter;
+        const currentXMin = currentLayout.absolute.xMin;
         const currentXMax = currentLayout.absolute.xMax;
         const currentYMin = currentLayout.absolute.yMin;
         const currentYMax = currentLayout.absolute.yMax;
@@ -362,6 +385,7 @@ class CoreManager {
             currentContext: this._currentContext,
             contextMap: this._contextMap,
             isDebuggerEnabled: this._debuggerEnabled,
+            findClosestNode: this.findClosestNode,
         };
 
         switch (direction) {
@@ -372,13 +396,13 @@ class CoreManager {
                     nxt,
                     this.guideLineY,
                     currentLayout.height,
-                    nextYMin,
-                    nextYMax,
-                    nextXMax,
-                    currentXmin,
-                    nextXMin,
-                    currentXmin,
-                    currentYcenter,
+                    nextYMin, //p3
+                    nextYMax, //p4
+                    nextXMax, //p5
+                    currentXMin, //p6
+                    nextXMin, //p7
+                    currentXMin, //p8
+                    currentYCenter, //p9
                     0,
                     direction,
                     contextParameters
@@ -388,17 +412,17 @@ class CoreManager {
             case 'swipeRight':
             case 'right': {
                 distCalc(
-                    output,
+                    output, //
                     nxt,
                     this.guideLineY,
                     currentLayout.height,
-                    nextYMin,
-                    nextYMax,
-                    nextXMin,
-                    currentXMax,
-                    currentXMax,
-                    nextXMax,
-                    currentYcenter,
+                    nextYMin, //p3
+                    nextYMax, //p4
+                    nextXMin, //p5
+                    currentXMax, //p6
+                    currentXMax, //p7
+                    nextXMax, //p8
+                    currentYCenter, //p9
                     0,
                     direction,
                     contextParameters
@@ -439,7 +463,7 @@ class CoreManager {
                     currentYMax,
                     currentYMax,
                     nextYMax,
-                    currentXcenter,
+                    currentXCenter,
                     nextXMax,
                     direction,
                     contextParameters
@@ -452,7 +476,7 @@ class CoreManager {
         }
 
         const currentContext = this.currentContext; // eslint-disable-line prefer-destructuring
-        if (currentContext.parent?.isRecyclable) {
+        if (currentContext?.parent?.isRecyclable) {
             const d1 = currentContext.parent?.isHorizontal ? ['right', 'swipeRight'] : ['down', 'swipeDown'];
             const d2 = currentContext.parent?.isHorizontal ? ['left', 'swipeLeft'] : ['up', 'swipeUp'];
             const lastIsVisible = d1.includes(direction) ? currentContext.parent?.isLastVisible?.() : true;
@@ -466,7 +490,7 @@ class CoreManager {
             }
         }
 
-        if (currentContext.parent?.isRecyclable && currentContext.parent.isNested) {
+        if (currentContext?.parent?.isRecyclable && currentContext.parent.isNested) {
             const d1 = ['down', 'swipeDown'];
             const d2 = ['up', 'swipeUp'];
             const lastIsVisible = d1.includes(direction) ? currentContext.parent?.parent?.isLastVisible?.() : true;
@@ -505,7 +529,7 @@ class CoreManager {
         return this._guideLineX;
     }
 
-    public get currentContext(): Context {
+    public get currentContext(): Context | null {
         return this._currentContext;
     }
 }

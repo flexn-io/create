@@ -9,15 +9,17 @@ declare module 'react-native' {
         parentContext?: any;
         className?: any;
     }
-
     class TouchableOpacityProps {
+        parentContext?: any;
         className?: any;
     }
-
     class PressableProps {
+        parentContext?: any;
         className?: any;
     }
-
+    class ScrollViewProps {
+        parentContext?: any;
+    }
     interface UIManagerStatic {
         dispatchViewManagerCommand: (
             reactTag: number | null,

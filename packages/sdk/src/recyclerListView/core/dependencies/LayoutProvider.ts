@@ -23,7 +23,8 @@ export abstract class BaseLayoutProvider {
     public abstract newLayoutManager(
         renderWindowSize: Dimension,
         isHorizontal?: boolean,
-        cachedLayouts?: Layout[]
+        cachedLayouts?: Layout[],
+        initialXOffset?: number
     ): LayoutManager;
 
     //Given an index a provider is expected to return a view type which used to recycling choices
@@ -53,9 +54,16 @@ export class LayoutProvider extends BaseLayoutProvider {
     public newLayoutManager(
         renderWindowSize: Dimension,
         isHorizontal?: boolean,
-        cachedLayouts?: Layout[]
+        cachedLayouts?: Layout[],
+        initialXOffset?: number
     ): LayoutManager {
-        this._lastLayoutManager = new WrapGridLayoutManager(this, renderWindowSize, isHorizontal, cachedLayouts);
+        this._lastLayoutManager = new WrapGridLayoutManager(
+            this,
+            renderWindowSize,
+            isHorizontal,
+            cachedLayouts,
+            initialXOffset
+        );
         return this._lastLayoutManager;
     }
 

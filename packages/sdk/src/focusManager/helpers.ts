@@ -2,47 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import { Dimensions, PixelRatio } from 'react-native';
 import { isPlatformAndroidtv, isPlatformFiretv } from 'renative';
 import { ForbiddenFocusDirections } from './types';
-
-export const getPaddingsValues = (style: any) => {
-    const paddings = {
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-    };
-
-    if (style) {
-        const s = typeof style === 'object' && !Array.isArray(style) ? [style] : style;
-
-        s.forEach((current: any) => {
-            paddings.top += current.paddingTop || 0 + current.paddingVertical || 0;
-            paddings.bottom += current.paddingBottom || 0 + current.paddingVertical || 0;
-            paddings.left += current.paddingLeft || 0 + current.paddingHorizontal || 0;
-            paddings.right += current.paddingRight || 0 + current.paddingHorizontal || 0;
-        });
-    }
-
-    return paddings;
-};
-
-export const mergeStyles = (s1: any, s2?: any) => {
-    const _s1 = Array.isArray(s1) ? s1.filter((v) => v) : null;
-    const _s2 = Array.isArray(s2) ? s2.filter((v) => v) : null;
-
-    if (_s1 && !_s2) {
-        return _s1;
-    }
-    if (!_s1 && _s2) {
-        return _s2;
-    }
-    if (!_s1 && !_s2) {
-        return [];
-    }
-    const s1Temp = typeof _s1 === 'object' && !Array.isArray(_s1) ? [_s1] : _s1;
-    const s2Temp = typeof _s2 === 'object' && !Array.isArray(_s2) ? [_s2] : _s2;
-
-    return [...s1Temp, ...s2Temp];
-};
+import type { Context } from './types';
+import { DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, SCREEN_STATES } from './constants';
 
 export function makeid(length: number) {
     let result = '';
@@ -65,6 +26,54 @@ export function alterForbiddenFocusDirections(forbiddenFocusDirections: Forbidde
     });
 
     return ffd;
+}
+
+function pickActiveForcedFocusContext(
+    nextForcedFocusKey: string | string[],
+    contextMap: { [key: string]: Context }
+): string | null {
+    if (Array.isArray(nextForcedFocusKey)) {
+        for (let index = 0; index < nextForcedFocusKey.length; index++) {
+            const focusKey = nextForcedFocusKey[index];
+            const isActive: Context | undefined = Object.values(contextMap).find(
+                (s) =>
+                    s.focusKey === focusKey &&
+                    (s?.screen?.state === SCREEN_STATES.FOREGROUND || s.state === SCREEN_STATES.FOREGROUND)
+            );
+            if (isActive) {
+                return focusKey;
+            }
+        }
+        return null;
+    }
+
+    const isActive = Object.values(contextMap).find(
+        (s) =>
+            s.focusKey === nextForcedFocusKey &&
+            (s?.screen?.state === SCREEN_STATES.FOREGROUND || s.state === SCREEN_STATES.FOREGROUND)
+    );
+
+    return isActive ? nextForcedFocusKey : null;
+}
+export function getNextForcedFocusKey(
+    context: Context,
+    direction: string,
+    contextMap: { [key: string]: Context }
+): string | null {
+    if (context.nextFocusLeft && DIRECTION_LEFT.includes(direction)) {
+        return pickActiveForcedFocusContext(context.nextFocusLeft, contextMap);
+    }
+    if (context.nextFocusRight && DIRECTION_RIGHT.includes(direction)) {
+        return pickActiveForcedFocusContext(context.nextFocusRight, contextMap);
+    }
+    if (context.nextFocusUp && DIRECTION_UP.includes(direction)) {
+        return pickActiveForcedFocusContext(context.nextFocusUp, contextMap);
+    }
+    if (context.nextFocusDown && DIRECTION_DOWN.includes(direction)) {
+        return pickActiveForcedFocusContext(context.nextFocusDown, contextMap);
+    }
+
+    return null;
 }
 
 export function useCombinedRefs(...refs: any) {
