@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
 import {
-    mergeStyles,
     makeid,
     useCombinedRefs,
     usePrevious,
@@ -63,13 +62,13 @@ const View = React.forwardRef<any, ViewProps>(
             return pctx;
         });
 
-        // We must reassing repeat context as View instances are re-used in recycled
+        // We must re-assing repeat context as View instances are re-used in recycled
         if (repeatContext) {
             context.repeatContext = repeatContext;
         }
 
         useEffect(() => {
-            // If item initialy was not focusable, but during the time it became focusable
+            // If item initially was not focusable, but during the time it became focusable
             // we capturing that here
             if (prevFocus === false && focus === true) {
                 const ctx: Context = makeContext();
@@ -100,7 +99,7 @@ const View = React.forwardRef<any, ViewProps>(
                         const screenContext = CoreManager.contextMap[context.screen.id];
                         if (screenContext) {
                             screenContext.lastFocused = undefined;
-                            // NOTE: why is interval? Because screen lifecycle if independent of child complex components lifecycles
+                            // NOTE: why is interval? Because screen lifecycle if independent of child complex components life cycles
                             // so screen can be loaded but focusable elements not yet
                             const interval = setInterval(() => {
                                 const firstFocusable = CoreManager.findFirstFocusableOnScreen(screenContext);
@@ -127,12 +126,12 @@ const View = React.forwardRef<any, ViewProps>(
         });
 
         const onLayout = () => {
-            measure(context, ref, mergeStyles(style, null));
+            measure(context, ref);
         };
 
         // In recycled mode we must re-measure on render
         if (repeatContext && ref.current) {
-            measure(context, ref, mergeStyles(style, null));
+            measure(context, ref);
         }
 
         if (focus) {

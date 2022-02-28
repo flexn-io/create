@@ -1,6 +1,6 @@
 {
     "name": "app-harness",
-    "version": "0.11.1-alpha.0",
+    "version": "0.11.1-alpha.1",
     "scripts": {
         "bootstrap": "yarn prepare-assets && cd ../.. && yarn bootstrap",
         "build": "tsc --noEmit",
@@ -22,7 +22,7 @@
         "web:release": "npx rnv build -p web -c harness -s release && vercel ./platformBuilds/harness_web/project"
     },
     "dependencies": {
-        "@flexn/sdk": "0.11.1-alpha.0",
+        "@flexn/sdk": "0.11.1-alpha.1",
         "@flexn/typescript": "0.1.4",
         "@lightningjs/cli": "2.7.1",
         "@lightningjs/sdk": "4.3.3",
@@ -65,8 +65,8 @@
         "tslib": "2.3.1"
     },
     "devDependencies": {
-        "@flexn/graybox": "0.11.1-alpha.0",
-        "@flexn/template": "0.11.1-alpha.0",
+        "@flexn/graybox": "0.11.1-alpha.1",
+        "@flexn/template": "0.11.1-alpha.1",
         "@rnv/engine-lightning": "0.35.0-alpha.14",
         "@rnv/engine-rn": "0.35.0-alpha.14",
         "@rnv/engine-rn-electron": "0.35.0-alpha.14",

@@ -18,7 +18,7 @@
  * TODO: Observe size changes on web to optimize for reflowability
  * TODO: Solve //TSI
  */
-import debounce = require('lodash.debounce');
+import debounce from 'lodash.debounce';
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import { ObjectUtil, Default } from 'ts-object-utils';
@@ -100,6 +100,7 @@ export interface RecyclerListViewProps {
     externalScrollView?: { new (props: ScrollViewDefaultProps): BaseScrollView };
     layoutSize?: Dimension;
     initialOffset?: number;
+    initialXOffset?: number;
     initialRenderIndex?: number;
     scrollThrottle?: number;
     canChangeSize?: boolean;
@@ -502,7 +503,7 @@ export default class RecyclerListView<
             if (layoutManager) {
                 layoutManager.relayoutFromIndex(
                     newProps.dataProvider.getFirstIndexToProcessInternal(),
-                    newProps.dataProvider.getSize()
+                    newProps.dataProvider.getSize(),
                 );
                 this._virtualRenderer.refresh();
             }
@@ -519,6 +520,7 @@ export default class RecyclerListView<
             const layoutManager = this._virtualRenderer.getLayoutManager();
             if (layoutManager) {
                 const dataProviderSize = newProps.dataProvider.getSize();
+
                 layoutManager.relayoutFromIndex(
                     Math.min(Math.max(dataProviderSize - 1, 0), this._relayoutReqIndex),
                     dataProviderSize
@@ -614,7 +616,8 @@ export default class RecyclerListView<
         const layoutManager = props.layoutProvider.newLayoutManager(
             this._layout,
             props.isHorizontal,
-            this._cachedLayouts
+            this._cachedLayouts,
+            props.initialXOffset,
         );
         this._virtualRenderer.setLayoutManager(layoutManager);
         this._virtualRenderer.setLayoutProvider(props.layoutProvider);

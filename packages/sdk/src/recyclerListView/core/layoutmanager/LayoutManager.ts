@@ -45,6 +45,7 @@ export class WrapGridLayoutManager extends LayoutManager {
     private _window: Dimension;
     private _totalHeight: number;
     private _totalWidth: number;
+    private _initialXOffset: number;
     private _isHorizontal: boolean;
     private _layouts: Layout[];
 
@@ -52,7 +53,8 @@ export class WrapGridLayoutManager extends LayoutManager {
         layoutProvider: LayoutProvider,
         renderWindowSize: Dimension,
         isHorizontal = false,
-        cachedLayouts?: Layout[]
+        cachedLayouts?: Layout[],
+        initialXOffset?: number
     ) {
         super();
         this._layoutProvider = layoutProvider;
@@ -61,6 +63,7 @@ export class WrapGridLayoutManager extends LayoutManager {
         this._totalWidth = 0;
         this._isHorizontal = !!isHorizontal;
         this._layouts = cachedLayouts ? cachedLayouts : [];
+        this._initialXOffset = initialXOffset || 0;
     }
 
     public getContentDimension(): Dimension {
@@ -115,12 +118,15 @@ export class WrapGridLayoutManager extends LayoutManager {
             this._pointDimensionsToRect(startVal);
         }
 
+        if (this._initialXOffset) {
+            startX += this._initialXOffset;
+        }
+
         const oldItemCount = this._layouts.length;
         const itemDim = { height: 0, width: 0 };
         let itemRect = null;
 
         let oldLayout = null;
-
         for (let i = startIndex; i < itemCount; i++) {
             oldLayout = this._layouts[i];
             const layoutType = this._layoutProvider.getLayoutTypeForIndex(i);

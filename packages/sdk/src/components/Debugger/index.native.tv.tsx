@@ -46,8 +46,8 @@ export default function FocusDebugger() {
     const contexts: any = [];
     const contextMap = CoreManager.contextMap; // eslint-disable-line prefer-destructuring
     Object.values(contextMap).forEach((ctx: Context) => {
-        const parentInForegound = ctx.screen?.state === SCREEN_STATES.FOREGROUND;
-        if (ctx.layout && parentInForegound) {
+        const parentInForeground = ctx.screen?.state === SCREEN_STATES.FOREGROUND;
+        if (ctx.layout && parentInForeground) {
             const borderColor = colors[ctx.type] || 'white';
             contexts.push(
                 <RNView

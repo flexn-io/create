@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useImperativeHandle } from 'react';
 import { ScrollView as RNScrollView } from 'react-native';
-import { mergeStyles, makeid } from '../../focusManager/helpers';
+import { makeid } from '../../focusManager/helpers';
 import type { ScrollViewProps } from '../../focusManager/types';
 import CoreManager from '../../focusManager/core';
 import { measure, recalculateLayout } from '../../focusManager/layoutManager';
@@ -26,7 +26,9 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
                 if (ref.current) ref.current.scrollTo({ x, y });
                 if (x !== undefined) context.scrollOffsetX = x;
                 if (y !== undefined) context.scrollOffsetY = y;
-                recalculateLayout(CoreManager.currentContext);
+                if (CoreManager.currentContext) {
+                    recalculateLayout(CoreManager.currentContext);
+                }
             },
         }));
 
@@ -42,7 +44,7 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
         }, []);
 
         const onLayout = () => {
-            measure(context, ref, mergeStyles(style, null));
+            measure(context, ref);
         };
 
         return (

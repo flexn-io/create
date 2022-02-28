@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useTVRemoteHandler } from '../../remoteHandler';
-import { TVEventHandler, View as RNView } from 'react-native';
+import { TVEventHandler, View as RNView, ScrollView as RNScrollView, TouchableOpacity, findNodeHandle } from 'react-native';
 import { isPlatformAndroidtv, isPlatformTvos, isPlatformFiretv } from 'renative';
 import CoreManager from '../../focusManager/core';
 import { DIRECTION, SCREEN_STATES } from '../../focusManager/constants';
@@ -8,6 +8,7 @@ import { DIRECTION, SCREEN_STATES } from '../../focusManager/constants';
 const isAndroidBased = isPlatformAndroidtv || isPlatformFiretv;
 
 export default function App({ children, ...props }: { children: any }) {
+    const focusTrapRef = useRef<TouchableOpacity>(null);
     const tvEventHandler = useRef<any>(null);
     useEffect(() => {
         tvEventHandler.current = new TVEventHandler();
@@ -29,12 +30,21 @@ export default function App({ children, ...props }: { children: any }) {
                 }
             }
         });
+
+        const node = isAndroidBased && findNodeHandle(focusTrapRef.current);
+        if (node && focusTrapRef.current) {
+            focusTrapRef.current.setNativeProps({
+                nextFocusRight: node,
+                nextFocusLeft: node,
+                nextFocusUp: node,
+                nextFocusDown: node,
+            });
+        }
+
     }, []);
 
     useTVRemoteHandler((evt: any) => {
         if (evt && evt.eventKeyAction === 'down') {
-            // log('EVENT LISTENER ACTION RECIEVED', evt);
-
             const direction = evt.eventType;
             if (isAndroidBased) {
                 if (direction === 'playPause') {
@@ -65,6 +75,17 @@ export default function App({ children, ...props }: { children: any }) {
 
     return (
         <RNView style={{ flex: 1 }} {...props}>
+            {/* 
+                This needs to be injected into native ScrollView directly and will come in phase2.
+                For now it's workaround to prevent jumping when native focus is disabled.
+            */}
+            {isAndroidBased && (
+                <RNView style={{ width: 0, height: 0 }}>
+                    <RNScrollView>
+                        <TouchableOpacity ref={focusTrapRef} hasTVPreferredFocus />
+                    </RNScrollView>
+                </RNView>
+            )}
             {children}
         </RNView>
     );
