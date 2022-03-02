@@ -3,31 +3,32 @@ const fs = require('fs');
 const path = require('path');
 
 let customCapabilities = {};
-if (fs.existsSync(path.join(__dirname, '../../../wdio.capabilities.harness.js'))) {
-    // eslint-disable-next-line global-require
-    const { capabilities } = require('../../../wdio.capabilities.harness');
-    customCapabilities = capabilities;
-}
+// UNCOMMENT BEFORE MERGE
+// if (fs.existsSync(path.join(__dirname, '../../../wdio.capabilities.harness.js'))) {
+//     // eslint-disable-next-line global-require
+//     const { capabilities } = require('../../../wdio.capabilities.harness');
+//     customCapabilities = capabilities;
+// }
 
 const capabilities = {
     ios: [
         {
             platformName: 'iOS',
             deviceName: 'iPhone 11',
-            platformVersion: '15.2',
+            platformVersion: '15.0',
             automationName: 'XCUITest',
             bundleId: 'io.flexn.harness.test',
-            app: 'platformBuilds/harness_ios/build/RNVApp/Build/Products/Release-iphonesimulator/RNVApp.app'
+            app: 'platformBuilds/harness_ios/build/RNVApp/Build/Products/Debug-iphonesimulator/RNVApp.app'
         },
     ],
     tvos: [
         {
             platformName: 'tvOS',
             deviceName: 'Apple TV',
-            platformVersion: '15.2',
+            platformVersion: '15.0',
             automationName: 'XCUITest',
             bundleId: 'io.flexn.harness.test',
-            app: 'platformBuilds/harness_tvos/build/RNVAppTVOS/Build/Products/Release-appletvsimulator/RNVAppTVOS.app'
+            app: 'platformBuilds/harness_tvos/build/RNVAppTVOS/Build/Products/Debug-appletvsimulator/RNVAppTVOS.app'
         },
     ],
     android: [
@@ -38,7 +39,7 @@ const capabilities = {
             automationName: 'UiAutomator2',
             appPackage: 'io.flexn.harness.test',
             appActivity: 'io.flexn.harness.test.MainActivity',
-            app: 'platformBuilds/harness_android/app/build/outputs/apk/release/app-release.apk'
+            app: 'platformBuilds/harness_android/app/build/outputs/apk/debug/app-debug.apk'
         },
     ],
     androidtv: [
@@ -49,7 +50,7 @@ const capabilities = {
             automationName: 'UiAutomator2',
             appPackage: 'io.flexn.harness.test',
             appActivity: 'io.flexn.harness.test.MainActivity',
-            app: 'platformBuilds/harness_androidtv/app/build/outputs/apk/release/app-release.apk'
+            app: 'platformBuilds/harness_androidtv/app/build/outputs/apk/debug/app-debug.apk'
         },
     ],
     macos: [
