@@ -3,31 +3,32 @@ const fs = require('fs');
 const path = require('path');
 
 let customCapabilities = {};
-if (fs.existsSync(path.join(__dirname, '../../../wdio.capabilities.template.js'))) {
-    // eslint-disable-next-line global-require
-    const { capabilities } = require('../../../wdio.capabilities.template');
-    customCapabilities = capabilities;
-}
+// UNCOMMENT BEFORE MERGE
+// if (fs.existsSync(path.join(__dirname, '../../../wdio.capabilities.template.js'))) {
+//     // eslint-disable-next-line global-require
+//     const { capabilities } = require('../../../wdio.capabilities.template');
+//     customCapabilities = capabilities;
+// }
 
 const capabilities = {
     ios: [
         {
             platformName: 'iOS',
-            deviceName: 'iPhone 8',
-            platformVersion: '14.4',
+            deviceName: 'iPhone 11',
+            platformVersion: '15.0',
             automationName: 'XCUITest',
             bundleId: 'io.flexn.template.test',
-            app: 'platformBuilds/template_ios/build/RNVApp/Build/Products/Release-iphonesimulator/RNVApp.app'
+            app: 'platformBuilds/template_ios/build/RNVApp/Build/Products/Debug-iphonesimulator/RNVApp.app'
         },
     ],
     tvos: [
         {
             platformName: 'tvOS',
-            deviceName: 'Apple TV 4K',
-            platformVersion: '14.3',
+            deviceName: 'Apple TV',
+            platformVersion: '15.0',
             automationName: 'XCUITest',
             bundleId: 'io.flexn.template.test',
-            app: 'platformBuilds/template_tvos/build/RNVAppTVOS/Build/Products/Release-appletvsimulator/RNVAppTVOS.app'
+            app: 'platformBuilds/template_tvos/build/RNVAppTVOS/Build/Products/Debug-appletvsimulator/RNVAppTVOS.app'
         },
     ],
     android: [
@@ -38,7 +39,7 @@ const capabilities = {
             automationName: 'UiAutomator2',
             appPackage: 'io.flexn.template.test',
             appActivity: 'io.flexn.template.test.MainActivity',
-            app: 'platformBuilds/template_android/app/build/outputs/apk/release/app-release.apk'
+            app: 'platformBuilds/template_android/app/build/outputs/apk/debug/app-debug.apk'
         },
     ],
     androidtv: [
@@ -49,7 +50,7 @@ const capabilities = {
             automationName: 'UiAutomator2',
             appPackage: 'io.flexn.template.test',
             appActivity: 'io.flexn.template.test.MainActivity',
-            app: 'platformBuilds/template_androidtv/app/build/outputs/apk/release/app-release.apk'
+            app: 'platformBuilds/template_androidtv/app/build/outputs/apk/debug/app-debug.apk'
         },
     ],
     macos: [
