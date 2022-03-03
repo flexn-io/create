@@ -46,6 +46,9 @@ export interface ViewProps extends RNViewProps {
     ref?: any;
     activeOpacity?: any;
     style?: StyleProp<ViewStyle>;
+    animatorOptions?: any;
+    className?: string;
+    dataSet?: any;
 }
 
 export interface PressableProps extends RNPressableProps {
