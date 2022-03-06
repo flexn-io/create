@@ -3,12 +3,12 @@ import {
     DIRECTION_VERTICAL,
     DIRECTION_HORIZONTAL,
     CUTOFF_SIZE,
-    VIEWPORT_PADDING,
     WINDOW_ALIGNMENT,
     DIRECTION_UP,
     DIRECTION_DOWN,
     DIRECTION_LEFT,
     DIRECTION_RIGHT,
+    DEFAULT_VIEWPORT_OFFSET,
 } from './constants';
 import logger from './logger';
 import type { Context, ContextMap } from './types';
@@ -171,7 +171,6 @@ const executeScroll = (direction: string, contextParameters: any) => {
         console.warn('Current context were removed during scroll find');
         return;
     }
-
     const scrollContextParents = [];
     let parent = currentContext?.parent;
     // We can only scroll 2 ScrollView at max. one Horz and Vert
@@ -212,40 +211,46 @@ const calculateHorizontalScrollViewTarget = (direction: string, scrollView: any,
     const scrollTarget = { x: scrollView.scrollOffsetX, y: scrollView.scrollOffsetY };
 
     const isHorizontalBothEdge = horizontalWindowAlignment === WINDOW_ALIGNMENT.BOTH_EDGE;
+    const horizontalViewportOffset = currentContext.screen?.horizontalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
+    const verticalViewportOffset = currentContext.screen?.verticalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
+
     // This will be executed if we have nested scroll view
     // and jumping between scroll views with buttons UP or DOWN
     if (DIRECTION_VERTICAL.includes(direction)) {
         if (scrollView.scrollOffsetX > currentLayout.xMin) {
-            scrollTarget.x = currentLayout.xMin - VIEWPORT_PADDING;
+            scrollTarget.x = currentLayout.xMin - verticalViewportOffset;
         } else if (scrollView.scrollOffsetX + windowWidth < currentLayout.xMax) {
             scrollTarget.x = isHorizontalBothEdge
-                ? currentLayout.xMax - windowWidth + VIEWPORT_PADDING
-                : currentLayout.xMin - VIEWPORT_PADDING;
+                ? currentLayout.xMax - windowWidth + verticalViewportOffset
+                : currentLayout.xMin - verticalViewportOffset;
         }
     }
 
     if (DIRECTION_RIGHT.includes(direction)) {
         if (isHorizontalBothEdge) {
-            scrollTarget.x = Math.max(currentLayout.xMax - (windowWidth - VIEWPORT_PADDING), scrollView.scrollOffsetX);
+            scrollTarget.x = Math.max(
+                currentLayout.xMax - (windowWidth - horizontalViewportOffset),
+                scrollView.scrollOffsetX
+            );
             if (scrollTarget.x > scrollView.layout.innerView.xMax) scrollTarget.x = scrollView.layout.innerView.xMax;
         } else {
             //Prevent OVERSCROLL
-            const targetX = currentLayout.xMin - scrollView.layout.xMin - VIEWPORT_PADDING + windowWidth;
+            const targetX = currentLayout.xMin - scrollView.layout.xMin - horizontalViewportOffset + windowWidth;
             if (scrollView.layout.xMaxScroll >= targetX) {
-                scrollTarget.x = currentLayout.xMin - scrollView.layout.xMin - VIEWPORT_PADDING;
+                scrollTarget.x = currentLayout.xMin - scrollView.layout.xMin - horizontalViewportOffset;
             } else {
-                scrollTarget.x = scrollView.layout.xMaxScroll + VIEWPORT_PADDING - windowWidth;
+                scrollTarget.x = scrollView.layout.xMaxScroll + horizontalViewportOffset - windowWidth;
             }
         }
     }
 
     if (DIRECTION_LEFT.includes(direction)) {
         if (isHorizontalBothEdge) {
-            scrollTarget.x = Math.min(currentLayout.xMin - VIEWPORT_PADDING, scrollView.scrollOffsetX);
+            scrollTarget.x = Math.min(currentLayout.xMin - horizontalViewportOffset, scrollView.scrollOffsetX);
             if (scrollTarget.x < scrollView.layout.innerView.xMin) scrollTarget.x = scrollView.layout.innerView.xMin;
         } else {
             scrollTarget.x = Math.min(
-                currentLayout.xMin - scrollView.layout.xMin - VIEWPORT_PADDING,
+                currentLayout.xMin - scrollView.layout.xMin - horizontalViewportOffset,
                 scrollView.scrollOffsetX
             );
         }
@@ -264,12 +269,14 @@ const calculateVerticalScrollViewTarget = (direction: string, scrollView: any, c
     const scrollTarget = { x: scrollView.scrollOffsetX, y: scrollView.scrollOffsetY };
 
     const isVerticalBothEdge = verticalWindowAlignment === WINDOW_ALIGNMENT.BOTH_EDGE;
+    const horizontalViewportOffset = currentContext.screen?.horizontalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
+    const verticalViewportOffset = currentContext.screen?.verticalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
 
     // This will be executed if we have nested scroll view
     // and jumping between scroll views with buttons UP or DOWN
     if (DIRECTION_HORIZONTAL.includes(direction)) {
         if (isVerticalBothEdge && currentLayout.absolute.yMax > windowHeight) {
-            scrollTarget.y = currentLayout.yMin - scrollView.layout.yMin - VIEWPORT_PADDING;
+            scrollTarget.y = currentLayout.yMin - scrollView.layout.yMin - horizontalViewportOffset;
         } else if (!isVerticalBothEdge) {
             //TODO FIX: OPEN MENU GO BACK TO CONTENT AND DIRECTIONS LOST
             //TODO ignore initial values
@@ -279,23 +286,28 @@ const calculateVerticalScrollViewTarget = (direction: string, scrollView: any, c
 
     if (DIRECTION_DOWN.includes(direction)) {
         if (isVerticalBothEdge) {
-            scrollTarget.y = Math.max(currentLayout.yMax - (windowHeight - VIEWPORT_PADDING), scrollView.scrollOffsetY);
+            scrollTarget.y = Math.max(
+                currentLayout.yMax - (windowHeight - verticalViewportOffset),
+                scrollView.scrollOffsetY
+            );
         } else {
-            const yMaxScroll = scrollView.children[scrollView.children.length - 1].layout.yMax;
-            const targetY = currentLayout.yMin - scrollView.layout.yMin - VIEWPORT_PADDING + windowHeight;
+            const yMaxScroll =
+                scrollView.layout.yMaxScroll || scrollView.children[scrollView.children.length - 1].layout.yMax;
+            const targetY = currentLayout.yMin - scrollView.layout.yMin - verticalViewportOffset + windowHeight;
 
             //Prevent OVERSCROLL
             if (yMaxScroll >= targetY) {
-                scrollTarget.y = currentLayout.yMin - scrollView.layout.yMin - VIEWPORT_PADDING;
+                scrollTarget.y = currentLayout.yMin - scrollView.layout.yMin - verticalViewportOffset;
             } else {
-                scrollTarget.y = yMaxScroll - windowHeight;
+                scrollTarget.y = yMaxScroll - windowHeight + verticalViewportOffset;
             }
         }
     }
 
     if (DIRECTION_UP.includes(direction)) {
         const innerViewMin = scrollView.layout.innerView.yMin;
-        scrollTarget.y = Math.min(currentLayout.yMin - innerViewMin - VIEWPORT_PADDING, scrollView.scrollOffsetY);
+
+        scrollTarget.y = Math.min(currentLayout.yMin - innerViewMin - verticalViewportOffset, scrollView.scrollOffsetY);
     }
 
     if (scrollTarget.x < 0) scrollTarget.x = 0;
