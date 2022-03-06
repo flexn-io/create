@@ -30,7 +30,7 @@ function recalculateLayout(context: Context) {
     }
     context.layout.xOffset = offsetX;
     context.layout.yOffset = offsetY;
-    
+
     recalculateAbsolutes(context);
 }
 
@@ -42,12 +42,13 @@ function measure(context: Context, ref: any) {
         if (context.repeatContext !== undefined) {
             // TODO: Check what about nested repeats?
             const pCtx = context.repeatContext.parentContext;
-
-            if (pCtx !== undefined) {
+            
+            if(pCtx !== undefined) {
                 const rLayout = pCtx.layouts[context.repeatContext.index || 0];
                 pgX = pCtx.layout.xMin + rLayout.x;
                 pgY = pCtx.layout.yMin + rLayout.y;
             }
+            
         } else {
             pgY = pageY;
             pgX = pageX;
@@ -66,12 +67,7 @@ function measure(context: Context, ref: any) {
             yMaxScroll: 0,
             xCenter: pgX + Math.floor(width / 2),
             yCenter: pgY + Math.floor(height / 2),
-            innerView: {
-                yMin: 0,
-                yMax: 0,
-                xMin: 0,
-                xMax: 0,
-            },
+            innerView: {},
         };
         if (context.layout) {
             layout.yOffset = context.layout.yOffset;
@@ -83,9 +79,11 @@ function measure(context: Context, ref: any) {
         if (context.parent?.isScrollable && context.parent.layout) {
             const pCtx = context?.repeatContext?.parentContext;
             if (pCtx) {
-                const rLayout = pCtx.layouts[pCtx.layouts.length - 1];
+                const rLayout = pCtx.layouts[pCtx.layouts.length -1];
                 context.parent.layout.xMaxScroll = pCtx.layout.xMin + width + rLayout.x;
-                context.parent.layout.yMaxScroll = pCtx.layout.yMin + height + rLayout.y;
+            }
+            if (context.parent.layout.yMaxScroll < layout.yMax) {
+                context.parent.layout.yMaxScroll = layout.yMax;
             }
         }
 

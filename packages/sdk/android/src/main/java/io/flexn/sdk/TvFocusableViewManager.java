@@ -14,6 +14,7 @@ import com.facebook.react.uimanager.Spacing;
 import com.facebook.react.uimanager.PixelUtil;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.annotations.ReactPropGroup;
+import com.facebook.react.views.view.ReactViewGroup;
 import com.facebook.yoga.YogaConstants;
 
 public class TvFocusableViewManager extends ViewGroupManager<Focusable> {
@@ -26,14 +27,6 @@ public class TvFocusableViewManager extends ViewGroupManager<Focusable> {
         Spacing.START,
         Spacing.END,
     };
-
-    public static final String BORDER_WIDTH = "focusableBorderWidth";
-    public static final String BORDER_LEFT_WIDTH = "focusableBorderLeftWidth";
-    public static final String BORDER_START_WIDTH = "focusableBorderStartWidth";
-    public static final String BORDER_END_WIDTH = "focusableBorderEndWidth";
-    public static final String BORDER_TOP_WIDTH = "focusableBorderTopWidth";
-    public static final String BORDER_RIGHT_WIDTH = "focusableBorderRightWidth";
-    public static final String BORDER_BOTTOM_WIDTH = "focusableBorderBottomWidth";
 
     public static final String REACT_CLASS = "TvFocusableView";
     public static final String COMMAND_FOCUS = "cmdFocus";
@@ -64,16 +57,16 @@ public class TvFocusableViewManager extends ViewGroupManager<Focusable> {
 
     @ReactPropGroup(
         names = {
-                BORDER_WIDTH,
-                BORDER_LEFT_WIDTH,
-                BORDER_START_WIDTH,
-                BORDER_END_WIDTH,
-                BORDER_TOP_WIDTH,
-                BORDER_RIGHT_WIDTH,
-                BORDER_BOTTOM_WIDTH,
+            ViewProps.BORDER_WIDTH,
+            ViewProps.BORDER_LEFT_WIDTH,
+            ViewProps.BORDER_RIGHT_WIDTH,
+            ViewProps.BORDER_TOP_WIDTH,
+            ViewProps.BORDER_BOTTOM_WIDTH,
+            ViewProps.BORDER_START_WIDTH,
+            ViewProps.BORDER_END_WIDTH,
         },
         defaultFloat = YogaConstants.UNDEFINED)
-    public void setBorderWidth(Focusable view, int index, float width) {
+    public void setBorderWidth(ReactViewGroup view, int index, float width) {
         if (!YogaConstants.isUndefined(width) && width < 0) {
             width = YogaConstants.UNDEFINED;
         }
@@ -94,20 +87,21 @@ public class TvFocusableViewManager extends ViewGroupManager<Focusable> {
             ViewProps.BORDER_END_COLOR
         },
         customType = "Color")
-    public void setBorderColor(Focusable view, int index, Integer color) {
+    public void setBorderColor(ReactViewGroup view, int index, Integer color) {
         float rgbComponent =
             color == null ? YogaConstants.UNDEFINED : (float) ((int) color & 0x00FFFFFF);
         float alphaComponent = color == null ? YogaConstants.UNDEFINED : (float) ((int) color >>> 24);
+
         view.setBorderColor(SPACING_TYPES[index], rgbComponent, alphaComponent);
     }
 
     @ReactProp(name = "borderRadius")
-    public void setBorderRadius(Focusable view, float borderRadius) {
+    public void setBorderRadius(ReactViewGroup view, float borderRadius) {
         view.setBorderRadius(PixelUtil.toPixelFromDIP(borderRadius));
     }
 
     @ReactProp(name = "borderStyle")
-    public void setBorderStyle(Focusable view, @Nullable String borderStyle) {
+    public void setBorderStyle(ReactViewGroup view, @Nullable String borderStyle) {
         view.setBorderStyle(borderStyle);
     }
 
