@@ -2,23 +2,21 @@ import Foundation
 
 class ScaleAnimator: Animator {
     var view: UIView
-    var scale: CGFloat
-    var duration: TimeInterval
+    var AnimProperty: AnimatorProperty
     
     required init(view: UIView, args: NSDictionary) {
         self.view = view
-        self.scale = args["scale"] as? CGFloat ?? 1.1
-        self.duration = args["duration"] as? TimeInterval ?? 0.2
+        self.AnimProperty = AnimatorProperty(args: args)
     }
     
     func onFocus(animated: Bool) {
-        UIView.animate(withDuration: self.duration, delay: 0, options: [.curveEaseOut], animations: {
-            self.view.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
+        UIView.animate(withDuration: self.AnimProperty.duration, delay: 0, options: [.curveEaseOut], animations: {
+            self.view.transform = CGAffineTransform(scaleX: self.AnimProperty.scale, y: self.AnimProperty.scale)
         }, completion: nil)
     }
     
     func onBlur(animated: Bool) {
-        UIView.animate(withDuration: self.duration, delay: 0, options: [.curveEaseOut], animations: {
+        UIView.animate(withDuration: self.AnimProperty.duration, delay: 0, options: [.curveEaseOut], animations: {
             self.view.transform =  CGAffineTransform(scaleX: 1, y: 1)
         }, completion: nil)
     }
