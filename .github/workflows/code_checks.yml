@@ -27,7 +27,7 @@ jobs:
               id: extract_branch
               # Yes, I'm too lazy to login into all the minions and install it manually. :)
               # Will leave this here for a week or so, until every minion has it installed
-            - name: install sonar-scanner
-              run: arch -arm64 brew install sonar-scanner || brew install sonar-scanner
-            - name: Sonar Scanner
-              run: sonar-scanner -Dsonar.branch.name=${{ steps.extract_branch.outputs.branch }} -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            # - name: install sonar-scanner
+            #   run: arch -arm64 brew install sonar-scanner || brew install sonar-scanner
+            # - name: Sonar Scanner
+            #   run: sonar-scanner -Dsonar.branch.name=${{ steps.extract_branch.outputs.branch }} -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
