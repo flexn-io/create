@@ -5,28 +5,59 @@ class WebRunner extends AbstractRunner {
         await browser.url('/');
     };
 
-    getElementById = (selector: string) => {
-        return $(`[data-testid="${selector}"]`);
+    getElementById = async (selector: string) => {
+        const array = await $$(`[data-testid="${selector}"]`);
+        if (array.length === 1){
+            return array[0];
+        }
+        else {
+            for (const element of array) {
+                const isDisplayed = await element.isDisplayed();
+                if (isDisplayed) {
+                    return element;
+                }
+            }
+        }
     };
-
-    getElementByText = (selector: string) => {
-        return $(`div=${selector}`);
+    
+    getElementByText = async (selector: string) => {
+        const array = await $$(`div=${selector}`);
+        if (array.length === 1){
+            return array[0];
+        }
+        else {
+            for (const element of array) {
+                const isDisplayed = await element.isDisplayed();
+                if (isDisplayed) {
+                    return element;
+                }
+            }
+        }
     };
 
     scrollById = async (selector: string) => {
-        await (await this.getElementById(selector)).scrollIntoView();
+        const element = await this.getElementById(selector);
+        if (element) {
+            await element.scrollIntoView();
+        }
     };
 
     clickById = async (selector: string) => {
-        await (await this.getElementById(selector)).click();
+        const element = await this.getElementById(selector);
+        if (element) {
+            await element.click();
+        }
     };
 
     clickByText = async (selector: string) => {
-        await (await this.getElementByText(selector)).click();
+        const element = await this.getElementByText(selector);
+        if (element) {
+            await element.click();
+        }
     };
 
     pressButtonHome = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonBack = async (n: number) => {
@@ -38,23 +69,23 @@ class WebRunner extends AbstractRunner {
     };
 
     pressButtonUp = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonDown = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonLeft = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonRight = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonSelect = () => {
-        // do nothing.
+        // do nothing
     };
 }
 
