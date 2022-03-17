@@ -7,8 +7,8 @@ class WebRunner extends AbstractRunner {
 
     getElementById = async (selector: string) => {
         const array = await $$(`[data-testid="${selector}"]`);
-        if (array.length === 1){
-            return array[0];
+        if (array.length <= 1){
+            return $(`[data-testid="${selector}"]`);
         }
         else {
             for (const element of array) {
@@ -22,8 +22,8 @@ class WebRunner extends AbstractRunner {
     
     getElementByText = async (selector: string) => {
         const array = await $$(`div=${selector}`);
-        if (array.length === 1){
-            return array[0];
+        if (array.length <= 1){
+            return $(`div=${selector}`);
         }
         else {
             for (const element of array) {
