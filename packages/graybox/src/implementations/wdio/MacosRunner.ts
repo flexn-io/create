@@ -13,7 +13,7 @@ class MacosRunner extends AbstractRunner {
         return $(`[name="${selector}"]`);
     };
 
-    scrollById = async (selectorFrom: string, direction: string, selectorTo: string) => {
+    scrollById = async (selectorTo: string, direction: string, selectorFrom: string) => {
         const elementFrom = await this.getElementById(selectorFrom);
         const elementTo = await this.getElementById(selectorTo);
         let isDisplayed = await elementTo.isDisplayed();
