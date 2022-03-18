@@ -13,9 +13,9 @@ abstract class AbstractRunner {
     abstract scrollById(selector: string, direction: string): void;
 
     // click
-    abstract clickById (selector: string): void;
+    abstract clickById(selector: string): void;
 
-    abstract clickByText (selector: string): void;
+    abstract clickByText(selector: string): void;
 
     // press button
     abstract pressButtonHome(n: number): void;
