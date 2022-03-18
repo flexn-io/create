@@ -10,12 +10,12 @@ abstract class AbstractRunner {
     abstract getElementByText(selector: string): any;
 
     // scroll
-    abstract scrollById(selector: string, direction: string): void;
+    abstract scrollById(selectorFrom: string, direction: string, selectorTo: string): void;
 
     // click
-    abstract clickById (selector: string): void;
+    abstract clickById(selector: string): void;
 
-    abstract clickByText (selector: string): void;
+    abstract clickByText(selector: string): void;
 
     // press button
     abstract pressButtonHome(n: number): void;
