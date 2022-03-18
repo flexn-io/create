@@ -1,6 +1,6 @@
 {
     "name": "app-harness",
-    "version": "0.12.0",
+    "version": "0.12.1-alpha.0",
     "identifier": "io.flexn.app.harness",
     "icon": "./static/icon.png"
 }
