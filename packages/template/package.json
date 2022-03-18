@@ -43,7 +43,6 @@
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
     "devDependencies": {
-        "@flexn/graybox": "0.12.0",
         "@flexn/sdk": "0.12.0",
         "@flexn/typescript": "0.1.4",
         "@lightningjs/cli": "2.7.1",

@@ -6,7 +6,12 @@ describe('Test Harness app', () => {
     });
     if (process.env.PLATFORM === 'macos') {
         it('expect first button to be existing by ID', async () => {
-            await FlexnRunner.expectToBeExistingById('flexn-screens-home-test-case-list-button-0-0');
+            await FlexnRunner.waitForDisplayedById('flexn-screens-home-test-case-list-button-0-0');
+            await FlexnRunner.clickById('flexn-screens-home-test-case-list-button-1-0');
+            await FlexnRunner.waitForDisplayedById('flexn-screens-focus-performance-rows-button-0-rows-amount-10');
+            await FlexnRunner.expectToBeClickableById('flexn-screens-focus-performance-rows-button-9-rows-amount-5120');
+            // await FlexnRunner.scrollById('flexn-screens-focus-performance-rows-button-9-rows-amount-5120', 'down', 'flexn-screens-focus-performance-rows-button-0-rows-amount-10');
+            await FlexnRunner.pause(20000);
         });
     } else {
         it('navigate to rows screen and return to home screen and expect Rows button to be displayed by ID', async () => {
