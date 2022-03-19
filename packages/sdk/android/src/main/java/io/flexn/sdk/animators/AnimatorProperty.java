@@ -13,16 +13,16 @@ public class AnimatorProperty {
     private float borderColor = YogaConstants.UNDEFINED;
     private float borderColorAlpha = YogaConstants.UNDEFINED;
     private float borderWidth = YogaConstants.UNDEFINED;
-    private int backgroundColorBlur;
+    private int backgroundColorFocus;
     private int backgroundColor;
 
     public AnimatorProperty(ReadableMap args) {
         if (args.hasKey("style")) {
             setStyle(args.getMap("style"));
             if (style.hasKey("borderColor")) setBorderColor(style.getString("borderColor"));
-            if (style.hasKey("backgroundColorBlur")) setBackgroundColorBlur(style.getString("backgroundColorBlur"));
             if (style.hasKey("backgroundColor")) setBackgroundColor(style.getString("backgroundColor"));
             if (style.hasKey("borderWidth")) setBorderWidth(style.getInt("borderWidth"));
+            if (args.hasKey("backgroundColorFocus")) setBackgroundColorFocus(args.getString("backgroundColorFocus"));
             if (args.hasKey("scale")) setScale((float) args.getDouble("scale"));
             if (args.hasKey("duration")) setDuration(args.getInt("duration"));
         }
@@ -88,12 +88,12 @@ public class AnimatorProperty {
         this.borderWidth = PixelUtil.toPixelFromDIP(borderWidth);
     }
 
-    public int getBackgroundColorBlur() {
-        return backgroundColorBlur;
+    public int getBackgroundColorFocus() {
+        return backgroundColorFocus;
     }
 
-    public void setBackgroundColorBlur(String backgroundColorBlur) {
-        this.backgroundColorBlur = Color.parseColor(backgroundColorBlur);
+    public void setBackgroundColorFocus(String backgroundColorFocus) {
+        this.backgroundColorFocus = Color.parseColor(backgroundColorFocus);
     }
 
     public int getBackgroundColor() {

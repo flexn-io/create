@@ -24,6 +24,7 @@ export { default as StyleSheet } from './apis/StyleSheet';
 export { default as Animated } from './apis/Animated';
 export { default as Appearance } from './apis/Appearance';
 export { ScreenProps, ScreenStates } from './focusManager/types';
+export { ANIMATION_TYPES } from './focusManager/constants';
 import CoreManager from './focusManager/core';
 
 export function focusElementByFocusKey(focusKey: string) {

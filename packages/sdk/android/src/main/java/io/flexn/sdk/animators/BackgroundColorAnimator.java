@@ -2,6 +2,7 @@ package io.flexn.sdk.animators;
 
 import android.animation.ValueAnimator;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -16,8 +17,8 @@ public class BackgroundColorAnimator extends AbstractAnimator {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onFocus(boolean animated) {
-        if (animated) {
-            final ValueAnimator animator = ValueAnimator.ofArgb(AnimatorProperty.getBackgroundColorBlur(), AnimatorProperty.getBackgroundColor());
+        if (animated) {            
+            final ValueAnimator animator = ValueAnimator.ofArgb(AnimatorProperty.getBackgroundColor(), AnimatorProperty.getBackgroundColorFocus());
             ReactViewGroup v = mView;
             animator.setDuration(AnimatorProperty.getDuration()).addUpdateListener(animation -> {
                 int value = (int) animation.getAnimatedValue();
@@ -26,7 +27,7 @@ public class BackgroundColorAnimator extends AbstractAnimator {
             });
             animator.start();
         } else {
-            mView.setBackgroundColor(AnimatorProperty.getBackgroundColor());
+            mView.setBackgroundColor(AnimatorProperty.getBackgroundColorFocus());
         }
     }
 
@@ -34,7 +35,7 @@ public class BackgroundColorAnimator extends AbstractAnimator {
     @Override
     public void onBlur(boolean animated) {
         if (animated) {
-            final ValueAnimator animator = ValueAnimator.ofArgb(AnimatorProperty.getBackgroundColor(), AnimatorProperty.getBackgroundColorBlur());
+            final ValueAnimator animator = ValueAnimator.ofArgb(AnimatorProperty.getBackgroundColorFocus(), AnimatorProperty.getBackgroundColor());
             ReactViewGroup v = mView;
             animator.setDuration(AnimatorProperty.getDuration()).addUpdateListener(animation -> {
                 int value = (int) animation.getAnimatedValue();
@@ -42,7 +43,7 @@ public class BackgroundColorAnimator extends AbstractAnimator {
             });
             animator.start();
         } else {
-            mView.setBackgroundColor(AnimatorProperty.getBackgroundColorBlur());
+            mView.setBackgroundColor(AnimatorProperty.getBackgroundColor());
         }
     }
 }

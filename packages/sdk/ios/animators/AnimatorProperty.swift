@@ -14,7 +14,7 @@ class AnimatorProperty {
     var borderColor: CGColor?
     var backgroundColor: CGColor?
     var borderWidth: CGFloat = 1
-    var backgroundColorBlur: CGColor?
+    var backgroundColorFocus: CGColor?
 
     init(args: NSDictionary) {
         self.style = args["style"] as! NSDictionary
@@ -23,9 +23,8 @@ class AnimatorProperty {
         if ((args["duration"]) != nil) {
             self.duration = args["duration"] as! Double / 100
         }
-        
-        if ((args["backgroundColorBlur"]) != nil) {
-            self.borderColor = hexToColor(from: args["backgroundColorBlur"] as! String)
+        if ((args["backgroundColorFocus"]) != nil) {
+            self.backgroundColorFocus = hexToColor(from: args["backgroundColorFocus"] as! String)
         }
         if ((self.style["borderColor"]) != nil) {
             self.borderColor = hexToColor(from: self.style["borderColor"] as! String)

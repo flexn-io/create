@@ -10,7 +10,7 @@ public class AnimatorSelector {
     private static final String ANIMATION_TYPE_SCALE_WITH_BORDER = "scale_with_border";
     private static final String ANIMATION_TYPE_BORDER = "border";
     private static final String ANIMATION_TYPE_FADE = "fade";
-    private static final String ANIMATION_TYPE_BG_COLOR = "background_color";
+    private static final String ANIMATION_TYPE_BG_COLOR = "background";
 
     public static AbstractAnimator selectAnimator(ReactViewGroup view, ReadableMap args) {
         AbstractAnimator animator = null;

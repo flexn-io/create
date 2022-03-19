@@ -44,3 +44,10 @@ export const ANIMATIONS = {
     SCALE_BORDER: 'scale_with_border',
     BACKGROUND: 'background',
 };
+
+export const ANIMATION_TYPES = {
+    BORDER: 'border',
+    SCALE: 'scale',
+    SCALE_BORDER: 'scale_with_border',
+    BACKGROUND: 'background',
+};
