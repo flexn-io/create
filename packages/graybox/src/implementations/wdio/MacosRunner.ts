@@ -16,24 +16,11 @@ class MacosRunner extends AbstractRunner {
     scrollById = async (selectorTo: string, direction: string, selectorFrom: string) => {
         const elementFrom = await this.getElementById(selectorFrom);
         const elementTo = await this.getElementById(selectorTo);
-        let isDisplayed = await elementTo.isDisplayed();
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAA', isDisplayed);
-        while (!isDisplayed) {
-            if (direction === 'down') {
-                await browser.execute('macos: scroll', { elementId: elementFrom, deltaX: 0, deltaY: -100 });
-                console.log('DOWN/DOWN/DOWN/DOWN/DOWN/DOWN/DOWN/DOWN/DOWN/DOWN/DOWN/DOWN/DOWN/DOWN/DOWN/DOWN/');
-            }
-            else if (direction === 'up') {
-                await browser.execute('macos: scroll', { elementId: elementFrom, deltaX: 0, deltaY: 100 });
-            }
-            else if (direction === 'left') {
-                await browser.execute('macos: scroll', { elementId: elementFrom, deltaX: -100, deltaY: 0 });
-            }
-            else if (direction === 'right') {
-                await browser.execute('macos: scroll', { elementId: elementFrom, deltaX: 100, deltaY: 0 });
-            }
-            isDisplayed = await elementTo.isDisplayed();
-        }
+        const frameFrom = await elementFrom.getAttribute('frame') as unknown as {x: number, y: number, width: number, height: number};
+        const frameTo = await elementTo.getAttribute('frame') as unknown as {x: number, y: number, width: number, height: number};
+        const scrollX = frameFrom.x - frameTo.x;    
+        const scrollY = frameFrom.y - frameTo.y;
+        await browser.execute('macos: scroll', { elementId: elementFrom, deltaX: scrollX, deltaY: scrollY });        
     };
 
     clickById = async (selector: string) => {
