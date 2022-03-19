@@ -57,7 +57,13 @@ export class LayoutProvider extends BaseLayoutProvider {
         cachedLayouts?: Layout[],
         initialXOffset?: number
     ): LayoutManager {
-        this._lastLayoutManager = new WrapGridLayoutManager(this, renderWindowSize, isHorizontal, cachedLayouts, initialXOffset);
+        this._lastLayoutManager = new WrapGridLayoutManager(
+            this,
+            renderWindowSize,
+            isHorizontal,
+            cachedLayouts,
+            initialXOffset
+        );
         return this._lastLayoutManager;
     }
 

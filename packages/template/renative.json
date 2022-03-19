@@ -110,7 +110,7 @@
         "react-art": "source:rnv",
         "react-dom": "source:rnv",
         "@react-native-community/cli-platform-ios": "source:rnv",
-        "@react-native-community/cli": "source:flexn",
+        "@react-native-community/cli": "source:rnv",
         "next": "source:flexn",
         "@react-native-windows/cli": "source:rnv",
         "@react-navigation": "source:flexn",
