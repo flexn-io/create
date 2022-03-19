@@ -4,27 +4,25 @@ class ScaleWithBorderAnimator: Animator {
     var view: UIView
     var scaleAnimator: ScaleAnimator?
     var borderAnimator: BorderAnimator?
-    var scale: CGFloat
-    var duration: TimeInterval
-
+    var AnimProperty: AnimatorProperty
+    
     required init(view: UIView, args: NSDictionary) {
         self.view = view
         self.scaleAnimator = ScaleAnimator(view: view, args: args)
         self.borderAnimator = BorderAnimator(view: view, args: args)
-        self.scale = args["scale"] as? CGFloat ?? 1.1
-        self.duration = args["duration"] as? TimeInterval ?? 0.2
+        self.AnimProperty = AnimatorProperty(args: args)
     }
     
     func onFocus(animated: Bool) {
-        UIView.transition(with: self.view, duration: self.duration, options: .transitionCrossDissolve, animations: {
-            self.view.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
-            self.view.layer.borderColor = self.borderAnimator?.borderColorFocus
-            self.view.layer.borderWidth = self.borderAnimator?.borderWidth ?? 1
+        UIView.transition(with: self.view, duration: AnimProperty.duration, options: .transitionCrossDissolve, animations: {
+            self.view.transform = CGAffineTransform(scaleX: self.AnimProperty.scale, y: self.AnimProperty.scale)
+            self.view.layer.borderColor = self.AnimProperty.borderColor
+            self.view.layer.borderWidth = self.AnimProperty.borderWidth
         }, completion: nil)
     }
     
     func onBlur(animated: Bool) {
-        UIView.transition(with: self.view, duration: self.duration, options: .transitionCrossDissolve, animations: {
+        UIView.transition(with: self.view, duration: AnimProperty.duration, options: .transitionCrossDissolve, animations: {
             self.view.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.view.layer.borderWidth = 0
         }, completion: nil)

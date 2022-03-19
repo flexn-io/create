@@ -3,6 +3,8 @@ package io.flexn.sdk.animators;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.views.view.ReactViewGroup;
 
+import java.util.Objects;
+
 public class AnimatorSelector {
     private static final String ANIMATION_TYPE_SCALE = "scale";
     private static final String ANIMATION_TYPE_SCALE_WITH_BORDER = "scale_with_border";
@@ -14,7 +16,7 @@ public class AnimatorSelector {
         AbstractAnimator animator = null;
         String animationType = args.getString("type");
 
-        switch (animationType) {
+        switch (Objects.requireNonNull(animationType)) {
             case ANIMATION_TYPE_SCALE:
                 animator = new ScaleAnimator(view, args);
                 break;
