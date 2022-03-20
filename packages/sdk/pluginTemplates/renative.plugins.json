@@ -33,7 +33,10 @@
             "version": "github:reactseals/react-native-swiper#2.0.1"
         },
         "react-native-fast-image": "source:rnv",
-        "react-native-gesture-handler": "source:rnv",
+        "react-native-gesture-handler": {
+            "version": "1.10.3",
+            "source": "rnv"
+        },
         "react-native-device-info": {
             "source": "rnv",
             "version": "8.3.3"
