@@ -35,5 +35,19 @@ export const DIRECTION_LEFT = ['left', 'swipeLeft'];
 export const DIRECTION = [...DIRECTION_HORIZONTAL, ...DIRECTION_VERTICAL];
 
 export const FOCUS_PADDING = getScaledValue(100);
-export const VIEWPORT_PADDING = Ratio(70);
+export const DEFAULT_VIEWPORT_OFFSET = Ratio(70);
 export const CUTOFF_SIZE = getScaledValue(400);
+
+export const ANIMATIONS = {
+    BORDER: 'border',
+    SCALE: 'scale',
+    SCALE_BORDER: 'scale_with_border',
+    BACKGROUND: 'background',
+};
+
+export const ANIMATION_TYPES = {
+    BORDER: 'border',
+    SCALE: 'scale',
+    SCALE_BORDER: 'scale_with_border',
+    BACKGROUND: 'background',
+};

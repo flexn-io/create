@@ -1,4 +1,12 @@
-import { TouchableOpacity, ImageBackground, View, Text, ScrollView, ActivityIndicator } from '@flexn/sdk';
+import {
+    TouchableOpacity,
+    ImageBackground,
+    View,
+    Text,
+    ScrollView,
+    ActivityIndicator,
+    ANIMATION_TYPES,
+} from '@flexn/sdk';
 import React, { useContext, useState, useEffect } from 'react';
 import { isPlatformWeb } from 'renative';
 import { ThemeContext, ROUTES } from '../config';
@@ -11,13 +19,6 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
     const pop = usePop({ navigation });
     const [item, setItem] = useState<{ backgroundImage: string; title: string }>();
     const { theme } = useContext(ThemeContext);
-
-    const focusAnimation = {
-        type: 'border',
-        colorFocus: theme.static.colorBrand,
-        colorBlur: '#EEEEEE',
-        borderWidth: 3,
-    };
 
     useEffect(() => {
         const params = isPlatformWeb ? router.query : route?.params;
@@ -44,7 +45,7 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
                         onPress={() => pop()}
                         focusOptions={{
                             forbiddenFocusDirections: ['up'],
-                            animatorOptions: focusAnimation,
+                            animatorOptions: { type: ANIMATION_TYPES.BORDER },
                         }}
                     >
                         <Text style={[theme.styles.buttonText, { color: '#FFFFFF' }]}>Go back</Text>
@@ -54,7 +55,7 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
                         onPress={() => replace(ROUTES.HOME)}
                         focusOptions={{
                             forbiddenFocusDirections: ['down'],
-                            animatorOptions: focusAnimation,
+                            animatorOptions: { type: ANIMATION_TYPES.BORDER },
                         }}
                     >
                         <Text style={[theme.styles.buttonText, { color: '#FFFFFF' }]}>Go to home</Text>

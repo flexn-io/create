@@ -24,7 +24,7 @@ class AnimatorSelector {
             case "fade":
                 animator = FadeAnimator(view: view, args: args)
                 break
-            case "background_color":
+            case "background":
                 animator = BackgroundAnimator(view: view, args: args)
                 break
             default: break

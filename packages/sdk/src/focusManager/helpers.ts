@@ -15,6 +15,19 @@ export function makeid(length: number) {
     return result;
 }
 
+export function flattenStyle(style: any) {
+    let flattenedStyle: any = {};
+    if (Array.isArray(style)) {
+        style.map((item) => {
+            item && Object.keys(item) && Object.keys(item).map((key) => (flattenedStyle[key] = item[key]));
+        });
+    } else {
+        flattenedStyle = style || {};
+    }
+
+    return { ...flattenedStyle };
+}
+
 export function alterForbiddenFocusDirections(forbiddenFocusDirections: ForbiddenFocusDirections[] = []) {
     const ffd: string[] = [...forbiddenFocusDirections];
 
