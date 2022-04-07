@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
-import { isPlatformTvos } from 'renative';
+import { isPlatformTvos } from '@rnv/renative';
 import {
     makeid,
     useCombinedRefs,

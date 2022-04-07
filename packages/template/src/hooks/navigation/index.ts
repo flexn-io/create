@@ -1,6 +1,6 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Linking } from 'react-native';
-import { isPlatformIos, isPlatformAndroid, isPlatformMacos } from 'renative';
+import { isPlatformIos, isPlatformAndroid, isPlatformMacos } from '@rnv/renative';
 
 export function useNavigate({ navigation }) {
     function navigate(route: string, params?: any) {

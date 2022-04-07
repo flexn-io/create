@@ -1,7 +1,7 @@
 import { Pressable, Text, Icon } from '@flexn/sdk';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { getScaledValue } from 'renative';
+import { getScaledValue } from '@rnv/renative';
 
 const styles = StyleSheet.create({
     button: {

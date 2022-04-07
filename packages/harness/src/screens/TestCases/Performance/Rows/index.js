@@ -1,6 +1,6 @@
 import { ScrollView, Text, View } from '@flexn/sdk';
 import React from 'react';
-import { isPlatformWeb, useNavigate } from 'renative';
+import { isPlatformWeb, useNavigate } from '@rnv/renative';
 import { Button } from '../../../../components/Button';
 import Screen from '../../../../components/Screen';
 import { themeStyles } from '../../../../config';

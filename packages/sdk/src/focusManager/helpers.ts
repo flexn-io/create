@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Dimensions, PixelRatio } from 'react-native';
-import { isPlatformAndroidtv, isPlatformFiretv } from 'renative';
+import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 import { ForbiddenFocusDirections } from './types';
 import type { Context } from './types';
 import { DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, SCREEN_STATES } from './constants';

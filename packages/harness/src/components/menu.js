@@ -1,6 +1,6 @@
 import { Text, View } from '@flexn/sdk';
 import React from 'react';
-import { Button, getScaledValue, Icon, StyleSheet, useNavigate, useOpenDrawer } from 'renative';
+import { Button, getScaledValue, Icon, StyleSheet, useNavigate, useOpenDrawer } from '@rnv/renative';
 import Theme, { hasHorizontalMenu, ROUTES, themeStyles } from '../config';
 import { testProps } from '../utils';
 

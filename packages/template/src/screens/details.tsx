@@ -8,7 +8,7 @@ import {
     ANIMATION_TYPES,
 } from '@flexn/sdk';
 import React, { useContext, useState, useEffect } from 'react';
-import { isPlatformWeb } from 'renative';
+import { isPlatformWeb } from '@rnv/renative';
 import { ThemeContext, ROUTES } from '../config';
 import { usePop, useReplace } from '../hooks';
 import { getRandomData } from '../utils';

@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Sentry from '@sentry/react-native';
 import React from 'react';
-import { isFactorDesktop, isFactorTv } from 'renative';
+import { isFactorDesktop, isFactorTv } from '@rnv/renative';
 import Theme from '../config';
 import ScreenHome from '../screens/Home';
 import CastTestScreens from '../screens/TestCases/Cast';

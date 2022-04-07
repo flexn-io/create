@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { View, TouchableOpacity, Text } from '@flexn/sdk';
 import { testProps } from '../utils';
-import { isFactorBrowser } from 'renative';
+import { isFactorBrowser } from '@rnv/renative';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ThemeContext, ROUTES } from '../config';
 import { useNavigate } from '../hooks';
