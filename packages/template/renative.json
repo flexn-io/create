@@ -66,10 +66,7 @@
             "androidtv": {
                 "package": "io.flexn.sdk.FlexnSdkPackage",
                 "projectName": "flexn-io-sdk",
-                "activityImports": [
-                    "io.flexn.sdk.TvRemoteHandlerModule",
-                    "android.view.KeyEvent;"
-                ],
+                "activityImports": ["io.flexn.sdk.TvRemoteHandlerModule", "android.view.KeyEvent;"],
                 "activityMethods": [
                     "override fun dispatchKeyEvent(event: KeyEvent): Boolean {",
                     "   if (event.action == KeyEvent.ACTION_DOWN || event.action == KeyEvent.ACTION_UP) {",
@@ -82,10 +79,7 @@
             "firetv": {
                 "package": "io.flexn.sdk.FlexnSdkPackage",
                 "projectName": "flexn-io-sdk",
-                "activityImports": [
-                    "io.flexn.sdk.TvRemoteHandlerModule",
-                    "android.view.KeyEvent;"
-                ],
+                "activityImports": ["io.flexn.sdk.TvRemoteHandlerModule", "android.view.KeyEvent;"],
                 "activityMethods": [
                     "override fun dispatchKeyEvent(event: KeyEvent): Boolean {",
                     "   if (event.action == KeyEvent.ACTION_DOWN || event.action == KeyEvent.ACTION_UP) {",
@@ -102,8 +96,8 @@
         "react-native-tvos": "source:rnv",
         "react-native-windows": "source:rnv",
         "react-native-vector-icons": "source:flexn",
-        "@lightningjs/sdk": "source:rnv",
-        "@lightningjs/cli": "source:rnv",
+        "@lightningjs/sdk": "source:flexn",
+        "@lightningjs/cli": "source:flexn",
         "react": "source:rnv",
         "react-art": "source:rnv",
         "react-dom": "source:rnv",
@@ -218,17 +212,13 @@
         "web": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "chromecast": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "tizen": {
@@ -244,9 +234,7 @@
         },
         "macos": {
             "engine": "engine-rn",
-            "excludedPlugins": [
-                "react-native-linear-gradient"
-            ]
+            "excludedPlugins": ["react-native-linear-gradient"]
         },
         "windows": {
             "engine": "engine-rn-windows"

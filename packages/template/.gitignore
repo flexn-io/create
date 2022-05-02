@@ -46,3 +46,6 @@ dist
 build
 
 reporting
+
+platformBuilds/template_tizen
+platformBuilds/template_tizen

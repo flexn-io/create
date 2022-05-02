@@ -104,7 +104,12 @@
         "packages": [
             "packages/*"
         ],
-        "nohoist": []
+        "nohoist": [
+            "**/@lightningjs/sdk",
+            "**/@lightningjs/sdk/**",
+            "**/@lightningjs/cli",
+            "**/@lightningjs/cli/**"
+        ]
     },
     "dependencies": {}
 }

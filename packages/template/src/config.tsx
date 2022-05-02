@@ -29,6 +29,15 @@ export const hasMobileWebUI = isFactorMobile && isEngineWeb;
 export const hasHorizontalMenu = !isFactorMobile && !isFactorDesktop && !hasMobileWebUI;
 export const isWebBased = isPlatformWeb || isPlatformTizen || isPlatformWebos;
 
+export const LAYOUT = {
+    w: 1920,
+    h: 1080,
+};
+
+export function getHexColor(hex: string, _alpha = 100) {
+    return hex;
+}
+
 const staticTheme = {
     primaryFontFamily: 'Inter-Light',
     iconSize: getScaledValue(30),
@@ -345,6 +354,8 @@ export function ThemeProvider({ children }) {
 }
 
 export const themeStyles = themes.dark.styles;
+
+export const THEME = staticThemes;
 
 export { ICON_LOGO };
 
