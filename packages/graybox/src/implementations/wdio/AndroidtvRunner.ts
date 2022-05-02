@@ -3,7 +3,7 @@ import { pressButtonAndroid } from './helpers';
 
 class AndroidtvRunner extends AbstractRunner {
     launchApp = () => {
-        // do nothing.
+        // do nothing
     };
 
     getElementById = (selector: string) => {
@@ -15,7 +15,7 @@ class AndroidtvRunner extends AbstractRunner {
     };
 
     scrollById = () => {
-        // do nothing.
+        // do nothing
     };
 
     clickById = () => {

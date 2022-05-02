@@ -3,7 +3,7 @@ import { pressButtonAndroid } from './helpers';
 
 class AndroidRunner extends AbstractRunner {
     launchApp = () => {
-        // do nothing.
+        // do nothing
     };
 
     getElementById = (selector: string) => {
@@ -35,23 +35,23 @@ class AndroidRunner extends AbstractRunner {
     };
 
     pressButtonUp = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonDown = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonLeft = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonRight = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonSelect = () => {
-        // do nothing.
+        // do nothing
     };
 }
 

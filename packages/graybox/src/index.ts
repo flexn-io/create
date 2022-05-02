@@ -10,24 +10,24 @@ const selectRunner = (): any => {
     if (process.env.PLATFORM === 'ios') {
         return ios;
     }
-    if (process.env.PLATFORM === 'tvos') {
+    else if (process.env.PLATFORM === 'tvos') {
         return tvos;
     }
-    if (process.env.PLATFORM === 'android') {
+    else if (process.env.PLATFORM === 'android') {
         return android;
     }
-    if (process.env.PLATFORM === 'androidtv') {
+    else if (process.env.PLATFORM === 'androidtv') {
         return androidtv;
     }
-    if (process.env.PLATFORM === 'macos') {
+    else if (process.env.PLATFORM === 'macos') {
         if (process.env.ENGINE === 'macos') {
             return macos;
         }
-        if (process.env.ENGINE === 'electron') {
+        else if (process.env.ENGINE === 'electron') {
             return macosElectron;
         }
     }
-    if (process.env.PLATFORM === 'web') {
+    else if (process.env.PLATFORM === 'web') {
         return web;
     }
 };

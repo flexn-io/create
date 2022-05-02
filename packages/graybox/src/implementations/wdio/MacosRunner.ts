@@ -2,7 +2,7 @@ import AbstractRunner from './AbstractRunner';
 
 class MacosRunner extends AbstractRunner {
     launchApp = () => {
-        // do nothing.
+        // do nothing
     };
 
     getElementById = (selector: string) => {
@@ -26,31 +26,31 @@ class MacosRunner extends AbstractRunner {
     };
 
     pressButtonHome = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonBack = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonUp = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonDown = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonLeft = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonRight = () => {
-        // do nothing.
+        // do nothing
     };
 
     pressButtonSelect = () => {
-        // do nothing.
+        // do nothing
     };
 }
 
