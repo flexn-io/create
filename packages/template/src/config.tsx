@@ -3,9 +3,8 @@ import { Dimensions, PixelRatio, StatusBarStyle } from 'react-native';
 import StyleSheet from 'react-native-media-query';
 import {
     getScaledValue,
-    isEngineRnWeb,
     isEngineRn,
-    // isFactorBrowser,
+    isEngineRnNext,
     isFactorDesktop,
     isFactorMobile,
     isFactorTv,
@@ -24,9 +23,7 @@ import { StaticTheme, Theme } from './configTypes';
 //@ts-ignore
 import ICON_LOGO from '../platformAssets/runtime/logo.png';
 
-// if (isFactorBrowser) registerServiceWorker();
-
-export const hasMobileWebUI = isFactorMobile && isEngineRnWeb;
+export const hasMobileWebUI = isFactorMobile && isEngineRnNext;
 export const hasHorizontalMenu = !isFactorMobile && !isFactorDesktop && !hasMobileWebUI;
 export const isWebBased = isPlatformWeb || isPlatformTizen || isPlatformWebos;
 const isEngineNative = isEngineRn || isEngineRnMacos || isEngineRnWindows;
@@ -86,7 +83,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             alignSelf: 'stretch',
             width: '100%',
         },
-        modalContainer: isEngineRnWeb
+        modalContainer: isEngineRnNext
             ? {
                 position: 'absolute',
                 backgroundColor: currentTheme.colorBgPrimary,
@@ -158,7 +155,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
         screenModal: {
             position: 'absolute',
             backgroundColor: currentTheme.colorBgPrimary,
-            top: hasHorizontalMenu && isEngineRnWeb ? -currentTheme.menuHeight : 0,
+            top: hasHorizontalMenu && isEngineRnNext ? -currentTheme.menuHeight : 0,
             left: hasHorizontalMenu || isEngineNative || isPlatformMacos ? 0 : -currentTheme.menuWidth,
             right: 0,
             bottom: 0,
