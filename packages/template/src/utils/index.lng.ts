@@ -1,6 +1,6 @@
 import { LAYOUT } from '../config';
 
-export function testProps(testId: string | undefined) {
+export function testProps(_testId: string | undefined) {
     return testProps;
 }
 

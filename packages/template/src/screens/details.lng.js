@@ -5,8 +5,6 @@ import { getRandomData } from '../utils';
 import Button from '../components/button.lng';
 
 export default class Details extends Lightning.Component {
-    focusIndex = 0;
-
     static _template() {
         return {
             rect: true,
@@ -16,25 +14,25 @@ export default class Details extends Lightning.Component {
             src: '',
             flex: { justifyContent: 'center', direction: 'column', alignItems: 'center' },
             Text: {
-                text: { text: '' }
+                text: { text: '' },
             },
             Button1: {
                 type: Button,
                 title: 'Go back',
-                style: { y: 50 },
+                y: 50,
                 opacity: 0,
                 signals: {
-                    onPress: '_onPressBtn1'
-                }
+                    onPress: '_onPressBtn1',
+                },
             },
             Button2: {
                 type: Button,
                 title: 'Go to home',
-                style: { y: 120 },
+                y: 120,
                 opacity: 0,
                 signals: {
-                    onPress: '_onPressBtn2'
-                }
+                    onPress: '_onPressBtn2',
+                },
             },
         };
     }
@@ -43,7 +41,7 @@ export default class Details extends Lightning.Component {
         const { backgroundImage, title } = getRandomData(params.row, 0, params.index);
         this.patch({
             src: backgroundImage,
-            Text: { text: { text: title } }
+            Text: { text: { text: title } },
         });
     }
 
@@ -53,8 +51,8 @@ export default class Details extends Lightning.Component {
 
     _onPressBtn1() {
         Router.back();
-    }    
-    
+    }
+
     _onPressBtn2() {
         Router.navigate(ROUTES.HOME);
     }
@@ -64,7 +62,7 @@ export default class Details extends Lightning.Component {
             this.focusIndex--;
         }
     }
-    
+
     _handleDown() {
         if (this.focusIndex !== 1) {
             this.focusIndex++;

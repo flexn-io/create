@@ -15,18 +15,23 @@ export default class Modal extends Lightning.Component {
                 h: 40,
                 x: (x) => x - 50,
                 y: 50,
-                src: Utils.asset('close-90.png')
+                src: Utils.asset('close-90.png'),
             },
             Text: {
                 x: LAYOUT.w / 2,
                 y: LAYOUT.h / 2,
                 mount: 0.5,
-                text: { 
+                text: {
                     text: 'This is my Modal!',
                     textColor: getHexColor('#000000'),
-                }
+                },
             },
         };
+    }
+
+    _init() {
+        const color = window.theme === 'LightTheme' ? getHexColor('#FFFFFF') : getHexColor('#000000');
+        this.patch({ color });
     }
 
     _getFocused() {
@@ -34,7 +39,7 @@ export default class Modal extends Lightning.Component {
     }
 
     _focus() {
-        this.tag('Close').patch({smooth: {scale: 1.2}});
+        this.tag('Close').patch({ smooth: { scale: 1.2 } });
     }
 
     _handleEnter() {

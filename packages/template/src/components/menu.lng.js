@@ -1,23 +1,21 @@
 import { Lightning, Router, Utils } from '@lightningjs/sdk';
-import { LAYOUT, ROUTES, getHexColor, THEME } from '../config';
+import { LAYOUT, ROUTES, getHexColor, THEME_LIGHT } from '../config';
 
 class MenuItem extends Lightning.Component {
-    item: any;
-
     static _template() {
         return {
             rect: true,
             w: 60,
             h: 60,
             src: '',
-            flexItem: {marginBottom: 40},
+            flexItem: { marginBottom: 40 },
             Text: {
                 x: -200,
                 text: {
                     text: '',
-                    textColor: getHexColor('#000000')
-                }
-            }
+                    textColor: getHexColor('#000000'),
+                },
+            },
         };
     }
 
@@ -26,31 +24,35 @@ class MenuItem extends Lightning.Component {
             src: this.item.src,
             Text: {
                 text: {
-                    text: this.item.text
-                }
+                    text: this.item.text,
+                },
             },
         });
         if (this.item.style?.flexItem) {
             this.patch({
-                flexItem: this.item.style.flexItem
+                flexItem: this.item.style.flexItem,
             });
         }
     }
 
     _focus() {
-        this.patch({smooth: { scale: 1.2 }});
+        this.patch({ smooth: { scale: 1.2 } });
     }
-    
+
     _unfocus() {
-        this.patch({smooth: { scale: 1 }});
+        this.patch({ smooth: { scale: 1 } });
     }
 
     set visible(val) {
         this.patch({
             Text: {
-                smooth: {x: val ? 90 : -200}
-            }
+                smooth: { x: val ? 90 : -200 },
+            },
         });
+    }
+
+    set color(val) {
+        this.patch({ Text: { text: { textColor: val } } });
     }
 }
 
@@ -62,8 +64,7 @@ class SideMenu extends Lightning.Component {
             h: LAYOUT.h,
             x: 0,
             y: 0,
-            colorLeft: getHexColor('#FFFFFF'),
-            colorRight: getHexColor('#FFFFFF'),
+            color: getHexColor('#FFFFFF'),
             // Border: {
             //     type: Lightning.components.BorderComponent,
             //     borderWidth: 1,
@@ -74,7 +75,7 @@ class SideMenu extends Lightning.Component {
             Container: {
                 w: 100,
                 h: LAYOUT.h,
-                flex: {justifyContent: 'center', alignItems: 'center', direction: 'column'},
+                flex: { justifyContent: 'center', alignItems: 'center', direction: 'column' },
                 children: [
                     {
                         type: MenuItem,
@@ -82,13 +83,13 @@ class SideMenu extends Lightning.Component {
                             src: Utils.asset('home-96.png'),
                             text: 'Home',
                             style: {
-                                flexItem: {marginBottom: 40}
+                                flexItem: { marginBottom: 40 },
                             },
                             signals: {
-                                onPress: '_onPress'
+                                onPress: '_onPress',
                             },
-                            route: ROUTES.HOME
-                        }
+                            route: ROUTES.HOME,
+                        },
                     },
                     {
                         type: MenuItem,
@@ -96,10 +97,10 @@ class SideMenu extends Lightning.Component {
                             src: Utils.asset('grid-96.png'),
                             text: 'Carousels',
                             style: {
-                                flexItem: {marginBottom: 40}
+                                flexItem: { marginBottom: 40 },
                             },
-                            route: ROUTES.CAROUSELS
-                        }
+                            route: ROUTES.CAROUSELS,
+                        },
                     },
                     {
                         type: MenuItem,
@@ -107,10 +108,10 @@ class SideMenu extends Lightning.Component {
                             text: 'Modal',
                             src: Utils.asset('search-96.png'),
                         },
-                        route: ROUTES.MODAL
-                    }
-                ]
-            }
+                        route: ROUTES.MODAL,
+                    },
+                ],
+            },
         };
     }
 
@@ -118,9 +119,33 @@ class SideMenu extends Lightning.Component {
         this.focusIndex = 0;
     }
 
+    static _states() {
+        return [
+            class LightTheme extends this {
+                $enter() {
+                    this.patch({ color: getHexColor('#FFFFFF') });
+                    this.tag('Container').children.forEach((ch) => {
+                        ch.patch({ color: getHexColor('#000000') });
+                    });
+                }
+            },
+            class DarkTheme extends this {
+                $enter() {
+                    this.patch({ color: getHexColor('#000000') });
+                    this.tag('Container').children.forEach((ch) => {
+                        ch.patch({ color: getHexColor('#FFFFFF') });
+                    });
+                }
+            },
+        ];
+    }
+
+    onThemeChanged(theme) {
+        this._setState(theme === THEME_LIGHT ? 'LightTheme' : 'DarkTheme');
+    }
+
     _getFocused() {
         return this.tag('Container').children[this.focusIndex];
-        
     }
 
     _handleDown() {
@@ -128,11 +153,11 @@ class SideMenu extends Lightning.Component {
             this.focusIndex++;
         }
     }
-    
+
     _handleLeft() {
         return;
     }
-    
+
     _handleUp() {
         if (this.focusIndex !== 0) {
             this.focusIndex--;
@@ -148,11 +173,7 @@ class SideMenu extends Lightning.Component {
     }
 
     _handleEnter() {
-        const routes = [
-            ROUTES.HOME,
-            ROUTES.CAROUSELS,
-            ROUTES.MODAL
-        ];
+        const routes = [ROUTES.HOME, ROUTES.CAROUSELS, ROUTES.MODAL];
         Router.navigate(routes[this.focusIndex]);
     }
 
@@ -161,13 +182,12 @@ class SideMenu extends Lightning.Component {
             ch.patch({ visible: shouldOpen });
         });
 
-        this.patch({ 
-            smooth: { 
+        this.patch({
+            smooth: {
                 w: shouldOpen ? 390 : 100,
-                Border: { w: shouldOpen ? 390 : 100 }
+                Border: { w: shouldOpen ? 390 : 100 },
             },
         });
-
     }
 }
 

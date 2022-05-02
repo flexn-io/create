@@ -2,7 +2,7 @@
 import { Lightning, Router } from '@lightningjs/sdk';
 import { Row, Column } from '@lightningjs/ui-components';
 import { getRandomData } from '../utils';
-import { getHexColor, LAYOUT } from '../config';
+import { getHexColor, LAYOUT, THEME_LIGHT } from '../config';
 import { ROUTES } from '../config.lng';
 
 const itemsInRows = [
@@ -23,32 +23,12 @@ class Card extends Lightning.Component {
         };
     }
 
-    _construct() {
-        this._focused = false;
-        this._whenEnabled = new Promise(
-            resolve => (this._enable = resolve),
-        );
-    }
-
     _init() {
-        this._update();
-    }
-
-    _update() {
-        if (this._whenEnabled) {
-            this._whenEnabled.then(() => {
-                this._updateBackgroundImage();
-            });
-        }
-    }
-
-    _updateBackgroundImage() {
         this.patch({ src: this.item.backgroundImage });
-
     }
 
     _handleEnter() {
-        Router.navigate(ROUTES.DETAILS, { row: this.item.rowNumber, index: this.item.index });
+        Router.navigate(ROUTES.DETAILS, { row: this.item.rowNumber, index: this.item.index });;
     }
 
     _focus() {
@@ -76,7 +56,6 @@ export default class Carousels extends Lightning.Component {
     static _populateData() {
         const carouselsData = itemsInRows.map(([_, count], rowNumber) => getRandomData(rowNumber, count));
 
-        console.log('carouselsData', carouselsData);
         return {
             type: Column,
             itemSpacing: 30,
@@ -97,6 +76,11 @@ export default class Carousels extends Lightning.Component {
                 }))
             }))
         };
+    }
+
+    _init() {
+        const color = window.theme === THEME_LIGHT ? getHexColor('#FFFFFF') : getHexColor('#000000');
+        this.patch({ color }); 
     }
 
     _getFocused() {

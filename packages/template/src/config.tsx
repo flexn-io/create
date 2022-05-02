@@ -357,6 +357,10 @@ export const themeStyles = themes.dark.styles;
 
 export const THEME = staticThemes;
 
+export const THEME_LIGHT = 'light';
+
+export const THEME_DARK = 'dark';
+
 export { ICON_LOGO };
 
 export default staticThemes.dark;
