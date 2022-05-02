@@ -3,9 +3,9 @@ import { Dimensions, PixelRatio, StatusBarStyle } from 'react-native';
 import StyleSheet from 'react-native-media-query';
 import {
     getScaledValue,
-    isEngineNative,
-    isEngineWeb,
-    isFactorBrowser,
+    isEngineRnWeb,
+    isEngineRn,
+    // isFactorBrowser,
     isFactorDesktop,
     isFactorMobile,
     isFactorTv,
@@ -16,18 +16,20 @@ import {
     isPlatformWebos,
     isPlatformWindows,
     isPlatformMacos,
-    registerServiceWorker,
-} from 'renative';
+    isEngineRnMacos,
+    isEngineRnWindows,
+} from '@rnv/renative';
 import '../platformAssets/runtime/fontManager';
 import { StaticTheme, Theme } from './configTypes';
 //@ts-ignore
 import ICON_LOGO from '../platformAssets/runtime/logo.png';
 
-if (isFactorBrowser) registerServiceWorker();
+// if (isFactorBrowser) registerServiceWorker();
 
-export const hasMobileWebUI = isFactorMobile && isEngineWeb;
+export const hasMobileWebUI = isFactorMobile && isEngineRnWeb;
 export const hasHorizontalMenu = !isFactorMobile && !isFactorDesktop && !hasMobileWebUI;
 export const isWebBased = isPlatformWeb || isPlatformTizen || isPlatformWebos;
+const isEngineNative = isEngineRn || isEngineRnMacos || isEngineRnWindows;
 
 const staticTheme = {
     primaryFontFamily: 'Inter-Light',
@@ -38,7 +40,7 @@ const staticTheme = {
     colorBrand: '#0A74E6',
 };
 
-const staticThemes = {
+const staticThemes: any = {
     dark: {
         colorBgPrimary: '#000000',
         colorTextPrimary: '#FFFFFF',
@@ -84,7 +86,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             alignSelf: 'stretch',
             width: '100%',
         },
-        modalContainer: isEngineWeb
+        modalContainer: isEngineRnWeb
             ? {
                 position: 'absolute',
                 backgroundColor: currentTheme.colorBgPrimary,
@@ -156,7 +158,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
         screenModal: {
             position: 'absolute',
             backgroundColor: currentTheme.colorBgPrimary,
-            top: hasHorizontalMenu && isEngineWeb ? -currentTheme.menuHeight : 0,
+            top: hasHorizontalMenu && isEngineRnWeb ? -currentTheme.menuHeight : 0,
             left: hasHorizontalMenu || isEngineNative || isPlatformMacos ? 0 : -currentTheme.menuWidth,
             right: 0,
             bottom: 0,
@@ -310,7 +312,10 @@ export const ROUTES = {
 const lightStyleSheet = createStyleSheet(staticThemes.light);
 const darkStyleSheet = createStyleSheet(staticThemes.dark);
 
-const themes = {
+const themes: {
+    dark: any,
+    light: any
+} = {
     light: {
         static: { ...staticThemes.light },
         styles: lightStyleSheet.styles,

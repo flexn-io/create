@@ -6,7 +6,7 @@ import {
     isPlatformMacos,
     isPlatformTvos,
     isPlatformWeb,
-} from 'renative';
+} from '@rnv/renative';
 const { height } = Dimensions.get('screen');
 
 export function testProps(testId: string | undefined) {

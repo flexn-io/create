@@ -1,14 +1,16 @@
 import {
     getScaledValue,
-    isEngineNative,
-    isEngineWeb,
-    isFactorBrowser,
+    isEngineRn,
+    isEngineRnMacos,
+    isEngineRnWeb,
+    isEngineRnWindows,
+    // isFactorBrowser,
     isFactorDesktop,
     isFactorMobile,
-    registerServiceWorker,
-    StyleSheet,
-} from 'renative';
+    // registerServiceWorker,
+} from '@rnv/renative';
 import '../platformAssets/runtime/fontManager';
+import { StyleSheet } from '@flexn/sdk';
 
 import Config from '../platformAssets/renative.runtime.json';
 export { default as ICON_LOGO } from '../platformAssets/runtime/logo.png';
@@ -17,12 +19,14 @@ const CONFIG: any = Config;
 
 export { CONFIG };
 
-if (isFactorBrowser) registerServiceWorker();
+// if (isFactorBrowser) registerServiceWorker();
 
-export const hasMobileWebUI = isFactorMobile && isEngineWeb;
+export const hasMobileWebUI = isFactorMobile && isEngineRnWeb;
 export const hasHorizontalMenu = !isFactorMobile && !isFactorDesktop && !hasMobileWebUI;
 export const hasFullScreenMenu = hasMobileWebUI;
 export const hasVerticalMenu = !hasHorizontalMenu && !hasFullScreenMenu;
+
+const isEngineNative = isEngineRn || isEngineRnMacos || isEngineRnWindows;
 
 // Disable yellow warnings UI
 console.disableYellowBox = true; // eslint-disable-line no-console
@@ -64,7 +68,7 @@ export const themeStyles = StyleSheet.create({
         alignSelf: 'stretch',
         width: '100%',
     },
-    modalContainer: isEngineWeb
+    modalContainer: isEngineRnWeb
         ? {
             position: 'absolute',
             backgroundColor: theme.color1,
@@ -133,7 +137,7 @@ export const themeStyles = StyleSheet.create({
     screenModal: {
         position: 'absolute',
         backgroundColor: theme.color1,
-        top: hasHorizontalMenu && isEngineWeb ? -theme.menuHeight : 0,
+        top: hasHorizontalMenu && isEngineRnWeb ? -theme.menuHeight : 0,
         left: hasHorizontalMenu || hasFullScreenMenu || isEngineNative ? 0 : -theme.menuWidth,
         right: 0,
         bottom: 0,

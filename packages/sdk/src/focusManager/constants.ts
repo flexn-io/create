@@ -1,4 +1,4 @@
-import { getScaledValue } from 'renative';
+import { getScaledValue } from '@rnv/renative';
 import { ScreenStates } from './types';
 import { Ratio } from './helpers';
 

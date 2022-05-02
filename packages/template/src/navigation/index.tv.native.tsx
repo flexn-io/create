@@ -10,7 +10,7 @@ import {
     createNavigatorFactory,
 } from '@react-navigation/native';
 import { screensEnabled } from 'react-native-screens';
-import { isPlatformTvos } from 'renative';
+import { isPlatformTvos } from '@rnv/renative';
 import { ScreenContainer } from 'react-native-screens'; //eslint-disable-line
 import ResourceSavingScene from '@react-navigation/drawer/src/views/ResourceSavingScene';
 

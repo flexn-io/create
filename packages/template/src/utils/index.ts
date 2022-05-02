@@ -1,4 +1,4 @@
-import { isPlatformIos, isPlatformMacos, isPlatformTvos, isPlatformWeb, isFactorMobile } from 'renative';
+import { isPlatformIos, isPlatformMacos, isPlatformTvos, isPlatformWeb, isFactorMobile } from '@rnv/renative';
 
 export function testProps(testId: string | undefined) {
     if (!testId) {
