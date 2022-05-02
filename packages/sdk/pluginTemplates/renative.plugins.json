@@ -4,6 +4,12 @@
         "react-native": "source:rnv",
         "@lightningjs/sdk": "source:rnv",
         "@lightningjs/cli": "source:rnv",
+        "@rnv/renative": {
+            "webpack": {
+                "modulePaths": true,
+                "moduleAliases": true
+            }
+        },
         "renative": {
             "webpack": {
                 "modulePaths": true,

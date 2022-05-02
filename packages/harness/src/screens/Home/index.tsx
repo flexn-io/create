@@ -1,7 +1,7 @@
 import { ScrollView, Text, View } from '@flexn/sdk';
 import * as Sentry from '@sentry/react-native';
 import React from 'react';
-import { useNavigate } from 'renative';
+import { useNavigate } from '../../hooks/navigation';
 import { Button } from '../../components/Button';
 import Screen from '../../components/Screen';
 import { themeStyles, CONFIG } from '../../config';

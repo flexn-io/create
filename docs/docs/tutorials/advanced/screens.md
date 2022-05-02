@@ -47,7 +47,7 @@ It's a good practice to start from Home screen. Create a new file called `src/sc
 ```javascript
 import React, { useContext, useRef } from 'react';
 import { Text, View, ScrollView, TouchableOpacity, Image } from '@flexn/sdk';
-import { Api } from 'renative';
+import { Api } from '@rnv/renative';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ROUTES, ICON_LOGO, ThemeContext } from '../config';
 import { useNavigate, useOpenURL } from '../hooks';
@@ -148,7 +148,7 @@ export default ScreenHome;
 One of the most dynamic screens in whole template. Let's add several rows with some nice images inside. First let's create a file `src/utils/index.ts` and write a function which generates a random data for us:
 
 ```javascript
-import { isFactorMobile } from 'renative';
+import { isFactorMobile } from '@rnv/renative';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -196,7 +196,7 @@ import {
 import { testProps } from '../utils';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Dimensions } from 'react-native';
-import { isFactorMobile } from 'renative';
+import { isFactorMobile } from '@rnv/renative';
 import { Ratio, ThemeContext, ROUTES } from '../config';
 import { useNavigate } from '../hooks';
 import { getRandomData } from '../utils';
@@ -332,7 +332,7 @@ Next is Details screen. That's the target page when we click on any of carousel 
 ```javascript
 import { TouchableOpacity, ImageBackground, View, Text, ScrollView, ActivityIndicator } from '@flexn/sdk';
 import React, { useContext, useState, useEffect } from 'react';
-import { isPlatformWeb } from 'renative';
+import { isPlatformWeb } from '@rnv/renative';
 import { ThemeContext, ROUTES } from '../config';
 import { usePop, useReplace } from '../hooks';
 import { getRandomData } from '../utils';

@@ -8,7 +8,7 @@ import {
     View,
 } from '@flexn/sdk';
 import React, { useRef } from 'react';
-import { getScaledValue } from 'renative';
+import { getScaledValue } from '@rnv/renative';
 import Screen from '../../../../components/Screen';
 import { themeStyles } from '../../../../config';
 import { testProps } from '../../../../utils';

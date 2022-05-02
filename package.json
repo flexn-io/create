@@ -81,7 +81,7 @@
         "lerna": "4.0.0",
         "lint-staged": "8.1.0",
         "rimraf": "^2.6.3",
-        "rnv": "0.36.0-canary.4",
+        "rnv": "0.36.0-canary.13",
         "simple-git": "^2.46.0",
         "ts-jest": "^27.0.7",
         "tslib": "2.3.1",

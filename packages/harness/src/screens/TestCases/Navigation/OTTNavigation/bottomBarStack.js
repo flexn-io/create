@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { getScaledValue, Icon } from 'renative';
+import { getScaledValue, Icon } from '@rnv/renative';
 import Theme from '../../../../config';
 import HomeStackNavigator from './homeStack';
 import MoreStackNavigator from './moreStack';

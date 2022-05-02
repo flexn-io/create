@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { ScrollView, Text, View } from '@flexn/sdk';
 import React, { useState } from 'react';
-import { useNavigate } from 'renative';
+import { useNavigate } from '@rnv/renative';
 // @ts-expect-error will only exist after rnv run
 import runtime from '../../../platformAssets/renative.runtime.json';
 import { Button } from '../../components/Button';
