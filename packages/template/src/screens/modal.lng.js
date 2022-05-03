@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { Lightning, Utils, Router } from '@lightningjs/sdk';
-import { LAYOUT, getHexColor, THEME_LIGHT } from '../config';
+import { LAYOUT, THEME_LIGHT } from '../utils';
+import { getHexColor } from '../config';
 
 export default class Modal extends Lightning.Component {
     static _template() {

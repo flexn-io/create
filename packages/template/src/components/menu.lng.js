@@ -1,5 +1,6 @@
 import { Lightning, Router, Utils } from '@lightningjs/sdk';
-import { LAYOUT, ROUTES, getHexColor, THEME_LIGHT } from '../config';
+import { LAYOUT, ROUTES, THEME_LIGHT } from '../config';
+import { getHexColor } from '../utils';
 
 class MenuItem extends Lightning.Component {
     static _template() {
@@ -21,7 +22,6 @@ class MenuItem extends Lightning.Component {
 
     _init() {
         this.patch({
-            src: this.item.src,
             Text: {
                 text: {
                     text: this.item.text,
@@ -36,11 +36,11 @@ class MenuItem extends Lightning.Component {
     }
 
     _focus() {
-        this.patch({ smooth: { scale: 1.2 } });
+        this.smooth = { scale: 1.1 };
     }
 
     _unfocus() {
-        this.patch({ smooth: { scale: 1 } });
+        this.smooth = { scale: 1 };
     }
 
     set visible(val) {
@@ -72,8 +72,8 @@ class SideMenu extends Lightning.Component {
                 children: [
                     {
                         type: MenuItem,
+                        src: Utils.asset('home-96.png'),
                         item: {
-                            src: Utils.asset('home-96.png'),
                             text: 'Home',
                             style: {
                                 flexItem: { marginBottom: 40 },
@@ -86,8 +86,8 @@ class SideMenu extends Lightning.Component {
                     },
                     {
                         type: MenuItem,
+                        src: Utils.asset('grid-96.png'),
                         item: {
-                            src: Utils.asset('grid-96.png'),
                             text: 'Carousels',
                             style: {
                                 flexItem: { marginBottom: 40 },
@@ -97,9 +97,9 @@ class SideMenu extends Lightning.Component {
                     },
                     {
                         type: MenuItem,
+                        src: Utils.asset('albums-100.png'),
                         item: {
                             text: 'Modal',
-                            src: Utils.asset('search-96.png'),
                         },
                         route: ROUTES.MODAL,
                     },

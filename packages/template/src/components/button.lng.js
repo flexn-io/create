@@ -1,5 +1,6 @@
 import { Lightning } from '@lightningjs/sdk';
-import { THEME, getHexColor } from '../config';
+import { THEME } from '../config';
+import { getHexColor } from '../utils';
 
 class Button extends Lightning.Component {
     static _template() {

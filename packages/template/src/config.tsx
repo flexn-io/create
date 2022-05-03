@@ -34,10 +34,6 @@ export const LAYOUT = {
     h: 1080,
 };
 
-export function getHexColor(hex: string, _alpha = 100) {
-    return hex;
-}
-
 const staticTheme = {
     primaryFontFamily: 'Inter-Light',
     iconSize: getScaledValue(30),

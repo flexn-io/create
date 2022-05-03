@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { Lightning, Utils, Router } from '@lightningjs/sdk';
-import { LAYOUT, ROUTES, getHexColor, THEME_LIGHT, THEME_DARK } from '../config';
+import { LAYOUT, ROUTES, THEME_LIGHT, THEME_DARK } from '../config';
+import { getHexColor } from '../utils';
 import Button from '../components/button.lng';
 
 window.theme = THEME_LIGHT;
@@ -16,11 +17,11 @@ class Icon extends Lightning.Component {
     }
 
     _focus() {
-        this.patch({ smooth: { scale: 1.2 } });
+        this.smooth = { scale: 1.2 };
     }
 
     _unfocus() {
-        this.patch({ smooth: { scale: 1 } });
+        this.smooth = { scale: 1 };
     }
 }
 export default class Home extends Lightning.Component {

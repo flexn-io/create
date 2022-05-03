@@ -1,19 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import { Lightning, Router } from '@lightningjs/sdk';
 import { Row, Column } from '@lightningjs/ui-components';
-import { getRandomData } from '../utils';
-import { getHexColor, LAYOUT, THEME_LIGHT } from '../config';
+import { getRandomData, getHexColor } from '../utils';
+import { LAYOUT, THEME_LIGHT } from '../config';
 import { ROUTES } from '../config.lng';
 
-const itemsInRows = [
-    [1, 3],
-    [2, 4],
-    [3, 5],
-    [4, 6],
-    [2, 4],
-    [3, 5],
-];
-
+const itemsInRows = [3, 4, 5, 6, 4, 5];
 class Card extends Lightning.Component {
     static _template() {
         return {
@@ -44,11 +36,11 @@ class Card extends Lightning.Component {
     }
 
     _focus() {
-        this.patch({ smooth: { scale: 1.1 } });
+        this.smooth = { scale: 1.1 };
     }
 
     _unfocus() {
-        this.patch({ smooth: { scale: 1 } });
+        this.smooth = { scale: 1 };
     }
 }
 
@@ -66,7 +58,7 @@ export default class Carousels extends Lightning.Component {
     }
 
     static _populateData() {
-        const carouselsData = itemsInRows.map(([_, count], rowNumber) => getRandomData(rowNumber, count));
+        const carouselsData = itemsInRows.map((count, rowNumber) => getRandomData(rowNumber, 0, count));
 
         return {
             type: Column,
@@ -81,11 +73,11 @@ export default class Carousels extends Lightning.Component {
                 h: 280,
                 w: 1920,
                 itemSpacing: 25,
-                items: column.map((item, rowNumber) => ({
+                items: column.map((item) => ({
                     type: Card,
                     src: item.backgroundImage,
-                    item: { ...item, rowNumber },
-                    w: LAYOUT.w / itemsInRows[index][1],
+                    item: { ...item, rowNumber: index },
+                    w: LAYOUT.w / itemsInRows[index],
                 })),
             })),
         };
