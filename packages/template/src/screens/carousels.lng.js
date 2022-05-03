@@ -28,9 +28,9 @@ class Card extends Lightning.Component {
                     maxLinesSuffix: '...',
                     maxLines: 1,
                     textColor: getHexColor('#000000'),
-                    text: ''
-                }
-            }
+                    text: '',
+                },
+            },
         };
     }
 
@@ -39,7 +39,7 @@ class Card extends Lightning.Component {
     }
 
     _handleEnter() {
-        Router.navigate(ROUTES.DETAILS, { row: this.item.rowNumber, index: this.item.index });;
+        Router.navigate(ROUTES.DETAILS, { row: this.item.rowNumber, index: this.item.index });
     }
 
     _focus() {
@@ -59,8 +59,8 @@ export default class Carousels extends Lightning.Component {
             w: LAYOUT.w,
             h: LAYOUT.h,
             Wrapper: {
-                Cards: this._populateData()
-            }
+                Cards: this._populateData(),
+            },
         };
     }
 
@@ -83,16 +83,16 @@ export default class Carousels extends Lightning.Component {
                 items: column.map((item, rowNumber) => ({
                     type: Card,
                     src: item.backgroundImage,
-                    item: {...item, rowNumber },
+                    item: { ...item, rowNumber },
                     w: LAYOUT.w / itemsInRows[index][1],
-                }))
-            }))
+                })),
+            })),
         };
     }
 
     _init() {
         const color = window.theme === THEME_LIGHT ? getHexColor('#FFFFFF') : getHexColor('#000000');
-        this.patch({ color }); 
+        this.patch({ color });
     }
 
     _getFocused() {
