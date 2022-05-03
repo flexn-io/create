@@ -47,9 +47,7 @@
     "platforms": {
         "macos": {
             "engine": "engine-rn",
-            "excludedPlugins": [
-                "react-native-linear-gradient"
-            ]
+            "excludedPlugins": ["react-native-linear-gradient"]
         }
     }
 }

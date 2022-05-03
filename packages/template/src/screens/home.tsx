@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from 'react';
 import { Text, View, ScrollView, TouchableOpacity, Image, ANIMATION_TYPES } from '@flexn/sdk';
-import { Api } from 'renative';
+import { Api } from '@rnv/renative';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ROUTES, ICON_LOGO, ThemeContext } from '../config';
 import { useNavigate, useOpenURL } from '../hooks';

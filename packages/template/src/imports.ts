@@ -6,4 +6,4 @@ export {
     isFactorMobile,
     isPlatformTizen,
     isPlatformWebos,
-} from 'renative';
+} from '@rnv/renative';
