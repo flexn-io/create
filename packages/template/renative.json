@@ -3,7 +3,6 @@
         "@rnv/engine-lightning": "source:rnv",
         "@rnv/engine-rn": "source:rnv",
         "@rnv/engine-rn-electron": "source:rnv",
-        "@rnv/engine-rn-macos": "source:rnv",
         "@rnv/engine-rn-next": "source:rnv",
         "@rnv/engine-rn-tvos": "source:rnv",
         "@rnv/engine-rn-web": "source:rnv",
@@ -56,7 +55,7 @@
     "isTemplate": true,
     "plugins": {
         "@flexn/sdk": {
-            "version": "0.11.1-alpha.1",
+            "version": "0.13.1",
             "webpack": {
                 "modulePaths": true,
                 "moduleAliases": true
@@ -67,10 +66,7 @@
             "androidtv": {
                 "package": "io.flexn.sdk.FlexnSdkPackage",
                 "projectName": "flexn-io-sdk",
-                "activityImports": [
-                    "io.flexn.sdk.TvRemoteHandlerModule",
-                    "android.view.KeyEvent;"
-                ],
+                "activityImports": ["io.flexn.sdk.TvRemoteHandlerModule", "android.view.KeyEvent;"],
                 "activityMethods": [
                     "override fun dispatchKeyEvent(event: KeyEvent): Boolean {",
                     "   if (event.action == KeyEvent.ACTION_DOWN || event.action == KeyEvent.ACTION_UP) {",
@@ -83,10 +79,7 @@
             "firetv": {
                 "package": "io.flexn.sdk.FlexnSdkPackage",
                 "projectName": "flexn-io-sdk",
-                "activityImports": [
-                    "io.flexn.sdk.TvRemoteHandlerModule",
-                    "android.view.KeyEvent;"
-                ],
+                "activityImports": ["io.flexn.sdk.TvRemoteHandlerModule", "android.view.KeyEvent;"],
                 "activityMethods": [
                     "override fun dispatchKeyEvent(event: KeyEvent): Boolean {",
                     "   if (event.action == KeyEvent.ACTION_DOWN || event.action == KeyEvent.ACTION_UP) {",
@@ -97,10 +90,9 @@
                 ]
             }
         },
-        "renative": "source:flexn",
+        "@rnv/renative": "source:flexn",
         "react-native": "source:rnv",
         "react-native-web": "source:rnv",
-        "react-native-macos": "source:rnv",
         "react-native-tvos": "source:rnv",
         "react-native-windows": "source:rnv",
         "react-native-vector-icons": "source:flexn",
@@ -110,7 +102,7 @@
         "react-art": "source:rnv",
         "react-dom": "source:rnv",
         "@react-native-community/cli-platform-ios": "source:rnv",
-        "@react-native-community/cli": "source:flexn",
+        "@react-native-community/cli": "source:rnv",
         "next": "source:flexn",
         "@react-native-windows/cli": "source:rnv",
         "@react-navigation": "source:flexn",
@@ -119,7 +111,6 @@
         "react-native-google-cast": "source:flexn",
         "react-native-reanimated": "source:flexn",
         "react-native-gesture-handler": "source:flexn",
-        "recyclerlistview": "source:flexn",
         "react-native-media-query": "source:flexn",
         "@flexn/typescript": "source:flexn",
         "tslib": "source:flexn"
@@ -221,17 +212,13 @@
         "web": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "chromecast": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "tizen": {
@@ -247,9 +234,7 @@
         },
         "macos": {
             "engine": "engine-rn",
-            "excludedPlugins": [
-                "react-native-linear-gradient"
-            ]
+            "excludedPlugins": ["react-native-linear-gradient"]
         },
         "windows": {
             "engine": "engine-rn-windows"

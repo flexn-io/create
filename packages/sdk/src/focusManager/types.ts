@@ -24,6 +24,8 @@ export type ScreenFocusOptions = {
     focusKey?: string;
     verticalWindowAlignment?: WindowAlignment;
     horizontalWindowAlignment?: WindowAlignment;
+    horizontalViewportOffset?: number;
+    verticalViewportOffset?: number;
     nextFocusLeft?: string | string[];
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
@@ -46,6 +48,9 @@ export interface ViewProps extends RNViewProps {
     ref?: any;
     activeOpacity?: any;
     style?: StyleProp<ViewStyle>;
+    animatorOptions?: any;
+    className?: string;
+    dataSet?: any;
 }
 
 export interface PressableProps extends RNPressableProps {
@@ -115,6 +120,8 @@ export interface Context {
     stealFocus?: boolean;
     verticalWindowAlignment?: string;
     horizontalWindowAlignment?: string;
+    horizontalViewportOffset?: number;
+    verticalViewportOffset?: number;
     isNested?: boolean;
     order?: number;
     scrollOffsetX?: number;

@@ -10,7 +10,7 @@ import {
 } from '@flexn/sdk';
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { getScaledValue } from 'renative';
+import { getScaledValue } from '@rnv/renative';
 import Theme, { themeStyles } from '../../../config';
 
 const Modal = ({ onClose }) => {

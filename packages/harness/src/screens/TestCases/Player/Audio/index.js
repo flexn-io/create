@@ -1,7 +1,7 @@
 // separated in case we want to use different player for audio only. rn-video might not be the best choice, i'm not sure
 import { Text, View } from '@flexn/sdk';
 import React, { useEffect } from 'react';
-import { Button } from 'renative';
+import { Button } from '@rnv/renative';
 import { themeStyles } from '../../../../config';
 import { GoogleCast, testProps, useCastSession, useRemoteMediaClient } from '../../../../utils';
 

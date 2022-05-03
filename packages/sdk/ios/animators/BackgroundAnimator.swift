@@ -2,49 +2,32 @@ import Foundation
 
 class BackgroundAnimator: Animator {
     var view: UIView
-    var duration: TimeInterval
-    var backgroundColorFocus: CGColor = UIColor.red.cgColor
-    var backgroundColorBlur: CGColor = UIColor.red.cgColor
+    var AnimProperty: AnimatorProperty
+
 
     required init(view: UIView, args: NSDictionary) {
         self.view = view
-        self.duration = args["duration"] as? TimeInterval ?? 0.2
-        let colorStringFocus = (args["colorFocus"] as? String ?? "").replacingOccurrences(of: "#", with: "")
-        let colorStringBlur = (args["colorBlur"] as? String ?? "").replacingOccurrences(of: "#", with: "")
-        self.backgroundColorFocus = hexToColor(from: colorStringFocus)
-        self.backgroundColorBlur = hexToColor(from: colorStringBlur)
+        self.AnimProperty = AnimatorProperty(args: args)
     }
     
     func onFocus(animated: Bool) {
         if (animated) {
-            UIView.transition(with: self.view, duration: self.duration, options: .transitionCrossDissolve, animations: {
-                self.view.layer.backgroundColor = self.backgroundColorFocus
+            UIView.transition(with: self.view, duration: self.AnimProperty.duration, options: .transitionCrossDissolve, animations: {
+                self.view.layer.backgroundColor = self.AnimProperty.backgroundColorFocus
             }, completion: nil)
         } else {
-            self.view.layer.backgroundColor = self.backgroundColorFocus
+            self.view.layer.backgroundColor = self.AnimProperty.backgroundColorFocus
         }
     }
     
     func onBlur(animated: Bool) {
         if (animated) {
-            UIView.transition(with: self.view, duration: self.duration, options: .transitionCrossDissolve, animations: {
-                self.view.layer.backgroundColor = self.backgroundColorBlur
+            UIView.transition(with: self.view, duration: self.AnimProperty.duration, options: .transitionCrossDissolve, animations: {
+                self.view.layer.backgroundColor = self.AnimProperty.backgroundColor
             }, completion: nil)
         } else {
-            self.view.layer.backgroundColor = self.backgroundColorBlur
+            self.view.layer.backgroundColor = self.AnimProperty.backgroundColor
         }
-    }
-    
-    func hexToColor(from hexString : String) -> CGColor {
-        if let rgbValue = UInt(hexString, radix: 16) {
-            let red   =  CGFloat((rgbValue >> 16) & 0xff) / 255
-            let green =  CGFloat((rgbValue >>  8) & 0xff) / 255
-            let blue  =  CGFloat((rgbValue      ) & 0xff) / 255
-            
-            return UIColor(red: red, green: green, blue: blue, alpha: 1.0).cgColor
-        }
-        
-        return UIColor.red.cgColor
     }
     
     func addChildView(view: UIView) {

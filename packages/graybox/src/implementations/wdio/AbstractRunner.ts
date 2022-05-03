@@ -13,9 +13,9 @@ abstract class AbstractRunner {
     abstract scrollById(selector: string, direction: string): void;
 
     // click
-    abstract clickById (selector: string): void;
+    abstract clickById(selector: string): void;
 
-    abstract clickByText (selector: string): void;
+    abstract clickByText(selector: string): void;
 
     // press button
     abstract pressButtonHome(n: number): void;
@@ -34,71 +34,116 @@ abstract class AbstractRunner {
 
     // expect toBeExisting
     expectToBeExistingById = async (selector: string) => {
-        await expect<ExpectWebdriverIO.Expect>(await this.getElementById(selector)).toBeExisting();
+        const element = await this.getElementById(selector);
+        if (element) {
+            await expect<ExpectWebdriverIO.Expect>(element).toBeExisting();
+        }
     };
 
     expectToBeExistingByText = async (selector: string) => {
-        await expect<ExpectWebdriverIO.Expect>(await this.getElementByText(selector)).toBeExisting();
+        const element = await this.getElementByText(selector);
+        if (element) {
+            await expect<ExpectWebdriverIO.Expect>(element).toBeExisting();
+        }
     };
 
     // expect toBeDisplayed
     expectToBeDisplayedById = async (selector: string) => {
-        await expect<ExpectWebdriverIO.Expect>(await this.getElementById(selector)).toBeDisplayed();
+        const element = await this.getElementById(selector);
+        if (element) {
+            await expect<ExpectWebdriverIO.Expect>(element).toBeDisplayed();
+        }
     };
 
     expectToBeDisplayedByText = async (selector: string) => {
-        await expect<ExpectWebdriverIO.Expect>(await this.getElementByText(selector)).toBeDisplayed();
+        const element = await this.getElementByText(selector);
+        if (element) {
+            await expect<ExpectWebdriverIO.Expect>(element).toBeDisplayed();
+        }
     };
 
     // expect toBeClickable
     expectToBeClickableById = async (selector: string) => {
-        await expect<ExpectWebdriverIO.Expect>(await this.getElementById(selector)).toBeClickable();
+        const element = await this.getElementById(selector);
+        if (element) {
+            await expect<ExpectWebdriverIO.Expect>(element).toBeClickable();
+        }
     };
 
     expectToBeClickableByText = async (selector: string) => {
-        await expect<ExpectWebdriverIO.Expect>(await this.getElementByText(selector)).toBeClickable();
+        const element = await this.getElementByText(selector);
+        if (element) {
+            await expect<ExpectWebdriverIO.Expect>(element).toBeClickable();
+        }
     };
 
     // expect toHaveText
     expectToHaveTextById = async (selector: string, text: string) => {
-        await expect<ExpectWebdriverIO.Expect>(await this.getElementById(selector)).toHaveText(text);
+        const element = await this.getElementById(selector);
+        if (element) {
+            await expect<ExpectWebdriverIO.Expect>(element).toHaveText(text);
+        }
     };
 
     // waitForDisplayed
     waitForDisplayedById = async (selector: string, timeout = 60000) => {
-        await (await this.getElementById(selector)).waitForDisplayed({ timeout });
+        const element = await this.getElementById(selector);
+        if (element) {
+            await element.waitForDisplayed({ timeout });
+        }
     };
 
     waitForDisplayedByText = async (selector: string, timeout = 60000) => {
-        await (await this.getElementByText(selector)).waitForDisplayed({ timeout });
+        const element = await this.getElementByText(selector);
+        if (element) {
+            await element.waitForDisplayed({ timeout });
+        }
     };
 
     // waitForExist
     waitForExistById = async (selector: string, timeout = 60000) => {
-        await (await this.getElementById(selector)).waitForExist({ timeout });
+        const element = await this.getElementById(selector);
+        if (element) {
+            await element.waitForExist({ timeout });
+        }
     };
 
     waitForExistByText = async (selector: string, timeout = 60000) => {
-        await (await this.getElementByText(selector)).waitForExist({ timeout });
+        const element = await this.getElementByText(selector);
+        if (element) {
+            await element.waitForExist({ timeout });
+        }
     };
 
     // waitForClickable
     waitForClickableById = async (selector: string, timeout = 60000) => {
-        await (await this.getElementById(selector)).waitForClickable({ timeout });
+        const element = await this.getElementById(selector);
+        if (element) {
+            await element.waitForClickable({ timeout });
+        }
     };
 
     waitForClickableByText = async (selector: string, timeout = 60000) => {
-        await (await this.getElementByText(selector)).waitForClickable({ timeout });
+        const element = await this.getElementByText(selector);
+        if (element) {
+            await element.waitForClickable({ timeout });
+        }
     };
 
     // setValue
     setValueById = async (selector: string, value: string) => {
-        await (await this.getElementById(selector)).setValue(value);
+        const element = await this.getElementById(selector);
+        if (element) {
+            await element.setValue(value);
+        }
     };
 
     // clearValue
     clearValueById = async (selector: string) => {
-        await (await this.getElementById(selector)).clearValue();
+        const element = await this.getElementById(selector);
+        if (element) {
+            await element.clearValue();
+        }
     };
 
     // pause

@@ -3,7 +3,7 @@ import { pressButtonIos } from './helpers';
 
 class TvosRunner extends AbstractRunner {
     launchApp = () => {
-        // do nothing.
+        // do nothing
     };
 
     getElementById = (selector: string) => {
@@ -15,7 +15,7 @@ class TvosRunner extends AbstractRunner {
     };
 
     scrollById = () => {
-        // do nothing.
+        // do nothing
     };
 
     clickById = () => {

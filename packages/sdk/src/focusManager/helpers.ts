@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Dimensions, PixelRatio } from 'react-native';
-import { isPlatformAndroidtv, isPlatformFiretv } from 'renative';
+import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 import { ForbiddenFocusDirections } from './types';
 import type { Context } from './types';
 import { DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, SCREEN_STATES } from './constants';
@@ -13,6 +13,19 @@ export function makeid(length: number) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
+}
+
+export function flattenStyle(style: any) {
+    let flattenedStyle: any = {};
+    if (Array.isArray(style)) {
+        style.map((item) => {
+            item && Object.keys(item) && Object.keys(item).map((key) => (flattenedStyle[key] = item[key]));
+        });
+    } else {
+        flattenedStyle = style || {};
+    }
+
+    return { ...flattenedStyle };
 }
 
 export function alterForbiddenFocusDirections(forbiddenFocusDirections: ForbiddenFocusDirections[] = []) {
