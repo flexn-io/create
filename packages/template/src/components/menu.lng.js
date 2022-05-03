@@ -1,5 +1,5 @@
 import { Lightning, Router, Utils } from '@lightningjs/sdk';
-import { LAYOUT, ROUTES, THEME_LIGHT } from '../config';
+import { THEME, LAYOUT, ROUTES, THEME_LIGHT } from '../config';
 import { getHexColor } from '../utils';
 
 class MenuItem extends Lightning.Component {
@@ -11,10 +11,11 @@ class MenuItem extends Lightning.Component {
             src: '',
             flexItem: { marginBottom: 40 },
             Text: {
-                x: -200,
+                x: -220,
                 text: {
                     text: '',
                     textColor: getHexColor('#000000'),
+                    fontFace: THEME.light.primaryFontFamily,
                 },
             },
         };
@@ -46,7 +47,7 @@ class MenuItem extends Lightning.Component {
     set visible(val) {
         this.patch({
             Text: {
-                smooth: { x: val ? 90 : -200 },
+                smooth: { x: val ? 90 : -220 },
             },
         });
     }
@@ -178,7 +179,6 @@ class SideMenu extends Lightning.Component {
         this.patch({
             smooth: {
                 w: shouldOpen ? 390 : 100,
-                Border: { w: shouldOpen ? 390 : 100 },
             },
         });
     }

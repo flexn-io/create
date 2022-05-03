@@ -13,6 +13,7 @@ class Button extends Lightning.Component {
             Text: {
                 text: {
                     textColor: getHexColor('#000000'),
+                    fontFace: THEME.light.primaryFontFamily,
                     text: '',
                 },
             },

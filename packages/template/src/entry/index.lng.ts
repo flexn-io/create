@@ -1,5 +1,4 @@
-/* eslint-disable no-underscore-dangle */
-import { Router } from '@lightningjs/sdk';
+import { Router, Utils } from '@lightningjs/sdk';
 import { ROUTES } from '../config';
 
 import HomeScreen from '../screens/home';
@@ -9,6 +8,10 @@ import CarouselsScreen from '../screens/carousels';
 import SideMenu from '../components/menu';
 
 export default class App extends Router.App {
+    static getFonts() {
+        return [{ family: 'Inter-Light', url: Utils.asset('fonts/Inter-Light.ttf') }];
+    }
+
     _setup() {
         Router.startRouter({
             root: ROUTES.HOME,
@@ -19,22 +22,22 @@ export default class App extends Router.App {
                 {
                     path: ROUTES.HOME,
                     component: HomeScreen,
-                    widgets: ['SideMenu']
+                    widgets: ['SideMenu'],
                 },
                 {
                     path: ROUTES.DETAILS,
                     component: DetailScreen,
-                    widgets: ['SideMenu']
+                    widgets: ['SideMenu'],
                 },
                 {
                     path: ROUTES.CAROUSELS,
                     component: CarouselsScreen,
-                    widgets: ['SideMenu']
+                    widgets: ['SideMenu'],
                 },
                 {
                     path: ROUTES.MODAL,
                     component: ModalScreen,
-                }
+                },
             ],
         });
     }
@@ -42,13 +45,13 @@ export default class App extends Router.App {
     static _template() {
         return {
             Pages: {
-                forceZIndexContext: true
+                forceZIndexContext: true,
             },
             Widgets: {
                 SideMenu: {
-                    type: SideMenu
-                }
-            }
+                    type: SideMenu,
+                },
+            },
         };
     }
 

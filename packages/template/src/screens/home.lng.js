@@ -1,8 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import { Lightning, Utils, Router } from '@lightningjs/sdk';
-import { LAYOUT, ROUTES, THEME_LIGHT, THEME_DARK } from '../config';
+import { LAYOUT, ROUTES, THEME, THEME_LIGHT, THEME_DARK } from '../config';
 import { getHexColor } from '../utils';
 import Button from '../components/button.lng';
+import packageJson from '../../package.json';
 
 window.theme = THEME_LIGHT;
 
@@ -39,8 +40,8 @@ export default class Home extends Lightning.Component {
                 flexItem: { marginBottom: 50 },
             },
             Text1: this._renderText('Flexn SDK Example', 56),
-            Text2: this._renderText('v 0.13.1', 40),
-            Text3: this._renderText('platform: tvos', 30),
+            Text2: this._renderText(`v ${packageJson.version}`, 40),
+            Text3: this._renderText('platform: tizen/webos', 30),
             Text4: this._renderText('factor: tv', 30),
             Text5: this._renderText('engine: engine-lng', 30),
             Button0: {
@@ -88,6 +89,7 @@ export default class Home extends Lightning.Component {
                 text: text,
                 fontSize: size,
                 textColor: getHexColor('#000000'),
+                fontFace: THEME.light.primaryFontFamily,
             },
         };
     }

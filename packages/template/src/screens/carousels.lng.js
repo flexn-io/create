@@ -2,7 +2,7 @@
 import { Lightning, Router } from '@lightningjs/sdk';
 import { Row, Column } from '@lightningjs/ui-components';
 import { getRandomData, getHexColor } from '../utils';
-import { LAYOUT, THEME_LIGHT } from '../config';
+import { LAYOUT, THEME_LIGHT, THEME } from '../config';
 import { ROUTES } from '../config.lng';
 
 const itemsInRows = [3, 4, 5, 6, 4, 5];
@@ -21,6 +21,7 @@ class Card extends Lightning.Component {
                     maxLines: 1,
                     textColor: getHexColor('#000000'),
                     text: '',
+                    fontFace: THEME.light.primaryFontFamily,
                 },
             },
         };
