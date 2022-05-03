@@ -65,13 +65,6 @@ class SideMenu extends Lightning.Component {
             x: 0,
             y: 0,
             color: getHexColor('#FFFFFF'),
-            // Border: {
-            //     type: Lightning.components.BorderComponent,
-            //     borderWidth: 1,
-            //     colorBorder: getHexColor(THEME.light.colorBorder),
-            //     h: LAYOUT.h,
-            //     w: 100,
-            // },
             Container: {
                 w: 100,
                 h: LAYOUT.h,

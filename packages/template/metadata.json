@@ -1,6 +1,6 @@
 {
-    "name": "app-harness",
+    "name": "flexn-template",
     "version": "0.13.1",
-    "identifier": "io.flexn.example",
+    "identifier": "io.flexn.template",
     "icon": "./static/icon.png"
 }

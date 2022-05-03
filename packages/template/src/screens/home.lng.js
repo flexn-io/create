@@ -5,6 +5,24 @@ import Button from '../components/button.lng';
 
 window.theme = THEME_LIGHT;
 
+class Icon extends Lightning.Component {
+    static _template() {
+        return {
+            flexItem: { marginRight: 10, marginLeft: 10 },
+            src: '',
+            w: 60,
+            h: 60,
+        };
+    }
+
+    _focus() {
+        this.patch({ smooth: { scale: 1.2 } });
+    }
+
+    _unfocus() {
+        this.patch({ smooth: { scale: 1 } });
+    }
+}
 export default class Home extends Lightning.Component {
     static _template() {
         return {
@@ -24,27 +42,41 @@ export default class Home extends Lightning.Component {
             Text3: this._renderText('platform: tvos', 30),
             Text4: this._renderText('factor: tv', 30),
             Text5: this._renderText('engine: engine-lng', 30),
-            Button1: {
+            Button0: {
                 type: Button,
                 title: 'Try me!',
                 y: 50,
-                opacity: 0,
                 signals: {
                     onPress: '_onPressBtn1',
                 },
             },
-            Button2: {
+            Button1: {
                 type: Button,
                 title: 'Now try me!',
                 y: 80,
-                opacity: 0,
                 signals: {
                     onPress: '_onPressBtn2',
                 },
             },
             Text6: {
-                y: 90,
+                y: 100,
                 ...this._renderText('Explore More', 30),
+            },
+            Icons: {
+                y: 120,
+                flex: { justifyContent: 'center', direction: 'row', alignItems: 'center' },
+                Icon2: {
+                    type: Icon,
+                    src: Utils.asset('github-90.png'),
+                },
+                Icon3: {
+                    type: Icon,
+                    src: Utils.asset('chrome-96.png'),
+                },
+                Icon4: {
+                    type: Icon,
+                    src: Utils.asset('twitter-90.png'),
+                },
             },
         };
     }
@@ -64,7 +96,7 @@ export default class Home extends Lightning.Component {
     }
 
     _init() {
-        this._setState(window.theme);
+        this._setState(window.theme === THEME_LIGHT ? 'LightTheme' : 'DarkTheme');
     }
 
     static _states() {
@@ -73,8 +105,8 @@ export default class Home extends Lightning.Component {
                 $enter() {
                     this.patch({
                         color: getHexColor('#FFFFFF'),
-                        Button1: { textColor: getHexColor('#000000') },
-                        Button2: { textColor: getHexColor('#000000') },
+                        Button0: { textColor: getHexColor('#000000'), opacity: 100 },
+                        Button1: { textColor: getHexColor('#000000'), opacity: 100 },
                     });
                     ['Text1', 'Text2', 'Text3', 'Text4', 'Text5', 'Text6'].forEach((key) => {
                         this.patch({ [key]: { text: { textColor: getHexColor('#000000') } } });
@@ -87,8 +119,8 @@ export default class Home extends Lightning.Component {
                 $enter() {
                     this.patch({
                         color: getHexColor('#000000'),
-                        Button1: { textColor: getHexColor('#FFFFFF') },
-                        Button2: { textColor: getHexColor('#FFFFFF') },
+                        Button0: { textColor: getHexColor('#FFFFFF'), opacity: 0 },
+                        Button1: { textColor: getHexColor('#FFFFFF'), opacity: 0 },
                     });
                     ['Text1', 'Text2', 'Text3', 'Text4', 'Text5', 'Text6'].forEach((key) => {
                         this.patch({ [key]: { text: { textColor: getHexColor('#FFFFFF') } } });
@@ -113,18 +145,38 @@ export default class Home extends Lightning.Component {
     }
 
     _handleUp() {
-        if (this.focusIndex !== 0) {
-            this.focusIndex--;
+        if (this.focusIndex > 1) {
+            this.focusIndex = 1;
+        } else if (this.focusIndex === 1) {
+            this.focusIndex = 0;
         }
     }
 
     _handleDown() {
-        if (this.focusIndex !== 1) {
+        if (this.focusIndex !== 2) {
+            this.focusIndex++;
+        }
+    }
+
+    _handleLeft() {
+        if (this.focusIndex > 2) {
+            this.focusIndex--;
+        } else {
+            Router.focusWidget('SideMenu');
+        }
+    }
+
+    _handleRight() {
+        if (this.focusIndex > 1 && this.focusIndex < 4) {
             this.focusIndex++;
         }
     }
 
     _getFocused() {
-        return this.focusIndex === 0 ? this.tag('Button1') : this.tag('Button2');
+        if (this.focusIndex <= 1) {
+            return this.tag(`Button${this.focusIndex}`);
+        }
+
+        return this.tag('Icons').tag(`Icon${this.focusIndex}`);
     }
 }

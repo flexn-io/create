@@ -19,12 +19,23 @@ class Card extends Lightning.Component {
         return {
             rect: true,
             h: 250,
-            src: ''
+            src: '',
+            Text: {
+                y: 250,
+                w: (w) => w - 50,
+                text: {
+                    fontSize: 28,
+                    maxLinesSuffix: '...',
+                    maxLines: 1,
+                    textColor: getHexColor('#000000'),
+                    text: ''
+                }
+            }
         };
     }
 
     _init() {
-        this.patch({ src: this.item.backgroundImage });
+        this.patch({ Text: { text: { text: this.item.title } } });
     }
 
     _handleEnter() {
@@ -32,7 +43,7 @@ class Card extends Lightning.Component {
     }
 
     _focus() {
-        this.patch({ smooth: { scale: 1.2 } });
+        this.patch({ smooth: { scale: 1.1 } });
     }
 
     _unfocus() {
@@ -61,16 +72,17 @@ export default class Carousels extends Lightning.Component {
             itemSpacing: 30,
             plinko: true,
             zIndex: 1,
-            y: 0,
+            y: 20,
             h: LAYOUT.h,
-            x: 130,
+            x: 150,
             items: carouselsData.map((column, index) => ({
                 type: Row,
-                h: 250,
+                h: 280,
                 w: 1920,
                 itemSpacing: 25,
                 items: column.map((item, rowNumber) => ({
                     type: Card,
+                    src: item.backgroundImage,
                     item: {...item, rowNumber },
                     w: LAYOUT.w / itemsInRows[index][1],
                 }))

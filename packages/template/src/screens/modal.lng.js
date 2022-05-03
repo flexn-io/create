@@ -1,19 +1,18 @@
 /* eslint-disable no-underscore-dangle */
 import { Lightning, Utils, Router } from '@lightningjs/sdk';
-import { LAYOUT, getHexColor } from '../config';
+import { LAYOUT, getHexColor, THEME_LIGHT } from '../config';
 
 export default class Modal extends Lightning.Component {
     static _template() {
         return {
             rect: true,
-            color: getHexColor('#FFFFFF'),
             w: LAYOUT.w,
             h: LAYOUT.h,
-            src: '',
+            color: getHexColor('#FFFFFF'),
             Close: {
                 w: 40,
                 h: 40,
-                x: (x) => x - 50,
+                x: (x) => x - 90,
                 y: 50,
                 src: Utils.asset('close-90.png'),
             },
@@ -30,8 +29,9 @@ export default class Modal extends Lightning.Component {
     }
 
     _init() {
-        const color = window.theme === 'LightTheme' ? getHexColor('#FFFFFF') : getHexColor('#000000');
-        this.patch({ color });
+        const color = window.theme === THEME_LIGHT ? getHexColor('#FFFFFF') : getHexColor('#000000');
+        const textColor = window.theme === THEME_LIGHT ? getHexColor('#000000') : getHexColor('#FFFFFF');
+        this.patch({ color, Text: { text: { textColor } } });
     }
 
     _getFocused() {
