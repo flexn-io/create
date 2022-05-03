@@ -35,7 +35,8 @@ class Card extends Lightning.Component {
     }
 
     _init() {
-        this.patch({ Text: { text: { text: this.item.title } } });
+        const textColor = window.theme === THEME_LIGHT ? getHexColor('#000000') : getHexColor('#FFFFFF');
+        this.patch({ Text: { text: { text: this.item.title, textColor } } });
     }
 
     _handleEnter() {

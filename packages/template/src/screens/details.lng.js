@@ -3,6 +3,7 @@ import { Lightning, Router } from '@lightningjs/sdk';
 import { getHexColor, LAYOUT, ROUTES } from '../config';
 import { getRandomData } from '../utils';
 import Button from '../components/button.lng';
+import {  THEME_DARK } from '../config.lng';
 
 export default class Details extends Lightning.Component {
     static _template() {
@@ -14,13 +15,17 @@ export default class Details extends Lightning.Component {
             src: '',
             flex: { justifyContent: 'center', direction: 'column', alignItems: 'center' },
             Text: {
-                text: { text: '' },
+                text: {
+                    textColor: getHexColor('#000000'),
+                    text: ''
+                },
             },
             Button1: {
                 type: Button,
                 title: 'Go back',
                 y: 50,
                 opacity: 0,
+                textColor: getHexColor('#000000'),
                 signals: {
                     onPress: '_onPressBtn1',
                 },
@@ -30,6 +35,7 @@ export default class Details extends Lightning.Component {
                 title: 'Go to home',
                 y: 120,
                 opacity: 0,
+                textColor: getHexColor('#000000'),
                 signals: {
                     onPress: '_onPressBtn2',
                 },
@@ -47,6 +53,17 @@ export default class Details extends Lightning.Component {
 
     _construct() {
         this.focusIndex = 0;
+    }
+
+    _init() {
+        if (window.theme === THEME_DARK) {
+            const white = getHexColor('#FFFFFF');
+            this.patch({
+                Button1: { textColor: white },
+                Button2: { textColor: white },
+                Text: { text: { textColor: white } }
+            });
+        }
     }
 
     _onPressBtn1() {
