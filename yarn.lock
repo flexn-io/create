@@ -2522,6 +2522,23 @@
   resolved "https://registry.yarnpkg.com/@flexn/eslint-config/-/eslint-config-0.1.4.tgz#04992204ddd8852645ede95ab71842534cec587b"
   integrity sha512-6/tvK4iVXf5D+F2zqsni7Sj67zxWXc6NvILC/XFFVMwNLwawQgfHVFEjiKGllKxJX8fYvLL+ilPQycKCjmWv5g==
 
+"@flexn/graybox@0.13.1":
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/@flexn/graybox/-/graybox-0.13.1.tgz#66f6d43321a541850e5bfc7d5d407e617fcc715c"
+  integrity sha512-SCrlozLLpEWjt9slN0GM/VeiGasCnwKJ2BzwHnmptRqzmNYj06KYYdvZuerDpEeMJ96iAN7TTTprKeooGy8yVg==
+  dependencies:
+    "@wdio/allure-reporter" "^7.10.0"
+    "@wdio/appium-service" "^7.8.0"
+    "@wdio/cli" "^7.9.1"
+    "@wdio/local-runner" "^7.9.1"
+    "@wdio/mocha-framework" "^7.9.1"
+    "@wdio/selenium-standalone-service" "^7.10.1"
+    "@wdio/spec-reporter" "^7.9.0"
+    allure-commandline "^2.13.8"
+    appium "^1.21.0"
+    chromedriver "87.0.7"
+    wdio-chromedriver-service "7.2.2"
+
 "@flexn/prettier-config@0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@flexn/prettier-config/-/prettier-config-0.1.4.tgz#3af0d5d2b4c9767214b7fdbe9e683615ba7dfac3"
@@ -4318,6 +4335,11 @@
   resolved "https://registry.yarnpkg.com/@lightningjs/core/-/core-2.5.1.tgz#bb453f0f2bdf6e247d2b7df82a4c05778f3a2790"
   integrity sha512-oA3qKQUqXuEBxowRSpJrRXC+z8pJigdwHU9i5nPZdo652SYxtu7ExyhiOy4X/we5Dmhb5RaraX/oBjG+aHJHDg==
 
+"@lightningjs/core@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@lightningjs/core/-/core-2.6.0.tgz#6126dbeb796b9fa6930f7a09c972cf2aaacb86d1"
+  integrity sha512-OxA7I4oJ9J17i5d2D4pjW29YMLbOOzg5slsJXaUymDDfV38N+BtAj4HdmNm4YwDlz4Vpj59smxyV/L+0I1SneQ==
+
 "@lightningjs/sdk@4.3.3":
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/@lightningjs/sdk/-/sdk-4.3.3.tgz#19d5ef24ce70a8246e141f713df7160f62d0643a"
@@ -4344,6 +4366,13 @@
     shelljs "^0.8.4"
     url-polyfill "^1.1.10"
     whatwg-fetch "^3.0.0"
+
+"@lightningjs/ui-components@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@lightningjs/ui-components/-/ui-components-1.2.1.tgz#1fcbef9879064702912db65cd05d70a0d0ef8715"
+  integrity sha512-qhxIC9loCLKpn4ryRLuJzvO4+KeHqudVTJRGfNXKPVVNLhNpWLQCqcMaRSN4AN1hO1VZZ3CwvhXJOte8+pym9Q==
+  dependencies:
+    debounce "^1.2.1"
 
 "@malept/cross-spawn-promise@^1.1.0":
   version "1.1.1"
@@ -5292,6 +5321,14 @@
   dependencies:
     "@rollup/pluginutils" "^3.1.0"
     magic-string "^0.25.7"
+
+"@rollup/plugin-typescript@^8.3.2":
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-typescript/-/plugin-typescript-8.3.2.tgz#e1b719e2ed3e752bbc092001656c48378f2d15f0"
+  integrity sha512-MtgyR5LNHZr3GyN0tM7gNO9D0CS+Y+vflS4v/PHmrX17JCkHUYKvQ5jN5o3cz1YKllM3duXUqu3yOHwMPUxhDg==
+  dependencies:
+    "@rollup/pluginutils" "^3.1.0"
+    resolve "^1.17.0"
 
 "@rollup/plugin-virtual@^2.0.3":
   version "2.0.3"
@@ -11493,7 +11530,7 @@ dayjs@^1.8.15:
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.7.tgz#2cf5f91add28116748440866a0a1d26f3a6ce468"
   integrity sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==
 
-debounce@^1.2.0:
+debounce@^1.2.0, debounce@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.1.tgz#38881d8f4166a5c5848020c11827b834bcb3e0a5"
   integrity sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==
@@ -18111,6 +18148,13 @@ magic-string@0.25.7, magic-string@^0.25.7:
   dependencies:
     sourcemap-codec "^1.4.4"
 
+magic-string@0.26.1:
+  version "0.26.1"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.26.1.tgz#ba9b651354fa9512474199acecf9c6dbe93f97fd"
+  integrity sha512-ndThHmvgtieXe8J/VGPjG+Apu7v7ItcD5mhEIvOscWjPF/ccOiLxHaSuCAS2G+3x4GKsAbT8u7zdyamupui8Tg==
+  dependencies:
+    sourcemap-codec "^1.4.8"
+
 magic-string@^0.25.0:
   version "0.25.9"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.9.tgz#de7f9faf91ef8a1c91d02c2e5314c8277dbcdd1c"
@@ -19024,6 +19068,11 @@ moment@2.29.1, "moment@>= 2.9.0", moment@^2.24.0:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
+
+moment@2.29.2:
+  version "2.29.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.2.tgz#00910c60b20843bcba52d37d58c628b47b1f20e4"
+  integrity sha512-UgzG4rvxYpN15jgCmVJwac49h9ly9NurikMWGPdVxm8GZD6XjkKPxDTjQQ43gtGgnV3X0cAyWDdP2Wexoquifg==
 
 morgan@^1.9.0:
   version "1.10.0"
@@ -20237,6 +20286,11 @@ package-name-regex@2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/package-name-regex/-/package-name-regex-2.0.4.tgz#e2d446a168ce7a5e4b3b7538e49e012845425e87"
   integrity sha512-p+ixFAmbQ9DE9TG3ptbjLc7/gwgdKEMCwdGpZwxzgD02D1q/SRRT/j32MyjGjJQ36CSTeVsvKt9Zp3PUHYWBnw==
+
+package-name-regex@2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/package-name-regex/-/package-name-regex-2.0.6.tgz#b54bcb04d950e38082b7bb38fa558e01c1679334"
+  integrity sha512-gFL35q7kbE/zBaPA3UKhp2vSzcPYx2ecbYuwv1ucE9Il6IIgBDweBlH8D68UFGZic2MkllKa2KHCfC1IQBQUYA==
 
 pacote@^11.2.6:
   version "11.3.5"
@@ -23276,6 +23330,21 @@ roarr@^2.15.3:
     semver-compare "^1.0.0"
     sprintf-js "^1.1.2"
 
+rollup-plugin-license@2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-2.7.0.tgz#89551c371d50441612b9202f172b9935b4b1f7c8"
+  integrity sha512-0H1Fbuf85rvpadpmAaairdahzQHY0zHtcXkOFV5EStjX9aMCO2Hz5AQp/zZe+K/PB3o6As7R9uzcb8Pw1K94dg==
+  dependencies:
+    commenting "1.1.0"
+    glob "7.2.0"
+    lodash "4.17.21"
+    magic-string "0.26.1"
+    mkdirp "1.0.4"
+    moment "2.29.2"
+    package-name-regex "2.0.6"
+    spdx-expression-validate "2.0.0"
+    spdx-satisfies "5.0.1"
+
 rollup-plugin-license@^2.2.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-2.6.0.tgz#363a15bf2f86753942cb4936bbd65234696956f0"
@@ -23312,6 +23381,13 @@ rollup@^2.43.1:
   version "2.70.1"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.70.1.tgz#824b1f1f879ea396db30b0fc3ae8d2fead93523e"
   integrity sha512-CRYsI5EuzLbXdxC6RnYhOuRdtz4bhejPMSWjsFLfVM/7w/85n2szZv6yExqUXsBdz5KT8eoubeyDUDjhLHEslA==
+  optionalDependencies:
+    fsevents "~2.3.2"
+
+rollup@^2.70.2:
+  version "2.70.2"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.70.2.tgz#808d206a8851628a065097b7ba2053bd83ba0c0d"
+  integrity sha512-EitogNZnfku65I1DD5Mxe8JYRUCy0hkK5X84IlDtUs+O6JRMpRciXTzyCUuX11b5L5pvjH+OmFXiQ3XjabcXgg==
   optionalDependencies:
     fsevents "~2.3.2"
 
