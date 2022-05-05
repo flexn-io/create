@@ -28,6 +28,11 @@ export const hasHorizontalMenu = !isFactorMobile && !isFactorDesktop && !hasMobi
 export const isWebBased = isPlatformWeb || isPlatformTizen || isPlatformWebos;
 const isEngineNative = isEngineRn || isEngineRnMacos || isEngineRnWindows;
 
+export const LAYOUT = {
+    w: 1920,
+    h: 1080,
+};
+
 const staticTheme = {
     primaryFontFamily: 'Inter-Light',
     iconSize: getScaledValue(30),
@@ -347,6 +352,12 @@ export function ThemeProvider({ children }) {
 }
 
 export const themeStyles = themes.dark.styles;
+
+export const THEME = staticThemes;
+
+export const THEME_LIGHT = 'light';
+
+export const THEME_DARK = 'dark';
 
 export { ICON_LOGO };
 
