@@ -51,7 +51,7 @@
     "devDependencies": {
         "rollup": "^2.70.2",
         "@rollup/plugin-typescript": "^8.3.2",
-        "@flexn/graybox": "0.13.1",
+        "@flexn/graybox": "0.13.2-alpha.0",
         "@flexn/sdk": "0.13.1",
         "@flexn/typescript": "0.1.4",
         "@react-native-community/cli": "^6.0.0",
