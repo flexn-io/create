@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from 'react';
-import { Text, View, ScrollView, TouchableOpacity, Image } from '@flexn/sdk';
-import { Api } from 'renative';
+import { Text, View, ScrollView, TouchableOpacity, Image, ANIMATION_TYPES } from '@flexn/sdk';
+import { Api } from '@rnv/renative';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ROUTES, ICON_LOGO, ThemeContext } from '../config';
 import { useNavigate, useOpenURL } from '../hooks';
@@ -16,9 +16,8 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
     const { theme, toggle } = useContext(ThemeContext);
 
     const focusAnimation = {
-        type: 'background_color',
-        colorFocus: theme.static.colorBrand,
-        colorBlur: theme.static.colorBgPrimary,
+        type: ANIMATION_TYPES.BACKGROUND,
+        backgroundColorFocus: theme.static.colorBrand,
     };
 
     return (

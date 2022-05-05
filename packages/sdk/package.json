@@ -1,6 +1,6 @@
 {
     "name": "@flexn/sdk",
-    "version": "0.12.0",
+    "version": "0.13.1",
     "description": "Flexn SDK",
     "main": "lib/index",
     "types": "lib/index",
@@ -42,6 +42,6 @@
     },
     "peerDependencies": {
         "react": "^17.0.2",
-        "react-native": "0.63.4"
+        "react-native": "0.67.2"
     }
 }

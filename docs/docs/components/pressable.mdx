@@ -174,8 +174,8 @@ Animator Options can define how your component will behave when it gains focus. 
   focusOptions={{
     animatorOptions: {
       type: 'scale',
-      scale: 1.1, // optional any value from 1
-      duration: 150, // optional how long time border transition should take
+      scale: 1.1, // Optional. Any value from 1
+      duration: 150, // Optional. How long time border transition should take
     }
   }}
 />
@@ -185,15 +185,15 @@ Animator Options can define how your component will behave when it gains focus. 
 
 ```javascript
 <Pressable
+  style={{
+    borderColor: '#0A74E6',
+    borderWidth: 1,
+  }}
   focusOptions={{
     animatorOptions: {
       type: 'scale_with_border',
-      scale: 1.1, // optional any value from 1
-      borderStyle: 'solid', // optional any available border style
-      borderWidth: 1, // optional any integer value,
-      colorBlur: 'transparent', // optional if no value is set then transparent is applied
-      colorFocus: 'transparent', // optional if no value is set then black is applied,
-      duration: 150, // optional how long time border transition should take
+      scale: 1.1, // Optional. Any value from 1
+      duration: 150, // Optional. How long time border transition should take
     }
   }}
 />
@@ -203,14 +203,14 @@ Animator Options can define how your component will behave when it gains focus. 
 
 ```javascript
 <Pressable
+  style={{
+    borderColor: '#0A74E6',
+    borderWidth: 1,
+  }}
   focusOptions={{
     animatorOptions: {
       type: 'border',
-      borderStyle: 'solid', // optional any available border style
-      borderWidth: 1, // optional any integer value,
-      colorBlur: 'transparent', // optional if no value is set then transparent is applied
-      colorFocus: 'transparent', // optional if no value is set then black is applied,
-      duration: 150, // optional how long time border transition should take
+      duration: 150, // Optional. How long time border transition should take
     }
   }}
 />
@@ -220,12 +220,14 @@ Animator Options can define how your component will behave when it gains focus. 
 
 ```javascript
 <Pressable
+  style={{
+    backgroundColor: '#FFFFFF'
+  }}
   focusOptions={{
     animatorOptions: {
-      type: 'background_color',
-      colorBlur: 'transparent', // optional if no value is set then transparent is applied
-      colorFocus: 'transparent', // optional if no value is set then black is applied,
-      duration: 150, // optional how long time border transition should take
+      type: 'background',
+      backgroundColorFocus: '#0A74E6', // Required. Color which will be applied when element gains focus
+      duration: 150, // Optional. How long time border transition should take
     }
   }}
 />

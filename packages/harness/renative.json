@@ -5,7 +5,7 @@
     "currentTemplate": "@flexn/template",
     "templates": {
         "@flexn/template": {
-            "version": "0.12.0"
+            "version": "0.13.1"
         }
     },
     "defaults": {
@@ -33,6 +33,21 @@
         "react-native-google-cast": "source:flexn",
         "@lightningjs/sdk": "source:flexn",
         "react-native-carplay": "source:flexn",
-        "react-native-snap-carousel": "3.9.1"
+        "react-native-snap-carousel": "3.9.1",
+        "react": "source:rnv",
+        "react-art": "source:rnv",
+        "react-dom": "source:rnv",
+        "react-native": "source:rnv",
+        "@react-native-community/cli-platform-ios": "source:rnv",
+        "@react-native-community/cli": "source:rnv",
+        "react-native-tvos": "source:rnv",
+        "react-native-web": "source:rnv",
+        "next": "source:rnv"
+    },
+    "platforms": {
+        "macos": {
+            "engine": "engine-rn",
+            "excludedPlugins": ["react-native-linear-gradient"]
+        }
     }
 }

@@ -24,6 +24,8 @@ export type ScreenFocusOptions = {
     focusKey?: string;
     verticalWindowAlignment?: WindowAlignment;
     horizontalWindowAlignment?: WindowAlignment;
+    horizontalViewportOffset?: number;
+    verticalViewportOffset?: number;
     nextFocusLeft?: string | string[];
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
@@ -118,6 +120,8 @@ export interface Context {
     stealFocus?: boolean;
     verticalWindowAlignment?: string;
     horizontalWindowAlignment?: string;
+    horizontalViewportOffset?: number;
+    verticalViewportOffset?: number;
     isNested?: boolean;
     order?: number;
     scrollOffsetX?: number;

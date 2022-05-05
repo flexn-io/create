@@ -1,4 +1,13 @@
-import { isPlatformIos, isPlatformMacos, isPlatformTvos, isPlatformWeb, isFactorMobile } from 'renative';
+import {
+    isPlatformIos,
+    isPlatformMacos,
+    isPlatformTvos,
+    isPlatformWeb,
+    isFactorMobile,
+    isPlatformTizen,
+    isPlatformWebos,
+} from './imports';
+import { LAYOUT } from './config';
 
 export function testProps(testId: string | undefined) {
     if (!testId) {
@@ -119,8 +128,12 @@ function interval(min = 0, max = kittyNames.length - 1) {
 }
 
 const data = {};
-export function getRandomData(row: number, idx?: number, items = 50) {
-    const width = isFactorMobile ? 400 : 650;
+export function getRandomData(row: number, idx?: number, countInRow = 6, items = 50) {
+    const isSmartTV = isPlatformTizen || isPlatformWebos;
+    let width = isFactorMobile ? 400 : 650;
+    if (isSmartTV) {
+        width = LAYOUT.w / countInRow;
+    }
     const height = 200;
 
     if (data[row] && idx !== undefined) {
@@ -131,7 +144,7 @@ export function getRandomData(row: number, idx?: number, items = 50) {
     for (let index = 0; index < items; index++) {
         temp.push({
             index,
-            backgroundImage: `https://placekitten.com/${width + row}/${height + index}`,
+            backgroundImage: `https://placekitten.com/${isSmartTV ? width : width + row}/${height + index}`,
             title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
         });
     }
@@ -139,4 +152,19 @@ export function getRandomData(row: number, idx?: number, items = 50) {
     data[row] = temp;
 
     return temp;
+}
+
+export function getHexColor(hex: string, alpha = 100) {
+    if (!hex) {
+        return 0x00;
+    }
+
+    if (hex.startsWith('#')) {
+        hex = hex.substring(1);
+    }
+
+    const hexAlpha = Math.round((alpha / 100) * 255).toString(16);
+    const str = `0x${hexAlpha}${hex}`;
+    //@ts-ignore
+    return parseInt(Number(str), 10);
 }

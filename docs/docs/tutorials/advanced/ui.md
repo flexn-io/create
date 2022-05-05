@@ -21,7 +21,7 @@ import StyleSheet from 'react-native-media-query';
 import {
   getScaledValue,
   isEngineNative,
-  isEngineWeb,
+  isEngineRnWeb,
   isFactorBrowser,
   isFactorDesktop,
   isFactorMobile,
@@ -34,7 +34,7 @@ import {
   isPlatformWindows,
   isPlatformMacos,
   registerServiceWorker,
-} from 'renative';
+} from '@rnv/renative';
 import '../platformAssets/runtime/fontManager';
 import { StaticTheme, Theme } from './configTypes';
 //@ts-ignore
@@ -376,7 +376,7 @@ On web and mobile our menu needs to be just a View, which wraps all the menu ite
 import React, { useContext, useState } from 'react';
 import { View, TouchableOpacity, Text } from '@flexn/sdk';
 import { testProps } from '../utils';
-import { isFactorBrowser } from 'renative';
+import { isFactorBrowser } from '@rnv/renative';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ThemeContext, ROUTES } from '../config';
 import { useNavigate } from '../hooks';

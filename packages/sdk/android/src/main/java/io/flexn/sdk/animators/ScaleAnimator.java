@@ -40,12 +40,8 @@ class ScaleAnimator extends AbstractAnimator implements TimeAnimator.TimeListene
     ScaleAnimator(ReactViewGroup view, ReadableMap args) {
         super(view, args);
 
-        float scale = args.hasKey("scale") ? (float) args.getDouble("scale") : 1.2f;
-        int duration = args.hasKey("duration") ? args.getInt("duration") : 150;
-        boolean useDimmer = false;
-
-        mDuration = duration;
-        mScaleDiff = scale - 1f;
+        mDuration = AnimatorProperty.getDuration();
+        mScaleDiff = AnimatorProperty.getScale() - 1f;
         mAnimator.setTimeListener(this);
     }
 

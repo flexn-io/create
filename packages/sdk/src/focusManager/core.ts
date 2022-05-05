@@ -299,7 +299,6 @@ class CoreManager {
                         logger.debug('FOCUSABLE SCREENS', focusableScreens);
                         let nextScreenContext: Context | null | undefined;
                         focusableScreens.forEach((s) => {
-                            // this._currentContext = this.findFirstFocusableOnScreen(s);
                             nextScreenContext = this.getNextFocusableContext(direction, s, false, true);
                         });
 

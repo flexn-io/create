@@ -1,14 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
+import { isPlatformTvos } from '@rnv/renative';
 import {
     makeid,
     useCombinedRefs,
     usePrevious,
     alterForbiddenFocusDirections,
+    flattenStyle,
 } from '../../focusManager/helpers';
 import type { Context, ViewProps } from '../../focusManager/types';
 import CoreManager from '../../focusManager/core';
-import { measure } from '../../focusManager/layoutManager';
+import { ANIMATIONS } from '../../focusManager/constants';
+import { measure, recalculateLayout } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
 export const defaultAnimation = {
@@ -58,7 +61,6 @@ const View = React.forwardRef<any, ViewProps>(
             if (focus) {
                 return makeContext();
             }
-
             return pctx;
         });
 
@@ -86,9 +88,16 @@ const View = React.forwardRef<any, ViewProps>(
         }, [onPress, onFocus, onBlur]);
 
         useEffect(() => {
+            if (CoreManager.currentContext) {
+                recalculateLayout(CoreManager.currentContext);
+            }
+        }, [repeatContext]);
+
+        useEffect(() => {
             if (focus) {
                 CoreManager.registerContext(context, ref);
             }
+
             return () => {
                 // CHILD CAN BE REMOVED INDEPENDENTLY
                 if (focus) {
@@ -135,13 +144,34 @@ const View = React.forwardRef<any, ViewProps>(
         }
 
         if (focus) {
-            const { animatorOptions = defaultAnimation } = focusOptions;
+            let animatorOptions = focusOptions.animatorOptions || defaultAnimation;
+
+            const flattenedStyle = flattenStyle(style);
+            animatorOptions = { ...animatorOptions, style: { ...flattenedStyle } };
+            let borderProps = {};
+            const isBorderAnimation = [ANIMATIONS.BORDER, ANIMATIONS.SCALE_BORDER].includes(animatorOptions.type);
+            if (!isBorderAnimation) {
+                borderProps = {
+                    focusableBorderWidth: flattenedStyle.borderWidth,
+                    focusableBorderLeftWidth: flattenedStyle.borderLeftWidth,
+                    focusableBorderRightWidth: flattenedStyle.borderRightWidth,
+                    focusableBorderTopWidth: flattenedStyle.borderTopWidth,
+                    focusableBorderBottomWidth: flattenedStyle.borderBottomWidth,
+                    focusableBorderStartWidth: flattenedStyle.borderStartWidth,
+                    focusableBorderEndWidth: flattenedStyle.borderEndWith,
+                };
+            } else {
+                if (isPlatformTvos) {
+                    delete flattenedStyle.borderWidth;
+                }
+            }
 
             return (
                 <TvFocusableViewManager
-                    style={style}
+                    style={flattenedStyle}
                     onLayout={onLayout}
                     animatorOptions={animatorOptions}
+                    {...borderProps}
                     {...props}
                     ref={ref}
                 >

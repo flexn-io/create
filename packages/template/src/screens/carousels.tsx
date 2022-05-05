@@ -11,7 +11,7 @@ import {
 import { testProps } from '../utils';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Dimensions } from 'react-native';
-import { isFactorMobile } from 'renative';
+import { isFactorMobile } from '@rnv/renative';
 import { Ratio, ThemeContext, ROUTES } from '../config';
 import { useNavigate } from '../hooks';
 import { getRandomData } from '../utils';
