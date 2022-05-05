@@ -10,6 +10,8 @@ import { alterForbiddenFocusDirections, makeid } from '../..//focusManager/helpe
 import { measure } from '../../focusManager/layoutManager';
 import type { Context, RecyclerViewProps } from '../../focusManager/types';
 
+const Column = null;
+
 export default function RecyclerView({
     style,
     parentContext,
@@ -111,4 +113,4 @@ export default function RecyclerView({
     );
 }
 
-export { RecyclableListDataProvider, RecyclableListLayoutProvider };
+export { RecyclableListDataProvider, RecyclableListLayoutProvider, Column };

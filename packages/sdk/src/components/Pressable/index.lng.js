@@ -4,28 +4,41 @@ export default class Pressable extends Lightning.Component {
     static _template() {
         return {
             w: 0,
-            h: 0
+            h: 0,
         };
     }
 
-    get content() {
-        return this._content;
-    }
-
-    set content(content) {
-        this._content = content;
-        this._render();
+    _construct() {
+        this._disableDefaultAnimation = false;
     }
 
     _init() {
-        this._render();
+        this._disableDefaultAnimation = this.disableDefaultAnimation;
     }
 
-    _render() {
-        this.patch(this.content);
+    get disableDefaultAnimation() {
+        return this._disableDefaultAnimation;
     }
 
-    _handleBack() {
+    set disableDefaultAnimation(val) {
+        this._disableDefaultAnimation = val;
+    }
+
+    _handleEnter() {
         this.signal('onPress');
+    }
+
+    _focus() {
+        if (!this.disableDefaultAnimation) {
+            this.smooth = { scale: 1.2 };
+        }
+        this.signal('onFocus');
+    }
+
+    _unfocus() {
+        if (!this.disableDefaultAnimation) {
+            this.smooth = { scale: 1 };
+        }
+        this.signal('onBlur');
     }
 }

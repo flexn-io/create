@@ -26,6 +26,8 @@
         "@flexn/typescript": "0.1.4",
         "@lightningjs/cli": "2.7.2",
         "@lightningjs/sdk": "4.3.3",
+        "@lightningjs/core": "^2.6.0",
+        "@lightningjs/ui-components": "^1.2.1",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/cli-platform-ios": "^6.0.0",
         "@react-native-community/masked-view": "0.1.6",

@@ -1,5 +1,4 @@
-import Lightning from '@lightningjs/core';
-
+import { Utils, Lightning } from '@lightningjs/sdk';
 export default class Image extends Lightning.Component {
     static _template() {
         return {
@@ -9,12 +8,8 @@ export default class Image extends Lightning.Component {
         };
     }
 
-    get icon() {
-        return this._icon;
-    }
-
-    set icon(icon) {
-        this._icon = icon;
+    set source(src) {
+        this._source = src;
         this._update();
     }
 
@@ -23,8 +18,9 @@ export default class Image extends Lightning.Component {
     }
 
     _update() {
-        const { icon, w, h } = this;
-        const template = getIconTemplate(icon, w, h);
+        const { _source, w, h } = this;
+        const template = getIconTemplate(_source, w, h);
+
         this.patch(template);
     }
 }
@@ -48,9 +44,9 @@ function getIconTemplate(icon, w, h) {
             break;
         case isSvgURI(icon):
             template.texture = Lightning.Tools.getSvgTexture(icon, w, h);
-            break;
+            break;  
         case isImageURI(icon):
-            template.src = icon;
+            template.src = icon.indexOf('http://') === 0 || icon.indexOf('https://') === 0 ? icon : Utils.asset(icon);
             break;
         default:
             break;

@@ -1,3 +1,4 @@
-import Icon from './Icon';
+import Image from './Image/index.lng';
+import Pressable from './Pressable/index.lng';
 
-export default { Icon };
+export default { Image, Pressable };
