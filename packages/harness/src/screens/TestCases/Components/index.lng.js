@@ -1,4 +1,5 @@
-import Image from './Image/index.lng';
-import Pressable from './Pressable/index.lng';
+import Image from './Image';
+import Pressable from './Pressable';
+import Input from './Input';
 
-export default { Image, Pressable };
+export default { Image, Pressable, Input };

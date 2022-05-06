@@ -1,3 +1,4 @@
+// Primitive components
 export { default as ActivityIndicator } from './components/ActivityIndicator';
 export { default as App } from './components/App';
 export { default as Debugger } from './components/Debugger';
@@ -20,11 +21,25 @@ export { default as VerticalRecyclableList } from './components/VerticalRecyclab
 export { default as View } from './components/View';
 export { default as ImageBackground } from './components/ImageBackground';
 export { default as Modal } from './components/Modal';
+
+// Complex components
+export { default as Card } from './complexComponents/Card';
+export { default as Grid } from './complexComponents/Grid';
+export { default as Keyboard } from './complexComponents/Keyboard';
+export { default as List } from './complexComponents/List';
+export { default as Row } from './complexComponents/Row';
+
+// APIs
 export { default as StyleSheet } from './apis/StyleSheet';
 export { default as Animated } from './apis/Animated';
 export { default as Appearance } from './apis/Appearance';
 export { ScreenProps, ScreenStates } from './focusManager/types';
+
+// Constants
 export { ANIMATION_TYPES } from './focusManager/constants';
+
+
+// Functions
 import CoreManager from './focusManager/core';
 
 export function focusElementByFocusKey(focusKey: string) {
