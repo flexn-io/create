@@ -5,7 +5,7 @@
     "currentTemplate": "@flexn/template",
     "templates": {
         "@flexn/template": {
-            "version": "0.13.1"
+            "version": "0.13.2"
         }
     },
     "defaults": {
@@ -47,7 +47,9 @@
     "platforms": {
         "macos": {
             "engine": "engine-rn",
-            "excludedPlugins": ["react-native-linear-gradient"]
+            "excludedPlugins": [
+                "react-native-linear-gradient"
+            ]
         }
     }
 }
