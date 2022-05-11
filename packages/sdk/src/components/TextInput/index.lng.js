@@ -135,6 +135,7 @@ export default class TextInput extends Lightning.Component {
     }
 
     $onSoftKey({ key }) {
+        // Component can be measured from measureText method in utils
         const shouldMoveCaret = this.tag('Input').tag('Text').text._source?.w > this.tag('Input').w - 40;
         this.isTyping = true;
         this.onType();

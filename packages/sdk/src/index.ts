@@ -17,7 +17,6 @@ export { default as ScrollView } from './components/ScrollView';
 export { default as Switch } from './components/Switch';
 export { default as Text } from './components/Text';
 export { default as TextInput } from './components/TextInput';
-export { default as VerticalRecyclableList } from './components/VerticalRecyclableList';
 export { default as View } from './components/View';
 export { default as ImageBackground } from './components/ImageBackground';
 export { default as Modal } from './components/Modal';
