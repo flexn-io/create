@@ -1,5 +1,5 @@
 import { Lightning } from '@lightningjs/sdk';
-import { Row } from '@flexn/sdk';
+import { Grid as FlexnGrid } from '@flexn/sdk';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -9,19 +9,18 @@ function interval(min = 0, max = kittyNames.length - 1) {
 
 function generateData(width, height, items = 30) {
     const temp = [];
-
     for (let index = 0; index < items; index++) {
         temp.push({
             index,
             backgroundImage: `https://placekitten.com/${width + index}/${height + index}`,
-            title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
+            // title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
         });
     }
 
     return temp;
 }
 
-export default class Press extends Lightning.Component {
+export default class Grid extends Lightning.Component {
     static _template() {
         const data = generateData(400, 250);
 
@@ -29,9 +28,9 @@ export default class Press extends Lightning.Component {
             w: 1920,
             h: 1080,
             x: 50,
-            y: 1080 / 2,
-            Row: {
-                type: Row,
+            y: 50,
+            Grid: {
+                type: FlexnGrid,
                 data,
                 itemSpacing: 30,
                 card: {
@@ -69,6 +68,6 @@ export default class Press extends Lightning.Component {
     }
 
     _getFocused() {
-        return this.tag('Row');
+        return this.tag('Grid');
     }
 }

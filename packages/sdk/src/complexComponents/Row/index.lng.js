@@ -1,7 +1,9 @@
-import { Row as LngRow } from '@lightningjs/ui-components';
+// import { Row as LngRow } from '@lightningjs/ui-components';
 import { Lightning } from '@lightningjs/sdk';
 import Card from '../Card';
 import { getHexColor } from '../../helpers';
+
+import LngRow from '../../lng/Row/index.lng';
 
 const styles = {
     container: {
@@ -36,21 +38,22 @@ export default class Row extends Lightning.Component {
 
     _init() {
         this._whenEnabled.then(() => {
-            console.log('TTT', this.title);
-            const template = {
-                ...styles.container,
-                Title: {
-                    ...styles.title,
-                    ...(this.title.containerStyle || {}),
-                    text: {
-                        text: this.title.text,
-                        ...styles.text,
-                        ...(this.title.textStyle || {}),
+            if (this.title?.text) {
+                const template = {
+                    ...styles.container,
+                    Title: {
+                        ...styles.title,
+                        ...(this.title.containerStyle || {}),
+                        text: {
+                            text: this.title.text,
+                            ...styles.text,
+                            ...(this.title.textStyle || {}),
+                        },
                     },
-                },
-            };
+                };
 
-            this.patch(template);
+                this.patch(template);
+            }
         });
     }
 

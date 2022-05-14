@@ -112,7 +112,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
         setRecyclers(
             itemsInRows.map(([smallScreenItems, bigScreenItems], rowNumber) => ({
                 dimensions: getRecyclerDimensions(isFactorMobile ? smallScreenItems : bigScreenItems),
-                items: getRandomData(rowNumber),
+                items: getRandomData(rowNumber, undefined),
             }))
         );
     }, []);
