@@ -1,5 +1,5 @@
 import { Lightning } from '@lightningjs/sdk';
-import { Row } from '@flexn/sdk';
+import { List } from '@flexn/sdk';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -9,7 +9,6 @@ function interval(min = 0, max = kittyNames.length - 1) {
 
 function generateData(width, height, items = 30) {
     const temp = [];
-
     for (let index = 0; index < items; index++) {
         temp.push({
             index,
@@ -23,20 +22,32 @@ function generateData(width, height, items = 30) {
 
 export default class Press extends Lightning.Component {
     static _template() {
-        const data = generateData(400, 250);
+        const data = [...Array(10).keys()].map(() => {
+            return {
+                rowTitle: kittyNames[interval()],
+                items: generateData(400, 250),
+            };
+        });
 
         return {
             w: 1920,
             h: 1080,
             x: 50,
-            y: 1080 / 2,
-            Row: {
-                type: Row,
+            y: 50,
+            List: {
+                type: List,
                 data,
                 itemSpacing: 30,
                 card: {
                     w: 250,
                     h: 250,
+                },
+                row: {
+                    h: 420,
+                    title: {
+                        containerStyle: {},
+                        textStyle: {},
+                    },
                 },
                 focusOptions: {
                     animatorOptions: {
@@ -69,6 +80,6 @@ export default class Press extends Lightning.Component {
     }
 
     _getFocused() {
-        return this.tag('Row');
+        return this.tag('List');
     }
 }

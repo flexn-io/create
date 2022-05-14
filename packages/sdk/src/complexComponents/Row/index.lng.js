@@ -1,10 +1,27 @@
 import { Row as LngRow } from '@lightningjs/ui-components';
 import { Lightning } from '@lightningjs/sdk';
 import Card from '../Card';
+import { getHexColor } from '../../helpers';
+
+const styles = {
+    container: {
+        flex: {
+            direction: 'column',
+        },
+    },
+    title: {
+        flexItem: { marginBottom: 15 },
+    },
+    text: {
+        fontSize: 42,
+        textColor: getHexColor('#000000'),
+    },
+};
 export default class Row extends Lightning.Component {
     static _template() {
         return {
             h: 280,
+            Title: {},
             Row: {
                 type: LngRow,
                 itemSpacing: 25,
@@ -17,8 +34,36 @@ export default class Row extends Lightning.Component {
         this._whenEnabled = new Promise((resolve) => (this._enable = resolve), console.error);
     }
 
+    _init() {
+        this._whenEnabled.then(() => {
+            console.log('TTT', this.title);
+            const template = {
+                ...styles.container,
+                Title: {
+                    ...styles.title,
+                    ...(this.title.containerStyle || {}),
+                    text: {
+                        text: this.title.text,
+                        ...styles.text,
+                        ...(this.title.textStyle || {}),
+                    },
+                },
+            };
+
+            this.patch(template);
+        });
+    }
+
     get _Row() {
         return this.tag('Row');
+    }
+
+    get title() {
+        return this._title;
+    }
+
+    set title(value) {
+        this._title = value;
     }
 
     get w() {
@@ -68,6 +113,20 @@ export default class Row extends Lightning.Component {
                 focusOptions: this.focusOptions,
                 ...this.card,
             }));
+        });
+    }
+
+    get row() {
+        return this._row || {};
+    }
+
+    set row(value) {
+        const baseProps = ['h', 'w'];
+
+        baseProps.forEach((prop) => {
+            if (this.row[prop] !== value[prop]) {
+                this[prop] = value[prop];
+            }
         });
     }
 

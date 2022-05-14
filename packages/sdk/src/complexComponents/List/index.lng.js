@@ -30,7 +30,7 @@ export default class List extends Lightning.Component {
             this.w = value;
 
             this._whenEnabled.then(() => {
-                this._Row.w = this.w;
+                this._List.w = this.w;
             });
         }
     }
@@ -45,7 +45,7 @@ export default class List extends Lightning.Component {
             this.h = value;
 
             this._whenEnabled.then(() => {
-                this._Row.h = this.h;
+                this._List.h = this.h;
             });
         }
     }
@@ -59,10 +59,15 @@ export default class List extends Lightning.Component {
         this._whenEnabled.then(() => {
             this._List.items = this.data.map((rowData) => ({
                 type: Row,
-                data: rowData,
+                data: rowData.items,
                 focusOptions: this.focusOptions,
                 lazyScroll: this.lazyScroll,
-                ...this.card,
+                card: this.card,
+                row: this.row,
+                title: {
+                    ...(this.row.title || {}),
+                    text: rowData.rowTitle,
+                },
             }));
         });
     }
@@ -71,8 +76,16 @@ export default class List extends Lightning.Component {
         return this._card || {};
     }
 
-    set card(card) {
-        this._card = card;
+    set card(value) {
+        this._card = value;
+    }
+
+    get row() {
+        return this._row || {};
+    }
+
+    set row(value) {
+        this._row = value;
     }
 
     get focusOptions() {
