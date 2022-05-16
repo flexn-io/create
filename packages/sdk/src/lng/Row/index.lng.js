@@ -33,6 +33,7 @@ export default class Row extends FocusManager {
     _construct() {
         super._construct();
         this._smooth = false;
+        this._independentNavigation = false;
         this._itemSpacing = 0;
         this._itemPosX = 0;
         this._itemPosY = 0;
@@ -312,6 +313,16 @@ export default class Row extends FocusManager {
         return getX(this.Items);
     }
 
+    get independentNavigation() {
+        return this._independentNavigation;
+    }
+
+    set independentNavigation(value) {
+        if (value !== this._independentNavigation) {
+            this._independentNavigation = value;
+        }
+    }
+
     appendItems(items = []) {
         const itemHeight = this.renderHeight;
         this._smooth = false;
@@ -332,5 +343,7 @@ export default class Row extends FocusManager {
     }
 
     // can be overridden
-    onScreenEffect() {}
+    onScreenEffect() {
+        // Override
+    }
 }

@@ -10,6 +10,7 @@ export default class Grid extends Lightning.Component {
                 h: 500,
                 w: 1920,
                 type: Column,
+                independentNavigation: true,
                 plinko: true,
                 itemSpacing: 25,
                 items: [],
@@ -18,7 +19,7 @@ export default class Grid extends Lightning.Component {
     }
 
     _construct() {
-        this._whenEnabled = new Promise((resolve) => (this._enable = resolve), console.error);
+        this._whenEnabled = new Promise((resolve) => (this._enable = resolve));
     }
 
     get _Grid() {
@@ -72,6 +73,7 @@ export default class Grid extends Lightning.Component {
                 type: Row,
                 data: rowData,
                 focusOptions: this.focusOptions,
+                independentNavigation: true,
                 lazyScroll: this.lazyScroll,
                 card: this.card,
                 row: this.row,

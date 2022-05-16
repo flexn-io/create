@@ -30,6 +30,7 @@ export default class FocusManager extends lng.Component {
 
     _construct() {
         this._selectedIndex = 0;
+        this._independentNavigation = false;
         this.direction = this.direction || 'row';
     }
 
@@ -81,17 +82,22 @@ export default class FocusManager extends lng.Component {
     }
 
     get selectedIndex() {
-        const state = this._getState();
-        if (state === 'Row') {
-            const prevIndex = this.parent?.parentColumn?.prevRowSelection;
+        console.log('YYYYY', this._independentNavigation, this.independentNavigation);
+        if (this._independentNavigation) {
+            const state = this._getState();
+            if (state === 'Row') {
+                const prevIndex = this.parent?.parentColumn?.prevRowSelection;
 
-            if (prevIndex === undefined || Math.abs(prevIndex - this._selectedIndex) === 0) {
-                return this._selectedIndex;
+                if (prevIndex === undefined || Math.abs(prevIndex - this._selectedIndex) === 0) {
+                    return this._selectedIndex;
+                }
+
+                this._selectedIndex = prevIndex;
+                return prevIndex;
             }
-
-            this._selectedIndex = prevIndex;
-            return prevIndex;
+            return this._selectedIndex;
         }
+
         return this._selectedIndex;
     }
 

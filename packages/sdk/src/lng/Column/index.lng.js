@@ -32,6 +32,7 @@ export default class Column extends FocusManager {
     _construct() {
         super._construct();
         this._smooth = false;
+        this._independentNavigation = false;
         this._itemSpacing = 0;
         this._itemPosX = 0;
         this._itemPosY = 0;
@@ -146,18 +147,21 @@ export default class Column extends FocusManager {
         const up = direction > 0;
 
         // Grab all items below prev if up or all items before prev if down
-        const prevItems = up
-            ? this.items.slice(prevIndex).map((i) => ({
-                  skipPlinko: i.skipPlinko,
-                  index: this.items.indexOf(i),
-              }))
-            : this.items
-                  .slice(0, prevIndex + 1)
-                  .map((i) => ({
-                      skipPlinko: i.skipPlinko,
-                      index: this.items.indexOf(i),
-                  }))
-                  .reverse();
+        let prevItems = null;
+        if (up) {
+            prevItems = this.items.slice(prevIndex).map((i) => ({
+                skipPlinko: i.skipPlinko,
+                index: this.items.indexOf(i),
+            }));
+        } else {
+            prevItems = this.items
+                .slice(0, prevIndex + 1)
+                .map((i) => ({
+                    skipPlinko: i.skipPlinko,
+                    index: this.items.indexOf(i),
+                }))
+                .reverse();
+        }
 
         // first item that has skipPlinko but the previous does not
         // Start at the index prev
@@ -294,6 +298,16 @@ export default class Column extends FocusManager {
         });
     }
 
+    get independentNavigation() {
+        return this._independentNavigation;
+    }
+
+    set independentNavigation(value) {
+        if (value !== this._independentNavigation) {
+            this._independentNavigation = value;
+        }
+    }
+
     get itemSpacing() {
         return this._itemSpacing;
     }
@@ -365,7 +379,11 @@ export default class Column extends FocusManager {
 
         for (let i = 0; i !== Math.abs(this.selectedIndex - index); i++) {
             setTimeout(() => {
-                this.selectedIndex > index ? this.selectPrevious() : this.selectNext();
+                if (this.selectedIndex > index) {
+                    this.selectPrevious();
+                } else {
+                    this.selectNext();
+                }
             }, duration * i);
         }
         this.Items.transition('y').on('finish', () => (this._smooth = false));
@@ -396,5 +414,7 @@ export default class Column extends FocusManager {
     }
 
     // can be overridden
-    onScreenEffect() {}
+    onScreenEffect() {
+        // Override
+    }
 }

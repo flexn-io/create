@@ -1,7 +1,7 @@
 import { ScrollView, Text, View } from '@flexn/sdk';
 import React from 'react';
 import { themeStyles } from '../../../../../config';
-import { Ratio, useParams } from '../../../../../utils';
+import { useParams } from '../../../../../utils';
 
 // const ITEM_HEIGHT = Ratio(240);
 // const ITEM_WIDTH = Ratio(ITEM_HEIGHT * 1.6);

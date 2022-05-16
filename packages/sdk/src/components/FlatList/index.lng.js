@@ -1,3 +1,3 @@
-import { Row } from '@lightningjs/ui-components';
+import Row from '../../lng/Row';
 
 export default Row;

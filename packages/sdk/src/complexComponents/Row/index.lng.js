@@ -33,7 +33,7 @@ export default class Row extends Lightning.Component {
     }
 
     _construct() {
-        this._whenEnabled = new Promise((resolve) => (this._enable = resolve), console.error);
+        this._whenEnabled = new Promise((resolve) => (this._enable = resolve));
     }
 
     _init() {
@@ -67,6 +67,17 @@ export default class Row extends Lightning.Component {
 
     set title(value) {
         this._title = value;
+    }
+
+    get independentNavigation() {
+        return this._independentNavigation;
+    }
+
+    set independentNavigation(value) {
+        if (value !== this._independentNavigation) {
+            this._independentNavigation = value;
+            this._Row.independentNavigation = value;
+        }
     }
 
     get w() {

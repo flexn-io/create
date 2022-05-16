@@ -40,7 +40,7 @@ export default class Card extends Lightning.Component {
     }
 
     _construct() {
-        this._whenEnabled = new Promise((resolve) => (this._enable = resolve), console.error);
+        this._whenEnabled = new Promise((resolve) => (this._enable = resolve));
         this._animator = null;
     }
 

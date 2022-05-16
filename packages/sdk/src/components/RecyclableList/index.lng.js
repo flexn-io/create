@@ -1,4 +1,5 @@
-import { Row, Column } from '@lightningjs/ui-components';
+import Row from '../../lng/Row';
+import Column from '../../lng/Column';
 
 const RecyclableListDataProvider = null;
 const RecyclableListLayoutProvider = null;

@@ -1,6 +1,6 @@
-import { Column } from '@lightningjs/ui-components';
 import { Lightning } from '@lightningjs/sdk';
 import Row from '../Row';
+import Column from '../Row';
 export default class List extends Lightning.Component {
     static _template() {
         return {
@@ -13,7 +13,7 @@ export default class List extends Lightning.Component {
     }
 
     _construct() {
-        this._whenEnabled = new Promise((resolve) => (this._enable = resolve), console.error);
+        this._whenEnabled = new Promise((resolve) => (this._enable = resolve));
     }
 
     get _List() {
