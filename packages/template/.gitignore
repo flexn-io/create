@@ -49,3 +49,6 @@ reporting
 
 platformBuilds/template_tizen
 platformBuilds/template_tizen
+
+platformBuilds/template_webos
+platformBuilds/template_webos
