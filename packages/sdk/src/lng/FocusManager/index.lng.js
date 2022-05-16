@@ -82,7 +82,6 @@ export default class FocusManager extends lng.Component {
     }
 
     get selectedIndex() {
-        console.log('YYYYY', this._independentNavigation, this.independentNavigation);
         if (this._independentNavigation) {
             const state = this._getState();
             if (state === 'Row') {
