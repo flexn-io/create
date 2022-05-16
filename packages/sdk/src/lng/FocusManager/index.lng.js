@@ -165,7 +165,7 @@ export default class FocusManager extends lng.Component {
             .lastIndexOf(false, this._selectedIndex - 1);
 
         const state = this._getState();
-        if (state === 'Row') {
+        if (state === 'Row' && this.parent.parentColumn) {
             this.parent.parentColumn.prevRowSelection = previousItemIndex;
         }
 
@@ -186,7 +186,7 @@ export default class FocusManager extends lng.Component {
         let nextIndex = this.items.findIndex((item, idx) => !item.skipFocus && idx > this._selectedIndex);
 
         const state = this._getState();
-        if (state === 'Row') {
+        if (state === 'Row' && this.parent.parentColumn) {
             this.parent.parentColumn.prevRowSelection = nextIndex;
         }
 
