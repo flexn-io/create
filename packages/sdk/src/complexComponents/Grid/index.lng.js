@@ -13,6 +13,7 @@ export default class Grid extends Lightning.Component {
                 independentNavigation: true,
                 plinko: true,
                 itemSpacing: 25,
+                scrollIndex: 1,
                 items: [],
             },
         };
@@ -95,6 +96,17 @@ export default class Grid extends Lightning.Component {
 
     set row(value) {
         this._row = value;
+    }
+
+    get scrollIndex() {
+        return this._scrollIndex;
+    }
+
+    set scrollIndex(value) {
+        if (value === this._scrollIndex) {
+            this._scrollIndex = value;
+            this._Grid.scrollIndex = value;
+        }
     }
 
     get focusOptions() {
