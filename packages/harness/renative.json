@@ -10,16 +10,10 @@
     },
     "projectName": "app-harness",
     "workspaceID": "flexn",
-    "paths": {
-        "appConfigsDir": "./appConfigs",
-        "entryDir": "./",
-        "platformAssetsDir": "./platformAssets",
-        "platformBuildsDir": "./platformBuilds",
-        "pluginTemplates": {
-            "flexn": {
-                "npm": "@flexn/sdk",
-                "path": "./pluginTemplates"
-            }
+    "currentTemplate": "@flexn/template",
+    "templates": {
+        "@flexn/template": {
+            "version": "0.13.2"
         }
     },
     "defaults": {
@@ -227,32 +221,6 @@
         "macos": {
             "engine": "engine-rn",
             "excludedPlugins": ["react-native-linear-gradient"]
-        },
-        "windows": {
-            "engine": "engine-rn-windows"
-        },
-        "xbox": {
-            "engine": "engine-rn-windows"
-        }
-    },
-    "permissions": {
-        "ios": {},
-        "android": {
-            "INTERNET": {
-                "key": "android.permission.INTERNET",
-                "security": "normal"
-            },
-            "SYSTEM_ALERT_WINDOW": {
-                "key": "android.permission.SYSTEM_ALERT_WINDOW",
-                "security": "signature"
-            }
-        }
-    },
-    "extendsTemplate": "renative.json",
-    "currentTemplate": "@flexn/template",
-    "templates": {
-        "@flexn/template": {
-            "version": "0.13.1"
         }
     }
 }
