@@ -22,7 +22,9 @@ jobs:
         env:
             GHP_AUTH_TOKEN: ${{ secrets.GHP_AUTH_TOKEN }}
         steps:
-            - uses: actions/checkout
+            - uses: actions/checkout@v2
+              with:
+                repository: flexn-io/flexn
             - name: Setup
               run: |
                   yarn config set network-timeout 300000
