@@ -9,7 +9,7 @@ import {
 } from './imports';
 import { LAYOUT } from './config';
 
-export function testProps(testId: string | undefined) {
+export function testProps(testId = '') {
     if (!testId) {
         return;
     }
@@ -128,7 +128,7 @@ function interval(min = 0, max = kittyNames.length - 1) {
 }
 
 const data = {};
-export function getRandomData(row: number, idx?: number, countInRow = 6, items = 50) {
+export function getRandomData(row, idx, countInRow = 6, items = 50) {
     const isSmartTV = isPlatformTizen || isPlatformWebos;
     let width = isFactorMobile ? 400 : 650;
     if (isSmartTV) {
@@ -140,7 +140,7 @@ export function getRandomData(row: number, idx?: number, countInRow = 6, items =
         return data[row][idx];
     }
 
-    const temp: { backgroundImage: string; title: string; index: number }[] = [];
+    const temp: any = [];
     for (let index = 0; index < items; index++) {
         temp.push({
             index,
@@ -154,7 +154,7 @@ export function getRandomData(row: number, idx?: number, countInRow = 6, items =
     return temp;
 }
 
-export function getHexColor(hex: string, alpha = 100) {
+export function getHexColor(hex, alpha = 100) {
     if (!hex) {
         return 0x00;
     }

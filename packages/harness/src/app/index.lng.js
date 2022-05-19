@@ -2,6 +2,7 @@
 import { Router, Utils } from '@lightningjs/sdk';
 import HomeScreen from '../screens/Home';
 import FocusTestScreens from '../screens/TestCases/Focus';
+import ComponentsScreens from '../screens/TestCases/Components';
 import NavigationTestScreens from '../screens/TestCases/Navigation';
 import PerformanceTestScreens, { PerformanceTestNestedScreens } from '../screens/TestCases/Performance';
 
@@ -33,6 +34,7 @@ export default class App extends Router.App {
                 },
                 ...Object.entries({
                     ...FocusTestScreens,
+                    ...ComponentsScreens,
                     ...NavigationTestScreens,
                     ...PerformanceTestScreens,
                     ...PerformanceTestNestedScreens,
