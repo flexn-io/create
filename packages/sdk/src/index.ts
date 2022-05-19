@@ -30,3 +30,5 @@ import CoreManager from './focusManager/core';
 export function focusElementByFocusKey(focusKey: string) {
     CoreManager.focusElementByFocusKey(focusKey);
 }
+
+global.CoreManager = CoreManager;

@@ -2,7 +2,7 @@ import { Screen as FMScreen, ScreenProps, ScreenStates } from '@flexn/sdk';
 import React, { useState } from 'react';
 import { useFocusEffect } from '../../utils/libs/@react-navigation/useFocusEffect';
 
-const Screen = ({ children, stealFocus, focusOptions, style }: ScreenProps) => {
+const Screen = ({ children, stealFocus, focusOptions, debugName, style }: ScreenProps) => {
     const [screenState, setScreenState] = useState<ScreenStates>('foreground');
 
     useFocusEffect(

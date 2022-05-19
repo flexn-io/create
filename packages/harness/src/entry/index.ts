@@ -10,11 +10,11 @@ if (!global.setImmediate) {
     global.setImmediate = JSTimers.setImmediate;
 }
 
-Sentry.init({
-    release: `harness-app@${Package.version}`,
-    dist: Package.version.replace(new RegExp(/([.,-]|alpha)/g), ''),
-    dsn: SENTRY_URL,
-});
+// Sentry.init({
+//     release: `harness-app@${Package.version}`,
+//     dist: Package.version.replace(new RegExp(/([.,-]|alpha)/g), ''),
+//     dsn: SENTRY_URL,
+// });
 
 enableScreens();
 AppRegistry.registerComponent('App', () => App);
