@@ -45,14 +45,14 @@ const View = React.forwardRef<any, ViewProps>(
         const ref = useCombinedRefs(refOuter, refInner);
         const prevFocus = usePrevious(focus);
         const pctx = repeatContext?.parentContext || parentContext;
-
+        
         const makeContext = () => ({
             id: pctx?.id ? `${pctx.id}:view-${makeid(8)}` : `view-${makeid(8)}`,
             parent: pctx,
             children: [],
             repeatContext,
             isFocusable: true,
-            // initialFocus: focusOptions.hasInitialFocus | false,
+            initialFocus: focusOptions.hasInitialFocus || false,
             forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
             type: 'view',
         });

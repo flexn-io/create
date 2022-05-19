@@ -39,7 +39,8 @@ const Entry = () => {
                     });
                 }}
             >
-                <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Grid">
+                {/* initialRouteName="*" */}
+                <RootStack.Navigator screenOptions={{ headerShown: false }}> 
                     <RootStack.Screen name="root" component={ScreenHome} />
                     {Object.entries({
                         ...(!isFactorDesktop ? FocusTestScreens : {}), // don't add focus test screens to navigation for macos/windows platforms (react-native-gesture-handler is not supported yet)

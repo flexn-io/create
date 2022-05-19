@@ -22,20 +22,3 @@ export function getHexColor(hex: string, alpha = 100) {
     //@ts-ignore
     return parseInt(Number(str), 10);
 }
-
-export const resolveStyles = (style) => {
-    if (style !== null) {
-        if (Array.isArray(style)) {
-            const flatted = {};
-            style.map((item) => {
-                item && Object.keys(item) && Object.keys(item).map((key) => (flatted[key] = item[key]));
-            });
-
-            return flatted;
-        }
-
-        return style;
-    }
-
-    return {};
-};

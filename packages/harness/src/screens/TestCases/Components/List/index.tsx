@@ -1,8 +1,40 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, List } from '@flexn/sdk';
+import Screen from '../../../../components/Screen';
 
-const Row = () => {
-    return <View />;
+const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
+
+function interval(min = 0, max = kittyNames.length - 1) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function generateData(width, height, items = 30) {
+    const temp: any = [];
+    for (let index = 0; index < items; index++) {
+        temp.push({
+            index,
+            backgroundImage: `https://placekitten.com/${width + index}/${height + index}`,
+            title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
+        });
+    }
+
+    return temp;
+}
+
+const ListTest = () => {
+    const data = [
+        generateData(400, 250, 10),
+        generateData(400, 250, 10),
+        generateData(400, 250, 10),
+        generateData(400, 250, 10),
+        generateData(400, 250, 10),
+    ];
+
+    return (
+        <Screen>
+            <List items={data} itemsInViewport={5} itemSpacing={30} itemDimensions={{ height: 250 }} />
+        </Screen>
+    );
 };
 
-export default Row;
+export default ListTest;

@@ -1,3 +1,3 @@
-import Card from './card';
+import PosterCard from './card';
 
-export default Card;
+export { PosterCard };

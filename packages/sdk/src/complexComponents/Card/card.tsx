@@ -1,27 +1,49 @@
 import React from 'react';
 
 import Image from '../../components/Image';
+import Text from '../../components/Text';
 import Pressable from '../../components/Pressable';
 import StyleSheet from '../../apis/StyleSheet';
 import { CardProps } from './types';
-import { resolveStyles } from '../../helpers';
+import useStyleFlattener from '../../hooks/useStyleFlattener';
 
-const Card = ({ style, src, onFocus, onPress, resizeMode = 'cover', parentContext, repeatContext, focusOptions }: CardProps) => {
-    const styles = resolveStyles(style);
+const Card = React.forwardRef<any, CardProps>(
+    (
+        {
+            src,
+            title = '',
+            resizeMode = 'cover',
+            style = {},
+            onFocus,
+            onPress,
+            onBlur,
+            parentContext,
+            repeatContext,
+            focusOptions,
+        },
+        ref
+    ) => {
+        const styles = useStyleFlattener(style);
 
-    return (
-        <Pressable
-            style={[baseStyles.card, styles]}
-            parentContext={parentContext}
-            repeatContext={repeatContext}
-            onFocus={onFocus}
-            onPress={onPress}
-            focusOptions={focusOptions}
-        >
-            <Image resizeMode={resizeMode} source={src} style={[baseStyles.poster, styles.borderRadius]} />
-        </Pressable>
-    );
-};
+        return (
+            <Pressable
+                ref={ref}
+                style={[baseStyles.card, styles]}
+                parentContext={parentContext}
+                repeatContext={repeatContext}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onPress={onPress}
+                focusOptions={focusOptions}
+            >
+                <Image resizeMode={resizeMode} source={src} style={[baseStyles.poster, styles.borderRadius]} />
+                <Text style={baseStyles.title} numberOfLines={1}>
+                    {title}
+                </Text>
+            </Pressable>
+        );
+    }
+);
 
 const baseStyles = StyleSheet.create({
     card: {
@@ -33,6 +55,11 @@ const baseStyles = StyleSheet.create({
         width: '100%',
         height: '100%',
         borderRadius: 5,
+    },
+    title: {
+        fontSize: 26,
+        color: 'white',
+        textAlign: 'center',
     },
 });
 

@@ -15,7 +15,7 @@ const ScreenHome = (props) => {
     const navigate = useNavigate(props);
 
     return (
-        <Screen style={themeStyles.screen} focusOptions={{ verticalWindowAlignment: 'both-edge' }} debugName="Home">
+        <Screen style={themeStyles.screen} focusOptions={{ verticalWindowAlignment: 'both-edge' }}>
             <ScrollView contentContainerStyle={themeStyles.container}>
                 {/* TODO Remove this block once we know Sentry crash reporting works */}
                 <View
