@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, ViewStyle, ImageURISource, Pressable } from 'react-native';
+import { StyleProp, ViewStyle, ImageURISource } from 'react-native';
 import { Context, PressableFocusOptions } from '../../focusManager/types';
 
 type ImageResizeMode = 'cover' | 'contain' | 'stretch' | 'repeat' | 'center';

@@ -82,9 +82,11 @@ const Row = ({
                 onBlur={() => onBlur?.(data)}
                 onPress={() => onPress?.(data)}
                 repeatContext={_repeatContext}
-                focusOptions={{
-                    initialFocus: index === 0 && _index === 0,
-                }}
+                focusOptions={
+                    {
+                        // initialFocus: index === 0 && _index === 0,
+                    }
+                }
             />
         );
     };
