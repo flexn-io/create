@@ -95,9 +95,6 @@ const Screen = React.forwardRef<any, ScreenProps>(
             context.state = screenState;
             if (context.prevState === SCREEN_STATES.BACKGROUND && screenState === SCREEN_STATES.FOREGROUND) {
                 findInitialFocusable();
-            }            
-            if (context.prevState === SCREEN_STATES.FOREGROUND && screenState === SCREEN_STATES.FOREGROUND) {
-                findInitialFocusable();
             }
         }, [screenState]);
 
