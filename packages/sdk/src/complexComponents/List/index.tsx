@@ -22,10 +22,15 @@ interface ListProps {
     onFocus?(data: any): void;
     onBlur?(data: any): void;
     onPress?(data: any): void;
-    items: RowItem[][];
+    items: {
+        rowTitle?: string;
+        itemsInViewport?: number;
+        items: RowItem[][];
+    }[];
     itemDimensions: { height: number };
     itemSpacing?: number;
     initialXOffset?: number;
+    rowHeight: number;
 }
 
 const List = ({
@@ -38,10 +43,11 @@ const List = ({
     itemDimensions,
     onPress,
     initialXOffset = 0,
+    rowHeight,
 }: ListProps) => {
     const ref: any = useRef();
 
-    const { boundaries, rowDimensions, onLayout } = useDimensionsCalculator({
+    const { boundaries, onLayout } = useDimensionsCalculator({
         style,
         itemSpacing,
         itemDimensions,
@@ -57,7 +63,7 @@ const List = ({
             () => '_',
             (_: string | number, dim: { width: number; height: number }) => {
                 dim.width = boundaries.width;
-                dim.height = 400;
+                dim.height = rowHeight;
             }
         );
     }, [boundaries]);
@@ -68,15 +74,15 @@ const List = ({
         return (
             <Carousel
                 index={index}
-                items={data}
-                itemsInViewport={itemsInViewport}
+                items={data.items}
+                itemsInViewport={data.itemsInViewport || itemsInViewport}
                 title={title}
                 onPress={onPress}
                 repeatContext={repeatContext}
                 nestedParentContext={nestedParentContext}
                 style={{
                     width: boundaries.width,
-                    height: 400,
+                    height: rowHeight,
                 }}
                 itemDimensions={itemDimensions}
                 itemSpacing={itemSpacing}
@@ -99,7 +105,6 @@ const List = ({
                     return renderRow({
                         index,
                         data: rowData,
-                        title: `Title of carousel ${index + 1}`,
                         nestedParentContext: repeatContext.parentContext,
                         repeatContext: repeatContext,
                     });
