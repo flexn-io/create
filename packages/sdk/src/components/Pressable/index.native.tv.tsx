@@ -52,7 +52,7 @@ const View = React.forwardRef<any, ViewProps>(
             children: [],
             repeatContext,
             isFocusable: true,
-            // initialFocus: focusOptions.hasInitialFocus | false,
+            // initialFocus: focusOptions.hasInitialFocus || false,
             forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
             type: 'view',
         });

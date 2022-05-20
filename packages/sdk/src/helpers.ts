@@ -1,3 +1,13 @@
+import { Dimensions, PixelRatio } from 'react-native';
+import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
+
+export function Ratio(pixels: number): number {
+    if (!(isPlatformAndroidtv || isPlatformFiretv)) return pixels;
+    const resolution = Dimensions.get('screen').height * PixelRatio.get();
+
+    return Math.round(pixels / (resolution < 2160 ? 2 : 1));
+}
+
 export function getHexColor(hex: string, alpha = 100) {
     if (!hex) {
         return 0x00;

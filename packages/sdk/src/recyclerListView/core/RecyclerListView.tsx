@@ -111,6 +111,8 @@ export interface RecyclerListViewProps {
     itemAnimator?: ItemAnimator;
     optimizeForInsertDeleteAnimations?: boolean;
     style?: object | number;
+    focusOptions?: object;
+    contentContainerStyle?: object | number;
     debugHandlers?: DebugHandlers;
     renderContentContainer?: (props?: object, children?: React.ReactNode) => React.ReactNode | null;
     renderItemContainer?: (props: object, parentProps: object, children?: React.ReactNode) => React.ReactNode;
@@ -503,7 +505,7 @@ export default class RecyclerListView<
             if (layoutManager) {
                 layoutManager.relayoutFromIndex(
                     newProps.dataProvider.getFirstIndexToProcessInternal(),
-                    newProps.dataProvider.getSize(),
+                    newProps.dataProvider.getSize()
                 );
                 this._virtualRenderer.refresh();
             }
@@ -617,7 +619,7 @@ export default class RecyclerListView<
             this._layout,
             props.isHorizontal,
             this._cachedLayouts,
-            props.initialXOffset,
+            props.initialXOffset
         );
         this._virtualRenderer.setLayoutManager(layoutManager);
         this._virtualRenderer.setLayoutProvider(props.layoutProvider);
@@ -668,8 +670,9 @@ export default class RecyclerListView<
             const data = this.props.dataProvider.getDataForIndex(dataIndex);
             const type = this.props.layoutProvider.getLayoutTypeForIndex(dataIndex);
             const key = this._virtualRenderer.syncAndGetKey(dataIndex);
-            const styleOverrides = (this._virtualRenderer.getLayoutManager() as LayoutManager)
-                .getStyleOverridesForIndex(dataIndex);
+            const styleOverrides = (
+                this._virtualRenderer.getLayoutManager() as LayoutManager
+            ).getStyleOverridesForIndex(dataIndex);
             this._assertType(type);
             if (!this.props.forceNonDeterministicRendering) {
                 this._checkExpectedDimensionDiscrepancy(itemRect, type, dataIndex);

@@ -173,7 +173,7 @@ class CoreManager {
 
             if (next?.isFocusable) {
                 return next;
-            }
+            }            
         }
 
         if (context.isFocusable) {

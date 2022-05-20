@@ -140,11 +140,14 @@ export function getRandomData(row, idx, countInRow = 6, items = 50) {
         return data[row][idx];
     }
 
-    const temp: any = [];
+    const temp = [];
     for (let index = 0; index < items; index++) {
         temp.push({
+            //@ts-expect-error for web TVs to compile
             index,
+            //@ts-expect-error for web TVs to compile
             backgroundImage: `https://placekitten.com/${isSmartTV ? width : width + row}/${height + index}`,
+            //@ts-expect-error for web TVs to compile
             title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
         });
     }
