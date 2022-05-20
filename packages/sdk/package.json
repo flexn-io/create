@@ -1,6 +1,6 @@
 {
     "name": "@flexn/sdk",
-    "version": "0.13.1",
+    "version": "0.13.2",
     "description": "Flexn SDK",
     "main": "lib/index",
     "types": "lib/index",
@@ -38,7 +38,10 @@
     "dependencies": {
         "lodash-es": "4.17.21",
         "lodash.debounce": "^4.0.8",
-        "ts-object-utils": "0.0.5"
+        "ts-object-utils": "0.0.5",
+        "@lightningjs/ui-components": "^1.2.1",
+        "@lightningjs/sdk": "4.3.3",
+        "@lightningjs/core": "^2.6.0"
     },
     "peerDependencies": {
         "react": "^17.0.2",
