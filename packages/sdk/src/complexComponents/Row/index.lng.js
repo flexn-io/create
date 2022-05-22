@@ -173,14 +173,17 @@ export default class Row extends Lightning.Component {
     }
 
     $onCardPress(eventValue) {
+        this.fireAncestors('$onCardPress', eventValue);
         this.signal('onPress', eventValue);
     }
 
     $onCardFocus(eventValue) {
+        this.fireAncestors('$onCardFocus', eventValue);
         this.signal('onFocus', eventValue);
     }
 
     $onCardBlur(eventValue) {
+        this.fireAncestors('$onCardBlur', eventValue);
         this.signal('onBlur', eventValue);
     }
 

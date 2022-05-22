@@ -17,8 +17,10 @@ type RowItem = {
 interface ListProps {
     parentContext?: Context;
     focusOptions?: RecyclableListFocusOptions;
-    itemsInViewport: number;
+    animatorOptions?: any;
+    itemsInViewport?: number;
     style?: StyleProp<ViewStyle>;
+    cardStyle?: StyleProp<ViewStyle>;
     onFocus?(data: any): void;
     onBlur?(data: any): void;
     onPress?(data: any): void;
@@ -38,7 +40,9 @@ const List = ({
     items,
     itemsInViewport = 5,
     style = {},
+    cardStyle = {},
     focusOptions,
+    animatorOptions,
     itemSpacing = 30,
     itemDimensions,
     onPress,
@@ -84,9 +88,11 @@ const List = ({
                     width: boundaries.width,
                     height: rowHeight,
                 }}
+                cardStyle={cardStyle}
                 itemDimensions={itemDimensions}
                 itemSpacing={itemSpacing}
                 initialXOffset={initialXOffset}
+                animatorOptions={animatorOptions}
             />
         );
     };
@@ -105,7 +111,7 @@ const List = ({
                     return renderRow({
                         index,
                         data: rowData,
-                        nestedParentContext: repeatContext.parentContext,
+                        nestedParentContext: repeatContext?.parentContext,
                         repeatContext: repeatContext,
                     });
                 }}

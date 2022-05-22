@@ -263,16 +263,19 @@ export default class Card extends Lightning.Component {
     }
 
     _handleEnter() {
-        this.fireAncestors('$onCardPress', this.item);
+        this.fireAncestors('$onCardPress', this.eventValue);
+        this.signal('onPress', this.eventValue);
     }
 
     _focus() {
-        this.fireAncestors('$onCardFocus', this.item);
+        this.fireAncestors('$onCardFocus', this.eventValue);
+        this.signal('onFocus', this.eventValue);
         this.patch({ Image: this._setAnimationValues().focus });
     }
 
     _unfocus() {
-        this.fireAncestors('$onCardBlur', this.item);
+        this.fireAncestors('$onCardBlur', this.eventValue);
+        this.signal('onBlur', this.eventValue);
         this.patch({ Image: this._setAnimationValues().unfocus });
     }
 }
