@@ -13,14 +13,6 @@ export default class Card extends Lightning.Component {
                 rtt: true,
                 h: DEFAULT_DIMENSIONS.h,
                 w: DEFAULT_DIMENSIONS.w,
-                texture: {
-                    type: Lightning.textures.ImageTexture,
-                    resizeMode: {
-                        type: 'cover',
-                        w: DEFAULT_DIMENSIONS.w,
-                        h: DEFAULT_DIMENSIONS.h,
-                    },
-                },
                 shader: {
                     type: Lightning.shaders.RoundedRectangle,
                 },
@@ -63,11 +55,6 @@ export default class Card extends Lightning.Component {
 
             this._whenEnabled.then(() => {
                 this._Image.w = this.w;
-                this._Image.texture = {
-                    resizeMode: {
-                        w: this.w,
-                    },
-                };
             });
         }
     }
@@ -83,11 +70,6 @@ export default class Card extends Lightning.Component {
 
             this._whenEnabled.then(() => {
                 this._Image.h = this.h;
-                this._Image.texture = {
-                    resizeMode: {
-                        w: this.h,
-                    },
-                };
                 this._Text.y = this.h + 30;
             });
         }
@@ -102,9 +84,7 @@ export default class Card extends Lightning.Component {
             this._src = value;
             this.src = value;
             this._whenEnabled.then(() => {
-                this._Image.texture = {
-                    src: this.src,
-                };
+                this._Image.src = this.src;
             });
         }
     }
@@ -239,7 +219,7 @@ export default class Card extends Lightning.Component {
         switch (type) {
             case 'scale':
                 template.focus = { smooth: scale };
-                template.unfocus = { shader: scaleDefault };
+                template.unfocus = { smooth: scaleDefault };
                 break;
             case 'scale_with_border':
                 template.focus = { smooth: scale, shader };
@@ -268,14 +248,14 @@ export default class Card extends Lightning.Component {
     }
 
     _focus() {
-        this.fireAncestors('$onCardFocus', this.eventValue);
-        this.signal('onFocus', this.eventValue);
+        // this.fireAncestors('$onCardFocus', this.eventValue);
+        // this.signal('onFocus', this.eventValue);
         this.patch({ Image: this._setAnimationValues().focus });
     }
 
     _unfocus() {
-        this.fireAncestors('$onCardBlur', this.eventValue);
-        this.signal('onBlur', this.eventValue);
+        // this.fireAncestors('$onCardBlur', this.eventValue);
+        // this.signal('onBlur', this.eventValue);
         this.patch({ Image: this._setAnimationValues().unfocus });
     }
 }
