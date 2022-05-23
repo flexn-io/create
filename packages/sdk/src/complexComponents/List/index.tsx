@@ -6,7 +6,7 @@ import RecyclableList, {
     RecyclableListDataProvider,
 } from '../../components/RecyclableList';
 import Carousel from '../Row';
-
+import { Ratio } from '../../helpers';
 import useDimensionsCalculator from '../../hooks/useDimensionsCalculator';
 import { Context, RecyclableListFocusOptions } from '../../focusManager/types';
 
@@ -67,7 +67,7 @@ const List = ({
             () => '_',
             (_: string | number, dim: { width: number; height: number }) => {
                 dim.width = boundaries.width;
-                dim.height = rowHeight;
+                dim.height = Ratio(rowHeight);
             }
         );
     }, [boundaries]);
@@ -86,7 +86,7 @@ const List = ({
                 nestedParentContext={nestedParentContext}
                 style={{
                     width: boundaries.width,
-                    height: rowHeight,
+                    height: Ratio(rowHeight),
                 }}
                 cardStyle={cardStyle}
                 itemDimensions={itemDimensions}

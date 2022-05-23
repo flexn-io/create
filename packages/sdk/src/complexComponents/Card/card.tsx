@@ -5,6 +5,7 @@ import Text from '../../components/Text';
 import Pressable from '../../components/Pressable';
 import { CardProps } from './types';
 import useStyleFlattener from '../../hooks/useStyleFlattener';
+import { Ratio } from '../../helpers';
 
 const Card = React.forwardRef<any, CardProps>(
     (
@@ -22,7 +23,7 @@ const Card = React.forwardRef<any, CardProps>(
         },
         ref
     ) => {
-        const styles = useStyleFlattener(style);
+        const styles = useStyleFlattener(style, ['width', 'height']);
 
         const titleStyles = {
             fontSize: styles.fontSize || baseStyles.title.fontSize,
@@ -64,7 +65,7 @@ const baseStyles = {
         height: '100%',
     },
     title: {
-        fontSize: 26,
+        fontSize: Ratio(26),
         color: '#000000',
         textAlign: 'center',
     },

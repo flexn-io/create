@@ -19,8 +19,8 @@ export default function useDimensionsCalculator({ style, itemSpacing, itemDimens
 
     const [spacings] = useState(() => {
         return {
-            left: spacing,
-            top: spacing,
+            paddingLeft: spacing,
+            paddingTop: spacing,
             paddingBottom: spacing,
             paddingRight: spacing,
         };
