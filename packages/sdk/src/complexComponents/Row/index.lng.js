@@ -1,4 +1,3 @@
-// import { Row as LngRow } from '@lightningjs/ui-components';
 import { Lightning } from '@lightningjs/sdk';
 import Card from '../Card';
 import { getHexColor } from '../../helpers';
@@ -34,6 +33,7 @@ export default class Row extends Lightning.Component {
 
     _construct() {
         this._whenEnabled = new Promise((resolve) => (this._enable = resolve));
+        this._itemsInViewport = 5;
     }
 
     _init() {
@@ -119,6 +119,7 @@ export default class Row extends Lightning.Component {
     set data(value) {
         this._data = value;
         this._whenEnabled.then(() => {
+            this._calculateCardWidth();
             this._Row.items = this.data.map((item) => ({
                 type: Card,
                 src: item.backgroundImage,
@@ -128,6 +129,14 @@ export default class Row extends Lightning.Component {
                 ...this.card,
             }));
         });
+    }
+
+    get itemsInViewport() {
+        return this._itemsInViewport;
+    }
+
+    set itemsInViewport(value) {
+        this._itemsInViewport = value;
     }
 
     get row() {
@@ -160,7 +169,12 @@ export default class Row extends Lightning.Component {
         this._focusOptions = value;
     }
 
+    get itemSpacing() {
+        return this._itemSpacing || 0;
+    }
+
     set itemSpacing(value) {
+        this._itemSpacing = value;
         this._whenEnabled.then(() => {
             this._Row.itemSpacing = value;
         });
@@ -170,6 +184,14 @@ export default class Row extends Lightning.Component {
         this._whenEnabled.then(() => {
             this._Row.lazyScroll = value;
         });
+    }
+
+    _calculateCardWidth() {
+        const w = this.w || this.stage.w;
+        if (w) {
+            const actualWidth = w - this.itemSpacing;
+            this.card.w = actualWidth / this.itemsInViewport - this.itemSpacing;
+        }
     }
 
     $onCardPress(eventValue) {

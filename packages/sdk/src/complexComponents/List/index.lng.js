@@ -60,6 +60,8 @@ export default class List extends Lightning.Component {
             this._List.items = this.data.map((rowData) => ({
                 type: Row,
                 data: rowData.items,
+                itemsInViewport: rowData.itemsInViewport,
+                itemSpacing: this.itemSpacing,
                 focusOptions: this.focusOptions,
                 lazyScroll: this.lazyScroll,
                 card: this.card,

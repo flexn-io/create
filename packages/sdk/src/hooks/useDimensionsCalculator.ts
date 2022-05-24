@@ -52,7 +52,7 @@ export default function useDimensionsCalculator({ style, itemSpacing, itemDimens
 
     const calculateRowDimensions = (width: number) => {
         const itemHeight = Ratio(itemDimensions.height);
-        const actualWidth = width - itemSpacing;
+        const actualWidth = width - itemSpacing; // todo: calculate both sides???
 
         return {
             layout: { width: actualWidth / itemsInViewport, height: itemHeight + spacing },

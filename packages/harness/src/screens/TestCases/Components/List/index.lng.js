@@ -26,6 +26,7 @@ export default class Press extends Lightning.Component {
             return {
                 rowTitle: kittyNames[interval()],
                 items: generateData(400, 250),
+                itemsInViewport: interval(3, 8),
             };
         });
 
@@ -39,7 +40,6 @@ export default class Press extends Lightning.Component {
                 data,
                 itemSpacing: 30,
                 card: {
-                    w: 250,
                     h: 250,
                 },
                 row: {

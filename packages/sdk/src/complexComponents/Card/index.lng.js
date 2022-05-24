@@ -16,6 +16,7 @@ export default class Card extends Lightning.Component {
                 shader: {
                     type: Lightning.shaders.RoundedRectangle,
                 },
+                resizeMode: 'contain',
             },
             Text: {
                 y: DEFAULT_DIMENSIONS.h + 30,
@@ -250,12 +251,12 @@ export default class Card extends Lightning.Component {
     _focus() {
         // this.fireAncestors('$onCardFocus', this.eventValue);
         // this.signal('onFocus', this.eventValue);
-        this.patch({ Image: this._setAnimationValues().focus });
+        this.patch({ Image: this._setAnimationValues().focus, zIndex: 1 });
     }
 
     _unfocus() {
         // this.fireAncestors('$onCardBlur', this.eventValue);
         // this.signal('onBlur', this.eventValue);
-        this.patch({ Image: this._setAnimationValues().unfocus });
+        this.patch({ Image: this._setAnimationValues().unfocus, zIndex: 0 });
     }
 }
