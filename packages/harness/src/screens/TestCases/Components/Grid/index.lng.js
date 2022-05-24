@@ -22,19 +22,19 @@ function generateData(width, height, items = 30) {
 
 export default class Grid extends Lightning.Component {
     static _template() {
-        const data = generateData(400, 250);
+        const data = generateData(400, 250, 27);
 
         return {
             w: 1920,
             h: 1080,
-            x: 50,
-            y: 50,
+            x: 0,
+            y: 0,
             Grid: {
                 type: FlexnGrid,
                 data,
                 itemSpacing: 30,
+                itemsInViewport: 6,
                 card: {
-                    w: 250,
                     h: 250,
                 },
                 focusOptions: {

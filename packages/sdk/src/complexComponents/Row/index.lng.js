@@ -189,7 +189,7 @@ export default class Row extends Lightning.Component {
     _calculateCardWidth() {
         const w = this.w || this.stage.w;
         if (w) {
-            const actualWidth = w - this.itemSpacing;
+            const actualWidth = w - this.itemSpacing * 2;
             this.card.w = actualWidth / this.itemsInViewport - this.itemSpacing;
         }
     }

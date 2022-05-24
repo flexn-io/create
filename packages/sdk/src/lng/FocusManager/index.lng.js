@@ -85,12 +85,17 @@ export default class FocusManager extends lng.Component {
         if (this._independentNavigation) {
             const state = this._getState();
             if (state === 'Row') {
+                const rowLength = this.parent.data.length - 1;
                 const prevIndex = this.parent?.parentColumn?.prevRowSelection;
-
+                
                 if (prevIndex === undefined || Math.abs(prevIndex - this._selectedIndex) === 0) {
                     return this._selectedIndex;
+                } else if (prevIndex > rowLength) {
+                    this.parent.parentColumn.prevRowSelection = rowLength;
+                    this._selectedIndex = prevIndex;
+                    return this._selectedIndex;
                 }
-
+                
                 this._selectedIndex = prevIndex;
                 return prevIndex;
             }
