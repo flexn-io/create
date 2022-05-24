@@ -12,7 +12,7 @@ function generateData(width, height, items = 30) {
     for (let index = 0; index < items; index++) {
         temp.push({
             index,
-            backgroundImage: `https://placekitten.com/${width + index}/${height + index}`,
+            backgroundImage: `https://placekitten.com/${width + index}/${height}`,
             // title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
         });
     }
