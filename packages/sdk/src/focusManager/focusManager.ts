@@ -189,16 +189,17 @@ const executeScroll = (direction: string, contextParameters: any) => {
             : calculateVerticalScrollViewTarget(direction, p, contextParameters);
 
         if (scrollTarget) {
-            // log('SCROLLING!!!!', scrollTarget);
-            p.node.current.scrollTo(scrollTarget);
-            p.scrollOffsetX = scrollTarget.x;
-            p.scrollOffsetY = scrollTarget.y;
-            if (isDebuggerEnabled) {
-                Object.values(contextMap).forEach((v) => {
-                    recalculateLayout(v);
-                });
-            } else {
-                recalculateLayout(currentContext);
+            if (p.scrollOffsetX !== scrollTarget.x || p.scrollOffsetY !== scrollTarget.y) {
+                p.node.current.scrollTo(scrollTarget);
+                p.scrollOffsetX = scrollTarget.x;
+                p.scrollOffsetY = scrollTarget.y;
+                if (isDebuggerEnabled) {
+                    Object.values(contextMap).forEach((v) => {
+                        recalculateLayout(v);
+                    });
+                } else {
+                    recalculateLayout(currentContext);
+                }
             }
         }
     });
