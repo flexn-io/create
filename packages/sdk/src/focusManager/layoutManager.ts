@@ -106,7 +106,7 @@ function measure(context: Context, ref: any) {
             }
         }
 
-        recalculateAbsolutes(context);
+        recalculateLayout(context);
     });
 
     // get the layout of innerView in scroll
