@@ -15,10 +15,12 @@ interface Props {
 export default function useDimensionsCalculator({ style, itemSpacing, itemDimensions, itemsInViewport, ref }: Props) {
     const spacing = Ratio(itemSpacing);
 
+    const [isLoading, setIsLoading] = useState(true);
+
     const [spacings] = useState(() => {
         return {
-            left: spacing,
-            top: spacing,
+            paddingLeft: spacing,
+            paddingTop: spacing,
             paddingBottom: spacing,
             paddingRight: spacing,
         };
@@ -50,7 +52,7 @@ export default function useDimensionsCalculator({ style, itemSpacing, itemDimens
 
     const calculateRowDimensions = (width: number) => {
         const itemHeight = Ratio(itemDimensions.height);
-        const actualWidth = width - itemSpacing;
+        const actualWidth = width - itemSpacing; // todo: calculate both sides???
 
         return {
             layout: { width: actualWidth / itemsInViewport, height: itemHeight + spacing },
@@ -63,18 +65,22 @@ export default function useDimensionsCalculator({ style, itemSpacing, itemDimens
     const onLayout = () => {
         ref.current.measure(
             (_fx: number, _fy: number, _width: number, _height: number, pageX: number, pageY: number) => {
-                setRowDimensions(calculateRowDimensions(boundaries.width - pageX));
-                setBoundaries((prev) => ({
-                    width: prev.width - pageX,
-                    relativeHeight: prev.height - pageY,
-                    height: prev.height,
-                }));
+                if (isLoading) {
+                    setRowDimensions(calculateRowDimensions(boundaries.width - pageX));
+                    setBoundaries((prev) => ({
+                        width: prev.width - pageX,
+                        relativeHeight: prev.height - pageY,
+                        height: prev.height,
+                    }));
+                    setIsLoading(false);
+                }
             }
         );
     };
 
     return {
         spacings,
+        isLoading,
         boundaries,
         rowDimensions,
         onLayout,

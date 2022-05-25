@@ -6,7 +6,7 @@ import RecyclableList, {
     RecyclableListDataProvider,
 } from '../../components/RecyclableList';
 import Carousel from '../Row';
-
+import { Ratio } from '../../helpers';
 import useDimensionsCalculator from '../../hooks/useDimensionsCalculator';
 import { Context, RecyclableListFocusOptions } from '../../focusManager/types';
 
@@ -17,8 +17,10 @@ type RowItem = {
 interface ListProps {
     parentContext?: Context;
     focusOptions?: RecyclableListFocusOptions;
-    itemsInViewport: number;
+    animatorOptions?: any;
+    itemsInViewport?: number;
     style?: StyleProp<ViewStyle>;
+    cardStyle?: StyleProp<ViewStyle>;
     onFocus?(data: any): void;
     onBlur?(data: any): void;
     onPress?(data: any): void;
@@ -38,7 +40,9 @@ const List = ({
     items,
     itemsInViewport = 5,
     style = {},
+    cardStyle = {},
     focusOptions,
+    animatorOptions,
     itemSpacing = 30,
     itemDimensions,
     onPress,
@@ -63,7 +67,7 @@ const List = ({
             () => '_',
             (_: string | number, dim: { width: number; height: number }) => {
                 dim.width = boundaries.width;
-                dim.height = rowHeight;
+                dim.height = Ratio(rowHeight);
             }
         );
     }, [boundaries]);
@@ -82,11 +86,13 @@ const List = ({
                 nestedParentContext={nestedParentContext}
                 style={{
                     width: boundaries.width,
-                    height: rowHeight,
+                    height: Ratio(rowHeight),
                 }}
+                cardStyle={cardStyle}
                 itemDimensions={itemDimensions}
                 itemSpacing={itemSpacing}
                 initialXOffset={initialXOffset}
+                animatorOptions={animatorOptions}
             />
         );
     };
@@ -105,7 +111,7 @@ const List = ({
                     return renderRow({
                         index,
                         data: rowData,
-                        nestedParentContext: repeatContext.parentContext,
+                        nestedParentContext: repeatContext?.parentContext,
                         repeatContext: repeatContext,
                     });
                 }}

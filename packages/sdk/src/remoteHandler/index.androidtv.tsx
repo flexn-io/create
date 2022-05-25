@@ -1,12 +1,15 @@
 import { DeviceEventEmitter } from 'react-native';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import throttle from 'lodash.throttle';
 
 function useTVRemoteHandler(callback: any) {
     const listener: any = useRef();
 
+    const handler = useCallback(throttle(callback, 100), []);
+
     useEffect(() => {
         listener.current = DeviceEventEmitter.addListener('onTVRemoteKey', ({ eventKeyAction, eventType }) => {
-            return callback({
+            return handler({
                 eventType,
                 eventKeyAction,
             });

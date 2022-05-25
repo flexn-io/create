@@ -1,6 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { useTVRemoteHandler } from '../../remoteHandler';
-import { TVEventHandler, View as RNView, ScrollView as RNScrollView, TouchableOpacity, findNodeHandle } from 'react-native';
+import {
+    TVEventHandler,
+    View as RNView,
+    ScrollView as RNScrollView,
+    TouchableOpacity,
+    findNodeHandle,
+} from 'react-native';
 import { isPlatformAndroidtv, isPlatformTvos, isPlatformFiretv } from '@rnv/renative';
 import CoreManager from '../../focusManager/core';
 import { DIRECTION, SCREEN_STATES } from '../../focusManager/constants';

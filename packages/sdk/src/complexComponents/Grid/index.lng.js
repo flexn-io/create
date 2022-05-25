@@ -7,12 +7,9 @@ export default class Grid extends Lightning.Component {
     static _template() {
         return {
             Grid: {
-                h: 500,
-                w: 1920,
                 type: Column,
                 independentNavigation: true,
                 plinko: true,
-                itemSpacing: 25,
                 scrollIndex: 1,
                 items: [],
             },
@@ -21,6 +18,12 @@ export default class Grid extends Lightning.Component {
 
     _construct() {
         this._whenEnabled = new Promise((resolve) => (this._enable = resolve));
+        this._itemSpacing = 30;
+        this._itemsInViewport = 6;
+    }
+
+    _init() {
+        this._setItemSpacing();
     }
 
     get _Grid() {
@@ -64,16 +67,16 @@ export default class Grid extends Lightning.Component {
     set data(value) {
         this._data = value;
         this._whenEnabled.then(() => {
-            //TODO: measure how much to fit into one line
             const arrayOfRows = [];
             while (this.data.length) {
-                arrayOfRows.push(this.data.splice(0, 5));
+                arrayOfRows.push(this.data.splice(0, this.itemsInViewport));
             }
-
             this._Grid.items = arrayOfRows.map((rowData) => ({
                 type: Row,
                 data: rowData,
                 focusOptions: this.focusOptions,
+                itemSpacing: this.itemSpacing,
+                itemsInViewport: this.itemsInViewport,
                 independentNavigation: true,
                 lazyScroll: this.lazyScroll,
                 card: this.card,
@@ -124,9 +127,7 @@ export default class Grid extends Lightning.Component {
     set itemSpacing(value) {
         if (value !== this._itemSpacing) {
             this._itemSpacing = value;
-            this._whenEnabled.then(() => {
-                this._Grid.itemSpacing = value;
-            });
+            this._setItemSpacing();
         }
     }
 
@@ -138,6 +139,23 @@ export default class Grid extends Lightning.Component {
         if (value !== this.lazyScroll) {
             this._lazyScroll = value;
         }
+    }
+
+    get itemsInViewport() {
+        return this._itemsInViewport;
+    }
+
+    set itemsInViewport(value) {
+        if (value !== this.itemsInViewport) {
+            this._itemsInViewport = value;
+        }
+    }
+
+    _setItemSpacing() {
+        this._whenEnabled.then(() => {
+            this._Grid.x = this.itemSpacing;
+            this._Grid.y = this.itemSpacing;
+        });
     }
 
     $onCardPress(eventValue) {

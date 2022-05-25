@@ -6,7 +6,7 @@ import RecyclableList, {
     RecyclableListDataProvider,
 } from '../../components/RecyclableList';
 import { Ratio } from '../../helpers';
-import { Context, ForbiddenFocusDirections } from '../../focusManager/types';
+import { Context, RecyclableListFocusOptions } from '../../focusManager/types';
 import { PosterCard } from '../Card';
 import useDimensionsCalculator from '../../hooks/useDimensionsCalculator';
 
@@ -20,9 +20,11 @@ interface RowProps {
     repeatContext?: Context;
     nestedParentContext?: Context;
     title?: string;
-    forbiddenFocusDirections?: ForbiddenFocusDirections;
+    focusOptions?: RecyclableListFocusOptions;
+    animatorOptions?: any;
     itemsInViewport: number;
     style?: StyleProp<ViewStyle>;
+    cardStyle?: StyleProp<ViewStyle>;
     onFocus?(data: any): void;
     onBlur?(data: any): void;
     onPress?(data: any): void;
@@ -40,8 +42,10 @@ const Row = ({
     parentContext,
     repeatContext,
     nestedParentContext,
-    forbiddenFocusDirections,
+    focusOptions,
+    animatorOptions,
     style = {},
+    cardStyle = {},
     onFocus,
     onPress,
     onBlur,
@@ -52,7 +56,7 @@ const Row = ({
     const ref: any = useRef();
     const layoutProvider: any = useRef();
     const [dataProvider] = useState(new RecyclableListDataProvider((r1, r2) => r1 !== r2).cloneWithRows(items));
-    const { boundaries, spacings, onLayout, rowDimensions } = useDimensionsCalculator({
+    const { boundaries, isLoading, spacings, onLayout, rowDimensions } = useDimensionsCalculator({
         style,
         itemSpacing,
         itemDimensions,
@@ -77,42 +81,42 @@ const Row = ({
             <PosterCard
                 src={{ uri: data.backgroundImage }}
                 title={data.title}
-                style={[{ width: rowDimensions.item.width, height: rowDimensions.item.height }]}
+                style={[cardStyle, { width: rowDimensions.item.width, height: rowDimensions.item.height }]}
                 onFocus={() => onFocus?.(data)}
                 onBlur={() => onBlur?.(data)}
                 onPress={() => onPress?.(data)}
                 repeatContext={_repeatContext}
-                focusOptions={
-                    {
-                        // initialFocus: index === 0 && _index === 0,
-                    }
-                }
+                focusOptions={{
+                    animatorOptions,
+                }}
             />
         );
     };
 
     const renderRecycler = () => {
-        return (
-            <RecyclableList
-                {...(index !== undefined && {
-                    key: index,
-                })}
-                dataProvider={dataProvider}
-                layoutProvider={layoutProvider.current}
-                initialXOffset={Ratio(initialXOffset)}
-                repeatContext={repeatContext}
-                rowRenderer={rowRenderer}
-                isHorizontal
-                style={[style, { width: boundaries.width, height: boundaries.height }]}
-                contentContainerStyle={{ ...spacings }}
-                scrollViewProps={{
-                    showsHorizontalScrollIndicator: false,
-                }}
-                focusOptions={{
-                    forbiddenFocusDirections,
-                }}
-            />
-        );
+        if (!isLoading) {
+            return (
+                <RecyclableList
+                    {...(index !== undefined && {
+                        key: index,
+                    })}
+                    dataProvider={dataProvider}
+                    layoutProvider={layoutProvider.current}
+                    initialXOffset={Ratio(initialXOffset)}
+                    repeatContext={repeatContext}
+                    rowRenderer={rowRenderer}
+                    isHorizontal
+                    style={[style, { width: boundaries.width, height: boundaries.height }]}
+                    contentContainerStyle={{ ...spacings }}
+                    scrollViewProps={{
+                        showsHorizontalScrollIndicator: false,
+                    }}
+                    focusOptions={focusOptions}
+                />
+            );
+        }
+
+        return null;
     };
 
     const renderTitle = () => {

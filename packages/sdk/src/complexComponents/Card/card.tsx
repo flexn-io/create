@@ -3,9 +3,9 @@ import React from 'react';
 import Image from '../../components/Image';
 import Text from '../../components/Text';
 import Pressable from '../../components/Pressable';
-import StyleSheet from '../../apis/StyleSheet';
 import { CardProps } from './types';
 import useStyleFlattener from '../../hooks/useStyleFlattener';
+import { Ratio } from '../../helpers';
 
 const Card = React.forwardRef<any, CardProps>(
     (
@@ -23,7 +23,17 @@ const Card = React.forwardRef<any, CardProps>(
         },
         ref
     ) => {
-        const styles = useStyleFlattener(style);
+        const styles = useStyleFlattener(style, ['width', 'height']);
+
+        const titleStyles = {
+            fontSize: styles.fontSize || baseStyles.title.fontSize,
+            color: styles.color || baseStyles.title.color,
+            textAlign: styles.textAlign || baseStyles.title.textAlign,
+        };
+
+        const posterStyles = {
+            borderRadius: styles.borderRadius,
+        };
 
         return (
             <Pressable
@@ -36,8 +46,8 @@ const Card = React.forwardRef<any, CardProps>(
                 onPress={onPress}
                 focusOptions={focusOptions}
             >
-                <Image resizeMode={resizeMode} source={src} style={[baseStyles.poster, styles.borderRadius]} />
-                <Text style={baseStyles.title} numberOfLines={1}>
+                <Image resizeMode={resizeMode} source={src} style={[baseStyles.poster, posterStyles]} />
+                <Text style={[baseStyles.title, titleStyles]} numberOfLines={1}>
                     {title}
                 </Text>
             </Pressable>
@@ -45,23 +55,21 @@ const Card = React.forwardRef<any, CardProps>(
     }
 );
 
-const baseStyles = StyleSheet.create({
+const baseStyles = {
     card: {
-        borderRadius: 5,
         width: 250,
         height: 250,
     },
     poster: {
         width: '100%',
         height: '100%',
-        borderRadius: 5,
     },
     title: {
-        fontSize: 26,
-        color: 'white',
+        fontSize: Ratio(26),
+        color: '#000000',
         textAlign: 'center',
     },
-});
+};
 
 Card.displayName = 'Card';
 

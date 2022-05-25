@@ -1,4 +1,19 @@
 import type { Context } from './types';
+import { CONTEXT_TYPES } from './constants';
+
+function findLowestRelativeCoordinates(context: Context) {
+    if (context.screen && context.type === CONTEXT_TYPES.VIEW) {
+        const { screen } = context;
+        const { layout } = screen.firstFocusable || {};
+        if (!screen.firstFocusable) {
+            context.screen.firstFocusable = context;
+        } else if (layout.yMin === context.layout.yMin && layout.xMin >= context.layout.xMin) {
+            context.screen.firstFocusable = context;
+        } else if (layout.yMin > context.layout.yMin) {
+            context.screen.firstFocusable = context;
+        }
+    }
+}
 
 function recalculateAbsolutes(context: Context) {
     const { layout } = context;
@@ -79,6 +94,8 @@ function measure(context: Context, ref: any) {
 
         context.layout = layout;
 
+        findLowestRelativeCoordinates(context);
+
         // Calculate max X and Y width to prevent over scroll
         if (context.parent?.isScrollable && context.parent.layout) {
             const pCtx = context?.repeatContext?.parentContext;
@@ -89,7 +106,7 @@ function measure(context: Context, ref: any) {
             }
         }
 
-        recalculateAbsolutes(context);
+        recalculateLayout(context);
     });
 
     // get the layout of innerView in scroll

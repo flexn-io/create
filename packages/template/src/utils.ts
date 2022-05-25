@@ -123,7 +123,7 @@ const kittyNames = [
     'Zoey',
 ];
 
-function interval(min = 0, max = kittyNames.length - 1) {
+export function interval(min = 0, max = kittyNames.length - 1) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -146,9 +146,11 @@ export function getRandomData(row, idx, countInRow = 6, items = 50) {
             //@ts-expect-error for web TVs to compile
             index,
             //@ts-expect-error for web TVs to compile
-            backgroundImage: `https://placekitten.com/${isSmartTV ? width : width + row}/${height + index}`,
+            backgroundImage: `https://placekitten.com/${isSmartTV ? width : width + row}/${height}`,
             //@ts-expect-error for web TVs to compile
             title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
+            //@ts-expect-error for web TVs to compile
+            rowNumber: row,
         });
     }
 
