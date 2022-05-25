@@ -300,7 +300,7 @@ const calculateVerticalScrollViewTarget = (direction: string, scrollView: any, c
             if (yMaxScroll >= targetY) {
                 scrollTarget.y = currentLayout.yMin - scrollView.layout.yMin - verticalViewportOffset;
             } else {
-                scrollTarget.y = yMaxScroll - windowHeight + verticalViewportOffset;
+                scrollTarget.y = yMaxScroll - windowHeight;
             }
         }
     }
