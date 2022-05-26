@@ -32,7 +32,7 @@ const Card = React.forwardRef<any, CardProps>(
         };
 
         const posterStyles = {
-            borderRadius: styles.borderRadius,
+            borderRadius: styles.borderWidth ? 0 : styles.borderRadius,
         };
 
         return (

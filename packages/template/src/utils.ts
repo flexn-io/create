@@ -3,11 +3,8 @@ import {
     isPlatformMacos,
     isPlatformTvos,
     isPlatformWeb,
-    isFactorMobile,
-    isPlatformTizen,
-    isPlatformWebos,
+    getWidth
 } from './imports';
-import { LAYOUT } from './config';
 
 export function testProps(testId = '') {
     if (!testId) {
@@ -128,30 +125,32 @@ export function interval(min = 0, max = kittyNames.length - 1) {
 }
 
 const data = {};
-export function getRandomData(row, idx, countInRow = 6, items = 50) {
-    const isSmartTV = isPlatformTizen || isPlatformWebos;
-    let width = isFactorMobile ? 400 : 650;
-    if (isSmartTV) {
-        width = LAYOUT.w / countInRow;
-    }
-    const height = 200;
+export function getRandomData(row, idx, itemsInViewport = 6, height = 250, items = 50) {
+    const width = Math.floor(getWidth() / itemsInViewport);
 
     if (data[row] && idx !== undefined) {
         return data[row][idx];
     }
 
     const temp = [];
+    let hIndex = 1;
     for (let index = 0; index < items; index++) {
         temp.push({
             //@ts-expect-error for web TVs to compile
             index,
             //@ts-expect-error for web TVs to compile
-            backgroundImage: `https://placekitten.com/${isSmartTV ? width : width + row}/${height}`,
+            backgroundImage: `https://placekitten.com/${width}/${height + hIndex}`,
             //@ts-expect-error for web TVs to compile
             title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
             //@ts-expect-error for web TVs to compile
             rowNumber: row,
         });
+
+        if (hIndex === 10) {
+            hIndex = 1;
+        } else {
+            hIndex++;
+        }
     }
 
     data[row] = temp;
