@@ -49,6 +49,7 @@ class CoreManager {
             if (context.initialFocus && !!parentContext) {
                 this._contextMap[parentContext.id].initialFocus = context;
             }
+
             context.screen = parentContext;
         }
 
@@ -161,26 +162,14 @@ class CoreManager {
             if (context.initialFocus) {
                 return context.initialFocus;
             }
-        }
-
-        for (let index = 0; index < context.children.length; index++) {
-            const ch: Context = context.children[index];
-            if (ch.isFocusable) {
-                return ch;
+            if (context.firstFocusable) {
+                return context.firstFocusable;
             }
 
-            const next = this.findFirstFocusableOnScreen(ch);
-
-            if (next?.isFocusable) {
-                return next;
-            }
+            return null;
         }
 
-        if (context.isFocusable) {
-            return context;
-        }
-
-        return null;
+        return context;
     };
 
     public focusElementByFocusKey = (focusKey: string) => {
@@ -264,8 +253,21 @@ class CoreManager {
                     this.findClosestNode(ctx, direction, output);
                 }
             }
-            const closestContext: Context | undefined =
-                output.match1Context || output.match2Context || output.match3Context;
+            const closestContextFn = (): Context | undefined => {
+                if (output.match1Context || output.match2Context || output.match3Context) {
+                    if (output.match3 < output.match2) {
+                        return output.match3Context;
+                    }                     
+                    if (output.match2 < output.match1) {
+                        return output.match2Context;
+                    }                     
+                    if (output.match3 < output.match1) {
+                        return output.match3Context;
+                    }
+                    return output.match1Context || output.match2Context || output.match3Context;
+                }
+            };
+            const closestContext = closestContextFn();
 
             if (!closestContext) {
                 const parentHasForbiddenDirection = parentContext.forbiddenFocusDirections?.includes(direction);

@@ -132,7 +132,10 @@ export interface Context {
     isFocusable?: boolean;
     focusKey?: string;
     state?: string; // proper type
+    
     initialFocus?: Context;
+    firstFocusable?: Context;
+
     lastFocused?: Context;
     repeatContext?: Context;
     parentContext?: Context;

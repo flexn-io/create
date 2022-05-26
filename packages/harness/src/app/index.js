@@ -9,6 +9,7 @@ import Theme from '../config';
 import ScreenHome from '../screens/Home';
 import CastTestScreens from '../screens/TestCases/Cast';
 import FocusTestScreens from '../screens/TestCases/Focus';
+import ComponentsTestScreens from '../screens/TestCases/Components';
 import NavigationTestScreens from '../screens/TestCases/Navigation';
 import PerformanceTestScreens, { PerformanceTestNestedScreens } from '../screens/TestCases/Performance';
 import PlayerTestScreens from '../screens/TestCases/Player';
@@ -38,7 +39,8 @@ const Entry = () => {
                     });
                 }}
             >
-                <RootStack.Navigator screenOptions={{ headerShown: false }}>
+                {/* initialRouteName="*" */}
+                <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Row">  
                     <RootStack.Screen name="root" component={ScreenHome} />
                     {Object.entries({
                         ...(!isFactorDesktop ? FocusTestScreens : {}), // don't add focus test screens to navigation for macos/windows platforms (react-native-gesture-handler is not supported yet)
@@ -47,6 +49,7 @@ const Entry = () => {
                         ...CastTestScreens,
                         ...PlayerTestScreens,
                         ...NavigationTestScreens,
+                        ...ComponentsTestScreens,
                     }).map(([screenName, screen]) => (
                         <RootStack.Screen
                             key={screenName}

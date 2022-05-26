@@ -1,50 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import { Lightning, Router } from '@lightningjs/sdk';
-import { Row, Column } from '@lightningjs/ui-components';
-import { getRandomData, getHexColor } from '../utils';
-import { LAYOUT, THEME_LIGHT, THEME } from '../config';
+import { List } from '@flexn/sdk';
+import { getRandomData, getHexColor, interval } from '../utils';
+import { LAYOUT, THEME_LIGHT } from '../config';
 import { ROUTES } from '../config.lng';
-
-const itemsInRows = [3, 4, 5, 6, 4, 5];
-class Card extends Lightning.Component {
-    static _template() {
-        return {
-            rect: true,
-            h: 250,
-            src: '',
-            Text: {
-                y: 250,
-                w: (w) => w - 50,
-                text: {
-                    fontSize: 28,
-                    maxLinesSuffix: '...',
-                    maxLines: 1,
-                    textColor: getHexColor('#000000'),
-                    text: '',
-                    fontFace: THEME.light.primaryFontFamily,
-                },
-            },
-        };
-    }
-
-    _init() {
-        const textColor = window.theme === THEME_LIGHT ? getHexColor('#000000') : getHexColor('#FFFFFF');
-        this.patch({ Text: { text: { text: this.item.title, textColor } } });
-    }
-
-    _handleEnter() {
-        Router.navigate(ROUTES.DETAILS, { row: this.item.rowNumber, index: this.item.index });
-    }
-
-    _focus() {
-        this.smooth = { scale: 1.1 };
-    }
-
-    _unfocus() {
-        this.smooth = { scale: 1 };
-    }
-}
-
 export default class Carousels extends Lightning.Component {
     static _template() {
         return {
@@ -59,29 +18,49 @@ export default class Carousels extends Lightning.Component {
     }
 
     static _populateData() {
-        const carouselsData = itemsInRows.map((count, rowNumber) => getRandomData(rowNumber, 0, count));
+        const data = [...Array(10).keys()].map((rowNumber) => {
+            return {
+                items: getRandomData(rowNumber, 0, interval(3, 5)),
+            };
+        });
 
         return {
-            type: Column,
-            itemSpacing: 30,
-            plinko: true,
-            zIndex: 1,
-            y: 20,
+            w: LAYOUT.w,
             h: LAYOUT.h,
             x: 150,
-            items: carouselsData.map((column, index) => ({
-                type: Row,
-                h: 280,
-                w: 1920,
-                itemSpacing: 25,
-                items: column.map((item) => ({
-                    type: Card,
-                    src: item.backgroundImage,
-                    item: { ...item, rowNumber: index },
-                    w: LAYOUT.w / itemsInRows[index],
-                })),
-            })),
+            y: 50,
+            List: {
+                type: List,
+                data,
+                itemSpacing: 30,
+                card: {
+                    w: 350,
+                    h: 300,
+                },
+                row: {
+                    h: 420,
+                    title: {
+                        containerStyle: {},
+                        textStyle: {},
+                    },
+                },
+                focusOptions: {
+                    animatorOptions: {
+                        type: 'scale_with_border',
+                        scale: 1.1,
+                        borderColor: getHexColor('#0A74E6'),
+                        borderRadius: 4,
+                        borderWidth: 6,
+                    },
+                },
+                signals: {
+                    onFocus: '_onFocus',
+                    onBlur: '_onBlur',
+                    onPress: '_onPress',
+                },
+            },
         };
+
     }
 
     _init() {
@@ -89,7 +68,11 @@ export default class Carousels extends Lightning.Component {
         this.patch({ color });
     }
 
+    _onPress(data) {
+        Router.navigate(ROUTES.DETAILS, { row: data.rowNumber, index: data.index });
+    }
+
     _getFocused() {
-        return this.tag('Wrapper').tag('Cards');
+        return this.tag('Wrapper').tag('List');
     }
 }
