@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import View from '../../components/View';
 import RecyclableList, {
@@ -29,6 +29,7 @@ interface RowProps {
     onBlur?(data: any): void;
     onPress?(data: any): void;
     items: RowItem[];
+    rerenderData?: any;
     itemDimensions: { height: number };
     itemSpacing?: number;
     initialXOffset?: number;
@@ -46,6 +47,7 @@ const Row = ({
     animatorOptions,
     style = {},
     cardStyle = {},
+    rerenderData,
     onFocus,
     onPress,
     onBlur,
@@ -55,7 +57,8 @@ const Row = ({
 }: RowProps) => {
     const ref: any = useRef();
     const layoutProvider: any = useRef();
-    const [dataProvider] = useState(new RecyclableListDataProvider((r1, r2) => r1 !== r2).cloneWithRows(items));
+    const dataProviderInstance = useRef(new RecyclableListDataProvider((r1, r2) => r1 !== r2)).current;
+    const [dataProvider, setDataProvider] = useState(dataProviderInstance.cloneWithRows(items));
     const { boundaries, isLoading, spacings, onLayout, rowDimensions } = useDimensionsCalculator({
         style,
         itemSpacing,
@@ -63,6 +66,12 @@ const Row = ({
         itemsInViewport,
         ref,
     });
+
+    useEffect(() => {
+        if (rerenderData) {
+            setDataProvider(dataProviderInstance.cloneWithRows(items));
+        }
+    }, [rerenderData]);
 
     const updateLayoutProvider = useCallback(() => {
         layoutProvider.current = new RecyclableListLayoutProvider(

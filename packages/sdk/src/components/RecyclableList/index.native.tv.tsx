@@ -53,9 +53,10 @@ export default function RecyclerView({
 
     const rowRendererWithProps = (type: any, data: any, index: any) => {
         const vr = rlvRef.current?.['_virtualRenderer'];
-        if (vr && !context.layouts) {
-            const lm: any = vr['_layoutManager'];
-            const layouts: any = lm['_layouts'];
+        const lm: any = vr?.['_layoutManager'];
+        const layouts: any = lm?.['_layouts'];
+
+        if (vr && (!context.layouts || layouts.length !== context.layouts.length)) {
             context.layouts = layouts;
         }
 

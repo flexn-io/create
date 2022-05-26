@@ -26,6 +26,7 @@ interface GridProps {
     items: RowItem[];
     itemDimensions: { height: number };
     itemSpacing?: number;
+    rerenderData?: any;
 }
 
 const Grid = ({
@@ -37,13 +38,14 @@ const Grid = ({
     itemsInViewport = 5,
     parentContext,
     focusOptions,
+    rerenderData,
     onFocus,
     onPress,
     onBlur,
 }: GridProps) => {
     const ref: any = useRef();
     const layoutProvider: any = useRef();
-    const dataProviderInstance = new RecyclableListDataProvider((r1, r2) => r1 !== r2);
+    const dataProviderInstance = useRef(new RecyclableListDataProvider((r1, r2) => r1 !== r2)).current;
     const [dataProvider, setDataProvider] = useState(dataProviderInstance.cloneWithRows(items));
     const { boundaries, spacings, onLayout, rowDimensions } = useDimensionsCalculator({
         style,
@@ -52,6 +54,12 @@ const Grid = ({
         itemsInViewport,
         ref,
     });
+
+    useEffect(() => {
+        if (rerenderData) {
+            setDataProvider(dataProviderInstance.cloneWithRows(items));
+        }
+    }, [rerenderData]);
 
     const updateLayoutProvider = useCallback(() => {
         layoutProvider.current = new RecyclableListLayoutProvider(
@@ -64,10 +72,6 @@ const Grid = ({
     }, [rowDimensions]);
 
     updateLayoutProvider();
-
-    useEffect(() => {
-        setDataProvider(dataProviderInstance.cloneWithRows(items));
-    }, [items]);
 
     const renderGrid = () => (
         <RecyclableList
