@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle, TextStyle } from 'react-native';
+import Text from '../../components/Text';
 import View from '../../components/View';
 import RecyclableList, {
     RecyclableListLayoutProvider,
@@ -24,7 +25,8 @@ interface RowProps {
     animatorOptions?: any;
     itemsInViewport: number;
     style?: StyleProp<ViewStyle>;
-    cardStyle?: StyleProp<ViewStyle>;
+    cardStyle?: StyleProp<ViewStyle> | StyleProp<TextStyle>;
+    titleStyle?: StyleProp<TextStyle>;
     onFocus?(data: any): void;
     onBlur?(data: any): void;
     onPress?(data: any): void;
@@ -47,6 +49,7 @@ const Row = ({
     animatorOptions,
     style = {},
     cardStyle = {},
+    titleStyle = {},
     rerenderData,
     onFocus,
     onPress,
@@ -130,7 +133,7 @@ const Row = ({
 
     const renderTitle = () => {
         if (title) {
-            // TODO: Render title
+            return <Text style={[{ left: spacings.paddingLeft }, titleStyle]}>{title}</Text>;
         }
 
         return null;
@@ -143,8 +146,8 @@ const Row = ({
             onLayout={onLayout}
             ref={ref}
         >
-            {renderRecycler()}
             {renderTitle()}
+            {renderRecycler()}
         </View>
     );
 };

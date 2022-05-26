@@ -32,9 +32,27 @@ const ListTest = () => {
 
     return (
         <Screen>
-            <List items={data} itemsInViewport={5} itemSpacing={30} itemDimensions={{ height: 250 }} rowHeight={400} />
+            <List
+                items={data}
+                itemsInViewport={5}
+                itemSpacing={30}
+                itemDimensions={{ height: 250 }}
+                rowHeight={400}
+                titleStyle={styles.titleStyle}
+                cardStyle={styles.cardStyle}
+            />
         </Screen>
     );
+};
+
+const styles = {
+    titleStyle: {
+        fontSize: 36,
+        color: 'white',
+    },
+    cardStyle: {
+        color: 'white',
+    },
 };
 
 export default ListTest;

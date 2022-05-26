@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle, TextStyle } from 'react-native';
 import View from '../../components/View';
 import RecyclableList, {
     RecyclableListLayoutProvider,
@@ -20,7 +20,8 @@ interface ListProps {
     animatorOptions?: any;
     itemsInViewport?: number;
     style?: StyleProp<ViewStyle>;
-    cardStyle?: StyleProp<ViewStyle>;
+    cardStyle?: StyleProp<ViewStyle> | StyleProp<TextStyle>;
+    titleStyle?: StyleProp<TextStyle>;
     onFocus?(data: any): void;
     onBlur?(data: any): void;
     onPress?(data: any): void;
@@ -42,6 +43,7 @@ const List = ({
     itemsInViewport = 5,
     style = {},
     cardStyle = {},
+    titleStyle = {},
     rerenderData,
     focusOptions,
     animatorOptions,
@@ -99,6 +101,7 @@ const List = ({
                     height: Ratio(rowHeight),
                 }}
                 cardStyle={cardStyle}
+                titleStyle={titleStyle}
                 itemDimensions={itemDimensions}
                 itemSpacing={itemSpacing}
                 initialXOffset={initialXOffset}
@@ -123,6 +126,7 @@ const List = ({
                     return renderRow({
                         index,
                         data: rowData,
+                        title: rowData.rowTitle,
                         nestedParentContext: repeatContext?.parentContext,
                         repeatContext: repeatContext,
                     });
