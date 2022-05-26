@@ -136,7 +136,9 @@ export default class Row extends Lightning.Component {
     }
 
     set itemsInViewport(value) {
-        this._itemsInViewport = value;
+        if (value !== undefined) {
+            this._itemsInViewport = value;
+        }
     }
 
     get row() {
@@ -174,10 +176,12 @@ export default class Row extends Lightning.Component {
     }
 
     set itemSpacing(value) {
-        this._itemSpacing = value;
-        this._whenEnabled.then(() => {
-            this._Row.itemSpacing = value;
-        });
+        if (value !== undefined) {
+            this._itemSpacing = value;
+            this._whenEnabled.then(() => {
+                this._Row.itemSpacing = value;
+            });
+        }
     }
 
     set lazyScroll(value) {
@@ -190,7 +194,10 @@ export default class Row extends Lightning.Component {
         const w = this.w || this.stage.w;
         if (w) {
             const actualWidth = w - this.itemSpacing * 2;
-            this.card.w = actualWidth / this.itemsInViewport - this.itemSpacing;
+            const cardWidth = actualWidth / this.itemsInViewport - this.itemSpacing;
+            if (this._card.w !== cardWidth) {
+                this._card.w = cardWidth;
+            }
         }
     }
 

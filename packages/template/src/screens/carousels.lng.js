@@ -19,8 +19,10 @@ export default class Carousels extends Lightning.Component {
 
     static _populateData() {
         const data = [...Array(10).keys()].map((rowNumber) => {
+            const itemsInViewport = interval(3, 6);
             return {
-                items: getRandomData(rowNumber, 0, interval(3, 5)),
+                items: getRandomData(rowNumber, 0, itemsInViewport),
+                itemsInViewport,
             };
         });
 

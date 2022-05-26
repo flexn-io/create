@@ -1,6 +1,6 @@
 import { List } from '@flexn/sdk';
 import React, { useContext } from 'react';
-import { isFactorMobile } from '@rnv/renative';
+import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv/renative';
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { getRandomData, interval } from '../utils';
 import Screen from './screen';
@@ -9,9 +9,10 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const { theme } = useContext(ThemeContext);
 
     const data = [...Array(10).keys()].map((rowNumber) => {
+        const itemsInViewport = interval(isFactorMobile ? 1 : 3, isFactorMobile ? 3 : 5);
         return {
-            items: getRandomData(rowNumber, undefined),
-            itemsInViewport: interval(isFactorMobile ? 1 : 3, isFactorMobile ? 3 : 5),
+            items: getRandomData(rowNumber, undefined, itemsInViewport),
+            itemsInViewport,
         };
     });
 
@@ -35,12 +36,13 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
 
 const styles = {
     screen: {
-        left: isFactorMobile ? 0 : Ratio(100),
+        left: isFactorMobile || isPlatformMacos || isPlatformWeb  ? 0 : Ratio(100),
     },
     cardStyle: {
         borderWidth: isFactorMobile ? 0 : 5,
         borderRadius: 5,
-        borderColor: '#0A74E6',
+        borderColor: isFactorTv ? '#0A74E6' : 'transparent',
+        fontSize: isFactorMobile ? 16 : 26
     },
 };
 

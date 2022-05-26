@@ -93,6 +93,7 @@ const List = ({
                 itemSpacing={itemSpacing}
                 initialXOffset={initialXOffset}
                 animatorOptions={animatorOptions}
+                focusOptions={focusOptions}
             />
         );
     };
