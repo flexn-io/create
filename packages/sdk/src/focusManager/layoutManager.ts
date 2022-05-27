@@ -49,13 +49,12 @@ function recalculateLayout(context: Context) {
     recalculateAbsolutes(context);
 }
 
-function measure(context: Context, ref: any) {
+function measure(context: Context, ref: any, unmeasurableRelatives?: { x: number, y: number }) {
     ref.current.measure((_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
         let pgX;
         let pgY;
 
         if (context.repeatContext !== undefined) {
-            // TODO: Check what about nested repeats?
             const pCtx = context.repeatContext.parentContext;
 
             if (pCtx !== undefined) {
@@ -66,6 +65,12 @@ function measure(context: Context, ref: any) {
         } else {
             pgY = pageY;
             pgX = pageX;
+        }
+
+        // Single and nested recyclers can't measure itself due to logic above
+        if (unmeasurableRelatives && context.type === CONTEXT_TYPES.RECYCLER) {
+            pgX = pgX + unmeasurableRelatives.x;
+            pgY = pgY + unmeasurableRelatives.y;
         }
 
         const layout = {

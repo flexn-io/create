@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View as RNView } from 'react-native';
+import { View as RNView, StyleSheet } from 'react-native';
 import {
     DataProvider as RecyclableListDataProvider,
     LayoutProvider as RecyclableListLayoutProvider,
@@ -12,6 +12,14 @@ import type { Context, RecyclerViewProps } from '../../focusManager/types';
 
 const Column = null;
 
+const parseStyleProps = (prop?: string | number): number => {
+    if (typeof prop !== 'number') {
+        return 0;
+    }
+
+    return prop;
+};
+
 export default function RecyclerView({
     style,
     parentContext,
@@ -21,6 +29,7 @@ export default function RecyclerView({
     dataProvider,
     repeatContext,
     contentContainerStyle,
+    unmeasurableRelativeDimensions = { y: 0, x: 0 },
     focusOptions = {},
     ...props
 }: RecyclerViewProps) {
@@ -88,8 +97,22 @@ export default function RecyclerView({
         };
     }, []);
 
+    const flattenContentContainerStyle = StyleSheet.flatten(contentContainerStyle);
+    const flattenStyles = StyleSheet.flatten(style);
+
+    const paddingTop = parseStyleProps(flattenContentContainerStyle?.paddingTop);
+    const paddingLeft = parseStyleProps(flattenContentContainerStyle?.paddingLeft);
+    const marginTop = parseStyleProps(flattenStyles?.marginTop);
+    const marginLeft = parseStyleProps(flattenStyles?.marginLeft);
+    const top = parseStyleProps(flattenStyles?.top);
+    const left = parseStyleProps(flattenStyles?.left);
+
     const onLayout = () => {
-        measure(context, rnViewRef);
+        const unmeasurableDimensions = {
+            x: paddingLeft + marginLeft + left + (unmeasurableRelativeDimensions.x || 0),
+            y: paddingTop + marginTop + top + (unmeasurableRelativeDimensions.y || 0),
+        };
+        measure(context, rnViewRef, unmeasurableDimensions);
     };
 
     return (

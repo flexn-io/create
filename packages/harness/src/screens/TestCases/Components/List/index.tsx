@@ -22,10 +22,10 @@ function generateData(width, height, items = 30) {
 }
 
 const ListTest = () => {
-    const data = [...Array(10).keys()].map(() => {
+    const data = [...Array(5).keys()].map(() => {
         return {
             rowTitle: kittyNames[interval()],
-            items: generateData(400, 250),
+            items: generateData(400, 250, 10),
             itemsInViewport: interval(3, 8),
         };
     });
@@ -40,6 +40,7 @@ const ListTest = () => {
                 rowHeight={400}
                 titleStyle={styles.titleStyle}
                 cardStyle={styles.cardStyle}
+                focusOptions={{ forbiddenFocusDirections: ['right'] }}
             />
         </Screen>
     );
@@ -53,6 +54,7 @@ const styles = {
     cardStyle: {
         color: 'white',
     },
+    otherStyle: {},
 };
 
 export default ListTest;

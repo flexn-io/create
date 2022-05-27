@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { StyleProp, ViewStyle, TextStyle } from 'react-native';
+import { StyleProp, ViewStyle, TextStyle, StyleSheet } from 'react-native';
 import Text from '../../components/Text';
 import View from '../../components/View';
 import RecyclableList, {
@@ -62,6 +62,7 @@ const Row = ({
     const layoutProvider: any = useRef();
     const dataProviderInstance = useRef(new RecyclableListDataProvider((r1, r2) => r1 !== r2)).current;
     const [dataProvider, setDataProvider] = useState(dataProviderInstance.cloneWithRows(items));
+    const flattenTitleStyles = StyleSheet.flatten(titleStyle);
     const { boundaries, isLoading, spacings, onLayout, rowDimensions } = useDimensionsCalculator({
         style,
         itemSpacing,
@@ -124,6 +125,10 @@ const Row = ({
                         showsHorizontalScrollIndicator: false,
                     }}
                     focusOptions={focusOptions}
+                    unmeasurableRelativeDimensions={{
+                        y: flattenTitleStyles?.fontSize || 0,
+                        x: 0,
+                    }}
                 />
             );
         }

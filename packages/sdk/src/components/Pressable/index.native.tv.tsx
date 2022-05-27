@@ -11,7 +11,7 @@ import {
 import type { Context, ViewProps } from '../../focusManager/types';
 import CoreManager from '../../focusManager/core';
 import { ANIMATIONS } from '../../focusManager/constants';
-import { measure, recalculateLayout } from '../../focusManager/layoutManager';
+import { measure } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
 export const defaultAnimation = {
@@ -86,12 +86,6 @@ const View = React.forwardRef<any, ViewProps>(
                 ref.current.onBlur = onBlur;
             }
         }, [onPress, onFocus, onBlur]);
-
-        useEffect(() => {
-            if (CoreManager.currentContext) {
-                recalculateLayout(CoreManager.currentContext);
-            }
-        }, [repeatContext]);
 
         useEffect(() => {
             if (focus) {

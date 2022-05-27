@@ -64,7 +64,6 @@ export interface PressableProps extends RNPressableProps {
     children: React.ReactNode;
     ref?: any;
     activeOpacity?: any;
-    style?: StyleProp<ViewStyle>;
 }
 
 export interface ScrollViewProps extends RNScrollViewProps {
@@ -98,6 +97,7 @@ export interface RecyclerViewProps {
     scrollEventThrottle?: number;
     contentContainerStyle?: StyleProp<ViewStyle>;
     style?: StyleProp<ViewStyle>;
+    unmeasurableRelativeDimensions: { x?: number, y?: number };
     focusOptions?: RecyclableListFocusOptions;
 }
 
