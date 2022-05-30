@@ -144,9 +144,7 @@ const List = ({
 };
 
 const styles = {
-    container: {
-        flex: 1,
-    },
+    container: {},
 };
 
 export default List;

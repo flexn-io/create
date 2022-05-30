@@ -108,9 +108,7 @@ const Grid = ({
 };
 
 const baseStyles = {
-    container: {
-        flex: 1,
-    },
+    container: {},
 };
 
 Grid.displayName = 'Grid';

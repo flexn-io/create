@@ -5,11 +5,12 @@ function findLowestRelativeCoordinates(context: Context) {
     if (context.screen && context.type === CONTEXT_TYPES.VIEW) {
         const { screen } = context;
         const { layout } = screen.firstFocusable || {};
-        if (!screen.firstFocusable) {
-            context.screen.firstFocusable = context;
-        } else if (layout.yMin === context.layout.yMin && layout.xMin >= context.layout.xMin) {
-            context.screen.firstFocusable = context;
-        } else if (layout.yMin > context.layout.yMin) {
+
+        const c1 = !screen.firstFocusable;
+        const c2 = layout?.yMin === context.layout?.yMin && layout.xMin >= context.layout?.xMin;
+        const c3 = layout?.yMin > context.layout?.yMin;
+        
+        if (c1 || c2 || c3) {
             context.screen.firstFocusable = context;
         }
     }
