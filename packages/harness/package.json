@@ -1,6 +1,6 @@
 {
     "name": "app-harness",
-    "version": "0.13.2",
+    "version": "0.14.0",
     "scripts": {
         "bootstrap": "yarn prepare-assets && cd ../.. && yarn bootstrap",
         "build": "tsc --noEmit",
@@ -22,11 +22,11 @@
         "web:release": "npx rnv build -p web -c harness -s release && vercel ./platformBuilds/harness_web/project"
     },
     "dependencies": {
-        "@flexn/sdk": "0.13.2",
+        "@flexn/sdk": "0.14.0",
         "@flexn/typescript": "0.1.4",
         "@lightningjs/cli": "2.7.2",
-        "@lightningjs/sdk": "4.3.3",
         "@lightningjs/core": "^2.6.0",
+        "@lightningjs/sdk": "4.3.3",
         "@lightningjs/ui-components": "^1.2.1",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/cli-platform-ios": "^6.0.0",
@@ -67,8 +67,8 @@
         "tslib": "2.3.1"
     },
     "devDependencies": {
-        "@flexn/graybox": "0.13.2",
-        "@flexn/template": "0.13.2",
+        "@flexn/graybox": "0.14.0",
+        "@flexn/template": "0.14.0",
         "@rnv/engine-lightning": "0.36.0-canary.13",
         "@rnv/engine-rn": "0.36.0-canary.13",
         "@rnv/engine-rn-electron": "0.36.0-canary.13",
@@ -76,6 +76,7 @@
         "@rnv/engine-rn-tvos": "0.36.0-canary.13",
         "@rnv/engine-rn-web": "0.36.0-canary.13",
         "@rnv/engine-rn-windows": "0.36.0-canary.13",
+        "@rollup/plugin-typescript": "^8.3.2",
         "@types/chromecast-caf-receiver": "^6.0.6",
         "@types/jest": "27.0.1",
         "@types/node": "14.0.0",
@@ -86,8 +87,7 @@
         "jetifier": "1.6.5",
         "react-test-renderer": "^17.0.1",
         "rnv": "0.36.0-canary.13",
-        "xcode": "2.1.0",
-        "@rollup/plugin-typescript": "^8.3.2"
+        "xcode": "2.1.0"
     },
     "optionalDependencies": {
         "ios-deploy": "1.10.0"
