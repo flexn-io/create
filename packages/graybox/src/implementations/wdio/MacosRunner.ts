@@ -13,8 +13,14 @@ class MacosRunner extends AbstractRunner {
         return $(`[name="${selector}"]`);
     };
 
-    scrollById = () => {
-        // TODO
+    scrollById = async (selectorTo: string, direction: string, selectorFrom: string) => {
+        const elementFrom = await this.getElementById(selectorFrom);
+        const elementTo = await this.getElementById(selectorTo);
+        const frameFrom = await elementFrom.getAttribute('frame') as unknown as {x: number, y: number, width: number, height: number};
+        const frameTo = await elementTo.getAttribute('frame') as unknown as {x: number, y: number, width: number, height: number};
+        const scrollX = frameFrom.x - frameTo.x;    
+        const scrollY = frameFrom.y - frameTo.y;
+        await browser.execute('macos: scroll', { elementId: elementFrom, deltaX: scrollX, deltaY: scrollY });        
     };
 
     clickById = async (selector: string) => {
