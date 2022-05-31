@@ -6,6 +6,9 @@ import { makeid, useCombinedRefs, alterForbiddenFocusDirections } from '../../fo
 import CoreManager from '../../focusManager/core';
 import { measure } from '../../focusManager/layoutManager';
 
+import { createOrReturnInstance } from '../../focusManager/screen';
+
+
 const Screen = React.forwardRef<any, ScreenProps>(
     (
         {
@@ -27,7 +30,6 @@ const Screen = React.forwardRef<any, ScreenProps>(
     ) => {
         const refInner = useRef(null);
         const ref = useCombinedRefs(refOuter, refInner);
-        const interval: { current: NodeJS.Timeout | null } = useRef(null);
         const {
             focusKey,
             nextFocusRight,
@@ -59,53 +61,24 @@ const Screen = React.forwardRef<any, ScreenProps>(
                 onBlur,
             };
 
-            CoreManager.registerContext(ctx, null);
+            CoreManager.registerContext(ctx);
+            ctx.cls = createOrReturnInstance(ctx);
 
             return ctx;
         });
-
-        const setInitialFocus = (focusable: Context) => {
-            CoreManager.currentContext?.screen?.onBlur?.();
-            CoreManager.executeFocus('', focusable);
-            CoreManager.executeUpdateGuideLines();
-            context.onFocus?.();
-        };
-
-        const findInitialFocusable = () => {
-            if (stealFocus) {
-                let firstFocusable = CoreManager.findFirstFocusableOnScreen(context);
-                if (firstFocusable) {
-                    setInitialFocus(firstFocusable);
-                } else {
-                    // NOTE: why is interval? Because screen lifecycle if independent of child complex components life cycles
-                    // so screen can be loaded but focusable elements not yet
-                    interval.current = setInterval(() => {
-                        firstFocusable = CoreManager.findFirstFocusableOnScreen(context);
-                        if (firstFocusable) {
-                            clearInterval(interval.current as NodeJS.Timeout);
-                            setInitialFocus(firstFocusable);
-                        }
-                    }, 100);
-                }
-            }
-        };
 
         useEffect(() => {
             context.prevState = context.state;
             context.state = screenState;
             if (context.prevState === SCREEN_STATES.BACKGROUND && screenState === SCREEN_STATES.FOREGROUND) {
-                findInitialFocusable();
+                context.cls.initialLoadInProgress = true;
             }
         }, [screenState]);
 
         useEffect(() => {
-            findInitialFocusable();
-
+            // findInitialFocusable();
             return () => {
                 CoreManager.removeContext(context);
-                if (interval.current) {
-                    clearInterval(interval.current);
-                }
             };
         }, []);
 
