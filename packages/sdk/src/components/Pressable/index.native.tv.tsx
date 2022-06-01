@@ -70,8 +70,7 @@ const View = React.forwardRef<any, ViewProps>(
         }
 
         useEffect(() => {            
-            // If item initially was not focusable, but during the time it became focusable
-            // we capturing that here
+            // If item initially was not focusable, but during the time it became focusable we capturing that here
             if (prevFocus === false && focus === true) {
                 const ctx: Context = makeContext();
                 setContext(ctx);
@@ -90,7 +89,7 @@ const View = React.forwardRef<any, ViewProps>(
         useEffect(() => {
             if (focus) {
                 CoreManager.registerContext(context, ref);
-                context.screen.cls.setIsLoading();
+                context.screen.screenCls.setIsLoading();
             }
 
             return () => {
@@ -103,9 +102,9 @@ const View = React.forwardRef<any, ViewProps>(
                         const screenContext = CoreManager.contextMap[context.screen.id];
                         if (screenContext) {
                             screenContext.lastFocused = undefined;
-
-                            context.screen.cls.setFocus(
-                                context.screen.cls.getFirstFocusableOnScreen()
+                                
+                            context.screen.screenCls.setFocus(
+                                context.screen.screenCls.getFirstFocusableOnScreen()
                             );
                         }
                     }

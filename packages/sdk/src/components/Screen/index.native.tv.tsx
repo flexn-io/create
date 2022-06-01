@@ -62,7 +62,7 @@ const Screen = React.forwardRef<any, ScreenProps>(
             };
 
             CoreManager.registerContext(ctx);
-            ctx.cls = createOrReturnInstance(ctx);
+            ctx.screenCls = createOrReturnInstance(ctx);
 
             return ctx;
         });
@@ -71,12 +71,11 @@ const Screen = React.forwardRef<any, ScreenProps>(
             context.prevState = context.state;
             context.state = screenState;
             if (context.prevState === SCREEN_STATES.BACKGROUND && screenState === SCREEN_STATES.FOREGROUND) {
-                context.cls.initialLoadInProgress = true;
+                if (context.screenCls) context.screenCls.initialLoadInProgress = true;
             }
         }, [screenState]);
 
         useEffect(() => {
-            // findInitialFocusable();
             return () => {
                 CoreManager.removeContext(context);
             };

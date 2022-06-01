@@ -155,7 +155,7 @@ class CoreManager {
         );
 
         if (focusAsNext?.screen) {
-            const nextFocusable = focusAsNext?.screen.cls.getFirstFocusableOnScreen();
+            const nextFocusable = focusAsNext?.screen.screenCls?.getFirstFocusableOnScreen();
             if (nextFocusable) {
                 this._currentContext?.screen?.onBlur?.();
                 this.executeFocus('', nextFocusable);
@@ -285,7 +285,7 @@ class CoreManager {
                             nextScreenContext.screen?.onFocus?.();
 
                             if (nextScreenContext.screen) {
-                                return nextScreenContext.screen.cls.getFirstFocusableOnScreen();
+                                return nextScreenContext.screen.screenCls?.getFirstFocusableOnScreen();
                             }
                         }
 

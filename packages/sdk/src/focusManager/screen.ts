@@ -1,6 +1,7 @@
 import { Context, ScreenStates } from './types';
-import { CONTEXT_TYPES, SCREEN_STATES } from './constants';
+import { SCREEN_STATES } from './constants';
 import CoreManager from './core';
+import logger from './logger';
 
 const WAIT_TO_LOAD_DELAY = 100;
 
@@ -31,7 +32,7 @@ class Screen {
                     this.initialLoadInProgress = false;
                     if (this.context.stealFocus) {
                         this.setFocus(
-                            this.getFirstFocusableOnScreen(this.context)
+                            this.getFirstFocusableOnScreen()
                         );
                     }
                 }
@@ -39,15 +40,15 @@ class Screen {
         }
     };
 
-    public getFirstFocusableOnScreen = (context: Context): Context | null => {
-        if (context.state === SCREEN_STATES.BACKGROUND) {
+    public getFirstFocusableOnScreen = (): Context | null => {
+        if (this.context.state === SCREEN_STATES.BACKGROUND) {
             return null;
-        } else if (context.lastFocused) {
-            return context.lastFocused;
-        } else if (context.initialFocus) {
-            return context.initialFocus;
-        } else if (context.firstFocusable) {
-            return context.firstFocusable;
+        } else if (this.context.lastFocused) {
+            return this.context.lastFocused;
+        } else if (this.context.initialFocus) {
+            return this.context.initialFocus;
+        } else if (this.context.firstFocusable) {
+            return this.context.firstFocusable;
         } else {
             return null;
         }
@@ -60,7 +61,7 @@ class Screen {
             CoreManager.executeUpdateGuideLines();
             context.onFocus?.();
         } else {
-            console.log('Focusable not found');
+            logger.log('Focusable not found');
         }
     }
 
@@ -89,5 +90,8 @@ function destroyInstance(context: Context) {
         delete ScreenInstances[context.id];
     }
 }
+
+export type ScreenCls = Screen;
+
 
 export { createOrReturnInstance, destroyInstance };
