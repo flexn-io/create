@@ -93,12 +93,13 @@ export interface RecyclerViewProps {
     layoutProvider: any;
     rowRenderer: any;
     bounces?: boolean;
-    scrollViewProps?: any;
+    scrollViewProps?: any;  
     scrollEventThrottle?: number;
     contentContainerStyle?: StyleProp<ViewStyle>;
     style?: StyleProp<ViewStyle>;
     unmeasurableRelativeDimensions: { x?: number, y?: number };
     focusOptions?: RecyclableListFocusOptions;
+    disableItemContainer?: boolean;
 }
 
 export interface Context {

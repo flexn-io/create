@@ -89,7 +89,7 @@ const Row = ({
 
     updateLayoutProvider();
 
-    const rowRenderer = (_type: string | number, data: any, _index: number, _repeatContext: any) => {
+    const rowRenderer = (_type: string | number, data: any, _index: number, _repeatContext: any, _renderProps: any) => {
         return (
             <PosterCard
                 src={{ uri: data.backgroundImage }}
@@ -99,6 +99,7 @@ const Row = ({
                 onBlur={() => onBlur?.(data)}
                 onPress={() => onPress?.(data)}
                 repeatContext={_repeatContext}
+                renderProps={_renderProps}
                 focusOptions={{
                     animatorOptions,
                 }}
@@ -118,6 +119,7 @@ const Row = ({
                     initialXOffset={Ratio(initialXOffset)}
                     repeatContext={repeatContext}
                     rowRenderer={rowRenderer}
+                    disableItemContainer
                     isHorizontal
                     style={[style, { width: boundaries.width, height: boundaries.height }]}
                     contentContainerStyle={{ ...spacings }}

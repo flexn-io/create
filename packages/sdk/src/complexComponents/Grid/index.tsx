@@ -27,6 +27,7 @@ interface GridProps {
     itemDimensions: { height: number };
     itemSpacing?: number;
     rerenderData?: any;
+    animatorOptions?: any;
 }
 
 const Grid = ({
@@ -39,6 +40,7 @@ const Grid = ({
     parentContext,
     focusOptions,
     rerenderData,
+    animatorOptions,
     onFocus,
     onPress,
     onBlur,
@@ -77,7 +79,7 @@ const Grid = ({
         <RecyclableList
             dataProvider={dataProvider}
             layoutProvider={layoutProvider.current}
-            rowRenderer={(_type: string | number, data, _index: number, repeatContext: any) => {
+            rowRenderer={(_type: string | number, data, _index: number, repeatContext: any, renderProps) => {
                 return (
                     <PosterCard
                         src={{ uri: data.backgroundImage }}
@@ -87,6 +89,8 @@ const Grid = ({
                         onPress={() => onPress?.(data)}
                         onBlur={() => onBlur?.(data)}
                         repeatContext={repeatContext}
+                        renderProps={renderProps}
+                        focusOptions={{ animatorOptions }}
                     />
                 );
             }}
@@ -97,6 +101,7 @@ const Grid = ({
             }}
             focusOptions={focusOptions}
             isHorizontal={false}
+            disableItemContainer
         />
     );
 

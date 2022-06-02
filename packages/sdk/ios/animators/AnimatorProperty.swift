@@ -14,6 +14,7 @@ class AnimatorProperty {
     var borderColor: CGColor?
     var backgroundColor: CGColor?
     var borderWidth: CGFloat = 1
+    var zIndex: CGFloat = 0
     var backgroundColorFocus: CGColor?
 
     init(args: NSDictionary) {
@@ -34,6 +35,9 @@ class AnimatorProperty {
         }
         if ((self.style["borderWidth"]) != nil) {
             self.borderWidth = (self.style["borderWidth"] as? CGFloat)!
+        }
+        if ((self.style["zIndex"]) != nil) {
+            self.zIndex = (self.style["zIndex"] as? CGFloat)!
         }
     }
     

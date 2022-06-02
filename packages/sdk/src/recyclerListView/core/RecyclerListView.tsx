@@ -85,7 +85,11 @@ export interface RecyclerListViewProps {
         type: string | number,
         data: any,
         index: number,
-        extendedState?: object
+        extendedState?: object,
+        renderProps?: {
+            style: object, 
+            ref: object,
+        }
     ) => JSX.Element | JSX.Element[] | null;
     contextProvider?: ContextProvider;
     renderAheadOffset?: number;
@@ -112,6 +116,7 @@ export interface RecyclerListViewProps {
     optimizeForInsertDeleteAnimations?: boolean;
     style?: object | number;
     focusOptions?: object;
+    disableItemContainer?: boolean;
     contentContainerStyle?: object | number;
     debugHandlers?: DebugHandlers;
     renderContentContainer?: (props?: object, children?: React.ReactNode) => React.ReactNode | null;
@@ -692,6 +697,7 @@ export default class RecyclerListView<
                     isHorizontal={this.props.isHorizontal}
                     onSizeChanged={this._onViewContainerSizeChange}
                     childRenderer={this.props.rowRenderer}
+                    disableItemContainer={this.props.disableItemContainer}
                     height={itemRect.height}
                     width={itemRect.width}
                     itemAnimator={Default.value<ItemAnimator>(this.props.itemAnimator, this._defaultItemAnimator)}
