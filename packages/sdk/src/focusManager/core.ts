@@ -30,7 +30,7 @@ class CoreManager {
         this._guideLineX = 0;
     }
 
-    public registerContext(context: Context, node: any) {
+    public registerContext(context: Context, node?: any) {
         if (this._contextMap[context.id]) {
             return;
         }
@@ -147,31 +147,6 @@ class CoreManager {
         this._hasPendingUpdateGuideLines = false;
     }
 
-    public findFirstFocusableOnScreen = (context: Context): Context | null | undefined => {
-        if (context.type === CONTEXT_TYPES.SCREEN) {
-            if (context.state === SCREEN_STATES.BACKGROUND) {
-                if (this._debuggerEnabled) {
-                    // eslint-disable-next-line
-                    logger.debug('Screen is in background ignoring[findFirstFocusableOnScreen]');
-                }
-                return null;
-            }
-            if (context.lastFocused) {
-                return context.lastFocused;
-            }
-            if (context.initialFocus) {
-                return context.initialFocus;
-            }
-            if (context.firstFocusable) {
-                return context.firstFocusable;
-            }
-
-            return null;
-        }
-
-        return context;
-    };
-
     public focusElementByFocusKey = (focusKey: string) => {
         const focusAsNext: Context | undefined = Object.values(this._contextMap).find(
             (s) =>
@@ -179,8 +154,8 @@ class CoreManager {
                 (s?.screen?.state === SCREEN_STATES.FOREGROUND || s.state === SCREEN_STATES.FOREGROUND)
         );
 
-        if (focusAsNext) {
-            const nextFocusable = this.findFirstFocusableOnScreen(focusAsNext);
+        if (focusAsNext?.screen) {
+            const nextFocusable = focusAsNext?.screen.screenCls?.getFirstFocusableOnScreen();
             if (nextFocusable) {
                 this._currentContext?.screen?.onBlur?.();
                 this.executeFocus('', nextFocusable);
@@ -310,7 +285,7 @@ class CoreManager {
                             nextScreenContext.screen?.onFocus?.();
 
                             if (nextScreenContext.screen) {
-                                return this.findFirstFocusableOnScreen(nextScreenContext.screen);
+                                return nextScreenContext.screen.screenCls?.getFirstFocusableOnScreen();
                             }
                         }
 

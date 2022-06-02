@@ -7,7 +7,7 @@ import type {
     ViewStyle,
     ScrollView,
 } from 'react-native';
-
+import type { ScreenCls } from './screen';
 export type ForbiddenFocusDirections = 'down' | 'up' | 'left' | 'right';
 export type WindowAlignment = 'both-edge' | 'low-edge';
 export type ScreenStates = 'background' | 'foreground';
@@ -132,10 +132,8 @@ export interface Context {
     isFocusable?: boolean;
     focusKey?: string;
     state?: string; // proper type
-    
     initialFocus?: Context;
     firstFocusable?: Context;
-
     lastFocused?: Context;
     repeatContext?: Context;
     parentContext?: Context;
@@ -146,6 +144,7 @@ export interface Context {
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
+    screenCls?: ScreenCls;
 }
 
 export type ContextMap = { [key: string]: Context };
