@@ -41,6 +41,8 @@ export { ANIMATION_TYPES } from './focusManager/constants';
 // Functions
 import CoreManager from './focusManager/core';
 
+console.log('CoreManager', CoreManager);
+
 export function focusElementByFocusKey(focusKey: string) {
     CoreManager.focusElementByFocusKey(focusKey);
 }

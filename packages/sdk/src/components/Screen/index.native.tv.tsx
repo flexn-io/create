@@ -6,7 +6,7 @@ import { makeid, useCombinedRefs, alterForbiddenFocusDirections } from '../../fo
 import CoreManager from '../../focusManager/core';
 import { measure } from '../../focusManager/layoutManager';
 
-import { createOrReturnInstance } from '../../focusManager/screen';
+import { createOrReturnInstance } from '../../focusManager/Model/screen';
 
 
 const Screen = React.forwardRef<any, ScreenProps>(
@@ -40,54 +40,52 @@ const Screen = React.forwardRef<any, ScreenProps>(
             verticalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
             forbiddenFocusDirections,
         }: any = focusOptions;
-        const [context] = useState(() => {
-            const ctx: Context = {
-                id: `screen-${makeid(8)}`,
-                type: 'screen',
-                children: [],
-                prevState: screenState,
-                state: screenState,
-                order: screenOrder,
-                stealFocus,
-                focusKey,
-                verticalWindowAlignment,
-                horizontalWindowAlignment,
-                horizontalViewportOffset,
-                verticalViewportOffset,
-                forbiddenFocusDirections: alterForbiddenFocusDirections(forbiddenFocusDirections),
-                nextFocusRight,
-                nextFocusLeft,
-                onFocus,
-                onBlur,
-            };
 
-            CoreManager.registerContext(ctx);
-            ctx.screenCls = createOrReturnInstance(ctx);
+        const ScreenInstance = useRef(createOrReturnInstance({
+            prevState: screenState,
+            state: screenState,
+            order: screenOrder,
+            stealFocus,
+            focusKey,
+            verticalWindowAlignment,
+            horizontalWindowAlignment,
+            horizontalViewportOffset,
+            verticalViewportOffset,
+            forbiddenFocusDirections: alterForbiddenFocusDirections(forbiddenFocusDirections),
+            nextFocusRight,
+            nextFocusLeft,
+            onFocus,
+            onBlur,
+        })).current;
 
-            return ctx;
-        });
+        CoreManager.registerContext(ScreenInstance.getContext(), null);
+        CoreManager.registerFocusable(ScreenInstance);
+
+        ScreenInstance.context.screenCls = createOrReturnInstance(ScreenInstance.context);
 
         useEffect(() => {
-            context.prevState = context.state;
-            context.state = screenState;
-            if (context.prevState === SCREEN_STATES.BACKGROUND && screenState === SCREEN_STATES.FOREGROUND) {
-                if (context.screenCls) context.screenCls.initialLoadInProgress = true;
+            ScreenInstance
+                .setPrevState(ScreenInstance.context.state)
+                .setState(screenState);
+
+            if (ScreenInstance.isPrevStateBackground && ScreenInstance.isInForeground) {
+                ScreenInstance.context.initialLoadInProgress = true;
             }
         }, [screenState]);
 
         useEffect(() => {
             return () => {
-                CoreManager.removeContext(context);
+                CoreManager.removeContext(ScreenInstance.context);
             };
         }, []);
 
         const onLayout = () => {
-            measure(context, ref);
+            measure(ScreenInstance.context, ref);
         };
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
-                return React.cloneElement(child, { parentContext: context });
+                return React.cloneElement(child, { parentContext: ScreenInstance.getContext(), parentClass: ScreenInstance });
             }
             return child;
         });

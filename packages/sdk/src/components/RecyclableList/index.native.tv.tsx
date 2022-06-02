@@ -9,6 +9,7 @@ import CoreManager from '../../focusManager/core';
 import { alterForbiddenFocusDirections, makeid } from '../..//focusManager/helpers';
 import { measure } from '../../focusManager/layoutManager';
 import type { Context, RecyclerViewProps } from '../../focusManager/types';
+import { createOrReturnInstance } from '../../focusManager/Model/recycler';
 
 const Column = null;
 
@@ -23,6 +24,8 @@ const parseStyleProps = (prop?: string | number): number => {
 export default function RecyclerView({
     style,
     parentContext,
+    parentClass,
+    repeatClass,
     isHorizontal = true,
     rowRenderer,
     scrollViewProps,
@@ -36,28 +39,20 @@ export default function RecyclerView({
     const scrollViewRef = useRef<HTMLDivElement | null>(null);
     const rlvRef = useRef<RecyclerListView<any, any>>(null);
     const rnViewRef = useRef<RNView>(null);
-    const [context] = useState(() => {
-        const ctx: Context = {
-            id: `recycler-${makeid(8)}`,
-            children: [],
-            isFocusable: false,
-            isScrollable: true,
-            isNested: !!repeatContext,
-            isRecyclable: true,
-            scrollOffsetX: 0,
-            scrollOffsetY: 0,
-            type: 'recycler',
-            isHorizontal,
-            parent: parentContext,
-            repeatContext,
-            forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
-        };
 
-        return ctx;
-    });
+    const RecyclerInstance = useRef(createOrReturnInstance({
+        isHorizontal,
+        isNested: !!repeatContext,
+        parent: parentContext,
+        parentClass,
+        repeatContext,
+        repeatClass,
+        forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
+    })).current;
 
     if (repeatContext) {
-        context.repeatContext = repeatContext;
+        RecyclerInstance.context.repeatContext = repeatContext;
+        RecyclerInstance.repeatClass = repeatClass;
     }
 
     const rowRendererWithProps = (type: any, data: any, index: any) => {
@@ -65,35 +60,36 @@ export default function RecyclerView({
         const lm: any = vr?.['_layoutManager'];
         const layouts: any = lm?.['_layouts'];
 
-        if (vr && (!context.layouts || layouts.length !== context.layouts.length)) {
-            context.layouts = layouts;
+        if (vr && (!RecyclerInstance.getContext().layouts || layouts.length !== RecyclerInstance.getContext().layouts.length)) {
+            RecyclerInstance.context.layouts = layouts;
         }
 
-        if (vr?.['_params'] && !context.isLastVisible) {
+        if (vr?.['_params'] && !RecyclerInstance.getContext().isLastVisible) {
             const recyclerItemsCount = vr['_params'].itemCount;
             const vt: any = vr['_viewabilityTracker'] || {};
 
-            context.isLastVisible = () => {
+            RecyclerInstance.context.isLastVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
                 return visibleIndexes[visibleIndexes.length - 1] + 1 === recyclerItemsCount;
             };
 
-            context.isFirstVisible = () => {
+            RecyclerInstance.context.isFirstVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
                 return visibleIndexes[0] === 0;
             };
         }
 
-        return rowRenderer(type, data, index, { parentContext: context, index });
+        return rowRenderer(type, data, index, { parentContext: RecyclerInstance.getContext(), parentClass: RecyclerInstance, index });
     };
 
     useEffect(() => {
-        CoreManager.registerContext(context, scrollViewRef);
+        CoreManager.registerContext(RecyclerInstance.getContext(), scrollViewRef);
+        CoreManager.registerFocusable(RecyclerInstance);
     });
 
     useEffect(() => {
         return () => {
-            CoreManager.removeContext(context);
+            CoreManager.removeContext(RecyclerInstance.getContext());
         };
     }, []);
 
@@ -112,7 +108,7 @@ export default function RecyclerView({
             x: paddingLeft + marginLeft + left + (unmeasurableRelativeDimensions.x || 0),
             y: paddingTop + marginTop + top + (unmeasurableRelativeDimensions.y || 0),
         };
-        measure(context, rnViewRef, unmeasurableDimensions);
+        measure(RecyclerInstance.getContext(), rnViewRef, unmeasurableDimensions);
     };
 
     return (

@@ -7,7 +7,8 @@ import type {
     ViewStyle,
     ScrollView,
 } from 'react-native';
-import type { ScreenCls } from './screen';
+import type { ScreenCls } from './Model/screen';
+import AbstractFocusModel from './Model/AbstractFocusModel';
 export type ForbiddenFocusDirections = 'down' | 'up' | 'left' | 'right';
 export type WindowAlignment = 'both-edge' | 'low-edge';
 export type ScreenStates = 'background' | 'foreground';
@@ -104,11 +105,16 @@ export interface RecyclerViewProps {
 export interface Context {
     id: string;
     type: string;
+    
     children: Context[];
+
     parent?: Context;
+    
     layout?: any;
     prevState?: string;
+
     screen?: Context;
+    
     data?: any;
     onFocus?(): void;
     onBlur?(): void;
@@ -132,11 +138,13 @@ export interface Context {
     isFocusable?: boolean;
     focusKey?: string;
     state?: string; // proper type
+
     initialFocus?: Context;
     firstFocusable?: Context;
     lastFocused?: Context;
     repeatContext?: Context;
     parentContext?: Context;
+    
     layouts?: any;
     index?: number;
     forbiddenFocusDirections?: string[];

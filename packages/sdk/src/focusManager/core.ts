@@ -5,10 +5,15 @@ import { getNextForcedFocusKey } from './helpers';
 import { recalculateLayout } from './layoutManager';
 import logger from './logger';
 import type { Context } from './types';
+import AbstractFocusModel from './Model/AbstractFocusModel';
 
 class CoreManager {
     private _contextMap: {
         [key: string]: Context;
+    };
+
+    private _focusableMap: {
+        [key: string]: AbstractFocusModel;
     };
 
     private _currentContext: Context | null;
@@ -23,6 +28,7 @@ class CoreManager {
 
     constructor() {
         this._contextMap = {};
+        this._focusableMap = {};
         this._currentContext = null;
         this._debuggerEnabled = false;
         this._hasPendingUpdateGuideLines = false;
@@ -30,7 +36,50 @@ class CoreManager {
         this._guideLineX = 0;
     }
 
-    public registerContext(context: Context, node?: any) {
+    public registerFocusable(cls: AbstractFocusModel, node?: any) {
+        if (this._focusableMap[cls.id]) {
+            return;
+        }
+        if (node) {
+            const nodeId = findNodeHandle(node.current);
+            cls.nodeId = nodeId;
+            cls.node = node;
+        }
+
+        if (cls.type !== CONTEXT_TYPES.SCREEN) {
+            let parentCls = cls?.parent;
+            while (parentCls && parentCls.type !== CONTEXT_TYPES.SCREEN) {
+                parentCls = parentCls.parent;
+            }
+            if (cls.initialFocus && !!parentCls) {
+                this._focusableMap[parentCls.id].setInitialFocus(cls);
+            }
+
+            if (parentCls) {
+                cls.setScreen(parentCls);
+            }
+        }
+
+        this._focusableMap[cls.id] = cls;
+
+        Object.keys(this._focusableMap).forEach((k) => {
+            const v = this._focusableMap[k];
+
+            // Register as parent for children
+            if (v.parent && v.id === cls.id) {
+                cls.addChildren(v);
+            }
+            // Register as child in parent
+            if (cls.parent && cls.parent.id === v.id) {
+                console.log('cls', cls);
+                v.addChildren(cls);
+            }
+        });
+
+        console.log(this._focusableMap);
+    };
+
+    public registerContext(context: Context, node: any) {
         if (this._contextMap[context.id]) {
             return;
         }
@@ -67,6 +116,7 @@ class CoreManager {
             }
         });
     }
+
 
     public removeContext(context: Context) {
         if (context.children) {

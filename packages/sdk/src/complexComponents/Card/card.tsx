@@ -18,6 +18,7 @@ const Card = React.forwardRef<any, CardProps>(
             onPress,
             onBlur,
             parentContext,
+            parentClass,
             repeatContext,
             focusOptions,
         },
@@ -40,6 +41,7 @@ const Card = React.forwardRef<any, CardProps>(
                 ref={ref}
                 style={[baseStyles.card, styles]}
                 parentContext={parentContext}
+                parentClass={parentClass}
                 repeatContext={repeatContext}
                 onFocus={onFocus}
                 onBlur={onBlur}
