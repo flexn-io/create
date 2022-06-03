@@ -45,20 +45,20 @@ class CoreManager {
             cls.node = node;
         }
 
-        if (cls.getType() !== CONTEXT_TYPES.SCREEN) {
-            let parentCls = cls?.getParent();
-            while (parentCls && parentCls.getType() !== CONTEXT_TYPES.SCREEN) {
-                parentCls = parentCls.getParent();
-            }
+        // if (cls.getType() !== CONTEXT_TYPES.SCREEN) {
+        //     let parentCls = cls?.getParent();
+        //     while (parentCls && parentCls.getType() !== CONTEXT_TYPES.SCREEN) {
+        //         parentCls = parentCls.getParent();
+        //     }
 
-            // if (cls.initialFocus && !!parentCls) {
-            //     this._focusableMap[parentCls.id].setInitialFocus(cls);
-            // }
+        //     // if (cls.initialFocus && !!parentCls) {
+        //     //     this._focusableMap[parentCls.id].setInitialFocus(cls);
+        //     // }
 
-            if (parentCls) {
-                cls.setScreen(parentCls as ScreenCls);
-            }
-        }
+        //     if (parentCls) {
+        //         cls.setScreen(parentCls as ScreenCls);
+        //     }
+        // }
 
         this._focusableMap[cls.getId()] = cls;
 
@@ -78,40 +78,28 @@ class CoreManager {
         // console.log(cls);
     }
 
-    public registerContext() {}
+    public removeFocusable(cls: AbstractFocusModel, index = 0): void {
+        cls.getChildren().forEach((ch, idx) => {
+            this.removeFocusable(ch, idx);
+        });
 
-    public removeFocusable(cls: AbstractFocusModel) {
-        // cls.children.forEach((ch) => {
-        //     this.removeFocusable(ch);
-        // });
-        // delete this._focusableMap[cls.id];
+        // if (this._currentContext?.id === context.id) {
+        //     this._currentContext = null;
+        // }
+
+        delete this._focusableMap[cls.getId()];
+        cls.removeChildren(index);
         // cls.destroy();
     }
 
-    public removeContext(context: Context) {
-        // if (context.children) {
-        //     context.children.forEach((ch: Context) => {
-        //         this.removeContext(ch);
-        //     });
-        // }
-        // if (this._currentContext?.id === context.id) {
-        //     this._currentContext = null;
-        // }
-        // delete this._contextMap[context.id];
-    }
+    public removeFromParentContext(cls: AbstractFocusModel) {
+        cls.removeChildrenFromParent();
 
-    public removeFromParentContext(context: Context) {
-        // if (context.parent) {
-        //     context.parent.children.forEach((ch, index) => {
-        //         if (ch.id === context.id) {
-        //             context.parent?.children.splice(index, 1);
-        //         }
-        //     });
-        // }
         // if (this._currentContext?.id === context.id) {
         //     this._currentContext = null;
         // }
-        // delete this._contextMap[context.id];
+
+        delete this._focusableMap[cls.getId()];
     }
 
     public executeFocus(direction = '', cls?: AbstractFocusModel) {

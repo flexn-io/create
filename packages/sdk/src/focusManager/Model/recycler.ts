@@ -1,6 +1,5 @@
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
-import { ScreenCls } from './screen';
 import { ForbiddenFocusDirections } from '../types';
 import { alterForbiddenFocusDirections } from '../../focusManager/helpers';
 
@@ -10,7 +9,6 @@ export class Recycler extends AbstractFocusModel {
     public _parent?: AbstractFocusModel;
     public _initialFocus?: AbstractFocusModel;
     public _layouts: any;
-    public _screen?: ScreenCls;
 
     public _scrollOffsetX: number;
     public _scrollOffsetY: number;
@@ -65,16 +63,6 @@ export class Recycler extends AbstractFocusModel {
         this._layouts = layouts;
 
         return this;
-    }
-
-    public setScreen(cls: ScreenCls): this {
-        this.screen = cls;
-
-        return this;
-    }
-
-    public getScreen(): ScreenCls | undefined {
-        return this.screen;
     }
 
     public isScrollable(): boolean {

@@ -1,6 +1,5 @@
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
-import { ScreenCls } from './screen';
 
 export class ScrollView extends AbstractFocusModel {
     private _type: string;
@@ -8,7 +7,6 @@ export class ScrollView extends AbstractFocusModel {
     public _parent?: AbstractFocusModel;
     public _initialFocus?: AbstractFocusModel;
     public _layouts: any;
-    public _screen?: ScreenCls;
 
     public _scrollOffsetX: number;
     public _scrollOffsetY: number;
@@ -37,16 +35,6 @@ export class ScrollView extends AbstractFocusModel {
 
     public getType(): string {
         return this._type;
-    }
-
-    public setScreen(cls: ScreenCls): this {
-        this.screen = cls;
-
-        return this;
-    }
-
-    public getScreen(): ScreenCls | undefined {
-        return this.screen;
     }
 
     public setScrollOffsetX(value: number): this {

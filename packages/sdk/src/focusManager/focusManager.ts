@@ -207,13 +207,14 @@ const executeScroll = (direction: string, contextParameters: any) => {
 
 const calculateHorizontalScrollViewTarget = (direction: string, scrollView: any, contextParameters: any) => {
     const { currentFocusable }: { currentFocusable: AbstractFocusModel } = contextParameters;
-    const { horizontalWindowAlignment }: any = currentFocusable.screen;
+    const { horizontalWindowAlignment }: any = currentFocusable.getScreen();
     const currentLayout = currentFocusable.getLayout();
     const scrollTarget = { x: scrollView.scrollOffsetX, y: scrollView.scrollOffsetY };
 
     const isHorizontalBothEdge = horizontalWindowAlignment === WINDOW_ALIGNMENT.BOTH_EDGE;
-    const horizontalViewportOffset = currentFocusable.screen?.getHorizontalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
-    const verticalViewportOffset = currentFocusable.screen?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
+    const horizontalViewportOffset =
+        currentFocusable.getScreen()?.getHorizontalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
+    const verticalViewportOffset = currentFocusable.getScreen()?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
 
     // This will be executed if we have nested scroll view
     // and jumping between scroll views with buttons UP or DOWN
@@ -267,13 +268,14 @@ const calculateHorizontalScrollViewTarget = (direction: string, scrollView: any,
 
 const calculateVerticalScrollViewTarget = (direction: string, scrollView: any, contextParameters: any) => {
     const { currentFocusable }: { currentFocusable: AbstractFocusModel } = contextParameters;
-    const { verticalWindowAlignment }: any = currentFocusable.screen;
+    const { verticalWindowAlignment }: any = currentFocusable.getScreen();
     const currentLayout = currentFocusable.getLayout();
     const scrollTarget = { x: scrollView.scrollOffsetX, y: scrollView.scrollOffsetY };
 
     const isVerticalBothEdge = verticalWindowAlignment === WINDOW_ALIGNMENT.BOTH_EDGE;
-    const horizontalViewportOffset = currentFocusable.screen?.getHorizontalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
-    const verticalViewportOffset = currentFocusable.screen?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
+    const horizontalViewportOffset =
+        currentFocusable.getScreen()?.getHorizontalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
+    const verticalViewportOffset = currentFocusable.getScreen()?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
 
     // This will be executed if we have nested scroll view
     // and jumping between scroll views with buttons UP or DOWN

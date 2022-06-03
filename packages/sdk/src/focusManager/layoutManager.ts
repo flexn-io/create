@@ -3,8 +3,9 @@ import AbstractFocusModel from './Model/AbstractFocusModel';
 import { ViewCls } from './Model/view';
 
 function findLowestRelativeCoordinates(cls: AbstractFocusModel) {
-    if (cls.screen && cls.getType() === CONTEXT_TYPES.VIEW) {
-        const { screen } = cls;
+    const screen = cls.getScreen();
+
+    if (screen && cls.getType() === CONTEXT_TYPES.VIEW) {
         const layout = screen.getFirstFocusable()?.getLayout();
 
         const c1 = !screen.getFirstFocusable();

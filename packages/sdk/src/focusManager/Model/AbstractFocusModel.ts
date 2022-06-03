@@ -4,6 +4,7 @@ export default abstract class AbstractFocusModel {
     protected _layout: any;
     protected _id: string;
     protected _children: AbstractFocusModel[];
+    protected _screen: ScreenCls | undefined;
 
     constructor() {
         this._id = '';
@@ -14,10 +15,7 @@ export default abstract class AbstractFocusModel {
 
     public nodeId?: number | null;
     public node?: any;
-    public screen: ScreenCls | undefined;
 
-    abstract getScreen(): ScreenCls | undefined;
-    abstract setScreen(cls: ScreenCls): this;
     abstract destroy(): void;
     abstract getType(): string;
     abstract getParent(): AbstractFocusModel | undefined;
@@ -30,6 +28,22 @@ export default abstract class AbstractFocusModel {
         | undefined;
 
     abstract setRepeatContext(rp: AbstractFocusModel): this;
+
+    public getScreen(): ScreenCls | undefined {
+        if (this._screen) {
+            return this._screen;
+        }
+
+        let parentCls = this.getParent();
+        while (parentCls && !parentCls.isScreen()) {
+            parentCls = parentCls.getParent();
+        }
+
+        if (parentCls?.isScreen()) {
+            this._screen = parentCls as ScreenCls;
+            return this._screen;
+        }
+    }
 
     public getId(): string {
         return this._id;
@@ -53,6 +67,26 @@ export default abstract class AbstractFocusModel {
 
     public addChildren(cls: AbstractFocusModel): this {
         this._children.push(cls);
+
+        return this;
+    }
+
+    public removeChildren(index: number): this {
+        this.getChildren().splice(index, 1);
+
+        return this;
+    }
+
+    public removeChildrenFromParent(): this {
+        if (this.getParent()) {
+            this.getParent()
+                ?.getChildren()
+                .forEach((ch, index) => {
+                    if (ch.getId() === this.getId()) {
+                        this.getParent()?.getChildren().splice(index, 1);
+                    }
+                });
+        }
 
         return this;
     }
@@ -127,5 +161,9 @@ export default abstract class AbstractFocusModel {
 
     public onPress(): void {
         // NO ACTION
+    }
+
+    public isScreen(): boolean {
+        return false;
     }
 }

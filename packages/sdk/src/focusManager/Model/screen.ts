@@ -165,8 +165,8 @@ export class Screen extends AbstractFocusModel {
         return this;
     }
 
-    public getScreen(): this {
-        return this;
+    public getScreen(): undefined {
+        return undefined;
     }
 
     public getState(): typeof STATE_BACKGROUND | typeof STATE_FOREGROUND {
@@ -277,6 +277,10 @@ export class Screen extends AbstractFocusModel {
 
     public hasStealFocus(): boolean {
         return this._stealFocus;
+    }
+
+    public isScreen(): boolean {
+        return true;
     }
 
     public onFocus(): void {

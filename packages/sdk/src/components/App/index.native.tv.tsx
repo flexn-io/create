@@ -28,7 +28,7 @@ export default function App({ children, ...props }: { children: any }) {
                     // This can happen if we opened new screen which doesn't have any focusable
                     // then last screen in context map still keeping focus
                     const currentFocus = CoreManager.getCurrentFocus();
-                    if (currentFocus && currentFocus?.screen?.isInForeground()) {
+                    if (currentFocus && currentFocus?.getScreen()?.isInForeground()) {
                         currentFocus.onPress();
                     }
                 }

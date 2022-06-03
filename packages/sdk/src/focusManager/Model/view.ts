@@ -1,6 +1,5 @@
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
-import type { ScreenCls } from './screen';
 import { alterForbiddenFocusDirections } from '../../focusManager/helpers';
 import { ForbiddenFocusDirections } from '../types';
 
@@ -14,7 +13,6 @@ export class View extends AbstractFocusModel {
 
     public _parent?: AbstractFocusModel;
     public _initialFocus?: AbstractFocusModel;
-    public _screen?: ScreenCls;
     public _isFocused: boolean;
     public _forbiddenFocusDirections: ForbiddenFocusDirections[];
 
@@ -65,15 +63,6 @@ export class View extends AbstractFocusModel {
         this._onBlur = onBlur;
 
         return this;
-    }
-
-    public setScreen(cls: ScreenCls): this {
-        this.screen = cls;
-        return this;
-    }
-
-    public getScreen(): ScreenCls | undefined {
-        return this.screen;
     }
 
     public onFocus(): void {
