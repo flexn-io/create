@@ -1,24 +1,29 @@
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 import { ScreenCls } from './screen';
+import { ForbiddenFocusDirections } from '../types';
+import { alterForbiddenFocusDirections } from '../../focusManager/helpers';
 
-class Recycler extends AbstractFocusModel {
-    public id: string;
-    public children: AbstractFocusModel[];
-    public repeatContext?: {
-        parentContext: AbstractFocusModel;
-        index: number;
-    };
-    public parent?: AbstractFocusModel;
-    public initialFocus?: AbstractFocusModel;
-    public type: string;
-    public layouts: any;
-    public screen?: ScreenCls;
+export class Recycler extends AbstractFocusModel {
+    private _type: string;
 
-    public scrollOffsetX: number;
-    public scrollOffsetY: number;
-    public isNested: boolean;
+    public _parent?: AbstractFocusModel;
+    public _initialFocus?: AbstractFocusModel;
+    public _layouts: any;
+    public _screen?: ScreenCls;
+
+    public _scrollOffsetX: number;
+    public _scrollOffsetY: number;
+    public _isNested: boolean;
     public _isHorizontal: boolean;
+    public _forbiddenFocusDirections: ForbiddenFocusDirections[];
+
+    public _repeatContext:
+        | {
+              parentContext: AbstractFocusModel;
+              index: number;
+          }
+        | undefined;
 
     public isLastVisible?: () => boolean;
     public isFirstVisible?: () => boolean;
@@ -26,34 +31,26 @@ class Recycler extends AbstractFocusModel {
     constructor(params: any) {
         super();
 
-        this.id = '';
-        this.type = 'recycler';
-        this.children = [];
-        this.layouts = [];
-        this.scrollOffsetX = 0;
-        this.scrollOffsetY = 0;
-        this.isNested = false;
-        this._isHorizontal = true;
+        const { isHorizontal, isNested, parent, repeatContext, forbiddenFocusDirections } = params;
 
-        this.createContext(params);
+        this._id = `recycler-${makeid(8)}`;
+        this._type = 'recycler';
+        this._layouts = [];
+        this._scrollOffsetX = 0;
+        this._scrollOffsetY = 0;
+        this._isNested = isNested;
+        this._isHorizontal = isHorizontal;
+        this._parent = parent;
+        this._repeatContext = repeatContext;
+        this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
+    }
+
+    public getType(): string {
+        return this._type;
     }
 
     public destroy(): void {
-        destroyInstance(this.id);
-    }
-
-    private createContext(params: any) {
-        const id = makeid(8);
-
-        this.id = `recycler-${id}`;
-        this.type = 'recycler';
-        this.parent = params.parent;
-        this.isNested = params.isNested;
-        this._isHorizontal = params.isHorizontal;
-    }
-
-    public updateContext(params: any) {
-        this.createContext(params);
+        destroyInstance(this._id);
     }
 
     public isFocusable(): boolean {
@@ -61,11 +58,11 @@ class Recycler extends AbstractFocusModel {
     }
 
     public getLayouts(): [] {
-        return this.layouts;
+        return this._layouts;
     }
 
     public setLayouts(layouts: any) {
-        this.layouts = layouts;
+        this._layouts = layouts;
 
         return this;
     }
@@ -88,47 +85,51 @@ class Recycler extends AbstractFocusModel {
         return true;
     }
 
-    public setRepeatContext(value: any): this {
-        this.repeatContext = value;
-
-        return this;
-    }
-
     public isHorizontal(): boolean {
         return this._isHorizontal;
     }
 
     public setScrollOffsetX(value: number): this {
-        this.scrollOffsetX = value;
+        this._scrollOffsetX = value;
 
         return this;
     }
 
     public getScrollOffsetX(): number {
-        return this.scrollOffsetX;
+        return this._scrollOffsetX;
     }
 
     public setScrollOffsetY(value: number): this {
-        this.scrollOffsetY = value;
+        this._scrollOffsetY = value;
 
         return this;
     }
 
     public getScrollOffsetY(): number {
-        return this.scrollOffsetY;
+        return this._scrollOffsetY;
+    }
+
+    public getParent(): AbstractFocusModel | undefined {
+        return this._parent;
+    }
+
+    public setRepeatContext(value: any): this {
+        this._repeatContext = value;
+
+        return this;
+    }
+
+    public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
+        return this._repeatContext;
     }
 }
 
 const RecyclerInstances: { [key: string]: Recycler } = {};
-function createOrReturnInstance(context: any) {
-    if (RecyclerInstances[context.id]) {
-        return RecyclerInstances[context.id];
-    }
-
+function createInstance(context: any): Recycler {
     const _Recycler = new Recycler(context);
-    RecyclerInstances[_Recycler.id] = _Recycler;
+    RecyclerInstances[_Recycler.getId()] = _Recycler;
 
-    return RecyclerInstances[_Recycler.id];
+    return RecyclerInstances[_Recycler.getId()];
 }
 
 function destroyInstance(id: string) {
@@ -139,4 +140,4 @@ function destroyInstance(id: string) {
 
 export type RecyclerCls = Recycler;
 
-export { createOrReturnInstance, destroyInstance };
+export { createInstance, destroyInstance };

@@ -9,7 +9,7 @@ import CoreManager from '../../focusManager/core';
 import { alterForbiddenFocusDirections, makeid } from '../..//focusManager/helpers';
 import { measure } from '../../focusManager/layoutManager';
 import type { Context, RecyclerViewProps } from '../../focusManager/types';
-import { createOrReturnInstance } from '../../focusManager/Model/recycler';
+import { createInstance } from '../../focusManager/Model/recycler';
 
 const Column = null;
 
@@ -38,15 +38,15 @@ export default function RecyclerView({
     const rlvRef = useRef<RecyclerListView<any, any>>(null);
     const rnViewRef = useRef<RNView>(null);
 
-    const [ClsInstance] = useState(() => {
-        return createOrReturnInstance({
+    const [ClsInstance] = useState(() =>
+        createInstance({
             isHorizontal,
             isNested: !!repeatContext,
             parent: parentContext,
             repeatContext,
             forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
-        });
-    });
+        })
+    );
 
     if (repeatContext) {
         ClsInstance.setRepeatContext(repeatContext);

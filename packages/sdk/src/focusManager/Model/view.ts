@@ -1,20 +1,29 @@
-import { Context } from '../types';
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
-import { ScreenCls } from './Screen';
+import type { ScreenCls } from './screen';
+import { alterForbiddenFocusDirections } from '../../focusManager/helpers';
+import { ForbiddenFocusDirections } from '../types';
 
-class View extends AbstractFocusModel {
-    public id: string;
-    public children: AbstractFocusModel[];
+export class View extends AbstractFocusModel {
+    private _type: string;
+
     public repeatContext?: {
         parentContext: AbstractFocusModel;
         index: number;
     };
-    public parent?: AbstractFocusModel;
-    public initialFocus?: AbstractFocusModel;
-    public type: string;
-    public screen: ScreenCls;
-    public isFocused: boolean;
+
+    public _parent?: AbstractFocusModel;
+    public _initialFocus?: AbstractFocusModel;
+    public _screen?: ScreenCls;
+    public _isFocused: boolean;
+    public _forbiddenFocusDirections: ForbiddenFocusDirections[];
+
+    public _repeatContext:
+        | {
+              parentContext: AbstractFocusModel;
+              index: number;
+          }
+        | undefined;
 
     private _onFocus?: () => void;
     private _onBlur?: () => void;
@@ -22,38 +31,28 @@ class View extends AbstractFocusModel {
 
     constructor(params: any) {
         super();
-        this.children = [];
-        this.type = '';
-        this.id = '';
-        this.isFocused = false;
-        // this.screen = {};
 
-        this.createContext(params);
+        const { repeatContext, parent, forbiddenFocusDirections, onFocus, onBlur, onPress } = params;
+
+        const id = makeid(8);
+        this._id = parent?.id ? `${parent.id}:view-${id}` : `view-${id}`;
+        this._type = 'view';
+        this._parent = parent;
+        this._isFocused = false;
+        this._repeatContext = repeatContext;
+        this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
+
+        this._onFocus = onFocus;
+        this._onBlur = onBlur;
+        this._onPress = onPress;
+    }
+
+    public getType(): string {
+        return this._type;
     }
 
     public destroy(): void {
-        destroyInstance(this.id);
-    }
-
-    private createContext(params: any) {
-        if (params.focus) {
-            const id = makeid(8);
-            this.id = params.parent?.id ? `${params.parent.id}:view-${id}` : `view-${id}`;
-            this.type = 'view';
-            this.parent = params.parent;
-            this.repeatContext = params.repeatContext;
-            this._onFocus = params.onFocus;
-            this._onBlur = params.onBlur;
-        } else {
-            // this.id = params.parentClass?.id ? `${params.parentClass.id}:view-${makeid(8)}` : `view-${makeid(8)}`;
-            // this.type = 'view';
-            // this.parent = params.parentClass;
-            // this.context = params.parentContext;
-        }
-    }
-
-    public updateContext(params: any) {
-        this.createContext(params);
+        destroyInstance(this._id);
     }
 
     public isFocusable(): boolean {
@@ -73,7 +72,7 @@ class View extends AbstractFocusModel {
         return this;
     }
 
-    public getScreen(): ScreenCls {
+    public getScreen(): ScreenCls | undefined {
         return this.screen;
     }
 
@@ -96,26 +95,36 @@ class View extends AbstractFocusModel {
     }
 
     public setIsFocused(value: boolean): this {
-        this.isFocused = value;
+        this._isFocused = value;
 
         return this;
     }
 
     public getIsFocused(): boolean {
-        return this.isFocused;
+        return this._isFocused;
+    }
+
+    public setRepeatContext(value: any): this {
+        this._repeatContext = value;
+
+        return this;
+    }
+
+    public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
+        return this._repeatContext;
+    }
+
+    public getParent(): AbstractFocusModel | undefined {
+        return this._parent;
     }
 }
 
 const ViewInstances: { [key: string]: View } = {};
-function createOrReturnInstance(context: any) {
-    if (ViewInstances[context.id]) {
-        return ViewInstances[context.id];
-    }
-
+function createInstance(context: any) {
     const _View = new View(context);
-    ViewInstances[_View.id] = _View;
+    ViewInstances[_View.getId()] = _View;
 
-    return ViewInstances[_View.id];
+    return ViewInstances[_View.getId()];
 }
 
 function destroyInstance(id: string) {
@@ -126,4 +135,4 @@ function destroyInstance(id: string) {
 
 export type ViewCls = View;
 
-export { createOrReturnInstance, destroyInstance };
+export { createInstance, destroyInstance };

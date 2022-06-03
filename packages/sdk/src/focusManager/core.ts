@@ -7,6 +7,7 @@ import logger from './logger';
 import type { Context } from './types';
 import AbstractFocusModel from './Model/AbstractFocusModel';
 import { ViewCls } from './Model/view';
+import { ScreenCls } from './Model/screen';
 
 class CoreManager {
     public _focusableMap: {
@@ -35,7 +36,7 @@ class CoreManager {
     }
 
     public registerFocusable(cls: AbstractFocusModel, node?: any) {
-        if (this._focusableMap[cls.id]) {
+        if (this._focusableMap[cls.getId()]) {
             return;
         }
         if (node) {
@@ -44,56 +45,55 @@ class CoreManager {
             cls.node = node;
         }
 
-        if (cls.type !== CONTEXT_TYPES.SCREEN) {
-            let parentCls = cls?.parent;
-            while (parentCls && parentCls.type !== CONTEXT_TYPES.SCREEN) {
-                parentCls = parentCls.parent;
-            }
-            if (cls.initialFocus && !!parentCls) {
-                this._focusableMap[parentCls.id].setInitialFocus(cls);
+        if (cls.getType() !== CONTEXT_TYPES.SCREEN) {
+            let parentCls = cls?.getParent();
+            while (parentCls && parentCls.getType() !== CONTEXT_TYPES.SCREEN) {
+                parentCls = parentCls.getParent();
             }
 
+            // if (cls.initialFocus && !!parentCls) {
+            //     this._focusableMap[parentCls.id].setInitialFocus(cls);
+            // }
+
             if (parentCls) {
-                cls.setScreen(parentCls);
+                cls.setScreen(parentCls as ScreenCls);
             }
         }
 
-        this._focusableMap[cls.id] = cls;
+        this._focusableMap[cls.getId()] = cls;
 
         Object.keys(this._focusableMap).forEach((k) => {
             const v = this._focusableMap[k];
 
             // Register as parent for children
-            if (v.parent && v.parent.id === cls.id) {
+            if (v.getParent() && v.getParent()?.getId() === cls.getId()) {
                 cls.addChildren(v);
             }
             // Register as child in parent
-            if (cls.parent && cls.parent.id === v.id) {
+            if (cls.getParent() && cls.getParent()?.getId() === v.getId()) {
                 v.addChildren(cls);
             }
         });
 
-        // console.log(this._focusableMap);
+        // console.log(cls);
     }
 
     public registerContext() {}
 
     public removeFocusable(cls: AbstractFocusModel) {
-        cls.children.forEach((ch) => {
-            this.removeFocusable(ch);
-        });
-
-        delete this._focusableMap[cls.id];
-        cls.destroy();
+        // cls.children.forEach((ch) => {
+        //     this.removeFocusable(ch);
+        // });
+        // delete this._focusableMap[cls.id];
+        // cls.destroy();
     }
 
     public removeContext(context: Context) {
-        if (context.children) {
-            context.children.forEach((ch: Context) => {
-                this.removeContext(ch);
-            });
-        }
-
+        // if (context.children) {
+        //     context.children.forEach((ch: Context) => {
+        //         this.removeContext(ch);
+        //     });
+        // }
         // if (this._currentContext?.id === context.id) {
         //     this._currentContext = null;
         // }
@@ -101,13 +101,13 @@ class CoreManager {
     }
 
     public removeFromParentContext(context: Context) {
-        if (context.parent) {
-            context.parent.children.forEach((ch, index) => {
-                if (ch.id === context.id) {
-                    context.parent?.children.splice(index, 1);
-                }
-            });
-        }
+        // if (context.parent) {
+        //     context.parent.children.forEach((ch, index) => {
+        //         if (ch.id === context.id) {
+        //             context.parent?.children.splice(index, 1);
+        //         }
+        //     });
+        // }
         // if (this._currentContext?.id === context.id) {
         //     this._currentContext = null;
         // }
@@ -116,12 +116,13 @@ class CoreManager {
 
     public executeFocus(direction = '', cls?: AbstractFocusModel) {
         let nextFocusable;
+        const parent = this._currentFocus?.getParent();
         if (cls) nextFocusable = cls;
-        else if (this._currentFocus?.parent) {
-            nextFocusable = cls || this.getNextFocusableContext(direction, this._currentFocus.parent);
+        else if (parent) {
+            nextFocusable = cls || this.getNextFocusableContext(direction, parent);
         }
         if (nextFocusable) {
-            if (nextFocusable.id === this._currentFocus?.id) {
+            if (nextFocusable.getId() === this._currentFocus?.getId()) {
                 return;
             }
 
@@ -158,11 +159,11 @@ class CoreManager {
             this._hasPendingUpdateGuideLines = true;
             return;
         }
-        if (this._guideLineX !== this._currentFocus.layout.absolute.xCenter) {
-            this._guideLineX = this._currentFocus.layout.absolute.xCenter;
+        if (this._guideLineX !== this._currentFocus.getLayout().absolute.xCenter) {
+            this._guideLineX = this._currentFocus.getLayout().absolute.xCenter;
         }
-        if (this._guideLineY !== this._currentFocus.layout.absolute.yCenter) {
-            this._guideLineY = this._currentFocus.layout.absolute.yCenter;
+        if (this._guideLineY !== this._currentFocus.getLayout().absolute.yCenter) {
+            this._guideLineY = this._currentFocus.getLayout().absolute.yCenter;
         }
         this._hasPendingUpdateGuideLines = false;
     }
@@ -212,12 +213,12 @@ class CoreManager {
             return currentFocus;
         }
 
-        const ch = parentCls.children;
-        const parents = [currentFocus.id];
-        let p = currentFocus?.parent;
+        const ch = parentCls.getChildren();
+        const parents = [currentFocus.getId()];
+        let p = currentFocus?.getParent();
         while (p) {
-            parents.push(p.id);
-            p = p.parent;
+            parents.push(p.getId());
+            p = p.getParent();
         }
         logger.debug('FIND===============================', parents, ch);
         if (ch) {
@@ -241,10 +242,10 @@ class CoreManager {
             };
             for (let i = 0; i < ch.length; i++) {
                 const cls = ch[i];
-                const notFocusableAndNoChildren = cls.children.length < 1 && !cls.isFocusable();
+                const notFocusableAndNoChildren = cls.getChildren().length < 1 && !cls.isFocusable();
                 if (notFocusableAndNoChildren) {
-                    logger.debug('FOUND GROUP WITH NO CHILDREN!', cls.id);
-                } else if (!parents.includes(cls.id) && !notFocusableAndNoChildren) {
+                    logger.debug('FOUND GROUP WITH NO CHILDREN!', cls.getId());
+                } else if (!parents.includes(cls.getId()) && !notFocusableAndNoChildren) {
                     this.findClosestNode(cls, direction, output);
                 }
             }
@@ -266,7 +267,7 @@ class CoreManager {
 
             if (!closestContext) {
                 const parentHasForbiddenDirection = parentCls.getForbiddenFocusDirections().includes(direction);
-                if (parentCls.type === 'screen') {
+                if (parentCls.getType() === 'screen') {
                     // const nextForcedFocusKey = getNextForcedFocusKey(parentCls, direction, this.contextMap);
                     // if (nextForcedFocusKey) {
                     //     logger.debug('FOUND FORCED FOCUS DIRECTION', direction, nextForcedFocusKey);
@@ -282,7 +283,11 @@ class CoreManager {
                             ...Object.values(focusableMap).map((o: any) => (isNaN(o.order) ? 0 : o.order))
                         );
                         Object.values(focusableMap).forEach((s: any) => {
-                            if (s.type === 'screen' && s.id !== parentCls.id && s.state === SCREEN_STATES.FOREGROUND) {
+                            if (
+                                s.type === 'screen' &&
+                                s.id !== parentCls.getId() &&
+                                s.state === SCREEN_STATES.FOREGROUND
+                            ) {
                                 if (s.order >= maxOrder) {
                                     focusableScreens.push(s);
                                 }
@@ -296,7 +301,7 @@ class CoreManager {
                         });
 
                         // DO NOT SEND EVENTS IF CURRENT SCREEN ALREADY FOCUSED
-                        if (nextScreen && nextScreen.id !== currentFocus.id) {
+                        if (nextScreen && nextScreen.getId() !== currentFocus.getId()) {
                             currentFocus.getScreen()?.onBlur?.();
                             nextScreen.getScreen()?.onFocus?.();
 
@@ -326,14 +331,15 @@ class CoreManager {
                     return currentFocus;
                 }
 
-                if (parentCls?.parent) {
-                    logger.debug('PICKING PARENT', parentCls.parent);
-                    return this.getNextFocusableContext(direction, parentCls.parent, false, false);
+                const parent = parentCls.getParent();
+                if (parent) {
+                    logger.debug('PICKING PARENT', parent);
+                    return this.getNextFocusableContext(direction, parent, false, false);
                 }
                 return null;
             }
-            if (closestContext.children?.length > 0) {
-                logger.debug(`REACHED GROUP ${closestContext.id}. GOING IN`);
+            if (closestContext.getChildren().length > 0) {
+                logger.debug(`REACHED GROUP ${closestContext.getId()}. GOING IN`);
                 return this.getNextFocusableContext(direction, closestContext, true, false);
             }
 
@@ -346,7 +352,7 @@ class CoreManager {
     public findClosestNode = (cls: AbstractFocusModel, direction: string, output: any) => {
         recalculateLayout(cls);
         const nextLayout = cls.getLayout();
-        const currentLayout = this._currentFocus?.layout;
+        const currentLayout = this._currentFocus?.getLayout();
         if (!nextLayout) {
             // eslint-disable-next-line
             logger.warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
@@ -465,34 +471,34 @@ class CoreManager {
             }
         }
 
-        const currentContext = this.currentContext; // eslint-disable-line prefer-destructuring
-        if (currentContext?.parent?.isRecyclable) {
-            const d1 = currentContext.parent?.isHorizontal ? ['right', 'swipeRight'] : ['down', 'swipeDown'];
-            const d2 = currentContext.parent?.isHorizontal ? ['left', 'swipeLeft'] : ['up', 'swipeUp'];
-            const lastIsVisible = d1.includes(direction) ? currentContext.parent?.isLastVisible?.() : true;
-            const firstIsVisible = d2.includes(direction) ? currentContext.parent?.isFirstVisible?.() : true;
+        // const currentContext = this.currentContext; // eslint-disable-line prefer-destructuring
+        // if (currentContext?.parent?.isRecyclable) {
+        //     const d1 = currentContext.parent?.isHorizontal ? ['right', 'swipeRight'] : ['down', 'swipeDown'];
+        //     const d2 = currentContext.parent?.isHorizontal ? ['left', 'swipeLeft'] : ['up', 'swipeUp'];
+        //     const lastIsVisible = d1.includes(direction) ? currentContext.parent?.isLastVisible?.() : true;
+        //     const firstIsVisible = d2.includes(direction) ? currentContext.parent?.isFirstVisible?.() : true;
 
-            if (!lastIsVisible || !firstIsVisible) {
-                const closestContext: Context = output.match1Context || output.match2Context || output.match3Context;
-                if (!closestContext || closestContext.parent?.id !== currentContext.parent.id) {
-                    output.match1Context = currentContext;
-                }
-            }
-        }
+        //     if (!lastIsVisible || !firstIsVisible) {
+        //         const closestContext: Context = output.match1Context || output.match2Context || output.match3Context;
+        //         if (!closestContext || closestContext.parent?.id !== currentContext.parent.id) {
+        //             output.match1Context = currentContext;
+        //         }
+        //     }
+        // }
 
-        if (currentContext?.parent?.isRecyclable && currentContext.parent.isNested) {
-            const d1 = ['down', 'swipeDown'];
-            const d2 = ['up', 'swipeUp'];
-            const lastIsVisible = d1.includes(direction) ? currentContext.parent?.parent?.isLastVisible?.() : true;
-            const firstIsVisible = d2.includes(direction) ? currentContext.parent?.parent?.isFirstVisible?.() : true;
+        // if (currentContext?.parent?.isRecyclable && currentContext.parent.isNested) {
+        //     const d1 = ['down', 'swipeDown'];
+        //     const d2 = ['up', 'swipeUp'];
+        //     const lastIsVisible = d1.includes(direction) ? currentContext.parent?.parent?.isLastVisible?.() : true;
+        //     const firstIsVisible = d2.includes(direction) ? currentContext.parent?.parent?.isFirstVisible?.() : true;
 
-            if (!lastIsVisible || !firstIsVisible) {
-                const closestContext: Context = output.match1Context || output.match2Context || output.match3Context;
-                if (closestContext && !closestContext?.parent?.isRecyclable) {
-                    output.match1Context = currentContext;
-                }
-            }
-        }
+        //     if (!lastIsVisible || !firstIsVisible) {
+        //         const closestContext: Context = output.match1Context || output.match2Context || output.match3Context;
+        //         if (closestContext && !closestContext?.parent?.isRecyclable) {
+        //             output.match1Context = currentContext;
+        //         }
+        //     }
+        // }
     };
 
     public get isDebuggerEnabled(): boolean {
@@ -507,20 +513,12 @@ class CoreManager {
         return this._hasPendingUpdateGuideLines;
     }
 
-    public get contextMap(): { [key: string]: Context } {
-        // return this._focusableMap;
-    }
-
     public get guideLineY(): number {
         return this._guideLineY;
     }
 
     public get guideLineX(): number {
         return this._guideLineX;
-    }
-
-    public get currentContext(): Context | null {
-        // return this._currentContext;
     }
 
     public getCurrentFocus(): AbstractFocusModel | null {

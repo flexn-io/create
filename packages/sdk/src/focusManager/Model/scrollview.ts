@@ -1,59 +1,113 @@
-import { Context } from '../types';
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
+import { ScreenCls } from './screen';
 
-class ScrollView extends AbstractFocusModel {
-    public context: any;
+export class ScrollView extends AbstractFocusModel {
+    private _type: string;
+
+    public _parent?: AbstractFocusModel;
+    public _initialFocus?: AbstractFocusModel;
+    public _layouts: any;
+    public _screen?: ScreenCls;
+
+    public _scrollOffsetX: number;
+    public _scrollOffsetY: number;
+    public _isHorizontal: boolean;
+    public _isFocusable: boolean;
+    public _isScrollable: boolean;
 
     constructor(params: any) {
         super();
-        this.context = {};
-        this.createContext(params);
+
+        const { horizontal, parent } = params;
+
+        this._id = `scroll-${makeid(8)}`;
+        this._isHorizontal = horizontal;
+        this._parent = parent;
+        this._type = 'scrollview';
+        this._scrollOffsetX = 0;
+        this._scrollOffsetY = 0;
+        this._isFocusable = false;
+        this._isScrollable = true;
     }
 
-    private createContext(params: any) {
-        this.context = {
-            id: `scroll-${makeid(8)}`,
-            children: [],
-            isFocusable: false,
-            isScrollable: true,
-            scrollOffsetX: 0,
-            scrollOffsetY: 0,
-            type: 'scrollView',
-            ...params
-        };
-
-        this.type = 'scrollView';
-    };
-
-    public updateContext(params: any) {
-        this.createContext(params);
+    public destroy(): void {
+        destroyInstance(this._id);
     }
 
-    public getContext() {
-        return this.context;
+    public getType(): string {
+        return this._type;
     }
-};
 
-const ScrollViewInstances: { [key: string]: ScrollView; } = {};
-function createOrReturnInstance(context: any) {
+    public setScreen(cls: ScreenCls): this {
+        this.screen = cls;
+
+        return this;
+    }
+
+    public getScreen(): ScreenCls | undefined {
+        return this.screen;
+    }
+
+    public setScrollOffsetX(value: number): this {
+        this._scrollOffsetX = value;
+
+        return this;
+    }
+
+    public getScrollOffsetX(): number {
+        return this._scrollOffsetX;
+    }
+
+    public setScrollOffsetY(value: number): this {
+        this._scrollOffsetY = value;
+
+        return this;
+    }
+
+    public getScrollOffsetY(): number {
+        return this._scrollOffsetY;
+    }
+
+    public isScrollable(): boolean {
+        return true;
+    }
+
+    public isHorizontal(): boolean {
+        return this._isHorizontal;
+    }
+
+    public getParent(): AbstractFocusModel | undefined {
+        return this._parent;
+    }
+
+    public setRepeatContext(_value: any): this {
+        return this;
+    }
+
+    public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
+        return;
+    }
+}
+
+const ScrollViewInstances: { [key: string]: ScrollView } = {};
+function createInstance(context: any) {
     if (ScrollViewInstances[context.id]) {
         return ScrollViewInstances[context.id];
     }
 
     const _ScrollView = new ScrollView(context);
-    ScrollViewInstances[_ScrollView.context.id] = _ScrollView;
+    ScrollViewInstances[_ScrollView.getId()] = _ScrollView;
 
-    return ScrollViewInstances[_ScrollView.context.id];
-};
+    return ScrollViewInstances[_ScrollView.getId()];
+}
 
-function destroyInstance(context: Context) {
-    if (ScrollViewInstances[context.id]) {
-        delete ScrollViewInstances[context.id];
+function destroyInstance(id: string) {
+    if (ScrollViewInstances[id]) {
+        delete ScrollViewInstances[id];
     }
 }
 
 export type ScrollViewCls = ScrollView;
 
-
-export { createOrReturnInstance, destroyInstance };
+export { createInstance, destroyInstance };

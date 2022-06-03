@@ -1,16 +1,15 @@
-import type { Context } from './types';
 import { CONTEXT_TYPES } from './constants';
 import AbstractFocusModel from './Model/AbstractFocusModel';
 import { ViewCls } from './Model/view';
 
 function findLowestRelativeCoordinates(cls: AbstractFocusModel) {
-    if (cls.screen && cls.type === CONTEXT_TYPES.VIEW) {
+    if (cls.screen && cls.getType() === CONTEXT_TYPES.VIEW) {
         const { screen } = cls;
-        const { layout } = screen.getFirstFocusable() || {};
+        const layout = screen.getFirstFocusable()?.getLayout();
 
         const c1 = !screen.getFirstFocusable();
-        const c2 = layout?.yMin === cls.layout?.yMin && layout.xMin >= cls.layout?.xMin;
-        const c3 = layout?.yMin > cls.layout?.yMin;
+        const c2 = layout?.yMin === cls.getLayout()?.yMin && layout.xMin >= cls.getLayout()?.xMin;
+        const c3 = layout?.yMin > cls.getLayout()?.yMin;
 
         if (c1 || c2 || c3) {
             cls.getScreen()?.setFirstFocusable(cls as ViewCls);
@@ -19,36 +18,34 @@ function findLowestRelativeCoordinates(cls: AbstractFocusModel) {
 }
 
 function recalculateAbsolutes(cls: AbstractFocusModel) {
-    const { layout } = cls;
-
-    layout.absolute = {
+    const layout = cls.getLayout();
+    cls.updateLayoutProperty('absolute', {
         xMin: layout.xMin - layout.xOffset,
         xMax: layout.xMax - layout.xOffset,
         yMin: layout.yMin - layout.yOffset,
         yMax: layout.yMax - layout.yOffset,
         xCenter: layout.xCenter - layout.xOffset,
         yCenter: layout.yCenter - layout.yOffset,
-    };
+    });
 }
 
 function recalculateLayout(cls: AbstractFocusModel) {
-    if (!cls?.layout) {
+    if (!cls?.getLayout()) {
         return;
     }
-
     // This is needed because ScrollView offsets
     let offsetX = 0;
     let offsetY = 0;
-    let { parent } = cls;
+    let parent = cls.getParent();
     while (parent) {
         if (parent.isScrollable()) {
             offsetX += parent.getScrollOffsetX() || 0;
             offsetY += parent.getScrollOffsetY() || 0;
         }
-        parent = parent?.parent;
+        parent = parent?.getParent();
     }
-    cls.layout.xOffset = offsetX;
-    cls.layout.yOffset = offsetY;
+
+    cls.updateLayoutProperty('xOffset', offsetX).updateLayoutProperty('yOffset', offsetY);
 
     recalculateAbsolutes(cls);
 }
@@ -58,12 +55,13 @@ function measure(cls: AbstractFocusModel, ref: any, unmeasurableRelatives?: { x:
         let pgX;
         let pgY;
 
-        if (cls.repeatContext !== undefined) {
-            const pCtx = cls.repeatContext.parentContext;
+        const repeatContext = cls.getRepeatContext();
+        if (repeatContext !== undefined) {
+            const pCtx = repeatContext.parentContext;
             if (pCtx !== undefined) {
-                const rLayout = pCtx.getLayouts()[cls.repeatContext.index || 0];
-                pgX = pCtx.layout.xMin + rLayout.x;
-                pgY = pCtx.layout.yMin + rLayout.y;
+                const rLayout = pCtx.getLayouts()[repeatContext.index || 0];
+                pgX = pCtx.getLayout().xMin + rLayout.x;
+                pgY = pCtx.getLayout().yMin + rLayout.y;
             }
         } else {
             pgY = pageY;
@@ -71,7 +69,7 @@ function measure(cls: AbstractFocusModel, ref: any, unmeasurableRelatives?: { x:
         }
 
         // Single and nested recyclers can't measure itself due to logic above
-        if (unmeasurableRelatives && cls.type === CONTEXT_TYPES.RECYCLER) {
+        if (unmeasurableRelatives && cls.getType() === CONTEXT_TYPES.RECYCLER) {
             pgX = pgX + unmeasurableRelatives.x;
             pgY = pgY + unmeasurableRelatives.y;
         }
@@ -105,13 +103,15 @@ function measure(cls: AbstractFocusModel, ref: any, unmeasurableRelatives?: { x:
 
         findLowestRelativeCoordinates(cls);
 
-        // Calculate max X and Y width to prevent over scroll
-        if (cls.parent?.isScrollable() && cls.parent.layout) {
-            const pCtx = cls?.repeatContext?.parentContext;
+        // // Calculate max X and Y width to prevent over scroll
+        const parent = cls.getParent();
+        if (parent?.isScrollable() && parent?.getLayout()) {
+            const pCtx = cls?.getRepeatContext()?.parentContext;
             if (pCtx) {
                 const rLayout = pCtx.getLayouts()[pCtx.getLayouts().length - 1];
-                cls.parent.layout.xMaxScroll = pCtx.layout.xMin + width + rLayout.x;
-                cls.parent.layout.yMaxScroll = pCtx.layout.yMin + height + rLayout.y;
+                parent
+                    .updateLayoutProperty('xMaxScroll', pCtx.getLayout().xMin + width + rLayout.x)
+                    .updateLayoutProperty('yMaxScroll', pCtx.getLayout().yMin + height + rLayout.y);
             }
         }
 
@@ -119,14 +119,16 @@ function measure(cls: AbstractFocusModel, ref: any, unmeasurableRelatives?: { x:
     });
 
     // get the layout of innerView in scroll
-    if (cls.type === 'scrollView')
+    if (cls.getType() === 'scrollView')
         // eslint-disable-next-line no-underscore-dangle
         ref.current._children[0].measure(
             (_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
-                cls.layout.innerView.yMax = pageY + height - cls.layout.yMax;
-                cls.layout.innerView.yMin = pageY;
-                cls.layout.innerView.xMax = pageX + width - cls.layout.xMax;
-                cls.layout.innerView.xMin = pageX;
+                cls.updateLayoutProperty('innerView', {
+                    yMax: pageY + height - cls.getLayout().yMax,
+                    yMin: pageY + pageY,
+                    xMax: pageX + width - cls.getLayout().xMax,
+                    xMin: pageX,
+                });
             }
         );
 }

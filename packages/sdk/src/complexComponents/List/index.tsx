@@ -52,7 +52,6 @@ const List = ({
     onPress,
     initialXOffset = 0,
     rowHeight,
-    parentClass,
 }: ListProps) => {
     const ref: any = useRef();
     const layoutProvider: any = useRef();
@@ -87,7 +86,7 @@ const List = ({
 
     updateLayoutProvider();
 
-    const renderRow = ({ index, data, title, repeatContext, nestedParentContext, parentClass }: any) => {
+    const renderRow = ({ index, data, title, repeatContext, nestedParentContext }: any) => {
         return (
             <Carousel
                 index={index}
@@ -97,7 +96,6 @@ const List = ({
                 onPress={onPress}
                 repeatContext={repeatContext}
                 nestedParentContext={nestedParentContext}
-                nestedParentClass={parentClass}
                 style={{
                     width: boundaries.width,
                     height: Ratio(rowHeight),
@@ -130,7 +128,6 @@ const List = ({
                         data: rowData,
                         title: rowData.rowTitle,
                         nestedParentContext: repeatContext?.parentContext,
-                        parentClass: repeatContext.parentClass,
                         repeatContext: repeatContext,
                     });
                 }}
@@ -140,7 +137,7 @@ const List = ({
     };
 
     return (
-        <View parentContext={parentContext} parentClass={parentClass} style={styles.container} onLayout={onLayout} ref={ref}>
+        <View parentContext={parentContext} style={styles.container} onLayout={onLayout} ref={ref}>
             {renderRecycler()}
         </View>
     );

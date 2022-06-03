@@ -11,7 +11,7 @@ import {
     DEFAULT_VIEWPORT_OFFSET,
 } from './constants';
 import logger from './logger';
-import type { Context, ContextMap, FocusableMap } from './types';
+import type { FocusableMap } from './types';
 import { recalculateLayout } from './layoutManager';
 import AbstractFocusModel from './Model/AbstractFocusModel';
 
@@ -44,7 +44,7 @@ const isInOneLine = (direction: string, nextCls: AbstractFocusModel, currentCont
     const currentLayout = currentContext.getLayout();
     const nextLayout = nextCls.getLayout();
 
-    if (nextCls.children.length > 0) {
+    if (nextCls.getChildren().length > 0) {
         return false;
     }
 
@@ -59,8 +59,8 @@ const isInOneLine = (direction: string, nextCls: AbstractFocusModel, currentCont
 };
 
 const findFirstFocusableInGroup = (cls: AbstractFocusModel): AbstractFocusModel | null | undefined => {
-    for (let index = 0; index < cls.children.length; index++) {
-        const ch: AbstractFocusModel = cls.children[index];
+    for (let index = 0; index < cls.getChildren().length; index++) {
+        const ch: AbstractFocusModel = cls.getChildren()[index];
         if (ch.isFocusable()) {
             return ch;
         }
@@ -115,7 +115,7 @@ export const distCalc = (
         output.match1 = closestDistance;
         output.match1Context = nextCls;
         output.match1IxOffset = ixOffset;
-        logger.debug('FOUND CLOSER M1', nextCls.id, closestDistance);
+        logger.debug('FOUND CLOSER M1', nextCls.getId(), closestDistance);
     }
 
     // Next up based on component size and it's center point
@@ -130,7 +130,7 @@ export const distCalc = (
     ) {
         output.match2 = closestDistance;
         output.match2Context = nextCls;
-        logger.debug('FOUND CLOSER M2', nextCls.id, closestDistance);
+        logger.debug('FOUND CLOSER M2', nextCls.getId(), closestDistance);
     }
     // Finally a search is based on arbitrary cut off size, so we could focus not entirely aligned items
     const ix3 = intersects(p9, CUTOFF_SIZE, p3, p4);
@@ -146,7 +146,7 @@ export const distCalc = (
         if (nextCls.isFocusable()) {
             output.match3 = closestDistance;
             output.match3Context = nextCls;
-            logger.debug('FOUND CLOSER M3', nextCls.id, closestDistance);
+            logger.debug('FOUND CLOSER M3', nextCls.getId(), closestDistance);
         } else {
             const firstInNextGroup = findFirstFocusableInGroup(nextCls);
             if (firstInNextGroup) {
@@ -167,13 +167,13 @@ const executeScroll = (direction: string, contextParameters: any) => {
         isDebuggerEnabled: boolean;
     } = contextParameters;
 
-    if (!currentFocusable?.layout) {
+    if (!currentFocusable?.getLayout()) {
         //eslint-disable-next-line
         console.warn('Current context were removed during scroll find');
         return;
     }
     const scrollContextParents = [];
-    let parent = currentFocusable?.parent;
+    let parent = currentFocusable?.getParent();
     // We can only scroll 2 ScrollView at max. one Horz and Vert
     const directionsFilled: any[] = [];
     while (parent) {
@@ -181,7 +181,7 @@ const executeScroll = (direction: string, contextParameters: any) => {
             directionsFilled.push(parent.isHorizontal());
             scrollContextParents.push(parent);
         }
-        parent = parent?.parent;
+        parent = parent?.getParent();
     }
 
     scrollContextParents.forEach((p: AbstractFocusModel) => {
@@ -208,12 +208,12 @@ const executeScroll = (direction: string, contextParameters: any) => {
 const calculateHorizontalScrollViewTarget = (direction: string, scrollView: any, contextParameters: any) => {
     const { currentFocusable }: { currentFocusable: AbstractFocusModel } = contextParameters;
     const { horizontalWindowAlignment }: any = currentFocusable.screen;
-    const currentLayout = currentFocusable.layout;
+    const currentLayout = currentFocusable.getLayout();
     const scrollTarget = { x: scrollView.scrollOffsetX, y: scrollView.scrollOffsetY };
 
     const isHorizontalBothEdge = horizontalWindowAlignment === WINDOW_ALIGNMENT.BOTH_EDGE;
-    const horizontalViewportOffset = currentFocusable.screen?.horizontalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
-    const verticalViewportOffset = currentFocusable.screen?.verticalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
+    const horizontalViewportOffset = currentFocusable.screen?.getHorizontalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
+    const verticalViewportOffset = currentFocusable.screen?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
 
     // This will be executed if we have nested scroll view
     // and jumping between scroll views with buttons UP or DOWN
@@ -233,14 +233,15 @@ const calculateHorizontalScrollViewTarget = (direction: string, scrollView: any,
                 currentLayout.xMax - (windowWidth - horizontalViewportOffset),
                 scrollView.scrollOffsetX
             );
-            if (scrollTarget.x > scrollView.layout.innerView.xMax) scrollTarget.x = scrollView.layout.innerView.xMax;
+            if (scrollTarget.x > scrollView.getLayout().innerView.xMax)
+                scrollTarget.x = scrollView.getLayout().innerView.xMax;
         } else {
             //Prevent OVERSCROLL
-            const targetX = currentLayout.xMin - scrollView.layout.xMin - horizontalViewportOffset + windowWidth;
-            if (scrollView.layout.xMaxScroll >= targetX) {
-                scrollTarget.x = currentLayout.xMin - scrollView.layout.xMin - horizontalViewportOffset;
+            const targetX = currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset + windowWidth;
+            if (scrollView.getLayout().xMaxScroll >= targetX) {
+                scrollTarget.x = currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset;
             } else {
-                scrollTarget.x = scrollView.layout.xMaxScroll + horizontalViewportOffset - windowWidth;
+                scrollTarget.x = scrollView.getLayout().xMaxScroll + horizontalViewportOffset - windowWidth;
             }
         }
     }
@@ -248,10 +249,11 @@ const calculateHorizontalScrollViewTarget = (direction: string, scrollView: any,
     if (DIRECTION_LEFT.includes(direction)) {
         if (isHorizontalBothEdge) {
             scrollTarget.x = Math.min(currentLayout.xMin - horizontalViewportOffset, scrollView.scrollOffsetX);
-            if (scrollTarget.x < scrollView.layout.innerView.xMin) scrollTarget.x = scrollView.layout.innerView.xMin;
+            if (scrollTarget.x < scrollView.getLayout().innerView.xMin)
+                scrollTarget.x = scrollView.getLayout().innerView.xMin;
         } else {
             scrollTarget.x = Math.min(
-                currentLayout.xMin - scrollView.layout.xMin - horizontalViewportOffset,
+                currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset,
                 scrollView.scrollOffsetX
             );
         }
@@ -266,18 +268,18 @@ const calculateHorizontalScrollViewTarget = (direction: string, scrollView: any,
 const calculateVerticalScrollViewTarget = (direction: string, scrollView: any, contextParameters: any) => {
     const { currentFocusable }: { currentFocusable: AbstractFocusModel } = contextParameters;
     const { verticalWindowAlignment }: any = currentFocusable.screen;
-    const currentLayout = currentFocusable.layout;
+    const currentLayout = currentFocusable.getLayout();
     const scrollTarget = { x: scrollView.scrollOffsetX, y: scrollView.scrollOffsetY };
 
     const isVerticalBothEdge = verticalWindowAlignment === WINDOW_ALIGNMENT.BOTH_EDGE;
-    const horizontalViewportOffset = currentFocusable.screen?.horizontalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
-    const verticalViewportOffset = currentFocusable.screen?.verticalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
+    const horizontalViewportOffset = currentFocusable.screen?.getHorizontalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
+    const verticalViewportOffset = currentFocusable.screen?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
 
     // This will be executed if we have nested scroll view
     // and jumping between scroll views with buttons UP or DOWN
     if (DIRECTION_HORIZONTAL.includes(direction)) {
         if (isVerticalBothEdge && currentLayout.absolute.yMax > windowHeight) {
-            scrollTarget.y = currentLayout.yMin - scrollView.layout.yMin - horizontalViewportOffset;
+            scrollTarget.y = currentLayout.yMin - scrollView.getLayout().yMin - horizontalViewportOffset;
         } else if (!isVerticalBothEdge) {
             //TODO FIX: OPEN MENU GO BACK TO CONTENT AND DIRECTIONS LOST
             //TODO ignore initial values
@@ -293,12 +295,13 @@ const calculateVerticalScrollViewTarget = (direction: string, scrollView: any, c
             );
         } else {
             const yMaxScroll =
-                scrollView.layout.yMaxScroll || scrollView.children[scrollView.children.length - 1].layout.yMax;
-            const targetY = currentLayout.yMin - scrollView.layout.yMin - verticalViewportOffset + windowHeight;
+                scrollView.getLayout().yMaxScroll ||
+                scrollView.children[scrollView.children.length - 1].getLayout().yMax;
+            const targetY = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset + windowHeight;
 
             //Prevent OVERSCROLL
             if (yMaxScroll >= targetY) {
-                scrollTarget.y = currentLayout.yMin - scrollView.layout.yMin - verticalViewportOffset;
+                scrollTarget.y = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset;
             } else {
                 scrollTarget.y = yMaxScroll - windowHeight;
             }
@@ -306,7 +309,7 @@ const calculateVerticalScrollViewTarget = (direction: string, scrollView: any, c
     }
 
     if (DIRECTION_UP.includes(direction)) {
-        const innerViewMin = scrollView.layout.innerView.yMin;
+        const innerViewMin = scrollView.getLayout().innerView.yMin;
 
         scrollTarget.y = Math.min(currentLayout.yMin - innerViewMin - verticalViewportOffset, scrollView.scrollOffsetY);
     }

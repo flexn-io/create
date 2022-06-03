@@ -14,7 +14,7 @@ import { ANIMATIONS } from '../../focusManager/constants';
 import { measure } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
-import { createOrReturnInstance } from '../../focusManager/Model/view';
+import { createInstance } from '../../focusManager/Model/view';
 import type { ViewCls } from '../../focusManager/Model/view';
 
 export const defaultAnimation = {
@@ -53,7 +53,7 @@ const View = React.forwardRef<any, ViewProps>(
             if (!focus) {
                 return pctx;
             } else {
-                return createOrReturnInstance({
+                return createInstance({
                     focus,
                     repeatContext,
                     parent: pctx,
@@ -62,17 +62,15 @@ const View = React.forwardRef<any, ViewProps>(
             }
         });
 
-        // let ViewInstance: any = useRef().current;
-
         // We must re-assign repeat context as View instances are re-used in recycled
         if (repeatContext) {
-            ViewInstance.repeatContext = repeatContext;
+            ViewInstance.setRepeatContext(repeatContext);
         }
 
         useEffect(() => {
             // If item initially was not focusable, but during the time it became focusable we capturing that here
             if (prevFocus === false && focus === true) {
-                const cls = createOrReturnInstance({
+                const cls = createInstance({
                     focus: true,
                     repeatContext,
                     parent: pctx,
@@ -95,28 +93,28 @@ const View = React.forwardRef<any, ViewProps>(
         useEffect(() => {
             if (focus) {
                 CoreManager.registerFocusable(ViewInstance, ref);
+
                 (ViewInstance as ViewCls).getScreen()?.setIsLoading();
             }
 
-            return () => {
-                // CHILD CAN BE REMOVED INDEPENDENTLY
-                if (focus) {
-                    CoreManager.removeFromParentContext(ViewInstance.getContext());
-                    CoreManager.removeContext(ViewInstance.getContext());
-                    CoreManager.removeFocusable(ViewInstance);
-                    // IF ITEM WHICH WE ARE REMOVING WAS FOCUSED WE HAVE TO FIND NEXT TO FOCUS
-                    if (ViewInstance.getContext()?.screen?.lastFocused?.id === ViewInstance.getContext().id) {
-                        const screenContext = CoreManager.contextMap[ViewInstance.getContext().screen.id];
-                        if (screenContext) {
-                            screenContext.lastFocused = undefined;
+            // return () => {
+            //     // CHILD CAN BE REMOVED INDEPENDENTLY
+            //     if (focus) {
+            //         CoreManager.removeFromParentContext(ViewInstance.getContext());
+            //         CoreManager.removeFocusable(ViewInstance);
+            //         // IF ITEM WHICH WE ARE REMOVING WAS FOCUSED WE HAVE TO FIND NEXT TO FOCUS
+            //         if (ViewInstance.getContext()?.screen?.lastFocused?.id === ViewInstance.getContext().id) {
+            //             const screenContext = CoreManager.contextMap[ViewInstance.getContext().screen.id];
+            //             if (screenContext) {
+            //                 screenContext.lastFocused = undefined;
 
-                            ViewInstance.getContext().screen.screenCls.setFocus(
-                                ViewInstance.getContext().screen.screenCls.getFirstFocusableOnScreen()
-                            );
-                        }
-                    }
-                }
-            };
+            //                 ViewInstance.getContext().screen.screenCls.setFocus(
+            //                     ViewInstance.getContext().screen.screenCls.getFirstFocusableOnScreen()
+            //                 );
+            //             }
+            //         }
+            //     }
+            // };
         }, []);
 
         const childrenWithProps = React.Children.map(children, (child) => {
@@ -139,7 +137,6 @@ const View = React.forwardRef<any, ViewProps>(
         }
 
         if (focus) {
-            console.log('ViewInstance', ViewInstance);
             let animatorOptions = focusOptions.animatorOptions || defaultAnimation;
 
             const flattenedStyle = flattenStyle(style);

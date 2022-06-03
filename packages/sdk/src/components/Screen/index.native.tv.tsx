@@ -6,7 +6,7 @@ import { makeid, useCombinedRefs, alterForbiddenFocusDirections } from '../../fo
 import CoreManager from '../../focusManager/core';
 import { measure } from '../../focusManager/layoutManager';
 
-import { createOrReturnInstance } from '../../focusManager/Model/screen';
+import { createInstance, ScreenCls } from '../../focusManager/Model/screen';
 
 const Screen = React.forwardRef<any, ScreenProps>(
     (
@@ -40,8 +40,8 @@ const Screen = React.forwardRef<any, ScreenProps>(
             forbiddenFocusDirections,
         }: any = focusOptions;
 
-        const [ClsInstance] = useState(() => {
-            return createOrReturnInstance({
+        const [ClsInstance] = useState<ScreenCls>(() =>
+            createInstance({
                 prevState: screenState,
                 state: screenState,
                 order: screenOrder,
@@ -56,15 +56,16 @@ const Screen = React.forwardRef<any, ScreenProps>(
                 nextFocusLeft,
                 onFocus,
                 onBlur,
-            });
-        });
+            })
+        );
+
         CoreManager.registerFocusable(ClsInstance);
 
         useEffect(() => {
-            ClsInstance.setPrevState(ClsInstance.context.state).setState(screenState);
-
-            if (ClsInstance.isPrevStateBackground && ClsInstance.isInForeground()) {
-                ClsInstance.initialLoadInProgress = true;
+            // ClsInstance.setPrevState(ClsInstance.getState()).setState(screenState);
+            // console.log('dkdjlfjdskfdsjkfk', ClsInstance.isPrevStateBackground());
+            if (ClsInstance.isPrevStateBackground() && ClsInstance.isInForeground()) {
+                ClsInstance.setInitialLoadInProgress(true);
             }
         }, [screenState]);
 

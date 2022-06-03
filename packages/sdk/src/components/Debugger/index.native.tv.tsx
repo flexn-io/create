@@ -48,33 +48,33 @@ export default function FocusDebugger() {
     const contextMap = CoreManager._focusableMap; // eslint-disable-line prefer-destructuring
     Object.values(contextMap).forEach((ctx: AbstractFocusModel) => {
         const parentInForeground = ctx.screen?.isInForeground();
-        if (ctx.layout && parentInForeground) {
-            const borderColor = colors[ctx.type] || 'white';
+        if (ctx.getLayout() && parentInForeground) {
+            const borderColor = colors[ctx.getType()] || 'white';
             contexts.push(
                 <RNView
-                    key={`${ctx.id}${ctx.nodeId}`}
+                    key={`${ctx.getId()}${ctx.nodeId}`}
                     style={{
-                        width: ctx.layout.width,
-                        height: ctx.layout.height,
+                        width: ctx.getLayout().width,
+                        height: ctx.getLayout().height,
                         borderColor,
                         borderWidth: ctx.getIsFocused() ? 5 : 1,
                         position: 'absolute',
-                        top: ctx.layout.absolute.yMin,
-                        left: ctx.layout.absolute.xMin,
+                        top: ctx.getLayout().absolute.yMin,
+                        left: ctx.getLayout().absolute.xMin,
                     }}
                 >
-                    <Text style={{ color: borderColor }}>{ctx.id.substr(ctx.id.length - 5)}</Text>
+                    <Text style={{ color: borderColor }}>{ctx.getId().substr(ctx.getId().length - 5)}</Text>
                 </RNView>,
                 <RNView
-                    key={ctx.id}
+                    key={ctx.getId()}
                     style={{
                         width: 6,
                         height: 6,
                         borderRadius: 5,
                         backgroundColor: borderColor,
                         position: 'absolute',
-                        left: ctx.layout.absolute.xCenter - 3,
-                        top: ctx.layout.absolute.yCenter - 3,
+                        left: ctx.getLayout().absolute.xCenter - 3,
+                        top: ctx.getLayout().absolute.yCenter - 3,
                     }}
                 />
             );

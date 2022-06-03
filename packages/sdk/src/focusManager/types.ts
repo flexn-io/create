@@ -9,7 +9,15 @@ import type {
 } from 'react-native';
 import type { ScreenCls } from './Model/screen';
 import AbstractFocusModel from './Model/AbstractFocusModel';
-export type ForbiddenFocusDirections = 'down' | 'up' | 'left' | 'right';
+export type ForbiddenFocusDirections =
+    | 'down'
+    | 'up'
+    | 'left'
+    | 'right'
+    | 'swipeDown'
+    | 'swipeUp'
+    | 'swipeLeft'
+    | 'swipeRight';
 export type WindowAlignment = 'both-edge' | 'low-edge';
 export type ScreenStates = 'background' | 'foreground';
 
@@ -98,23 +106,23 @@ export interface RecyclerViewProps {
     scrollEventThrottle?: number;
     contentContainerStyle?: StyleProp<ViewStyle>;
     style?: StyleProp<ViewStyle>;
-    unmeasurableRelativeDimensions: { x?: number, y?: number };
+    unmeasurableRelativeDimensions: { x?: number; y?: number };
     focusOptions?: RecyclableListFocusOptions;
 }
 
 export interface Context {
     id: string;
     type: string;
-    
+
     children: Context[];
 
     parent?: Context;
-    
+
     layout?: any;
     prevState?: string;
 
     screen?: Context;
-    
+
     data?: any;
     onFocus?(): void;
     onBlur?(): void;
@@ -144,7 +152,7 @@ export interface Context {
     lastFocused?: Context;
     repeatContext?: Context;
     parentContext?: Context;
-    
+
     layouts?: any;
     index?: number;
     forbiddenFocusDirections?: string[];

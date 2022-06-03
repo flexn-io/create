@@ -1,34 +1,64 @@
-import { Context } from '../types';
 import { ScreenCls } from './screen';
 
 export default abstract class AbstractFocusModel {
-    abstract id: string;
-    abstract parentContext: AbstractFocusModel;
-    abstract repeatContext?: {
-        parentContext: AbstractFocusModel;
-        index: number;
-    };
-    abstract children: AbstractFocusModel[];
-    abstract type: string;
-    abstract parent?: AbstractFocusModel;
-    abstract initialFocus?: AbstractFocusModel;
+    protected _layout: any;
+    protected _id: string;
+    protected _children: AbstractFocusModel[];
 
-    public layout: any;
+    constructor() {
+        this._id = '';
+        this._children = [];
+    }
+
+    abstract _initialFocus?: AbstractFocusModel;
+
     public nodeId?: number | null;
     public node?: any;
     public screen: ScreenCls | undefined;
 
     abstract getScreen(): ScreenCls | undefined;
+    abstract setScreen(cls: ScreenCls): this;
     abstract destroy(): void;
+    abstract getType(): string;
+    abstract getParent(): AbstractFocusModel | undefined;
 
-    public setLayout(layout: any) {
-        this.layout = layout;
+    abstract getRepeatContext():
+        | {
+              parentContext: AbstractFocusModel;
+              index: number;
+          }
+        | undefined;
+
+    abstract setRepeatContext(rp: AbstractFocusModel): this;
+
+    public getId(): string {
+        return this._id;
+    }
+
+    public setLayout(layout: any): this {
+        this._layout = layout;
+
+        return this;
+    }
+
+    public updateLayoutProperty(prop: string, value: any): this {
+        this._layout[prop] = value;
 
         return this;
     }
 
     public getLayout(): any {
-        return this.layout;
+        return this._layout;
+    }
+
+    public addChildren(cls: AbstractFocusModel): this {
+        this._children.push(cls);
+
+        return this;
+    }
+
+    public getChildren(): AbstractFocusModel[] {
+        return this._children;
     }
 
     public getLayouts(): any {
@@ -37,7 +67,6 @@ export default abstract class AbstractFocusModel {
 
     public isScrollable(): boolean {
         return false;
-        // throw new Error('Method is not implemented');
     }
 
     public setScrollOffsetX(_value: number): this {
@@ -46,12 +75,10 @@ export default abstract class AbstractFocusModel {
 
     public getScrollOffsetX(): number {
         return 0;
-        // throw new Error('Method is not implemented');
     }
 
     public getScrollOffsetY(): number {
         return 0;
-        // throw new Error('Method is not implemented');
     }
 
     public setScrollOffsetY(_value: number): this {
@@ -62,17 +89,7 @@ export default abstract class AbstractFocusModel {
         // to be implement
     }
 
-    abstract setScreen(cls: AbstractFocusModel): this;
-
-    public addChildren(cls: AbstractFocusModel): this {
-        this.children.push(cls);
-
-        return this;
-    }
-
     public setIsFocused(_isFocused: boolean): this {
-        // NOT implemented
-
         return this;
     }
 
@@ -96,6 +113,10 @@ export default abstract class AbstractFocusModel {
         return [];
     }
 
+    public isHorizontal(): boolean {
+        return false;
+    }
+
     public onFocus(): void {
         // NO ACTION
     }
@@ -106,9 +127,5 @@ export default abstract class AbstractFocusModel {
 
     public onPress(): void {
         // NO ACTION
-    }
-
-    public isHorizontal(): boolean {
-        return false;
     }
 }
