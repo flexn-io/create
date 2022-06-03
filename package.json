@@ -111,5 +111,7 @@
             "**/@lightningjs/cli/**"
         ]
     },
-    "dependencies": {}
+    "dependencies": {
+        "@types/lodash.throttle": "^4.1.7"
+    }
 }

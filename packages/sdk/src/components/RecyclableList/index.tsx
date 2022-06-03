@@ -4,5 +4,7 @@ import {
     LayoutProvider as RecyclableListLayoutProvider,
 } from '../../recyclerListView';
 
+const Column = null;
+
 export default RecyclerListView;
-export { RecyclableListDataProvider, RecyclableListLayoutProvider };
+export { RecyclableListDataProvider, RecyclableListLayoutProvider, Column };

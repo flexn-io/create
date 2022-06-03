@@ -1,6 +1,6 @@
 {
     "name": "@flexn/template",
-    "version": "0.13.1",
+    "version": "0.15.0-alpha.1",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/flexn#readme",
@@ -43,16 +43,14 @@
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
     "dependencies": {
-        "@lightningjs/sdk": "4.3.3",
+        "@lightningjs/cli": "2.7.1",
         "@lightningjs/core": "^2.6.0",
-        "@lightningjs/ui-components": "^1.2.1",
-        "@lightningjs/cli": "2.7.1"
+        "@lightningjs/sdk": "4.3.3",
+        "@lightningjs/ui-components": "^1.2.1"
     },
     "devDependencies": {
-        "rollup": "^2.70.2",
-        "@rollup/plugin-typescript": "^8.3.2",
-        "@flexn/graybox": "0.13.1",
-        "@flexn/sdk": "0.13.1",
+        "@flexn/graybox": "0.15.0-alpha.1",
+        "@flexn/sdk": "0.15.0-alpha.1",
         "@flexn/typescript": "0.1.4",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/masked-view": "0.1.6",
@@ -74,6 +72,9 @@
         "@rnv/engine-rn-tvos": "0.36.0-canary.13",
         "@rnv/engine-rn-web": "0.36.0-canary.13",
         "@rnv/engine-rn-windows": "0.36.0-canary.13",
+        "@rnv/renative": "0.36.0-canary.13",
+        "@rollup/plugin-typescript": "^8.3.2",
+        "http-server": "^14.1.0",
         "jetifier": "1.6.5",
         "next": "12.0.9",
         "raf": "3.4.1",
@@ -91,12 +92,11 @@
         "react-native-vector-icons": "8.1.0",
         "react-native-web": "0.17.5",
         "react-native-windows": "0.63.36",
-        "@rnv/renative": "0.36.0-canary.13",
         "rnv": "0.36.0-canary.13",
-        "tslib": "2.3.1",
-        "xcode": "2.1.0",
+        "rollup": "^2.70.2",
         "rollup-plugin-license": "2.7.0",
-        "http-server": "^14.1.0"
+        "tslib": "2.3.1",
+        "xcode": "2.1.0"
     },
     "optionalDependencies": {
         "ios-deploy": "1.11.4"

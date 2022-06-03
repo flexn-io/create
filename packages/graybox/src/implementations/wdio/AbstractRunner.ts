@@ -10,7 +10,7 @@ abstract class AbstractRunner {
     abstract getElementByText(selector: string): any;
 
     // scroll
-    abstract scrollById(selector: string, direction: string): void;
+    abstract scrollById(selectorTo: string, direction: string, selectorFrom: string): void;
 
     // click
     abstract clickById(selector: string): void;

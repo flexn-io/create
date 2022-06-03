@@ -3,13 +3,10 @@ import {
     isPlatformMacos,
     isPlatformTvos,
     isPlatformWeb,
-    isFactorMobile,
-    isPlatformTizen,
-    isPlatformWebos,
+    getWidth
 } from './imports';
-import { LAYOUT } from './config';
 
-export function testProps(testId: string | undefined) {
+export function testProps(testId = '') {
     if (!testId) {
         return;
     }
@@ -123,30 +120,37 @@ const kittyNames = [
     'Zoey',
 ];
 
-function interval(min = 0, max = kittyNames.length - 1) {
+export function interval(min = 0, max = kittyNames.length - 1) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 const data = {};
-export function getRandomData(row: number, idx?: number, countInRow = 6, items = 50) {
-    const isSmartTV = isPlatformTizen || isPlatformWebos;
-    let width = isFactorMobile ? 400 : 650;
-    if (isSmartTV) {
-        width = LAYOUT.w / countInRow;
-    }
-    const height = 200;
+export function getRandomData(row, idx, itemsInViewport = 6, height = 250, items = 50) {
+    const width = Math.floor(getWidth() / itemsInViewport);
 
     if (data[row] && idx !== undefined) {
         return data[row][idx];
     }
 
-    const temp: { backgroundImage: string; title: string; index: number }[] = [];
+    const temp = [];
+    let hIndex = 1;
     for (let index = 0; index < items; index++) {
         temp.push({
+            //@ts-expect-error for web TVs to compile
             index,
-            backgroundImage: `https://placekitten.com/${isSmartTV ? width : width + row}/${height + index}`,
+            //@ts-expect-error for web TVs to compile
+            backgroundImage: `https://placekitten.com/${width}/${height + hIndex}`,
+            //@ts-expect-error for web TVs to compile
             title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
+            //@ts-expect-error for web TVs to compile
+            rowNumber: row,
         });
+
+        if (hIndex === 10) {
+            hIndex = 1;
+        } else {
+            hIndex++;
+        }
     }
 
     data[row] = temp;
@@ -154,7 +158,7 @@ export function getRandomData(row: number, idx?: number, countInRow = 6, items =
     return temp;
 }
 
-export function getHexColor(hex: string, alpha = 100) {
+export function getHexColor(hex, alpha = 100) {
     if (!hex) {
         return 0x00;
     }

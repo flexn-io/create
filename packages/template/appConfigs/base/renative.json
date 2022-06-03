@@ -5,8 +5,12 @@
     "common": {
         "author": "Flexn BV",
         "license": "MIT",
-        "includedPlugins": ["*"],
-        "includedFonts": ["*"],
+        "includedPlugins": [
+            "*"
+        ],
+        "includedFonts": [
+            "*"
+        ],
         "versionCodeFormat": "00.00.00.0000",
         "versionFormat": "0.0.0",
         "buildSchemes": {
@@ -74,7 +78,9 @@
                 "com.apple.iCloud": false
             },
             "entitlements": {},
-            "permissions": ["*"],
+            "permissions": [
+                "*"
+            ],
             "excludedArchs": [
                 {
                     "sdk=iphonesimulator*": "arm64"
@@ -82,8 +88,10 @@
             ],
             "buildSchemes": {
                 "debug": {
+                    "id": "io.flexn.template.debug",
                     "runScheme": "Debug",
-                    "bundleAssets": false
+                    "bundleAssets": false,
+                    "title": "Flexn Debug"
                 },
                 "test": {
                     "runScheme": "Debug",
@@ -97,14 +105,14 @@
                     "bundleAssets": true,
                     "bundleIsDev": false,
                     "multipleAPKs": false,
+                    "title": "Flexn Canary",
                     "exportOptions": {
                         "method": "app-store",
                         "uploadBitcode": true,
                         "compileBitcode": false,
                         "uploadSymbols": true,
                         "signingStyle": "manual",
-                        "provisioningProfiles": {
-                        }
+                        "provisioningProfiles": {}
                     }
                 },
                 "production": {
@@ -119,8 +127,7 @@
                         "compileBitcode": false,
                         "uploadSymbols": true,
                         "signingStyle": "manual",
-                        "provisioningProfiles": {
-                        }
+                        "provisioningProfiles": {}
                     }
                 }
             }
@@ -132,20 +139,26 @@
             "provisioningStyle": "Automatic",
             "entitlements": {},
             "allowProvisioningUpdates": true,
-            "permissions": ["*"],
+            "permissions": [
+                "*"
+            ],
             "excludedArchs": [
                 {
                     "sdk=iphonesimulator*": "arm64"
                 }
             ],
-            "excludedPlugins": ["react-native-carplay"],
+            "excludedPlugins": [
+                "react-native-carplay"
+            ],
             "plist": {
                 "ITSAppUsesNonExemptEncryption": false
             },
             "buildSchemes": {
                 "debug": {
+                    "id": "io.flexn.template.debug",
                     "runScheme": "Debug",
-                    "bundleAssets": false
+                    "bundleAssets": false,
+                    "title": "Flexn Debug"
                 },
                 "test": {
                     "runScheme": "Debug",
@@ -156,6 +169,7 @@
                     "runScheme": "Release",
                     "provisioningStyle": "Manual",
                     "codeSignIdentity": "Apple Distribution",
+                    "title": "Flexn Canary",
                     "bundleAssets": true,
                     "bundleIsDev": false,
                     "multipleAPKs": false,
@@ -164,8 +178,7 @@
                         "uploadBitcode": true,
                         "compileBitcode": false,
                         "uploadSymbols": true,
-                        "provisioningProfiles": {
-                        }
+                        "provisioningProfiles": {}
                     }
                 },
                 "production": {
@@ -179,8 +192,7 @@
                         "uploadBitcode": true,
                         "compileBitcode": false,
                         "uploadSymbols": true,
-                        "provisioningProfiles": {
-                        }
+                        "provisioningProfiles": {}
                     }
                 }
             }
@@ -188,7 +200,9 @@
         "macos": {
             "entryFile": "index",
             "provisioningStyle": "Automatic",
-            "permissions": ["*"],
+            "permissions": [
+                "*"
+            ],
             "buildSchemes": {
                 "debug": {
                     "runScheme": "Debug",
@@ -207,8 +221,7 @@
                     "multipleAPKs": false,
                     "exportOptions": {
                         "method": "developer-id",
-                        "provisioningProfiles": {
-                        },
+                        "provisioningProfiles": {},
                         "signingCertificate": ""
                     }
                 },
@@ -220,8 +233,7 @@
                     "bundleIsDev": false,
                     "exportOptions": {
                         "method": "developer-id",
-                        "provisioningProfiles": {
-                        },
+                        "provisioningProfiles": {},
                         "signingCertificate": ""
                     }
                 }
@@ -230,12 +242,18 @@
         "android": {
             "entryFile": "index",
             "reactNativeEngine": "hermes",
-            "includedPermissions": ["INTERNET"],
-            "permissions": ["*"],
+            "includedPermissions": [
+                "INTERNET"
+            ],
+            "permissions": [
+                "*"
+            ],
             "buildSchemes": {
                 "debug": {
+                    "id": "io.flexn.template.debug",
                     "signingConfig": "Debug",
-                    "bundleAssets": false
+                    "bundleAssets": false,
+                    "title": "Flexn Debug"
                 },
                 "test": {
                     "signingConfig": "Debug",
@@ -245,7 +263,8 @@
                     "signingConfig": "Release",
                     "bundleAssets": true,
                     "bundleIsDev": false,
-                    "multipleAPKs": false
+                    "multipleAPKs": false,
+                    "title": "Flexn Canary"
                 },
                 "production": {
                     "signingConfig": "Release",
@@ -258,13 +277,19 @@
         "androidtv": {
             "entryFile": "index",
             "reactNativeEngine": "hermes",
-            "includedPermissions": ["INTERNET"],
+            "includedPermissions": [
+                "INTERNET"
+            ],
             "universalApk": true,
             "multipleAPKs": false,
             "minSdkVersion": 21,
-            "permissions": ["*"],
+            "permissions": [
+                "*"
+            ],
             "buildSchemes": {
                 "debug": {
+                    "id": "io.flexn.template.debug",
+                    "title": "Flexn Debug",
                     "signingConfig": "Debug",
                     "bundleAssets": false
                 },
@@ -276,7 +301,8 @@
                     "signingConfig": "Release",
                     "bundleAssets": true,
                     "bundleIsDev": false,
-                    "multipleAPKs": false
+                    "multipleAPKs": false,
+                    "title": "Flexn Canary"
                 },
                 "production": {
                     "signingConfig": "Release",
@@ -288,11 +314,15 @@
         "firetv": {
             "entryFile": "index",
             "reactNativeEngine": "hermes",
-            "includedPermissions": ["INTERNET"],
+            "includedPermissions": [
+                "INTERNET"
+            ],
             "universalApk": true,
             "multipleAPKs": false,
             "minSdkVersion": 21,
-            "permissions": ["*"],
+            "permissions": [
+                "*"
+            ],
             "buildSchemes": {
                 "debug": {
                     "signingConfig": "Debug",
@@ -319,11 +349,15 @@
         "androidwear": {
             "entryFile": "index",
             "reactNativeEngine": "hermes",
-            "includedPermissions": ["INTERNET"],
+            "includedPermissions": [
+                "INTERNET"
+            ],
             "universalApk": true,
             "multipleAPKs": false,
             "minSdkVersion": 23,
-            "permissions": ["*"],
+            "permissions": [
+                "*"
+            ],
             "buildSchemes": {
                 "debug": {
                     "signingConfig": "Debug",
@@ -354,12 +388,8 @@
                 "debug": {
                     "bundleAssets": false
                 },
-                "test": {
-
-                },
-                "canary": {
-
-                },
+                "test": {},
+                "canary": {},
                 "production": {
                     "bundleAssets": true,
                     "bundleIsDev": false
@@ -489,12 +519,8 @@
                 "debug": {
                     "bundleAssets": false
                 },
-                "test": {
-
-                },
-                "canary": {
-
-                },
+                "test": {},
+                "canary": {},
                 "production": {
                     "bundleAssets": true,
                     "bundleIsDev": false

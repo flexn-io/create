@@ -1,21 +1,21 @@
-import { Image, TouchableOpacity, ScrollView, Text, VerticalRecyclableList, View } from '@flexn/sdk';
+import { ScrollView, Text, View } from '@flexn/sdk';
 import React from 'react';
 import { themeStyles } from '../../../../../config';
-import { CARD_TYPES, generateData, Ratio, testProps, useParams } from '../../../../../utils';
+import { useParams } from '../../../../../utils';
 
-const ITEM_HEIGHT = Ratio(240);
-const ITEM_WIDTH = Ratio(ITEM_HEIGHT * 1.6);
+// const ITEM_HEIGHT = Ratio(240);
+// const ITEM_WIDTH = Ratio(ITEM_HEIGHT * 1.6);
 
 const RowsScreen = (props) => {
     const { amount } = useParams(props);
 
-    const data = generateData(CARD_TYPES.DEFAULT, 24, amount);
+    // const data = generateData(CARD_TYPES.DEFAULT, 24, amount);
 
     return (
         <View style={[themeStyles.screen, { justifyContent: 'center', alignItems: 'center' }]}>
             <Text style={[themeStyles.textH2]}>{`${amount} rows`}</Text>
             <ScrollView style={{ width: '100%' }}>
-                <VerticalRecyclableList
+                {/* <VerticalRecyclableList
                     data={data}
                     renderRow={(repeatContext) => (
                         <TouchableOpacity
@@ -36,7 +36,7 @@ const RowsScreen = (props) => {
                             />
                         </TouchableOpacity>
                     )}
-                />
+                /> */}
                 {/* {data?.map((row, idx) => (
                     <View key={`${row.title}-${Math.random()}`}>
                         <Text

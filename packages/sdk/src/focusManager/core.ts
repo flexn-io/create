@@ -30,7 +30,7 @@ class CoreManager {
         this._guideLineX = 0;
     }
 
-    public registerContext(context: Context, node: any) {
+    public registerContext(context: Context, node?: any) {
         if (this._contextMap[context.id]) {
             return;
         }
@@ -49,6 +49,7 @@ class CoreManager {
             if (context.initialFocus && !!parentContext) {
                 this._contextMap[parentContext.id].initialFocus = context;
             }
+
             context.screen = parentContext;
         }
 
@@ -146,43 +147,6 @@ class CoreManager {
         this._hasPendingUpdateGuideLines = false;
     }
 
-    public findFirstFocusableOnScreen = (context: Context): Context | null | undefined => {
-        if (context.type === CONTEXT_TYPES.SCREEN) {
-            if (context.state === SCREEN_STATES.BACKGROUND) {
-                if (this._debuggerEnabled) {
-                    // eslint-disable-next-line
-                    logger.debug('Screen is in background ignoring[findFirstFocusableOnScreen]');
-                }
-                return null;
-            }
-            if (context.lastFocused) {
-                return context.lastFocused;
-            }
-            if (context.initialFocus) {
-                return context.initialFocus;
-            }
-        }
-
-        for (let index = 0; index < context.children.length; index++) {
-            const ch: Context = context.children[index];
-            if (ch.isFocusable) {
-                return ch;
-            }
-
-            const next = this.findFirstFocusableOnScreen(ch);
-
-            if (next?.isFocusable) {
-                return next;
-            }
-        }
-
-        if (context.isFocusable) {
-            return context;
-        }
-
-        return null;
-    };
-
     public focusElementByFocusKey = (focusKey: string) => {
         const focusAsNext: Context | undefined = Object.values(this._contextMap).find(
             (s) =>
@@ -190,8 +154,8 @@ class CoreManager {
                 (s?.screen?.state === SCREEN_STATES.FOREGROUND || s.state === SCREEN_STATES.FOREGROUND)
         );
 
-        if (focusAsNext) {
-            const nextFocusable = this.findFirstFocusableOnScreen(focusAsNext);
+        if (focusAsNext?.screen) {
+            const nextFocusable = focusAsNext?.screen.screenCls?.getFirstFocusableOnScreen();
             if (nextFocusable) {
                 this._currentContext?.screen?.onBlur?.();
                 this.executeFocus('', nextFocusable);
@@ -264,8 +228,21 @@ class CoreManager {
                     this.findClosestNode(ctx, direction, output);
                 }
             }
-            const closestContext: Context | undefined =
-                output.match1Context || output.match2Context || output.match3Context;
+            const closestContextFn = (): Context | undefined => {
+                if (output.match1Context || output.match2Context || output.match3Context) {
+                    if (output.match3 < output.match2) {
+                        return output.match3Context;
+                    }                     
+                    if (output.match2 < output.match1) {
+                        return output.match2Context;
+                    }                     
+                    if (output.match3 < output.match1) {
+                        return output.match3Context;
+                    }
+                    return output.match1Context || output.match2Context || output.match3Context;
+                }
+            };
+            const closestContext = closestContextFn();
 
             if (!closestContext) {
                 const parentHasForbiddenDirection = parentContext.forbiddenFocusDirections?.includes(direction);
@@ -308,7 +285,7 @@ class CoreManager {
                             nextScreenContext.screen?.onFocus?.();
 
                             if (nextScreenContext.screen) {
-                                return this.findFirstFocusableOnScreen(nextScreenContext.screen);
+                                return nextScreenContext.screen.screenCls?.getFirstFocusableOnScreen();
                             }
                         }
 

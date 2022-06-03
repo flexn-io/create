@@ -7,7 +7,7 @@ import type {
     ViewStyle,
     ScrollView,
 } from 'react-native';
-
+import type { ScreenCls } from './screen';
 export type ForbiddenFocusDirections = 'down' | 'up' | 'left' | 'right';
 export type WindowAlignment = 'both-edge' | 'low-edge';
 export type ScreenStates = 'background' | 'foreground';
@@ -64,7 +64,6 @@ export interface PressableProps extends RNPressableProps {
     children: React.ReactNode;
     ref?: any;
     activeOpacity?: any;
-    style?: StyleProp<ViewStyle>;
 }
 
 export interface ScrollViewProps extends RNScrollViewProps {
@@ -94,11 +93,13 @@ export interface RecyclerViewProps {
     layoutProvider: any;
     rowRenderer: any;
     bounces?: boolean;
-    scrollViewProps?: any;
+    scrollViewProps?: any;  
     scrollEventThrottle?: number;
     contentContainerStyle?: StyleProp<ViewStyle>;
     style?: StyleProp<ViewStyle>;
+    unmeasurableRelativeDimensions: { x?: number, y?: number };
     focusOptions?: RecyclableListFocusOptions;
+    disableItemContainer?: boolean;
 }
 
 export interface Context {
@@ -133,6 +134,7 @@ export interface Context {
     focusKey?: string;
     state?: string; // proper type
     initialFocus?: Context;
+    firstFocusable?: Context;
     lastFocused?: Context;
     repeatContext?: Context;
     parentContext?: Context;
@@ -143,6 +145,7 @@ export interface Context {
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
+    screenCls?: ScreenCls;
 }
 
 export type ContextMap = { [key: string]: Context };

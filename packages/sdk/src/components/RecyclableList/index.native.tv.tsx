@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View as RNView } from 'react-native';
+import { View as RNView, StyleSheet } from 'react-native';
 import {
     DataProvider as RecyclableListDataProvider,
     LayoutProvider as RecyclableListLayoutProvider,
@@ -10,6 +10,16 @@ import { alterForbiddenFocusDirections, makeid } from '../..//focusManager/helpe
 import { measure } from '../../focusManager/layoutManager';
 import type { Context, RecyclerViewProps } from '../../focusManager/types';
 
+const Column = null;
+
+const parseStyleProps = (prop?: string | number): number => {
+    if (typeof prop !== 'number') {
+        return 0;
+    }
+
+    return prop;
+};
+
 export default function RecyclerView({
     style,
     parentContext,
@@ -19,7 +29,9 @@ export default function RecyclerView({
     dataProvider,
     repeatContext,
     contentContainerStyle,
+    unmeasurableRelativeDimensions = { y: 0, x: 0 },
     focusOptions = {},
+    disableItemContainer = false,
     ...props
 }: RecyclerViewProps) {
     const scrollViewRef = useRef<HTMLDivElement | null>(null);
@@ -49,11 +61,12 @@ export default function RecyclerView({
         context.repeatContext = repeatContext;
     }
 
-    const rowRendererWithProps = (type: any, data: any, index: any) => {
+    const rowRendererWithProps = (type: any, data: any, index: any, _extendedState: any, renderProps: any) => {
         const vr = rlvRef.current?.['_virtualRenderer'];
-        if (vr && !context.layouts) {
-            const lm: any = vr['_layoutManager'];
-            const layouts: any = lm['_layouts'];
+        const lm: any = vr?.['_layoutManager'];
+        const layouts: any = lm?.['_layouts'];
+
+        if (vr && (!context.layouts || layouts.length !== context.layouts.length)) {
             context.layouts = layouts;
         }
 
@@ -72,7 +85,7 @@ export default function RecyclerView({
             };
         }
 
-        return rowRenderer(type, data, index, { parentContext: context, index });
+        return rowRenderer(type, data, index, { parentContext: context, index }, renderProps);
     };
 
     useEffect(() => {
@@ -85,8 +98,22 @@ export default function RecyclerView({
         };
     }, []);
 
+    const flattenContentContainerStyle = StyleSheet.flatten(contentContainerStyle);
+    const flattenStyles = StyleSheet.flatten(style);
+
+    const paddingTop = parseStyleProps(flattenContentContainerStyle?.paddingTop);
+    const paddingLeft = parseStyleProps(flattenContentContainerStyle?.paddingLeft);
+    const marginTop = parseStyleProps(flattenStyles?.marginTop);
+    const marginLeft = parseStyleProps(flattenStyles?.marginLeft);
+    const top = parseStyleProps(flattenStyles?.top);
+    const left = parseStyleProps(flattenStyles?.left);
+
     const onLayout = () => {
-        measure(context, rnViewRef);
+        const unmeasurableDimensions = {
+            x: paddingLeft + marginLeft + left + (unmeasurableRelativeDimensions.x || 0),
+            y: paddingTop + marginTop + top + (unmeasurableRelativeDimensions.y || 0),
+        };
+        measure(context, rnViewRef, unmeasurableDimensions);
     };
 
     return (
@@ -103,6 +130,7 @@ export default function RecyclerView({
                     scrollEnabled: false,
                 }}
                 rowRenderer={rowRendererWithProps}
+                disableItemContainer={disableItemContainer}
                 isHorizontal={isHorizontal}
                 contentContainerStyle={contentContainerStyle}
                 {...props}
@@ -111,4 +139,4 @@ export default function RecyclerView({
     );
 }
 
-export { RecyclableListDataProvider, RecyclableListLayoutProvider };
+export { RecyclableListDataProvider, RecyclableListLayoutProvider, Column };

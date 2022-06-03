@@ -11,7 +11,7 @@ import {
 import type { Context, ViewProps } from '../../focusManager/types';
 import CoreManager from '../../focusManager/core';
 import { ANIMATIONS } from '../../focusManager/constants';
-import { measure, recalculateLayout } from '../../focusManager/layoutManager';
+import { measure } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
 export const defaultAnimation = {
@@ -52,7 +52,7 @@ const View = React.forwardRef<any, ViewProps>(
             children: [],
             repeatContext,
             isFocusable: true,
-            // initialFocus: focusOptions.hasInitialFocus | false,
+            // initialFocus: focusOptions.hasInitialFocus || false,
             forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
             type: 'view',
         });
@@ -64,14 +64,13 @@ const View = React.forwardRef<any, ViewProps>(
             return pctx;
         });
 
-        // We must re-assing repeat context as View instances are re-used in recycled
+        // We must re-assign repeat context as View instances are re-used in recycled
         if (repeatContext) {
             context.repeatContext = repeatContext;
         }
 
-        useEffect(() => {
-            // If item initially was not focusable, but during the time it became focusable
-            // we capturing that here
+        useEffect(() => {            
+            // If item initially was not focusable, but during the time it became focusable we capturing that here
             if (prevFocus === false && focus === true) {
                 const ctx: Context = makeContext();
                 setContext(ctx);
@@ -88,14 +87,9 @@ const View = React.forwardRef<any, ViewProps>(
         }, [onPress, onFocus, onBlur]);
 
         useEffect(() => {
-            if (CoreManager.currentContext) {
-                recalculateLayout(CoreManager.currentContext);
-            }
-        }, [repeatContext]);
-
-        useEffect(() => {
             if (focus) {
                 CoreManager.registerContext(context, ref);
+                context.screen.screenCls.setIsLoading();
             }
 
             return () => {
@@ -108,18 +102,10 @@ const View = React.forwardRef<any, ViewProps>(
                         const screenContext = CoreManager.contextMap[context.screen.id];
                         if (screenContext) {
                             screenContext.lastFocused = undefined;
-                            // NOTE: why is interval? Because screen lifecycle if independent of child complex components life cycles
-                            // so screen can be loaded but focusable elements not yet
-                            const interval = setInterval(() => {
-                                const firstFocusable = CoreManager.findFirstFocusableOnScreen(screenContext);
-                                if (firstFocusable) {
-                                    clearInterval(interval);
-                                    CoreManager.executeFocus('', firstFocusable);
-                                    CoreManager.executeUpdateGuideLines();
-                                    CoreManager.currentContext?.screen?.onBlur?.();
-                                    screenContext.onFocus?.();
-                                }
-                            }, 100);
+                                
+                            context.screen.screenCls.setFocus(
+                                context.screen.screenCls.getFirstFocusableOnScreen()
+                            );
                         }
                     }
                 }

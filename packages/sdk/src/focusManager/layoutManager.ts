@@ -1,4 +1,20 @@
 import type { Context } from './types';
+import { CONTEXT_TYPES } from './constants';
+
+function findLowestRelativeCoordinates(context: Context) {
+    if (context.screen && context.type === CONTEXT_TYPES.VIEW) {
+        const { screen } = context;
+        const { layout } = screen.firstFocusable || {};
+
+        const c1 = !screen.firstFocusable;
+        const c2 = layout?.yMin === context.layout?.yMin && layout.xMin >= context.layout?.xMin;
+        const c3 = layout?.yMin > context.layout?.yMin;
+        
+        if (c1 || c2 || c3) {
+            context.screen.firstFocusable = context;
+        }
+    }
+}
 
 function recalculateAbsolutes(context: Context) {
     const { layout } = context;
@@ -34,13 +50,12 @@ function recalculateLayout(context: Context) {
     recalculateAbsolutes(context);
 }
 
-function measure(context: Context, ref: any) {
+function measure(context: Context, ref: any, unmeasurableRelatives?: { x: number, y: number }) {
     ref.current.measure((_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
         let pgX;
         let pgY;
 
         if (context.repeatContext !== undefined) {
-            // TODO: Check what about nested repeats?
             const pCtx = context.repeatContext.parentContext;
 
             if (pCtx !== undefined) {
@@ -51,6 +66,12 @@ function measure(context: Context, ref: any) {
         } else {
             pgY = pageY;
             pgX = pageX;
+        }
+
+        // Single and nested recyclers can't measure itself due to logic above
+        if (unmeasurableRelatives && context.type === CONTEXT_TYPES.RECYCLER) {
+            pgX = pgX + unmeasurableRelatives.x;
+            pgY = pgY + unmeasurableRelatives.y;
         }
 
         const layout = {
@@ -79,6 +100,8 @@ function measure(context: Context, ref: any) {
 
         context.layout = layout;
 
+        findLowestRelativeCoordinates(context);
+
         // Calculate max X and Y width to prevent over scroll
         if (context.parent?.isScrollable && context.parent.layout) {
             const pCtx = context?.repeatContext?.parentContext;
@@ -89,7 +112,7 @@ function measure(context: Context, ref: any) {
             }
         }
 
-        recalculateAbsolutes(context);
+        recalculateLayout(context);
     });
 
     // get the layout of innerView in scroll

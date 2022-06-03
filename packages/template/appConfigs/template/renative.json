@@ -162,9 +162,10 @@
             }
         },
         "tizen": {
-            "package": "NkVRhWHJST",
-            "id": "NkVRhWHJST.Example",
-            "entryFile": "index.lng"
+            "package": "samsungdev",
+            "id": "samsungdev.TestHarness",
+            "entryFile": "index.lng",
+            "certificateProfile": "samsungdev"
         },
         "tizenwatch": {
             "package": "cHIP2fIRQZ",

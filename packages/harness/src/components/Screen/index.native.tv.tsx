@@ -16,12 +16,7 @@ const Screen = ({ children, stealFocus, focusOptions, style }: ScreenProps) => {
     );
 
     return (
-        <FMScreen
-            screenState={screenState}
-            stealFocus={stealFocus}
-            focusOptions={focusOptions}
-            style={style}
-        >
+        <FMScreen screenState={screenState} stealFocus={stealFocus} focusOptions={focusOptions} style={style}>
             {children}
         </FMScreen>
     );
