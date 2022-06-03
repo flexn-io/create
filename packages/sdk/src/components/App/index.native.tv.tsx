@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { isPlatformAndroidtv, isPlatformTvos, isPlatformFiretv } from '@rnv/renative';
 import CoreManager from '../../focusManager/core';
-import { DIRECTION, SCREEN_STATES } from '../../focusManager/constants';
+import { DIRECTION } from '../../focusManager/constants';
 
 const isAndroidBased = isPlatformAndroidtv || isPlatformFiretv;
 
@@ -24,14 +24,12 @@ export default function App({ children, ...props }: { children: any }) {
                 if (direction === 'playPause') {
                     CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
                 }
-                if (
-                    direction === 'select' &&
-                    typeof CoreManager.currentContext?.node?.current?.onPress === 'function'
-                ) {
+                if (direction === 'select') {
                     // This can happen if we opened new screen which doesn't have any focusable
                     // then last screen in context map still keeping focus
-                    if (CoreManager.currentContext?.screen?.state === SCREEN_STATES.FOREGROUND) {
-                        CoreManager.currentContext.node.current.onPress();
+                    const currentFocus = CoreManager.getCurrentFocus();
+                    if (currentFocus && currentFocus?.screen?.isInForeground()) {
+                        currentFocus.onPress();
                     }
                 }
             }
@@ -46,7 +44,6 @@ export default function App({ children, ...props }: { children: any }) {
                 nextFocusDown: node,
             });
         }
-
     }, []);
 
     useTVRemoteHandler((evt: any) => {
@@ -56,17 +53,13 @@ export default function App({ children, ...props }: { children: any }) {
                 if (direction === 'playPause') {
                     CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
                 }
-                if (
-                    isAndroidBased &&
-                    direction === 'select' &&
-                    typeof CoreManager.currentContext?.node?.current?.onPress === 'function'
-                ) {
-                    CoreManager.currentContext.node.current.onPress();
+                if (isAndroidBased && direction === 'select' && CoreManager._currentFocus) {
+                    CoreManager._currentFocus.node.current.onPress();
                 }
             }
 
             // DO NOT START LISTENING IF THERE IS NO CURRENT CONTEXT YET
-            if (CoreManager.currentContext) {
+            if (CoreManager.getCurrentFocus()) {
                 if (CoreManager.hasPendingUpdateGuideLines) {
                     CoreManager.executeUpdateGuideLines();
                 }

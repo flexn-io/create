@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, Dimensions, View as RNView } from 'react-native';
 import { SCREEN_STATES } from '../../focusManager/constants';
 import CoreManager from '../../focusManager/core';
+import AbstractFocusModel from '../../focusManager/Model/AbstractFocusModel';
 import type { Context } from '../../focusManager/types';
 
 const windowWidth = Dimensions.get('window').width;
@@ -44,8 +45,8 @@ export default function FocusDebugger() {
     };
 
     const contexts: any = [];
-    const contextMap = CoreManager.contextMap; // eslint-disable-line prefer-destructuring
-    Object.values(contextMap).forEach((ctx: Context) => {
+    const contextMap = CoreManager._focusableMap; // eslint-disable-line prefer-destructuring
+    Object.values(contextMap).forEach((ctx: AbstractFocusModel) => {
         const parentInForeground = ctx.screen?.state === SCREEN_STATES.FOREGROUND;
         if (ctx.layout && parentInForeground) {
             const borderColor = colors[ctx.type] || 'white';

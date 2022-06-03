@@ -120,7 +120,6 @@ const Row = ({
                     layoutProvider={layoutProvider.current}
                     initialXOffset={Ratio(initialXOffset)}
                     repeatContext={repeatContext}
-                    repeatClass={repeatClass}
                     rowRenderer={rowRenderer}
                     isHorizontal
                     style={[style, { width: boundaries.width, height: boundaries.height }]}
@@ -151,7 +150,6 @@ const Row = ({
     return (
         <View
             parentContext={nestedParentContext || parentContext}
-            parentClass={nestedParentClass || parentClass}
             style={styles.container}
             onLayout={onLayout}
             ref={ref}

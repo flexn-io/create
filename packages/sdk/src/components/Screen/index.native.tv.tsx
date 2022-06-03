@@ -8,7 +8,6 @@ import { measure } from '../../focusManager/layoutManager';
 
 import { createOrReturnInstance } from '../../focusManager/Model/screen';
 
-
 const Screen = React.forwardRef<any, ScreenProps>(
     (
         {
@@ -41,51 +40,48 @@ const Screen = React.forwardRef<any, ScreenProps>(
             forbiddenFocusDirections,
         }: any = focusOptions;
 
-        const ScreenInstance = useRef(createOrReturnInstance({
-            prevState: screenState,
-            state: screenState,
-            order: screenOrder,
-            stealFocus,
-            focusKey,
-            verticalWindowAlignment,
-            horizontalWindowAlignment,
-            horizontalViewportOffset,
-            verticalViewportOffset,
-            forbiddenFocusDirections: alterForbiddenFocusDirections(forbiddenFocusDirections),
-            nextFocusRight,
-            nextFocusLeft,
-            onFocus,
-            onBlur,
-        })).current;
+        const ScreenInstance = useRef(
+            createOrReturnInstance({
+                prevState: screenState,
+                state: screenState,
+                order: screenOrder,
+                stealFocus,
+                focusKey,
+                verticalWindowAlignment,
+                horizontalWindowAlignment,
+                horizontalViewportOffset,
+                verticalViewportOffset,
+                forbiddenFocusDirections: alterForbiddenFocusDirections(forbiddenFocusDirections),
+                nextFocusRight,
+                nextFocusLeft,
+                onFocus,
+                onBlur,
+            })
+        ).current;
 
-        CoreManager.registerContext(ScreenInstance.getContext(), null);
         CoreManager.registerFocusable(ScreenInstance);
 
-        ScreenInstance.context.screenCls = createOrReturnInstance(ScreenInstance.context);
-
         useEffect(() => {
-            ScreenInstance
-                .setPrevState(ScreenInstance.context.state)
-                .setState(screenState);
+            ScreenInstance.setPrevState(ScreenInstance.context.state).setState(screenState);
 
-            if (ScreenInstance.isPrevStateBackground && ScreenInstance.isInForeground) {
-                ScreenInstance.context.initialLoadInProgress = true;
+            if (ScreenInstance.isPrevStateBackground && ScreenInstance.isInForeground()) {
+                ScreenInstance.initialLoadInProgress = true;
             }
         }, [screenState]);
 
         useEffect(() => {
             return () => {
-                CoreManager.removeContext(ScreenInstance.context);
+                // CoreManager.removeContext(ScreenInstance.context);
             };
         }, []);
 
         const onLayout = () => {
-            measure(ScreenInstance.context, ref);
+            measure(ScreenInstance, ref);
         };
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
-                return React.cloneElement(child, { parentContext: ScreenInstance.getContext(), parentClass: ScreenInstance });
+                return React.cloneElement(child, { parentContext: ScreenInstance });
             }
             return child;
         });

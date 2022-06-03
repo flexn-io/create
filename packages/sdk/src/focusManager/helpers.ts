@@ -4,6 +4,7 @@ import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 import { ForbiddenFocusDirections } from './types';
 import type { Context } from './types';
 import { DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, SCREEN_STATES } from './constants';
+import AbstractFocusModel from './Model/AbstractFocusModel';
 
 export function makeid(length: number) {
     let result = '';
@@ -43,12 +44,12 @@ export function alterForbiddenFocusDirections(forbiddenFocusDirections: Forbidde
 
 function pickActiveForcedFocusContext(
     nextForcedFocusKey: string | string[],
-    contextMap: { [key: string]: Context }
+    focusMap: { [key: string]: AbstractFocusModel }
 ): string | null {
     if (Array.isArray(nextForcedFocusKey)) {
         for (let index = 0; index < nextForcedFocusKey.length; index++) {
             const focusKey = nextForcedFocusKey[index];
-            const isActive: Context | undefined = Object.values(contextMap).find(
+            const isActive: AbstractFocusModel | undefined = Object.values(focusMap).find(
                 (s) =>
                     s.focusKey === focusKey &&
                     (s?.screen?.state === SCREEN_STATES.FOREGROUND || s.state === SCREEN_STATES.FOREGROUND)
@@ -60,7 +61,7 @@ function pickActiveForcedFocusContext(
         return null;
     }
 
-    const isActive = Object.values(contextMap).find(
+    const isActive = Object.values(focusMap).find(
         (s) =>
             s.focusKey === nextForcedFocusKey &&
             (s?.screen?.state === SCREEN_STATES.FOREGROUND || s.state === SCREEN_STATES.FOREGROUND)
@@ -69,21 +70,21 @@ function pickActiveForcedFocusContext(
     return isActive ? nextForcedFocusKey : null;
 }
 export function getNextForcedFocusKey(
-    context: Context,
+    cls: AbstractFocusModel,
     direction: string,
-    contextMap: { [key: string]: Context }
+    focusMap: { [key: string]: AbstractFocusModel }
 ): string | null {
-    if (context.nextFocusLeft && DIRECTION_LEFT.includes(direction)) {
-        return pickActiveForcedFocusContext(context.nextFocusLeft, contextMap);
+    if (cls.nextFocusLeft && DIRECTION_LEFT.includes(direction)) {
+        return pickActiveForcedFocusContext(cls.nextFocusLeft, focusMap);
     }
-    if (context.nextFocusRight && DIRECTION_RIGHT.includes(direction)) {
-        return pickActiveForcedFocusContext(context.nextFocusRight, contextMap);
+    if (cls.nextFocusRight && DIRECTION_RIGHT.includes(direction)) {
+        return pickActiveForcedFocusContext(cls.nextFocusRight, focusMap);
     }
-    if (context.nextFocusUp && DIRECTION_UP.includes(direction)) {
-        return pickActiveForcedFocusContext(context.nextFocusUp, contextMap);
+    if (cls.nextFocusUp && DIRECTION_UP.includes(direction)) {
+        return pickActiveForcedFocusContext(cls.nextFocusUp, focusMap);
     }
-    if (context.nextFocusDown && DIRECTION_DOWN.includes(direction)) {
-        return pickActiveForcedFocusContext(context.nextFocusDown, contextMap);
+    if (cls.nextFocusDown && DIRECTION_DOWN.includes(direction)) {
+        return pickActiveForcedFocusContext(cls.nextFocusDown, focusMap);
     }
 
     return null;

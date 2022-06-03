@@ -24,8 +24,6 @@ const parseStyleProps = (prop?: string | number): number => {
 export default function RecyclerView({
     style,
     parentContext,
-    parentClass,
-    repeatClass,
     isHorizontal = true,
     rowRenderer,
     scrollViewProps,
@@ -40,19 +38,18 @@ export default function RecyclerView({
     const rlvRef = useRef<RecyclerListView<any, any>>(null);
     const rnViewRef = useRef<RNView>(null);
 
-    const RecyclerInstance = useRef(createOrReturnInstance({
-        isHorizontal,
-        isNested: !!repeatContext,
-        parent: parentContext,
-        parentClass,
-        repeatContext,
-        repeatClass,
-        forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
-    })).current;
+    const RecyclerInstance = useRef(
+        createOrReturnInstance({
+            isHorizontal,
+            isNested: !!repeatContext,
+            parent: parentContext,
+            repeatContext,
+            forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
+        })
+    ).current;
 
     if (repeatContext) {
-        RecyclerInstance.context.repeatContext = repeatContext;
-        RecyclerInstance.repeatClass = repeatClass;
+        RecyclerInstance.setRepeatContext(repeatContext);
     }
 
     const rowRendererWithProps = (type: any, data: any, index: any) => {
@@ -60,36 +57,38 @@ export default function RecyclerView({
         const lm: any = vr?.['_layoutManager'];
         const layouts: any = lm?.['_layouts'];
 
-        if (vr && (!RecyclerInstance.getContext().layouts || layouts.length !== RecyclerInstance.getContext().layouts.length)) {
-            RecyclerInstance.context.layouts = layouts;
+        if (vr && (!RecyclerInstance.getLayouts() || layouts.length !== RecyclerInstance.getLayouts().length)) {
+            RecyclerInstance.setLayouts(layouts);
         }
 
-        if (vr?.['_params'] && !RecyclerInstance.getContext().isLastVisible) {
+        if (vr?.['_params'] && !RecyclerInstance.isLastVisible) {
             const recyclerItemsCount = vr['_params'].itemCount;
             const vt: any = vr['_viewabilityTracker'] || {};
 
-            RecyclerInstance.context.isLastVisible = () => {
+            RecyclerInstance.isLastVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
                 return visibleIndexes[visibleIndexes.length - 1] + 1 === recyclerItemsCount;
             };
 
-            RecyclerInstance.context.isFirstVisible = () => {
+            RecyclerInstance.isFirstVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
                 return visibleIndexes[0] === 0;
             };
         }
 
-        return rowRenderer(type, data, index, { parentContext: RecyclerInstance.getContext(), parentClass: RecyclerInstance, index });
+        return rowRenderer(type, data, index, {
+            parentContext: RecyclerInstance,
+            index,
+        });
     };
 
     useEffect(() => {
-        CoreManager.registerContext(RecyclerInstance.getContext(), scrollViewRef);
-        CoreManager.registerFocusable(RecyclerInstance);
+        CoreManager.registerFocusable(RecyclerInstance, scrollViewRef);
     });
 
     useEffect(() => {
         return () => {
-            CoreManager.removeContext(RecyclerInstance.getContext());
+            // CoreManager.removeContext(RecyclerInstance.getContext());
         };
     }, []);
 
@@ -108,7 +107,7 @@ export default function RecyclerView({
             x: paddingLeft + marginLeft + left + (unmeasurableRelativeDimensions.x || 0),
             y: paddingTop + marginTop + top + (unmeasurableRelativeDimensions.y || 0),
         };
-        measure(RecyclerInstance.getContext(), rnViewRef, unmeasurableDimensions);
+        measure(RecyclerInstance, rnViewRef, unmeasurableDimensions);
     };
 
     return (

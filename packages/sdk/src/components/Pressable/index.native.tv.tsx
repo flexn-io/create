@@ -15,6 +15,7 @@ import { measure } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
 import { createOrReturnInstance } from '../../focusManager/Model/view';
+import type { ViewCls } from '../../focusManager/Model/view';
 
 export const defaultAnimation = {
     type: 'scale',
@@ -29,7 +30,6 @@ const View = React.forwardRef<any, ViewProps>(
             focus = true,
             focusOptions = {},
             parentContext,
-            parentClass,
             repeatContext,
             onPress = () => {
                 return null;
@@ -48,56 +48,51 @@ const View = React.forwardRef<any, ViewProps>(
         const ref = useCombinedRefs(refOuter, refInner);
         const prevFocus = usePrevious(focus);
         const pctx = repeatContext?.parentContext || parentContext;
-        const pCls = repeatContext?.parentClass || parentClass;
 
         let ViewInstance: any = useRef().current;
         if (!focus) {
-            ViewInstance = parentClass;
+            ViewInstance = pctx;
         } else {
             ViewInstance = createOrReturnInstance({
                 focus,
                 repeatContext,
-                parentContext: pctx,
-                parentClass: pCls,
+                parent: pctx,
                 forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
             });
         }
 
         // We must re-assign repeat context as View instances are re-used in recycled
         if (repeatContext) {
-            ViewInstance.context.repeatContext = repeatContext;
             ViewInstance.repeatContext = repeatContext;
         }
 
-        useEffect(() => {            
+        useEffect(() => {
             // If item initially was not focusable, but during the time it became focusable we capturing that here
             if (prevFocus === false && focus === true) {
                 ViewInstance = createOrReturnInstance({
                     focus: true,
                     repeatContext,
-                    parentContext: pctx,
-                    parentClass,
+                    parent: pctx,
                     forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
                 });
 
-                CoreManager.registerContext(ViewInstance.getContext(), ref);
-                CoreManager.registerFocusable(ViewInstance);
+                CoreManager.registerFocusable(ViewInstance, ref);
             }
         }, [focus]);
 
         useEffect(() => {
-            if (ref.current) {
-                ref.current.onPress = onPress;
-                ref.current.onFocus = onFocus;
-                ref.current.onBlur = onBlur;
-            }
+            (ViewInstance as ViewCls).updateEvents?.({
+                onPress,
+                onFocus,
+                onBlur,
+            });
         }, [onPress, onFocus, onBlur]);
 
         useEffect(() => {
             if (focus) {
-                CoreManager.registerContext(ViewInstance.getContext(), ref);
-                CoreManager.registerFocusable(ViewInstance);
-                ViewInstance.getContext().screen.screenCls.setIsLoading();
+                CoreManager.registerFocusable(ViewInstance, ref);
+                (ViewInstance as ViewCls).getScreen()?.setIsLoading();
+                // ViewInstance.getContext().screen.screenCls.setIsLoading();();
             }
 
             return () => {
@@ -105,12 +100,13 @@ const View = React.forwardRef<any, ViewProps>(
                 if (focus) {
                     CoreManager.removeFromParentContext(ViewInstance.getContext());
                     CoreManager.removeContext(ViewInstance.getContext());
+                    CoreManager.removeFocusable(ViewInstance);
                     // IF ITEM WHICH WE ARE REMOVING WAS FOCUSED WE HAVE TO FIND NEXT TO FOCUS
                     if (ViewInstance.getContext()?.screen?.lastFocused?.id === ViewInstance.getContext().id) {
                         const screenContext = CoreManager.contextMap[ViewInstance.getContext().screen.id];
                         if (screenContext) {
                             screenContext.lastFocused = undefined;
-                                
+
                             ViewInstance.getContext().screen.screenCls.setFocus(
                                 ViewInstance.getContext().screen.screenCls.getFirstFocusableOnScreen()
                             );
@@ -122,19 +118,21 @@ const View = React.forwardRef<any, ViewProps>(
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
-                return React.cloneElement(child, { parentContext: ViewInstance.getContext(), parentClass: ViewInstance });
+                return React.cloneElement(child, {
+                    parentContext: ViewInstance,
+                });
             }
 
             return child;
         });
 
         const onLayout = () => {
-            measure(ViewInstance.getContext(), ref);
+            measure(ViewInstance, ref);
         };
 
         // In recycled mode we must re-measure on render
         if (repeatContext && ref.current) {
-            measure(ViewInstance.getContext(), ref);
+            measure(ViewInstance, ref);
         }
 
         if (focus) {

@@ -11,8 +11,9 @@ import {
     DEFAULT_VIEWPORT_OFFSET,
 } from './constants';
 import logger from './logger';
-import type { Context, ContextMap } from './types';
+import type { Context, ContextMap, FocusableMap } from './types';
 import { recalculateLayout } from './layoutManager';
+import AbstractFocusModel from './Model/AbstractFocusModel';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -39,11 +40,11 @@ const nextIsVisible = (nextMax: number, direction: string) => {
     return true;
 };
 
-const isInOneLine = (direction: string, nextContext: Context, currentContext: Context) => {
-    const currentLayout = currentContext.layout;
-    const nextLayout = nextContext.layout;
+const isInOneLine = (direction: string, nextCls: AbstractFocusModel, currentContext: AbstractFocusModel) => {
+    const currentLayout = currentContext.getLayout();
+    const nextLayout = nextCls.getLayout();
 
-    if (nextContext.children.length > 0) {
+    if (nextCls.children.length > 0) {
         return false;
     }
 
@@ -57,22 +58,22 @@ const isInOneLine = (direction: string, nextContext: Context, currentContext: Co
     return diff <= 20;
 };
 
-const findFirstFocusableInGroup = (context: Context): Context | null | undefined => {
-    for (let index = 0; index < context.children.length; index++) {
-        const ch: Context = context.children[index];
-        if (ch.isFocusable) {
+const findFirstFocusableInGroup = (cls: AbstractFocusModel): AbstractFocusModel | null | undefined => {
+    for (let index = 0; index < cls.children.length; index++) {
+        const ch: AbstractFocusModel = cls.children[index];
+        if (ch.isFocusable()) {
             return ch;
         }
 
         const next = findFirstFocusableInGroup(ch);
 
-        if (next?.isFocusable) {
+        if (next?.isFocusable()) {
             return next;
         }
     }
 
-    if (context.isFocusable) {
-        return context;
+    if (cls.isFocusable()) {
+        return cls;
     }
 
     return null;
@@ -80,7 +81,7 @@ const findFirstFocusableInGroup = (context: Context): Context | null | undefined
 
 export const distCalc = (
     output: any,
-    nextContext: Context,
+    nextCls: AbstractFocusModel,
     guideLine: number,
     currentRectDimension: number,
     p3: number,
@@ -94,12 +95,12 @@ export const distCalc = (
     direction: string,
     contextParameters: any
 ) => {
-    const { currentContext }: { currentContext: Context } = contextParameters;
+    const { currentFocusable }: { currentFocusable: AbstractFocusModel } = contextParameters;
     // First we search based on the distance to guide line
     const ix = intersects(guideLine, currentRectDimension, p3, p4);
     const ixOffset = intersectsOffset(guideLine, p3, p4);
     const nextVisible = nextIsVisible(p12, direction);
-    const inOneLine = isInOneLine(direction, nextContext, currentContext);
+    const inOneLine = isInOneLine(direction, nextCls, currentFocusable);
 
     const closestDistance = Math.abs(p5 - p6);
     const cornerDistance = p7 - p8;
@@ -112,9 +113,9 @@ export const distCalc = (
         output.match1IxOffset >= ixOffset
     ) {
         output.match1 = closestDistance;
-        output.match1Context = nextContext;
+        output.match1Context = nextCls;
         output.match1IxOffset = ixOffset;
-        logger.debug('FOUND CLOSER M1', nextContext.id, closestDistance);
+        logger.debug('FOUND CLOSER M1', nextCls.id, closestDistance);
     }
 
     // Next up based on component size and it's center point
@@ -128,8 +129,8 @@ export const distCalc = (
         output.match2IxOffset >= ixOffset
     ) {
         output.match2 = closestDistance;
-        output.match2Context = nextContext;
-        logger.debug('FOUND CLOSER M2', nextContext.id, closestDistance);
+        output.match2Context = nextCls;
+        logger.debug('FOUND CLOSER M2', nextCls.id, closestDistance);
     }
     // Finally a search is based on arbitrary cut off size, so we could focus not entirely aligned items
     const ix3 = intersects(p9, CUTOFF_SIZE, p3, p4);
@@ -142,12 +143,12 @@ export const distCalc = (
         output.match3 >= closestDistance &&
         output.match3IxOffset >= ixOffset
     ) {
-        if (nextContext.isFocusable) {
+        if (nextCls.isFocusable()) {
             output.match3 = closestDistance;
-            output.match3Context = nextContext;
-            logger.debug('FOUND CLOSER M3', nextContext.id, closestDistance);
+            output.match3Context = nextCls;
+            logger.debug('FOUND CLOSER M3', nextCls.id, closestDistance);
         } else {
-            const firstInNextGroup = findFirstFocusableInGroup(nextContext);
+            const firstInNextGroup = findFirstFocusableInGroup(nextCls);
             if (firstInNextGroup) {
                 contextParameters.findClosestNode(firstInNextGroup, direction, output);
             }
@@ -157,27 +158,29 @@ export const distCalc = (
 
 const executeScroll = (direction: string, contextParameters: any) => {
     const {
-        currentContext,
-        contextMap,
+        currentFocusable,
+        focusableMap,
         isDebuggerEnabled,
     }: {
-        currentContext: Context;
-        contextMap: ContextMap;
+        currentFocusable: AbstractFocusModel;
+        focusableMap: FocusableMap;
         isDebuggerEnabled: boolean;
     } = contextParameters;
 
-    if (!currentContext?.layout) {
+    console.log('scrollTarget', currentFocusable);
+
+    if (!currentFocusable?.layout) {
         //eslint-disable-next-line
         console.warn('Current context were removed during scroll find');
         return;
     }
     const scrollContextParents = [];
-    let parent = currentContext?.parent;
+    let parent = currentFocusable?.parent;
     // We can only scroll 2 ScrollView at max. one Horz and Vert
     const directionsFilled: any[] = [];
     while (parent) {
-        if (parent.isScrollable && !directionsFilled.includes(parent.isHorizontal)) {
-            directionsFilled.push(parent.isHorizontal);
+        if (parent.isScrollable() && !directionsFilled.includes(parent.isHorizontal())) {
+            directionsFilled.push(parent.isHorizontal());
             scrollContextParents.push(parent);
         }
         parent = parent?.parent;
@@ -194,11 +197,11 @@ const executeScroll = (direction: string, contextParameters: any) => {
                 p.scrollOffsetX = scrollTarget.x;
                 p.scrollOffsetY = scrollTarget.y;
                 if (isDebuggerEnabled) {
-                    Object.values(contextMap).forEach((v) => {
+                    Object.values(focusableMap).forEach((v) => {
                         recalculateLayout(v);
                     });
                 } else {
-                    recalculateLayout(currentContext);
+                    recalculateLayout(currentFocusable);
                 }
             }
         }
@@ -206,14 +209,14 @@ const executeScroll = (direction: string, contextParameters: any) => {
 };
 
 const calculateHorizontalScrollViewTarget = (direction: string, scrollView: any, contextParameters: any) => {
-    const { currentContext }: { currentContext: Context } = contextParameters;
-    const { horizontalWindowAlignment }: any = currentContext.screen;
-    const currentLayout = currentContext.layout;
+    const { currentFocusable }: { currentFocusable: AbstractFocusModel } = contextParameters;
+    const { horizontalWindowAlignment }: any = currentFocusable.screen;
+    const currentLayout = currentFocusable.layout;
     const scrollTarget = { x: scrollView.scrollOffsetX, y: scrollView.scrollOffsetY };
 
     const isHorizontalBothEdge = horizontalWindowAlignment === WINDOW_ALIGNMENT.BOTH_EDGE;
-    const horizontalViewportOffset = currentContext.screen?.horizontalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
-    const verticalViewportOffset = currentContext.screen?.verticalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
+    const horizontalViewportOffset = currentFocusable.screen?.horizontalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
+    const verticalViewportOffset = currentFocusable.screen?.verticalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
 
     // This will be executed if we have nested scroll view
     // and jumping between scroll views with buttons UP or DOWN
@@ -264,14 +267,14 @@ const calculateHorizontalScrollViewTarget = (direction: string, scrollView: any,
 };
 
 const calculateVerticalScrollViewTarget = (direction: string, scrollView: any, contextParameters: any) => {
-    const { currentContext }: { currentContext: Context } = contextParameters;
-    const { verticalWindowAlignment }: any = currentContext.screen;
-    const currentLayout = currentContext.layout;
+    const { currentFocusable }: { currentFocusable: AbstractFocusModel } = contextParameters;
+    const { verticalWindowAlignment }: any = currentFocusable.screen;
+    const currentLayout = currentFocusable.layout;
     const scrollTarget = { x: scrollView.scrollOffsetX, y: scrollView.scrollOffsetY };
 
     const isVerticalBothEdge = verticalWindowAlignment === WINDOW_ALIGNMENT.BOTH_EDGE;
-    const horizontalViewportOffset = currentContext.screen?.horizontalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
-    const verticalViewportOffset = currentContext.screen?.verticalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
+    const horizontalViewportOffset = currentFocusable.screen?.horizontalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
+    const verticalViewportOffset = currentFocusable.screen?.verticalViewportOffset ?? DEFAULT_VIEWPORT_OFFSET;
 
     // This will be executed if we have nested scroll view
     // and jumping between scroll views with buttons UP or DOWN

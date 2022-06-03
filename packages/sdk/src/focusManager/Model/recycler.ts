@@ -1,81 +1,122 @@
-import { Context } from '../types';
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
+import { ScreenCls } from './screen';
 
 class Recycler extends AbstractFocusModel {
-    public context: any;
-
     public id: string;
     public children: AbstractFocusModel[];
-    public parentContext: AbstractFocusModel;
-    public repeatContext: AbstractFocusModel;
+    public repeatContext?: {
+        parentContext: AbstractFocusModel;
+        index: number;
+    };
     public parent?: AbstractFocusModel;
     public initialFocus?: AbstractFocusModel;
     public type: string;
+    public layouts: any;
+    public screen?: ScreenCls;
+
+    public scrollOffsetX: number;
+    public scrollOffsetY: number;
+    public isNested: boolean;
+    public _isHorizontal: boolean;
+
+    public isLastVisible?: () => boolean;
+    public isFirstVisible?: () => boolean;
 
     constructor(params: any) {
         super();
-        this.context = {};
 
-        this.children = [];
-        this.parentContext = this;
-        this.repeatContext = this;
-        this.type = '';
         this.id = '';
+        this.type = 'recycler';
+        this.children = [];
+        this.layouts = [];
+        this.scrollOffsetX = 0;
+        this.scrollOffsetY = 0;
+        this.isNested = false;
+        this._isHorizontal = true;
 
         this.createContext(params);
     }
 
-    public setScreen(_cls: AbstractFocusModel): this {
-        return this;
+    public destroy(): void {
+        destroyInstance(this.id);
     }
 
     private createContext(params: any) {
-        this.context = {
-            id: `recycler-${makeid(8)}`,
-            children: [],
-            isFocusable: false,
-            isScrollable: true,
-            isRecyclable: true,
-            scrollOffsetX: 0,
-            scrollOffsetY: 0,
-            type: 'recycler',
-            ...params
-        };
+        const id = makeid(8);
 
-        this.id = `recycler-${makeid(8)}`;
+        this.id = `recycler-${id}`;
         this.type = 'recycler';
-        this.parent = params.parentClass;
-    };
+        this.parent = params.parent;
+        this.isNested = params.isNested;
+        this._isHorizontal = params.isHorizontal;
+    }
 
     public updateContext(params: any) {
         this.createContext(params);
     }
 
-    public getContext() {
-        return this.context;
+    public isFocusable(): boolean {
+        return false;
     }
-};
 
-const RecyclerInstances: { [key: string]: Recycler; } = {};
+    public getLayouts(): [] {
+        return this.layouts;
+    }
+
+    public setLayouts(layouts: any) {
+        this.layouts = layouts;
+
+        return this;
+    }
+
+    public setScreen(cls: ScreenCls): this {
+        this.screen = cls;
+
+        return this;
+    }
+
+    public getScreen(): ScreenCls | undefined {
+        return this.screen;
+    }
+
+    public isScrollable(): boolean {
+        return true;
+    }
+
+    public isRecyclable(): boolean {
+        return true;
+    }
+
+    public setRepeatContext(value: any): this {
+        this.repeatContext = value;
+
+        return this;
+    }
+
+    public isHorizontal(): boolean {
+        return this._isHorizontal;
+    }
+}
+
+const RecyclerInstances: { [key: string]: Recycler } = {};
 function createOrReturnInstance(context: any) {
     if (RecyclerInstances[context.id]) {
         return RecyclerInstances[context.id];
     }
 
     const _Recycler = new Recycler(context);
-    RecyclerInstances[_Recycler.context.id] = _Recycler;
+    RecyclerInstances[_Recycler.id] = _Recycler;
 
-    return RecyclerInstances[_Recycler.context.id];
-};
+    return RecyclerInstances[_Recycler.id];
+}
 
-function destroyInstance(context: Context) {
-    if (RecyclerInstances[context.id]) {
-        delete RecyclerInstances[context.id];
+function destroyInstance(id: string) {
+    if (RecyclerInstances[id]) {
+        delete RecyclerInstances[id];
     }
 }
 
 export type RecyclerCls = Recycler;
-
 
 export { createOrReturnInstance, destroyInstance };
