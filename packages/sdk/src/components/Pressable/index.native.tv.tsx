@@ -92,12 +92,12 @@ const View = React.forwardRef<any, ViewProps>(
             if (focus) {
                 CoreManager.registerFocusable(ViewInstance, ref);
                 (ViewInstance as ViewCls).getScreen()?.setIsLoading();
-                // ViewInstance.getContext().screen.screenCls.setIsLoading();();
             }
 
             return () => {
                 // CHILD CAN BE REMOVED INDEPENDENTLY
                 if (focus) {
+                    console.log('_repeatContext_ADD_NEW_remove');
                     CoreManager.removeFromParentContext(ViewInstance.getContext());
                     CoreManager.removeContext(ViewInstance.getContext());
                     CoreManager.removeFocusable(ViewInstance);
@@ -136,6 +136,7 @@ const View = React.forwardRef<any, ViewProps>(
         }
 
         if (focus) {
+            console.log('ViewInstance', ViewInstance);
             let animatorOptions = focusOptions.animatorOptions || defaultAnimation;
 
             const flattenedStyle = flattenStyle(style);

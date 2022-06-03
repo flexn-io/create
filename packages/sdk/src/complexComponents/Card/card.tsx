@@ -35,6 +35,7 @@ const Card = React.forwardRef<any, CardProps>(
             borderRadius: styles.borderWidth ? 0 : styles.borderRadius,
         };
 
+        console.log('repeatContext', repeatContext);
         return (
             <Pressable
                 ref={ref}

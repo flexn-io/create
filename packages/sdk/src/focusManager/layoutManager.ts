@@ -35,6 +35,7 @@ function recalculateLayout(cls: AbstractFocusModel) {
     if (!cls?.layout) {
         return;
     }
+
     // This is needed because ScrollView offsets
     let offsetX = 0;
     let offsetY = 0;
@@ -59,7 +60,6 @@ function measure(cls: AbstractFocusModel, ref: any, unmeasurableRelatives?: { x:
 
         if (cls.repeatContext !== undefined) {
             const pCtx = cls.repeatContext.parentContext;
-
             if (pCtx !== undefined) {
                 const rLayout = pCtx.getLayouts()[cls.repeatContext.index || 0];
                 pgX = pCtx.layout.xMin + rLayout.x;

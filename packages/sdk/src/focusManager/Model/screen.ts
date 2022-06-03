@@ -112,7 +112,6 @@ class Screen extends AbstractFocusModel {
     };
 
     public setFocus(cls: AbstractFocusModel | null) {
-        console.log('SETTING FOCUS...', cls);
         if (cls) {
             CoreManager.getCurrentFocus()?.getScreen()?.onBlur?.();
             CoreManager.executeFocus('', cls);

@@ -47,7 +47,7 @@ export default function FocusDebugger() {
     const contexts: any = [];
     const contextMap = CoreManager._focusableMap; // eslint-disable-line prefer-destructuring
     Object.values(contextMap).forEach((ctx: AbstractFocusModel) => {
-        const parentInForeground = ctx.screen?.state === SCREEN_STATES.FOREGROUND;
+        const parentInForeground = ctx.screen?.isInForeground();
         if (ctx.layout && parentInForeground) {
             const borderColor = colors[ctx.type] || 'white';
             contexts.push(
@@ -57,7 +57,7 @@ export default function FocusDebugger() {
                         width: ctx.layout.width,
                         height: ctx.layout.height,
                         borderColor,
-                        borderWidth: ctx.isFocused ? 5 : 1,
+                        borderWidth: ctx.getIsFocused() ? 5 : 1,
                         position: 'absolute',
                         top: ctx.layout.absolute.yMin,
                         left: ctx.layout.absolute.xMin,

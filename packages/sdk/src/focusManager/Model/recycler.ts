@@ -97,6 +97,26 @@ class Recycler extends AbstractFocusModel {
     public isHorizontal(): boolean {
         return this._isHorizontal;
     }
+
+    public setScrollOffsetX(value: number): this {
+        this.scrollOffsetX = value;
+
+        return this;
+    }
+
+    public getScrollOffsetX(): number {
+        return this.scrollOffsetX;
+    }
+
+    public setScrollOffsetY(value: number): this {
+        this.scrollOffsetY = value;
+
+        return this;
+    }
+
+    public getScrollOffsetY(): number {
+        return this.scrollOffsetY;
+    }
 }
 
 const RecyclerInstances: { [key: string]: Recycler } = {};

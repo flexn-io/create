@@ -73,7 +73,7 @@ class CoreManager {
             }
         });
 
-        console.log(this._focusableMap);
+        // console.log(this._focusableMap);
     }
 
     public registerContext() {}

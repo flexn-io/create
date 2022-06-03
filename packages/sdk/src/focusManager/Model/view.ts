@@ -38,7 +38,7 @@ class View extends AbstractFocusModel {
     private createContext(params: any) {
         if (params.focus) {
             const id = makeid(8);
-            this.id = params.parentClass?.id ? `${params.parentClass.id}:view-${id}` : `view-${id}`;
+            this.id = params.parent?.id ? `${params.parent.id}:view-${id}` : `view-${id}`;
             this.type = 'view';
             this.parent = params.parent;
             this.repeatContext = params.repeatContext;

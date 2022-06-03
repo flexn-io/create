@@ -40,6 +40,10 @@ export default abstract class AbstractFocusModel {
         // throw new Error('Method is not implemented');
     }
 
+    public setScrollOffsetX(_value: number): this {
+        return this;
+    }
+
     public getScrollOffsetX(): number {
         return 0;
         // throw new Error('Method is not implemented');
@@ -48,6 +52,10 @@ export default abstract class AbstractFocusModel {
     public getScrollOffsetY(): number {
         return 0;
         // throw new Error('Method is not implemented');
+    }
+
+    public setScrollOffsetY(_value: number): this {
+        return this;
     }
 
     public setInitialFocus(_cls: AbstractFocusModel): void {

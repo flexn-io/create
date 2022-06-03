@@ -167,8 +167,6 @@ const executeScroll = (direction: string, contextParameters: any) => {
         isDebuggerEnabled: boolean;
     } = contextParameters;
 
-    console.log('scrollTarget', currentFocusable);
-
     if (!currentFocusable?.layout) {
         //eslint-disable-next-line
         console.warn('Current context were removed during scroll find');
@@ -186,16 +184,15 @@ const executeScroll = (direction: string, contextParameters: any) => {
         parent = parent?.parent;
     }
 
-    scrollContextParents.forEach((p: any) => {
-        const scrollTarget = p.isHorizontal
+    scrollContextParents.forEach((p: AbstractFocusModel) => {
+        const scrollTarget = p.isHorizontal()
             ? calculateHorizontalScrollViewTarget(direction, p, contextParameters)
             : calculateVerticalScrollViewTarget(direction, p, contextParameters);
 
         if (scrollTarget) {
-            if (p.scrollOffsetX !== scrollTarget.x || p.scrollOffsetY !== scrollTarget.y) {
+            if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
                 p.node.current.scrollTo(scrollTarget);
-                p.scrollOffsetX = scrollTarget.x;
-                p.scrollOffsetY = scrollTarget.y;
+                p.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);
                 if (isDebuggerEnabled) {
                     Object.values(focusableMap).forEach((v) => {
                         recalculateLayout(v);

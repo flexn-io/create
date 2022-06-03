@@ -84,7 +84,7 @@ export default function RecyclerView({
 
     useEffect(() => {
         CoreManager.registerFocusable(RecyclerInstance, scrollViewRef);
-    });
+    }, []);
 
     useEffect(() => {
         return () => {
