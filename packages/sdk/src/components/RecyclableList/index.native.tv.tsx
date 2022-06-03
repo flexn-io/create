@@ -38,18 +38,18 @@ export default function RecyclerView({
     const rlvRef = useRef<RecyclerListView<any, any>>(null);
     const rnViewRef = useRef<RNView>(null);
 
-    const RecyclerInstance = useRef(
-        createOrReturnInstance({
+    const [ClsInstance] = useState(() => {
+        return createOrReturnInstance({
             isHorizontal,
             isNested: !!repeatContext,
             parent: parentContext,
             repeatContext,
             forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
-        })
-    ).current;
+        });
+    });
 
     if (repeatContext) {
-        RecyclerInstance.setRepeatContext(repeatContext);
+        ClsInstance.setRepeatContext(repeatContext);
     }
 
     const rowRendererWithProps = (type: any, data: any, index: any) => {
@@ -57,33 +57,33 @@ export default function RecyclerView({
         const lm: any = vr?.['_layoutManager'];
         const layouts: any = lm?.['_layouts'];
 
-        if (vr && (!RecyclerInstance.getLayouts() || layouts.length !== RecyclerInstance.getLayouts().length)) {
-            RecyclerInstance.setLayouts(layouts);
+        if (vr && (!ClsInstance.getLayouts() || layouts.length !== ClsInstance.getLayouts().length)) {
+            ClsInstance.setLayouts(layouts);
         }
 
-        if (vr?.['_params'] && !RecyclerInstance.isLastVisible) {
+        if (vr?.['_params'] && !ClsInstance.isLastVisible) {
             const recyclerItemsCount = vr['_params'].itemCount;
             const vt: any = vr['_viewabilityTracker'] || {};
 
-            RecyclerInstance.isLastVisible = () => {
+            ClsInstance.isLastVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
                 return visibleIndexes[visibleIndexes.length - 1] + 1 === recyclerItemsCount;
             };
 
-            RecyclerInstance.isFirstVisible = () => {
+            ClsInstance.isFirstVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
                 return visibleIndexes[0] === 0;
             };
         }
 
         return rowRenderer(type, data, index, {
-            parentContext: RecyclerInstance,
+            parentContext: ClsInstance,
             index,
         });
     };
 
     useEffect(() => {
-        CoreManager.registerFocusable(RecyclerInstance, scrollViewRef);
+        CoreManager.registerFocusable(ClsInstance, scrollViewRef);
     }, []);
 
     useEffect(() => {
@@ -107,7 +107,7 @@ export default function RecyclerView({
             x: paddingLeft + marginLeft + left + (unmeasurableRelativeDimensions.x || 0),
             y: paddingTop + marginTop + top + (unmeasurableRelativeDimensions.y || 0),
         };
-        measure(RecyclerInstance, rnViewRef, unmeasurableDimensions);
+        measure(ClsInstance, rnViewRef, unmeasurableDimensions);
     };
 
     return (

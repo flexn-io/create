@@ -49,17 +49,20 @@ const View = React.forwardRef<any, ViewProps>(
         const prevFocus = usePrevious(focus);
         const pctx = repeatContext?.parentContext || parentContext;
 
-        let ViewInstance: any = useRef().current;
-        if (!focus) {
-            ViewInstance = pctx;
-        } else {
-            ViewInstance = createOrReturnInstance({
-                focus,
-                repeatContext,
-                parent: pctx,
-                forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
-            });
-        }
+        const [ViewInstance, setViewInstance] = useState(() => {
+            if (!focus) {
+                return pctx;
+            } else {
+                return createOrReturnInstance({
+                    focus,
+                    repeatContext,
+                    parent: pctx,
+                    forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
+                });
+            }
+        });
+
+        // let ViewInstance: any = useRef().current;
 
         // We must re-assign repeat context as View instances are re-used in recycled
         if (repeatContext) {
@@ -69,14 +72,15 @@ const View = React.forwardRef<any, ViewProps>(
         useEffect(() => {
             // If item initially was not focusable, but during the time it became focusable we capturing that here
             if (prevFocus === false && focus === true) {
-                ViewInstance = createOrReturnInstance({
+                const cls = createOrReturnInstance({
                     focus: true,
                     repeatContext,
                     parent: pctx,
                     forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
                 });
 
-                CoreManager.registerFocusable(ViewInstance, ref);
+                setViewInstance(cls);
+                CoreManager.registerFocusable(cls, ref);
             }
         }, [focus]);
 
@@ -97,7 +101,6 @@ const View = React.forwardRef<any, ViewProps>(
             return () => {
                 // CHILD CAN BE REMOVED INDEPENDENTLY
                 if (focus) {
-                    console.log('_repeatContext_ADD_NEW_remove');
                     CoreManager.removeFromParentContext(ViewInstance.getContext());
                     CoreManager.removeContext(ViewInstance.getContext());
                     CoreManager.removeFocusable(ViewInstance);

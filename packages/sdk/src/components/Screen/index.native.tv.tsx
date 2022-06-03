@@ -40,8 +40,8 @@ const Screen = React.forwardRef<any, ScreenProps>(
             forbiddenFocusDirections,
         }: any = focusOptions;
 
-        const ScreenInstance = useRef(
-            createOrReturnInstance({
+        const [ClsInstance] = useState(() => {
+            return createOrReturnInstance({
                 prevState: screenState,
                 state: screenState,
                 order: screenOrder,
@@ -56,16 +56,15 @@ const Screen = React.forwardRef<any, ScreenProps>(
                 nextFocusLeft,
                 onFocus,
                 onBlur,
-            })
-        ).current;
-
-        CoreManager.registerFocusable(ScreenInstance);
+            });
+        });
+        CoreManager.registerFocusable(ClsInstance);
 
         useEffect(() => {
-            ScreenInstance.setPrevState(ScreenInstance.context.state).setState(screenState);
+            ClsInstance.setPrevState(ClsInstance.context.state).setState(screenState);
 
-            if (ScreenInstance.isPrevStateBackground && ScreenInstance.isInForeground()) {
-                ScreenInstance.initialLoadInProgress = true;
+            if (ClsInstance.isPrevStateBackground && ClsInstance.isInForeground()) {
+                ClsInstance.initialLoadInProgress = true;
             }
         }, [screenState]);
 
@@ -76,12 +75,12 @@ const Screen = React.forwardRef<any, ScreenProps>(
         }, []);
 
         const onLayout = () => {
-            measure(ScreenInstance, ref);
+            measure(ClsInstance, ref);
         };
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
-                return React.cloneElement(child, { parentContext: ScreenInstance });
+                return React.cloneElement(child, { parentContext: ClsInstance });
             }
             return child;
         });
