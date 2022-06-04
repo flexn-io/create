@@ -112,6 +112,10 @@ export class View extends AbstractFocusModel {
     public getFocusKey(): string {
         return this._focusKey;
     }
+
+    public getForbiddenFocusDirections(): ForbiddenFocusDirections[] {
+        return this._forbiddenFocusDirections;
+    }
 }
 
 const ViewInstances: { [key: string]: View } = {};

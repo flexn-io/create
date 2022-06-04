@@ -6,8 +6,8 @@ import { recalculateLayout } from './layoutManager';
 import logger from './logger';
 import AbstractFocusModel from './Model/AbstractFocusModel';
 import { ViewCls } from './Model/view';
-import { ScreenCls } from './Model/screen';
 import Scroller from './scroller';
+import { RecyclerCls } from './Model/recycler';
 
 class CoreManager {
     public _focusMap: {
@@ -267,7 +267,6 @@ class CoreManager {
                             }
                         }
 
-                        // return nextScreenContext || currentContext;
                         return currentFocus;
                     }
                 }
@@ -428,40 +427,42 @@ class CoreManager {
             }
         }
 
-        // const currentFocus = this._currentFocus; // eslint-disable-line prefer-destructuring
-        // if (currentFocus?.getParent()?.isRecyclable()) {
-        //     const d1 = currentFocus.getParent()?.isHorizontal() ? ['right', 'swipeRight'] : ['down', 'swipeDown'];
-        //     const d2 = currentFocus.getParent()?.isHorizontal() ? ['left', 'swipeLeft'] : ['up', 'swipeUp'];
-        //     const lastIsVisible = d1.includes(direction) ? currentFocus.getParent()?.isLastVisible?.() : true;
-        //     const firstIsVisible = d2.includes(direction) ? currentFocus.getParent()?.isFirstVisible?.() : true;
+        if (this._currentFocus?.getParent()?.isRecyclable()) {
+            const parent = this._currentFocus.getParent() as RecyclerCls;
+            const d1 = parent.isHorizontal() ? ['right', 'swipeRight'] : ['down', 'swipeDown'];
+            const d2 = parent.isHorizontal() ? ['left', 'swipeLeft'] : ['up', 'swipeUp'];
+            const lastIsVisible = d1.includes(direction) ? parent.isLastVisible?.() : true;
+            const firstIsVisible = d2.includes(direction) ? parent.isFirstVisible?.() : true;
 
-        //     if (!lastIsVisible || !firstIsVisible) {
-        //         const closestContext: AbstractFocusModel =
-        //             output.match1Context || output.match2Context || output.match3Context;
-        //         if (!closestContext || closestContext.getParent()?.getId() !== currentFocus.getParent()?.getId()) {
-        //             output.match1Context = currentFocus;
-        //         }
-        //     }
-        // }
+            if (!lastIsVisible || !firstIsVisible) {
+                const closestContext: AbstractFocusModel =
+                    output.match1Context || output.match2Context || output.match3Context;
+                if (!closestContext || closestContext.getParent()?.getId() !== parent.getId()) {
+                    output.match1Context = this._currentFocus;
+                }
+            }
+        }
 
-        // if (currentFocus?.getParent()?.isRecyclable() && currentFocus?.getParent()?.isNested()) {
-        //     const d1 = ['down', 'swipeDown'];
-        //     const d2 = ['up', 'swipeUp'];
-        //     const lastIsVisible = d1.includes(direction)
-        //         ? currentFocus.getParent()?.getParent()?.isLastVisible?.()
-        //         : true;
-        //     const firstIsVisible = d2.includes(direction)
-        //         ? currentFocus.getParent()?.getParent()?.isFirstVisible?.()
-        //         : true;
+        if (this._currentFocus?.getParent()?.isRecyclable()) {
+            const parent = this._currentFocus.getParent() as RecyclerCls;
+            if (parent.isNested()) {
+                const d1 = ['down', 'swipeDown'];
+                const d2 = ['up', 'swipeUp'];
+                if (parent?.getParent()?.isRecyclable()) {
+                    const parentOfParent = parent.getParent() as RecyclerCls;
+                    const lastIsVisible = d1.includes(direction) ? parentOfParent.isLastVisible?.() : true;
+                    const firstIsVisible = d2.includes(direction) ? parentOfParent.isFirstVisible?.() : true;
 
-        //     if (!lastIsVisible || !firstIsVisible) {
-        //         const closestContext: AbstractFocusModel =
-        //             output.match1Context || output.match2Context || output.match3Context;
-        //         if (closestContext && !closestContext?.getParent()?.isRecyclable()) {
-        //             output.match1Context = currentFocus;
-        //         }
-        //     }
-        // }
+                    if (!lastIsVisible || !firstIsVisible) {
+                        const closestContext: AbstractFocusModel =
+                            output.match1Context || output.match2Context || output.match3Context;
+                        if (closestContext && !closestContext?.getParent()?.isRecyclable()) {
+                            output.match1Context = this._currentFocus;
+                        }
+                    }
+                }
+            }
+        }
     };
 
     public get isDebuggerEnabled(): boolean {

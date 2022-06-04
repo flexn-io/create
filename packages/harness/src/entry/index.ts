@@ -7,7 +7,7 @@ import App from '../app';
 // import { SENTRY_URL } from '../../renative.private.json';
 
 if (!global.setImmediate) {
-    // global.setImmediate = JSTimers.setImmediate;
+    global.setImmediate = JSTimers.setImmediate;
 }
 
 // Sentry.init({

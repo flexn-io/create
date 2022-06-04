@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
 import { SCREEN_STATES, WINDOW_ALIGNMENT, DEFAULT_VIEWPORT_OFFSET } from '../../focusManager/constants';
-import type { ScreenProps, Context } from '../../focusManager/types';
-import { makeid, useCombinedRefs, alterForbiddenFocusDirections } from '../../focusManager/helpers';
+import type { ScreenProps } from '../../focusManager/types';
+import { useCombinedRefs } from '../../focusManager/helpers';
 import CoreManager from '../../focusManager/core';
 import { measure } from '../../focusManager/layoutManager';
 
@@ -51,7 +51,7 @@ const Screen = React.forwardRef<any, ScreenProps>(
                 horizontalWindowAlignment,
                 horizontalViewportOffset,
                 verticalViewportOffset,
-                forbiddenFocusDirections: alterForbiddenFocusDirections(forbiddenFocusDirections),
+                forbiddenFocusDirections,
                 nextFocusRight,
                 nextFocusLeft,
                 onFocus,

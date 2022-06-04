@@ -6,9 +6,8 @@ import {
     RecyclerListView,
 } from '../../recyclerListView';
 import CoreManager from '../../focusManager/core';
-import { alterForbiddenFocusDirections, makeid } from '../..//focusManager/helpers';
 import { measure } from '../../focusManager/layoutManager';
-import type { Context, RecyclerViewProps } from '../../focusManager/types';
+import type { RecyclerViewProps } from '../../focusManager/types';
 import { createInstance } from '../../focusManager/Model/recycler';
 
 const Column = null;
@@ -44,7 +43,7 @@ export default function RecyclerView({
             isNested: !!repeatContext,
             parent: parentContext,
             repeatContext,
-            forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
+            forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
         })
     );
 

@@ -114,6 +114,10 @@ export class Recycler extends AbstractFocusModel {
     public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
         return this._repeatContext;
     }
+
+    public getForbiddenFocusDirections(): ForbiddenFocusDirections[] {
+        return this._forbiddenFocusDirections;
+    }
 }
 
 const RecyclerInstances: { [key: string]: Recycler } = {};

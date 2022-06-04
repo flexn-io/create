@@ -1,14 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
 import { isPlatformTvos } from '@rnv/renative';
-import {
-    makeid,
-    useCombinedRefs,
-    usePrevious,
-    alterForbiddenFocusDirections,
-    flattenStyle,
-} from '../../focusManager/helpers';
-import type { Context, ViewProps } from '../../focusManager/types';
+import { useCombinedRefs, usePrevious, flattenStyle } from '../../focusManager/helpers';
+import type { ViewProps } from '../../focusManager/types';
 import CoreManager from '../../focusManager/core';
 import { ANIMATIONS } from '../../focusManager/constants';
 import { measure } from '../../focusManager/layoutManager';
@@ -57,7 +51,7 @@ const View = React.forwardRef<any, ViewProps>(
                     focus,
                     repeatContext,
                     parent: pctx,
-                    forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
+                    forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
                 });
             }
         });
@@ -74,7 +68,7 @@ const View = React.forwardRef<any, ViewProps>(
                     focus: true,
                     repeatContext,
                     parent: pctx,
-                    forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
+                    forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
                 });
 
                 setViewInstance(cls);

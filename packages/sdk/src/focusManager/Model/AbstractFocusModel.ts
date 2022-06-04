@@ -178,6 +178,10 @@ export default abstract class AbstractFocusModel {
         return false;
     }
 
+    public isRecyclable() {
+        return false;
+    }
+
     public onFocus(): void {
         // NO ACTION
     }
@@ -191,11 +195,11 @@ export default abstract class AbstractFocusModel {
     }
 
     public getState(): string {
-        //No action
+        return '';
     }
 
     public getOrder(): number {
-        //No action
+        return 0;
     }
 
     public isScreen(): boolean {
