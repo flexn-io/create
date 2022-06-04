@@ -11,8 +11,6 @@ export default abstract class AbstractFocusModel {
         this._children = [];
     }
 
-    abstract _initialFocus?: AbstractFocusModel;
-
     public nodeId?: number | null;
     public node?: any;
 
@@ -117,10 +115,6 @@ export default abstract class AbstractFocusModel {
 
     public setScrollOffsetY(_value: number): this {
         return this;
-    }
-
-    public setInitialFocus(_cls: AbstractFocusModel): void {
-        // to be implement
     }
 
     public setIsFocused(_isFocused: boolean): this {

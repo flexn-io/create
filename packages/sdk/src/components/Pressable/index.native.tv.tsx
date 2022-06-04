@@ -93,28 +93,15 @@ const View = React.forwardRef<any, ViewProps>(
         useEffect(() => {
             if (focus) {
                 CoreManager.registerFocusable(ViewInstance, ref);
-
                 (ViewInstance as ViewCls).getScreen()?.setIsLoading();
             }
 
-            // return () => {
-            //     // CHILD CAN BE REMOVED INDEPENDENTLY
-            //     if (focus) {
-            //         CoreManager.removeFromParentContext(ViewInstance.getContext());
-            //         CoreManager.removeFocusable(ViewInstance);
-            //         // IF ITEM WHICH WE ARE REMOVING WAS FOCUSED WE HAVE TO FIND NEXT TO FOCUS
-            //         if (ViewInstance.getContext()?.screen?.lastFocused?.id === ViewInstance.getContext().id) {
-            //             const screenContext = CoreManager.contextMap[ViewInstance.getContext().screen.id];
-            //             if (screenContext) {
-            //                 screenContext.lastFocused = undefined;
-
-            //                 ViewInstance.getContext().screen.screenCls.setFocus(
-            //                     ViewInstance.getContext().screen.screenCls.getFirstFocusableOnScreen()
-            //                 );
-            //             }
-            //         }
-            //     }
-            // };
+            return () => {
+                if (focus) {
+                    CoreManager.removeFocusable(ViewInstance);
+                    ViewInstance.getScreen()?.onViewRemoved(ViewInstance);
+                }
+            };
         }, []);
 
         const childrenWithProps = React.Children.map(children, (child) => {

@@ -22,6 +22,7 @@ export default function App({ children, ...props }: { children: any }) {
             const direction = evt.eventType;
             if (isPlatformTvos) {
                 if (direction === 'playPause') {
+                    console.log(CoreManager);
                     CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
                 }
                 if (direction === 'select') {

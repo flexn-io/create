@@ -1,10 +1,9 @@
 import { findNodeHandle, UIManager } from 'react-native';
-import { CONTEXT_TYPES, SCREEN_STATES } from './constants';
+import { SCREEN_STATES } from './constants';
 import { distCalc, executeScroll as execScroll } from './focusManager';
 import { getNextForcedFocusKey } from './helpers';
 import { recalculateLayout } from './layoutManager';
 import logger from './logger';
-import type { Context } from './types';
 import AbstractFocusModel from './Model/AbstractFocusModel';
 import { ViewCls } from './Model/view';
 import { ScreenCls } from './Model/screen';
@@ -45,21 +44,6 @@ class CoreManager {
             cls.node = node;
         }
 
-        // if (cls.getType() !== CONTEXT_TYPES.SCREEN) {
-        //     let parentCls = cls?.getParent();
-        //     while (parentCls && parentCls.getType() !== CONTEXT_TYPES.SCREEN) {
-        //         parentCls = parentCls.getParent();
-        //     }
-
-        //     // if (cls.initialFocus && !!parentCls) {
-        //     //     this._focusableMap[parentCls.id].setInitialFocus(cls);
-        //     // }
-
-        //     if (parentCls) {
-        //         cls.setScreen(parentCls as ScreenCls);
-        //     }
-        // }
-
         this._focusableMap[cls.getId()] = cls;
 
         Object.keys(this._focusableMap).forEach((k) => {
@@ -74,32 +58,14 @@ class CoreManager {
                 v.addChildren(cls);
             }
         });
-
-        // console.log(cls);
     }
 
-    public removeFocusable(cls: AbstractFocusModel, index = 0): void {
-        cls.getChildren().forEach((ch, idx) => {
-            this.removeFocusable(ch, idx);
-        });
-
-        // if (this._currentContext?.id === context.id) {
-        //     this._currentContext = null;
-        // }
-
-        delete this._focusableMap[cls.getId()];
-        cls.removeChildren(index);
-        // cls.destroy();
-    }
-
-    public removeFromParentContext(cls: AbstractFocusModel) {
+    public removeFocusable(cls: AbstractFocusModel) {
         cls.removeChildrenFromParent();
-
-        // if (this._currentContext?.id === context.id) {
-        //     this._currentContext = null;
-        // }
-
         delete this._focusableMap[cls.getId()];
+        if (cls.getId() === this._currentFocus?.getId()) {
+            this._currentFocus = null;
+        }
     }
 
     public executeFocus(direction = '', cls?: AbstractFocusModel) {
@@ -128,7 +94,7 @@ class CoreManager {
             nextFocusable.node?.current?.onFocus?.();
             nextFocusable.setIsFocused(true);
             if (nextFocusable.getScreen()) {
-                nextFocusable.getScreen()?.setLastFocused(nextFocusable as ViewCls);
+                nextFocusable.getScreen()?.setCurrentFocus(nextFocusable as ViewCls);
             }
         }
     }

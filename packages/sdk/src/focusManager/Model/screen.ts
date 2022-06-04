@@ -5,6 +5,7 @@ import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 import { ViewCls } from './view';
 import { alterForbiddenFocusDirections } from '../../focusManager/helpers';
+import { findLowestRelativeCoordinates } from '../../focusManager/layoutManager';
 
 const WAIT_TO_LOAD_DELAY = 100;
 
@@ -29,9 +30,11 @@ export class Screen extends AbstractFocusModel {
     public _initialLoadInProgress: boolean;
     public _loadingComponents: number;
     public _parent?: AbstractFocusModel;
-    public _initialFocus?: ViewCls;
-    public _lastFocused?: ViewCls;
-    public _firstFocusable?: ViewCls;
+
+    private _preferredFocus?: ViewCls;
+    private _currentFocus?: ViewCls;
+    private _precalculatedFocus?: ViewCls;
+
     public _isFocused: boolean;
     public _stealFocus: boolean;
 
@@ -95,10 +98,6 @@ export class Screen extends AbstractFocusModel {
         if (this._initialLoadInProgress) {
             this._loadingComponents++;
 
-            if (this._stealFocus) {
-                this.setFocus(this.getFirstFocusableOnScreen());
-            }
-
             setTimeout(() => {
                 this._loadingComponents--;
 
@@ -112,7 +111,7 @@ export class Screen extends AbstractFocusModel {
         }
     }
 
-    public setFocus(cls: AbstractFocusModel | null) {
+    public setFocus(cls?: AbstractFocusModel) {
         if (cls) {
             CoreManager.getCurrentFocus()?.getScreen()?.onBlur?.();
             CoreManager.executeFocus('', cls);
@@ -123,42 +122,40 @@ export class Screen extends AbstractFocusModel {
         }
     }
 
-    public getFirstFocusableOnScreen = (): AbstractFocusModel | null => {
-        if (this.isInBackground()) {
-            return null;
-        } else if (this._lastFocused) {
-            return this._lastFocused;
-        } else if (this._initialFocus) {
-            return this._initialFocus;
-        } else if (this._firstFocusable) {
-            return this._firstFocusable;
-        } else {
-            return null;
+    public onViewRemoved(cls: ViewCls): void {
+        if (cls.getId() === this._currentFocus?.getId()) {
+            delete this._currentFocus;
+        }
+        if (cls.getId() === this._preferredFocus?.getId()) {
+            delete this._preferredFocus;
+        }
+        if (cls.getId() === this._precalculatedFocus?.getId()) {
+            delete this._precalculatedFocus;
+        }
+        this.setFocus(this.getFirstFocusableOnScreen());
+    }
+
+    public getFirstFocusableOnScreen = (): AbstractFocusModel | undefined => {
+        if (this.isInForeground()) {
+            if (this._currentFocus) return this._currentFocus;
+            if (this._preferredFocus) return this._preferredFocus;
+            if (this._precalculatedFocus) return this._precalculatedFocus;
+
+            this.precalculateFocus(this);
+            return this._precalculatedFocus;
         }
     };
 
+    private precalculateFocus(cls: AbstractFocusModel) {
+        cls.getChildren().forEach((ch) => {
+            this.precalculateFocus(ch);
+        });
+
+        findLowestRelativeCoordinates(cls);
+    }
+
     public getType(): string {
         return this._type;
-    }
-
-    public setLastFocused(cls: ViewCls): this {
-        this._lastFocused = cls;
-
-        return this;
-    }
-
-    public getLastFocused(): ViewCls | undefined {
-        return this._lastFocused;
-    }
-
-    public setFirstFocusable(cls: ViewCls): this {
-        this._firstFocusable = cls;
-
-        return this;
-    }
-
-    public getFirstFocusable(): ViewCls | undefined {
-        return this._firstFocusable;
     }
 
     public setScreen(_cls: AbstractFocusModel): this {
@@ -247,8 +244,34 @@ export class Screen extends AbstractFocusModel {
         return undefined;
     }
 
-    public getInitialFocus(): ViewCls | undefined {
-        return this._initialFocus;
+    public setPreferredFocus(cls: ViewCls): this {
+        this._preferredFocus = cls;
+
+        return this;
+    }
+
+    public getPreferredFocus(): ViewCls | undefined {
+        return this._preferredFocus;
+    }
+
+    public setPrecalculatedFocus(cls: ViewCls): this {
+        this._precalculatedFocus = cls;
+
+        return this;
+    }
+
+    public setCurrentFocus(cls: ViewCls): this {
+        this._currentFocus = cls;
+
+        return this;
+    }
+
+    public getCurrentFocus(): ViewCls | undefined {
+        return this._currentFocus;
+    }
+
+    public getPrecalculatedFocus(): ViewCls | undefined {
+        return this._precalculatedFocus;
     }
 
     public getNextFocusLeft(): string {
@@ -263,12 +286,6 @@ export class Screen extends AbstractFocusModel {
 
     public isFocusable(): boolean {
         return false;
-    }
-
-    public setInitialFocus(cls: ViewCls): this {
-        this._initialFocus = cls;
-
-        return this;
     }
 
     public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
