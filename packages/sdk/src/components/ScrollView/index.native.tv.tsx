@@ -49,6 +49,11 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
                 style={style}
                 horizontal={horizontal}
                 scrollEnabled={false}
+                scrollEventThrottle={8}
+                onScroll={(event) => {
+                    const { height } = event.nativeEvent.contentSize;
+                    ClsInstance.updateLayoutProperty('yMaxScroll', height);
+                }}
                 {...props}
             >
                 {childrenWithProps}

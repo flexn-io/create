@@ -101,22 +101,18 @@ function measure(cls: AbstractFocusModel, ref: any, unmeasurableRelatives?: { x:
             layout.yOffset = cls.getLayout().yOffset;
         }
 
-        cls.setLayout(layout);
-
-        findLowestRelativeCoordinates(cls);
-
-        // // Calculate max X and Y width to prevent over scroll
+        // TODO: move it out from here
         const parent = cls.getParent();
         if (parent?.isScrollable() && parent?.getLayout()) {
             const pCtx = cls?.getRepeatContext()?.parentContext;
             if (pCtx) {
                 const rLayout = pCtx.getLayouts()[pCtx.getLayouts().length - 1];
-                parent
-                    .updateLayoutProperty('xMaxScroll', pCtx.getLayout().xMin + width + rLayout.x)
-                    .updateLayoutProperty('yMaxScroll', pCtx.getLayout().yMin + height + rLayout.y);
+                parent.updateLayoutProperty('xMaxScroll', pCtx.getLayout().xMin + width + rLayout.x);
             }
         }
 
+        cls.setLayout(layout);
+        findLowestRelativeCoordinates(cls);
         recalculateLayout(cls);
     });
 

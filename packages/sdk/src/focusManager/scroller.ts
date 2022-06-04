@@ -132,25 +132,21 @@ class Scroller {
         //TODO ignore initial values
         // scrollTarget.y = Math.min(currentLayout.yMin - scrollView.layout.yMin - VIEWPORT_PADDING, scrollView.scrollOffsetY);
 
-        const yMaxScroll =
-            scrollView.getLayout().yMaxScroll ||
-            scrollView.getChildren()[scrollView.getChildren().length - 1].getLayout().yMax;
+        const yMaxScroll = scrollView.getLayout().yMaxScroll || scrollView.getLastChildren().getLayout()?.yMax || 0;
         const targetY = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset + windowHeight;
-
-        //Prevent OVERSCROLL
-        if (yMaxScroll >= targetY) {
-            scrollTarget.y = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset;
-        } else {
-            scrollTarget.y = yMaxScroll - windowHeight;
-        }
 
         if (DIRECTION_UP.includes(direction)) {
             const innerViewMin = scrollView.getLayout().innerView.yMin;
-
             scrollTarget.y = Math.min(
-                currentLayout.yMin - innerViewMin - verticalViewportOffset,
+                currentLayout.yMin - innerViewMin - verticalViewportOffset - scrollView.getLayout().yMin,
                 scrollView.getScrollOffsetY()
             );
+        } else {
+            if (yMaxScroll >= targetY) {
+                scrollTarget.y = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset;
+            } else {
+                scrollTarget.y = targetY - windowHeight;
+            }
         }
 
         if (scrollTarget.x < 0) scrollTarget.x = 0;

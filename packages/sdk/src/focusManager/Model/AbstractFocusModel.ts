@@ -110,6 +110,10 @@ export default abstract class AbstractFocusModel {
         return this._children;
     }
 
+    public getLastChildren(): AbstractFocusModel {
+        return this.getChildren()[this.getChildren().length - 1];
+    }
+
     public getNextFocusRight(): string {
         return this._nextFocusRight || '';
     }
