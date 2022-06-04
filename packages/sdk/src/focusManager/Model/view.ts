@@ -15,6 +15,7 @@ export class View extends AbstractFocusModel {
     public _initialFocus?: AbstractFocusModel;
     public _isFocused: boolean;
     public _forbiddenFocusDirections: ForbiddenFocusDirections[];
+    public _focusKey: string;
 
     public _repeatContext:
         | {
@@ -28,9 +29,9 @@ export class View extends AbstractFocusModel {
     private _onPress?: () => void;
 
     constructor(params: any) {
-        super();
+        super(params);
 
-        const { repeatContext, parent, forbiddenFocusDirections, onFocus, onBlur, onPress } = params;
+        const { repeatContext, parent, forbiddenFocusDirections, onFocus, onBlur, onPress, focusKey } = params;
 
         const id = makeid(8);
         this._id = parent?.id ? `${parent.id}:view-${id}` : `view-${id}`;
@@ -38,6 +39,7 @@ export class View extends AbstractFocusModel {
         this._parent = parent;
         this._isFocused = false;
         this._repeatContext = repeatContext;
+        this._focusKey = focusKey;
         this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
 
         this._onFocus = onFocus;
@@ -105,6 +107,10 @@ export class View extends AbstractFocusModel {
 
     public getParent(): AbstractFocusModel | undefined {
         return this._parent;
+    }
+
+    public getFocusKey(): string {
+        return this._focusKey;
     }
 }
 

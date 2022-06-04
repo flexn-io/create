@@ -83,7 +83,7 @@ const View = React.forwardRef<any, ViewProps>(
         }, [focus]);
 
         useEffect(() => {
-            (ViewInstance as ViewCls).updateEvents?.({
+            (ViewInstance as ViewCls)?.updateEvents?.({
                 onPress,
                 onFocus,
                 onBlur,

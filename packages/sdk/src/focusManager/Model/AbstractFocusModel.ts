@@ -6,9 +6,20 @@ export default abstract class AbstractFocusModel {
     protected _children: AbstractFocusModel[];
     protected _screen: ScreenCls | undefined;
 
-    constructor() {
+    protected _nextFocusRight: string;
+    protected _nextFocusLeft: string;
+    protected _nextFocusUp: string;
+    protected _nextFocusDown: string;
+
+    constructor(params: any) {
+        const { nextFocusRight, nextFocusLeft, nextFocusUp, nextFocusDown } = params;
+
         this._id = '';
         this._children = [];
+        this._nextFocusRight = nextFocusRight;
+        this._nextFocusLeft = nextFocusLeft;
+        this._nextFocusUp = nextFocusUp;
+        this._nextFocusDown = nextFocusDown;
     }
 
     public nodeId?: number | null;
@@ -84,13 +95,35 @@ export default abstract class AbstractFocusModel {
                         this.getParent()?.getChildren().splice(index, 1);
                     }
                 });
+        } else {
+            this.getChildren().forEach((_, index) => {
+                this.removeChildren(index);
+            });
         }
+
+        this.destroy();
 
         return this;
     }
 
     public getChildren(): AbstractFocusModel[] {
         return this._children;
+    }
+
+    public getNextFocusRight(): string {
+        return this._nextFocusRight || '';
+    }
+
+    public getNextFocusLeft(): string {
+        return this._nextFocusLeft || '';
+    }
+
+    public getNextFocusUp(): string {
+        return this._nextFocusUp || '';
+    }
+
+    public getNextFocusDown(): string {
+        return this._nextFocusDown || '';
     }
 
     public getLayouts(): any {
@@ -157,7 +190,19 @@ export default abstract class AbstractFocusModel {
         // NO ACTION
     }
 
+    public getState(): string {
+        //No action
+    }
+
+    public getOrder(): number {
+        //No action
+    }
+
     public isScreen(): boolean {
         return false;
+    }
+
+    public getFocusKey(): string {
+        return '';
     }
 }

@@ -15,7 +15,7 @@ export class ScrollView extends AbstractFocusModel {
     public _isScrollable: boolean;
 
     constructor(params: any) {
-        super();
+        super(params);
 
         const { horizontal, parent } = params;
 

@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from 'react';
 import { Dimensions, PixelRatio } from 'react-native';
 import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 import { ForbiddenFocusDirections } from './types';
-import type { Context } from './types';
 import { DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, SCREEN_STATES } from './constants';
 import AbstractFocusModel from './Model/AbstractFocusModel';
 
@@ -48,45 +47,46 @@ function pickActiveForcedFocusContext(
     nextForcedFocusKey: string | string[],
     focusMap: { [key: string]: AbstractFocusModel }
 ): string | null {
-    // if (Array.isArray(nextForcedFocusKey)) {
-    //     for (let index = 0; index < nextForcedFocusKey.length; index++) {
-    //         const focusKey = nextForcedFocusKey[index];
-    //         const isActive: AbstractFocusModel | undefined = Object.values(focusMap).find(
-    //             (s) =>
-    //                 s.focusKey === focusKey &&
-    //                 (s?.screen?.state === SCREEN_STATES.FOREGROUND || s.state === SCREEN_STATES.FOREGROUND)
-    //         );
-    //         if (isActive) {
-    //             return focusKey;
-    //         }
-    //     }
-    //     return null;
-    // }
-    // const isActive = Object.values(focusMap).find(
-    //     (s) =>
-    //         s.focusKey === nextForcedFocusKey &&
-    //         (s?.screen?.state === SCREEN_STATES.FOREGROUND || s.state === SCREEN_STATES.FOREGROUND)
-    // );
-    // return isActive ? nextForcedFocusKey : null;
-    return null;
+    if (Array.isArray(nextForcedFocusKey)) {
+        for (let index = 0; index < nextForcedFocusKey.length; index++) {
+            const focusKey = nextForcedFocusKey[index];
+            const isActive: AbstractFocusModel | undefined = Object.values(focusMap).find(
+                (s) =>
+                    s.getFocusKey() === focusKey &&
+                    (s?.getScreen()?.getState() === SCREEN_STATES.FOREGROUND ||
+                        s.getState() === SCREEN_STATES.FOREGROUND)
+            );
+            if (isActive) {
+                return focusKey;
+            }
+        }
+        return null;
+    }
+    const isActive = Object.values(focusMap).find(
+        (s) =>
+            s.getFocusKey() === nextForcedFocusKey &&
+            (s?.getScreen()?.getState() === SCREEN_STATES.FOREGROUND || s.getState() === SCREEN_STATES.FOREGROUND)
+    );
+    return isActive ? nextForcedFocusKey : null;
 }
 export function getNextForcedFocusKey(
     cls: AbstractFocusModel,
     direction: string,
     focusMap: { [key: string]: AbstractFocusModel }
 ): string | null {
-    // if (cls.nextFocusLeft && DIRECTION_LEFT.includes(direction)) {
-    //     return pickActiveForcedFocusContext(cls.nextFocusLeft, focusMap);
-    // }
-    // if (cls.nextFocusRight && DIRECTION_RIGHT.includes(direction)) {
-    //     return pickActiveForcedFocusContext(cls.nextFocusRight, focusMap);
-    // }
-    // if (cls.nextFocusUp && DIRECTION_UP.includes(direction)) {
-    //     return pickActiveForcedFocusContext(cls.nextFocusUp, focusMap);
-    // }
-    // if (cls.nextFocusDown && DIRECTION_DOWN.includes(direction)) {
-    //     return pickActiveForcedFocusContext(cls.nextFocusDown, focusMap);
-    // }
+    if (cls.getNextFocusLeft() && DIRECTION_LEFT.includes(direction)) {
+        return pickActiveForcedFocusContext(cls.getNextFocusLeft(), focusMap);
+    }
+    if (cls.getNextFocusRight() && DIRECTION_RIGHT.includes(direction)) {
+        return pickActiveForcedFocusContext(cls.getNextFocusRight(), focusMap);
+    }
+    if (cls.getNextFocusUp() && DIRECTION_UP.includes(direction)) {
+        return pickActiveForcedFocusContext(cls.getNextFocusUp(), focusMap);
+    }
+    if (cls.getNextFocusDown() && DIRECTION_DOWN.includes(direction)) {
+        return pickActiveForcedFocusContext(cls.getNextFocusDown(), focusMap);
+    }
+
     return null;
 }
 

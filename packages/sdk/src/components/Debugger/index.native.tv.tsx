@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, Dimensions, View as RNView } from 'react-native';
-import { SCREEN_STATES } from '../../focusManager/constants';
 import CoreManager from '../../focusManager/core';
 import AbstractFocusModel from '../../focusManager/Model/AbstractFocusModel';
-import type { Context } from '../../focusManager/types';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -46,7 +44,7 @@ export default function FocusDebugger() {
 
     if (CoreManager.isDebuggerEnabled) {
         const contexts: any = [];
-        const contextMap = CoreManager._focusableMap; // eslint-disable-line prefer-destructuring
+        const contextMap = CoreManager.getFocusMap(); // eslint-disable-line prefer-destructuring
         Object.values(contextMap).forEach((ctx: AbstractFocusModel) => {
             const parentInForeground = ctx.getScreen()?.isInForeground();
             if (ctx.getLayout() && parentInForeground) {

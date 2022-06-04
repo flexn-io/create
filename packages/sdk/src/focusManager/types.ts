@@ -165,3 +165,4 @@ export interface Context {
 
 export type ContextMap = { [key: string]: Context };
 export type FocusableMap = { [key: string]: AbstractFocusModel };
+export type FocusMap = { [key: string]: AbstractFocusModel };

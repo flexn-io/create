@@ -62,18 +62,18 @@ const Screen = React.forwardRef<any, ScreenProps>(
         CoreManager.registerFocusable(ClsInstance);
 
         useEffect(() => {
-            // ClsInstance.setPrevState(ClsInstance.getState()).setState(screenState);
-            // console.log('dkdjlfjdskfdsjkfk', ClsInstance.isPrevStateBackground());
+            ClsInstance.setPrevState(ClsInstance.getState()).setState(screenState);
             if (ClsInstance.isPrevStateBackground() && ClsInstance.isInForeground()) {
-                ClsInstance.setInitialLoadInProgress(true);
+                ClsInstance.setFocus(ClsInstance.getFirstFocusableOnScreen());
             }
         }, [screenState]);
 
-        useEffect(() => {
-            return () => {
-                // CoreManager.removeContext(ScreenInstance.context);
-            };
-        }, []);
+        useEffect(
+            () => () => {
+                CoreManager.removeFocusable(ClsInstance);
+            },
+            []
+        );
 
         const onLayout = () => {
             measure(ClsInstance, ref);

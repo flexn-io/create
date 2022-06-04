@@ -25,10 +25,9 @@ export class Screen extends AbstractFocusModel {
     public _horizontalViewportOffset: number;
     public _verticalViewportOffset: number;
     public _forbiddenFocusDirections: ForbiddenFocusDirections[];
-    public _nextFocusRight: string;
-    public _nextFocusLeft: string;
     public _initialLoadInProgress: boolean;
     public _loadingComponents: number;
+    public _unmountingComponents: number;
     public _parent?: AbstractFocusModel;
 
     private _preferredFocus?: ViewCls;
@@ -49,7 +48,7 @@ export class Screen extends AbstractFocusModel {
     private _onBlur?: () => void;
 
     constructor(params: any) {
-        super();
+        super(params);
 
         const {
             state = STATE_FOREGROUND,
@@ -62,8 +61,6 @@ export class Screen extends AbstractFocusModel {
             horizontalViewportOffset = 0,
             verticalViewportOffset = 0,
             forbiddenFocusDirections = [],
-            nextFocusRight = '',
-            nextFocusLeft = '',
             onFocus,
             onBlur,
         } = params;
@@ -79,11 +76,10 @@ export class Screen extends AbstractFocusModel {
         this._horizontalViewportOffset = horizontalViewportOffset;
         this._verticalViewportOffset = verticalViewportOffset;
         this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
-        this._nextFocusRight = nextFocusRight;
-        this._nextFocusLeft = nextFocusLeft;
         this._stealFocus = stealFocus;
         this._isFocused = false;
         this._loadingComponents = 0;
+        this._unmountingComponents = 0;
         this._initialLoadInProgress = true;
 
         this._onFocus = onFocus;
@@ -123,16 +119,23 @@ export class Screen extends AbstractFocusModel {
     }
 
     public onViewRemoved(cls: ViewCls): void {
-        if (cls.getId() === this._currentFocus?.getId()) {
-            delete this._currentFocus;
-        }
-        if (cls.getId() === this._preferredFocus?.getId()) {
-            delete this._preferredFocus;
-        }
-        if (cls.getId() === this._precalculatedFocus?.getId()) {
-            delete this._precalculatedFocus;
-        }
-        this.setFocus(this.getFirstFocusableOnScreen());
+        this._unmountingComponents++;
+
+        setTimeout(() => {
+            this._unmountingComponents--;
+            if (cls.getId() === this._currentFocus?.getId()) {
+                delete this._currentFocus;
+            }
+            if (cls.getId() === this._preferredFocus?.getId()) {
+                delete this._preferredFocus;
+            }
+            if (cls.getId() === this._precalculatedFocus?.getId()) {
+                delete this._precalculatedFocus;
+            }
+            if (this._unmountingComponents <= 0) {
+                this.setFocus(this.getFirstFocusableOnScreen());
+            }
+        }, WAIT_TO_LOAD_DELAY);
     }
 
     public getFirstFocusableOnScreen = (): AbstractFocusModel | undefined => {
@@ -222,10 +225,6 @@ export class Screen extends AbstractFocusModel {
         return this._forbiddenFocusDirections;
     }
 
-    public getNextFocusRight(): string {
-        return this._nextFocusRight;
-    }
-
     public setInitialLoadInProgress(value: boolean): this {
         this._initialLoadInProgress = value;
 
@@ -272,10 +271,6 @@ export class Screen extends AbstractFocusModel {
 
     public getPrecalculatedFocus(): ViewCls | undefined {
         return this._precalculatedFocus;
-    }
-
-    public getNextFocusLeft(): string {
-        return this._nextFocusLeft;
     }
 
     public setIsFocused(isFocused: boolean): this {

@@ -27,7 +27,7 @@ export class Recycler extends AbstractFocusModel {
     public isFirstVisible?: () => boolean;
 
     constructor(params: any) {
-        super();
+        super(params);
 
         const { isHorizontal, isNested, parent, repeatContext, forbiddenFocusDirections } = params;
 
@@ -71,6 +71,10 @@ export class Recycler extends AbstractFocusModel {
 
     public isRecyclable(): boolean {
         return true;
+    }
+
+    public isNested(): boolean {
+        return this._isNested;
     }
 
     public isHorizontal(): boolean {
