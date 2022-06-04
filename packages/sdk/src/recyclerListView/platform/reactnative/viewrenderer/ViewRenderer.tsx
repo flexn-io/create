@@ -12,7 +12,7 @@ import BaseViewRenderer, { ViewRendererProps } from '../../../core/viewrenderer/
 export default class ViewRenderer extends BaseViewRenderer<any> {
     private _dim: Dimension = { width: 0, height: 0 };
     private _viewRef: React.Component<ViewProps, React.ComponentState> | null = null;
-    public renderCompat(): JSX.Element {
+    public renderCompat(): JSX.Element | JSX.Element[] | null {
         const props = this.props.forceNonDeterministicRendering
             ? {
                 ref: this._setRef,
@@ -38,7 +38,12 @@ export default class ViewRenderer extends BaseViewRenderer<any> {
                     ...this.animatorStyleOverrides,
                 },
             };
-        return this._renderItemContainer(props, this.props, this.renderChild()) as JSX.Element;
+        
+        if (this.props.disableItemContainer === true) {
+            return this.renderChild(props);
+        } else {
+            return this._renderItemContainer(props, this.props, this.renderChild()) as JSX.Element;
+        }
     }
 
     protected getRef(): object | null {

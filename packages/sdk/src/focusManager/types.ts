@@ -80,6 +80,7 @@ export interface ScrollViewProps extends RNScrollViewProps {
     horizontal?: boolean;
     children?: React.ReactNode;
     ref?: React.MutableRefObject<ScrollView>;
+    focusOptions?: RecyclableListFocusOptions;
 }
 
 export interface ScreenProps {
@@ -108,6 +109,7 @@ export interface RecyclerViewProps {
     style?: StyleProp<ViewStyle>;
     unmeasurableRelativeDimensions: { x?: number; y?: number };
     focusOptions?: RecyclableListFocusOptions;
+    disableItemContainer?: boolean;
 }
 
 export interface Context {

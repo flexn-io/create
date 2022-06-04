@@ -31,6 +31,7 @@ export default function RecyclerView({
     contentContainerStyle,
     unmeasurableRelativeDimensions = { y: 0, x: 0 },
     focusOptions = {},
+    disableItemContainer = false,
     ...props
 }: RecyclerViewProps) {
     const scrollViewRef = useRef<HTMLDivElement | null>(null);
@@ -51,7 +52,7 @@ export default function RecyclerView({
         ClsInstance.setRepeatContext(repeatContext);
     }
 
-    const rowRendererWithProps = (type: any, data: any, index: any) => {
+    const rowRendererWithProps = (type: any, data: any, index: any, _extendedState: any, renderProps: any) => {
         const vr = rlvRef.current?.['_virtualRenderer'];
         const lm: any = vr?.['_layoutManager'];
         const layouts: any = lm?.['_layouts'];
@@ -75,10 +76,7 @@ export default function RecyclerView({
             };
         }
 
-        return rowRenderer(type, data, index, {
-            parentContext: ClsInstance,
-            index,
-        });
+        return rowRenderer(type, data, index, { parentContext: ClsInstance, index }, renderProps);
     };
 
     useEffect(() => {
@@ -127,6 +125,7 @@ export default function RecyclerView({
                     ClsInstance.updateLayoutProperty('yMaxScroll', height);
                 }}
                 rowRenderer={rowRendererWithProps}
+                disableItemContainer={disableItemContainer}
                 isHorizontal={isHorizontal}
                 contentContainerStyle={contentContainerStyle}
                 {...props}
