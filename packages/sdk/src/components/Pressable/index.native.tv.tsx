@@ -51,7 +51,7 @@ const View = React.forwardRef<any, ViewProps>(
                     focus,
                     repeatContext,
                     parent: pctx,
-                    forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
+                    ...focusOptions,
                 });
             }
         });

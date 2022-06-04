@@ -6,6 +6,7 @@ import AbstractFocusModel from './AbstractFocusModel';
 import { ViewCls } from './view';
 import { alterForbiddenFocusDirections } from '../../focusManager/helpers';
 import { findLowestRelativeCoordinates } from '../../focusManager/layoutManager';
+import { DEFAULT_VIEWPORT_OFFSET } from '../../focusManager/constants';
 
 const DELAY_TIME_IN_MS = 150;
 
@@ -58,8 +59,8 @@ export class Screen extends AbstractFocusModel {
             focusKey = '',
             verticalWindowAlignment = ALIGNMENT_LOW_EDGE,
             horizontalWindowAlignment = ALIGNMENT_LOW_EDGE,
-            horizontalViewportOffset = 0,
-            verticalViewportOffset = 0,
+            horizontalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
+            verticalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
             forbiddenFocusDirections = [],
             onFocus,
             onBlur,
@@ -112,7 +113,7 @@ export class Screen extends AbstractFocusModel {
             CoreManager.getCurrentFocus()?.getScreen()?.onBlur?.();
             CoreManager.executeFocus('', cls);
             CoreManager.executeUpdateGuideLines();
-            cls.onFocus();
+            cls.getScreen()?.onFocus();
         } else {
             logger.log('Focusable not found');
         }

@@ -148,10 +148,7 @@ class CoreManager {
             return focusableMap[Object.keys(focusableMap)[0]];
         }
 
-        //TOFO FIX ?.
-        const currentContextHasForbiddenDirection = currentFocus?.getForbiddenFocusDirections().includes(direction);
-
-        if (currentContextHasForbiddenDirection) {
+        if (currentFocus.containsForbiddenDirection(direction)) {
             return currentFocus;
         }
 
@@ -216,8 +213,7 @@ class CoreManager {
             const closestContext = closestContextFn();
 
             if (!closestContext) {
-                const parentHasForbiddenDirection = parentCls.getForbiddenFocusDirections().includes(direction);
-                if (parentCls.getType() === 'screen') {
+                if (parentCls.isScreen()) {
                     const nextForcedFocusKey = getNextForcedFocusKey(parentCls, direction, this._focusMap);
                     if (nextForcedFocusKey) {
                         logger.debug('FOUND FORCED FOCUS DIRECTION', direction, nextForcedFocusKey);
@@ -225,7 +221,7 @@ class CoreManager {
                         return;
                     }
 
-                    if (!inScreenContext && !parentHasForbiddenDirection) {
+                    if (!inScreenContext && !parentCls.containsForbiddenDirection(direction)) {
                         logger.debug('REACHED END SCREEN.');
 
                         const focusableScreens: AbstractFocusModel[] = [];
@@ -235,11 +231,7 @@ class CoreManager {
                             )
                         );
                         Object.values(focusableMap).forEach((s: AbstractFocusModel) => {
-                            if (
-                                s.getType() === 'screen' &&
-                                s.getId() !== parentCls.getId() &&
-                                s.getState() === SCREEN_STATES.FOREGROUND
-                            ) {
+                            if (s.isScreen() && s.getId() !== parentCls.getId() && s.isInForeground()) {
                                 if (s.getOrder() >= maxOrder) {
                                     focusableScreens.push(s);
                                 }
@@ -271,7 +263,13 @@ class CoreManager {
                     return currentFocus;
                 }
 
-                if (parentHasForbiddenDirection) {
+                const nextForcedFocusKey = getNextForcedFocusKey(parentCls, direction, this._focusMap);
+                if (nextForcedFocusKey) {
+                    this.focusElementByFocusKey(nextForcedFocusKey);
+                    return;
+                }
+
+                if (parentCls.containsForbiddenDirection(direction)) {
                     logger.debug('PARENT HAS FORBIDDEN DIRECTION', direction);
                     return currentFocus;
                 }

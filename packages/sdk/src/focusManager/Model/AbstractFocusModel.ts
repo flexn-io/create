@@ -1,3 +1,4 @@
+import { ForbiddenFocusDirections } from '../types';
 import { ScreenCls, STATE_BACKGROUND } from './screen';
 
 const TYPE_SCREEN = 'screen';
@@ -216,6 +217,10 @@ export default abstract class AbstractFocusModel {
         }
 
         return this.getScreen()?.isInBackground() ?? false;
+    }
+
+    public containsForbiddenDirection(direction: string): boolean {
+        return this.getForbiddenFocusDirections().includes(direction);
     }
 
     public setFocus(_cls?: AbstractFocusModel): void {

@@ -43,7 +43,7 @@ export default function RecyclerView({
             isNested: !!repeatContext,
             parent: parentContext,
             repeatContext,
-            forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
+            ...focusOptions,
         })
     );
 

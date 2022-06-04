@@ -51,10 +51,7 @@ function pickActiveForcedFocusContext(
         for (let index = 0; index < nextForcedFocusKey.length; index++) {
             const focusKey = nextForcedFocusKey[index];
             const isActive: AbstractFocusModel | undefined = Object.values(focusMap).find(
-                (s) =>
-                    s.getFocusKey() === focusKey &&
-                    (s?.getScreen()?.getState() === SCREEN_STATES.FOREGROUND ||
-                        s.getState() === SCREEN_STATES.FOREGROUND)
+                (cls) => cls.getFocusKey() === focusKey && cls.isInForeground()
             );
             if (isActive) {
                 return focusKey;
@@ -63,9 +60,7 @@ function pickActiveForcedFocusContext(
         return null;
     }
     const isActive = Object.values(focusMap).find(
-        (s) =>
-            s.getFocusKey() === nextForcedFocusKey &&
-            (s?.getScreen()?.getState() === SCREEN_STATES.FOREGROUND || s.getState() === SCREEN_STATES.FOREGROUND)
+        (cls) => cls.getFocusKey() === nextForcedFocusKey && cls.isInForeground()
     );
     return isActive ? nextForcedFocusKey : null;
 }

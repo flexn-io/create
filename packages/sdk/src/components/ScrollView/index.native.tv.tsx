@@ -6,13 +6,14 @@ import { measure, recalculateLayout } from '../../focusManager/layoutManager';
 import { createInstance, ScrollViewCls } from '../../focusManager/Model/scrollview';
 
 const ScrollView = React.forwardRef<any, ScrollViewProps>(
-    ({ children, style, parentContext, horizontal, ...props }: ScrollViewProps, refOuter) => {
+    ({ children, style, parentContext, horizontal, focusOptions, ...props }: ScrollViewProps, refOuter) => {
         const ref = useRef<RNScrollView>() as React.MutableRefObject<RNScrollView>;
 
         const [ClsInstance] = useState<ScrollViewCls>(() =>
             createInstance({
                 horizontal,
                 parent: parentContext,
+                ...focusOptions,
             })
         );
 
