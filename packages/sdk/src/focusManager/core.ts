@@ -1,5 +1,4 @@
 import { findNodeHandle, UIManager } from 'react-native';
-import { SCREEN_STATES } from './constants';
 import { distCalc } from './focusManager';
 import { getNextForcedFocusKey } from './helpers';
 import { recalculateLayout } from './layoutManager';
@@ -93,7 +92,7 @@ class CoreManager {
             // @ts-ignore
             UIManager.dispatchViewManagerCommand(nextFocusable.nodeId, 'cmdFocus', null);
             // console.log('nextFocusable', nextFocusable);
-            nextFocusable.node?.current?.onFocus?.();
+            nextFocusable.onFocus();
             nextFocusable.setIsFocused(true);
             if (nextFocusable.getScreen()) {
                 nextFocusable.getScreen()?.setCurrentFocus(nextFocusable as ViewCls);
@@ -320,7 +319,6 @@ class CoreManager {
         const currentYMin = currentLayout.absolute.yMin;
         const currentYMax = currentLayout.absolute.yMax;
         const nextXCenter = nextLayout.absolute.xCenter;
-        // const cl2cy = cl2.absolute.yCenter;
         const nextXMin = nextLayout.absolute.xMin;
         const nextXMax = nextLayout.absolute.xMax;
         const nextYMin = nextLayout.absolute.yMin;
