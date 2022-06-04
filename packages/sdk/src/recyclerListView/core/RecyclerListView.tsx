@@ -489,7 +489,12 @@ export default class RecyclerListView<
         ) {
             //TODO:Talha use old layout manager
             this._virtualRenderer.setLayoutManager(
-                newProps.layoutProvider.newLayoutManager(this._layout, newProps.isHorizontal)
+                newProps.layoutProvider.newLayoutManager(
+                    this._layout,
+                    newProps.isHorizontal,
+                    undefined,
+                    this.props.initialXOffset
+                )
             );
             if (newProps.layoutProvider.shouldRefreshWithAnchoring) {
                 this._virtualRenderer.refreshWithAnchor();
@@ -514,7 +519,12 @@ export default class RecyclerListView<
             if (layoutManager) {
                 const cachedLayouts = layoutManager.getLayouts();
                 this._virtualRenderer.setLayoutManager(
-                    newProps.layoutProvider.newLayoutManager(this._layout, newProps.isHorizontal, cachedLayouts)
+                    newProps.layoutProvider.newLayoutManager(
+                        this._layout,
+                        newProps.isHorizontal,
+                        cachedLayouts,
+                        this.props.initialXOffset
+                    )
                 );
                 this._refreshViewability();
             }
