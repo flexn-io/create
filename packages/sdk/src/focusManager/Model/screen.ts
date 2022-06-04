@@ -7,7 +7,7 @@ import { ViewCls } from './view';
 import { alterForbiddenFocusDirections } from '../../focusManager/helpers';
 import { findLowestRelativeCoordinates } from '../../focusManager/layoutManager';
 
-const WAIT_TO_LOAD_DELAY = 100;
+const DELAY_TIME_IN_MS = 150;
 
 const STATE_BACKGROUND: ScreenStates = 'background';
 const STATE_FOREGROUND: ScreenStates = 'foreground';
@@ -103,7 +103,7 @@ export class Screen extends AbstractFocusModel {
                         this.setFocus(this.getFirstFocusableOnScreen());
                     }
                 }
-            }, WAIT_TO_LOAD_DELAY);
+            }, DELAY_TIME_IN_MS);
         }
     }
 
@@ -135,7 +135,7 @@ export class Screen extends AbstractFocusModel {
             if (this._unmountingComponents <= 0) {
                 this.setFocus(this.getFirstFocusableOnScreen());
             }
-        }, WAIT_TO_LOAD_DELAY);
+        }, DELAY_TIME_IN_MS);
     }
 
     public getFirstFocusableOnScreen = (): AbstractFocusModel | undefined => {
