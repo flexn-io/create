@@ -62,7 +62,6 @@ const Card = React.forwardRef<any, CardProps>(
         delete styles.borderColor;
         delete styles.borderRadius;
 
-        console.log('posterStyles', posterStyles);
         const renderImageWithText = () => (
             <>
                 <Image resizeMode={resizeMode} source={src} style={[baseStyles.poster, posterStyles]} />

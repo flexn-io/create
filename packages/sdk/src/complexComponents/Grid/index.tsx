@@ -26,6 +26,8 @@ interface GridProps {
     items: RowItem[];
     itemDimensions: { height: number };
     itemSpacing?: number;
+    verticalItemSpacing?: number;
+    horizontalItemSpacing?: number;
     rerenderData?: any;
     animatorOptions?: any;
 }
@@ -35,6 +37,8 @@ const Grid = ({
     style = {},
     cardStyle = {},
     itemSpacing = 30,
+    verticalItemSpacing = 0,
+    horizontalItemSpacing = 0,
     itemDimensions,
     itemsInViewport = 5,
     parentContext,
@@ -52,6 +56,8 @@ const Grid = ({
     const { boundaries, spacings, onLayout, rowDimensions } = useDimensionsCalculator({
         style,
         itemSpacing,
+        verticalItemSpacing,
+        horizontalItemSpacing,
         itemDimensions,
         itemsInViewport,
         ref,

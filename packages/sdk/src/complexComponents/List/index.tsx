@@ -32,6 +32,8 @@ interface ListProps {
     }[];
     itemDimensions: { height: number };
     itemSpacing?: number;
+    verticalItemSpacing?: number;
+    horizontalItemSpacing?: number;
     initialXOffset?: number;
     rowHeight: number;
     rerenderData?: any;
@@ -48,6 +50,8 @@ const List = ({
     focusOptions,
     animatorOptions,
     itemSpacing = 30,
+    verticalItemSpacing = 0,
+    horizontalItemSpacing = 0,
     itemDimensions,
     onPress,
     initialXOffset = 0,
@@ -62,6 +66,8 @@ const List = ({
     const { boundaries, onLayout } = useDimensionsCalculator({
         style,
         itemSpacing,
+        verticalItemSpacing,
+        horizontalItemSpacing,
         itemDimensions,
         itemsInViewport,
         ref,

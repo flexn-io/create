@@ -34,6 +34,8 @@ interface RowProps {
     rerenderData?: any;
     itemDimensions: { height: number };
     itemSpacing?: number;
+    verticalItemSpacing?: number;
+    horizontalItemSpacing?: number;
     initialXOffset?: number;
 }
 
@@ -56,6 +58,8 @@ const Row = ({
     onBlur,
     itemDimensions,
     itemSpacing = 30,
+    verticalItemSpacing = 0,
+    horizontalItemSpacing = 0,
     initialXOffset = 0,
 }: RowProps) => {
     const ref: any = useRef();
@@ -66,6 +70,8 @@ const Row = ({
     const { boundaries, isLoading, spacings, onLayout, rowDimensions } = useDimensionsCalculator({
         style,
         itemSpacing,
+        verticalItemSpacing,
+        horizontalItemSpacing,
         itemDimensions,
         itemsInViewport,
         ref,
@@ -121,7 +127,7 @@ const Row = ({
                     rowRenderer={rowRenderer}
                     disableItemContainer
                     isHorizontal
-                    style={[style, { width: boundaries.width, height: boundaries.height }]}
+                    style={[{ width: boundaries.width, height: boundaries.height }]}
                     contentContainerStyle={{ ...spacings }}
                     scrollViewProps={{
                         showsHorizontalScrollIndicator: false,
@@ -147,20 +153,11 @@ const Row = ({
     };
 
     return (
-        <View
-            parentContext={nestedParentContext || parentContext}
-            style={styles.container}
-            onLayout={onLayout}
-            ref={ref}
-        >
+        <View parentContext={nestedParentContext || parentContext} style={style} onLayout={onLayout} ref={ref}>
             {renderTitle()}
             {renderRecycler()}
         </View>
     );
-};
-
-const styles = {
-    container: {},
 };
 
 export default Row;
