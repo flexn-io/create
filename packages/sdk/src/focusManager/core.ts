@@ -8,6 +8,7 @@ import AbstractFocusModel from './Model/AbstractFocusModel';
 import { ViewCls } from './Model/view';
 import Scroller from './scroller';
 import { RecyclerCls } from './Model/recycler';
+import { ScreenCls } from './Model/screen';
 
 class CoreManager {
     public _focusMap: {
@@ -124,20 +125,14 @@ class CoreManager {
     }
 
     public focusElementByFocusKey = (focusKey: string) => {
-        const focusAsNext: AbstractFocusModel | undefined = Object.values(this._focusMap).find(
-            (s) =>
-                s.getFocusKey() === focusKey &&
-                (s?.getScreen()?.getState() === SCREEN_STATES.FOREGROUND || s.getState() === SCREEN_STATES.FOREGROUND)
+        const element: AbstractFocusModel | undefined = Object.values(this._focusMap).find(
+            (cls) => cls.getFocusKey() === focusKey && cls.isInForeground()
         );
-        if (focusAsNext?.getScreen()) {
-            const nextFocusable = focusAsNext?.getScreen()?.getFirstFocusableOnScreen();
-            if (nextFocusable) {
-                this._currentFocus?.getScreen()?.onBlur?.();
-                this.executeFocus('', nextFocusable);
-                this.executeUpdateGuideLines();
-                nextFocusable.getScreen()?.onFocus?.();
-            }
+
+        if (element && element.isScreen()) {
+            element.setFocus((element as ScreenCls).getFirstFocusableOnScreen());
         }
+        // TODO: Implement for other type rather than screen
     };
 
     public getNextFocusableContext = (

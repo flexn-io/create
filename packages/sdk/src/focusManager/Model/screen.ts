@@ -9,8 +9,8 @@ import { findLowestRelativeCoordinates } from '../../focusManager/layoutManager'
 
 const DELAY_TIME_IN_MS = 150;
 
-const STATE_BACKGROUND: ScreenStates = 'background';
-const STATE_FOREGROUND: ScreenStates = 'foreground';
+export const STATE_BACKGROUND: ScreenStates = 'background';
+export const STATE_FOREGROUND: ScreenStates = 'foreground';
 const ALIGNMENT_BOTH_EDGE = 'bot-edge';
 const ALIGNMENT_LOW_EDGE = 'low-edge';
 
@@ -112,7 +112,7 @@ export class Screen extends AbstractFocusModel {
             CoreManager.getCurrentFocus()?.getScreen()?.onBlur?.();
             CoreManager.executeFocus('', cls);
             CoreManager.executeUpdateGuideLines();
-            cls.onFocus?.();
+            cls.onFocus();
         } else {
             logger.log('Focusable not found');
         }

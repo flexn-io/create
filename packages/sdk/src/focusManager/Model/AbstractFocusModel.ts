@@ -1,5 +1,9 @@
-import { ScreenCls } from './screen';
+import { ScreenCls, STATE_BACKGROUND } from './screen';
 
+const TYPE_SCREEN = 'screen';
+const TYPE_VIEW = 'view';
+const TYPE_RECYCLER = 'recycler';
+const TYPE_SCROLLVIEW = 'scrollview';
 export default abstract class AbstractFocusModel {
     protected _layout: any;
     protected _id: string;
@@ -162,14 +166,6 @@ export default abstract class AbstractFocusModel {
         return false;
     }
 
-    public isInBackground(): boolean {
-        return false;
-    }
-
-    public isInForeground(): boolean {
-        return false;
-    }
-
     public isFocusable(): boolean {
         return false;
     }
@@ -199,7 +195,31 @@ export default abstract class AbstractFocusModel {
     }
 
     public getState(): string {
-        return '';
+        if (this.getType() === TYPE_SCREEN) {
+            return this.getState();
+        }
+
+        return this.getScreen()?.getState() || STATE_BACKGROUND;
+    }
+
+    public isInForeground(): boolean {
+        if (this.getType() === TYPE_SCREEN) {
+            return this.isInForeground();
+        }
+
+        return this.getScreen()?.isInForeground() ?? false;
+    }
+
+    public isInBackground(): boolean {
+        if (this.getType() === TYPE_SCREEN) {
+            return this.isInBackground();
+        }
+
+        return this.getScreen()?.isInBackground() ?? false;
+    }
+
+    public setFocus(_cls?: AbstractFocusModel): void {
+        // TODO: Implement
     }
 
     public getOrder(): number {
