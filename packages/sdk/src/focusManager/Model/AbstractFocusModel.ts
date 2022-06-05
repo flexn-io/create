@@ -1,10 +1,9 @@
-import { ForbiddenFocusDirections } from '../types';
 import { ScreenCls, STATE_BACKGROUND } from './screen';
 
 const TYPE_SCREEN = 'screen';
-const TYPE_VIEW = 'view';
-const TYPE_RECYCLER = 'recycler';
-const TYPE_SCROLLVIEW = 'scrollview';
+// const TYPE_VIEW = 'view';
+// const TYPE_RECYCLER = 'recycler';
+// const TYPE_SCROLLVIEW = 'scrollview';
 export default abstract class AbstractFocusModel {
     protected _layout: any;
     protected _id: string;

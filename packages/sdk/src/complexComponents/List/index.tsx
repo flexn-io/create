@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StyleProp, ViewStyle, TextStyle } from 'react-native';
 import View from '../../components/View';
 import RecyclableList, {

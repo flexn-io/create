@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StyleProp, ViewStyle, TextStyle, StyleSheet } from 'react-native';
 import Text from '../../components/Text';
 import View from '../../components/View';
