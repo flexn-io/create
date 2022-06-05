@@ -5,19 +5,11 @@ import { ForbiddenFocusDirections } from '../types';
 
 export class View extends AbstractFocusModel {
     private _type: string;
-
-    public repeatContext?: {
-        parentContext: AbstractFocusModel;
-        index: number;
-    };
-
-    public _parent?: AbstractFocusModel;
-    public _initialFocus?: AbstractFocusModel;
-    public _isFocused: boolean;
-    public _forbiddenFocusDirections: ForbiddenFocusDirections[];
-    public _focusKey: string;
-
-    public _repeatContext:
+    private _parent?: AbstractFocusModel;
+    private _isFocused: boolean;
+    private _forbiddenFocusDirections: ForbiddenFocusDirections[];
+    private _focusKey: string;
+    private _repeatContext:
         | {
               parentContext: AbstractFocusModel;
               index: number;

@@ -132,7 +132,7 @@ class Scroller {
         //TODO ignore initial values
         // scrollTarget.y = Math.min(currentLayout.yMin - scrollView.layout.yMin - VIEWPORT_PADDING, scrollView.scrollOffsetY);
 
-        let yMaxScroll = scrollView.getLayout().yMaxScroll || scrollView.getLastChildren().getLayout()?.yMax || 0;
+        let yMaxScroll = scrollView.getLayout().yMaxScroll || scrollView.getMostBottomChildren().getLayout()?.yMax || 0;
         yMaxScroll += scrollView.getLayout().yMin || 0;
         const targetY = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset + windowHeight;
 

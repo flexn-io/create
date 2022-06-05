@@ -5,18 +5,14 @@ import { alterForbiddenFocusDirections } from '../../focusManager/helpers';
 
 export class Recycler extends AbstractFocusModel {
     private _type: string;
-
-    public _parent?: AbstractFocusModel;
-    public _initialFocus?: AbstractFocusModel;
-    public _layouts: any;
-
-    public _scrollOffsetX: number;
-    public _scrollOffsetY: number;
-    public _isNested: boolean;
-    public _isHorizontal: boolean;
-    public _forbiddenFocusDirections: ForbiddenFocusDirections[];
-
-    public _repeatContext:
+    private _parent?: AbstractFocusModel;
+    private _layouts: any;
+    private _scrollOffsetX: number;
+    private _scrollOffsetY: number;
+    private _isNested: boolean;
+    private _isHorizontal: boolean;
+    private _forbiddenFocusDirections: ForbiddenFocusDirections[];
+    private _repeatContext:
         | {
               parentContext: AbstractFocusModel;
               index: number;

@@ -4,15 +4,10 @@ import AbstractFocusModel from './AbstractFocusModel';
 export class ScrollView extends AbstractFocusModel {
     private _type: string;
 
-    public _parent?: AbstractFocusModel;
-    public _initialFocus?: AbstractFocusModel;
-    public _layouts: any;
-
-    public _scrollOffsetX: number;
-    public _scrollOffsetY: number;
-    public _isHorizontal: boolean;
-    public _isFocusable: boolean;
-    public _isScrollable: boolean;
+    private _parent?: AbstractFocusModel;
+    private _scrollOffsetX: number;
+    private _scrollOffsetY: number;
+    private _isHorizontal: boolean;
 
     constructor(params: any) {
         super(params);
@@ -25,8 +20,6 @@ export class ScrollView extends AbstractFocusModel {
         this._type = 'scrollview';
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;
-        this._isFocusable = false;
-        this._isScrollable = true;
     }
 
     public destroy(): void {
@@ -59,6 +52,10 @@ export class ScrollView extends AbstractFocusModel {
 
     public isScrollable(): boolean {
         return true;
+    }
+
+    public isFocusable(): boolean {
+        return false;
     }
 
     public isHorizontal(): boolean {

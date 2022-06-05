@@ -114,8 +114,15 @@ export default abstract class AbstractFocusModel {
         return this._children;
     }
 
-    public getLastChildren(): AbstractFocusModel {
-        return this.getChildren()[this.getChildren().length - 1];
+    public getMostBottomChildren(): AbstractFocusModel {
+        console.log('this.getChildren()', this.getChildren());
+        return this.getChildren().sort((a: AbstractFocusModel, b: AbstractFocusModel) => {
+            if (a.getLayout().yMax > b.getLayout().yMax) {
+                return 1;
+            }
+
+            return -1;
+        })[this.getChildren().length - 1];
     }
 
     public getNextFocusRight(): string {

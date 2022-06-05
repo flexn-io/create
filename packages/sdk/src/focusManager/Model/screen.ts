@@ -18,27 +18,23 @@ const ALIGNMENT_LOW_EDGE = 'low-edge';
 export class Screen extends AbstractFocusModel {
     public _type: string;
     private _state: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
-    public _prevState: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
-    public _verticalWindowAlignment: typeof ALIGNMENT_BOTH_EDGE | typeof ALIGNMENT_LOW_EDGE;
-    public _horizontalWindowAlignment: typeof ALIGNMENT_BOTH_EDGE | typeof ALIGNMENT_LOW_EDGE;
-    public _order: number;
-    public _focusKey: string;
-    public _horizontalViewportOffset: number;
-    public _verticalViewportOffset: number;
-    public _forbiddenFocusDirections: ForbiddenFocusDirections[];
-    public _initialLoadInProgress: boolean;
-    public _loadingComponents: number;
-    public _unmountingComponents: number;
-    public _parent?: AbstractFocusModel;
-
+    private _prevState: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
+    private _verticalWindowAlignment: typeof ALIGNMENT_BOTH_EDGE | typeof ALIGNMENT_LOW_EDGE;
+    private _horizontalWindowAlignment: typeof ALIGNMENT_BOTH_EDGE | typeof ALIGNMENT_LOW_EDGE;
+    private _order: number;
+    private _focusKey: string;
+    private _horizontalViewportOffset: number;
+    private _verticalViewportOffset: number;
+    private _forbiddenFocusDirections: ForbiddenFocusDirections[];
+    private _initialLoadInProgress: boolean;
+    private _loadingComponents: number;
+    private _unmountingComponents: number;
     private _preferredFocus?: ViewCls;
     private _currentFocus?: ViewCls;
     private _precalculatedFocus?: ViewCls;
-
-    public _isFocused: boolean;
-    public _stealFocus: boolean;
-
-    public _repeatContext:
+    private _stealFocus: boolean;
+    private _isFocused: boolean;
+    private _repeatContext:
         | {
               parentContext: AbstractFocusModel;
               index: number;
@@ -278,6 +274,10 @@ export class Screen extends AbstractFocusModel {
         this._isFocused = isFocused;
 
         return this;
+    }
+
+    public getIsFocused(): boolean {
+        return this._isFocused;
     }
 
     public isFocusable(): boolean {
