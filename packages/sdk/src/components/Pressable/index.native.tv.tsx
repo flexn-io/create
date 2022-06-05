@@ -8,8 +8,7 @@ import { ANIMATIONS } from '../../focusManager/constants';
 import { measure } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
-import { createInstance } from '../../focusManager/model/view';
-import type { ViewCls } from '../../focusManager/model/view';
+import ViewClass from '../../focusManager/model/view';
 
 export const defaultAnimation = {
     type: 'scale',
@@ -47,7 +46,7 @@ const View = React.forwardRef<any, ViewProps>(
             if (!focus) {
                 return pctx;
             } else {
-                return createInstance({
+                return new ViewClass({
                     focus,
                     repeatContext,
                     parent: pctx,
@@ -64,7 +63,7 @@ const View = React.forwardRef<any, ViewProps>(
         useEffect(() => {
             // If item initially was not focusable, but during the time it became focusable we capturing that here
             if (prevFocus === false && focus === true) {
-                const cls = createInstance({
+                const cls = new ViewClass({
                     focus: true,
                     repeatContext,
                     parent: pctx,
@@ -77,7 +76,7 @@ const View = React.forwardRef<any, ViewProps>(
         }, [focus]);
 
         useEffect(() => {
-            (ViewInstance as ViewCls)?.updateEvents?.({
+            (ViewInstance as ViewClass)?.updateEvents?.({
                 onPress,
                 onFocus,
                 onBlur,
@@ -87,7 +86,7 @@ const View = React.forwardRef<any, ViewProps>(
         useEffect(() => {
             if (focus) {
                 CoreManager.registerFocusable(ViewInstance, ref);
-                (ViewInstance as ViewCls).getScreen()?.setIsLoading();
+                (ViewInstance as ViewClass).getScreen()?.setIsLoading();
             }
 
             return () => {

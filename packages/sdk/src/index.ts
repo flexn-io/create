@@ -1,3 +1,10 @@
+// Functions
+import CoreManager from './focusManager/model/core';
+
+export function focusElementByFocusKey(focusKey: string) {
+    CoreManager.focusElementByFocusKey(focusKey);
+}
+
 // Primitive components
 export { default as ActivityIndicator } from './components/ActivityIndicator';
 export { default as App } from './components/App';
@@ -36,10 +43,3 @@ export { ScreenProps, ScreenStates } from './focusManager/types';
 
 // Constants
 export { ANIMATION_TYPES } from './focusManager/constants';
-
-// Functions
-import CoreManager from './focusManager/model/core';
-
-export function focusElementByFocusKey(focusKey: string) {
-    CoreManager.focusElementByFocusKey(focusKey);
-}

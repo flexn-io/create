@@ -3,18 +3,19 @@ import { ScrollView as RNScrollView } from 'react-native';
 import type { ScrollViewProps } from '../../focusManager/types';
 import CoreManager from '../../focusManager/model/core';
 import { measure, recalculateLayout } from '../../focusManager/layoutManager';
-import { createInstance, ScrollViewCls } from '../../focusManager/model/scrollview';
+import ScrollViewClass from '../../focusManager/model/scrollview';
 
 const ScrollView = React.forwardRef<any, ScrollViewProps>(
     ({ children, style, parentContext, horizontal, focusOptions, ...props }: ScrollViewProps, refOuter) => {
         const ref = useRef<RNScrollView>() as React.MutableRefObject<RNScrollView>;
 
-        const [ClsInstance] = useState<ScrollViewCls>(() =>
-            createInstance({
-                horizontal,
-                parent: parentContext,
-                ...focusOptions,
-            })
+        const [ClsInstance] = useState<ScrollViewClass>(
+            () =>
+                new ScrollViewClass({
+                    horizontal,
+                    parent: parentContext,
+                    ...focusOptions,
+                })
         );
 
         useImperativeHandle(refOuter, () => ({

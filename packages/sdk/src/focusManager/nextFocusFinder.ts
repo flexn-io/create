@@ -1,6 +1,6 @@
 import { Dimensions } from 'react-native';
 import { DIRECTION_VERTICAL, CUTOFF_SIZE } from './constants';
-import logger from './logger';
+import Logger from './model/logger';
 import AbstractFocusModel from './model/AbstractFocusModel';
 
 const windowWidth = Dimensions.get('window').width;
@@ -27,8 +27,8 @@ const nextIsVisible = (nextMax: number, direction: string) => {
     return true;
 };
 
-const isInOneLine = (direction: string, nextCls: AbstractFocusModel, currentContext: AbstractFocusModel) => {
-    const currentLayout = currentContext.getLayout();
+const isInOneLine = (direction: string, nextCls: AbstractFocusModel, currentFocus: AbstractFocusModel) => {
+    const currentLayout = currentFocus.getLayout();
     const nextLayout = nextCls.getLayout();
 
     if (nextCls.getChildren().length > 0) {
@@ -82,12 +82,12 @@ export const distCalc = (
     direction: string,
     contextParameters: any
 ) => {
-    const { currentFocusable }: { currentFocusable: AbstractFocusModel } = contextParameters;
+    const { currentFocus }: { currentFocus: AbstractFocusModel } = contextParameters;
     // First we search based on the distance to guide line
     const ix = intersects(guideLine, currentRectDimension, p3, p4);
     const ixOffset = intersectsOffset(guideLine, p3, p4);
     const nextVisible = nextIsVisible(p12, direction);
-    const inOneLine = isInOneLine(direction, nextCls, currentFocusable);
+    const inOneLine = isInOneLine(direction, nextCls, currentFocus);
 
     const closestDistance = Math.abs(p5 - p6);
     const cornerDistance = p7 - p8;
@@ -102,7 +102,7 @@ export const distCalc = (
         output.match1 = closestDistance;
         output.match1Context = nextCls;
         output.match1IxOffset = ixOffset;
-        logger.debug('FOUND CLOSER M1', nextCls.getId(), closestDistance);
+        Logger.getInstance().debug('FOUND CLOSER M1', nextCls.getId(), closestDistance);
     }
 
     // Next up based on component size and it's center point
@@ -117,7 +117,7 @@ export const distCalc = (
     ) {
         output.match2 = closestDistance;
         output.match2Context = nextCls;
-        logger.debug('FOUND CLOSER M2', nextCls.getId(), closestDistance);
+        Logger.getInstance().debug('FOUND CLOSER M2', nextCls.getId(), closestDistance);
     }
     // Finally a search is based on arbitrary cut off size, so we could focus not entirely aligned items
     const ix3 = intersects(p9, CUTOFF_SIZE, p3, p4);
@@ -133,7 +133,7 @@ export const distCalc = (
         if (nextCls.isFocusable()) {
             output.match3 = closestDistance;
             output.match3Context = nextCls;
-            logger.debug('FOUND CLOSER M3', nextCls.getId(), closestDistance);
+            Logger.getInstance().debug('FOUND CLOSER M3', nextCls.getId(), closestDistance);
         } else {
             const firstInNextGroup = findFirstFocusableInGroup(nextCls);
             if (firstInNextGroup) {

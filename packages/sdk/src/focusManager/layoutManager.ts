@@ -1,10 +1,10 @@
 import { CONTEXT_TYPES } from './constants';
 import AbstractFocusModel from './model/AbstractFocusModel';
-import { ScreenCls } from './model/screen';
-import { ViewCls } from './model/view';
+import Screen from './model/screen';
+import View from './model/view';
 
 export function findLowestRelativeCoordinates(cls: AbstractFocusModel) {
-    const screen = cls.getScreen() as ScreenCls;
+    const screen = cls.getScreen() as Screen;
 
     if (screen && cls.getType() === CONTEXT_TYPES.VIEW) {
         const layout = screen.getPrecalculatedFocus()?.getLayout();
@@ -14,7 +14,7 @@ export function findLowestRelativeCoordinates(cls: AbstractFocusModel) {
         const c3 = layout?.yMin > cls.getLayout()?.yMin;
 
         if (c1 || c2 || c3) {
-            cls.getScreen()?.setPrecalculatedFocus(cls as ViewCls);
+            cls.getScreen()?.setPrecalculatedFocus(cls as View);
         }
     }
 }

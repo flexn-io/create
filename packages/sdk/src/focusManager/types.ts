@@ -7,7 +7,6 @@ import type {
     ViewStyle,
     ScrollView,
 } from 'react-native';
-import type { ScreenCls } from './model/screen';
 import AbstractFocusModel from './model/AbstractFocusModel';
 export type ForbiddenFocusDirections =
     | 'down'
@@ -120,6 +119,7 @@ export interface RecyclerViewProps {
     disableItemContainer?: boolean;
 }
 
+//@deprecated
 export interface Context {
     id: string;
     type: string;
@@ -170,9 +170,6 @@ export interface Context {
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
-    screenCls?: ScreenCls;
 }
 
-export type ContextMap = { [key: string]: Context };
-export type FocusableMap = { [key: string]: AbstractFocusModel };
 export type FocusMap = { [key: string]: AbstractFocusModel };

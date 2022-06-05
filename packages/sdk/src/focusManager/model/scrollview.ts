@@ -1,7 +1,7 @@
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 
-export class ScrollView extends AbstractFocusModel {
+class ScrollView extends AbstractFocusModel {
     private _type: string;
 
     private _parent?: AbstractFocusModel;
@@ -20,10 +20,6 @@ export class ScrollView extends AbstractFocusModel {
         this._type = 'scrollview';
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;
-    }
-
-    public destroy(): void {
-        destroyInstance(this._id);
     }
 
     public getType(): string {
@@ -75,24 +71,4 @@ export class ScrollView extends AbstractFocusModel {
     }
 }
 
-const ScrollViewInstances: { [key: string]: ScrollView } = {};
-function createInstance(context: any) {
-    if (ScrollViewInstances[context.id]) {
-        return ScrollViewInstances[context.id];
-    }
-
-    const _ScrollView = new ScrollView(context);
-    ScrollViewInstances[_ScrollView.getId()] = _ScrollView;
-
-    return ScrollViewInstances[_ScrollView.getId()];
-}
-
-function destroyInstance(id: string) {
-    if (ScrollViewInstances[id]) {
-        delete ScrollViewInstances[id];
-    }
-}
-
-export type ScrollViewCls = ScrollView;
-
-export { createInstance, destroyInstance };
+export default ScrollView;

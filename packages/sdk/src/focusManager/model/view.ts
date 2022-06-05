@@ -3,7 +3,7 @@ import AbstractFocusModel from './AbstractFocusModel';
 import { alterForbiddenFocusDirections } from '../helpers';
 import { ForbiddenFocusDirections } from '../types';
 
-export class View extends AbstractFocusModel {
+class View extends AbstractFocusModel {
     private _type: string;
     private _parent?: AbstractFocusModel;
     private _isFocused: boolean;
@@ -41,10 +41,6 @@ export class View extends AbstractFocusModel {
 
     public getType(): string {
         return this._type;
-    }
-
-    public destroy(): void {
-        destroyInstance(this._id);
     }
 
     public isFocusable(): boolean {
@@ -110,20 +106,4 @@ export class View extends AbstractFocusModel {
     }
 }
 
-const ViewInstances: { [key: string]: View } = {};
-function createInstance(context: any) {
-    const _View = new View(context);
-    ViewInstances[_View.getId()] = _View;
-
-    return ViewInstances[_View.getId()];
-}
-
-function destroyInstance(id: string) {
-    if (ViewInstances[id]) {
-        delete ViewInstances[id];
-    }
-}
-
-export type ViewCls = View;
-
-export { createInstance, destroyInstance };
+export default View;

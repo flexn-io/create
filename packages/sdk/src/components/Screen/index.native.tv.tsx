@@ -6,7 +6,7 @@ import { useCombinedRefs } from '../../focusManager/helpers';
 import CoreManager from '../../focusManager/model/core';
 import { measure } from '../../focusManager/layoutManager';
 
-import { createInstance, ScreenCls } from '../../focusManager/model/screen';
+import ScreenClass from '../../focusManager/model/screen';
 
 const Screen = React.forwardRef<any, ScreenProps>(
     (
@@ -30,16 +30,17 @@ const Screen = React.forwardRef<any, ScreenProps>(
         const refInner = useRef(null);
         const ref = useCombinedRefs(refOuter, refInner);
 
-        const [ClsInstance] = useState<ScreenCls>(() =>
-            createInstance({
-                prevState: screenState,
-                state: screenState,
-                order: screenOrder,
-                stealFocus,
-                onFocus,
-                onBlur,
-                ...focusOptions,
-            })
+        const [ClsInstance] = useState<ScreenClass>(
+            () =>
+                new ScreenClass({
+                    prevState: screenState,
+                    state: screenState,
+                    order: screenOrder,
+                    stealFocus,
+                    onFocus,
+                    onBlur,
+                    ...focusOptions,
+                })
         );
 
         CoreManager.registerFocusable(ClsInstance);

@@ -1,4 +1,4 @@
-import { ScreenCls, STATE_BACKGROUND } from './screen';
+import Screen, { STATE_BACKGROUND } from './screen';
 
 const TYPE_SCREEN = 'screen';
 // const TYPE_VIEW = 'view';
@@ -8,7 +8,7 @@ export default abstract class AbstractFocusModel {
     protected _layout: any;
     protected _id: string;
     protected _children: AbstractFocusModel[];
-    protected _screen: ScreenCls | undefined;
+    protected _screen: Screen | undefined;
 
     protected _nextFocusRight: string;
     protected _nextFocusLeft: string;
@@ -29,7 +29,6 @@ export default abstract class AbstractFocusModel {
     public nodeId?: number | null;
     public node?: any;
 
-    abstract destroy(): void;
     abstract getType(): string;
     abstract getParent(): AbstractFocusModel | undefined;
 
@@ -42,7 +41,7 @@ export default abstract class AbstractFocusModel {
 
     abstract setRepeatContext(rp: AbstractFocusModel): this;
 
-    public getScreen(): ScreenCls | undefined {
+    public getScreen(): Screen | undefined {
         if (this._screen) {
             return this._screen;
         }
@@ -53,7 +52,7 @@ export default abstract class AbstractFocusModel {
         }
 
         if (parentCls?.isScreen()) {
-            this._screen = parentCls as ScreenCls;
+            this._screen = parentCls as Screen;
             return this._screen;
         }
     }
@@ -104,8 +103,6 @@ export default abstract class AbstractFocusModel {
                 this.removeChildren(index);
             });
         }
-
-        this.destroy();
 
         return this;
     }

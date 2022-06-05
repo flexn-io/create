@@ -8,7 +8,7 @@ import {
 import CoreManager from '../../focusManager/model/core';
 import { measure } from '../../focusManager/layoutManager';
 import type { RecyclerViewProps } from '../../focusManager/types';
-import { createInstance } from '../../focusManager/model/recycler';
+import RecyclerClass from '../../focusManager/model/recycler';
 
 const Column = null;
 
@@ -38,14 +38,15 @@ export default function RecyclerView({
     const rlvRef = useRef<RecyclerListView<any, any>>(null);
     const rnViewRef = useRef<RNView>(null);
 
-    const [ClsInstance] = useState(() =>
-        createInstance({
-            isHorizontal,
-            isNested: !!repeatContext,
-            parent: parentContext,
-            repeatContext,
-            ...focusOptions,
-        })
+    const [ClsInstance] = useState(
+        () =>
+            new RecyclerClass({
+                isHorizontal,
+                isNested: !!repeatContext,
+                parent: parentContext,
+                repeatContext,
+                ...focusOptions,
+            })
     );
 
     if (repeatContext) {

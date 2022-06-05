@@ -3,7 +3,7 @@ import AbstractFocusModel from './AbstractFocusModel';
 import { ForbiddenFocusDirections } from '../types';
 import { alterForbiddenFocusDirections } from '../helpers';
 
-export class Recycler extends AbstractFocusModel {
+class Recycler extends AbstractFocusModel {
     private _type: string;
     private _parent?: AbstractFocusModel;
     private _layouts: any;
@@ -41,10 +41,6 @@ export class Recycler extends AbstractFocusModel {
 
     public getType(): string {
         return this._type;
-    }
-
-    public destroy(): void {
-        destroyInstance(this._id);
     }
 
     public isFocusable(): boolean {
@@ -116,20 +112,4 @@ export class Recycler extends AbstractFocusModel {
     }
 }
 
-const RecyclerInstances: { [key: string]: Recycler } = {};
-function createInstance(context: any): Recycler {
-    const _Recycler = new Recycler(context);
-    RecyclerInstances[_Recycler.getId()] = _Recycler;
-
-    return RecyclerInstances[_Recycler.getId()];
-}
-
-function destroyInstance(id: string) {
-    if (RecyclerInstances[id]) {
-        delete RecyclerInstances[id];
-    }
-}
-
-export type RecyclerCls = Recycler;
-
-export { createInstance, destroyInstance };
+export default Recycler;

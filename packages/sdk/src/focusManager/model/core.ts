@@ -2,13 +2,12 @@ import { findNodeHandle, UIManager } from 'react-native';
 import { distCalc } from '../nextFocusFinder';
 import { getNextForcedFocusKey } from '../helpers';
 import { recalculateLayout } from '../layoutManager';
-import logger from '../logger';
 import AbstractFocusModel from './AbstractFocusModel';
-import { ViewCls } from './view';
 import Scroller from './scroller';
-import { RecyclerCls } from './recycler';
-import { ScreenCls } from './screen';
-
+import View from './view';
+import Recycler from './recycler';
+import Screen from './screen';
+import Logger from './logger';
 class CoreManager {
     public _focusMap: {
         [key: string]: AbstractFocusModel;
@@ -95,7 +94,7 @@ class CoreManager {
             nextFocusable.onFocus();
             nextFocusable.setIsFocused(true);
             if (nextFocusable.getScreen()) {
-                nextFocusable.getScreen()?.setCurrentFocus(nextFocusable as ViewCls);
+                nextFocusable.getScreen()?.setCurrentFocus(nextFocusable as View);
             }
         }
     }
@@ -129,7 +128,7 @@ class CoreManager {
         );
 
         if (element && element.isScreen()) {
-            element.setFocus((element as ScreenCls).getFirstFocusableOnScreen());
+            element.setFocus((element as Screen).getFirstFocusableOnScreen());
         }
         // TODO: Implement for other type rather than screen
     };
@@ -141,10 +140,10 @@ class CoreManager {
         inScreenContext?: boolean
     ): AbstractFocusModel | undefined | null => {
         const currentFocus = this._currentFocus;
-        const focusableMap = this._focusMap;
+        const focusMap = this._focusMap;
 
         if (!currentFocus) {
-            return focusableMap[Object.keys(focusableMap)[0]];
+            return focusMap[Object.keys(focusMap)[0]];
         }
 
         if (currentFocus.containsForbiddenDirection(direction)) {
@@ -166,7 +165,7 @@ class CoreManager {
             parents.push(p.getId());
             p = p.getParent();
         }
-        logger.debug('FIND===============================', parents, ch);
+        Logger.getInstance().debug('FIND===============================', parents, ch);
         if (ch) {
             const output: {
                 match1: number;
@@ -190,7 +189,7 @@ class CoreManager {
                 const cls = ch[i];
                 const notFocusableAndNoChildren = cls.getChildren().length < 1 && !cls.isFocusable();
                 if (notFocusableAndNoChildren) {
-                    logger.debug('FOUND GROUP WITH NO CHILDREN!', cls.getId());
+                    Logger.getInstance().debug('FOUND GROUP WITH NO CHILDREN!', cls.getId());
                 } else if (!parents.includes(cls.getId()) && !notFocusableAndNoChildren) {
                     this.findClosestNode(cls, direction, output);
                 }
@@ -215,21 +214,21 @@ class CoreManager {
                 if (parentCls.isScreen()) {
                     const nextForcedFocusKey = getNextForcedFocusKey(parentCls, direction, this._focusMap);
                     if (nextForcedFocusKey) {
-                        logger.debug('FOUND FORCED FOCUS DIRECTION', direction, nextForcedFocusKey);
+                        Logger.getInstance().debug('FOUND FORCED FOCUS DIRECTION', direction, nextForcedFocusKey);
                         this.focusElementByFocusKey(nextForcedFocusKey);
                         return;
                     }
 
                     if (!inScreenContext && !parentCls.containsForbiddenDirection(direction)) {
-                        logger.debug('REACHED END SCREEN.');
+                        Logger.getInstance().debug('REACHED END SCREEN.');
 
                         const focusableScreens: AbstractFocusModel[] = [];
                         const maxOrder = Math.max(
-                            ...Object.values(focusableMap).map((o: AbstractFocusModel) =>
+                            ...Object.values(focusMap).map((o: AbstractFocusModel) =>
                                 isNaN(o.getOrder?.()) ? 0 : o.getOrder?.()
                             )
                         );
-                        Object.values(focusableMap).forEach((s: AbstractFocusModel) => {
+                        Object.values(focusMap).forEach((s: AbstractFocusModel) => {
                             if (s.isScreen() && s.getId() !== parentCls.getId() && s.isInForeground()) {
                                 if (s.getOrder() >= maxOrder) {
                                     focusableScreens.push(s);
@@ -237,7 +236,7 @@ class CoreManager {
                             }
                         });
 
-                        logger.debug('FOCUSABLE SCREENS', focusableScreens);
+                        Logger.getInstance().debug('FOCUSABLE SCREENS', focusableScreens);
                         let nextScreen: AbstractFocusModel | null | undefined;
                         focusableScreens.forEach((s) => {
                             nextScreen = this.getNextFocusableContext(direction, s, false, true);
@@ -258,7 +257,7 @@ class CoreManager {
                 }
 
                 if (!parentCls) {
-                    logger.debug('REACHED NO PARENT.');
+                    Logger.getInstance().debug('REACHED NO PARENT.');
                     return currentFocus;
                 }
 
@@ -269,25 +268,25 @@ class CoreManager {
                 }
 
                 if (parentCls.containsForbiddenDirection(direction)) {
-                    logger.debug('PARENT HAS FORBIDDEN DIRECTION', direction);
+                    Logger.getInstance().debug('PARENT HAS FORBIDDEN DIRECTION', direction);
                     return currentFocus;
                 }
 
-                logger.debug('REACHED END. GOING OUT', parentCls);
+                Logger.getInstance().debug('REACHED END. GOING OUT', parentCls);
                 if (mustPickContext) {
-                    logger.debug('REACHED END OF GROUP. PICKING FIRST CHILD');
+                    Logger.getInstance().debug('REACHED END OF GROUP. PICKING FIRST CHILD');
                     return currentFocus;
                 }
 
                 const parent = parentCls.getParent();
                 if (parent) {
-                    logger.debug('PICKING PARENT', parent);
+                    Logger.getInstance().debug('PICKING PARENT', parent);
                     return this.getNextFocusableContext(direction, parent, false, false);
                 }
                 return null;
             }
             if (closestContext.getChildren().length > 0) {
-                logger.debug(`REACHED GROUP ${closestContext.getId()}. GOING IN`);
+                Logger.getInstance().debug(`REACHED GROUP ${closestContext.getId()}. GOING IN`);
                 return this.getNextFocusableContext(direction, closestContext, true, false);
             }
 
@@ -303,12 +302,12 @@ class CoreManager {
         const currentLayout = this._currentFocus?.getLayout();
         if (!nextLayout) {
             // eslint-disable-next-line
-            logger.warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
+            Logger.getInstance().warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
             return;
         }
         if (!currentLayout) {
             // eslint-disable-next-line
-            logger.warn('Current context were removed during focus find');
+            Logger.getInstance().warn('Current context were removed during focus find');
             return;
         }
 
@@ -325,8 +324,8 @@ class CoreManager {
         const nextYMax = nextLayout.absolute.yMax;
 
         const contextParameters = {
-            currentFocusable: this._currentFocus,
-            focusableMap: this._focusMap,
+            currentFocus: this._currentFocus,
+            focusMap: this._focusMap,
             isDebuggerEnabled: this._debuggerEnabled,
             findClosestNode: this.findClosestNode,
         };
@@ -419,7 +418,7 @@ class CoreManager {
         }
 
         if (this._currentFocus?.getParent()?.isRecyclable()) {
-            const parent = this._currentFocus.getParent() as RecyclerCls;
+            const parent = this._currentFocus.getParent() as Recycler;
             const d1 = parent.isHorizontal() ? ['right', 'swipeRight'] : ['down', 'swipeDown'];
             const d2 = parent.isHorizontal() ? ['left', 'swipeLeft'] : ['up', 'swipeUp'];
             const lastIsVisible = d1.includes(direction) ? parent.isLastVisible?.() : true;
@@ -435,12 +434,12 @@ class CoreManager {
         }
 
         if (this._currentFocus?.getParent()?.isRecyclable()) {
-            const parent = this._currentFocus.getParent() as RecyclerCls;
+            const parent = this._currentFocus.getParent() as Recycler;
             if (parent.isNested()) {
                 const d1 = ['down', 'swipeDown'];
                 const d2 = ['up', 'swipeUp'];
                 if (parent?.getParent()?.isRecyclable()) {
-                    const parentOfParent = parent.getParent() as RecyclerCls;
+                    const parentOfParent = parent.getParent() as Recycler;
                     const lastIsVisible = d1.includes(direction) ? parentOfParent.isLastVisible?.() : true;
                     const firstIsVisible = d2.includes(direction) ? parentOfParent.isFirstVisible?.() : true;
 
@@ -487,6 +486,6 @@ class CoreManager {
 
 const CoreManagerInstance = new CoreManager();
 
-logger.initialize(CoreManagerInstance);
+Logger.getInstance(CoreManagerInstance);
 
 export default CoreManagerInstance;

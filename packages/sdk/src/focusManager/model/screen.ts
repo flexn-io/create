@@ -1,9 +1,9 @@
 import { ScreenStates, ForbiddenFocusDirections } from '../types';
 import CoreManager from './core';
-import logger from '../logger';
+import Logger from './logger';
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
-import { ViewCls } from './view';
+import View from './view';
 import { alterForbiddenFocusDirections } from '../helpers';
 import { findLowestRelativeCoordinates } from '../layoutManager';
 import { DEFAULT_VIEWPORT_OFFSET } from '../constants';
@@ -15,7 +15,7 @@ export const STATE_FOREGROUND: ScreenStates = 'foreground';
 const ALIGNMENT_BOTH_EDGE = 'bot-edge';
 const ALIGNMENT_LOW_EDGE = 'low-edge';
 
-export class Screen extends AbstractFocusModel {
+class Screen extends AbstractFocusModel {
     public _type: string;
     private _state: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
     private _prevState: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
@@ -29,9 +29,9 @@ export class Screen extends AbstractFocusModel {
     private _initialLoadInProgress: boolean;
     private _loadingComponents: number;
     private _unmountingComponents: number;
-    private _preferredFocus?: ViewCls;
-    private _currentFocus?: ViewCls;
-    private _precalculatedFocus?: ViewCls;
+    private _preferredFocus?: View;
+    private _currentFocus?: View;
+    private _precalculatedFocus?: View;
     private _stealFocus: boolean;
     private _isFocused: boolean;
     private _repeatContext:
@@ -83,10 +83,6 @@ export class Screen extends AbstractFocusModel {
         this._onBlur = onBlur;
     }
 
-    public destroy(): void {
-        destroyInstance(this._id);
-    }
-
     public setIsLoading() {
         if (this._initialLoadInProgress) {
             this._loadingComponents++;
@@ -111,11 +107,11 @@ export class Screen extends AbstractFocusModel {
             CoreManager.executeUpdateGuideLines();
             cls.getScreen()?.onFocus();
         } else {
-            logger.log('Focusable not found');
+            Logger.getInstance().log('Focusable not found');
         }
     }
 
-    public onViewRemoved(cls: ViewCls): void {
+    public onViewRemoved(cls: View): void {
         this._unmountingComponents++;
 
         setTimeout(() => {
@@ -240,33 +236,33 @@ export class Screen extends AbstractFocusModel {
         return undefined;
     }
 
-    public setPreferredFocus(cls: ViewCls): this {
+    public setPreferredFocus(cls: View): this {
         this._preferredFocus = cls;
 
         return this;
     }
 
-    public getPreferredFocus(): ViewCls | undefined {
+    public getPreferredFocus(): View | undefined {
         return this._preferredFocus;
     }
 
-    public setPrecalculatedFocus(cls: ViewCls): this {
+    public setPrecalculatedFocus(cls: View): this {
         this._precalculatedFocus = cls;
 
         return this;
     }
 
-    public setCurrentFocus(cls: ViewCls): this {
+    public setCurrentFocus(cls: View): this {
         this._currentFocus = cls;
 
         return this;
     }
 
-    public getCurrentFocus(): ViewCls | undefined {
+    public getCurrentFocus(): View | undefined {
         return this._currentFocus;
     }
 
-    public getPrecalculatedFocus(): ViewCls | undefined {
+    public getPrecalculatedFocus(): View | undefined {
         return this._precalculatedFocus;
     }
 
@@ -313,20 +309,4 @@ export class Screen extends AbstractFocusModel {
     }
 }
 
-const ScreenInstances: { [key: string]: Screen } = {};
-function createInstance(context: any): Screen {
-    const _Screen = new Screen(context);
-    ScreenInstances[_Screen.getId()] = _Screen;
-
-    return ScreenInstances[_Screen.getId()];
-}
-
-function destroyInstance(id: string) {
-    if (ScreenInstances[id]) {
-        delete ScreenInstances[id];
-    }
-}
-
-export type ScreenCls = Screen;
-
-export { createInstance, destroyInstance };
+export default Screen;
