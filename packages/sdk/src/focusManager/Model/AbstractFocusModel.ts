@@ -115,7 +115,6 @@ export default abstract class AbstractFocusModel {
     }
 
     public getMostBottomChildren(): AbstractFocusModel {
-        console.log('this.getChildren()', this.getChildren());
         return this.getChildren().sort((a: AbstractFocusModel, b: AbstractFocusModel) => {
             if (a.getLayout().yMax > b.getLayout().yMax) {
                 return 1;

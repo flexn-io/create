@@ -22,4 +22,8 @@ class TvFocusableViewManager: RCTViewManager {
             component.focus(animated: true)
         }
     }
+
+    @objc override static func requiresMainQueueSetup() -> Bool {
+      return false
+    }
 }

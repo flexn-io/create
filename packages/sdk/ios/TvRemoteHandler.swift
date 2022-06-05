@@ -150,6 +150,10 @@ class TvRemoteHandler: RCTEventEmitter {
     override func supportedEvents() -> [String]! {
       return ["onTVRemoteKey"];
     }
+
+    @objc override static func requiresMainQueueSetup() -> Bool {
+      return false
+    }
 }
 
 public enum Direction: Int {
