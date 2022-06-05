@@ -1,67 +1,69 @@
-import type { Context } from './types';
 import { CONTEXT_TYPES } from './constants';
+import AbstractFocusModel from './model/AbstractFocusModel';
+import Screen from './model/screen';
+import View from './model/view';
 
-function findLowestRelativeCoordinates(context: Context) {
-    if (context.screen && context.type === CONTEXT_TYPES.VIEW) {
-        const { screen } = context;
-        const { layout } = screen.firstFocusable || {};
+export function findLowestRelativeCoordinates(cls: AbstractFocusModel) {
+    const screen = cls.getScreen() as Screen;
 
-        const c1 = !screen.firstFocusable;
-        const c2 = layout?.yMin === context.layout?.yMin && layout.xMin >= context.layout?.xMin;
-        const c3 = layout?.yMin > context.layout?.yMin;
-        
+    if (screen && cls.getType() === CONTEXT_TYPES.VIEW) {
+        const layout = screen.getPrecalculatedFocus()?.getLayout();
+
+        const c1 = !screen.getPrecalculatedFocus();
+        const c2 = layout?.yMin === cls.getLayout()?.yMin && layout?.xMin >= cls.getLayout()?.xMin;
+        const c3 = layout?.yMin > cls.getLayout()?.yMin;
+
         if (c1 || c2 || c3) {
-            context.screen.firstFocusable = context;
+            cls.getScreen()?.setPrecalculatedFocus(cls as View);
         }
     }
 }
 
-function recalculateAbsolutes(context: Context) {
-    const { layout } = context;
-
-    layout.absolute = {
+function recalculateAbsolutes(cls: AbstractFocusModel) {
+    const layout = cls.getLayout();
+    cls.updateLayoutProperty('absolute', {
         xMin: layout.xMin - layout.xOffset,
         xMax: layout.xMax - layout.xOffset,
         yMin: layout.yMin - layout.yOffset,
         yMax: layout.yMax - layout.yOffset,
         xCenter: layout.xCenter - layout.xOffset,
         yCenter: layout.yCenter - layout.yOffset,
-    };
+    });
 }
 
-function recalculateLayout(context: Context) {
-    if (!context?.layout) {
+function recalculateLayout(cls: AbstractFocusModel) {
+    if (!cls?.getLayout()) {
         return;
     }
     // This is needed because ScrollView offsets
     let offsetX = 0;
     let offsetY = 0;
-    let { parent } = context;
+    let parent = cls.getParent();
     while (parent) {
-        if (parent.isScrollable) {
-            offsetX += parent.scrollOffsetX || 0;
-            offsetY += parent.scrollOffsetY || 0;
+        if (parent.isScrollable()) {
+            offsetX += parent.getScrollOffsetX() || 0;
+            offsetY += parent.getScrollOffsetY() || 0;
         }
-        parent = parent?.parent;
+        parent = parent?.getParent();
     }
-    context.layout.xOffset = offsetX;
-    context.layout.yOffset = offsetY;
-    
-    recalculateAbsolutes(context);
+
+    cls.updateLayoutProperty('xOffset', offsetX).updateLayoutProperty('yOffset', offsetY);
+
+    recalculateAbsolutes(cls);
 }
 
-function measure(context: Context, ref: any, unmeasurableRelatives?: { x: number, y: number }) {
+function measure(cls: AbstractFocusModel, ref: any, unmeasurableRelatives?: { x: number; y: number }) {
     ref.current.measure((_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
         let pgX;
         let pgY;
 
-        if (context.repeatContext !== undefined) {
-            const pCtx = context.repeatContext.parentContext;
-
+        const repeatContext = cls.getRepeatContext();
+        if (repeatContext !== undefined) {
+            const pCtx = repeatContext.parentContext;
             if (pCtx !== undefined) {
-                const rLayout = pCtx.layouts[context.repeatContext.index || 0];
-                pgX = pCtx.layout.xMin + rLayout.x;
-                pgY = pCtx.layout.yMin + rLayout.y;
+                const rLayout = pCtx.getLayouts()[repeatContext.index || 0];
+                pgX = pCtx.getLayout().xMin + rLayout.x;
+                pgY = pCtx.getLayout().yMin + rLayout.y;
             }
         } else {
             pgY = pageY;
@@ -69,7 +71,7 @@ function measure(context: Context, ref: any, unmeasurableRelatives?: { x: number
         }
 
         // Single and nested recyclers can't measure itself due to logic above
-        if (unmeasurableRelatives && context.type === CONTEXT_TYPES.RECYCLER) {
+        if (unmeasurableRelatives && cls.getType() === CONTEXT_TYPES.RECYCLER) {
             pgX = pgX + unmeasurableRelatives.x;
             pgY = pgY + unmeasurableRelatives.y;
         }
@@ -94,36 +96,37 @@ function measure(context: Context, ref: any, unmeasurableRelatives?: { x: number
                 xMax: 0,
             },
         };
-        if (context.layout) {
-            layout.yOffset = context.layout.yOffset;
+
+        if (cls.getLayout()) {
+            layout.yOffset = cls.getLayout().yOffset;
         }
 
-        context.layout = layout;
-
-        findLowestRelativeCoordinates(context);
-
-        // Calculate max X and Y width to prevent over scroll
-        if (context.parent?.isScrollable && context.parent.layout) {
-            const pCtx = context?.repeatContext?.parentContext;
+        // TODO: move it out from here
+        const parent = cls.getParent();
+        if (parent?.isScrollable() && parent?.getLayout()) {
+            const pCtx = cls?.getRepeatContext()?.parentContext;
             if (pCtx) {
-                const rLayout = pCtx.layouts[pCtx.layouts.length - 1];
-                context.parent.layout.xMaxScroll = pCtx.layout.xMin + width + rLayout.x;
-                context.parent.layout.yMaxScroll = pCtx.layout.yMin + height + rLayout.y;
+                const rLayout = pCtx.getLayouts()[pCtx.getLayouts().length - 1];
+                parent.updateLayoutProperty('xMaxScroll', pCtx.getLayout().xMin + width + rLayout.x);
             }
         }
 
-        recalculateLayout(context);
+        cls.setLayout(layout);
+        findLowestRelativeCoordinates(cls);
+        recalculateLayout(cls);
     });
 
     // get the layout of innerView in scroll
-    if (context.type === 'scrollView')
+    if (cls.getType() === 'scrollView')
         // eslint-disable-next-line no-underscore-dangle
         ref.current._children[0].measure(
             (_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
-                context.layout.innerView.yMax = pageY + height - context.layout.yMax;
-                context.layout.innerView.yMin = pageY;
-                context.layout.innerView.xMax = pageX + width - context.layout.xMax;
-                context.layout.innerView.xMin = pageX;
+                cls.updateLayoutProperty('innerView', {
+                    yMax: pageY + height - cls.getLayout().yMax,
+                    yMin: pageY + pageY,
+                    xMax: pageX + width - cls.getLayout().xMax,
+                    xMin: pageX,
+                });
             }
         );
 }

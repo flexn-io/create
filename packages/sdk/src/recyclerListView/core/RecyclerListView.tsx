@@ -87,8 +87,8 @@ export interface RecyclerListViewProps {
         index: number,
         extendedState?: object,
         renderProps?: {
-            style: object, 
-            ref: object,
+            style: object;
+            ref: object;
         }
     ) => JSX.Element | JSX.Element[] | null;
     contextProvider?: ContextProvider;
@@ -494,7 +494,12 @@ export default class RecyclerListView<
         ) {
             //TODO:Talha use old layout manager
             this._virtualRenderer.setLayoutManager(
-                newProps.layoutProvider.newLayoutManager(this._layout, newProps.isHorizontal)
+                newProps.layoutProvider.newLayoutManager(
+                    this._layout,
+                    newProps.isHorizontal,
+                    undefined,
+                    this.props.initialXOffset
+                )
             );
             if (newProps.layoutProvider.shouldRefreshWithAnchoring) {
                 this._virtualRenderer.refreshWithAnchor();
@@ -519,7 +524,12 @@ export default class RecyclerListView<
             if (layoutManager) {
                 const cachedLayouts = layoutManager.getLayouts();
                 this._virtualRenderer.setLayoutManager(
-                    newProps.layoutProvider.newLayoutManager(this._layout, newProps.isHorizontal, cachedLayouts)
+                    newProps.layoutProvider.newLayoutManager(
+                        this._layout,
+                        newProps.isHorizontal,
+                        cachedLayouts,
+                        this.props.initialXOffset
+                    )
                 );
                 this._refreshViewability();
             }
@@ -796,16 +806,14 @@ export default class RecyclerListView<
 }
 
 RecyclerListView.propTypes = {
-    //Refer the sample
-    // @ts-ignore
+    // @ts-expect-error Refer the sample
     layoutProvider: PropTypes.instanceOf(BaseLayoutProvider).isRequired,
 
-    //Refer the sample
-    // @ts-ignore
+    // @ts-expect-error Refer the sample
     dataProvider: PropTypes.instanceOf(BaseDataProvider).isRequired,
 
     //Used to maintain scroll position in case view gets destroyed e.g, cases of back navigation
-    // @ts-ignore
+    // @ts-expect-error Refer the sample
     contextProvider: PropTypes.instanceOf(ContextProvider),
 
     //Methods which returns react component to be rendered. You get type of view and data in the callback.

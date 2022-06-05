@@ -5,10 +5,10 @@ import {
     LayoutProvider as RecyclableListLayoutProvider,
     RecyclerListView,
 } from '../../recyclerListView';
-import CoreManager from '../../focusManager/core';
-import { alterForbiddenFocusDirections, makeid } from '../..//focusManager/helpers';
+import CoreManager from '../../focusManager/model/core';
 import { measure } from '../../focusManager/layoutManager';
-import type { Context, RecyclerViewProps } from '../../focusManager/types';
+import type { RecyclerViewProps } from '../../focusManager/types';
+import RecyclerClass from '../../focusManager/model/recycler';
 
 const Column = null;
 
@@ -37,28 +37,20 @@ export default function RecyclerView({
     const scrollViewRef = useRef<HTMLDivElement | null>(null);
     const rlvRef = useRef<RecyclerListView<any, any>>(null);
     const rnViewRef = useRef<RNView>(null);
-    const [context] = useState(() => {
-        const ctx: Context = {
-            id: `recycler-${makeid(8)}`,
-            children: [],
-            isFocusable: false,
-            isScrollable: true,
-            isNested: !!repeatContext,
-            isRecyclable: true,
-            scrollOffsetX: 0,
-            scrollOffsetY: 0,
-            type: 'recycler',
-            isHorizontal,
-            parent: parentContext,
-            repeatContext,
-            forbiddenFocusDirections: alterForbiddenFocusDirections(focusOptions.forbiddenFocusDirections),
-        };
 
-        return ctx;
-    });
+    const [ClsInstance] = useState(
+        () =>
+            new RecyclerClass({
+                isHorizontal,
+                isNested: !!repeatContext,
+                parent: parentContext,
+                repeatContext,
+                ...focusOptions,
+            })
+    );
 
     if (repeatContext) {
-        context.repeatContext = repeatContext;
+        ClsInstance.setRepeatContext(repeatContext);
     }
 
     const rowRendererWithProps = (type: any, data: any, index: any, _extendedState: any, renderProps: any) => {
@@ -66,35 +58,33 @@ export default function RecyclerView({
         const lm: any = vr?.['_layoutManager'];
         const layouts: any = lm?.['_layouts'];
 
-        if (vr && (!context.layouts || layouts.length !== context.layouts.length)) {
-            context.layouts = layouts;
+        if (vr && (!ClsInstance.getLayouts() || layouts.length !== ClsInstance.getLayouts().length)) {
+            ClsInstance.setLayouts(layouts);
         }
 
-        if (vr?.['_params'] && !context.isLastVisible) {
+        if (vr?.['_params'] && !ClsInstance.isLastVisible) {
             const recyclerItemsCount = vr['_params'].itemCount;
             const vt: any = vr['_viewabilityTracker'] || {};
 
-            context.isLastVisible = () => {
+            ClsInstance.isLastVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
                 return visibleIndexes[visibleIndexes.length - 1] + 1 === recyclerItemsCount;
             };
 
-            context.isFirstVisible = () => {
+            ClsInstance.isFirstVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
                 return visibleIndexes[0] === 0;
             };
         }
 
-        return rowRenderer(type, data, index, { parentContext: context, index }, renderProps);
+        return rowRenderer(type, data, index, { parentContext: ClsInstance, index }, renderProps);
     };
 
     useEffect(() => {
-        CoreManager.registerContext(context, scrollViewRef);
-    });
+        CoreManager.registerFocusable(ClsInstance, scrollViewRef);
 
-    useEffect(() => {
         return () => {
-            CoreManager.removeContext(context);
+            CoreManager.removeFocusable(ClsInstance);
         };
     }, []);
 
@@ -113,7 +103,7 @@ export default function RecyclerView({
             x: paddingLeft + marginLeft + left + (unmeasurableRelativeDimensions.x || 0),
             y: paddingTop + marginTop + top + (unmeasurableRelativeDimensions.y || 0),
         };
-        measure(context, rnViewRef, unmeasurableDimensions);
+        measure(ClsInstance, rnViewRef, unmeasurableDimensions);
     };
 
     return (
@@ -128,6 +118,10 @@ export default function RecyclerView({
                         scrollViewRef.current = ref?._scrollViewRef; // `scrollTo()` is not working otherwise
                     },
                     scrollEnabled: false,
+                }}
+                onScroll={(event: any) => {
+                    const { height } = event.nativeEvent.contentSize;
+                    ClsInstance.updateLayoutProperty('yMaxScroll', height);
                 }}
                 rowRenderer={rowRendererWithProps}
                 disableItemContainer={disableItemContainer}

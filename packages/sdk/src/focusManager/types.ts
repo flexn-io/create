@@ -7,8 +7,16 @@ import type {
     ViewStyle,
     ScrollView,
 } from 'react-native';
-import type { ScreenCls } from './screen';
-export type ForbiddenFocusDirections = 'down' | 'up' | 'left' | 'right';
+import AbstractFocusModel from './model/AbstractFocusModel';
+export type ForbiddenFocusDirections =
+    | 'down'
+    | 'up'
+    | 'left'
+    | 'right'
+    | 'swipeDown'
+    | 'swipeUp'
+    | 'swipeLeft'
+    | 'swipeRight';
 export type WindowAlignment = 'both-edge' | 'low-edge';
 export type ScreenStates = 'background' | 'foreground';
 
@@ -17,6 +25,10 @@ export type PressableFocusOptions = {
     animatorOptions?: any;
     focusKey?: string;
     hasInitialFocus?: boolean;
+    nextFocusLeft?: string | string[];
+    nextFocusRight?: string | string[];
+    nextFocusUp?: string | string[];
+    nextFocusDown?: string | string[];
 };
 
 export type ScreenFocusOptions = {
@@ -34,6 +46,10 @@ export type ScreenFocusOptions = {
 
 export type RecyclableListFocusOptions = {
     forbiddenFocusDirections?: ForbiddenFocusDirections[];
+    nextFocusLeft?: string | string[];
+    nextFocusRight?: string | string[];
+    nextFocusUp?: string | string[];
+    nextFocusDown?: string | string[];
 };
 
 export interface ViewProps extends RNViewProps {
@@ -71,6 +87,7 @@ export interface ScrollViewProps extends RNScrollViewProps {
     horizontal?: boolean;
     children?: React.ReactNode;
     ref?: React.MutableRefObject<ScrollView>;
+    focusOptions?: RecyclableListFocusOptions;
 }
 
 export interface ScreenProps {
@@ -93,23 +110,29 @@ export interface RecyclerViewProps {
     layoutProvider: any;
     rowRenderer: any;
     bounces?: boolean;
-    scrollViewProps?: any;  
+    scrollViewProps?: any;
     scrollEventThrottle?: number;
     contentContainerStyle?: StyleProp<ViewStyle>;
     style?: StyleProp<ViewStyle>;
-    unmeasurableRelativeDimensions: { x?: number, y?: number };
+    unmeasurableRelativeDimensions: { x?: number; y?: number };
     focusOptions?: RecyclableListFocusOptions;
     disableItemContainer?: boolean;
 }
 
+//@deprecated
 export interface Context {
     id: string;
     type: string;
+
     children: Context[];
+
     parent?: Context;
+
     layout?: any;
     prevState?: string;
+
     screen?: Context;
+
     data?: any;
     onFocus?(): void;
     onBlur?(): void;
@@ -133,11 +156,13 @@ export interface Context {
     isFocusable?: boolean;
     focusKey?: string;
     state?: string; // proper type
+
     initialFocus?: Context;
     firstFocusable?: Context;
     lastFocused?: Context;
     repeatContext?: Context;
     parentContext?: Context;
+
     layouts?: any;
     index?: number;
     forbiddenFocusDirections?: string[];
@@ -145,7 +170,6 @@ export interface Context {
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
-    screenCls?: ScreenCls;
 }
 
-export type ContextMap = { [key: string]: Context };
+export type FocusMap = { [key: string]: AbstractFocusModel };

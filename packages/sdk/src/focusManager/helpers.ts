@@ -2,8 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import { Dimensions, PixelRatio } from 'react-native';
 import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 import { ForbiddenFocusDirections } from './types';
-import type { Context } from './types';
-import { DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, SCREEN_STATES } from './constants';
+import { DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT } from './constants';
+import AbstractFocusModel from './model/AbstractFocusModel';
 
 export function makeid(length: number) {
     let result = '';
@@ -28,8 +28,10 @@ export function flattenStyle(style: any) {
     return { ...flattenedStyle };
 }
 
-export function alterForbiddenFocusDirections(forbiddenFocusDirections: ForbiddenFocusDirections[] = []) {
-    const ffd: string[] = [...forbiddenFocusDirections];
+export function alterForbiddenFocusDirections(
+    forbiddenFocusDirections: ForbiddenFocusDirections[] = []
+): ForbiddenFocusDirections[] {
+    const ffd: ForbiddenFocusDirections[] = [...forbiddenFocusDirections];
 
     forbiddenFocusDirections.forEach((direction) => {
         if (direction === 'down') ffd.push('swipeDown');
@@ -43,15 +45,13 @@ export function alterForbiddenFocusDirections(forbiddenFocusDirections: Forbidde
 
 function pickActiveForcedFocusContext(
     nextForcedFocusKey: string | string[],
-    contextMap: { [key: string]: Context }
+    focusMap: { [key: string]: AbstractFocusModel }
 ): string | null {
     if (Array.isArray(nextForcedFocusKey)) {
         for (let index = 0; index < nextForcedFocusKey.length; index++) {
             const focusKey = nextForcedFocusKey[index];
-            const isActive: Context | undefined = Object.values(contextMap).find(
-                (s) =>
-                    s.focusKey === focusKey &&
-                    (s?.screen?.state === SCREEN_STATES.FOREGROUND || s.state === SCREEN_STATES.FOREGROUND)
+            const isActive: AbstractFocusModel | undefined = Object.values(focusMap).find(
+                (cls) => cls.getFocusKey() === focusKey && cls.isInForeground()
             );
             if (isActive) {
                 return focusKey;
@@ -59,31 +59,27 @@ function pickActiveForcedFocusContext(
         }
         return null;
     }
-
-    const isActive = Object.values(contextMap).find(
-        (s) =>
-            s.focusKey === nextForcedFocusKey &&
-            (s?.screen?.state === SCREEN_STATES.FOREGROUND || s.state === SCREEN_STATES.FOREGROUND)
+    const isActive = Object.values(focusMap).find(
+        (cls) => cls.getFocusKey() === nextForcedFocusKey && cls.isInForeground()
     );
-
     return isActive ? nextForcedFocusKey : null;
 }
 export function getNextForcedFocusKey(
-    context: Context,
+    cls: AbstractFocusModel,
     direction: string,
-    contextMap: { [key: string]: Context }
+    focusMap: { [key: string]: AbstractFocusModel }
 ): string | null {
-    if (context.nextFocusLeft && DIRECTION_LEFT.includes(direction)) {
-        return pickActiveForcedFocusContext(context.nextFocusLeft, contextMap);
+    if (cls.getNextFocusLeft() && DIRECTION_LEFT.includes(direction)) {
+        return pickActiveForcedFocusContext(cls.getNextFocusLeft(), focusMap);
     }
-    if (context.nextFocusRight && DIRECTION_RIGHT.includes(direction)) {
-        return pickActiveForcedFocusContext(context.nextFocusRight, contextMap);
+    if (cls.getNextFocusRight() && DIRECTION_RIGHT.includes(direction)) {
+        return pickActiveForcedFocusContext(cls.getNextFocusRight(), focusMap);
     }
-    if (context.nextFocusUp && DIRECTION_UP.includes(direction)) {
-        return pickActiveForcedFocusContext(context.nextFocusUp, contextMap);
+    if (cls.getNextFocusUp() && DIRECTION_UP.includes(direction)) {
+        return pickActiveForcedFocusContext(cls.getNextFocusUp(), focusMap);
     }
-    if (context.nextFocusDown && DIRECTION_DOWN.includes(direction)) {
-        return pickActiveForcedFocusContext(context.nextFocusDown, contextMap);
+    if (cls.getNextFocusDown() && DIRECTION_DOWN.includes(direction)) {
+        return pickActiveForcedFocusContext(cls.getNextFocusDown(), focusMap);
     }
 
     return null;

@@ -37,7 +37,30 @@ const Card = React.forwardRef<any, CardProps>(
             borderRadius: styles.borderWidth ? 0 : styles.borderRadius,
         };
 
-        const containerStyle = renderProps ? [renderProps.style] : [baseStyles.card, styles];
+        const borderProps = {
+            borderWidth: styles.borderWidth,
+            borderLeftWidth: styles.borderLeftWidth,
+            borderRightWidth: styles.borderRightWidth,
+            borderTopWidth: styles.borderTopWidth,
+            borderBottomWidth: styles.borderBottomWidth,
+            borderStartWidth: styles.borderStartWidth,
+            borderEndWidth: styles.borderEndWidth,
+            borderColor: styles.borderColor,
+        };
+
+        const containerStyle = renderProps
+            ? [renderProps.style, { width: styles.width, height: styles.height }, borderProps]
+            : [baseStyles.card, styles, borderProps];
+
+        delete styles.borderWidth;
+        delete styles.borderLeftWidth;
+        delete styles.borderRightWidth;
+        delete styles.borderTopWidth;
+        delete styles.borderBottomWidth;
+        delete styles.borderStartWidth;
+        delete styles.borderEndWidth;
+        delete styles.borderColor;
+        delete styles.borderRadius;
 
         const renderImageWithText = () => (
             <>

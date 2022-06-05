@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, Dimensions, View as RNView } from 'react-native';
-import { SCREEN_STATES } from '../../focusManager/constants';
-import CoreManager from '../../focusManager/core';
-import type { Context } from '../../focusManager/types';
+import CoreManager from '../../focusManager/model/core';
+import AbstractFocusModel from '../../focusManager/model/AbstractFocusModel';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -43,44 +42,44 @@ export default function FocusDebugger() {
         scrollView: 'purple',
     };
 
-    const contexts: any = [];
-    const contextMap = CoreManager.contextMap; // eslint-disable-line prefer-destructuring
-    Object.values(contextMap).forEach((ctx: Context) => {
-        const parentInForeground = ctx.screen?.state === SCREEN_STATES.FOREGROUND;
-        if (ctx.layout && parentInForeground) {
-            const borderColor = colors[ctx.type] || 'white';
-            contexts.push(
-                <RNView
-                    key={`${ctx.id}${ctx.nodeId}`}
-                    style={{
-                        width: ctx.layout.width,
-                        height: ctx.layout.height,
-                        borderColor,
-                        borderWidth: ctx.isFocused ? 5 : 1,
-                        position: 'absolute',
-                        top: ctx.layout.absolute.yMin,
-                        left: ctx.layout.absolute.xMin,
-                    }}
-                >
-                    <Text style={{ color: borderColor }}>{ctx.id.substr(ctx.id.length - 5)}</Text>
-                </RNView>,
-                <RNView
-                    key={ctx.id}
-                    style={{
-                        width: 6,
-                        height: 6,
-                        borderRadius: 5,
-                        backgroundColor: borderColor,
-                        position: 'absolute',
-                        left: ctx.layout.absolute.xCenter - 3,
-                        top: ctx.layout.absolute.yCenter - 3,
-                    }}
-                />
-            );
-        }
-    });
-
     if (CoreManager.isDebuggerEnabled) {
+        const contexts: any = [];
+        const contextMap = CoreManager.getFocusMap(); // eslint-disable-line prefer-destructuring
+        Object.values(contextMap).forEach((ctx: AbstractFocusModel) => {
+            const parentInForeground = ctx.getScreen()?.isInForeground();
+            if (ctx.getLayout() && parentInForeground) {
+                const borderColor = colors[ctx.getType()] || 'white';
+                contexts.push(
+                    <RNView
+                        key={`${ctx.getId()}${ctx.nodeId}`}
+                        style={{
+                            width: ctx.getLayout().width,
+                            height: ctx.getLayout().height,
+                            borderColor,
+                            borderWidth: ctx.getIsFocused() ? 5 : 1,
+                            position: 'absolute',
+                            top: ctx.getLayout().absolute.yMin,
+                            left: ctx.getLayout().absolute.xMin,
+                        }}
+                    >
+                        <Text style={{ color: borderColor }}>{ctx.getId().substr(ctx.getId().length - 5)}</Text>
+                    </RNView>,
+                    <RNView
+                        key={ctx.getId()}
+                        style={{
+                            width: 6,
+                            height: 6,
+                            borderRadius: 5,
+                            backgroundColor: borderColor,
+                            position: 'absolute',
+                            left: ctx.getLayout().absolute.xCenter - 3,
+                            top: ctx.getLayout().absolute.yCenter - 3,
+                        }}
+                    />
+                );
+            }
+        });
+
         return (
             <RNView
                 style={{

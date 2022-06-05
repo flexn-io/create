@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
-import { SCREEN_STATES, WINDOW_ALIGNMENT, DEFAULT_VIEWPORT_OFFSET } from '../../focusManager/constants';
-import type { ScreenProps, Context } from '../../focusManager/types';
-import { makeid, useCombinedRefs, alterForbiddenFocusDirections } from '../../focusManager/helpers';
-import CoreManager from '../../focusManager/core';
+import { SCREEN_STATES } from '../../focusManager/constants';
+import type { ScreenProps } from '../../focusManager/types';
+import { useCombinedRefs } from '../../focusManager/helpers';
+import CoreManager from '../../focusManager/model/core';
 import { measure } from '../../focusManager/layoutManager';
 
-import { createOrReturnInstance } from '../../focusManager/screen';
-
+import ScreenClass from '../../focusManager/model/screen';
 
 const Screen = React.forwardRef<any, ScreenProps>(
     (
@@ -30,64 +29,43 @@ const Screen = React.forwardRef<any, ScreenProps>(
     ) => {
         const refInner = useRef(null);
         const ref = useCombinedRefs(refOuter, refInner);
-        const {
-            focusKey,
-            nextFocusRight,
-            nextFocusLeft,
-            verticalWindowAlignment = WINDOW_ALIGNMENT.LOW_EDGE,
-            horizontalWindowAlignment = WINDOW_ALIGNMENT.LOW_EDGE,
-            horizontalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
-            verticalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
-            forbiddenFocusDirections,
-        }: any = focusOptions;
-        const [context] = useState(() => {
-            const ctx: Context = {
-                id: `screen-${makeid(8)}`,
-                type: 'screen',
-                children: [],
-                prevState: screenState,
-                state: screenState,
-                order: screenOrder,
-                stealFocus,
-                focusKey,
-                verticalWindowAlignment,
-                horizontalWindowAlignment,
-                horizontalViewportOffset,
-                verticalViewportOffset,
-                forbiddenFocusDirections: alterForbiddenFocusDirections(forbiddenFocusDirections),
-                nextFocusRight,
-                nextFocusLeft,
-                onFocus,
-                onBlur,
-            };
 
-            CoreManager.registerContext(ctx);
-            ctx.screenCls = createOrReturnInstance(ctx);
+        const [ClsInstance] = useState<ScreenClass>(
+            () =>
+                new ScreenClass({
+                    prevState: screenState,
+                    state: screenState,
+                    order: screenOrder,
+                    stealFocus,
+                    onFocus,
+                    onBlur,
+                    ...focusOptions,
+                })
+        );
 
-            return ctx;
-        });
+        CoreManager.registerFocusable(ClsInstance);
 
         useEffect(() => {
-            context.prevState = context.state;
-            context.state = screenState;
-            if (context.prevState === SCREEN_STATES.BACKGROUND && screenState === SCREEN_STATES.FOREGROUND) {
-                if (context.screenCls) context.screenCls.initialLoadInProgress = true;
+            ClsInstance.setPrevState(ClsInstance.getState()).setState(screenState);
+            if (ClsInstance.isPrevStateBackground() && ClsInstance.isInForeground()) {
+                ClsInstance.setFocus(ClsInstance.getFirstFocusableOnScreen());
             }
         }, [screenState]);
 
-        useEffect(() => {
-            return () => {
-                CoreManager.removeContext(context);
-            };
-        }, []);
+        useEffect(
+            () => () => {
+                CoreManager.removeFocusable(ClsInstance);
+            },
+            []
+        );
 
         const onLayout = () => {
-            measure(context, ref);
+            measure(ClsInstance, ref);
         };
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
-                return React.cloneElement(child, { parentContext: context });
+                return React.cloneElement(child, { parentContext: ClsInstance });
             }
             return child;
         });

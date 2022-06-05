@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import View from '../../components/View';
 import RecyclableList, {
@@ -26,6 +26,8 @@ interface GridProps {
     items: RowItem[];
     itemDimensions: { height: number };
     itemSpacing?: number;
+    verticalItemSpacing?: number;
+    horizontalItemSpacing?: number;
     rerenderData?: any;
     animatorOptions?: any;
 }
@@ -35,6 +37,8 @@ const Grid = ({
     style = {},
     cardStyle = {},
     itemSpacing = 30,
+    verticalItemSpacing = 0,
+    horizontalItemSpacing = 0,
     itemDimensions,
     itemsInViewport = 5,
     parentContext,
@@ -49,31 +53,33 @@ const Grid = ({
     const layoutProvider: any = useRef();
     const dataProviderInstance = useRef(new RecyclableListDataProvider((r1, r2) => r1 !== r2)).current;
     const [dataProvider, setDataProvider] = useState(dataProviderInstance.cloneWithRows(items));
-    const { boundaries, spacings, onLayout, rowDimensions } = useDimensionsCalculator({
+    const { boundaries, spacings, onLayout, rowDimensions, isLoading } = useDimensionsCalculator({
         style,
         itemSpacing,
+        verticalItemSpacing,
+        horizontalItemSpacing,
         itemDimensions,
         itemsInViewport,
         ref,
     });
 
     useEffect(() => {
-        if (rerenderData) {
-            setDataProvider(dataProviderInstance.cloneWithRows(items));
-        }
+        setDataProvider(dataProviderInstance.cloneWithRows(items));
     }, [rerenderData]);
 
-    const updateLayoutProvider = useCallback(() => {
-        layoutProvider.current = new RecyclableListLayoutProvider(
-            () => '_',
-            (_: string | number, dim: { width: number; height: number }) => {
-                dim.width = rowDimensions.layout.width;
-                dim.height = rowDimensions.layout.height;
-            }
-        );
-    }, [rowDimensions]);
+    const setLayoutProvider = () => {
+        if (!isLoading && !layoutProvider.current) {
+            layoutProvider.current = new RecyclableListLayoutProvider(
+                () => '_',
+                (_: string | number, dim: { width: number; height: number }) => {
+                    dim.width = rowDimensions.layout.width;
+                    dim.height = rowDimensions.layout.height;
+                }
+            );
+        }
+    };
 
-    updateLayoutProvider();
+    setLayoutProvider();
 
     const renderGrid = () => (
         <RecyclableList
@@ -94,7 +100,7 @@ const Grid = ({
                     />
                 );
             }}
-            style={[style, { width: boundaries.width, height: boundaries.relativeHeight }]}
+            style={[{ width: boundaries.width, height: boundaries.relativeHeight }]}
             contentContainerStyle={{ ...spacings }}
             scrollViewProps={{
                 showsHorizontalScrollIndicator: false,
@@ -106,14 +112,10 @@ const Grid = ({
     );
 
     return (
-        <View parentContext={parentContext} style={baseStyles.container} onLayout={onLayout} ref={ref}>
-            {renderGrid()}
+        <View parentContext={parentContext} style={style} onLayout={onLayout} ref={ref}>
+            {!isLoading && renderGrid()}
         </View>
     );
-};
-
-const baseStyles = {
-    container: {},
 };
 
 Grid.displayName = 'Grid';

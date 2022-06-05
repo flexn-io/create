@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StyleProp, ViewStyle, TextStyle } from 'react-native';
 import View from '../../components/View';
 import RecyclableList, {
@@ -32,6 +32,8 @@ interface ListProps {
     }[];
     itemDimensions: { height: number };
     itemSpacing?: number;
+    verticalItemSpacing?: number;
+    horizontalItemSpacing?: number;
     initialXOffset?: number;
     rowHeight: number;
     rerenderData?: any;
@@ -48,6 +50,8 @@ const List = ({
     focusOptions,
     animatorOptions,
     itemSpacing = 30,
+    verticalItemSpacing = 0,
+    horizontalItemSpacing = 0,
     itemDimensions,
     onPress,
     initialXOffset = 0,
@@ -62,29 +66,31 @@ const List = ({
     const { boundaries, onLayout } = useDimensionsCalculator({
         style,
         itemSpacing,
+        verticalItemSpacing,
+        horizontalItemSpacing,
         itemDimensions,
         itemsInViewport,
         ref,
     });
 
     useEffect(() => {
-        if (rerenderData) {
-            setDataProvider(dataProviderInstance.cloneWithRows(items));
-            setRowRendererData(rerenderData);
-        }
+        setDataProvider(dataProviderInstance.cloneWithRows(items));
+        setRowRendererData(rerenderData);
     }, [rerenderData]);
 
-    const updateLayoutProvider = useCallback(() => {
-        layoutProvider.current = new RecyclableListLayoutProvider(
-            () => '_',
-            (_: string | number, dim: { width: number; height: number }) => {
-                dim.width = boundaries.width;
-                dim.height = Ratio(rowHeight);
-            }
-        );
-    }, [boundaries]);
+    const setLayoutProvider = () => {
+        if (!layoutProvider.current) {
+            layoutProvider.current = new RecyclableListLayoutProvider(
+                () => '_',
+                (_: string | number, dim: { width: number; height: number }) => {
+                    dim.width = boundaries.width;
+                    dim.height = Ratio(rowHeight);
+                }
+            );
+        }
+    };
 
-    updateLayoutProvider();
+    setLayoutProvider();
 
     const renderRow = ({ index, data, title, repeatContext, nestedParentContext }: any) => {
         return (
@@ -106,7 +112,11 @@ const List = ({
                 itemSpacing={itemSpacing}
                 initialXOffset={initialXOffset}
                 animatorOptions={animatorOptions}
-                focusOptions={focusOptions}
+                // TODO: This should be not needed eventually
+                focusOptions={{
+                    nextFocusLeft: focusOptions?.nextFocusLeft,
+                    nextFocusRight: focusOptions?.nextFocusRight,
+                }}
                 rerenderData={rowRendererData}
             />
         );
@@ -119,7 +129,7 @@ const List = ({
                 scrollViewProps={{
                     showsVerticalScrollIndicator: false,
                 }}
-                style={[style, { width: boundaries.width, height: boundaries.height }]}
+                style={[{ width: boundaries.width, height: boundaries.height }]}
                 dataProvider={dataProvider}
                 layoutProvider={layoutProvider.current}
                 rowRenderer={(_type: string | number, rowData: any, index: number, repeatContext: any) => {
@@ -137,14 +147,10 @@ const List = ({
     };
 
     return (
-        <View parentContext={parentContext} style={styles.container} onLayout={onLayout} ref={ref}>
+        <View parentContext={parentContext} style={style} onLayout={onLayout} ref={ref}>
             {renderRecycler()}
         </View>
     );
-};
-
-const styles = {
-    container: {},
 };
 
 export default List;
