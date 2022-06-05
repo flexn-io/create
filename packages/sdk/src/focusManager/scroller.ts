@@ -132,7 +132,8 @@ class Scroller {
         //TODO ignore initial values
         // scrollTarget.y = Math.min(currentLayout.yMin - scrollView.layout.yMin - VIEWPORT_PADDING, scrollView.scrollOffsetY);
 
-        const yMaxScroll = scrollView.getLayout().yMaxScroll || scrollView.getLastChildren().getLayout()?.yMax || 0;
+        let yMaxScroll = scrollView.getLayout().yMaxScroll || scrollView.getLastChildren().getLayout()?.yMax || 0;
+        yMaxScroll += scrollView.getLayout().yMin || 0;
         const targetY = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset + windowHeight;
 
         if (DIRECTION_UP.includes(direction)) {
@@ -145,7 +146,7 @@ class Scroller {
             if (yMaxScroll >= targetY) {
                 scrollTarget.y = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset;
             } else {
-                scrollTarget.y = targetY - windowHeight;
+                scrollTarget.y = yMaxScroll - windowHeight;
             }
         }
 
