@@ -69,6 +69,7 @@ const Row = ({
     const flattenTitleStyles = StyleSheet.flatten(titleStyle);
     const { boundaries, isLoading, spacings, onLayout, rowDimensions } = useDimensionsCalculator({
         style,
+        initialXOffset,
         itemSpacing,
         verticalItemSpacing,
         horizontalItemSpacing,

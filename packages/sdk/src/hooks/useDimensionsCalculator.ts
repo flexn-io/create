@@ -11,6 +11,7 @@ interface Props {
     horizontalItemSpacing: number;
     itemDimensions: { height: number };
     itemsInViewport: number;
+    initialXOffset?: number;
     ref: React.MutableRefObject<any>;
 }
 
@@ -21,6 +22,7 @@ export default function useDimensionsCalculator({
     horizontalItemSpacing,
     itemDimensions,
     itemsInViewport,
+    initialXOffset = 0,
     ref,
 }: Props) {
     const spacing = Ratio(itemSpacing);
@@ -34,7 +36,7 @@ export default function useDimensionsCalculator({
             paddingLeft: horizontalSpacing || spacing,
             paddingTop: verticalSpacing || spacing,
             paddingBottom: verticalSpacing || spacing,
-            paddingRight: horizontalSpacing || spacing,
+            paddingRight: (horizontalSpacing || spacing) + initialXOffset,
         };
     });
 
