@@ -5,10 +5,10 @@ import {
     LayoutProvider as RecyclableListLayoutProvider,
     RecyclerListView,
 } from '../../recyclerListView';
-import CoreManager from '../../focusManager/core';
+import CoreManager from '../../focusManager/model/core';
 import { measure } from '../../focusManager/layoutManager';
 import type { RecyclerViewProps } from '../../focusManager/types';
-import { createInstance } from '../../focusManager/Model/recycler';
+import { createInstance } from '../../focusManager/model/recycler';
 
 const Column = null;
 

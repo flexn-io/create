@@ -7,8 +7,8 @@ import type {
     ViewStyle,
     ScrollView,
 } from 'react-native';
-import type { ScreenCls } from './Model/screen';
-import AbstractFocusModel from './Model/AbstractFocusModel';
+import type { ScreenCls } from './model/screen';
+import AbstractFocusModel from './model/AbstractFocusModel';
 export type ForbiddenFocusDirections =
     | 'down'
     | 'up'

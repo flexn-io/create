@@ -1,12 +1,12 @@
 import { ScreenStates, ForbiddenFocusDirections } from '../types';
-import CoreManager from '../core';
+import CoreManager from './core';
 import logger from '../logger';
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 import { ViewCls } from './view';
-import { alterForbiddenFocusDirections } from '../../focusManager/helpers';
-import { findLowestRelativeCoordinates } from '../../focusManager/layoutManager';
-import { DEFAULT_VIEWPORT_OFFSET } from '../../focusManager/constants';
+import { alterForbiddenFocusDirections } from '../helpers';
+import { findLowestRelativeCoordinates } from '../layoutManager';
+import { DEFAULT_VIEWPORT_OFFSET } from '../constants';
 
 const DELAY_TIME_IN_MS = 150;
 

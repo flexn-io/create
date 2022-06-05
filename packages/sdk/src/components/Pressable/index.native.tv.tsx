@@ -3,13 +3,13 @@ import { View as RNView } from 'react-native';
 import { isPlatformTvos } from '@rnv/renative';
 import { useCombinedRefs, usePrevious, flattenStyle } from '../../focusManager/helpers';
 import type { ViewProps } from '../../focusManager/types';
-import CoreManager from '../../focusManager/core';
+import CoreManager from '../../focusManager/model/core';
 import { ANIMATIONS } from '../../focusManager/constants';
 import { measure } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
-import { createInstance } from '../../focusManager/Model/view';
-import type { ViewCls } from '../../focusManager/Model/view';
+import { createInstance } from '../../focusManager/model/view';
+import type { ViewCls } from '../../focusManager/model/view';
 
 export const defaultAnimation = {
     type: 'scale',

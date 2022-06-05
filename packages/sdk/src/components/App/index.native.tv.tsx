@@ -8,7 +8,7 @@ import {
     findNodeHandle,
 } from 'react-native';
 import { isPlatformAndroidtv, isPlatformTvos, isPlatformFiretv } from '@rnv/renative';
-import CoreManager from '../../focusManager/core';
+import CoreManager from '../../focusManager/model/core';
 import { DIRECTION } from '../../focusManager/constants';
 
 const isAndroidBased = isPlatformAndroidtv || isPlatformFiretv;

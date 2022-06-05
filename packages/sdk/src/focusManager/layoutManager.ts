@@ -1,7 +1,7 @@
 import { CONTEXT_TYPES } from './constants';
-import AbstractFocusModel from './Model/AbstractFocusModel';
-import { ScreenCls } from './Model/screen';
-import { ViewCls } from './Model/view';
+import AbstractFocusModel from './model/AbstractFocusModel';
+import { ScreenCls } from './model/screen';
+import { ViewCls } from './model/view';
 
 export function findLowestRelativeCoordinates(cls: AbstractFocusModel) {
     const screen = cls.getScreen() as ScreenCls;

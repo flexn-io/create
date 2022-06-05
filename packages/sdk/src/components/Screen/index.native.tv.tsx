@@ -3,10 +3,10 @@ import { View as RNView } from 'react-native';
 import { SCREEN_STATES } from '../../focusManager/constants';
 import type { ScreenProps } from '../../focusManager/types';
 import { useCombinedRefs } from '../../focusManager/helpers';
-import CoreManager from '../../focusManager/core';
+import CoreManager from '../../focusManager/model/core';
 import { measure } from '../../focusManager/layoutManager';
 
-import { createInstance, ScreenCls } from '../../focusManager/Model/screen';
+import { createInstance, ScreenCls } from '../../focusManager/model/screen';
 
 const Screen = React.forwardRef<any, ScreenProps>(
     (

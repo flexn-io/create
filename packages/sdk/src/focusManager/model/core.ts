@@ -1,13 +1,13 @@
 import { findNodeHandle, UIManager } from 'react-native';
-import { distCalc } from './focusManager';
-import { getNextForcedFocusKey } from './helpers';
-import { recalculateLayout } from './layoutManager';
-import logger from './logger';
-import AbstractFocusModel from './Model/AbstractFocusModel';
-import { ViewCls } from './Model/view';
+import { distCalc } from '../nextFocusFinder';
+import { getNextForcedFocusKey } from '../helpers';
+import { recalculateLayout } from '../layoutManager';
+import logger from '../logger';
+import AbstractFocusModel from './AbstractFocusModel';
+import { ViewCls } from './view';
 import Scroller from './scroller';
-import { RecyclerCls } from './Model/recycler';
-import { ScreenCls } from './Model/screen';
+import { RecyclerCls } from './recycler';
+import { ScreenCls } from './screen';
 
 class CoreManager {
     public _focusMap: {

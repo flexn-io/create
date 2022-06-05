@@ -1,6 +1,6 @@
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
-import { alterForbiddenFocusDirections } from '../../focusManager/helpers';
+import { alterForbiddenFocusDirections } from '../helpers';
 import { ForbiddenFocusDirections } from '../types';
 
 export class View extends AbstractFocusModel {

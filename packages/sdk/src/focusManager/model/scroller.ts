@@ -1,14 +1,14 @@
 import { Dimensions } from 'react-native';
-import AbstractFocusModel from './Model/AbstractFocusModel';
-import type { FocusMap } from './types';
-import { recalculateLayout } from './layoutManager';
+import AbstractFocusModel from './AbstractFocusModel';
+import type { FocusMap } from '../types';
+import { recalculateLayout } from '../layoutManager';
 import {
     DIRECTION_VERTICAL,
     DIRECTION_UP,
     DIRECTION_LEFT,
     DIRECTION_RIGHT,
     DEFAULT_VIEWPORT_OFFSET,
-} from './constants';
+} from '../constants';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

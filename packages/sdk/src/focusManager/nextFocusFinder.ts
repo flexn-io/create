@@ -1,7 +1,7 @@
 import { Dimensions } from 'react-native';
 import { DIRECTION_VERTICAL, CUTOFF_SIZE } from './constants';
 import logger from './logger';
-import AbstractFocusModel from './Model/AbstractFocusModel';
+import AbstractFocusModel from './model/AbstractFocusModel';
 
 const windowWidth = Dimensions.get('window').width;
 

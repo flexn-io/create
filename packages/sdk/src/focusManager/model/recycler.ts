@@ -1,7 +1,7 @@
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 import { ForbiddenFocusDirections } from '../types';
-import { alterForbiddenFocusDirections } from '../../focusManager/helpers';
+import { alterForbiddenFocusDirections } from '../helpers';
 
 export class Recycler extends AbstractFocusModel {
     private _type: string;

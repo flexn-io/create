@@ -38,7 +38,7 @@ export { ScreenProps, ScreenStates } from './focusManager/types';
 export { ANIMATION_TYPES } from './focusManager/constants';
 
 // Functions
-import CoreManager from './focusManager/core';
+import CoreManager from './focusManager/model/core';
 
 export function focusElementByFocusKey(focusKey: string) {
     CoreManager.focusElementByFocusKey(focusKey);

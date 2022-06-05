@@ -3,7 +3,7 @@ import { Dimensions, PixelRatio } from 'react-native';
 import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 import { ForbiddenFocusDirections } from './types';
 import { DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT } from './constants';
-import AbstractFocusModel from './Model/AbstractFocusModel';
+import AbstractFocusModel from './model/AbstractFocusModel';
 
 export function makeid(length: number) {
     let result = '';
