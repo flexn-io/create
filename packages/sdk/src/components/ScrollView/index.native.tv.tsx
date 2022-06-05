@@ -37,6 +37,10 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
 
         useEffect(() => {
             CoreManager.registerFocusable(ClsInstance, ref);
+
+            return () => {
+                CoreManager.removeFocusable(ClsInstance);
+            };
         }, []);
 
         const onLayout = () => {

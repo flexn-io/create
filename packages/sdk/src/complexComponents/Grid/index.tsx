@@ -53,7 +53,7 @@ const Grid = ({
     const layoutProvider: any = useRef();
     const dataProviderInstance = useRef(new RecyclableListDataProvider((r1, r2) => r1 !== r2)).current;
     const [dataProvider, setDataProvider] = useState(dataProviderInstance.cloneWithRows(items));
-    const { boundaries, spacings, onLayout, rowDimensions } = useDimensionsCalculator({
+    const { boundaries, spacings, onLayout, rowDimensions, isLoading } = useDimensionsCalculator({
         style,
         itemSpacing,
         verticalItemSpacing,
@@ -64,22 +64,22 @@ const Grid = ({
     });
 
     useEffect(() => {
-        if (rerenderData) {
-            setDataProvider(dataProviderInstance.cloneWithRows(items));
-        }
+        setDataProvider(dataProviderInstance.cloneWithRows(items));
     }, [rerenderData]);
 
-    const updateLayoutProvider = useCallback(() => {
-        layoutProvider.current = new RecyclableListLayoutProvider(
-            () => '_',
-            (_: string | number, dim: { width: number; height: number }) => {
-                dim.width = rowDimensions.layout.width;
-                dim.height = rowDimensions.layout.height;
-            }
-        );
-    }, [rowDimensions]);
+    const setLayoutProvider = () => {
+        if (!isLoading && !layoutProvider.current) {
+            layoutProvider.current = new RecyclableListLayoutProvider(
+                () => '_',
+                (_: string | number, dim: { width: number; height: number }) => {
+                    dim.width = rowDimensions.layout.width;
+                    dim.height = rowDimensions.layout.height;
+                }
+            );
+        }
+    };
 
-    updateLayoutProvider();
+    setLayoutProvider();
 
     const renderGrid = () => (
         <RecyclableList
@@ -100,7 +100,7 @@ const Grid = ({
                     />
                 );
             }}
-            style={[style, { width: boundaries.width, height: boundaries.relativeHeight }]}
+            style={[{ width: boundaries.width, height: boundaries.relativeHeight }]}
             contentContainerStyle={{ ...spacings }}
             scrollViewProps={{
                 showsHorizontalScrollIndicator: false,
@@ -112,14 +112,10 @@ const Grid = ({
     );
 
     return (
-        <View parentContext={parentContext} style={baseStyles.container} onLayout={onLayout} ref={ref}>
-            {renderGrid()}
+        <View parentContext={parentContext} style={style} onLayout={onLayout} ref={ref}>
+            {!isLoading && renderGrid()}
         </View>
     );
-};
-
-const baseStyles = {
-    container: {},
 };
 
 Grid.displayName = 'Grid';

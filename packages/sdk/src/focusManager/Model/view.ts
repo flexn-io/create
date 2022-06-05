@@ -34,7 +34,7 @@ export class View extends AbstractFocusModel {
         const { repeatContext, parent, forbiddenFocusDirections, onFocus, onBlur, onPress, focusKey } = params;
 
         const id = makeid(8);
-        this._id = parent?.id ? `${parent.id}:view-${id}` : `view-${id}`;
+        this._id = parent?.getId() ? `${parent.getId()}:view-${id}` : `view-${id}`;
         this._type = 'view';
         this._parent = parent;
         this._isFocused = false;

@@ -78,22 +78,22 @@ const Row = ({
     });
 
     useEffect(() => {
-        if (rerenderData) {
-            setDataProvider(dataProviderInstance.cloneWithRows(items));
-        }
+        setDataProvider(dataProviderInstance.cloneWithRows(items));
     }, [rerenderData]);
 
-    const updateLayoutProvider = useCallback(() => {
-        layoutProvider.current = new RecyclableListLayoutProvider(
-            () => '_',
-            (_: string | number, dim: { width: number; height: number }) => {
-                dim.width = rowDimensions.layout.width;
-                dim.height = rowDimensions.layout.height;
-            }
-        );
-    }, [rowDimensions]);
+    const setLayoutProvider = () => {
+        if (!isLoading && !layoutProvider.current) {
+            layoutProvider.current = new RecyclableListLayoutProvider(
+                () => '_',
+                (_: string | number, dim: { width: number; height: number }) => {
+                    dim.width = rowDimensions.layout.width;
+                    dim.height = rowDimensions.layout.height;
+                }
+            );
+        }
+    };
 
-    updateLayoutProvider();
+    setLayoutProvider();
 
     const rowRenderer = (_type: string | number, data: any, _index: number, _repeatContext: any, _renderProps: any) => {
         return (

@@ -26,6 +26,10 @@ export type PressableFocusOptions = {
     animatorOptions?: any;
     focusKey?: string;
     hasInitialFocus?: boolean;
+    nextFocusLeft?: string | string[];
+    nextFocusRight?: string | string[];
+    nextFocusUp?: string | string[];
+    nextFocusDown?: string | string[];
 };
 
 export type ScreenFocusOptions = {
@@ -43,6 +47,10 @@ export type ScreenFocusOptions = {
 
 export type RecyclableListFocusOptions = {
     forbiddenFocusDirections?: ForbiddenFocusDirections[];
+    nextFocusLeft?: string | string[];
+    nextFocusRight?: string | string[];
+    nextFocusUp?: string | string[];
+    nextFocusDown?: string | string[];
 };
 
 export interface ViewProps extends RNViewProps {

@@ -74,23 +74,23 @@ const List = ({
     });
 
     useEffect(() => {
-        if (rerenderData) {
-            setDataProvider(dataProviderInstance.cloneWithRows(items));
-            setRowRendererData(rerenderData);
-        }
+        setDataProvider(dataProviderInstance.cloneWithRows(items));
+        setRowRendererData(rerenderData);
     }, [rerenderData]);
 
-    const updateLayoutProvider = useCallback(() => {
-        layoutProvider.current = new RecyclableListLayoutProvider(
-            () => '_',
-            (_: string | number, dim: { width: number; height: number }) => {
-                dim.width = boundaries.width;
-                dim.height = Ratio(rowHeight);
-            }
-        );
-    }, [boundaries]);
+    const setLayoutProvider = () => {
+        if (!layoutProvider.current) {
+            layoutProvider.current = new RecyclableListLayoutProvider(
+                () => '_',
+                (_: string | number, dim: { width: number; height: number }) => {
+                    dim.width = boundaries.width;
+                    dim.height = Ratio(rowHeight);
+                }
+            );
+        }
+    };
 
-    updateLayoutProvider();
+    setLayoutProvider();
 
     const renderRow = ({ index, data, title, repeatContext, nestedParentContext }: any) => {
         return (
@@ -112,7 +112,11 @@ const List = ({
                 itemSpacing={itemSpacing}
                 initialXOffset={initialXOffset}
                 animatorOptions={animatorOptions}
-                focusOptions={focusOptions}
+                // TODO: This should be not needed eventually
+                focusOptions={{
+                    nextFocusLeft: focusOptions?.nextFocusLeft,
+                    nextFocusRight: focusOptions?.nextFocusRight,
+                }}
                 rerenderData={rowRendererData}
             />
         );
@@ -125,7 +129,7 @@ const List = ({
                 scrollViewProps={{
                     showsVerticalScrollIndicator: false,
                 }}
-                style={[style, { width: boundaries.width, height: boundaries.height }]}
+                style={[{ width: boundaries.width, height: boundaries.height }]}
                 dataProvider={dataProvider}
                 layoutProvider={layoutProvider.current}
                 rowRenderer={(_type: string | number, rowData: any, index: number, repeatContext: any) => {
@@ -143,14 +147,10 @@ const List = ({
     };
 
     return (
-        <View parentContext={parentContext} style={styles.container} onLayout={onLayout} ref={ref}>
+        <View parentContext={parentContext} style={style} onLayout={onLayout} ref={ref}>
             {renderRecycler()}
         </View>
     );
-};
-
-const styles = {
-    container: {},
 };
 
 export default List;

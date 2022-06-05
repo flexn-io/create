@@ -81,11 +81,9 @@ export default function RecyclerView({
 
     useEffect(() => {
         CoreManager.registerFocusable(ClsInstance, scrollViewRef);
-    }, []);
 
-    useEffect(() => {
         return () => {
-            // CoreManager.removeContext(RecyclerInstance.getContext());
+            CoreManager.removeFocusable(ClsInstance);
         };
     }, []);
 
