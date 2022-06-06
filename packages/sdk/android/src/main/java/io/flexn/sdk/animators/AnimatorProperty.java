@@ -60,12 +60,17 @@ public class AnimatorProperty {
     }
 
     public void setBorderColor(String borderColor) {
-        int color = Color.parseColor(borderColor);
-        float rgbComponent =  (float) ((int) color & 0x00FFFFFF);
-        float alphaComponent = (float) ((int) color >>> 24);
+        try {
+            int color = Color.parseColor(borderColor);
+            float rgbComponent =  (float) ((int) color & 0x00FFFFFF);
+            float alphaComponent = (float) ((int) color >>> 24);
 
-        this.borderColor = rgbComponent;
-        setBorderColorAlpha(alphaComponent);
+            this.borderColor = rgbComponent;
+            setBorderColorAlpha(alphaComponent);
+        } catch (Exception e) {
+            this.borderColor = Color.TRANSPARENT;
+            setBorderColorAlpha(0);
+        }
     }
 
     public float getBorderColorAlpha() {
@@ -93,7 +98,11 @@ public class AnimatorProperty {
     }
 
     public void setBackgroundColorFocus(String backgroundColorFocus) {
-        this.backgroundColorFocus = Color.parseColor(backgroundColorFocus);
+        try {
+            this.backgroundColorFocus = Color.parseColor(backgroundColorFocus);
+        } catch (Exception e) {
+            this.backgroundColorFocus = Color.BLACK;
+        }
     }
 
     public int getBackgroundColor() {
@@ -101,6 +110,10 @@ public class AnimatorProperty {
     }
 
     public void setBackgroundColor(String backgroundColor) {
-        this.backgroundColor = Color.parseColor(backgroundColor);
+        try {
+            this.backgroundColor = Color.parseColor(backgroundColor);
+        } catch (Exception e) {
+            this.backgroundColor = Color.BLACK;
+        }
     }
 }

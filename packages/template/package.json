@@ -1,6 +1,6 @@
 {
     "name": "@flexn/template",
-    "version": "0.15.1",
+    "version": "0.15.2",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/flexn#readme",
@@ -49,8 +49,8 @@
         "@lightningjs/ui-components": "^1.2.1"
     },
     "devDependencies": {
-        "@flexn/graybox": "0.15.2-alpha.0",
-        "@flexn/sdk": "0.15.1",
+        "@flexn/graybox": "0.15.2",
+        "@flexn/sdk": "0.15.2",
         "@flexn/typescript": "0.1.4",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/masked-view": "0.1.6",
@@ -104,5 +104,6 @@
     "publishConfig": {
         "access": "public"
     },
-    "dependencies:doNotUseInTemplate": {}
+    "dependencies:doNotUseInTemplate": {},
+    "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc"
 }
