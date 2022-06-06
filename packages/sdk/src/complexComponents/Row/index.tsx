@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StyleProp, ViewStyle, TextStyle, StyleSheet } from 'react-native';
 import Text from '../../components/Text';
 import View from '../../components/View';
@@ -34,6 +34,8 @@ interface RowProps {
     rerenderData?: any;
     itemDimensions: { height: number };
     itemSpacing?: number;
+    verticalItemSpacing?: number;
+    horizontalItemSpacing?: number;
     initialXOffset?: number;
 }
 
@@ -56,6 +58,8 @@ const Row = ({
     onBlur,
     itemDimensions,
     itemSpacing = 30,
+    verticalItemSpacing = 0,
+    horizontalItemSpacing = 0,
     initialXOffset = 0,
 }: RowProps) => {
     const ref: any = useRef();
@@ -65,31 +69,34 @@ const Row = ({
     const flattenTitleStyles = StyleSheet.flatten(titleStyle);
     const { boundaries, isLoading, spacings, onLayout, rowDimensions } = useDimensionsCalculator({
         style,
+        initialXOffset,
         itemSpacing,
+        verticalItemSpacing,
+        horizontalItemSpacing,
         itemDimensions,
         itemsInViewport,
         ref,
     });
 
     useEffect(() => {
-        if (rerenderData) {
-            setDataProvider(dataProviderInstance.cloneWithRows(items));
-        }
+        setDataProvider(dataProviderInstance.cloneWithRows(items));
     }, [rerenderData]);
 
-    const updateLayoutProvider = useCallback(() => {
-        layoutProvider.current = new RecyclableListLayoutProvider(
-            () => '_',
-            (_: string | number, dim: { width: number; height: number }) => {
-                dim.width = rowDimensions.layout.width;
-                dim.height = rowDimensions.layout.height;
-            }
-        );
-    }, [rowDimensions]);
+    const setLayoutProvider = () => {
+        if (!isLoading && !layoutProvider.current) {
+            layoutProvider.current = new RecyclableListLayoutProvider(
+                () => '_',
+                (_: string | number, dim: { width: number; height: number }) => {
+                    dim.width = rowDimensions.layout.width;
+                    dim.height = rowDimensions.layout.height;
+                }
+            );
+        }
+    };
 
-    updateLayoutProvider();
+    setLayoutProvider();
 
-    const rowRenderer = (_type: string | number, data: any, _index: number, _repeatContext: any) => {
+    const rowRenderer = (_type: string | number, data: any, _index: number, _repeatContext: any, _renderProps: any) => {
         return (
             <PosterCard
                 src={{ uri: data.backgroundImage }}
@@ -99,6 +106,7 @@ const Row = ({
                 onBlur={() => onBlur?.(data)}
                 onPress={() => onPress?.(data)}
                 repeatContext={_repeatContext}
+                renderProps={_renderProps}
                 focusOptions={{
                     animatorOptions,
                 }}
@@ -118,8 +126,9 @@ const Row = ({
                     initialXOffset={Ratio(initialXOffset)}
                     repeatContext={repeatContext}
                     rowRenderer={rowRenderer}
+                    disableItemContainer
                     isHorizontal
-                    style={[style, { width: boundaries.width, height: boundaries.height }]}
+                    style={[{ width: boundaries.width, height: boundaries.height }]}
                     contentContainerStyle={{ ...spacings }}
                     scrollViewProps={{
                         showsHorizontalScrollIndicator: false,
@@ -145,20 +154,11 @@ const Row = ({
     };
 
     return (
-        <View
-            parentContext={nestedParentContext || parentContext}
-            style={styles.container}
-            onLayout={onLayout}
-            ref={ref}
-        >
+        <View parentContext={nestedParentContext || parentContext} style={style} onLayout={onLayout} ref={ref}>
             {renderTitle()}
             {renderRecycler()}
         </View>
     );
-};
-
-const styles = {
-    container: {},
 };
 
 export default Row;

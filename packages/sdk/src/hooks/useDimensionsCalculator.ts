@@ -7,22 +7,36 @@ const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
 interface Props {
     style: any;
     itemSpacing: number;
+    verticalItemSpacing: number;
+    horizontalItemSpacing: number;
     itemDimensions: { height: number };
     itemsInViewport: number;
+    initialXOffset?: number;
     ref: React.MutableRefObject<any>;
 }
 
-export default function useDimensionsCalculator({ style, itemSpacing, itemDimensions, itemsInViewport, ref }: Props) {
+export default function useDimensionsCalculator({
+    style,
+    itemSpacing,
+    verticalItemSpacing,
+    horizontalItemSpacing,
+    itemDimensions,
+    itemsInViewport,
+    initialXOffset = 0,
+    ref,
+}: Props) {
     const spacing = Ratio(itemSpacing);
+    const verticalSpacing = Ratio(verticalItemSpacing);
+    const horizontalSpacing = Ratio(horizontalItemSpacing);
 
     const [isLoading, setIsLoading] = useState(true);
 
     const [spacings] = useState(() => {
         return {
-            paddingLeft: spacing,
-            paddingTop: spacing,
-            paddingBottom: spacing,
-            paddingRight: spacing,
+            paddingLeft: horizontalSpacing || spacing,
+            paddingTop: verticalSpacing || spacing,
+            paddingBottom: verticalSpacing || spacing,
+            paddingRight: (horizontalSpacing || spacing) + initialXOffset,
         };
     });
 

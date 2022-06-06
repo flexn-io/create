@@ -18,7 +18,11 @@ export interface ViewRendererProps<T> {
         type: string | number,
         data: T,
         index: number,
-        extendedState?: object
+        extendedState?: object,
+        renderProps?: {
+            style: object, 
+            ref: object,
+        }
     ) => JSX.Element | JSX.Element[] | null;
     layoutType: string | number;
     dataHasChanged: (r1: T, r2: T) => boolean;
@@ -28,6 +32,7 @@ export interface ViewRendererProps<T> {
     itemAnimator: ItemAnimator;
     styleOverrides?: object;
     forceNonDeterministicRendering?: boolean;
+    disableItemContainer?: boolean;
     isHorizontal?: boolean;
     extendedState?: object;
     internalSnapshot?: object;
@@ -98,12 +103,13 @@ export default abstract class BaseViewRenderer<T> extends ComponentCompat<
         );
     }
     protected abstract getRef(): object | null;
-    protected renderChild(): JSX.Element | JSX.Element[] | null {
+    protected renderChild(renderProps?: any): JSX.Element | JSX.Element[] | null {
         return this.props.childRenderer(
             this.props.layoutType,
             this.props.data,
             this.props.index,
-            this.props.extendedState
+            this.props.extendedState,
+            renderProps
         );
     }
 }

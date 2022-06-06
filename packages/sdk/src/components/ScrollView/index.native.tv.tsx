@@ -1,50 +1,51 @@
 import React, { useEffect, useRef, useState, useImperativeHandle } from 'react';
 import { ScrollView as RNScrollView } from 'react-native';
-import { makeid } from '../../focusManager/helpers';
 import type { ScrollViewProps } from '../../focusManager/types';
-import CoreManager from '../../focusManager/core';
+import CoreManager from '../../focusManager/model/core';
 import { measure, recalculateLayout } from '../../focusManager/layoutManager';
+import ScrollViewClass from '../../focusManager/model/scrollview';
 
 const ScrollView = React.forwardRef<any, ScrollViewProps>(
-    ({ children, style, parentContext, horizontal, ...props }: ScrollViewProps, refOuter) => {
+    ({ children, style, parentContext, horizontal, focusOptions, ...props }: ScrollViewProps, refOuter) => {
         const ref = useRef<RNScrollView>() as React.MutableRefObject<RNScrollView>;
 
-        const [context] = useState(() => ({
-            id: `scroll-${makeid(8)}`,
-            children: [],
-            isFocusable: false,
-            isScrollable: true,
-            scrollOffsetX: 0,
-            scrollOffsetY: 0,
-            type: 'scrollView',
-            isHorizontal: horizontal,
-            parent: parentContext,
-        }));
+        const [ClsInstance] = useState<ScrollViewClass>(
+            () =>
+                new ScrollViewClass({
+                    horizontal,
+                    parent: parentContext,
+                    ...focusOptions,
+                })
+        );
 
         useImperativeHandle(refOuter, () => ({
             scrollTo: ({ x, y }: { x?: number; y?: number }) => {
                 if (ref.current) ref.current.scrollTo({ x, y });
-                if (x !== undefined) context.scrollOffsetX = x;
-                if (y !== undefined) context.scrollOffsetY = y;
-                if (CoreManager.currentContext) {
-                    recalculateLayout(CoreManager.currentContext);
+                if (x !== undefined) ClsInstance.setScrollOffsetX(x);
+                if (y !== undefined) ClsInstance.setScrollOffsetY(y);
+                if (CoreManager._currentFocus) {
+                    recalculateLayout(CoreManager._currentFocus);
                 }
             },
         }));
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
-                return React.cloneElement(child, { parentContext: context });
+                return React.cloneElement(child, { parentContext: ClsInstance });
             }
             return child;
         });
 
         useEffect(() => {
-            CoreManager.registerContext(context, ref);
+            CoreManager.registerFocusable(ClsInstance, ref);
+
+            return () => {
+                CoreManager.removeFocusable(ClsInstance);
+            };
         }, []);
 
         const onLayout = () => {
-            measure(context, ref);
+            measure(ClsInstance, ref);
         };
 
         return (
@@ -54,6 +55,11 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
                 style={style}
                 horizontal={horizontal}
                 scrollEnabled={false}
+                scrollEventThrottle={8}
+                onScroll={(event) => {
+                    const { height } = event.nativeEvent.contentSize;
+                    ClsInstance.updateLayoutProperty('yMaxScroll', height);
+                }}
                 {...props}
             >
                 {childrenWithProps}
