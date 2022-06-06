@@ -11,7 +11,6 @@ describe('Test Harness app', () => {
         } else {
             await FlexnRunner.scrollById('flexn-screens-home-test-case-list-button-3-0', 'down');
             await FlexnRunner.pressButtonDown(17);
-            await FlexnRunner.pause(10000);
         }
         await FlexnRunner.expectToBeDisplayedByText('Rows');
     });
