@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StyleProp, ViewStyle, TextStyle, StyleSheet } from 'react-native';
+import { isPlatformTvos } from '@rnv/renative';
 import Text from '../../components/Text';
 import View from '../../components/View';
 import RecyclableList, {
@@ -106,7 +107,7 @@ const Row = ({
                 onBlur={() => onBlur?.(data)}
                 onPress={() => onPress?.(data)}
                 repeatContext={_repeatContext}
-                renderProps={_renderProps}
+                renderProps={isPlatformTvos && _renderProps}
                 focusOptions={{
                     animatorOptions,
                 }}
@@ -126,7 +127,7 @@ const Row = ({
                     initialXOffset={Ratio(initialXOffset)}
                     repeatContext={repeatContext}
                     rowRenderer={rowRenderer}
-                    disableItemContainer
+                    disableItemContainer={isPlatformTvos}
                     isHorizontal
                     style={[{ width: boundaries.width, height: boundaries.height }]}
                     contentContainerStyle={{ ...spacings }}
