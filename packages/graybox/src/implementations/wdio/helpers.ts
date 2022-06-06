@@ -2,6 +2,7 @@
 const pressButtonAndroid = async (n: number, keyCode: number) => {
     for (let i = 0; i < n; i++) {
         await driver.pressKeyCode(keyCode);
+        await browser.pause(500);
     }
 };
 
