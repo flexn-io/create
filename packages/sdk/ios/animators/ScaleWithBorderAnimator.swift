@@ -22,8 +22,6 @@ class ScaleWithBorderAnimator: Animator {
             self.view.layer.borderColor = self.AnimProperty.borderColor
             self.view.layer.borderWidth = self.AnimProperty.borderWidth
         })
-        self.view.layer.borderColor = self.AnimProperty.borderColor
-        self.view.layer.borderWidth = self.AnimProperty.borderWidth
     }
 
     func onBlur(animated: Bool) {

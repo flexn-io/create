@@ -54,8 +54,8 @@ export default function App({ children, ...props }: { children: any }) {
                 if (direction === 'playPause') {
                     CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
                 }
-                if (isAndroidBased && direction === 'select' && CoreManager._currentFocus) {
-                    CoreManager._currentFocus.node.current.onPress();
+                if (isAndroidBased && direction === 'select' && CoreManager.getCurrentFocus()) {
+                    CoreManager.getCurrentFocus()?.onPress();
                 }
             }
 
