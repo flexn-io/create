@@ -1,0 +1,111 @@
+0 silly argv {
+0 silly argv   _: [ 'publish' ],
+0 silly argv   composed: 'publish',
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': '/Users/aurimasmi/projects/flexn/flexn/node_modules/.bin/lerna',
+0 silly argv   bump: 'from-package'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath /Users/aurimasmi/projects/flexn/flexn
+3 verbose session 566efe40bfd5be10
+4 verbose user-agent lerna/4.0.0/node@v16.14.2+x64 (darwin)
+5 warn Yarn's registry proxy is broken, replacing with public npm registry
+6 warn If you don't have an npm token, you should exit and run `npm login`
+7 verbose git-describe undefined => "bff2d1d"
+8 silly git-describe parsed => {"refCount":"178","sha":"bff2d1d","isDirty":false}
+9 silly getUnpublishedPackages
+10 warn Unable to determine published version, assuming "@flexn/sdk" unpublished.
+11 warn Unable to determine published version, assuming "@flexn/build-hooks" unpublished.
+12 warn Unable to determine published version, assuming "@flexn/graybox" unpublished.
+13 warn Unable to determine published version, assuming "@flexn/template" unpublished.
+14 info publish Publishing packages to npm...
+15 info Verifying npm credentials
+16 verbose Retrieving npm user profile
+17 http fetch GET 200 https://registry.npmjs.org/-/npm/v1/user 663ms
+18 silly npm profile get received {"tfa":false,"name":"pavjacko","email":"beherithrone@gmail.com","email_verified":true,"created":"2017-09-24T19:33:38.727Z","updated":"2020-07-08T09:35:57.261Z","cidr_whitelist":null,"fullname":"Pavel Jacko","homepage":"","freenode":"","twitter":"pavjacko","github":"pavjacko"}
+19 silly get npm username received {"username":"pavjacko","tfa":false,"name":"pavjacko","email":"beherithrone@gmail.com","email_verified":true,"created":"2017-09-24T19:33:38.727Z","updated":"2020-07-08T09:35:57.261Z","cidr_whitelist":null,"fullname":"Pavel Jacko","homepage":"","freenode":"","twitter":"pavjacko","github":"pavjacko"}
+20 silly verifyNpmPackageAccess
+21 http fetch GET 200 https://registry.npmjs.org/-/org/pavjacko/package?format=cli 590ms (cache updated)
+22 info Checking two-factor auth mode
+23 verbose Retrieving npm user profile
+24 http fetch GET 200 https://registry.npmjs.org/-/npm/v1/user 369ms
+25 silly npm profile get received {"tfa":false,"name":"pavjacko","email":"beherithrone@gmail.com","email_verified":true,"created":"2017-09-24T19:33:38.727Z","updated":"2020-07-08T09:35:57.261Z","cidr_whitelist":null,"fullname":"Pavel Jacko","homepage":"","freenode":"","twitter":"pavjacko","github":"pavjacko"}
+26 silly 2FA false
+27 silly getCurrentSHA
+28 verbose getCurrentSHA bff2d1db9edf34f83b4b3d3f627465658b0d5326
+29 silly lifecycle No script for "prepublish" in "flexn", continuing
+30 silly lifecycle "prepare" starting in "flexn"
+31 info lifecycle flexn@undefined~prepare: flexn@undefined
+32 warn lifecycle The node binary used for scripts is /var/folders/ss/sv2twjd94g5_5j5ffkk9dghh0000gn/T/yarn--1654535560369-0.594038647487882/node but npm is using /Users/aurimasmi/.nvm/versions/node/v16.14.2/bin/node itself. Use the `--scripts-prepend-node-path` option to include the path for the node binary npm was executed with.
+33 verbose lifecycle flexn@undefined~prepare: unsafe-perm in lifecycle true
+34 verbose lifecycle flexn@undefined~prepare: PATH: /Users/aurimasmi/projects/flexn/flexn/node_modules/npm-lifecycle/node-gyp-bin:/Users/aurimasmi/projects/flexn/flexn/node_modules/.bin:/var/folders/ss/sv2twjd94g5_5j5ffkk9dghh0000gn/T/yarn--1654535560369-0.594038647487882:/Users/aurimasmi/projects/flexn/flexn/node_modules/.bin:/Users/aurimasmi/.config/yarn/link/node_modules/.bin:/Users/aurimasmi/projects/flexn/flexn/node_modules/.bin:/Users/aurimasmi/.nvm/versions/node/v16.14.2/libexec/lib/node_modules/npm/bin/node-gyp-bin:/Users/aurimasmi/.nvm/versions/node/v16.14.2/lib/node_modules/npm/bin/node-gyp-bin:/Users/aurimasmi/.nvm/versions/node/v16.14.2/bin/node_modules/npm/bin/node-gyp-bin:/Users/aurimasmi/.rvm/gems/ruby-3.1.1/bin:/Users/aurimasmi/.rvm/gems/ruby-3.1.1@global/bin:/Users/aurimasmi/.rvm/rubies/ruby-3.1.1/bin:/Users/aurimasmi/.nvm/versions/node/v16.14.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/aurimasmi/.fig/bin:/Users/aurimasmi/.local/bin:/opt/webOS_TV_SDK/CLI/bin:/Users/aurimasmi/Library/Android/sdk/tools:/Users/aurimasmi/Library/Android/sdk/platform-tools:$/Users/aurimas/tizen-studio/tools/ide/bin/:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/Users/aurimasmi/.rvm/bin
+35 verbose lifecycle flexn@undefined~prepare: CWD: /Users/aurimasmi/projects/flexn/flexn
+36 silly lifecycle flexn@undefined~prepare: Args: [ '-c', 'yarn run lerna:link && npx lerna run prepare --parallel' ]
+37 silly lifecycle flexn@undefined~prepare: Returned: code: 0  signal: null
+38 silly lifecycle "prepare" finished in "flexn"
+39 silly lifecycle No script for "prepublishOnly" in "flexn", continuing
+40 silly lifecycle No script for "prepack" in "flexn", continuing
+41 verbose pack-directory packages/build-hooks
+42 verbose pack-directory packages/graybox
+43 verbose pack-directory packages/sdk
+44 verbose pack-directory packages/template
+45 silly lifecycle No script for "prepublish" in "@flexn/build-hooks", continuing
+46 silly lifecycle No script for "prepublish" in "@flexn/graybox", continuing
+47 silly lifecycle No script for "prepublish" in "@flexn/sdk", continuing
+48 silly lifecycle No script for "prepublish" in "@flexn/template", continuing
+49 silly lifecycle No script for "prepare" in "@flexn/build-hooks", continuing
+50 silly lifecycle No script for "prepare" in "@flexn/graybox", continuing
+51 silly lifecycle No script for "prepare" in "@flexn/sdk", continuing
+52 silly lifecycle No script for "prepare" in "@flexn/template", continuing
+53 silly lifecycle No script for "prepublishOnly" in "@flexn/build-hooks", continuing
+54 silly lifecycle No script for "prepublishOnly" in "@flexn/sdk", continuing
+55 silly lifecycle No script for "prepublishOnly" in "@flexn/template", continuing
+56 silly lifecycle No script for "prepublishOnly" in "@flexn/graybox", continuing
+57 silly lifecycle No script for "prepack" in "@flexn/build-hooks", continuing
+58 silly lifecycle No script for "prepack" in "@flexn/template", continuing
+59 silly lifecycle No script for "prepack" in "@flexn/sdk", continuing
+60 silly lifecycle No script for "prepack" in "@flexn/graybox", continuing
+61 silly lifecycle No script for "postpack" in "@flexn/graybox", continuing
+62 verbose packed packages/graybox
+63 silly lifecycle No script for "postpack" in "@flexn/build-hooks", continuing
+64 verbose packed packages/build-hooks
+65 silly lifecycle No script for "postpack" in "@flexn/template", continuing
+66 verbose packed packages/template
+67 silly lifecycle No script for "postpack" in "@flexn/sdk", continuing
+68 verbose packed packages/sdk
+69 silly lifecycle No script for "postpack" in "flexn", continuing
+70 verbose publish @flexn/build-hooks
+71 verbose publish @flexn/graybox
+72 verbose publish @flexn/sdk
+73 verbose publish @flexn/template
+74 silly FetchError: request to https://registry.npmjs.org/@flexn%2ftemplate failed, reason: connect ECONNREFUSED 104.16.18.35:443
+74 silly     at ClientRequest.<anonymous> (/Users/aurimasmi/projects/flexn/flexn/node_modules/minipass-fetch/lib/index.js:110:14)
+74 silly     at ClientRequest.emit (node:events:526:28)
+74 silly     at TLSSocket.socketErrorListener (node:_http_client:442:9)
+74 silly     at TLSSocket.emit (node:events:538:35)
+74 silly     at emitErrorNT (node:internal/streams/destroy:157:8)
+74 silly     at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+74 silly     at processTicksAndRejections (node:internal/process/task_queues:83:21)
+74 silly  FetchError: request to https://registry.npmjs.org/@flexn%2ftemplate failed, reason: connect ECONNREFUSED 104.16.18.35:443
+74 silly     at ClientRequest.<anonymous> (/Users/aurimasmi/projects/flexn/flexn/node_modules/minipass-fetch/lib/index.js:110:14)
+74 silly     at ClientRequest.emit (node:events:526:28)
+74 silly     at TLSSocket.socketErrorListener (node:_http_client:442:9)
+74 silly     at TLSSocket.emit (node:events:538:35)
+74 silly     at emitErrorNT (node:internal/streams/destroy:157:8)
+74 silly     at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+74 silly     at processTicksAndRejections (node:internal/process/task_queues:83:21) {
+74 silly   code: 'ECONNREFUSED',
+74 silly   errno: 'ECONNREFUSED',
+74 silly   syscall: 'connect',
+74 silly   address: '104.16.18.35',
+74 silly   port: 443,
+74 silly   type: 'system'
+74 silly }
+75 error ECONNREFUSED request to https://registry.npmjs.org/@flexn%2ftemplate failed, reason: connect ECONNREFUSED 104.16.18.35:443
+76 error FetchError: request to https://registry.npmjs.org/@flexn%2ftemplate failed, reason: connect ECONNREFUSED 104.16.18.35:443
+76 error     at ClientRequest.<anonymous> (/Users/aurimasmi/projects/flexn/flexn/node_modules/minipass-fetch/lib/index.js:110:14)
+76 error     at ClientRequest.emit (node:events:526:28)
+76 error     at TLSSocket.socketErrorListener (node:_http_client:442:9)
+76 error     at TLSSocket.emit (node:events:538:35)
+76 error     at emitErrorNT (node:internal/streams/destroy:157:8)
+76 error     at emitErrorCloseNT (node:internal/streams/destroy:122:3)
