@@ -15,13 +15,11 @@ describe('Test template', () => {
     });
 
     it('--> click "Try my" button', async () => {
-        await FlexnRunner.expectToBeClickableById('template-screen-home-try-me-button');
         await FlexnRunner.clickById('template-screen-home-try-me-button');
         await FlexnRunner.pressButtonSelect(1);
     });
     
     it('--> click "Now try my" button', async () => {
-        await FlexnRunner.expectToBeClickableById('template-screen-home-now-try-me-button');
         await FlexnRunner.pressButtonDown(1);
         await FlexnRunner.clickById('template-screen-home-now-try-me-button');
         await FlexnRunner.pressButtonSelect(1);
