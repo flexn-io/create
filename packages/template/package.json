@@ -1,6 +1,6 @@
 {
     "name": "@flexn/template",
-    "version": "0.15.2",
+    "version": "0.15.3-alpha.0",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/flexn#readme",
@@ -49,10 +49,9 @@
         "@lightningjs/ui-components": "^1.2.1"
     },
     "devDependencies": {
-        "@flexn/graybox": "0.15.2",
-        "@flexn/sdk": "0.15.2",
+        "@flexn/graybox": "0.15.3-alpha.0",
+        "@flexn/sdk": "0.15.3-alpha.0",
         "@flexn/typescript": "0.1.4",
-        "@types/react-native": "0.67.2",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/masked-view": "0.1.6",
         "@react-native-windows/cli": "0.63.12",
@@ -75,6 +74,7 @@
         "@rnv/engine-rn-windows": "0.36.0-canary.13",
         "@rnv/renative": "0.36.0-canary.13",
         "@rollup/plugin-typescript": "^8.3.2",
+        "@types/react-native": "0.67.2",
         "http-server": "^14.1.0",
         "jetifier": "1.6.5",
         "next": "12.0.9",
