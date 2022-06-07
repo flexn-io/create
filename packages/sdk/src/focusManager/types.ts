@@ -80,6 +80,8 @@ export interface PressableProps extends RNPressableProps {
     children: React.ReactNode;
     ref?: any;
     activeOpacity?: any;
+    className?: string;
+    animatorOptions?: any;
 }
 
 export interface ScrollViewProps extends RNScrollViewProps {

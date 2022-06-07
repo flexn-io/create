@@ -52,6 +52,7 @@
         "@flexn/graybox": "0.15.2",
         "@flexn/sdk": "0.15.2",
         "@flexn/typescript": "0.1.4",
+        "@types/react-native": "0.67.2",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/masked-view": "0.1.6",
         "@react-native-windows/cli": "0.63.12",

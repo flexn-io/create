@@ -16,20 +16,31 @@ const styles = StyleSheet.create({
 });
 
 interface ButtonProps {
-    activeOpacity?: number,
-    children?: React.ReactNode,
-    title?: string,
-    iconFont?: 'fontAwesome' | 'feather' | 'antDesign' | 'entypo' | 'evilIcons' | 'foundation' | 'ionicons' | 'materialIcons' | 'octicons' | 'simpleLineIcons' | 'zocial'
-    iconName?: string,
-    iconColor?: string,
-    iconSize?: number,
-    style?: any,
-    textStyle?: any,
-    testID?: string,
-    accessible?: boolean,
-    accessibilityLabel?: string,
-    onPress?: any,
-    parentContext?: string,
+    activeOpacity?: number;
+    children?: React.ReactNode;
+    title?: string;
+    iconFont?:
+        | 'fontAwesome'
+        | 'feather'
+        | 'antDesign'
+        | 'entypo'
+        | 'evilIcons'
+        | 'foundation'
+        | 'ionicons'
+        | 'materialIcons'
+        | 'octicons'
+        | 'simpleLineIcons'
+        | 'zocial';
+    iconName?: string;
+    iconColor?: string;
+    iconSize?: number;
+    style?: any;
+    textStyle?: any;
+    testID?: string;
+    accessible?: boolean;
+    accessibilityLabel?: string;
+    onPress?: any;
+    parentContext?: string;
 }
 
 const Button = ({
