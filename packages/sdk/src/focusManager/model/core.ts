@@ -68,34 +68,33 @@ class CoreManager {
         }
     }
 
-    public executeFocus(direction = '', cls?: AbstractFocusModel) {
-        let nextFocusable;
-        const parent = this._currentFocus?.getParent();
-        if (cls) nextFocusable = cls;
-        else if (parent) {
-            nextFocusable = cls || this.getNextFocusableContext(direction, parent);
+    public executeFocus(cls: AbstractFocusModel) {
+        if (cls.getId() === this._currentFocus?.getId()) {
+            return;
         }
-        if (nextFocusable) {
-            if (nextFocusable.getId() === this._currentFocus?.getId()) {
-                return;
-            }
 
-            if (this._currentFocus) {
-                // @ts-ignore
-                UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId, 'cmdBlur', null);
-                this._currentFocus.onBlur();
-                this._currentFocus.setIsFocused(false);
-            }
-
-            this._currentFocus = nextFocusable;
+        if (this._currentFocus) {
             // @ts-ignore
-            UIManager.dispatchViewManagerCommand(nextFocusable.nodeId, 'cmdFocus', null);
-            // console.log('nextFocusable', nextFocusable);
-            nextFocusable.onFocus();
-            nextFocusable.setIsFocused(true);
-            if (nextFocusable.getScreen()) {
-                nextFocusable.getScreen()?.setCurrentFocus(nextFocusable as View);
-            }
+            UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId, 'cmdBlur', null);
+            this._currentFocus.onBlur();
+            this._currentFocus.setIsFocused(false);
+        }
+
+        this._currentFocus = cls;
+        // @ts-ignore
+        UIManager.dispatchViewManagerCommand(cls.nodeId, 'cmdFocus', null);
+        cls.onFocus();
+        cls.setIsFocused(true);
+        if (cls.getScreen()) {
+            cls.getScreen()?.setCurrentFocus(cls as View);
+        }
+    }
+
+    public executeDirectionalFocus(direction: string) {
+        const parent = this._currentFocus?.getParent();
+        if (parent) {
+            const next = this.getNextFocusableContext(direction, parent);
+            if (next) this.executeFocus(next);
         }
     }
 
@@ -127,10 +126,13 @@ class CoreManager {
             (cls) => cls.getFocusKey() === focusKey && cls.isInForeground()
         );
 
-        if (element && element.isScreen()) {
-            element.setFocus((element as Screen).getFirstFocusableOnScreen());
+        if (element) {
+            if (element.isScreen()) {
+                element.setFocus((element as Screen).getFirstFocusableOnScreen());
+            } else {
+                element.setFocus();
+            }
         }
-        // TODO: Implement for other type rather than screen
     };
 
     public getNextFocusableContext = (
@@ -141,9 +143,15 @@ class CoreManager {
     ): AbstractFocusModel | undefined | null => {
         const currentFocus = this._currentFocus;
         const focusMap = this._focusMap;
-
+        
         if (!currentFocus) {
             return focusMap[Object.keys(focusMap)[0]];
+        }
+
+        const nextForcedFocusKey = getNextForcedFocusKey(currentFocus, direction, this._focusMap);
+        if (nextForcedFocusKey) {
+            this.focusElementByFocusKey(nextForcedFocusKey);
+            return;
         }
 
         if (currentFocus.containsForbiddenDirection(direction)) {

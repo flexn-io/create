@@ -52,7 +52,7 @@ function recalculateLayout(cls: AbstractFocusModel) {
     recalculateAbsolutes(cls);
 }
 
-function measure(cls: AbstractFocusModel, ref: any, unmeasurableRelatives?: { x: number; y: number }) {
+function measure(cls: AbstractFocusModel, ref: any, unmeasurableRelatives?: { x: number; y: number }, callback?: () => void) {
     ref.current.measure((_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
         let pgX;
         let pgY;
@@ -113,8 +113,10 @@ function measure(cls: AbstractFocusModel, ref: any, unmeasurableRelatives?: { x:
         }
 
         cls.setLayout(layout);
+
         findLowestRelativeCoordinates(cls);
         recalculateLayout(cls);
+        if (callback) callback();
     });
 
     // get the layout of innerView in scroll
