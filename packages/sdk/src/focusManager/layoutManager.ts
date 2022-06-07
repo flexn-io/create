@@ -87,6 +87,7 @@ function measure(cls: AbstractFocusModel, ref: any, unmeasurableRelatives?: { x:
             xOffset: 0,
             xMaxScroll: 0,
             yMaxScroll: 0,
+            scrollContentHeight: 0,
             xCenter: pgX + Math.floor(width / 2),
             yCenter: pgY + Math.floor(height / 2),
             innerView: {
