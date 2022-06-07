@@ -31,6 +31,7 @@ interface RowProps {
     onFocus?(data: any): void;
     onBlur?(data: any): void;
     onPress?(data: any): void;
+    renderCard?(data: any, _repeatContext: any, dimensions: any, _renderProps: any): JSX.Element | JSX.Element[] | null;
     items: RowItem[];
     rerenderData?: any;
     itemDimensions: { height: number };
@@ -38,6 +39,7 @@ interface RowProps {
     verticalItemSpacing?: number;
     horizontalItemSpacing?: number;
     initialXOffset?: number;
+    disableItemContainer?: boolean;
 }
 
 const Row = ({
@@ -57,11 +59,13 @@ const Row = ({
     onFocus,
     onPress,
     onBlur,
+    renderCard,
     itemDimensions,
     itemSpacing = 30,
     verticalItemSpacing = 0,
     horizontalItemSpacing = 0,
     initialXOffset = 0,
+    disableItemContainer = false,
 }: RowProps) => {
     const ref: any = useRef();
     const layoutProvider: any = useRef();
@@ -98,6 +102,10 @@ const Row = ({
     setLayoutProvider();
 
     const rowRenderer = (_type: string | number, data: any, _index: number, _repeatContext: any, _renderProps: any) => {
+        if (renderCard) {
+            return renderCard(data, _repeatContext, { ...rowDimensions.item }, _renderProps);
+        }
+
         return (
             <PosterCard
                 src={{ uri: data.backgroundImage }}
@@ -107,7 +115,7 @@ const Row = ({
                 onBlur={() => onBlur?.(data)}
                 onPress={() => onPress?.(data)}
                 repeatContext={_repeatContext}
-                renderProps={isPlatformTvos && _renderProps}
+                renderProps={_renderProps}
                 focusOptions={{
                     animatorOptions,
                 }}
@@ -127,7 +135,7 @@ const Row = ({
                     initialXOffset={Ratio(initialXOffset)}
                     repeatContext={repeatContext}
                     rowRenderer={rowRenderer}
-                    disableItemContainer={isPlatformTvos}
+                    disableItemContainer={disableItemContainer && isPlatformTvos}
                     isHorizontal
                     style={[{ width: boundaries.width, height: boundaries.height }]}
                     contentContainerStyle={{ ...spacings }}
