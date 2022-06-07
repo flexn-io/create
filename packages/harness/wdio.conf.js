@@ -12,8 +12,8 @@ const capabilities = {
     ios: [
         {
             platformName: 'iOS',
-            deviceName: 'iPhone 11',
-            platformVersion: '15.2',
+            deviceName: 'iPhone 12',
+            platformVersion: '15.5',
             automationName: 'XCUITest',
             bundleId: 'io.flexn.harness.test',
             app: 'platformBuilds/harness_ios/build/RNVApp/Build/Products/Debug-iphonesimulator/RNVApp.app'
@@ -23,7 +23,7 @@ const capabilities = {
         {
             platformName: 'tvOS',
             deviceName: 'Apple TV',
-            platformVersion: '15.2',
+            platformVersion: '15.4',
             automationName: 'XCUITest',
             bundleId: 'io.flexn.harness.test',
             app: 'platformBuilds/harness_tvos/build/RNVAppTVOS/Build/Products/Debug-appletvsimulator/RNVAppTVOS.app'

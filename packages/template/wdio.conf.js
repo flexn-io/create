@@ -12,8 +12,8 @@ const capabilities = {
     ios: [
         {
             platformName: 'iOS',
-            deviceName: 'iPhone 8',
-            platformVersion: '14.4',
+            deviceName: 'iPhone 12',
+            platformVersion: '15.5',
             automationName: 'XCUITest',
             bundleId: 'io.flexn.template.test',
             app: 'platformBuilds/template_ios/build/RNVApp/Build/Products/Debug-iphonesimulator/RNVApp.app'
@@ -22,8 +22,8 @@ const capabilities = {
     tvos: [
         {
             platformName: 'tvOS',
-            deviceName: 'Apple TV 4K',
-            platformVersion: '14.3',
+            deviceName: 'Apple TV',
+            platformVersion: '15.4',
             automationName: 'XCUITest',
             bundleId: 'io.flexn.template.test',
             app: 'platformBuilds/template_tvos/build/RNVAppTVOS/Build/Products/Debug-appletvsimulator/RNVAppTVOS.app'
