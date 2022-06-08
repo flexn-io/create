@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
+import { isPlatformTvos } from '@rnv/renative';
 import View from '../../components/View';
 import RecyclableList, {
     RecyclableListDataProvider,
@@ -23,6 +24,7 @@ interface GridProps {
     onFocus?(data: any): void;
     onBlur?(data: any): void;
     onPress?(data: any): void;
+    renderCard?(data: any, _repeatContext: any, dimensions: any, _renderProps: any): JSX.Element | JSX.Element[] | null;
     items: RowItem[];
     itemDimensions: { height: number };
     itemSpacing?: number;
@@ -30,6 +32,7 @@ interface GridProps {
     horizontalItemSpacing?: number;
     rerenderData?: any;
     animatorOptions?: any;
+    disableItemContainer?: boolean;
 }
 
 const Grid = ({
@@ -48,6 +51,8 @@ const Grid = ({
     onFocus,
     onPress,
     onBlur,
+    renderCard,
+    disableItemContainer = false,
 }: GridProps) => {
     const ref: any = useRef();
     const layoutProvider: any = useRef();
@@ -86,6 +91,9 @@ const Grid = ({
             dataProvider={dataProvider}
             layoutProvider={layoutProvider.current}
             rowRenderer={(_type: string | number, data, _index: number, repeatContext: any, renderProps) => {
+                if (renderCard) {
+                    return renderCard(data, repeatContext, { ...rowDimensions.item }, renderProps);
+                }
                 return (
                     <PosterCard
                         src={{ uri: data.backgroundImage }}
@@ -107,7 +115,7 @@ const Grid = ({
             }}
             focusOptions={focusOptions}
             isHorizontal={false}
-            disableItemContainer
+            disableItemContainer={disableItemContainer && isPlatformTvos}
         />
     );
 

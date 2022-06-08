@@ -25,6 +25,7 @@ interface ListProps {
     onFocus?(data: any): void;
     onBlur?(data: any): void;
     onPress?(data: any): void;
+    renderCard?(data: any, _repeatContext: any, dimensions: any, _renderProps: any): JSX.Element | JSX.Element[] | null;
     items: {
         rowTitle?: string;
         itemsInViewport?: number;
@@ -37,6 +38,7 @@ interface ListProps {
     initialXOffset?: number;
     rowHeight: number;
     rerenderData?: any;
+    disableItemContainer?: boolean;
 }
 
 const List = ({
@@ -54,8 +56,12 @@ const List = ({
     horizontalItemSpacing = 0,
     itemDimensions,
     onPress,
+    onFocus,
+    onBlur,
+    renderCard,
     initialXOffset = 0,
     rowHeight,
+    disableItemContainer = false,
 }: ListProps) => {
     const ref: any = useRef();
     const layoutProvider: any = useRef();
@@ -100,6 +106,9 @@ const List = ({
                 itemsInViewport={data.itemsInViewport || itemsInViewport}
                 title={title}
                 onPress={onPress}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                renderCard={renderCard}
                 repeatContext={repeatContext}
                 nestedParentContext={nestedParentContext}
                 style={{
@@ -112,6 +121,7 @@ const List = ({
                 itemSpacing={itemSpacing}
                 initialXOffset={initialXOffset}
                 animatorOptions={animatorOptions}
+                disableItemContainer={disableItemContainer}
                 // TODO: This should be not needed eventually
                 focusOptions={{
                     nextFocusLeft: focusOptions?.nextFocusLeft,

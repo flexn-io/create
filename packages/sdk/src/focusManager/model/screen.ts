@@ -8,7 +8,7 @@ import { alterForbiddenFocusDirections } from '../helpers';
 import { findLowestRelativeCoordinates } from '../layoutManager';
 import { DEFAULT_VIEWPORT_OFFSET } from '../constants';
 
-const DELAY_TIME_IN_MS = 150;
+const DELAY_TIME_IN_MS = 100;
 
 export const STATE_BACKGROUND: ScreenStates = 'background';
 export const STATE_FOREGROUND: ScreenStates = 'foreground';
@@ -27,7 +27,7 @@ class Screen extends AbstractFocusModel {
     private _verticalViewportOffset: number;
     private _forbiddenFocusDirections: ForbiddenFocusDirections[];
     private _initialLoadInProgress: boolean;
-    private _loadingComponents: number;
+    private _componentsPendingLayoutMap: {[key: string]: boolean};
     private _unmountingComponents: number;
     private _preferredFocus?: View;
     private _currentFocus?: View;
@@ -75,22 +75,25 @@ class Screen extends AbstractFocusModel {
         this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._stealFocus = stealFocus;
         this._isFocused = false;
-        this._loadingComponents = 0;
         this._unmountingComponents = 0;
         this._initialLoadInProgress = true;
+        
+        this._componentsPendingLayoutMap = {};
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
     }
 
-    public setIsLoading() {
+    public addComponentToPendingLayoutMap(id: string): void {
+        this._componentsPendingLayoutMap[id] = true;
+    }
+
+    public removeComponentFromPendingLayoutMap(id: string): void {
         if (this._initialLoadInProgress) {
-            this._loadingComponents++;
-
             setTimeout(() => {
-                this._loadingComponents--;
+                delete this._componentsPendingLayoutMap[id];
 
-                if (this._loadingComponents <= 0) {
+                if (Object.keys(this._componentsPendingLayoutMap).length <= 0) {
                     this._initialLoadInProgress = false;
                     if (this._stealFocus) {
                         this.setFocus(this.getFirstFocusableOnScreen());
@@ -103,7 +106,7 @@ class Screen extends AbstractFocusModel {
     public setFocus(cls?: AbstractFocusModel) {
         if (cls) {
             CoreManager.getCurrentFocus()?.getScreen()?.onBlur?.();
-            CoreManager.executeFocus('', cls);
+            CoreManager.executeFocus(cls);
             CoreManager.executeUpdateGuideLines();
             cls.getScreen()?.onFocus();
         } else {

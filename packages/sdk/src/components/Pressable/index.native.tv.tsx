@@ -86,7 +86,7 @@ const View = React.forwardRef<any, ViewProps>(
         useEffect(() => {
             if (focus) {
                 CoreManager.registerFocusable(ViewInstance, ref);
-                (ViewInstance as ViewClass).getScreen()?.setIsLoading();
+                ViewInstance.getScreen()?.addComponentToPendingLayoutMap(ViewInstance.getId());
             }
 
             return () => {
@@ -108,7 +108,9 @@ const View = React.forwardRef<any, ViewProps>(
         });
 
         const onLayout = () => {
-            measure(ViewInstance, ref);
+            measure(ViewInstance, ref, undefined, () => {
+                ViewInstance.getScreen()?.removeComponentFromPendingLayoutMap(ViewInstance.getId());
+            });
         };
 
         // In recycled mode we must re-measure on render

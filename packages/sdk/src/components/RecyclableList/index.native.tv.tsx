@@ -121,7 +121,11 @@ export default function RecyclerView({
                 }}
                 onScroll={(event: any) => {
                     const { height } = event.nativeEvent.contentSize;
-                    ClsInstance.updateLayoutProperty('yMaxScroll', height);
+                    const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
+                    ClsInstance.updateLayoutProperty('yMaxScroll', height).updateLayoutProperty(
+                        'scrollContentHeight',
+                        scrollContentHeight
+                    );
                 }}
                 rowRenderer={rowRendererWithProps}
                 disableItemContainer={disableItemContainer}

@@ -1,3 +1,4 @@
+import CoreManager from './core';
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 import { alterForbiddenFocusDirections } from '../helpers';
@@ -53,6 +54,11 @@ class View extends AbstractFocusModel {
         this._onBlur = onBlur;
 
         return this;
+    }
+
+    public setFocus() {
+        CoreManager.executeFocus(this);
+        CoreManager.executeUpdateGuideLines();
     }
 
     public onFocus(): void {

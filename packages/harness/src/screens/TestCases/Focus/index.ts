@@ -6,6 +6,7 @@ import ViewportSideEdgeVertical from './ViewportSideEdgeVertical';
 import ViewportBothEdgesVertical from './ViewportBothEdgesVertical';
 import ViewportVerHoz from './ViewportVerHoz';
 import Moonshine from './moonshine';
+import FocusNext from './FocusNext';
 
 export default {
     AbsoluteSideDrawer,
@@ -16,4 +17,5 @@ export default {
     ViewportVerHoz,
     ViewportSideEdgeVertical,
     ViewportBothEdgesVertical,
+    FocusNext,
 };

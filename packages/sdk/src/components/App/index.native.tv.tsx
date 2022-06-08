@@ -65,7 +65,7 @@ export default function App({ children, ...props }: { children: any }) {
                     CoreManager.executeUpdateGuideLines();
                 }
                 if (DIRECTION.includes(evt.eventType)) {
-                    CoreManager.executeFocus(direction);
+                    CoreManager.executeDirectionalFocus(direction);
                     CoreManager.executeScroll(direction);
                     CoreManager.executeUpdateGuideLines();
                 }

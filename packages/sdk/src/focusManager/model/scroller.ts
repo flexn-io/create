@@ -11,7 +11,6 @@ import {
 } from '../constants';
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 class Scroller {
     public scroll(direction: string, contextParameters: any) {
@@ -132,10 +131,10 @@ class Scroller {
         //TODO ignore initial values
         // scrollTarget.y = Math.min(currentLayout.yMin - scrollView.layout.yMin - VIEWPORT_PADDING, scrollView.scrollOffsetY);
 
+        const { scrollContentHeight } = scrollView.getLayout();
         let yMaxScroll = scrollView.getLayout().yMaxScroll || scrollView.getMostBottomChildren().getLayout()?.yMax || 0;
         yMaxScroll += scrollView.getLayout().yMin || 0;
-        const targetY = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset + windowHeight;
-
+        const targetY = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset + scrollContentHeight;
         if (DIRECTION_UP.includes(direction)) {
             const innerViewMin = scrollView.getLayout().innerView.yMin;
             scrollTarget.y = Math.min(
@@ -146,7 +145,7 @@ class Scroller {
             if (yMaxScroll >= targetY) {
                 scrollTarget.y = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset;
             } else {
-                scrollTarget.y = yMaxScroll - windowHeight;
+                scrollTarget.y = yMaxScroll - scrollContentHeight;
             }
         }
 
