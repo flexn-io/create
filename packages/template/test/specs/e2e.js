@@ -5,7 +5,7 @@ describe('Test template', () => {
         FlexnRunner.launchApp();
     });
 
-    it('--> check if elements exists in Home screen', async () => {
+    it('--> check if elements are displayed and exist in Home screen', async () => {
         await FlexnRunner.expectToBeDisplayedByText('Flexn SDK Example');
         await FlexnRunner.expectToBeDisplayedById('template-screen-home-try-me-button');
         await FlexnRunner.expectToBeDisplayedById('template-screen-home-now-try-me-button');
