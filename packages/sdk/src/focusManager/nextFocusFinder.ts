@@ -66,6 +66,56 @@ const findFirstFocusableInGroup = (cls: AbstractFocusModel): AbstractFocusModel 
     return null;
 };
 
+const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, direction: string) => {
+    const currentLayout = current.getLayout();
+    const nextLayout = next.getLayout();
+
+    const compareFn = () => {
+        const dx = Math.max(
+            currentLayout.absolute.xMin - nextLayout.absolute.xMin,
+            0,
+            nextLayout.absolute.xMin - currentLayout.absolute.xMax
+        );
+        const dy = Math.max(
+            currentLayout.absolute.yMin - nextLayout.absolute.yMin,
+            0,
+            nextLayout.absolute.yMin - currentLayout.absolute.yMax
+        );
+        return Math.sqrt(dx*dx + dy*dy);
+    };
+
+    switch (direction) {
+        case 'up': {
+            if (currentLayout.yMin >= nextLayout.yMax) {
+                return compareFn();
+            }
+            break;
+        }
+        case 'down': {
+            if (currentLayout.yMax <= nextLayout.yMin) {
+                return compareFn();
+            }
+            break;
+        }
+        case 'left': {
+            if (currentLayout.xMin >= nextLayout.xMax) {
+                return compareFn();
+            }
+            break;
+        }
+        case 'right': {
+            if (currentLayout.xMax <= nextLayout.xMin) {
+                return compareFn();
+            }
+            break;
+        }   
+        default:
+            break;
+    }
+
+    return 99999999;
+};
+
 export const distCalc = (
     output: any,
     nextCls: AbstractFocusModel,
@@ -80,28 +130,23 @@ export const distCalc = (
     p9: number,
     p12: number,
     direction: string,
-    contextParameters: any
+    contextParameters: any,
+    current: AbstractFocusModel,
+    next: AbstractFocusModel,
 ) => {
     const { currentFocus }: { currentFocus: AbstractFocusModel } = contextParameters;
     // First we search based on the distance to guide line
-    const ix = intersects(guideLine, currentRectDimension, p3, p4);
     const ixOffset = intersectsOffset(guideLine, p3, p4);
     const nextVisible = nextIsVisible(p12, direction);
     const inOneLine = isInOneLine(direction, nextCls, currentFocus);
-
     const closestDistance = Math.abs(p5 - p6);
     const cornerDistance = p7 - p8;
-
-    if (
-        ix &&
-        !inOneLine &&
-        cornerDistance < 0 &&
-        output.match1 >= closestDistance &&
-        output.match1IxOffset >= ixOffset
-    ) {
-        output.match1 = closestDistance;
+    
+    
+    const closest = closestDist(current, next, direction);
+    if (closest !== undefined && output.match1 >= closest + ixOffset) {
+        output.match1 = closest + ixOffset;
         output.match1Context = nextCls;
-        output.match1IxOffset = ixOffset;
         Logger.getInstance().debug('FOUND CLOSER M1', nextCls.getId(), closestDistance);
     }
 
