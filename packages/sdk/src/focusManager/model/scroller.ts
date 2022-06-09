@@ -121,20 +121,17 @@ class Scroller {
         contextParameters: any
     ) {
         const { currentFocus }: { currentFocus: AbstractFocusModel } = contextParameters;
+        const { scrollContentHeight } = scrollView.getLayout();
         const currentLayout = currentFocus.getLayout();
         const scrollTarget = { x: scrollView.getScrollOffsetX(), y: scrollView.getScrollOffsetY() };
         const verticalViewportOffset = currentFocus.getScreen()?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
-
-        // This will be executed if we have nested scroll view
-        // and jumping between scroll views with buttons UP or DOWN
-        //TODO FIX: OPEN MENU GO BACK TO CONTENT AND DIRECTIONS LOST
-        //TODO ignore initial values
-        // scrollTarget.y = Math.min(currentLayout.yMin - scrollView.layout.yMin - VIEWPORT_PADDING, scrollView.scrollOffsetY);
-
-        const { scrollContentHeight } = scrollView.getLayout();
+        
         let yMaxScroll = scrollView.getLayout().yMaxScroll || scrollView.getMostBottomChildren().getLayout()?.yMax || 0;
         yMaxScroll += scrollView.getLayout().yMin || 0;
+
         const targetY = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset + scrollContentHeight;
+
+
         if (DIRECTION_UP.includes(direction)) {
             const innerViewMin = scrollView.getLayout().innerView.yMin;
             scrollTarget.y = Math.min(

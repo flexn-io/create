@@ -202,21 +202,8 @@ class CoreManager {
                     this.findClosestNode(cls, direction, output);
                 }
             }
-            const closestContextFn = (): AbstractFocusModel | undefined => {
-                if (output.match1Context || output.match2Context || output.match3Context) {
-                    if (output.match3 < output.match2) {
-                        return output.match3Context;
-                    }
-                    if (output.match2 < output.match1) {
-                        return output.match2Context;
-                    }
-                    if (output.match3 < output.match1) {
-                        return output.match3Context;
-                    }
-                    return output.match1Context || output.match2Context || output.match3Context;
-                }
-            };
-            const closestContext = closestContextFn();
+
+            const closestContext =  output.match1Context || output.match2Context || output.match3Context;
 
             if (!closestContext) {
                 if (parentCls.isScreen()) {
@@ -354,8 +341,11 @@ class CoreManager {
                     currentXMin, //p8
                     currentYCenter, //p9
                     0,
-                    direction,
-                    contextParameters
+                    'left',
+                    contextParameters,
+
+                    this._currentFocus as AbstractFocusModel,
+                    cls,
                 );
                 break;
             }
@@ -374,8 +364,12 @@ class CoreManager {
                     nextXMax, //p8
                     currentYCenter, //p9
                     0,
-                    direction,
-                    contextParameters
+                    'right',
+                    contextParameters,
+
+
+                    this._currentFocus as AbstractFocusModel,
+                    cls,
                 );
                 break;
             }
@@ -395,8 +389,12 @@ class CoreManager {
                     nextXCenter,
 
                     nextXMax,
-                    direction,
-                    contextParameters
+                    'up',
+                    contextParameters,
+
+                    this._currentFocus as AbstractFocusModel,
+                    cls,
+
                 );
                 break;
             }
@@ -415,8 +413,11 @@ class CoreManager {
                     nextYMax,
                     currentXCenter,
                     nextXMax,
-                    direction,
-                    contextParameters
+                    'down',
+                    contextParameters,
+
+                    this._currentFocus as AbstractFocusModel,
+                    cls,
                 );
                 break;
             }
