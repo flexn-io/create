@@ -1,8 +1,10 @@
 import React from 'react';
-import { PosterCard, ScrollView } from '@flexn/sdk';
+import { PosterCard, ScrollView, FlatList, Text, Pressable } from '@flexn/sdk';
 import Screen from '../../../../components/Screen';
+import List from './List';
 
 const NonScrollableScrollView = () => {
+    const [visible, setVisible] = React.useState(false);
     return (
         <Screen>
             {/* <PosterCard

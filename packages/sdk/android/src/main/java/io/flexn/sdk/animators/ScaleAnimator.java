@@ -17,12 +17,12 @@ class ScaleAnimator extends AbstractAnimator implements TimeAnimator.TimeListene
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
     public void onFocus(boolean animated) {
-        this.mView.bringToFront();
-        animateFocus(true, false);
+        this.mView.setTranslationZ(999);
+//        animateFocus(true, false);
     }
 
     public void onBlur(boolean animated) {
-        animateFocus(false, false);
+//        animateFocus(false, false);
     }
 
     void animateFocus(boolean select, boolean immediate) {

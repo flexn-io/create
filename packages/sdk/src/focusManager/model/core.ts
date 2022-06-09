@@ -93,7 +93,25 @@ class CoreManager {
     public executeDirectionalFocus(direction: string) {
         const parent = this._currentFocus?.getParent();
         if (parent) {
-            const next = this.getNextFocusableContext(direction, parent);
+            const output: {
+                match1: number;
+                match1IxOffset: number;
+                match1Context?: AbstractFocusModel;
+                match2: number;
+                match2IxOffset: number;
+                match2Context?: AbstractFocusModel;
+                match3: number;
+                match3IxOffset: number;
+                match3Context?: AbstractFocusModel;
+            } = {
+                match1: 999999,
+                match1IxOffset: 999999,
+                match2: 9999999,
+                match2IxOffset: 999999,
+                match3: 9999999,
+                match3IxOffset: 999999,
+            };
+            const next = this.getNextFocusableContext(direction, parent, output);
             if (next) this.executeFocus(next);
         }
     }
@@ -138,6 +156,7 @@ class CoreManager {
     public getNextFocusableContext = (
         direction: string,
         parent: AbstractFocusModel,
+        output: any,
         mustPickContext?: boolean,
         inScreenContext?: boolean
     ): AbstractFocusModel | undefined | null => {
@@ -175,30 +194,17 @@ class CoreManager {
         }
         Logger.getInstance().debug('FIND===============================', parents, ch);
         if (ch) {
-            const output: {
-                match1: number;
-                match1IxOffset: number;
-                match1Context?: AbstractFocusModel;
-                match2: number;
-                match2IxOffset: number;
-                match2Context?: AbstractFocusModel;
-                match3: number;
-                match3IxOffset: number;
-                match3Context?: AbstractFocusModel;
-            } = {
-                match1: 999999,
-                match1IxOffset: 999999,
-                match2: 9999999,
-                match2IxOffset: 999999,
-                match3: 9999999,
-                match3IxOffset: 999999,
-            };
             for (let i = 0; i < ch.length; i++) {
                 const cls = ch[i];
-                const notFocusableAndNoChildren = cls.getChildren().length < 1 && !cls.isFocusable();
-                if (notFocusableAndNoChildren) {
-                    Logger.getInstance().debug('FOUND GROUP WITH NO CHILDREN!', cls.getId());
-                } else if (!parents.includes(cls.getId()) && !notFocusableAndNoChildren) {
+
+                if (cls.getChildren().length > 1) {
+                    cls.getChildren().forEach((ch1 => {
+                        this.getNextFocusableContext(direction, ch1, output, true, false);
+                        // if (ch1.isFocusable() && !parents.includes(ch1.getId())) {
+                        //     this.findClosestNode(ch1, direction, output);
+                        // }
+                    }));
+                } else if (cls.isFocusable() && !parents.includes(cls.getId())) {
                     this.findClosestNode(cls, direction, output);
                 }
             }
@@ -234,8 +240,10 @@ class CoreManager {
                         Logger.getInstance().debug('FOCUSABLE SCREENS', focusableScreens);
                         let nextScreen: AbstractFocusModel | null | undefined;
                         focusableScreens.forEach((s) => {
-                            nextScreen = this.getNextFocusableContext(direction, s, false, true);
+                            nextScreen = this.getNextFocusableContext(direction, s, output, false, true);
                         });
+
+                        Logger.getInstance().debug('FOCUSABLE SCREENS NEXT', nextScreen);
 
                         // DO NOT SEND EVENTS IF CURRENT SCREEN ALREADY FOCUSED
                         if (nextScreen && nextScreen.getId() !== currentFocus.getId()) {
@@ -276,13 +284,13 @@ class CoreManager {
                 const parent = parentCls.getParent();
                 if (parent) {
                     Logger.getInstance().debug('PICKING PARENT', parent);
-                    return this.getNextFocusableContext(direction, parent, false, false);
+                    return this.getNextFocusableContext(direction, parent, output, false, false);
                 }
                 return null;
             }
             if (closestContext.getChildren().length > 0) {
                 Logger.getInstance().debug(`REACHED GROUP ${closestContext.getId()}. GOING IN`);
-                return this.getNextFocusableContext(direction, closestContext, true, false);
+                return this.getNextFocusableContext(direction, closestContext, output, true, false);
             }
 
             return closestContext || currentFocus;

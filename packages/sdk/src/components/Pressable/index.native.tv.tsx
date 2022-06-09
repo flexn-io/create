@@ -123,30 +123,30 @@ const View = React.forwardRef<any, ViewProps>(
 
             const flattenedStyle = flattenStyle(style);
             animatorOptions = { ...animatorOptions, style: { ...flattenedStyle } };
-            let borderProps = {};
-            const isBorderAnimation = [ANIMATIONS.BORDER, ANIMATIONS.SCALE_BORDER].includes(animatorOptions.type);
-            if (!isBorderAnimation) {
-                borderProps = {
-                    focusableBorderWidth: flattenedStyle.borderWidth,
-                    focusableBorderLeftWidth: flattenedStyle.borderLeftWidth,
-                    focusableBorderRightWidth: flattenedStyle.borderRightWidth,
-                    focusableBorderTopWidth: flattenedStyle.borderTopWidth,
-                    focusableBorderBottomWidth: flattenedStyle.borderBottomWidth,
-                    focusableBorderStartWidth: flattenedStyle.borderStartWidth,
-                    focusableBorderEndWidth: flattenedStyle.borderEndWith,
-                };
-            } else {
-                if (isPlatformTvos) {
-                    delete flattenedStyle.borderWidth;
-                }
-            }
+            // let borderProps = {};
+            // const isBorderAnimation = [ANIMATIONS.BORDER, ANIMATIONS.SCALE_BORDER].includes(animatorOptions.type);
+            // if (!isBorderAnimation) {
+            //     borderProps = {
+            //         focusableBorderWidth: flattenedStyle.borderWidth,
+            //         focusableBorderLeftWidth: flattenedStyle.borderLeftWidth,
+            //         focusableBorderRightWidth: flattenedStyle.borderRightWidth,
+            //         focusableBorderTopWidth: flattenedStyle.borderTopWidth,
+            //         focusableBorderBottomWidth: flattenedStyle.borderBottomWidth,
+            //         focusableBorderStartWidth: flattenedStyle.borderStartWidth,
+            //         focusableBorderEndWidth: flattenedStyle.borderEndWith,
+            //     };
+            // } else {
+            //     if (isPlatformTvos) {
+            //         delete flattenedStyle.borderWidth;
+            //     }
+            // }
 
             return (
                 <TvFocusableViewManager
                     style={flattenedStyle}
                     onLayout={onLayout}
                     animatorOptions={animatorOptions}
-                    {...borderProps}
+                    // {...borderProps}
                     {...props}
                     ref={ref}
                 >

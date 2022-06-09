@@ -1,5 +1,6 @@
 package io.flexn.sdk;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -59,6 +60,7 @@ public class TvFocusableViewManager extends ViewGroupManager<Focusable> {
 
     @ReactProp(name = "animatorOptions")
     public void setAnimationType(Focusable view, ReadableMap args) {
+        Log.d("args", args.toString());
         view.setupAnimator(args);
     }
 

@@ -1,6 +1,9 @@
-import { CUTOFF_SIZE } from './constants';
+import { Dimensions } from 'react-native';
+import { DIRECTION_VERTICAL, CUTOFF_SIZE } from './constants';
 import Logger from './model/logger';
 import AbstractFocusModel from './model/AbstractFocusModel';
+
+const windowWidth = Dimensions.get('window').width;
 
 const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: number, endOfNext: number) => {
     const a1 = guideLine - sizeOfCurrent * 0.5;
@@ -11,6 +14,14 @@ const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: numbe
         (a2 >= startOfNext && a2 <= endOfNext) ||
         (a1 <= startOfNext && a2 >= endOfNext)
     );
+};
+
+const nextIsVisible = (nextMax: number, direction: string) => {
+    if (DIRECTION_VERTICAL.includes(direction)) {
+        return nextMax > 0 && nextMax <= windowWidth;
+    }
+
+    return true;
 };
 
 const intersectsOffset = (guideLine: number, startOfNext: number, endOfNext: number) =>
@@ -65,7 +76,7 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
             break;
         }
         case 'left': {
-            if (currentLayout.xMin >= nextLayout.xMax) {
+            if (currentLayout.xCenter >= nextLayout.xMax) {
                 return compareFn();
             }
             break;
@@ -113,17 +124,17 @@ export const distCalc = (
         Logger.getInstance().debug('FOUND CLOSER M1', nextCls.getId(), closestDistance);
     }
     
-    const ix3 = intersects(p9, CUTOFF_SIZE, p3, p4);
-    if (
-        ix3 &&
-        cornerDistance < 0 &&
-        output.match3 >= closestDistance &&
-        output.match3IxOffset >= ixOffset
-    ) {
-        if (nextCls.getParent()?.getId() !== currentFocus.getParent()?.getId()) {
-            output.match3 = closestDistance;
-            output.match3Context = nextCls;
-            Logger.getInstance().debug('FOUND CLOSER M3', nextCls.getId(), closestDistance);
-        }
-    }
+    // const ix3 = intersects(p9, CUTOFF_SIZE, p3, p4);
+    // if (
+    //     ix3 &&
+    //     cornerDistance < 0 &&
+    //     output.match3 >= closestDistance &&
+    //     output.match3IxOffset >= ixOffset
+    // ) {
+    //     if (nextCls.getParent()?.getId() !== currentFocus.getParent()?.getId()) {
+    //         output.match3 = closestDistance;
+    //         output.match3Context = nextCls;
+    //         Logger.getInstance().debug('FOUND CLOSER M3', nextCls.getId(), closestDistance);
+    //     }
+    // }
 };
