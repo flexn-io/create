@@ -5,31 +5,41 @@ import Screen from '../../../../components/Screen';
 const NonScrollableScrollView = () => {
     return (
         <Screen>
-            <ScrollView>
-                <PosterCard
-                    src={{ uri: `https://placekitten.com/250/250` }}
-                    style={{ width: 250, height: 250, marginHorizontal: 15 }}
-                    focusOptions={{
-                        focusKey: 'card2',
-                        nextFocusRight: 'card1',
-                        animatorOptions: {
-                            type: 'scale',
-                            scale: 1.5,
-                        },
-                    }}
-                />
-                <PosterCard
-                    src={{ uri: `https://placekitten.com/250/250` }}
-                    style={{ width: 250, height: 250, marginHorizontal: 15, top: 200 }}
-                    focusOptions={{
-                        focusKey: 'card3',
-                        animatorOptions: {
-                            type: 'scale',
-                            scale: 1.5,
-                        },
-                    }}
-                />
-            </ScrollView>
+            {/* <PosterCard
+                src={{ uri: `https://placekitten.com/250/250` }}
+                style={{ width: 250, height: 250, marginHorizontal: 15, position: 'absolute' }}
+                focusOptions={{
+                    // focusKey: 'card2',
+                    nextFocusRight: 'card1',
+                    animatorOptions: {
+                        type: 'scale',
+                        scale: 1.1,
+                    },
+                }}
+            /> */}
+            <PosterCard
+                src={{ uri: `https://placekitten.com/250/250` }}
+                style={{ width: 250, height: 250, marginHorizontal: 15, left: 520, position: 'absolute' }}
+                focusOptions={{
+                    // focusKey: 'card2',
+                    nextFocusRight: 'card1',
+                    animatorOptions: {
+                        type: 'scale',
+                        scale: 1.1,
+                    },
+                }}
+            />
+            <PosterCard
+                src={{ uri: `https://placekitten.com/250/250` }}
+                style={{ width: 250, height: 250, marginHorizontal: 15, top: 550, left: 225, position: 'absolute' }}
+                focusOptions={{
+                    // focusKey: 'card3',
+                    animatorOptions: {
+                        type: 'scale',
+                        scale: 1.1,
+                    },
+                }}
+            />
         </Screen>
     );
 };

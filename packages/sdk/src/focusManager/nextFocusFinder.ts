@@ -17,6 +17,7 @@ const intersectsOffset = (guideLine: number, startOfNext: number, endOfNext: num
     Math.abs(guideLine - Math.round((startOfNext + endOfNext) / 2));
 
 const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, direction: string) => {
+    const priorities = [];
     const currentLayout = current.getLayout();
     const nextLayout = next.getLayout();
 
@@ -34,11 +35,27 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
         return Math.sqrt(dx * dx + dy * dy);
     };
 
+    const distY = () => {
+        const dy = Math.min(
+            Math.abs(currentLayout.absolute.yCenter - nextLayout.absolute.yMax + nextLayout.width),
+            Math.abs(currentLayout.absolute.yCenter - nextLayout.absolute.yMax),
+        );
+        return dy;
+        // console.log('dy', dy);
+    };
+
+
     switch (direction) {
         case 'up': {
-            if (currentLayout.yMin >= nextLayout.yMax) {
-                return compareFn();
+            if (currentLayout.yMax >= nextLayout.yMin) {
+                const isIntersects = intersects(currentLayout.xCenter, currentLayout.width, nextLayout.xMin, nextLayout.xMax);
+                if (isIntersects) {
+                    // console.log(distY());
+                    return distY();
+                }
+                console.log('distY', distY());
             }
+
             break;
         }
         case 'down': {
@@ -89,6 +106,7 @@ export const distCalc = (
     
     
     const closest = closestDist(current, next, direction);
+    console.log('closest', closest, current.getId(), next.getId());
     if (closest !== undefined && output.match1 >= closest + ixOffset) {
         output.match1 = closest + ixOffset;
         output.match1Context = nextCls;
