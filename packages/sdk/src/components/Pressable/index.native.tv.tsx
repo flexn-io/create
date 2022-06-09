@@ -9,6 +9,7 @@ import { measure } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
 import ViewClass from '../../focusManager/model/view';
+import Screen from '../../focusManager/model/screen';
 
 export const defaultAnimation = {
     type: 'scale',
@@ -86,7 +87,12 @@ const View = React.forwardRef<any, ViewProps>(
         useEffect(() => {
             if (focus) {
                 CoreManager.registerFocusable(ViewInstance, ref);
-                ViewInstance.getScreen()?.addComponentToPendingLayoutMap(ViewInstance.getId());
+                const screen = ViewInstance.getScreen() as Screen;
+                if (screen) {
+                    screen.addComponentToPendingLayoutMap(ViewInstance.getId());
+                    if (ViewInstance.hasPreferredFocus()) screen.setPreferredFocus(ViewInstance);
+                }
+
             }
 
             return () => {
