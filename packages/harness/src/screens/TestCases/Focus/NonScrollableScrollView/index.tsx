@@ -1,11 +1,14 @@
 import React from 'react';
-import { PosterCard, ScrollView } from '@flexn/sdk';
+import { ImageBackground } from 'react-native';
+import { PosterCard, withParentContextMapper } from '@flexn/sdk';
 import Screen from '../../../../components/Screen';
+
+const ImageWithContext = withParentContextMapper(ImageBackground);
 
 const NonScrollableScrollView = () => {
     return (
         <Screen>
-            <ScrollView>
+            <ImageWithContext>
                 <PosterCard
                     src={{ uri: `https://placekitten.com/250/250` }}
                     style={{ width: 250, height: 250, marginHorizontal: 15 }}
@@ -18,6 +21,8 @@ const NonScrollableScrollView = () => {
                         },
                     }}
                 />
+            </ImageWithContext>
+            <ImageWithContext>
                 <PosterCard
                     src={{ uri: `https://placekitten.com/250/250` }}
                     style={{ width: 250, height: 250, marginHorizontal: 15, top: 200 }}
@@ -29,7 +34,7 @@ const NonScrollableScrollView = () => {
                         },
                     }}
                 />
-            </ScrollView>
+            </ImageWithContext>
         </Screen>
     );
 };
