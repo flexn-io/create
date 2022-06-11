@@ -11,6 +11,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.bridge.WritableMap;
 
+import android.util.Log;
 import android.view.KeyEvent;
 
 import java.util.Map;
@@ -52,26 +53,30 @@ public class TvRemoteHandlerModule extends ReactContextBaseJavaModule {
         return instance;
     }
 
-    public void onKeyEvent(final KeyEvent keyEvent) {
+    public void onKeyEvent(final KeyEvent keyEvent, String type) {
         if (!mReactContext.hasActiveCatalystInstance()) {
             return;
         }
+
+//        Log.d("typetype_", type);
 
         if (mJSModule == null) {
             mJSModule = mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
         }
 
-        mJSModule.emit("onTVRemoteKey", getJsEventParams(keyEvent));
+        mJSModule.emit("onTVRemoteKey", getJsEventParams(keyEvent, type));
     };
 
-    private WritableMap getJsEventParams(KeyEvent keyEvent) {
+    private WritableMap getJsEventParams(KeyEvent keyEvent, String type) {
         WritableMap params = new WritableNativeMap();
         int action = keyEvent.getAction();
         int eventKeyCode = keyEvent.getKeyCode();
         String eventType = KEY_EVENTS_ACTIONS.containsKey(eventKeyCode) ? KEY_EVENTS_ACTIONS.get(eventKeyCode) : "";
 
+//        Log.d("action", action + " ");
+
         params.putString("eventType", eventType);
-        params.putString("eventKeyAction", action == KeyEvent.ACTION_DOWN ? "down" : "up");
+        params.putString("eventKeyAction", type);
 
         return params;
     }

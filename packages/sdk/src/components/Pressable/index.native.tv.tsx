@@ -92,11 +92,11 @@ const View = React.forwardRef<any, ViewProps>(
                     screen.addComponentToPendingLayoutMap(ViewInstance.getId());
                     if (ViewInstance.hasPreferredFocus()) screen.setPreferredFocus(ViewInstance);
                 }
-
             }
 
             return () => {
                 if (focus) {
+
                     CoreManager.removeFocusable(ViewInstance);
                     ViewInstance.getScreen()?.onViewRemoved(ViewInstance);
                 }
