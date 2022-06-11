@@ -131,6 +131,7 @@ export default function RecyclerView({
                 disableItemContainer={disableItemContainer}
                 isHorizontal={isHorizontal}
                 contentContainerStyle={contentContainerStyle}
+                renderAheadOffset={150}
                 {...props}
             />
         </RNView>

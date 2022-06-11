@@ -3,6 +3,8 @@ import { PosterCard, ScrollView, FlatList, Text, Pressable } from '@flexn/sdk';
 import Screen from '../../../../components/Screen';
 import List from './List';
 
+const ImageWithContext = withParentContextMapper(ImageBackground);
+
 const NonScrollableScrollView = () => {
     const [visible, setVisible] = React.useState(false);
     return (

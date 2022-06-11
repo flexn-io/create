@@ -9,6 +9,7 @@ import {
     DIRECTION_RIGHT,
     DEFAULT_VIEWPORT_OFFSET,
 } from '../constants';
+import ScrollView from './scrollview';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -32,6 +33,8 @@ class Scroller {
 
         const scrollContextParents = this.getParentScrollers(currentFocus);
 
+        // console.log('here1', currentFocus.getId());
+
         scrollContextParents.forEach((p: AbstractFocusModel) => {
             const scrollTarget = p.isHorizontal()
                 ? this.calculateHorizontalScrollViewTarget(direction, p, contextParameters)
@@ -52,6 +55,38 @@ class Scroller {
             }
         });
     }
+
+    public scrollTo(cls: AbstractFocusModel, scrollTarget: {x: number, y: number}) {
+        const parentSW = cls.getParent() as ScrollView;
+
+        if (scrollTarget) {
+            if (parentSW.getScrollOffsetX() !== scrollTarget.x || parentSW.getScrollOffsetY() !== scrollTarget.y) {
+                parentSW.node.current.scrollTo(scrollTarget);
+                parentSW.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);
+                recalculateLayout(cls);
+            }
+        }
+    }
+    public inlineScroll(direction: string, nextFocus: AbstractFocusModel) {
+        const scrollContextParents = this.getParentScrollers(nextFocus);
+        const contextParameters = {
+            currentFocus: nextFocus
+        };
+        
+        scrollContextParents.forEach((p: AbstractFocusModel) => {
+            const scrollTarget = p.isHorizontal()
+                ? this.calculateHorizontalScrollViewTarget(direction, p, contextParameters)
+                : this.calculateVerticalScrollViewTarget(direction, p, contextParameters);
+
+            if (scrollTarget) {
+                if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
+                    p.node.current.scrollTo(scrollTarget);
+                    p.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);
+                    recalculateLayout(nextFocus);
+                }
+            }
+        });
+    };
 
     private getParentScrollers(currentFocus: AbstractFocusModel) {
         const scrollContextParents = [];

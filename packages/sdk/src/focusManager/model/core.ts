@@ -23,6 +23,8 @@ class CoreManager {
 
     private _guideLineX: number;
 
+    private _hasPendingIndex: boolean;
+
     constructor() {
         this._focusMap = {};
 
@@ -32,6 +34,8 @@ class CoreManager {
         this._hasPendingUpdateGuideLines = false;
         this._guideLineY = 0;
         this._guideLineX = 0;
+
+        this._hasPendingIndex = false;
     }
 
     public registerFocusable(cls: AbstractFocusModel, node?: any) {
@@ -85,6 +89,7 @@ class CoreManager {
         UIManager.dispatchViewManagerCommand(cls.nodeId, 'cmdFocus', null);
         cls.onFocus();
         cls.setIsFocused(true);
+        cls.setFocus();
         if (cls.getScreen()) {
             cls.getScreen()?.setCurrentFocus(cls as View);
         }
@@ -116,6 +121,21 @@ class CoreManager {
         }
     }
 
+    public executeInlineFocus(nextIndex = 0) {
+        const parent = this._currentFocus?.getParent();
+        if (parent?.isRecyclable() && this._currentFocus) {
+            const layouts = parent?.getLayouts();
+            const nextLayout = layouts[nextIndex];
+            if (nextLayout) {
+                const target = {
+                    x: nextLayout.x,
+                    y: nextLayout.y,
+                };
+                Scroller.scrollTo(this._currentFocus, target);
+            }
+        }
+    }
+
     public executeScroll(direction = '') {
         const contextParameters = {
             currentFocus: this._currentFocus,
@@ -130,6 +150,7 @@ class CoreManager {
             this._hasPendingUpdateGuideLines = true;
             return;
         }
+
         if (this._guideLineX !== this._currentFocus.getLayout().absolute.xCenter) {
             this._guideLineX = this._currentFocus.getLayout().absolute.xCenter;
         }
@@ -306,6 +327,7 @@ class CoreManager {
         if (!nextLayout) {
             // eslint-disable-next-line
             Logger.getInstance().warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
+            console.log('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
             return;
         }
         if (!currentLayout) {

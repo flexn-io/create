@@ -12,6 +12,7 @@ class Recycler extends AbstractFocusModel {
     private _isNested: boolean;
     private _isHorizontal: boolean;
     private _forbiddenFocusDirections: ForbiddenFocusDirections[];
+    private _focusedIndex: number;
     private _repeatContext:
         | {
               parentContext: AbstractFocusModel;
@@ -37,6 +38,7 @@ class Recycler extends AbstractFocusModel {
         this._parent = parent;
         this._repeatContext = repeatContext;
         this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._focusedIndex = 0;
     }
 
     public getType(): string {

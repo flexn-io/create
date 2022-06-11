@@ -107,13 +107,12 @@ export const distCalc = (
     p12: number,
     direction: string,
     contextParameters: any,
-    current: AbstractFocusModel,
-    next: AbstractFocusModel,
+    current?: any,
+    next?: any,
 ) => {
-    const { currentFocus }: { currentFocus: AbstractFocusModel } = contextParameters;
+    // const { currentFocus }: { currentFocus: AbstractFocusModel } = contextParameters;
     const ixOffset = intersectsOffset(guideLine, p3, p4);
     const closestDistance = Math.abs(p5 - p6);
-    const cornerDistance = p7 - p8;
     
     
     const closest = closestDist(current, next, direction);
@@ -121,6 +120,7 @@ export const distCalc = (
     if (closest !== undefined && output.match1 >= closest + ixOffset) {
         output.match1 = closest + ixOffset;
         output.match1Context = nextCls;
+        output.match1IxOffset = ixOffset;
         Logger.getInstance().debug('FOUND CLOSER M1', nextCls.getId(), closestDistance);
     }
     

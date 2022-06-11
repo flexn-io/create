@@ -1,5 +1,6 @@
 // Functions
 import CoreManager from './focusManager/model/core';
+import { withParentContextMapper } from './hocs/withParentContextMapper';
 
 export function focusElementByFocusKey(focusKey: string) {
     CoreManager.focusElementByFocusKey(focusKey);
@@ -43,3 +44,4 @@ export { ScreenProps, ScreenStates } from './focusManager/types';
 
 // Constants
 export { ANIMATION_TYPES } from './focusManager/constants';
+export { withParentContextMapper };
