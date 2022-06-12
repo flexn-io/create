@@ -1,6 +1,5 @@
 package io.flexn.sdk;
 
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -19,13 +18,13 @@ import com.facebook.yoga.YogaConstants;
 
 public class TvFocusableViewManager extends ViewGroupManager<Focusable> {
     private static final int[] SPACING_TYPES = {
-        Spacing.ALL,
-        Spacing.LEFT,
-        Spacing.RIGHT,
-        Spacing.TOP,
-        Spacing.BOTTOM,
-        Spacing.START,
-        Spacing.END,
+            Spacing.ALL,
+            Spacing.LEFT,
+            Spacing.RIGHT,
+            Spacing.TOP,
+            Spacing.BOTTOM,
+            Spacing.START,
+            Spacing.END,
     };
 
     public static final String BORDER_WIDTH = "focusableBorderWidth";
@@ -60,21 +59,20 @@ public class TvFocusableViewManager extends ViewGroupManager<Focusable> {
 
     @ReactProp(name = "animatorOptions")
     public void setAnimationType(Focusable view, ReadableMap args) {
-        Log.d("args", args.toString());
         view.setupAnimator(args);
     }
 
     @ReactPropGroup(
-        names = {
-                BORDER_WIDTH,
-                BORDER_LEFT_WIDTH,
-                BORDER_START_WIDTH,
-                BORDER_END_WIDTH,
-                BORDER_TOP_WIDTH,
-                BORDER_RIGHT_WIDTH,
-                BORDER_BOTTOM_WIDTH,
-        },
-        defaultFloat = YogaConstants.UNDEFINED)
+            names = {
+                    BORDER_WIDTH,
+                    BORDER_LEFT_WIDTH,
+                    BORDER_START_WIDTH,
+                    BORDER_END_WIDTH,
+                    BORDER_TOP_WIDTH,
+                    BORDER_RIGHT_WIDTH,
+                    BORDER_BOTTOM_WIDTH,
+            },
+            defaultFloat = YogaConstants.UNDEFINED)
     public void setBorderWidth(Focusable view, int index, float width) {
         if (!YogaConstants.isUndefined(width) && width < 0) {
             width = YogaConstants.UNDEFINED;
@@ -86,19 +84,19 @@ public class TvFocusableViewManager extends ViewGroupManager<Focusable> {
     }
 
     @ReactPropGroup(
-        names = {
-            ViewProps.BORDER_COLOR,
-            ViewProps.BORDER_LEFT_COLOR,
-            ViewProps.BORDER_RIGHT_COLOR,
-            ViewProps.BORDER_TOP_COLOR,
-            ViewProps.BORDER_BOTTOM_COLOR,
-            ViewProps.BORDER_START_COLOR,
-            ViewProps.BORDER_END_COLOR
-        },
-        customType = "Color")
+            names = {
+                    ViewProps.BORDER_COLOR,
+                    ViewProps.BORDER_LEFT_COLOR,
+                    ViewProps.BORDER_RIGHT_COLOR,
+                    ViewProps.BORDER_TOP_COLOR,
+                    ViewProps.BORDER_BOTTOM_COLOR,
+                    ViewProps.BORDER_START_COLOR,
+                    ViewProps.BORDER_END_COLOR
+            },
+            customType = "Color")
     public void setBorderColor(Focusable view, int index, Integer color) {
         float rgbComponent =
-            color == null ? YogaConstants.UNDEFINED : (float) ((int) color & 0x00FFFFFF);
+                color == null ? YogaConstants.UNDEFINED : (float) ((int) color & 0x00FFFFFF);
         float alphaComponent = color == null ? YogaConstants.UNDEFINED : (float) ((int) color >>> 24);
         view.setBorderColor(SPACING_TYPES[index], rgbComponent, alphaComponent);
     }

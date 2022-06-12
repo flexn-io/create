@@ -18,10 +18,10 @@ public class AnimatorProperty {
 
     public AnimatorProperty(ReadableMap args) {
         if (args.hasKey("style")) {
-//            setStyle(args.getMap("style"));
-//            if (style.hasKey("borderColor")) setBorderColor(style.getString("borderColor"));
-//            if (style.hasKey("backgroundColor")) setBackgroundColor(style.getString("backgroundColor"));
-//            if (style.hasKey("borderWidth")) setBorderWidth(style.getInt("borderWidth"));
+            setStyle(args.getMap("style"));
+            if (style.hasKey("borderColor")) setBorderColor(style.getString("borderColor"));
+            if (style.hasKey("backgroundColor")) setBackgroundColor(style.getString("backgroundColor"));
+            if (style.hasKey("borderWidth")) setBorderWidth(style.getInt("borderWidth"));
             if (args.hasKey("backgroundColorFocus")) setBackgroundColorFocus(args.getString("backgroundColorFocus"));
             if (args.hasKey("scale")) setScale((float) args.getDouble("scale"));
             if (args.hasKey("duration")) setDuration(args.getInt("duration"));

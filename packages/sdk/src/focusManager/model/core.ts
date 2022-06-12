@@ -96,27 +96,21 @@ class CoreManager {
     }
 
     public executeDirectionalFocus(direction: string) {
-        const parent = this._currentFocus?.getParent();
+        const parent = this._currentFocus;
         if (parent) {
             const output: {
                 match1: number;
-                // match1IxOffset: number;
                 match1Context?: AbstractFocusModel;
                 match2: number;
-                // match2IxOffset: number;
                 match2Context?: AbstractFocusModel;
                 match3: number;
-                // match3IxOffset: number;
                 match3Context?: AbstractFocusModel;
             } = {
                 match1: 999999,
-                // match1IxOffset: 999999,
                 match2: 9999999,
-                // match2IxOffset: 999999,
                 match3: 9999999,
-                // match3IxOffset: 999999,
             };
-            const next = this.getNextFocusableContext(direction, parent, output);
+            const next = this.getNextFocusableContext(direction, output);
             if (next) this.executeFocus(next);
         }
     }
@@ -174,11 +168,7 @@ class CoreManager {
         }
     };
 
-    public getNextFocusableContext = (
-        direction: string,
-        parent: AbstractFocusModel,
-        output: any
-    ): AbstractFocusModel | undefined | null => {
+    public getNextFocusableContext = (direction: string, output: any): AbstractFocusModel | undefined | null => {
         const currentFocus = this._currentFocus;
         const focusMap = this._focusMap;
 
@@ -196,10 +186,9 @@ class CoreManager {
             return currentFocus;
         }
 
-        const parentCls = parent;
         // This can happen if we opened new screen which doesn't have any focusable
         // then last screen in context map still keeping focus
-        if (parentCls?.isInBackground()) {
+        if (currentFocus?.getScreen()?.isInBackground()) {
             return currentFocus;
         }
 
@@ -215,6 +204,19 @@ class CoreManager {
             output.match1Context || output.match2Context || output.match3Context;
 
         if (closestContext) {
+            if (currentFocus.getParent()?.isRecyclable()) {
+                const parent = currentFocus.getParent() as Recycler;
+                const d1 = parent.isHorizontal() ? ['right', 'swipeRight'] : ['down', 'swipeDown'];
+                const d2 = parent.isHorizontal() ? ['left', 'swipeLeft'] : ['up', 'swipeUp'];
+                const lastIsVisible = d1.includes(direction) ? parent.isLastVisible?.() : true;
+                const firstIsVisible = d2.includes(direction) ? parent.isFirstVisible?.() : true;
+
+                if (!lastIsVisible || !firstIsVisible) {
+                    if (closestContext.getParent()?.getId() !== parent.getId()) {
+                        return currentFocus;
+                    }
+                }
+            }
             if (closestContext.getScreen()?.getId() !== currentFocus.getScreen()?.getId()) {
                 currentFocus.getScreen()?.onBlur?.();
                 closestContext.getScreen()?.onFocus?.();
@@ -532,22 +534,6 @@ class CoreManager {
             }
             default: {
                 // Booo
-            }
-        }
-
-        if (this._currentFocus?.getParent()?.isRecyclable()) {
-            const parent = this._currentFocus.getParent() as Recycler;
-            const d1 = parent.isHorizontal() ? ['right', 'swipeRight'] : ['down', 'swipeDown'];
-            const d2 = parent.isHorizontal() ? ['left', 'swipeLeft'] : ['up', 'swipeUp'];
-            const lastIsVisible = d1.includes(direction) ? parent.isLastVisible?.() : true;
-            const firstIsVisible = d2.includes(direction) ? parent.isFirstVisible?.() : true;
-
-            if (!lastIsVisible || !firstIsVisible) {
-                const closestContext: AbstractFocusModel =
-                    output.match1Context || output.match2Context || output.match3Context;
-                if (!closestContext || closestContext.getParent()?.getId() !== parent.getId()) {
-                    output.match1Context = this._currentFocus;
-                }
             }
         }
 

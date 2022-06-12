@@ -1,7 +1,6 @@
 package io.flexn.sdk;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 
 import com.facebook.react.bridge.ReadableMap;
@@ -26,17 +25,14 @@ public class Focusable extends ReactViewGroup {
 
     public void setupAnimator(ReadableMap args) {
         if (animator != null) {
-//            animator = null;
+            animator = null;
         }
-        if (animator == null) {
-            animator = AnimatorSelector.selectAnimator(this, args);
+        animator = AnimatorSelector.selectAnimator(this, args);
+        if (isFocused) {
+            this.focus(false);
+        } else {
+            this.blur(false);
         }
-        Log.d("args2", animator.toString());
-//        if (isFocused) {
-//            this.focus(false);
-//        } else {
-//            this.blur(false);
-//        }
     }
 
     public void focus(boolean animated) {
@@ -51,5 +47,9 @@ public class Focusable extends ReactViewGroup {
             animator.onBlur(animated);
             isFocused = false;
         }
+    }
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
     }
 }
