@@ -505,11 +505,7 @@
         },
         "react-native-web": "source:rnv",
         "@flexn/sdk": {
-<<<<<<< HEAD
-            "version": "0.15.3-alpha.2",
-=======
             "version": "0.15.3-alpha.5",
->>>>>>> main
             "webpack": {
                 "modulePaths": true,
                 "moduleAliases": true

@@ -59,7 +59,9 @@ const Menu = ({ navigation }) => {
     };
 
     return (
-        <Screen style={theme.styles.menuContainer} onFocus={onFocus} onBlur={onBlur} stealFocus={false}>
+        <Screen style={theme.styles.menuContainer} onFocus={onFocus} onBlur={onBlur} stealFocus={false} focusOptions={{
+            focusKey: 'side-menu'
+        }}>
             <Animated.View
                 style={[theme.styles.sideMenuContainerAnimation, { transform: [{ translateX: translateBgAnim }] }]}
             />

@@ -100,21 +100,21 @@ class CoreManager {
         if (parent) {
             const output: {
                 match1: number;
-                match1IxOffset: number;
+                // match1IxOffset: number;
                 match1Context?: AbstractFocusModel;
                 match2: number;
-                match2IxOffset: number;
+                // match2IxOffset: number;
                 match2Context?: AbstractFocusModel;
                 match3: number;
-                match3IxOffset: number;
+                // match3IxOffset: number;
                 match3Context?: AbstractFocusModel;
             } = {
                 match1: 999999,
-                match1IxOffset: 999999,
+                // match1IxOffset: 999999,
                 match2: 9999999,
-                match2IxOffset: 999999,
+                // match2IxOffset: 999999,
                 match3: 9999999,
-                match3IxOffset: 999999,
+                // match3IxOffset: 999999,
             };
             const next = this.getNextFocusableContext(direction, parent, output);
             if (next) this.executeFocus(next);
@@ -178,9 +178,92 @@ class CoreManager {
         direction: string,
         parent: AbstractFocusModel,
         output: any,
+    ): AbstractFocusModel | undefined | null => {
+        const currentFocus = this._currentFocus;
+        const focusMap = this._focusMap;
+        
+        if (!currentFocus) {
+            return focusMap[Object.keys(focusMap)[0]];
+        }
+
+        const nextForcedFocusKey = getNextForcedFocusKey(currentFocus, direction, this._focusMap);
+        if (nextForcedFocusKey) {
+            this.focusElementByFocusKey(nextForcedFocusKey);
+            return;
+        }
+
+        if (currentFocus.containsForbiddenDirection(direction)) {
+            return currentFocus;
+        }
+
+        const parentCls = parent;
+        // This can happen if we opened new screen which doesn't have any focusable
+        // then last screen in context map still keeping focus
+        if (parentCls?.isInBackground()) {
+            return currentFocus;
+        }
+
+        const candidates = Object.values(focusMap).filter(c => c.getScreen()?.isInForeground() && c.isFocusable());
+
+        for (let i = 0; i < candidates.length; i++) {
+            const cls = candidates[i];
+
+            this.findClosestNode(cls, direction, output);
+        }
+
+        const closestContext: AbstractFocusModel | undefined =  output.match1Context || output.match2Context || output.match3Context;
+
+        if (closestContext) {
+            if (closestContext.getScreen()?.getId() !== currentFocus.getScreen()?.getId()) {
+                currentFocus.getScreen()?.onBlur?.();
+                closestContext.getScreen()?.onFocus?.();
+            }
+
+            if (closestContext.getParent()?.getId() !== currentFocus.getParent()?.getId()) {
+                const parent = currentFocus.getParent() as AbstractFocusModel;
+                console.log('closestContext', parent);
+
+                const nextForcedFocusKey = getNextForcedFocusKey(parent, direction, this._focusMap);
+                if (nextForcedFocusKey) {
+                    this.focusElementByFocusKey(nextForcedFocusKey);
+                    return;
+                }
+        
+                if (parent.containsForbiddenDirection(direction)) {
+                    return currentFocus;
+                }
+            }
+
+
+            return closestContext;
+        }
+
+        if (this._currentFocus?.getParent()) {
+            const parent = this._currentFocus?.getParent() as AbstractFocusModel;
+            const _nextForcedFocusKey = getNextForcedFocusKey(parent, direction, this._focusMap);
+            if (_nextForcedFocusKey) {
+                this.focusElementByFocusKey(_nextForcedFocusKey);
+                return;
+            }
+    
+            if (parent.containsForbiddenDirection(direction)) {
+                return currentFocus;
+            }
+        }
+
+
+        return this._currentFocus;
+    };
+
+
+    public getNextFocusableContext2 = (
+        direction: string,
+        parent: AbstractFocusModel,
+        output: any,
         mustPickContext?: boolean,
         inScreenContext?: boolean
     ): AbstractFocusModel | undefined | null => {
+
         const currentFocus = this._currentFocus;
         const focusMap = this._focusMap;
         
@@ -218,19 +301,21 @@ class CoreManager {
             for (let i = 0; i < ch.length; i++) {
                 const cls = ch[i];
 
-                if (cls.getChildren().length > 1) {
-                    cls.getChildren().forEach((ch1 => {
-                        this.getNextFocusableContext(direction, ch1, output, true, false);
-                        // if (ch1.isFocusable() && !parents.includes(ch1.getId())) {
-                        //     this.findClosestNode(ch1, direction, output);
-                        // }
-                    }));
-                } else if (cls.isFocusable() && !parents.includes(cls.getId())) {
+                // if (cls.getChildren().length > 1) {
+                //     cls.getChildren().forEach((() => {
+                //         this.getNextFocusableContext(direction, cls, output, true, false);
+                //     }));
+                // } else if (cls.isFocusable() && !parents.includes(cls.getId())) {
+                //     this.findClosestNode(cls, direction, output);
+                // }
+
+                if (cls.isFocusable() && !parents.includes(cls.getId())) {
                     this.findClosestNode(cls, direction, output);
                 }
             }
 
             const closestContext =  output.match1Context || output.match2Context || output.match3Context;
+
 
             if (!closestContext) {
                 if (parentCls.isScreen()) {
@@ -472,26 +557,26 @@ class CoreManager {
             }
         }
 
-        if (this._currentFocus?.getParent()?.isRecyclable()) {
-            const parent = this._currentFocus.getParent() as Recycler;
-            if (parent.isNested()) {
-                const d1 = ['down', 'swipeDown'];
-                const d2 = ['up', 'swipeUp'];
-                if (parent?.getParent()?.isRecyclable()) {
-                    const parentOfParent = parent.getParent() as Recycler;
-                    const lastIsVisible = d1.includes(direction) ? parentOfParent.isLastVisible?.() : true;
-                    const firstIsVisible = d2.includes(direction) ? parentOfParent.isFirstVisible?.() : true;
+        // if (this._currentFocus?.getParent()?.isRecyclable()) {
+        //     const parent = this._currentFocus.getParent() as Recycler;
+        //     if (parent.isNested()) {
+        //         const d1 = ['down', 'swipeDown'];
+        //         const d2 = ['up', 'swipeUp'];
+        //         if (parent?.getParent()?.isRecyclable()) {
+        //             const parentOfParent = parent.getParent() as Recycler;
+        //             const lastIsVisible = d1.includes(direction) ? parentOfParent.isLastVisible?.() : true;
+        //             const firstIsVisible = d2.includes(direction) ? parentOfParent.isFirstVisible?.() : true;
 
-                    if (!lastIsVisible || !firstIsVisible) {
-                        const closestContext: AbstractFocusModel =
-                            output.match1Context || output.match2Context || output.match3Context;
-                        if (closestContext && !closestContext?.getParent()?.isRecyclable()) {
-                            output.match1Context = this._currentFocus;
-                        }
-                    }
-                }
-            }
-        }
+        //             if (!lastIsVisible || !firstIsVisible) {
+        //                 const closestContext: AbstractFocusModel =
+        //                     output.match1Context || output.match2Context || output.match3Context;
+        //                 if (closestContext && !closestContext?.getParent()?.isRecyclable()) {
+        //                     output.match1Context = this._currentFocus;
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
     };
 
     public get isDebuggerEnabled(): boolean {

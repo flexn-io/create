@@ -16,80 +16,80 @@ const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: numbe
     );
 };
 
-const nextIsVisible = (nextMax: number, direction: string) => {
-    if (DIRECTION_VERTICAL.includes(direction)) {
-        return nextMax > 0 && nextMax <= windowWidth;
-    }
-
-    return true;
-};
-
-const intersectsOffset = (guideLine: number, startOfNext: number, endOfNext: number) =>
-    Math.abs(guideLine - Math.round((startOfNext + endOfNext) / 2));
-
 const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, direction: string) => {
-    const priorities = [];
-    const currentLayout = current.getLayout();
-    const nextLayout = next.getLayout();
 
-    const compareFn = () => {
-        const dx = Math.max(
-            nextLayout.absolute.xCenter - currentLayout.absolute.xMin,
-            0,
-            currentLayout.absolute.xMax - nextLayout.absolute.xCenter
+    const currentLayout = current.getLayout().absolute;
+    const nextLayout = next.getLayout().absolute;
+
+    const euclideanDistance = () => {
+        const xCenter = Math.abs(currentLayout.xCenter - nextLayout.xCenter);
+        const xMin = Math.abs(currentLayout.xMin - nextLayout.xMin);
+        const xMax = Math.abs(currentLayout.xMax - nextLayout.xMax);
+
+        const yCenter = Math.abs(currentLayout.yCenter - nextLayout.yCenter);
+        const yMin = Math.abs(currentLayout.yMin - nextLayout.yMin);
+        const yMax = Math.abs(currentLayout.yMax - nextLayout.yMax);
+
+        const dist = Math.min(
+            Math.sqrt(Math.pow((xCenter), 2) + Math.pow((yCenter), 2)),
+            Math.sqrt(Math.pow((xMin), 2) + Math.pow((yMin), 2)),
+            Math.sqrt(Math.pow((xMax), 2) + Math.pow((yMax), 2)),
         );
-        const dy = Math.max(
-            nextLayout.absolute.yCenter - currentLayout.absolute.yMin,
-            0,
-            currentLayout.absolute.yMax - nextLayout.absolute.yCenter
-        );
-        return Math.sqrt(dx * dx + dy * dy);
+
+        return dist;
     };
-
-    const distY = () => {
-        const dy = Math.min(
-            Math.abs(currentLayout.absolute.yCenter - nextLayout.absolute.yMax + nextLayout.width),
-            Math.abs(currentLayout.absolute.yCenter - nextLayout.absolute.yMax),
-        );
-        return dy;
-        // console.log('dy', dy);
-    };
-
 
     switch (direction) {
         case 'up': {
-            if (currentLayout.yMax >= nextLayout.yMin) {
-                const isIntersects = intersects(currentLayout.xCenter, currentLayout.width, nextLayout.xMin, nextLayout.xMax);
+            if (currentLayout.yMin >= nextLayout.yMax) {
+                const isIntersects = intersects(currentLayout.xCenter, current.getLayout().width, nextLayout.xMin, nextLayout.xMax);
                 if (isIntersects) {
-                    // console.log(distY());
-                    return distY();
+                    return ['p1', euclideanDistance()];
                 }
-                console.log('distY', distY());
+
+                return ['p2', euclideanDistance()];
             }
 
             break;
         }
         case 'down': {
             if (currentLayout.yMax <= nextLayout.yMin) {
-                return compareFn();
+                const isIntersects = intersects(currentLayout.xCenter, current.getLayout().width, nextLayout.xMin, nextLayout.xMax);
+                if (isIntersects) {
+                    return ['p1', euclideanDistance()];
+                }
+
+                return ['p2', euclideanDistance()];
             }
             break;
         }
         case 'left': {
-            if (currentLayout.xCenter >= nextLayout.xMax) {
-                return compareFn();
+            if (currentLayout.xMin >= nextLayout.xMax) {
+                const isIntersects = intersects(currentLayout.yCenter, current.getLayout().height, nextLayout.yMin, nextLayout.yMax);
+                if (isIntersects) {
+                    return ['p1', euclideanDistance()];
+                }
+
+                return ['p2', euclideanDistance()];
             }
             break;
         }
         case 'right': {
             if (currentLayout.xMax <= nextLayout.xMin) {
-                return compareFn();
+                const isIntersects = intersects(currentLayout.yCenter, current.getLayout().height, nextLayout.yMin, nextLayout.yMax);
+                if (isIntersects) {
+                    return ['p1', euclideanDistance()];
+                }
+
+                return ['p2', euclideanDistance()];
             }
             break;
         }
         default:
             break;
     }
+
+    return ['', 0];
 };
 
 export const distCalc = (
@@ -111,30 +111,30 @@ export const distCalc = (
     next?: any,
 ) => {
     // const { currentFocus }: { currentFocus: AbstractFocusModel } = contextParameters;
-    const ixOffset = intersectsOffset(guideLine, p3, p4);
-    const closestDistance = Math.abs(p5 - p6);
     
     
-    const closest = closestDist(current, next, direction);
-    console.log('closest', closest, current.getId(), next.getId());
-    if (closest !== undefined && output.match1 >= closest + ixOffset) {
-        output.match1 = closest + ixOffset;
-        output.match1Context = nextCls;
-        output.match1IxOffset = ixOffset;
-        Logger.getInstance().debug('FOUND CLOSER M1', nextCls.getId(), closestDistance);
+    const [priority, dist] = closestDist(current, next, direction, guideLine);
+
+
+    switch (priority) {
+        case 'p1': {
+            if (dist !== undefined && output.match1 >= dist) {
+                output.match1 = dist;
+                output.match1Context = nextCls;
+                console.log('closest', dist, priority, current.getId(), next.getId());
+            }
+        }
+            break;
+        case 'p2': {
+            if (dist !== undefined && output.match2 >= dist) {
+                output.match2 = dist;
+                output.match2Context = nextCls;
+                console.log('closest', dist, priority, current.getId(), next.getId());
+            }
+        }
+            break;
+            
+        default:
+            break;
     }
-    
-    // const ix3 = intersects(p9, CUTOFF_SIZE, p3, p4);
-    // if (
-    //     ix3 &&
-    //     cornerDistance < 0 &&
-    //     output.match3 >= closestDistance &&
-    //     output.match3IxOffset >= ixOffset
-    // ) {
-    //     if (nextCls.getParent()?.getId() !== currentFocus.getParent()?.getId()) {
-    //         output.match3 = closestDistance;
-    //         output.match3Context = nextCls;
-    //         Logger.getInstance().debug('FOUND CLOSER M3', nextCls.getId(), closestDistance);
-    //     }
-    // }
 };

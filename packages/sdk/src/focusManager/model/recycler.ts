@@ -112,6 +112,16 @@ class Recycler extends AbstractFocusModel {
     public getForbiddenFocusDirections(): ForbiddenFocusDirections[] {
         return this._forbiddenFocusDirections;
     }
+
+    public setFocusedIndex(index: number): this {
+        this._focusedIndex = index;
+
+        return this;
+    }
+
+    public getFocusedIndex(): number {
+        return this._focusedIndex;
+    }
 }
 
 export default Recycler;

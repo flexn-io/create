@@ -70,7 +70,7 @@ class KeyHandler {
             const direction = evt.eventType;
             if (isPlatformTvos) {
                 if (direction === 'playPause') {
-                    // console.log(CoreManager);
+                    console.log(CoreManager);
                     CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
                 }
 
