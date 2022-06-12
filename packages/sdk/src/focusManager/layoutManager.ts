@@ -52,7 +52,12 @@ function recalculateLayout(cls: AbstractFocusModel) {
     recalculateAbsolutes(cls);
 }
 
-function measure(cls: AbstractFocusModel, ref: any, unmeasurableRelatives?: { x: number; y: number }, callback?: () => void) {
+function measure(
+    cls: AbstractFocusModel,
+    ref: any,
+    unmeasurableRelatives?: { x: number; y: number },
+    callback?: () => void
+) {
     ref.current.measure((_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
         let pgX;
         let pgY;

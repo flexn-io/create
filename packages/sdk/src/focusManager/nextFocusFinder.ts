@@ -1,9 +1,6 @@
-import { Dimensions } from 'react-native';
-import { DIRECTION_VERTICAL, CUTOFF_SIZE } from './constants';
-import Logger from './model/logger';
+// import { Dimensions } from 'react-native';
+// import Logger from './model/logger';
 import AbstractFocusModel from './model/AbstractFocusModel';
-
-const windowWidth = Dimensions.get('window').width;
 
 const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: number, endOfNext: number) => {
     const a1 = guideLine - sizeOfCurrent * 0.5;
@@ -17,7 +14,6 @@ const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: numbe
 };
 
 const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, direction: string) => {
-
     const currentLayout = current.getLayout().absolute;
     const nextLayout = next.getLayout().absolute;
 
@@ -31,9 +27,9 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
         const yMax = Math.abs(currentLayout.yMax - nextLayout.yMax);
 
         const dist = Math.min(
-            Math.sqrt(Math.pow((xCenter), 2) + Math.pow((yCenter), 2)),
-            Math.sqrt(Math.pow((xMin), 2) + Math.pow((yMin), 2)),
-            Math.sqrt(Math.pow((xMax), 2) + Math.pow((yMax), 2)),
+            Math.sqrt(Math.pow(xCenter, 2) + Math.pow(yCenter, 2)),
+            Math.sqrt(Math.pow(xMin, 2) + Math.pow(yMin, 2)),
+            Math.sqrt(Math.pow(xMax, 2) + Math.pow(yMax, 2))
         );
 
         return dist;
@@ -42,7 +38,12 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
     switch (direction) {
         case 'up': {
             if (currentLayout.yMin >= nextLayout.yMax) {
-                const isIntersects = intersects(currentLayout.xCenter, current.getLayout().width, nextLayout.xMin, nextLayout.xMax);
+                const isIntersects = intersects(
+                    currentLayout.xCenter,
+                    current.getLayout().width,
+                    nextLayout.xMin,
+                    nextLayout.xMax
+                );
                 if (isIntersects) {
                     return ['p1', euclideanDistance()];
                 }
@@ -54,7 +55,12 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
         }
         case 'down': {
             if (currentLayout.yMax <= nextLayout.yMin) {
-                const isIntersects = intersects(currentLayout.xCenter, current.getLayout().width, nextLayout.xMin, nextLayout.xMax);
+                const isIntersects = intersects(
+                    currentLayout.xCenter,
+                    current.getLayout().width,
+                    nextLayout.xMin,
+                    nextLayout.xMax
+                );
                 if (isIntersects) {
                     return ['p1', euclideanDistance()];
                 }
@@ -65,7 +71,12 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
         }
         case 'left': {
             if (currentLayout.xMin >= nextLayout.xMax) {
-                const isIntersects = intersects(currentLayout.yCenter, current.getLayout().height, nextLayout.yMin, nextLayout.yMax);
+                const isIntersects = intersects(
+                    currentLayout.yCenter,
+                    current.getLayout().height,
+                    nextLayout.yMin,
+                    nextLayout.yMax
+                );
                 if (isIntersects) {
                     return ['p1', euclideanDistance()];
                 }
@@ -76,7 +87,12 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
         }
         case 'right': {
             if (currentLayout.xMax <= nextLayout.xMin) {
-                const isIntersects = intersects(currentLayout.yCenter, current.getLayout().height, nextLayout.yMin, nextLayout.yMax);
+                const isIntersects = intersects(
+                    currentLayout.yCenter,
+                    current.getLayout().height,
+                    nextLayout.yMin,
+                    nextLayout.yMax
+                );
                 if (isIntersects) {
                     return ['p1', euclideanDistance()];
                 }
@@ -108,32 +124,32 @@ export const distCalc = (
     direction: string,
     contextParameters: any,
     current?: any,
-    next?: any,
+    next?: any
 ) => {
     // const { currentFocus }: { currentFocus: AbstractFocusModel } = contextParameters;
-    
-    
-    const [priority, dist] = closestDist(current, next, direction, guideLine);
 
+    const [priority, dist] = closestDist(current, next, direction);
 
     switch (priority) {
-        case 'p1': {
-            if (dist !== undefined && output.match1 >= dist) {
-                output.match1 = dist;
-                output.match1Context = nextCls;
-                console.log('closest', dist, priority, current.getId(), next.getId());
+        case 'p1':
+            {
+                if (dist !== undefined && output.match1 >= dist) {
+                    output.match1 = dist;
+                    output.match1Context = nextCls;
+                    // console.log('closest', dist, priority, current.getId(), next.getId());
+                }
             }
-        }
             break;
-        case 'p2': {
-            if (dist !== undefined && output.match2 >= dist) {
-                output.match2 = dist;
-                output.match2Context = nextCls;
-                console.log('closest', dist, priority, current.getId(), next.getId());
+        case 'p2':
+            {
+                if (dist !== undefined && output.match2 >= dist) {
+                    output.match2 = dist;
+                    output.match2Context = nextCls;
+                    // console.log('closest', dist, priority, current.getId(), next.getId());
+                }
             }
-        }
             break;
-            
+
         default:
             break;
     }

@@ -14,7 +14,7 @@
         "build:all:clean": "npx lerna run build:clean",
         "build": "lerna run build",
         "lint": "yarn lint:js",
-        "lint:js": "eslint packages/** --ext .js,.jsx,.ts,.tsx --max-warnings=13",
+        "lint:js": "eslint packages/** --ext .js,.jsx,.ts,.tsx --max-warnings=15",
         "lint:markdown": "prettier --check \"docs/**/*.md\"",
         "lint:report": "eslint --output-file=eslint-report.json --format=json . --ext .js,.jsx,.ts,.tsx",
         "tsc:compile": "tsc --project .",

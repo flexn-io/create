@@ -20,7 +20,7 @@ const IS_ANDROID_BASED = isPlatformAndroidtv || isPlatformFiretv;
 class KeyHandler {
     private selectHandler: any;
     private eventEmitter: any;
-    
+
     private _longPressInterval: any;
     private _stopKeyDownEvents: boolean;
 
@@ -57,7 +57,7 @@ class KeyHandler {
         }
     }
 
-    private enableKeyHandler()  {
+    private enableKeyHandler() {
         if (isPlatformTvos) {
             this.eventEmitter.addListener('onTVRemoteKey', this.handleKeyEvent);
         } else {
@@ -86,7 +86,7 @@ class KeyHandler {
         });
     }
 
-    private handleKeyEvent({ eventKeyAction, eventType }: { eventKeyAction: string, eventType: string }) {
+    private handleKeyEvent({ eventKeyAction, eventType }: { eventKeyAction: string; eventType: string }) {
         switch (eventKeyAction) {
             case EVENT_KEY_ACTION_UP:
                 return this.onKeyUp(eventType);
@@ -101,7 +101,7 @@ class KeyHandler {
 
     private onKeyDown(eventType: string) {
         if (eventType === 'playPause') {
-            // console.log(CoreManager);
+            console.log(CoreManager);
             CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
         }
 
@@ -122,14 +122,14 @@ class KeyHandler {
                 }
             }
         }
-    }    
-    
+    }
+
     private onKeyLongPress(eventType: string) {
         if (this.isInRecycler()) {
             this._stopKeyDownEvents = true;
-        
+
             let selectedIndex = this.getSelectedIndex();
-            this._longPressInterval = setInterval(() => {    
+            this._longPressInterval = setInterval(() => {
                 if (EVENT_TYPE_RIGHT === eventType) {
                     selectedIndex += SCROLL_INDEX_INTERVAL;
                     if (selectedIndex > this.getMaxIndex()) selectedIndex = this.getMaxIndex();
@@ -146,7 +146,6 @@ class KeyHandler {
                     clearInterval(this._longPressInterval);
                     this._stopKeyDownEvents = false;
                 }
-    
             }, INTERVAL_TIME_MS);
         }
     }
@@ -164,7 +163,7 @@ class KeyHandler {
 
     private getSelectedIndex(): number {
         const currentFocus = CoreManager.getCurrentFocus();
-        
+
         if (currentFocus) {
             return currentFocus.getRepeatContext()?.index || 0;
         }
@@ -179,13 +178,13 @@ class KeyHandler {
         }
 
         return 0;
-    };
+    }
 
     private isInRecycler(): boolean {
         const parent = CoreManager.getCurrentFocus()?.getParent();
-        
+
         return parent?.isRecyclable() ? true : false;
     }
-};
+}
 
 export default KeyHandler;
