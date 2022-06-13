@@ -81,6 +81,11 @@ function measure(
             pgY = pgY + unmeasurableRelatives.y;
         }
 
+        if (cls.getLayout()?.width && cls.getLayout().width !== width) {
+            width = cls.getLayout()?.width;
+            height = cls.getLayout()?.height;
+        }
+
         const layout = {
             xMin: pgX,
             xMax: pgX + width,

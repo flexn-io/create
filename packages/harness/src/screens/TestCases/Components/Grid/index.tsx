@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from '@flexn/sdk';
 import Screen from '../../../../components/Screen';
 
-function generateData(width, height, items = 500) {
+function generateData(width, height, items = 10) {
     const temp: any = [];
     for (let index = 0; index < items; index++) {
         temp.push({

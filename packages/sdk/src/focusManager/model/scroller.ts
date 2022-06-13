@@ -63,7 +63,7 @@ class Scroller {
             parentSW = cls.getParent()?.getParent() as ScrollView;
         }
 
-        if (scrollTarget) {
+        if (scrollTarget) {            
             if (parentSW.getScrollOffsetX() !== scrollTarget.x || parentSW.getScrollOffsetY() !== scrollTarget.y) {
                 parentSW.node.current.scrollTo(scrollTarget);
                 parentSW.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);

@@ -2,7 +2,7 @@
 // import Logger from './model/logger';
 import AbstractFocusModel from './model/AbstractFocusModel';
 
-const OVERLAP_THRESHOLD_PERCENTAGE = 10;
+const OVERLAP_THRESHOLD_PERCENTAGE = 20;
 const OVERLAP_NEXT_VALUE = 10;
 
 const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: number, endOfNext: number) => {
@@ -125,24 +125,10 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
 
 export const distCalc = (
     output: any,
-    nextCls: AbstractFocusModel,
-    guideLine: number,
-    currentRectDimension: number,
-    p3: number,
-    p4: number,
-    p5: number,
-    p6: number,
-    p7: number,
-    p8: number,
-    p9: number,
-    p12: number,
     direction: string,
-    contextParameters: any,
-    current?: any,
-    next?: any
+    current: AbstractFocusModel,
+    next: AbstractFocusModel
 ) => {
-    // const { currentFocus }: { currentFocus: AbstractFocusModel } = contextParameters;
-
     const [priority, dist] = closestDist(current, next, direction);
 
     switch (priority) {
@@ -150,7 +136,7 @@ export const distCalc = (
             {
                 if (dist !== undefined && output.match1 >= dist) {
                     output.match1 = dist;
-                    output.match1Context = nextCls;
+                    output.match1Context = next;
                     // console.log('FOUND', dist, priority, current.getId(), next.getId());
                 }
             }
@@ -159,7 +145,7 @@ export const distCalc = (
             {
                 if (dist !== undefined && output.match2 >= dist) {
                     output.match2 = dist;
-                    output.match2Context = nextCls;
+                    output.match2Context = next;
                     // console.log('FOUND', dist, priority, current.getId(), next.getId());
                 }
             }

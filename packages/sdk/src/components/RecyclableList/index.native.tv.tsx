@@ -65,17 +65,19 @@ export default function RecyclerView({
             ClsInstance.setLayouts(layouts);
         }
 
-        if (vr?.['_params'] && !ClsInstance.isLastVisible) {
+        if (vr?.['_params']) {
             const recyclerItemsCount = vr['_params'].itemCount;
             const vt: any = vr['_viewabilityTracker'] || {};
 
             ClsInstance.isLastVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
+
                 return visibleIndexes[visibleIndexes.length - 1] + 1 === recyclerItemsCount;
             };
 
             ClsInstance.isFirstVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
+
                 return visibleIndexes[0] === 0;
             };
         }
@@ -134,7 +136,6 @@ export default function RecyclerView({
                 disableItemContainer={disableItemContainer}
                 isHorizontal={isHorizontal}
                 contentContainerStyle={contentContainerStyle}
-                renderAheadOffset={150}
                 {...props}
             />
         </RNView>
