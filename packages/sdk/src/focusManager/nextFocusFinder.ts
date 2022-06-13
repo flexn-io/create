@@ -112,8 +112,6 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
                 }
 
                 return ['p2', euclideanDistance()];
-            } else {
-                console.log('NOT CANDIDATE', next.getId(), currentLayout.xMax, nextLayout.xMin);
             }
             break;
         }
@@ -152,7 +150,7 @@ export const distCalc = (
                 if (dist !== undefined && output.match1 >= dist) {
                     output.match1 = dist;
                     output.match1Context = nextCls;
-                    console.log('FOUND', dist, priority, current.getId(), next.getId());
+                    // console.log('FOUND', dist, priority, current.getId(), next.getId());
                 }
             }
             break;
@@ -161,7 +159,7 @@ export const distCalc = (
                 if (dist !== undefined && output.match2 >= dist) {
                     output.match2 = dist;
                     output.match2Context = nextCls;
-                    console.log('FOUND', dist, priority, current.getId(), next.getId());
+                    // console.log('FOUND', dist, priority, current.getId(), next.getId());
                 }
             }
             break;

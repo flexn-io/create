@@ -9,11 +9,16 @@ const EVENT_KEY_ACTION_DOWN = 'down';
 const EVENT_KEY_ACTION_LONG_PRESS = 'longPress';
 
 const INTERVAL_TIME_MS = 100;
-const SCROLL_INDEX_INTERVAL = 3;
+// const INTERVAL_TIME_MS = 250;
+const SCROLL_INDEX_INTERVAL_ROW = 3;
+const SCROLL_INDEX_INTERVAL_GRID = 5;
+const SCROLL_INDEX_INTERVAL_LIST = 1;
 
 const EVENT_TYPE_SELECT = 'select';
 const EVENT_TYPE_RIGHT = 'right';
 const EVENT_TYPE_LEFT = 'left';
+const EVENT_TYPE_DOWN = 'down';
+const EVENT_TYPE_UP = 'up';
 
 const IS_ANDROID_BASED = isPlatformAndroidtv || isPlatformFiretv;
 
@@ -126,23 +131,44 @@ class KeyHandler {
 
     private onKeyLongPress(eventType: string) {
         if (this.isInRecycler()) {
-            this._stopKeyDownEvents = true;
+            if (!this.isNested()) {
+                if (this.isHorizontal() && [EVENT_TYPE_DOWN, EVENT_TYPE_UP].includes(eventType)) {
+                    this._stopKeyDownEvents = false;
+                    return;
+                }
 
+                if (!this.isHorizontal() && [EVENT_TYPE_LEFT, EVENT_TYPE_RIGHT].includes(eventType)) {
+                    this._stopKeyDownEvents = false;
+                    return;
+                }
+            }
+
+            this._stopKeyDownEvents = true;
             let selectedIndex = this.getSelectedIndex();
             this._longPressInterval = setInterval(() => {
                 if (EVENT_TYPE_RIGHT === eventType) {
-                    selectedIndex += SCROLL_INDEX_INTERVAL;
+                    selectedIndex += SCROLL_INDEX_INTERVAL_ROW;
                     if (selectedIndex > this.getMaxIndex()) selectedIndex = this.getMaxIndex();
                 }
                 if (EVENT_TYPE_LEFT === eventType) {
-                    selectedIndex -= SCROLL_INDEX_INTERVAL;
+                    selectedIndex -= SCROLL_INDEX_INTERVAL_ROW;
                     if (selectedIndex < 0) selectedIndex = 0;
                 }
 
-                CoreManager.executeInlineFocus(selectedIndex);
+                if (EVENT_TYPE_UP === eventType) {
+                    selectedIndex -= this.isNested() ? SCROLL_INDEX_INTERVAL_LIST : SCROLL_INDEX_INTERVAL_GRID;
+                    if (selectedIndex < 0) selectedIndex = 0;
+                }
+
+                if (EVENT_TYPE_DOWN === eventType) {
+                    selectedIndex += this.isNested() ? SCROLL_INDEX_INTERVAL_LIST : SCROLL_INDEX_INTERVAL_GRID;
+                    if (selectedIndex > this.getMaxIndex(true)) selectedIndex = this.getMaxIndex(true);
+                }
+
+                CoreManager.executeInlineFocus(selectedIndex, eventType);
                 CoreManager.executeUpdateGuideLines();
 
-                if (selectedIndex === 0 || selectedIndex === this.getMaxIndex()) {
+                if (selectedIndex === 0 || selectedIndex === this.getMaxIndex(EVENT_TYPE_DOWN === eventType)) {
                     clearInterval(this._longPressInterval);
                     this._stopKeyDownEvents = false;
                 }
@@ -171,8 +197,11 @@ class KeyHandler {
         return 0;
     }
 
-    private getMaxIndex(): number {
-        const parent = CoreManager.getCurrentFocus()?.getParent();
+    private getMaxIndex(vertical = false): number {
+        let parent = CoreManager.getCurrentFocus()?.getParent();
+        if (this.isNested() && vertical) {
+            parent = parent?.getParent();
+        }
         if (parent) {
             return parent.getLayouts().length;
         }
@@ -184,6 +213,18 @@ class KeyHandler {
         const parent = CoreManager.getCurrentFocus()?.getParent();
 
         return parent?.isRecyclable() ? true : false;
+    }
+
+    private isHorizontal(): boolean {
+        const parent = CoreManager.getCurrentFocus()?.getParent();
+
+        return parent?.isRecyclable() && parent?.isHorizontal() ? true : false;
+    }
+
+    private isNested(): boolean {
+        const parent = CoreManager.getCurrentFocus()?.getParent();
+
+        return parent?.isRecyclable() && parent?.isNested() ? true : false;
     }
 }
 

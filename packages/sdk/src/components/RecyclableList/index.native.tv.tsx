@@ -38,12 +38,15 @@ export default function RecyclerView({
     const rlvRef = useRef<RecyclerListView<any, any>>(null);
     const rnViewRef = useRef<RNView>(null);
 
+    const pctx = repeatContext?.parentContext || parentContext;
+
+
     const [ClsInstance] = useState(
         () =>
             new RecyclerClass({
                 isHorizontal,
                 isNested: !!repeatContext,
-                parent: parentContext,
+                parent: pctx,
                 repeatContext,
                 ...focusOptions,
             })

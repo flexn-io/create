@@ -115,17 +115,32 @@ class CoreManager {
         }
     }
 
-    public executeInlineFocus(nextIndex = 0) {
+    public executeInlineFocus(nextIndex = 0, direction: string) {
+        let target: any;
         const parent = this._currentFocus?.getParent();
         if (parent?.isRecyclable() && this._currentFocus) {
-            const layouts = parent?.getLayouts();
-            const nextLayout = layouts[nextIndex];
-            if (nextLayout) {
-                const target = {
-                    x: nextLayout.x,
-                    y: nextLayout.y,
-                };
-                Scroller.scrollTo(this._currentFocus, target);
+            if (['up', 'down'].includes(direction)) {
+                const layouts = parent?.isNested() ? parent.getParent()?.getLayouts() : parent?.getLayouts();
+                const nextLayout = layouts[nextIndex];
+                if (nextLayout) {
+                    target = {
+                        x: 0,
+                        y: nextLayout.y,
+                    };
+                }
+            } else if (['left', 'right'].includes(direction)) {
+                const layouts = parent?.getLayouts();
+                const nextLayout = layouts[nextIndex];
+                if (nextLayout) {
+                    target = {
+                        x: nextLayout.x,
+                        y: nextLayout.y,
+                    };
+                }
+            }
+
+            if (target) {
+                Scroller.scrollTo(this._currentFocus, target, direction);
             }
         }
     }
@@ -409,8 +424,8 @@ class CoreManager {
         const currentLayout = this._currentFocus?.getLayout();
         if (!nextLayout) {
             // eslint-disable-next-line
-            Logger.getInstance().warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
-            console.log('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
+            // Logger.getInstance().warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
+            // console.log('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
             return;
         }
         if (!currentLayout) {

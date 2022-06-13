@@ -185,6 +185,10 @@ export default abstract class AbstractFocusModel {
         return false;
     }
 
+    public isNested() {
+        return false;
+    }
+
     public onFocus(): void {
         // NO ACTION
     }

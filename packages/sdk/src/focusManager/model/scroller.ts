@@ -56,8 +56,12 @@ class Scroller {
         });
     }
 
-    public scrollTo(cls: AbstractFocusModel, scrollTarget: {x: number, y: number}) {
-        const parentSW = cls.getParent() as ScrollView;
+    public scrollTo(cls: AbstractFocusModel, scrollTarget: { x: number; y: number }, direction: string) {
+        let parentSW = cls.getParent() as ScrollView;
+
+        if (['up', 'down'].includes(direction) && parentSW.isNested()) {
+            parentSW = cls.getParent()?.getParent() as ScrollView;
+        }
 
         if (scrollTarget) {
             if (parentSW.getScrollOffsetX() !== scrollTarget.x || parentSW.getScrollOffsetY() !== scrollTarget.y) {
@@ -70,9 +74,9 @@ class Scroller {
     public inlineScroll(direction: string, nextFocus: AbstractFocusModel) {
         const scrollContextParents = this.getParentScrollers(nextFocus);
         const contextParameters = {
-            currentFocus: nextFocus
+            currentFocus: nextFocus,
         };
-        
+
         scrollContextParents.forEach((p: AbstractFocusModel) => {
             const scrollTarget = p.isHorizontal()
                 ? this.calculateHorizontalScrollViewTarget(direction, p, contextParameters)
@@ -86,7 +90,7 @@ class Scroller {
                 }
             }
         });
-    };
+    }
 
     private getParentScrollers(currentFocus: AbstractFocusModel) {
         const scrollContextParents = [];
@@ -160,12 +164,11 @@ class Scroller {
         const currentLayout = currentFocus.getLayout();
         const scrollTarget = { x: scrollView.getScrollOffsetX(), y: scrollView.getScrollOffsetY() };
         const verticalViewportOffset = currentFocus.getScreen()?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
-        
+
         let yMaxScroll = scrollView.getLayout().yMaxScroll || scrollView.getMostBottomChildren().getLayout()?.yMax || 0;
         yMaxScroll += scrollView.getLayout().yMin || 0;
 
         const targetY = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset + scrollContentHeight;
-
 
         if (DIRECTION_UP.includes(direction)) {
             const innerViewMin = scrollView.getLayout().innerView.yMin;
