@@ -28,27 +28,55 @@ const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: numbe
     return false;
 };
 
-const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, direction: string) => {
+const euclideanDistance = (current: AbstractFocusModel, next: AbstractFocusModel, direction: string) => {
     const currentLayout = current.getLayout().absolute;
     const nextLayout = next.getLayout().absolute;
 
-    const euclideanDistance = () => {
-        const xCenter = Math.abs(currentLayout.xCenter - nextLayout.xCenter);
-        const xMin = Math.abs(currentLayout.xMin - nextLayout.xMax);
-        const xMax = Math.abs(currentLayout.xMax - nextLayout.xMax);
+    let c1, c2, c3, c4, c5;
 
-        const yCenter = Math.abs(currentLayout.yCenter - nextLayout.yCenter);
-        const yMin = Math.abs(currentLayout.yMax - nextLayout.yMin);
-        const yMax = Math.abs(currentLayout.yMin - nextLayout.yMax);
+    if (direction === 'left' || direction === 'right') {
+        c2 = Math.abs(currentLayout.yMin - nextLayout.yMin);
+        c3 = Math.abs(currentLayout.yMax - nextLayout.yMin);
+        c4 = Math.abs(nextLayout.yMin - currentLayout.yMax);
+        c5 = Math.abs(currentLayout.yMax - nextLayout.yMax);
+    } else {
+        c2 = Math.abs(currentLayout.xMin - nextLayout.xMin);
+        c3 = Math.abs(currentLayout.xMax - nextLayout.xMin);
+        c4 = Math.abs(nextLayout.xMin - currentLayout.xMax);
+        c5 = Math.abs(currentLayout.xMax - nextLayout.xMax);
+    }
 
-        const dist = Math.min(
-            Math.sqrt(Math.pow(xCenter, 2) + Math.pow(yCenter, 2)),
-            Math.sqrt(Math.pow(xMin, 2) + Math.pow(yMin, 2)),
-            Math.sqrt(Math.pow(xMax, 2) + Math.pow(yMax, 2))
-        );
+    switch (direction) {
+        case 'left':
+            c1 = Math.abs(currentLayout.xMin - nextLayout.xMax);
+            break;
+        case 'right':
+            c1 = Math.abs(nextLayout.xMin - currentLayout.xMax);
+            break;
+        case 'down':
+            c1 = Math.abs(nextLayout.yMin - currentLayout.yMax);
+            c2 = Math.abs(currentLayout.xMin - nextLayout.xMin);
+            break;
+        case 'up':
+            c1 = Math.abs(currentLayout.yMin - nextLayout.yMax);
+            c2 = Math.abs(currentLayout.xMin - nextLayout.xMin);
+            break;   
+        default:
+            c1 = 0;
+            break;
+    }
 
-        return dist;
-    };
+    return Math.min(
+        Math.sqrt(Math.pow(c1, 2) + Math.pow(c2, 2)),
+        Math.sqrt(Math.pow(c1, 2) + Math.pow(c3, 2)),
+        Math.sqrt(Math.pow(c1, 2) + Math.pow(c4, 2)),
+        Math.sqrt(Math.pow(c1, 2) + Math.pow(c5, 2)),
+    );
+};
+
+const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, direction: string) => {
+    const currentLayout = current.getLayout().absolute;
+    const nextLayout = next.getLayout().absolute;
 
     switch (direction) {
         case 'up': {
@@ -60,10 +88,10 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
                     nextLayout.xMax
                 );
                 if (isIntersects) {
-                    return ['p1', euclideanDistance()];
+                    return ['p1', euclideanDistance(current, next, 'up')];
                 }
 
-                return ['p2', euclideanDistance()];
+                return ['p2', euclideanDistance(current, next, 'up')];
             }
 
             break;
@@ -77,10 +105,10 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
                     nextLayout.xMax
                 );
                 if (isIntersects) {
-                    return ['p1', euclideanDistance()];
+                    return ['p1', euclideanDistance(current, next, 'down')];
                 }
 
-                return ['p2', euclideanDistance()];
+                return ['p2', euclideanDistance(current, next, 'down')];
             }
             break;
         }
@@ -93,10 +121,10 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
                     nextLayout.yMax
                 );
                 if (isIntersects) {
-                    return ['p1', euclideanDistance()];
+                    return ['p1', euclideanDistance(current, next, 'left')];
                 }
 
-                return ['p2', euclideanDistance()];
+                return ['p2', euclideanDistance(current, next, 'left')];
             }
             break;
         }
@@ -109,10 +137,10 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
                     nextLayout.yMax
                 );
                 if (isIntersects) {
-                    return ['p1', euclideanDistance()];
+                    return ['p1', euclideanDistance(current, next, 'right')];
                 }
 
-                return ['p2', euclideanDistance()];
+                return ['p2', euclideanDistance(current, next, 'right')];
             }
             break;
         }
