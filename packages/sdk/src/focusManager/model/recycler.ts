@@ -20,8 +20,8 @@ class Recycler extends AbstractFocusModel {
           }
         | undefined;
 
-    public isLastVisible?: () => boolean;
-    public isFirstVisible?: () => boolean;
+    public isLastVisible: () => boolean;
+    public isFirstVisible: () => boolean;
 
     constructor(params: any) {
         super(params);
@@ -39,6 +39,9 @@ class Recycler extends AbstractFocusModel {
         this._repeatContext = repeatContext;
         this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._focusedIndex = 0;
+
+        this.isLastVisible = () => false;
+        this.isFirstVisible = () => false;
     }
 
     public getType(): string {

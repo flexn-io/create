@@ -3,6 +3,7 @@
 import AbstractFocusModel from './model/AbstractFocusModel';
 
 const OVERLAP_THRESHOLD_PERCENTAGE = 10;
+const OVERLAP_NEXT_VALUE = 10;
 
 const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: number, endOfNext: number) => {
     const a1 = guideLine - sizeOfCurrent * 0.5;
@@ -51,7 +52,7 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
 
     switch (direction) {
         case 'up': {
-            if (currentLayout.yMin >= nextLayout.yMax - 20) {
+            if (currentLayout.yMin >= nextLayout.yMax - OVERLAP_NEXT_VALUE) {
                 const isIntersects = intersects(
                     currentLayout.xCenter,
                     current.getLayout().width,
@@ -68,7 +69,7 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
             break;
         }
         case 'down': {
-            if (currentLayout.yMax <= nextLayout.yMin + 20) {
+            if (currentLayout.yMax <= nextLayout.yMin + OVERLAP_NEXT_VALUE) {
                 const isIntersects = intersects(
                     currentLayout.xCenter,
                     current.getLayout().width,
@@ -84,7 +85,7 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
             break;
         }
         case 'left': {
-            if (currentLayout.xMin >= nextLayout.xMax - 20) {
+            if (currentLayout.xMin >= nextLayout.xMax - OVERLAP_NEXT_VALUE) {
                 const isIntersects = intersects(
                     currentLayout.yCenter,
                     current.getLayout().height,
@@ -100,7 +101,7 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
             break;
         }
         case 'right': {
-            if (currentLayout.xMax <= nextLayout.xMin + 50) {
+            if (currentLayout.xMax <= nextLayout.xMin + OVERLAP_NEXT_VALUE) {
                 const isIntersects = intersects(
                     currentLayout.yCenter,
                     current.getLayout().height,

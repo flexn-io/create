@@ -244,4 +244,12 @@ export default abstract class AbstractFocusModel {
     public getFocusKey(): string {
         return '';
     }
+
+    public isFirstVisible(): boolean {
+        return true;
+    }
+
+    public isLastVisible(): boolean {
+        return true;
+    }
 }
