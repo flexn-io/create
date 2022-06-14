@@ -56,7 +56,7 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
                 horizontal={horizontal}
                 scrollEnabled={false}
                 scrollEventThrottle={320}
-                onMomentumScrollEnd={(event) => {
+                onScroll={(event) => {
                     const { height } = event.nativeEvent.contentSize;
                     const { y, x } = event.nativeEvent.contentOffset;
                     const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;

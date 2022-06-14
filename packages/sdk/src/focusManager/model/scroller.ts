@@ -1,6 +1,5 @@
 import { Dimensions } from 'react-native';
 import AbstractFocusModel from './AbstractFocusModel';
-import type { FocusMap } from '../types';
 import { recalculateLayout } from '../layoutManager';
 import {
     DIRECTION_VERTICAL,
@@ -17,12 +16,8 @@ class Scroller {
     public scroll(direction: string, contextParameters: any) {
         const {
             currentFocus,
-            // focusMap,
-            // isDebuggerEnabled,
         }: {
             currentFocus: AbstractFocusModel;
-            focusMap: FocusMap;
-            isDebuggerEnabled: boolean;
         } = contextParameters;
 
         if (!currentFocus?.getLayout()) {
@@ -41,17 +36,6 @@ class Scroller {
             if (scrollTarget) {
                 if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
                     p.node.current.scrollTo(scrollTarget);
-                    // console.log('scrollTarget', scrollTarget);
-                    // p.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);
-                    // if (isDebuggerEnabled) {
-                    //     // recalculateLayout(currentFocus);
-
-                    //     Object.values(focusMap).forEach((v) => {
-                    //         // recalculateLayout(v);
-                    //     });
-                    // } else {
-                    //     recalculateLayout(currentFocus);
-                    // }
                 }
             }
         });
@@ -64,7 +48,7 @@ class Scroller {
             parentSW = cls.getParent()?.getParent() as ScrollView;
         }
 
-        if (scrollTarget) {            
+        if (scrollTarget) {
             if (parentSW.getScrollOffsetX() !== scrollTarget.x || parentSW.getScrollOffsetY() !== scrollTarget.y) {
                 parentSW.node.current.scrollTo(scrollTarget);
                 parentSW.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);

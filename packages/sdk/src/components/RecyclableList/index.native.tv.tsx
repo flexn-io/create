@@ -40,7 +40,6 @@ export default function RecyclerView({
 
     const pctx = repeatContext?.parentContext || parentContext;
 
-
     const [ClsInstance] = useState(
         () =>
             new RecyclerClass({
@@ -115,6 +114,7 @@ export default function RecyclerView({
         <RNView ref={rnViewRef} onLayout={onLayout} style={style}>
             <RecyclerListView
                 ref={rlvRef}
+
                 dataProvider={dataProvider}
                 scrollViewProps={{
                     ...scrollViewProps,
@@ -125,7 +125,7 @@ export default function RecyclerView({
                     scrollEnabled: false,
                     scrollEventThrottle: 320,
                 }}
-                onMomentumScrollEnd={(event: any) => {
+                onScroll={(event: any) => {
                     const { height } = event.nativeEvent.contentSize;
                     const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
                     const { y, x } = event.nativeEvent.contentOffset;
