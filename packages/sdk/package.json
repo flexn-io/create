@@ -1,6 +1,6 @@
 {
     "name": "@flexn/sdk",
-    "version": "0.15.3-alpha.12",
+    "version": "0.15.3-alpha.13",
     "description": "Flexn SDK",
     "main": "lib/index",
     "types": "lib/index",
