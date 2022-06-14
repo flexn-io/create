@@ -207,7 +207,9 @@ class CoreManager {
             return currentFocus;
         }
 
-        const candidates = Object.values(focusMap).filter((c) => c.getScreen()?.isInForeground() && c.isFocusable() && c.getId() !== currentFocus.getId());
+        const candidates = Object.values(focusMap).filter(
+            (c) => c.getScreen()?.isInForeground() && c.isFocusable() && c.getId() !== currentFocus.getId()
+        );
 
         for (let i = 0; i < candidates.length; i++) {
             const cls = candidates[i];
@@ -235,13 +237,13 @@ class CoreManager {
 
             if (closestContext.getParent()?.getId() !== currentFocus.getParent()?.getId()) {
                 const parent = currentFocus.getParent() as AbstractFocusModel;
-                
+
                 const nextForcedFocusKey = getNextForcedFocusKey(parent, direction, this._focusMap);
                 if (nextForcedFocusKey) {
                     this.focusElementByFocusKey(nextForcedFocusKey);
                     return;
                 }
-                
+
                 if (parent.containsForbiddenDirection(direction)) {
                     return currentFocus;
                 }
@@ -251,7 +253,6 @@ class CoreManager {
                 currentFocus.getScreen()?.onBlur?.();
                 closestContext.getScreen()?.onFocus?.();
             }
-
 
             return closestContext;
         }
@@ -272,13 +273,13 @@ class CoreManager {
         return this._currentFocus;
     };
 
-    public remeasureLayouts() {
-        Object.values(this._focusMap).forEach(ch => {
-            if (ch.isFocusable() && ch.isInForeground()) {
+    public recalculateActiveLayouts() {
+        Object.values(this._focusMap).forEach((ch) => {
+            if (ch.isInForeground()) {
                 recalculateLayout(ch);
             }
         });
-    };
+    }
 
     public findClosestNode = (cls: AbstractFocusModel, direction: string, output: any) => {
         recalculateLayout(cls);
@@ -299,12 +300,7 @@ class CoreManager {
         switch (direction) {
             case 'swipeLeft':
             case 'left': {
-                distCalc(
-                    output,
-                    'left',
-                    this._currentFocus as AbstractFocusModel,
-                    cls
-                );
+                distCalc(output, 'left', this._currentFocus as AbstractFocusModel, cls);
                 break;
             }
             case 'swipeRight':
@@ -319,22 +315,12 @@ class CoreManager {
             }
             case 'swipeUp':
             case 'up': {
-                distCalc(
-                    output,
-                    'up',
-                    this._currentFocus as AbstractFocusModel,
-                    cls
-                );
+                distCalc(output, 'up', this._currentFocus as AbstractFocusModel, cls);
                 break;
             }
             case 'swipeDown':
             case 'down': {
-                distCalc(
-                    output,
-                    'down',
-                    this._currentFocus as AbstractFocusModel,
-                    cls
-                );
+                distCalc(output, 'down', this._currentFocus as AbstractFocusModel, cls);
                 break;
             }
             default: {

@@ -17,8 +17,8 @@ class Scroller {
     public scroll(direction: string, contextParameters: any) {
         const {
             currentFocus,
-            focusMap,
-            isDebuggerEnabled,
+            // focusMap,
+            // isDebuggerEnabled,
         }: {
             currentFocus: AbstractFocusModel;
             focusMap: FocusMap;
@@ -33,8 +33,6 @@ class Scroller {
 
         const scrollContextParents = this.getParentScrollers(currentFocus);
 
-        // console.log('here1', currentFocus.getId());
-
         scrollContextParents.forEach((p: AbstractFocusModel) => {
             const scrollTarget = p.isHorizontal()
                 ? this.calculateHorizontalScrollViewTarget(direction, p, contextParameters)
@@ -43,14 +41,17 @@ class Scroller {
             if (scrollTarget) {
                 if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
                     p.node.current.scrollTo(scrollTarget);
-                    p.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);
-                    if (isDebuggerEnabled) {
-                        Object.values(focusMap).forEach((v) => {
-                            recalculateLayout(v);
-                        });
-                    } else {
-                        recalculateLayout(currentFocus);
-                    }
+                    // console.log('scrollTarget', scrollTarget);
+                    // p.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);
+                    // if (isDebuggerEnabled) {
+                    //     // recalculateLayout(currentFocus);
+
+                    //     Object.values(focusMap).forEach((v) => {
+                    //         // recalculateLayout(v);
+                    //     });
+                    // } else {
+                    //     recalculateLayout(currentFocus);
+                    // }
                 }
             }
         });

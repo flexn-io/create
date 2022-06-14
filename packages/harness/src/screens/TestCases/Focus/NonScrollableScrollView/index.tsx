@@ -2,7 +2,7 @@
 import React from 'react';
 // import { FlatList } from 'react-native';
 // import { PosterCard, View, Text, Pressable, FlatList } from '@flexn/sdk';
-import { PosterCard } from '@flexn/sdk';
+import { PosterCard, ScrollView, View } from '@flexn/sdk';
 import Screen from '../../../../components/Screen';
 
 // const LETTERS = [
@@ -100,54 +100,58 @@ const NonScrollableScrollView = () => {
             <View style={{ position: 'absolute', left: 800, top: 450 }}>
                 {renderFL2()}
             </View> */}
-            <PosterCard
-                src={{ uri: `https://placekitten.com/250/250` }}
-                style={{
-                    width: 250,
-                    height: 250,
-                    marginHorizontal: 15,
-                    position: 'absolute',
-                    left: 50
-                }}
-                focusOptions={{
-                    // focusKey: 'card2',
-                    nextFocusRight: 'card1',
-                    animatorOptions: {
-                        type: 'scale',
-                        scale: 1.1,
-                    },
-                }}
-            />
-            <PosterCard
-                src={{ uri: `https://placekitten.com/250/250` }}
-                style={{
-                    width: 250,
-                    height: 250,
-                    marginHorizontal: 15,
-                    left: 490,
-                    top: 200,
-                    position: 'absolute'
-                }}
-                focusOptions={{
-                    // focusKey: 'card2',
-                    nextFocusRight: 'card1',
-                    animatorOptions: {
-                        type: 'scale',
-                        scale: 1.1,
-                    },
-                }}
-            />
-            <PosterCard
-                src={{ uri: `https://placekitten.com/250/250` }}
-                style={{ width: 250, height: 250, marginHorizontal: 15, top: 550, left: 180, position: 'absolute' }}
-                focusOptions={{
-                    // focusKey: 'card3',
-                    animatorOptions: {
-                        type: 'scale',
-                        scale: 1.1,
-                    },
-                }}
-            />
+            <ScrollView>
+                <View style={{ height: 1300 }}>
+                    <PosterCard
+                        src={{ uri: `https://placekitten.com/250/250` }}
+                        style={{
+                            width: 250,
+                            height: 250,
+                            marginHorizontal: 15,
+                            position: 'absolute',
+                            left: 50
+                        }}
+                        focusOptions={{
+                            // focusKey: 'card2',
+                            nextFocusRight: 'card1',
+                            animatorOptions: {
+                                type: 'scale',
+                                scale: 1.1,
+                            },
+                        }}
+                    />
+                    <PosterCard
+                        src={{ uri: `https://placekitten.com/250/250` }}
+                        style={{
+                            width: 250,
+                            height: 250,
+                            marginHorizontal: 15,
+                            left: 490,
+                            top: 200,
+                            position: 'absolute'
+                        }}
+                        focusOptions={{
+                            // focusKey: 'card2',
+                            nextFocusRight: 'card1',
+                            animatorOptions: {
+                                type: 'scale',
+                                scale: 1.1,
+                            },
+                        }}
+                    />
+                    <PosterCard
+                        src={{ uri: `https://placekitten.com/250/250` }}
+                        style={{ width: 250, height: 250, marginHorizontal: 15, marginTop: 1050, left: 180, position: 'absolute' }}
+                        focusOptions={{
+                            // focusKey: 'card3',
+                            animatorOptions: {
+                                type: 'scale',
+                                scale: 1.1,
+                            },
+                        }}
+                    />
+                </View>
+            </ScrollView>
         </Screen>
     );
 };

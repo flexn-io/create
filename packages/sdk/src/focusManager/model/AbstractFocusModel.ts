@@ -1,3 +1,4 @@
+import { recalculateLayout } from '../layoutManager';
 import Screen, { STATE_BACKGROUND } from './screen';
 
 const TYPE_SCREEN = 'screen';
@@ -119,6 +120,16 @@ export default abstract class AbstractFocusModel {
 
             return -1;
         })[this.getChildren().length - 1];
+    }
+
+    public recalculateChildrenLayouts(ch: AbstractFocusModel) {
+        ch.getChildren().forEach((a: AbstractFocusModel) => {
+            this.recalculateChildrenLayouts(a);
+        });
+
+        if (ch.isInForeground()) {
+            recalculateLayout(ch);
+        }
     }
 
     public getNextFocusRight(): string {

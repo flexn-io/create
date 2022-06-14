@@ -1,6 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import { Dimensions, PixelRatio } from 'react-native';
-import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 import { ForbiddenFocusDirections } from './types';
 import { DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT } from './constants';
 import AbstractFocusModel from './model/AbstractFocusModel';
@@ -109,11 +107,4 @@ export function usePrevious(value: any) {
         ref.current = value;
     });
     return ref.current;
-}
-
-export function Ratio(pixels: number): number {
-    if (!(isPlatformAndroidtv || isPlatformFiretv)) return pixels;
-    const resolution = Dimensions.get('screen').height * PixelRatio.get();
-
-    return Math.round(pixels / (resolution < 2160 ? 2 : 1));
 }

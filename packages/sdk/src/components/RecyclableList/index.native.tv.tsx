@@ -123,14 +123,20 @@ export default function RecyclerView({
                         scrollViewRef.current = ref?._scrollViewRef; // `scrollTo()` is not working otherwise
                     },
                     scrollEnabled: false,
+                    scrollEventThrottle: 320,
                 }}
-                onScroll={(event: any) => {
+                onMomentumScrollEnd={(event: any) => {
                     const { height } = event.nativeEvent.contentSize;
                     const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
-                    ClsInstance.updateLayoutProperty('yMaxScroll', height).updateLayoutProperty(
-                        'scrollContentHeight',
-                        scrollContentHeight
-                    );
+                    const { y, x } = event.nativeEvent.contentOffset;
+
+                    ClsInstance
+                        .setScrollOffsetY(y)
+                        .setScrollOffsetX(x)
+                        .updateLayoutProperty('yMaxScroll', height)
+                        .updateLayoutProperty('scrollContentHeight', scrollContentHeight);
+
+                    ClsInstance.recalculateChildrenLayouts(ClsInstance);
                 }}
                 rowRenderer={rowRendererWithProps}
                 disableItemContainer={disableItemContainer}

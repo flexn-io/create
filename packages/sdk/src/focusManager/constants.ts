@@ -1,6 +1,6 @@
 import { getScaledValue } from '@rnv/renative';
 import { ScreenStates } from './types';
-import { Ratio } from './helpers';
+import { Ratio } from '../helpers';
 
 const BACKGROUND: ScreenStates = 'background';
 const FOREGROUND: ScreenStates = 'foreground';
