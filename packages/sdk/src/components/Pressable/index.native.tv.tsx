@@ -149,6 +149,7 @@ const View = React.forwardRef<any, ViewProps>(
 
             return (
                 <TvFocusableViewManager
+                    isTVSelectable
                     style={flattenedStyle}
                     onLayout={onLayout}
                     animatorOptions={animatorOptions}
