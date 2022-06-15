@@ -23,8 +23,6 @@ class CoreManager {
 
     private _guideLineX: number;
 
-    private _hasPendingIndex: boolean;
-
     constructor() {
         this._focusMap = {};
 
@@ -34,8 +32,6 @@ class CoreManager {
         this._hasPendingUpdateGuideLines = false;
         this._guideLineY = 0;
         this._guideLineX = 0;
-
-        this._hasPendingIndex = false;
     }
 
     public registerFocusable(cls: AbstractFocusModel, node?: any) {
@@ -217,7 +213,7 @@ class CoreManager {
             this.findClosestNode(cls, direction, output);
         }
 
-        const closestContext: AbstractFocusModel | undefined =
+        let closestContext: AbstractFocusModel | undefined =
             output.match1Context || output.match2Context || output.match3Context;
 
         if (closestContext) {
@@ -247,6 +243,12 @@ class CoreManager {
                 if (parent.containsForbiddenDirection(direction)) {
                     return currentFocus;
                 }
+
+                if (closestContext.getParent()?.isRecyclable()) {
+                    const parent = closestContext.getParent() as Recycler;
+
+                    closestContext = parent.getFocusedView() ?? closestContext;
+                }
             }
 
             if (closestContext.getScreen()?.getId() !== currentFocus.getScreen()?.getId()) {
@@ -272,14 +274,6 @@ class CoreManager {
 
         return this._currentFocus;
     };
-
-    public recalculateActiveLayouts() {
-        Object.values(this._focusMap).forEach((ch) => {
-            if (ch.isInForeground()) {
-                recalculateLayout(ch);
-            }
-        });
-    }
 
     public findClosestNode = (cls: AbstractFocusModel, direction: string, output: any) => {
         recalculateLayout(cls);

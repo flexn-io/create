@@ -2,6 +2,7 @@ import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 import { ForbiddenFocusDirections } from '../types';
 import { alterForbiddenFocusDirections } from '../helpers';
+import View from './view';
 
 class Recycler extends AbstractFocusModel {
     private _type: string;
@@ -13,6 +14,7 @@ class Recycler extends AbstractFocusModel {
     private _isHorizontal: boolean;
     private _forbiddenFocusDirections: ForbiddenFocusDirections[];
     private _focusedIndex: number;
+    private _focusedView?: View;
     private _repeatContext:
         | {
               parentContext: AbstractFocusModel;
@@ -124,6 +126,16 @@ class Recycler extends AbstractFocusModel {
 
     public getFocusedIndex(): number {
         return this._focusedIndex;
+    }
+
+    public setFocusedView(view: View): this {
+        this._focusedView = view;
+
+        return this;
+    }
+
+    public getFocusedView(): View | undefined {
+        return this._focusedView;
     }
 }
 
