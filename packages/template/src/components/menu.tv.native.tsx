@@ -40,9 +40,9 @@ const Menu = ({ navigation }) => {
             timing(opacityAnim[0], 1, 800),
             timing(opacityAnim[1], 1, 800),
             timing(opacityAnim[2], 1, 800),
-            timing(translateTextAnim[0], 0),
-            timing(translateTextAnim[1], 0),
-            timing(translateTextAnim[2], 0),
+            timing(translateTextAnim[0], 100),
+            timing(translateTextAnim[1], 100),
+            timing(translateTextAnim[2], 100),
         ]).start();
     };
 
