@@ -3,6 +3,7 @@ import { isPlatformAndroidtv, isPlatformTvos, isPlatformFiretv } from '@rnv/rena
 import throttle from 'lodash.throttle';
 import CoreManager from './core';
 import { DIRECTION } from '../constants';
+import Logger from './logger';
 
 const EVENT_KEY_ACTION_UP = 'up';
 const EVENT_KEY_ACTION_DOWN = 'down';
@@ -76,7 +77,7 @@ class KeyHandler {
             const direction = evt.eventType;
             if (isPlatformTvos) {
                 if (direction === 'playPause') {
-                    console.log(CoreManager);
+                    Logger.getInstance().debug(CoreManager);
                     CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
                 }
 
@@ -107,7 +108,7 @@ class KeyHandler {
 
     private onKeyDown(eventType: string) {
         if (eventType === 'playPause') {
-            console.log(CoreManager);
+            Logger.getInstance().debug(CoreManager);
             CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
         }
 

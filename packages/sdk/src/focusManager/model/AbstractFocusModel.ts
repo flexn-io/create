@@ -122,6 +122,16 @@ export default abstract class AbstractFocusModel {
         })[this.getChildren().length - 1];
     }
 
+    public getMostRightChildren(): AbstractFocusModel {
+        return this.getChildren().sort((a: AbstractFocusModel, b: AbstractFocusModel) => {
+            if (a.getLayout().xMax > b.getLayout().xMax) {
+                return 1;
+            }
+
+            return -1;
+        })[this.getChildren().length - 1];
+    }
+
     public recalculateChildrenLayouts(ch: AbstractFocusModel) {
         ch.getChildren().forEach((a: AbstractFocusModel) => {
             this.recalculateChildrenLayouts(a);

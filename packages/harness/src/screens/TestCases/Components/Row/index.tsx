@@ -29,7 +29,7 @@ const RowTest = () => {
     const data = [...generateData(400, 250, 10)];
 
     const dataGrid = [...generateData(400, 250, 15)];
-    console.log({ height });
+
     return (
         <Screen>
             <View style={{ height }}>

@@ -117,14 +117,18 @@ class Scroller {
         }
 
         if (DIRECTION_RIGHT.includes(direction)) {
+            let xMaxScroll = scrollView.getLayout().xMaxScroll || scrollView.getMostRightChildren().getLayout()?.xMax || 0;
+            xMaxScroll += scrollView.getLayout().xMin || 0;
+
             //Prevent OVERSCROLL
             const targetX = currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset + windowWidth;
-            if (scrollView.getLayout().xMaxScroll >= targetX) {
+            if (xMaxScroll >= targetX) {
                 scrollTarget.x = currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset;
             } else {
-                scrollTarget.x = scrollView.getLayout().xMaxScroll + horizontalViewportOffset - windowWidth;
+                scrollTarget.x = xMaxScroll + horizontalViewportOffset - windowWidth;
             }
         }
+
 
         if (DIRECTION_LEFT.includes(direction)) {
             scrollTarget.x = Math.min(
@@ -154,7 +158,6 @@ class Scroller {
         yMaxScroll += scrollView.getLayout().yMin || 0;
 
         const targetY = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset + scrollContentHeight;
-
         if (DIRECTION_UP.includes(direction)) {
             const innerViewMin = scrollView.getLayout().innerView.yMin;
             scrollTarget.y = Math.min(
