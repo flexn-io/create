@@ -21,7 +21,7 @@ jobs:
                   cd docs && yarn
             - name: Run Deploy Docs Preview
               run: |
-                  cd docs && yarn deploy-preview
+                  cd docs && yarn build && yarn deploy-preview
               env:
                   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
             - name: Add comment
@@ -32,5 +32,5 @@ jobs:
                     issue_number: context.issue.number,
                     owner: context.repo.owner,
                     repo: context.repo.repo,
-                    body: '✅ Preview: '
+                    body: '✅ Preview: https://flexn-flexn-dev-flexn.vercel.app'
                     })
