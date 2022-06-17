@@ -38,7 +38,7 @@ const Screen = ({ children, stealFocus, focusOptions, style, ...rest }: ScreenPr
 export default Screen;
 ```
 
-We are using [Screen](../components/screen) component to wrap every template screen and by utilizing `useFocusEffect` hook setting state of the screen whatever screen is in background or foreground. It's worth to mention that [Screen](../components/screen) functionality is applied only for TV platforms for the rest behind the scenes it's only simple React Native View.
+We are using [Screen](../../components/screen.mdx) component to wrap every template screen and by utilizing `useFocusEffect` hook setting state of the screen whatever screen is in background or foreground. It's worth to mention that [Screen](../../components/screen.mdx) functionality is applied only for TV platforms for the rest behind the scenes it's only simple React Native View.
 
 ## Home screen
 
