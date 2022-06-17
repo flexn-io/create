@@ -19,9 +19,12 @@ jobs:
             - name: Install packages
               run: |
                   cd docs && yarn
+            - name: Run Build Docs
+              run: |
+                  cd docs && yarn build
             - name: Run Deploy Docs Preview
               run: |
-                  cd docs && yarn build && yarn deploy-preview
+                  cd docs && yarn deploy-preview
               env:
                   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
             - name: Add comment
