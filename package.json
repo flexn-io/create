@@ -43,6 +43,8 @@
         "e2e-template-web": "cd packages/template && npx rnv start -p web -s test -c template --packageManager yarn & sleep 60 && cd packages/template && yarn e2e:web && kill $(lsof -t -i:8080)",
         "docs": "cd docs && yarn && yarn start",
         "docs-build": "cd docs && yarn && yarn build",
+        "docs-deploy-preview": "cd docs && yarn && yarn build && yarn deploy-preview",
+        "docs-deploy-prod": "cd docs && yarn && yarn build && yarn deploy-prod",
         "lint-ci": "yarn lint",
         "test-ci": "yarn test",
         "prepare-harness-nightly": "cd packages/harness && npx rnv hooks run -x prepareNightlyBuild --only",

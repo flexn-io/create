@@ -16,15 +16,9 @@ jobs:
             GHP_AUTH_TOKEN: ${{ secrets.GHP_AUTH_TOKEN }}
         steps:
             - uses: actions/checkout@v2
-            - name: Install packages
+            - name: Run Docs Deploy Preview
               run: |
-                  cd docs && yarn
-            - name: Run Build Docs
-              run: |
-                  cd docs && yarn build
-            - name: Run Deploy Docs Preview
-              run: |
-                  cd docs && yarn deploy-preview
+                  yarn docs-deploy-preview
               env:
                   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
             - name: Add comment

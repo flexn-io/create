@@ -18,11 +18,8 @@ jobs:
             GHP_AUTH_TOKEN: ${{ secrets.GHP_AUTH_TOKEN }}
         steps:
             - uses: actions/checkout@v2
-            - name: Install packages
+            - name: Run Docs Deploy Prod
               run: |
-                  cd docs && yarn
-            - name: Run Deploy Docs Prod
-              run: |
-                  cd docs && yarn deploy-prod
+                  yarn docs-deploy-prod
               env:
                   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
