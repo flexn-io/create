@@ -1,0 +1,36 @@
+name: Deploy Docs Preview
+
+defaults:
+    run:
+        shell: zsh -l {0}
+on:
+    workflow_dispatch:
+    pull_request:
+        paths-ignore:
+            - '**/README.md'
+
+jobs:
+    deploy-docs-preview:
+        runs-on: [self-hosted, macos]
+        env:
+            GHP_AUTH_TOKEN: ${{ secrets.GHP_AUTH_TOKEN }}
+        steps:
+            - uses: actions/checkout@v2
+            - name: Install packages
+              run: |
+                  cd docs && yarn
+            - name: Run Deploy Docs Preview
+              run: |
+                  cd docs && yarn deploy-preview
+              env:
+                  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+            - name: Add comment
+              uses: actions/github-script@v6
+              with:
+                script: |
+                    github.rest.issues.createComment({
+                    issue_number: context.issue.number,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    body: '✅ Preview: '
+                    })

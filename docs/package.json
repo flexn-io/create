@@ -12,7 +12,9 @@
         "serve": "docusaurus serve",
         "write-translations": "docusaurus write-translations",
         "write-heading-ids": "docusaurus write-heading-ids",
-        "typecheck": "tsc"
+        "typecheck": "tsc",
+        "deploy-prod": "npx vercel . --token=${VERCEL_TOKEN} --scope=flexn --name=flexn --confirm --prod",
+        "deploy-preview": "npx vercel . --token=${VERCEL_TOKEN} --scope=flexn --name=flexn --confirm"
     },
     "dependencies": {
         "@docusaurus/core": "2.0.0-beta.14",
@@ -28,7 +30,8 @@
         "@docusaurus/module-type-aliases": "2.0.0-beta.14",
         "@tsconfig/docusaurus": "^1.0.4",
         "@types/rtlcss": "^3.1.1",
-        "typescript": "^4.5.2"
+        "typescript": "^4.5.2",
+        "vercel": "25.1.0"
     },
     "browserslist": {
         "production": [
