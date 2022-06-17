@@ -2,7 +2,7 @@ import { List } from '@flexn/sdk';
 import React, { useContext } from 'react';
 import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv/renative';
 import { ThemeContext, ROUTES, Ratio } from '../config';
-import { getRandomData, interval } from '../utils';
+import { getRandomData, interval, testProps } from '../utils';
 import Screen from './screen';
 
 const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
@@ -26,9 +26,11 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                 focusOptions={{ forbiddenFocusDirections: ['right'] }}
                 itemSpacing={isFactorMobile ? 15 : 30}
                 cardStyle={styles.cardStyle}
+                {...testProps('testing')}
                 onPress={(data) => {
                     navigation.navigate(ROUTES.DETAILS, { row: data.rowNumber, index: data.index });
                 }}
+                // data.index grazins reikalinga indexa man test propsui galimai
             />
         </Screen>
     );

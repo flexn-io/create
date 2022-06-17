@@ -13,7 +13,7 @@ export const DrawerButton = ({ navigation }: { navigation?: any }) => {
             onPress={() => {
                 if (navigation && navigation.dispatch) navigation.dispatch({ type: 'OPEN_DRAWER' });
             }}
-            {...testProps('template-menu-open-drawer-button')}
+            {...testProps('template-menu-drawer-button')}
         >
             <Icon name="menu" color={theme.static.colorTextPrimary} size={theme.static.buttonSize} />
         </TouchableOpacity>
@@ -48,13 +48,13 @@ const Menu = ({ navigation }: { navigation?: any }) => {
             <TouchableOpacity
                 onPress={() => onPress(ROUTES.CAROUSELS)}
                 style={theme.styles.menuButton}
-                {...testProps('template-menu-my-page-button')}
+                {...testProps('template-menu-carousels-button')}
             >
                 <Icon
                     name="md-rocket"
                     size={theme.static.iconSize}
                     color={theme.static.colorBrand}
-                    {...testProps('template-menu-my-page-rocket-icon')}
+                    {...testProps('template-menu-carousels-icon')}
                 />
                 <Text style={[theme.styles.buttonText, theme.styles.menuButtonText]}>Carousels</Text>
             </TouchableOpacity>
@@ -67,7 +67,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                     name="ios-albums"
                     size={theme.static.iconSize}
                     color={theme.static.colorBrand}
-                    {...testProps('template-menu-my-modal-albums-icon')}
+                    {...testProps('template-menu-my-modal-icon')}
                 />
                 <Text style={[theme.styles.buttonText, theme.styles.menuButtonText]}>My Modal</Text>
             </TouchableOpacity>
@@ -101,7 +101,6 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                         name={burgerMenuOpen ? 'md-close' : 'md-menu'}
                         size={theme.static.iconSize}
                         color={theme.static.colorBrand}
-                        {...testProps('template-menu-home-icon')}
                     />
                 </TouchableOpacity>
             );
