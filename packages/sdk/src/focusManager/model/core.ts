@@ -1,6 +1,6 @@
 import { findNodeHandle, UIManager } from 'react-native';
 import { distCalc } from '../nextFocusFinder';
-import { getNextForcedFocusKey } from '../helpers';
+import { getNextForcedFocusKey, getDirectionName } from '../helpers';
 import { recalculateLayout } from '../layoutManager';
 import AbstractFocusModel from './AbstractFocusModel';
 import Scroller from './scroller';
@@ -85,28 +85,15 @@ class CoreManager {
         UIManager.dispatchViewManagerCommand(cls.nodeId, 'cmdFocus', null);
         cls.onFocus();
         cls.setIsFocused(true);
-        cls.setFocus();
+        // cls.setFocus();
         if (cls.getScreen()) {
             cls.getScreen()?.setCurrentFocus(cls as View);
         }
     }
 
     public executeDirectionalFocus(direction: string) {
-        const parent = this._currentFocus;
-        if (parent) {
-            const output: {
-                match1: number;
-                match1Context?: AbstractFocusModel;
-                match2: number;
-                match2Context?: AbstractFocusModel;
-                match3: number;
-                match3Context?: AbstractFocusModel;
-            } = {
-                match1: 999999,
-                match2: 9999999,
-                match3: 9999999,
-            };
-            const next = this.getNextFocusableContext(direction, output);
+        if (this._currentFocus) {
+            const next = this.getNextFocusableContext(direction);
             if (next) this.executeFocus(next);
         }
     }
@@ -179,7 +166,7 @@ class CoreManager {
         }
     };
 
-    public getNextFocusableContext = (direction: string, output: any): AbstractFocusModel | undefined | null => {
+    public getNextFocusableContext = (direction: string): AbstractFocusModel | undefined | null => {
         const currentFocus = this._currentFocus;
         const focusMap = this._focusMap;
 
@@ -199,22 +186,31 @@ class CoreManager {
 
         // This can happen if we opened new screen which doesn't have any focusable
         // then last screen in context map still keeping focus
-        if (currentFocus?.getScreen()?.isInBackground()) {
+        if (currentFocus?.isInBackground()) {
             return currentFocus;
         }
 
         const candidates = Object.values(focusMap).filter(
-            (c) => c.getScreen()?.isInForeground() && c.isFocusable() && c.getId() !== currentFocus.getId()
+            (c) => c.isInForeground() && c.isFocusable() && c.getId() !== currentFocus.getId()
         );
-
+        
+        const output: {
+            match1: number;
+            match1Context?: AbstractFocusModel;
+            match2: number;
+            match2Context?: AbstractFocusModel;
+        } = {
+            match1: 9999999,
+            match2: 9999999,
+        };
+        
         for (let i = 0; i < candidates.length; i++) {
             const cls = candidates[i];
 
             this.findClosestNode(cls, direction, output);
         }
 
-        let closestContext: AbstractFocusModel | undefined =
-            output.match1Context || output.match2Context || output.match3Context;
+        let closestContext: AbstractFocusModel | undefined = output.match1Context || output.match2Context;
 
         if (closestContext) {
             if (currentFocus.getParent()?.isRecyclable()) {
@@ -254,6 +250,10 @@ class CoreManager {
             if (closestContext.getScreen()?.getId() !== currentFocus.getScreen()?.getId()) {
                 currentFocus.getScreen()?.onBlur?.();
                 closestContext.getScreen()?.onFocus?.();
+
+                if (closestContext.getScreen()?.getCurrentFocus()) {
+                    return closestContext.getScreen()?.getCurrentFocus();
+                }
             }
 
             return closestContext;
@@ -279,69 +279,14 @@ class CoreManager {
         recalculateLayout(cls);
         const nextLayout = cls.getLayout();
         const currentLayout = this._currentFocus?.getLayout();
-        if (!nextLayout) {
+        
+        if (!nextLayout || !currentLayout) {
             // eslint-disable-next-line
-            // Logger.getInstance().warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
-            // console.log('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
+            Logger.getInstance().warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
             return;
         }
-        if (!currentLayout) {
-            // eslint-disable-next-line
-            Logger.getInstance().warn('Current context were removed during focus find');
-            return;
-        }
-
-        switch (direction) {
-            case 'swipeLeft':
-            case 'left': {
-                distCalc(output, 'left', this._currentFocus as AbstractFocusModel, cls);
-                break;
-            }
-            case 'swipeRight':
-            case 'right': {
-                distCalc(
-                    output, //
-                    'right',
-                    this._currentFocus as AbstractFocusModel,
-                    cls
-                );
-                break;
-            }
-            case 'swipeUp':
-            case 'up': {
-                distCalc(output, 'up', this._currentFocus as AbstractFocusModel, cls);
-                break;
-            }
-            case 'swipeDown':
-            case 'down': {
-                distCalc(output, 'down', this._currentFocus as AbstractFocusModel, cls);
-                break;
-            }
-            default: {
-                // Booo
-            }
-        }
-
-        // if (this._currentFocus?.getParent()?.isRecyclable()) {
-        //     const parent = this._currentFocus.getParent() as Recycler;
-        //     if (parent.isNested()) {
-        //         const d1 = ['down', 'swipeDown'];
-        //         const d2 = ['up', 'swipeUp'];
-        //         if (parent?.getParent()?.isRecyclable()) {
-        //             const parentOfParent = parent.getParent() as Recycler;
-        //             const lastIsVisible = d1.includes(direction) ? parentOfParent.isLastVisible?.() : true;
-        //             const firstIsVisible = d2.includes(direction) ? parentOfParent.isFirstVisible?.() : true;
-
-        //             if (!lastIsVisible || !firstIsVisible) {
-        //                 const closestContext: AbstractFocusModel =
-        //                     output.match1Context || output.match2Context || output.match3Context;
-        //                 if (closestContext && !closestContext?.getParent()?.isRecyclable()) {
-        //                     output.match1Context = this._currentFocus;
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        
+        distCalc(output, getDirectionName(direction), this._currentFocus as AbstractFocusModel, cls);
     };
 
     public get isDebuggerEnabled(): boolean {

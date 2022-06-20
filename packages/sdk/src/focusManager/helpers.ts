@@ -26,6 +26,24 @@ export function flattenStyle(style: any) {
     return { ...flattenedStyle };
 }
 
+export function getDirectionName(direction: string) {
+    switch (direction) {
+        case 'swipeLeft':
+        case 'left': 
+            return 'left';
+        case 'swipeRight':
+        case 'right':
+            return 'right';
+        case 'swipeUp':
+        case 'up':
+            return 'up';
+        case 'swipeDown':
+        case 'down':
+            return 'down';
+        default:
+            return direction;
+    }
+}
 export function alterForbiddenFocusDirections(
     forbiddenFocusDirections: ForbiddenFocusDirections[] = []
 ): ForbiddenFocusDirections[] {
