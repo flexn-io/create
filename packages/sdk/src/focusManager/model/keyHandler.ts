@@ -3,24 +3,31 @@ import { isPlatformAndroidtv, isPlatformTvos, isPlatformFiretv } from '@rnv/rena
 import throttle from 'lodash.throttle';
 import CoreManager from './core';
 import { DIRECTION } from '../constants';
+import Logger from './logger';
 
 const EVENT_KEY_ACTION_UP = 'up';
 const EVENT_KEY_ACTION_DOWN = 'down';
 const EVENT_KEY_ACTION_LONG_PRESS = 'longPress';
 
-const INTERVAL_TIME_MS = 100;
-const SCROLL_INDEX_INTERVAL = 3;
+// const INTERVAL_TIME_MS = 100;
+const INTERVAL_TIME_MS = 50;
+const SCROLL_INDEX_INTERVAL_ROW = 3;
+const SCROLL_INDEX_INTERVAL_GRID = 1;
+const SCROLL_INDEX_INTERVAL_LIST = 1;
+// const MIN_VERTICAL_SCROLLING = 50;
 
 const EVENT_TYPE_SELECT = 'select';
 const EVENT_TYPE_RIGHT = 'right';
 const EVENT_TYPE_LEFT = 'left';
+const EVENT_TYPE_DOWN = 'down';
+const EVENT_TYPE_UP = 'up';
 
 const IS_ANDROID_BASED = isPlatformAndroidtv || isPlatformFiretv;
 
 class KeyHandler {
     private selectHandler: any;
     private eventEmitter: any;
-    
+
     private _longPressInterval: any;
     private _stopKeyDownEvents: boolean;
 
@@ -57,7 +64,7 @@ class KeyHandler {
         }
     }
 
-    private enableKeyHandler()  {
+    private enableKeyHandler() {
         if (isPlatformTvos) {
             this.eventEmitter.addListener('onTVRemoteKey', this.handleKeyEvent);
         } else {
@@ -70,7 +77,7 @@ class KeyHandler {
             const direction = evt.eventType;
             if (isPlatformTvos) {
                 if (direction === 'playPause') {
-                    // console.log(CoreManager);
+                    Logger.getInstance().debug(CoreManager);
                     CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
                 }
 
@@ -86,7 +93,7 @@ class KeyHandler {
         });
     }
 
-    private handleKeyEvent({ eventKeyAction, eventType }: { eventKeyAction: string, eventType: string }) {
+    private handleKeyEvent({ eventKeyAction, eventType }: { eventKeyAction: string; eventType: string }) {
         switch (eventKeyAction) {
             case EVENT_KEY_ACTION_UP:
                 return this.onKeyUp(eventType);
@@ -101,7 +108,7 @@ class KeyHandler {
 
     private onKeyDown(eventType: string) {
         if (eventType === 'playPause') {
-            // console.log(CoreManager);
+            Logger.getInstance().debug(CoreManager);
             CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
         }
 
@@ -122,31 +129,51 @@ class KeyHandler {
                 }
             }
         }
-    }    
-    
+    }
+
     private onKeyLongPress(eventType: string) {
         if (this.isInRecycler()) {
+            if (!this.isNested()) {
+                if (this.isHorizontal() && [EVENT_TYPE_DOWN, EVENT_TYPE_UP].includes(eventType)) {
+                    this._stopKeyDownEvents = false;
+                    return;
+                }
+
+                if (!this.isHorizontal() && [EVENT_TYPE_LEFT, EVENT_TYPE_RIGHT].includes(eventType)) {
+                    this._stopKeyDownEvents = false;
+                    return;
+                }
+            }
+
             this._stopKeyDownEvents = true;
-        
             let selectedIndex = this.getSelectedIndex();
-            this._longPressInterval = setInterval(() => {    
+            this._longPressInterval = setInterval(() => {
                 if (EVENT_TYPE_RIGHT === eventType) {
-                    selectedIndex += SCROLL_INDEX_INTERVAL;
+                    selectedIndex += SCROLL_INDEX_INTERVAL_ROW;
                     if (selectedIndex > this.getMaxIndex()) selectedIndex = this.getMaxIndex();
                 }
                 if (EVENT_TYPE_LEFT === eventType) {
-                    selectedIndex -= SCROLL_INDEX_INTERVAL;
+                    selectedIndex -= SCROLL_INDEX_INTERVAL_ROW;
                     if (selectedIndex < 0) selectedIndex = 0;
                 }
 
-                CoreManager.executeInlineFocus(selectedIndex);
+                if (EVENT_TYPE_UP === eventType) {
+                    selectedIndex -= this.isNested() ? SCROLL_INDEX_INTERVAL_LIST : SCROLL_INDEX_INTERVAL_GRID;
+                    if (selectedIndex < 0) selectedIndex = 0;
+                }
+
+                if (EVENT_TYPE_DOWN === eventType) {
+                    selectedIndex += this.isNested() ? SCROLL_INDEX_INTERVAL_LIST : SCROLL_INDEX_INTERVAL_GRID;
+                    if (selectedIndex > this.getMaxIndex(true)) selectedIndex = this.getMaxIndex(true);
+                }
+
+                CoreManager.executeInlineFocus(selectedIndex, eventType);
                 CoreManager.executeUpdateGuideLines();
 
-                if (selectedIndex === 0 || selectedIndex === this.getMaxIndex()) {
+                if (selectedIndex === 0 || selectedIndex === this.getMaxIndex(EVENT_TYPE_DOWN === eventType)) {
                     clearInterval(this._longPressInterval);
                     this._stopKeyDownEvents = false;
                 }
-    
             }, INTERVAL_TIME_MS);
         }
     }
@@ -164,7 +191,7 @@ class KeyHandler {
 
     private getSelectedIndex(): number {
         const currentFocus = CoreManager.getCurrentFocus();
-        
+
         if (currentFocus) {
             return currentFocus.getRepeatContext()?.index || 0;
         }
@@ -172,20 +199,35 @@ class KeyHandler {
         return 0;
     }
 
-    private getMaxIndex(): number {
-        const parent = CoreManager.getCurrentFocus()?.getParent();
+    private getMaxIndex(vertical = false): number {
+        let parent = CoreManager.getCurrentFocus()?.getParent();
+        if (this.isNested() && vertical) {
+            parent = parent?.getParent();
+        }
         if (parent) {
             return parent.getLayouts().length;
         }
 
         return 0;
-    };
+    }
 
     private isInRecycler(): boolean {
         const parent = CoreManager.getCurrentFocus()?.getParent();
-        
+
         return parent?.isRecyclable() ? true : false;
     }
-};
+
+    private isHorizontal(): boolean {
+        const parent = CoreManager.getCurrentFocus()?.getParent();
+
+        return parent?.isRecyclable() && parent?.isHorizontal() ? true : false;
+    }
+
+    private isNested(): boolean {
+        const parent = CoreManager.getCurrentFocus()?.getParent();
+
+        return parent?.isRecyclable() && parent?.isNested() ? true : false;
+    }
+}
 
 export default KeyHandler;

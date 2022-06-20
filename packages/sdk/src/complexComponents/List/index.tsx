@@ -98,7 +98,7 @@ const List = ({
 
     setLayoutProvider();
 
-    const renderRow = ({ index, data, title, repeatContext, nestedParentContext }: any) => {
+    const renderRow = ({ index, data, title, repeatContext }: any) => {
         return (
             <Carousel
                 index={index}
@@ -110,7 +110,6 @@ const List = ({
                 onBlur={onBlur}
                 renderCard={renderCard}
                 repeatContext={repeatContext}
-                nestedParentContext={nestedParentContext}
                 style={{
                     width: boundaries.width,
                     height: Ratio(rowHeight),

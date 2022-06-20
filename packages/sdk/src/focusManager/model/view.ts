@@ -3,6 +3,7 @@ import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 import { alterForbiddenFocusDirections } from '../helpers';
 import { ForbiddenFocusDirections } from '../types';
+import Recycler from './recycler';
 
 class View extends AbstractFocusModel {
     private _type: string;
@@ -49,6 +50,17 @@ class View extends AbstractFocusModel {
         this._onFocus = onFocus;
         this._onBlur = onBlur;
         this._onPress = onPress;
+
+        this.init();
+    }
+
+    private init() {
+        if (this.getParent()?.isRecyclable()) {
+            const parent = this.getParent() as Recycler;
+            if (!parent.getFocusedView() && this.getRepeatContext()?.index === 0) {
+                parent.setFocusedView(this);
+            }
+        }
     }
 
     public getType(): string {
@@ -92,6 +104,13 @@ class View extends AbstractFocusModel {
 
     public setIsFocused(value: boolean): this {
         this._isFocused = value;
+
+        if (value && this.getParent()?.isRecyclable()) {
+            const currentIndex = this.getRepeatContext()?.index;
+            if (currentIndex !== undefined) {
+                (this.getParent() as Recycler).setFocusedIndex(currentIndex).setFocusedView(this);
+            }
+        }
 
         return this;
     }

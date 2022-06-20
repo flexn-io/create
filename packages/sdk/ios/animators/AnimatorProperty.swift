@@ -12,10 +12,10 @@ class AnimatorProperty {
     var duration: TimeInterval = 0.15
     var scale: CGFloat = 1.2
     var borderColor: CGColor?
-    var backgroundColor: CGColor?
+    var backgroundColor: UIColor?
     var borderWidth: CGFloat = 1
     var zIndex: CGFloat = 0
-    var backgroundColorFocus: CGColor?
+    var backgroundColorFocus: UIColor?
 
     init(args: NSDictionary) {
         self.style = args["style"] as! NSDictionary
@@ -28,7 +28,7 @@ class AnimatorProperty {
             self.backgroundColorFocus = hexToColor(from: args["backgroundColorFocus"] as! String)
         }
         if ((self.style["borderColor"]) != nil) {
-            self.borderColor = hexToColor(from: self.style["borderColor"] as! String)
+            self.borderColor = hexToColor(from: self.style["borderColor"] as! String).cgColor
         }
         if ((self.style["backgroundColor"]) != nil) {
             self.backgroundColor = hexToColor(from: self.style["backgroundColor"] as! String)
@@ -41,7 +41,7 @@ class AnimatorProperty {
         }
     }
     
-    func hexToColor(from hexString : String) -> CGColor {
+    func hexToColor(from hexString : String) -> UIColor {
         let hexString = hexString.replacingOccurrences(of: "#", with: "")
 
         if let rgbValue = UInt(hexString, radix: 16) {
@@ -49,10 +49,10 @@ class AnimatorProperty {
             let green =  CGFloat((rgbValue >>  8) & 0xff) / 255
             let blue  =  CGFloat((rgbValue      ) & 0xff) / 255
             
-            return UIColor(red: red, green: green, blue: blue, alpha: 1.0).cgColor
+            return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
         }
         
-        return UIColor.red.cgColor
+        return UIColor.red
     }
     
     func rgbToColor(rgbValue: UInt, alpha: CGFloat = 1.0) -> CGColor {

@@ -20,7 +20,6 @@ interface RowProps {
     index?: number;
     parentContext?: Context;
     repeatContext?: Context;
-    nestedParentContext?: Context;
     title?: string;
     focusOptions?: RecyclableListFocusOptions;
     animatorOptions?: any;
@@ -49,7 +48,6 @@ const Row = ({
     itemsInViewport,
     parentContext,
     repeatContext,
-    nestedParentContext,
     focusOptions,
     animatorOptions,
     style = {},
@@ -163,7 +161,7 @@ const Row = ({
     };
 
     return (
-        <View parentContext={nestedParentContext || parentContext} style={style} onLayout={onLayout} ref={ref}>
+        <View parentContext={parentContext} style={style} onLayout={onLayout} ref={ref}>
             {renderTitle()}
             {renderRecycler()}
         </View>

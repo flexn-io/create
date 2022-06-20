@@ -58,8 +58,6 @@ public class TvRemoteHandlerModule extends ReactContextBaseJavaModule {
             return;
         }
 
-//        Log.d("typetype_", type);
-
         if (mJSModule == null) {
             mJSModule = mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
         }
@@ -72,8 +70,6 @@ public class TvRemoteHandlerModule extends ReactContextBaseJavaModule {
         int action = keyEvent.getAction();
         int eventKeyCode = keyEvent.getKeyCode();
         String eventType = KEY_EVENTS_ACTIONS.containsKey(eventKeyCode) ? KEY_EVENTS_ACTIONS.get(eventKeyCode) : "";
-
-//        Log.d("action", action + " ");
 
         params.putString("eventType", eventType);
         params.putString("eventKeyAction", type);

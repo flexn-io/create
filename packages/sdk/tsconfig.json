@@ -1,7 +1,7 @@
 {
     "extends": "@flexn/typescript/tsconfig.lib.react.json",
     "compilerOptions": {
-        "target": "es6",
+        "target": "es5",
         "module": "commonjs",
         "allowJs": true,
         "outDir": "./lib",

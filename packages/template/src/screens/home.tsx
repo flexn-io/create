@@ -40,6 +40,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                     }}
                     style={theme.styles.button}
                     focusOptions={{
+                        nextFocusLeft: 'side-menu',
                         animatorOptions: focusAnimation,
                         forbiddenFocusDirections: ['up'],
                     }}
@@ -51,6 +52,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                     onPress={() => navigate(ROUTES.CAROUSELS)}
                     style={theme.styles.button}
                     focusOptions={{
+                        nextFocusLeft: 'side-menu',
                         animatorOptions: focusAnimation,
                     }}
                     {...testProps('template-screen-home-now-try-me-button')}

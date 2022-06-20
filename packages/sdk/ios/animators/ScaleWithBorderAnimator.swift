@@ -17,11 +17,9 @@ class ScaleWithBorderAnimator: Animator {
         self.view.layer.zPosition = 999;
         UIView.transition(with: self.view, duration: AnimProperty.duration, options: .transitionCrossDissolve, animations: {
             self.view.transform = CGAffineTransform(scaleX: self.AnimProperty.scale, y: self.AnimProperty.scale)
-
-        }, completion: {_ in
             self.view.layer.borderColor = self.AnimProperty.borderColor
             self.view.layer.borderWidth = self.AnimProperty.borderWidth
-        })
+        }, completion: nil)
     }
 
     func onBlur(animated: Bool) {

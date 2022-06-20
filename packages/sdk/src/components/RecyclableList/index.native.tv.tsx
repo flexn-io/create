@@ -38,12 +38,14 @@ export default function RecyclerView({
     const rlvRef = useRef<RecyclerListView<any, any>>(null);
     const rnViewRef = useRef<RNView>(null);
 
+    const pctx = repeatContext?.parentContext || parentContext;
+
     const [ClsInstance] = useState(
         () =>
             new RecyclerClass({
                 isHorizontal,
                 isNested: !!repeatContext,
-                parent: parentContext,
+                parent: pctx,
                 repeatContext,
                 ...focusOptions,
             })
@@ -62,17 +64,19 @@ export default function RecyclerView({
             ClsInstance.setLayouts(layouts);
         }
 
-        if (vr?.['_params'] && !ClsInstance.isLastVisible) {
+        if (vr?.['_params']) {
             const recyclerItemsCount = vr['_params'].itemCount;
             const vt: any = vr['_viewabilityTracker'] || {};
 
             ClsInstance.isLastVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
+
                 return visibleIndexes[visibleIndexes.length - 1] + 1 === recyclerItemsCount;
             };
 
             ClsInstance.isFirstVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
+
                 return visibleIndexes[0] === 0;
             };
         }
@@ -110,6 +114,7 @@ export default function RecyclerView({
         <RNView ref={rnViewRef} onLayout={onLayout} style={style}>
             <RecyclerListView
                 ref={rlvRef}
+
                 dataProvider={dataProvider}
                 scrollViewProps={{
                     ...scrollViewProps,
@@ -118,20 +123,25 @@ export default function RecyclerView({
                         scrollViewRef.current = ref?._scrollViewRef; // `scrollTo()` is not working otherwise
                     },
                     scrollEnabled: false,
+                    scrollEventThrottle: 320,
                 }}
                 onScroll={(event: any) => {
                     const { height } = event.nativeEvent.contentSize;
                     const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
-                    ClsInstance.updateLayoutProperty('yMaxScroll', height).updateLayoutProperty(
-                        'scrollContentHeight',
-                        scrollContentHeight
-                    );
+                    const { y, x } = event.nativeEvent.contentOffset;
+
+                    ClsInstance
+                        .setScrollOffsetY(y)
+                        .setScrollOffsetX(x)
+                        .updateLayoutProperty('yMaxScroll', height)
+                        .updateLayoutProperty('scrollContentHeight', scrollContentHeight);
+
+                    ClsInstance.recalculateChildrenLayouts(ClsInstance);
                 }}
                 rowRenderer={rowRendererWithProps}
                 disableItemContainer={disableItemContainer}
                 isHorizontal={isHorizontal}
                 contentContainerStyle={contentContainerStyle}
-                renderAheadOffset={150}
                 {...props}
             />
         </RNView>
