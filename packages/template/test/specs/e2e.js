@@ -13,7 +13,8 @@ describe('Test template', () => {
         await FlexnRunner.expectToBeDisplayedById('template-home-screen-now-try-my-button');
     });
 
-    it.skip('--> check if Carousels Page opens when "Carousels" button is selected', async () => {
+    //tested:web, ios, android, macos
+    it('--> check if Carousels Page opens when "Carousels" button is selected', async () => {
         await FlexnRunner.waitForDisplayedById('template-home-screen-flexn-image');
         if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
             await FlexnRunner.clickById('template-menu-drawer-button');
@@ -22,25 +23,18 @@ describe('Test template', () => {
         await FlexnRunner.pressButtonLeft(1);
         await FlexnRunner.pressButtonDown(1);
         await FlexnRunner.pressButtonSelect(1);
-
-        ////////////////////
-        // await FlexnRunner.expectToBeDisplayedById('template-starter-my-page-text-container');
-        ///////////////////////
-
-        // if (process.env.PLATFORM === 'ios' || process.env.PLATFORM === 'macos') {
-        //     await FlexnRunner.clickById('header-back');
-        // } else if (process.env.PLATFORM === 'android') {
-        //     await FlexnRunner.clickById('home, back');
-        // } else {
-        //     await FlexnRunner.clickById('template-menu-home-button');
-        // }
+        await FlexnRunner.expectToBeDisplayedById('template-carousels-screen-container');
+        if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
+            await FlexnRunner.clickById('template-menu-drawer-button');
+        }
+        await FlexnRunner.clickById('template-menu-home-button');
         // await FlexnRunner.pressButtonLeft(1);
         // await FlexnRunner.pressButtonSelect(1);
         await FlexnRunner.expectToBeDisplayedById('template-home-screen-flexn-image');
     });
 
     // works on all platforms
-    it('--> check if My Modal opens when "My Modal" button is selected', async () => {
+    it.skip('--> check if My Modal opens when "My Modal" button is selected', async () => {
         await FlexnRunner.waitForDisplayedById('template-home-screen-flexn-image');
         if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
             await FlexnRunner.clickById('template-menu-drawer-button');
@@ -51,14 +45,13 @@ describe('Test template', () => {
         await FlexnRunner.pressButtonSelect(1);
         await FlexnRunner.expectToBeDisplayedById('template-modal-screen-container');
         await FlexnRunner.clickById('template-modal-screen-close-button');
-        await FlexnRunner.pressButtonSelect(1);
         if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
             await FlexnRunner.clickById('template-menu-home-button');
         }
+        await FlexnRunner.pressButtonSelect(1);
         await FlexnRunner.expectToBeDisplayedById('template-home-screen-flexn-image');
     });
 
-    // skipping because after clicking "Now Try Me!" TV's have no focus
     it.skip('--> check if Carousels Page opens when "Now Try Me!" button is selected', async () => {
         await FlexnRunner.waitForDisplayedById('template-home-screen-flexn-image');
         await FlexnRunner.clickById('template-home-screen-now-try-my-button');
