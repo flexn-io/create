@@ -1,3 +1,4 @@
+import { recalculateLayout } from '../layoutManager';
 import Screen, { STATE_BACKGROUND } from './screen';
 
 const TYPE_SCREEN = 'screen';
@@ -121,6 +122,26 @@ export default abstract class AbstractFocusModel {
         })[this.getChildren().length - 1];
     }
 
+    public getMostRightChildren(): AbstractFocusModel {
+        return this.getChildren().sort((a: AbstractFocusModel, b: AbstractFocusModel) => {
+            if (a.getLayout().xMax > b.getLayout().xMax) {
+                return 1;
+            }
+
+            return -1;
+        })[this.getChildren().length - 1];
+    }
+
+    public recalculateChildrenLayouts(ch: AbstractFocusModel) {
+        ch.getChildren().forEach((a: AbstractFocusModel) => {
+            this.recalculateChildrenLayouts(a);
+        });
+
+        if (ch.isInForeground()) {
+            recalculateLayout(ch);
+        }
+    }
+
     public getNextFocusRight(): string {
         return this._nextFocusRight || '';
     }
@@ -185,6 +206,10 @@ export default abstract class AbstractFocusModel {
         return false;
     }
 
+    public isNested() {
+        return false;
+    }
+
     public onFocus(): void {
         // NO ACTION
     }
@@ -239,5 +264,13 @@ export default abstract class AbstractFocusModel {
 
     public getFocusKey(): string {
         return '';
+    }
+
+    public isFirstVisible(): boolean {
+        return true;
+    }
+
+    public isLastVisible(): boolean {
+        return true;
     }
 }

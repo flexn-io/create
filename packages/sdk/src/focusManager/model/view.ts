@@ -3,6 +3,7 @@ import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 import { alterForbiddenFocusDirections } from '../helpers';
 import { ForbiddenFocusDirections } from '../types';
+import Recycler from './recycler';
 
 class View extends AbstractFocusModel {
     private _type: string;
@@ -10,6 +11,7 @@ class View extends AbstractFocusModel {
     private _isFocused: boolean;
     private _forbiddenFocusDirections: ForbiddenFocusDirections[];
     private _focusKey: string;
+    private _hasPreferredFocus: boolean;
     private _repeatContext:
         | {
               parentContext: AbstractFocusModel;
@@ -24,7 +26,16 @@ class View extends AbstractFocusModel {
     constructor(params: any) {
         super(params);
 
-        const { repeatContext, parent, forbiddenFocusDirections, onFocus, onBlur, onPress, focusKey } = params;
+        const {
+            repeatContext,
+            parent,
+            forbiddenFocusDirections,
+            onFocus,
+            onBlur,
+            onPress,
+            focusKey,
+            hasPreferredFocus,
+        } = params;
 
         const id = makeid(8);
         this._id = parent?.getId() ? `${parent.getId()}:view-${id}` : `view-${id}`;
@@ -34,10 +45,22 @@ class View extends AbstractFocusModel {
         this._repeatContext = repeatContext;
         this._focusKey = focusKey;
         this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._hasPreferredFocus = hasPreferredFocus;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
         this._onPress = onPress;
+
+        this.init();
+    }
+
+    private init() {
+        if (this.getParent()?.isRecyclable()) {
+            const parent = this.getParent() as Recycler;
+            if (!parent.getFocusedView() && this.getRepeatContext()?.index === 0) {
+                parent.setFocusedView(this);
+            }
+        }
     }
 
     public getType(): string {
@@ -82,6 +105,13 @@ class View extends AbstractFocusModel {
     public setIsFocused(value: boolean): this {
         this._isFocused = value;
 
+        if (value && this.getParent()?.isRecyclable()) {
+            const currentIndex = this.getRepeatContext()?.index;
+            if (currentIndex !== undefined) {
+                (this.getParent() as Recycler).setFocusedIndex(currentIndex).setFocusedView(this);
+            }
+        }
+
         return this;
     }
 
@@ -109,6 +139,10 @@ class View extends AbstractFocusModel {
 
     public getForbiddenFocusDirections(): ForbiddenFocusDirections[] {
         return this._forbiddenFocusDirections;
+    }
+
+    public hasPreferredFocus(): boolean {
+        return this._hasPreferredFocus;
     }
 }
 

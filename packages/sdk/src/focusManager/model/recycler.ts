@@ -2,6 +2,7 @@ import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 import { ForbiddenFocusDirections } from '../types';
 import { alterForbiddenFocusDirections } from '../helpers';
+import View from './view';
 
 class Recycler extends AbstractFocusModel {
     private _type: string;
@@ -12,6 +13,8 @@ class Recycler extends AbstractFocusModel {
     private _isNested: boolean;
     private _isHorizontal: boolean;
     private _forbiddenFocusDirections: ForbiddenFocusDirections[];
+    private _focusedIndex: number;
+    private _focusedView?: View;
     private _repeatContext:
         | {
               parentContext: AbstractFocusModel;
@@ -19,8 +22,8 @@ class Recycler extends AbstractFocusModel {
           }
         | undefined;
 
-    public isLastVisible?: () => boolean;
-    public isFirstVisible?: () => boolean;
+    public isLastVisible: () => boolean;
+    public isFirstVisible: () => boolean;
 
     constructor(params: any) {
         super(params);
@@ -37,6 +40,10 @@ class Recycler extends AbstractFocusModel {
         this._parent = parent;
         this._repeatContext = repeatContext;
         this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._focusedIndex = 0;
+
+        this.isLastVisible = () => false;
+        this.isFirstVisible = () => false;
     }
 
     public getType(): string {
@@ -109,6 +116,26 @@ class Recycler extends AbstractFocusModel {
 
     public getForbiddenFocusDirections(): ForbiddenFocusDirections[] {
         return this._forbiddenFocusDirections;
+    }
+
+    public setFocusedIndex(index: number): this {
+        this._focusedIndex = index;
+
+        return this;
+    }
+
+    public getFocusedIndex(): number {
+        return this._focusedIndex;
+    }
+
+    public setFocusedView(view: View): this {
+        this._focusedView = view;
+
+        return this;
+    }
+
+    public getFocusedView(): View | undefined {
+        return this._focusedView;
     }
 }
 

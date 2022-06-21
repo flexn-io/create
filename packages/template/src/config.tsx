@@ -260,6 +260,9 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
         },
         menuButtonText: {
             marginLeft: isFactorTv ? Ratio(16) : 8,
+            ...isFactorTv && {
+                position: 'absolute'
+            }
         },
         recyclerContainer: {
             flex: 1,

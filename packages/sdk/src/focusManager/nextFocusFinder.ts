@@ -1,189 +1,185 @@
-import { Dimensions } from 'react-native';
-import { DIRECTION_VERTICAL, CUTOFF_SIZE } from './constants';
-import Logger from './model/logger';
+// import { Dimensions } from 'react-native';
+// import Logger from './model/logger';
 import AbstractFocusModel from './model/AbstractFocusModel';
 
-const windowWidth = Dimensions.get('window').width;
+const OVERLAP_THRESHOLD_PERCENTAGE = 20;
+const OVERLAP_NEXT_VALUE = 10;
 
 const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: number, endOfNext: number) => {
     const a1 = guideLine - sizeOfCurrent * 0.5;
     const a2 = guideLine + sizeOfCurrent * 0.5;
 
-    return (
-        (a1 >= startOfNext && a1 <= endOfNext) ||
-        (a2 >= startOfNext && a2 <= endOfNext) ||
-        (a1 <= startOfNext && a2 >= endOfNext)
+    const c1 = a1 >= startOfNext && a1 <= endOfNext;
+    const c2 = a2 >= startOfNext && a2 <= endOfNext;
+    const c3 = a1 <= startOfNext && a2 >= endOfNext;
+
+    if (c1) {
+        const ixValue = ((endOfNext - a1) * 100) / sizeOfCurrent;
+        return ixValue >= OVERLAP_THRESHOLD_PERCENTAGE;
+    }
+
+    if (c2) {
+        const ixValue = ((a2 - startOfNext) * 100) / sizeOfCurrent;
+        return ixValue >= OVERLAP_THRESHOLD_PERCENTAGE;
+    }
+
+    if (c3) return true;
+
+    return false;
+};
+
+const euclideanDistance = (current: AbstractFocusModel, next: AbstractFocusModel, direction: string) => {
+    const currentLayout = current.getLayout().absolute;
+    const nextLayout = next.getLayout().absolute;
+
+    let c1, c2, c3, c4, c5;
+
+    if (direction === 'left' || direction === 'right') {
+        c2 = Math.abs(currentLayout.yMin - nextLayout.yMin);
+        c3 = Math.abs(currentLayout.yMax - nextLayout.yMin);
+        c4 = Math.abs(nextLayout.yMin - currentLayout.yMax);
+        c5 = Math.abs(currentLayout.yMax - nextLayout.yMax);
+    } else {
+        c2 = Math.abs(currentLayout.xMin - nextLayout.xMin);
+        c3 = Math.abs(currentLayout.xMax - nextLayout.xMin);
+        c4 = Math.abs(nextLayout.xMin - currentLayout.xMax);
+        c5 = Math.abs(currentLayout.xMax - nextLayout.xMax);
+    }
+
+    switch (direction) {
+        case 'left':
+            c1 = Math.abs(currentLayout.xMin - nextLayout.xMax);
+            break;
+        case 'right':
+            c1 = Math.abs(nextLayout.xMin - currentLayout.xMax);
+            break;
+        case 'down':
+            c1 = Math.abs(nextLayout.yMin - currentLayout.yMax);
+            c2 = Math.abs(currentLayout.xMin - nextLayout.xMin);
+            break;
+        case 'up':
+            c1 = Math.abs(currentLayout.yMin - nextLayout.yMax);
+            c2 = Math.abs(currentLayout.xMin - nextLayout.xMin);
+            break;   
+        default:
+            c1 = 0;
+            break;
+    }
+
+    return Math.min(
+        Math.sqrt(Math.pow(c1, 2) + Math.pow(c2, 2)),
+        Math.sqrt(Math.pow(c1, 2) + Math.pow(c3, 2)),
+        Math.sqrt(Math.pow(c1, 2) + Math.pow(c4, 2)),
+        Math.sqrt(Math.pow(c1, 2) + Math.pow(c5, 2)),
     );
 };
 
-const intersectsOffset = (guideLine: number, startOfNext: number, endOfNext: number) =>
-    Math.abs(guideLine - Math.round((startOfNext + endOfNext) / 2));
-
-const nextIsVisible = (nextMax: number, direction: string) => {
-    if (DIRECTION_VERTICAL.includes(direction)) {
-        return nextMax > 0 && nextMax <= windowWidth;
-    }
-
-    return true;
-};
-
-const isInOneLine = (direction: string, nextCls: AbstractFocusModel, currentFocus: AbstractFocusModel) => {
-    const currentLayout = currentFocus.getLayout();
-    const nextLayout = nextCls.getLayout();
-
-    if (nextCls.getChildren().length > 0) {
-        return false;
-    }
-
-    if (DIRECTION_VERTICAL.includes(direction)) {
-        const diff = Math.abs(nextLayout.yMin - currentLayout.yMin);
-        return diff <= 20;
-    }
-
-    const diff = Math.abs(nextLayout.xMin - currentLayout.xMin);
-
-    return diff <= 20;
-};
-
-const findFirstFocusableInGroup = (cls: AbstractFocusModel): AbstractFocusModel | null | undefined => {
-    for (let index = 0; index < cls.getChildren().length; index++) {
-        const ch: AbstractFocusModel = cls.getChildren()[index];
-        if (ch.isFocusable()) {
-            return ch;
-        }
-
-        const next = findFirstFocusableInGroup(ch);
-
-        if (next?.isFocusable()) {
-            return next;
-        }
-    }
-
-    if (cls.isFocusable()) {
-        return cls;
-    }
-
-    return null;
-};
-
 const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, direction: string) => {
-    const currentLayout = current.getLayout();
-    const nextLayout = next.getLayout();
-
-    const compareFn = () => {
-        const dx = Math.max(
-            currentLayout.absolute.xMin - nextLayout.absolute.xMin,
-            0,
-            nextLayout.absolute.xMin - currentLayout.absolute.xMax
-        );
-        const dy = Math.max(
-            currentLayout.absolute.yMin - nextLayout.absolute.yMin,
-            0,
-            nextLayout.absolute.yMin - currentLayout.absolute.yMax
-        );
-        return Math.sqrt(dx*dx + dy*dy);
-    };
+    const currentLayout = current.getLayout().absolute;
+    const nextLayout = next.getLayout().absolute;
 
     switch (direction) {
         case 'up': {
-            if (currentLayout.yMin >= nextLayout.yMax) {
-                return compareFn();
+            if (currentLayout.yMin >= nextLayout.yMax - OVERLAP_NEXT_VALUE) {
+                const isIntersects = intersects(
+                    currentLayout.xCenter,
+                    current.getLayout().width,
+                    nextLayout.xMin,
+                    nextLayout.xMax
+                );
+                if (isIntersects) {
+                    return ['p1', euclideanDistance(current, next, 'up')];
+                }
+
+                return ['p2', euclideanDistance(current, next, 'up')];
             }
+
             break;
         }
         case 'down': {
-            if (currentLayout.yMax <= nextLayout.yMin) {
-                return compareFn();
+            if (currentLayout.yMax <= nextLayout.yMin + OVERLAP_NEXT_VALUE) {
+                const isIntersects = intersects(
+                    currentLayout.xCenter,
+                    current.getLayout().width,
+                    nextLayout.xMin,
+                    nextLayout.xMax
+                );
+                if (isIntersects) {
+                    return ['p1', euclideanDistance(current, next, 'down')];
+                }
+
+                return ['p2', euclideanDistance(current, next, 'down')];
             }
             break;
         }
         case 'left': {
-            if (currentLayout.xMin >= nextLayout.xMax) {
-                return compareFn();
+            if (currentLayout.xMin >= nextLayout.xMax - OVERLAP_NEXT_VALUE) {
+                const isIntersects = intersects(
+                    currentLayout.yCenter,
+                    current.getLayout().height,
+                    nextLayout.yMin,
+                    nextLayout.yMax
+                );
+                if (isIntersects) {
+                    return ['p1', euclideanDistance(current, next, 'left')];
+                }
+
+                return ['p2', euclideanDistance(current, next, 'left')];
             }
             break;
         }
         case 'right': {
-            if (currentLayout.xMax <= nextLayout.xMin) {
-                return compareFn();
+            if (currentLayout.xMax <= nextLayout.xMin + OVERLAP_NEXT_VALUE) {
+                const isIntersects = intersects(
+                    currentLayout.yCenter,
+                    current.getLayout().height,
+                    nextLayout.yMin,
+                    nextLayout.yMax
+                );
+                if (isIntersects) {
+                    return ['p1', euclideanDistance(current, next, 'right')];
+                }
+
+                return ['p2', euclideanDistance(current, next, 'right')];
             }
             break;
-        }   
+        }
         default:
             break;
     }
 
-    return 99999999;
+    return ['', 0];
 };
 
 export const distCalc = (
     output: any,
-    nextCls: AbstractFocusModel,
-    guideLine: number,
-    currentRectDimension: number,
-    p3: number,
-    p4: number,
-    p5: number,
-    p6: number,
-    p7: number,
-    p8: number,
-    p9: number,
-    p12: number,
     direction: string,
-    contextParameters: any,
     current: AbstractFocusModel,
-    next: AbstractFocusModel,
+    next: AbstractFocusModel
 ) => {
-    const { currentFocus }: { currentFocus: AbstractFocusModel } = contextParameters;
-    // First we search based on the distance to guide line
-    const ixOffset = intersectsOffset(guideLine, p3, p4);
-    const nextVisible = nextIsVisible(p12, direction);
-    const inOneLine = isInOneLine(direction, nextCls, currentFocus);
-    const closestDistance = Math.abs(p5 - p6);
-    const cornerDistance = p7 - p8;
-    
-    
-    const closest = closestDist(current, next, direction);
-    if (closest !== undefined && output.match1 >= closest + ixOffset) {
-        output.match1 = closest + ixOffset;
-        output.match1Context = nextCls;
-        Logger.getInstance().debug('FOUND CLOSER M1', nextCls.getId(), closestDistance);
-    }
+    const [priority, dist] = closestDist(current, next, direction);
 
-    // Next up based on component size and it's center point
-    const ix2 = intersects(p9, currentRectDimension, p3, p4);
-    if (
-        ix2 &&
-        !inOneLine &&
-        nextVisible &&
-        cornerDistance < 0 &&
-        output.match2 >= closestDistance &&
-        output.match2IxOffset >= ixOffset
-    ) {
-        output.match2 = closestDistance;
-        output.match2Context = nextCls;
-        Logger.getInstance().debug('FOUND CLOSER M2', nextCls.getId(), closestDistance);
-    }
-    // Finally a search is based on arbitrary cut off size, so we could focus not entirely aligned items
-    const ix3 = intersects(p9, CUTOFF_SIZE, p3, p4);
-
-    if (
-        ix3 &&
-        !inOneLine &&
-        nextVisible &&
-        cornerDistance < 0 &&
-        output.match3 >= closestDistance &&
-        output.match3IxOffset >= ixOffset
-    ) {
-        if (nextCls.isFocusable()) {
-            output.match3 = closestDistance;
-            output.match3Context = nextCls;
-            Logger.getInstance().debug('FOUND CLOSER M3', nextCls.getId(), closestDistance);
-        } else {
-            const firstInNextGroup = findFirstFocusableInGroup(nextCls);
-            if (firstInNextGroup) {
-                contextParameters.findClosestNode(firstInNextGroup, direction, output);
+    switch (priority) {
+        case 'p1':
+            {
+                if (dist !== undefined && output.match1 >= dist) {
+                    output.match1 = dist;
+                    output.match1Context = next;
+                    // console.log('FOUND', dist, priority, current.getId(), next.getId());
+                }
             }
-        }
+            break;
+        case 'p2':
+            {
+                if (dist !== undefined && output.match2 >= dist) {
+                    output.match2 = dist;
+                    output.match2Context = next;
+                    // console.log('FOUND', dist, priority, current.getId(), next.getId());
+                }
+            }
+            break;
+
+        default:
+            break;
     }
 };

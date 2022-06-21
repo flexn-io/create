@@ -1,6 +1,10 @@
 import React from 'react';
-import { Row } from '@flexn/sdk';
+import { Dimensions } from 'react-native';
+import { Row, Grid, View, ScrollView } from '@flexn/sdk';
 import Screen from '../../../../components/Screen';
+
+const { height } = Dimensions.get('screen');
+
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -24,15 +28,43 @@ function generateData(width, height, items = 30) {
 const RowTest = () => {
     const data = [...generateData(400, 250, 10)];
 
+    const dataGrid = [...generateData(400, 250, 15)];
+
     return (
         <Screen>
-            <Row
-                items={data}
-                itemsInViewport={5}
-                style={{ borderWidth: 1, borderColor: 'yellow', height: 400, marginLeft: 0 }}
-                itemSpacing={30}
-                itemDimensions={{ height: 250 }}
-            />
+            <View style={{ height }}>
+                {/* <ScrollView contentContainerStyle={{ height: height + 600 }} nestedScrollEnabled> */}
+                <ScrollView>
+                    <View style={{ marginTop: 200 }}>
+                        <Row
+                            items={data}
+                            itemsInViewport={5}
+                            style={{ height: 500, marginLeft: 0 }}
+                            itemSpacing={30}
+                            itemDimensions={{ height: 400 }}
+                        />
+                    </View>
+
+                    {/* <View style={{ top: 200 }}>
+                        <Row
+                            items={data}
+                            itemsInViewport={5}
+                            style={{ height: 500, marginLeft: 0 }}
+                            itemSpacing={30}
+                            itemDimensions={{ height: 400 }}
+                        />
+                    </View> */}
+
+                    <View style={{ marginTop: 200 }}>
+                        {/* <PosterCard
+                            src={{ uri: `https://placekitten.com/500/500` }}
+                            style={{ width: 500, height: 500, marginHorizontal: 15 }}
+                        /> */}
+                        <Grid items={dataGrid} itemsInViewport={5} itemSpacing={30} itemDimensions={{ height: 200 }} style={{ height: 600 }} />
+                    </View>
+                </ScrollView>
+            </View>
+
         </Screen>
     );
 };

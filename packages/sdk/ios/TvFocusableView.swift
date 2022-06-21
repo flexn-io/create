@@ -1,6 +1,6 @@
-class TvFocusableView : UIView {
+class TvFocusableView : RCTTVView {
     private var selectedAnimator: Animator? = nil
-    
+
     private var _isFocused: Bool = false
     
     @objc(setAnimatorOptions:)

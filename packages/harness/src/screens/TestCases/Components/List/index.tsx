@@ -22,10 +22,10 @@ function generateData(width, height, items = 30) {
 }
 
 const ListTest = () => {
-    const data = [...Array(5).keys()].map(() => {
+    const data = [...Array(3000).keys()].map(() => {
         return {
             rowTitle: kittyNames[interval()],
-            items: generateData(400, 250, 10),
+            items: generateData(400, 250, 100),
             itemsInViewport: interval(3, 8),
         };
     });

@@ -18,11 +18,12 @@ class ScaleAnimator extends AbstractAnimator implements TimeAnimator.TimeListene
 
     public void onFocus(boolean animated) {
         this.mView.bringToFront();
+        this.mView.invalidate();
         animateFocus(true, false);
     }
 
     public void onBlur(boolean animated) {
-        animateFocus(false, false);
+       animateFocus(false, false);
     }
 
     void animateFocus(boolean select, boolean immediate) {

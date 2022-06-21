@@ -1,40 +1,19 @@
 import React, { useEffect, useRef } from 'react';
-import { useTVRemoteHandler } from '../../remoteHandler';
 import {
-    TVEventHandler,
     View as RNView,
     ScrollView as RNScrollView,
     TouchableOpacity,
     findNodeHandle,
 } from 'react-native';
-import { isPlatformAndroidtv, isPlatformTvos, isPlatformFiretv } from '@rnv/renative';
-import CoreManager from '../../focusManager/model/core';
-import { DIRECTION } from '../../focusManager/constants';
+import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
+import KeyHandler from '../../focusManager/model/keyHandler';
 
 const isAndroidBased = isPlatformAndroidtv || isPlatformFiretv;
 
 export default function App({ children, ...props }: { children: any }) {
     const focusTrapRef = useRef<TouchableOpacity>(null);
-    const tvEventHandler = useRef<any>(null);
     useEffect(() => {
-        tvEventHandler.current = new TVEventHandler();
-        tvEventHandler.current.enable(null, (_: any, evt: any) => {
-            const direction = evt.eventType;
-            if (isPlatformTvos) {
-                if (direction === 'playPause') {
-                    console.log(CoreManager);
-                    CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
-                }
-                if (direction === 'select') {
-                    // This can happen if we opened new screen which doesn't have any focusable
-                    // then last screen in context map still keeping focus
-                    const currentFocus = CoreManager.getCurrentFocus();
-                    if (currentFocus && currentFocus?.getScreen()?.isInForeground()) {
-                        currentFocus.onPress();
-                    }
-                }
-            }
-        });
+        const Handler = new KeyHandler();
 
         const node = isAndroidBased && findNodeHandle(focusTrapRef.current);
         if (node && focusTrapRef.current) {
@@ -45,33 +24,11 @@ export default function App({ children, ...props }: { children: any }) {
                 nextFocusDown: node,
             });
         }
+
+        return () => {
+            Handler.removeListeners();
+        };
     }, []);
-
-    useTVRemoteHandler((evt: any) => {
-        if (evt && evt.eventKeyAction === 'down') {
-            const direction = evt.eventType;
-            if (isAndroidBased) {
-                if (direction === 'playPause') {
-                    CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
-                }
-                if (isAndroidBased && direction === 'select' && CoreManager.getCurrentFocus()) {
-                    CoreManager.getCurrentFocus()?.onPress();
-                }
-            }
-
-            // DO NOT START LISTENING IF THERE IS NO CURRENT CONTEXT YET
-            if (CoreManager.getCurrentFocus()) {
-                if (CoreManager.hasPendingUpdateGuideLines) {
-                    CoreManager.executeUpdateGuideLines();
-                }
-                if (DIRECTION.includes(evt.eventType)) {
-                    CoreManager.executeDirectionalFocus(direction);
-                    CoreManager.executeScroll(direction);
-                    CoreManager.executeUpdateGuideLines();
-                }
-            }
-        }
-    });
 
     return (
         <RNView style={{ flex: 1 }} {...props}>

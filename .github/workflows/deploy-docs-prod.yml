@@ -1,0 +1,26 @@
+name: Deploy Docs Prod
+
+defaults:
+    run:
+        shell: zsh -l {0}
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+            - 'release/**'
+        paths:
+            - 'docs/**'
+
+jobs:
+    deploy-docs-prod:
+        runs-on: [self-hosted, macos]
+        env:
+            GHP_AUTH_TOKEN: ${{ secrets.GHP_AUTH_TOKEN }}
+        steps:
+            - uses: actions/checkout@v2
+            - name: Run Docs Deploy Prod
+              run: |
+                  yarn docs-deploy-prod
+              env:
+                  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}

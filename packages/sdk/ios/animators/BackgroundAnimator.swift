@@ -13,20 +13,20 @@ class BackgroundAnimator: Animator {
     func onFocus(animated: Bool) {
         if (animated) {
             UIView.transition(with: self.view, duration: self.AnimProperty.duration, options: .transitionCrossDissolve, animations: {
-                self.view.layer.backgroundColor = self.AnimProperty.backgroundColorFocus
+                self.view.backgroundColor = self.AnimProperty.backgroundColorFocus
             }, completion: nil)
         } else {
-            self.view.layer.backgroundColor = self.AnimProperty.backgroundColorFocus
+            self.view.backgroundColor = self.AnimProperty.backgroundColorFocus
         }
     }
     
     func onBlur(animated: Bool) {
         if (animated) {
             UIView.transition(with: self.view, duration: self.AnimProperty.duration, options: .transitionCrossDissolve, animations: {
-                self.view.layer.backgroundColor = self.AnimProperty.backgroundColor
+                self.view.backgroundColor = self.AnimProperty.backgroundColor
             }, completion: nil)
         } else {
-            self.view.layer.backgroundColor = self.AnimProperty.backgroundColor
+            self.view.backgroundColor = self.AnimProperty.backgroundColor
         }
     }
     

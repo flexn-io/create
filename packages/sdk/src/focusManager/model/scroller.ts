@@ -1,6 +1,5 @@
 import { Dimensions } from 'react-native';
 import AbstractFocusModel from './AbstractFocusModel';
-import type { FocusMap } from '../types';
 import { recalculateLayout } from '../layoutManager';
 import {
     DIRECTION_VERTICAL,
@@ -9,6 +8,7 @@ import {
     DIRECTION_RIGHT,
     DEFAULT_VIEWPORT_OFFSET,
 } from '../constants';
+import ScrollView from './scrollview';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -16,12 +16,8 @@ class Scroller {
     public scroll(direction: string, contextParameters: any) {
         const {
             currentFocus,
-            focusMap,
-            isDebuggerEnabled,
         }: {
             currentFocus: AbstractFocusModel;
-            focusMap: FocusMap;
-            isDebuggerEnabled: boolean;
         } = contextParameters;
 
         if (!currentFocus?.getLayout()) {
@@ -40,14 +36,42 @@ class Scroller {
             if (scrollTarget) {
                 if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
                     p.node.current.scrollTo(scrollTarget);
+                }
+            }
+        });
+    }
+
+    public scrollTo(cls: AbstractFocusModel, scrollTarget: { x: number; y: number }, direction: string) {
+        let parentSW = cls.getParent() as ScrollView;
+
+        if (['up', 'down'].includes(direction) && parentSW.isNested()) {
+            parentSW = cls.getParent()?.getParent() as ScrollView;
+        }
+
+        if (scrollTarget) {
+            if (parentSW.getScrollOffsetX() !== scrollTarget.x || parentSW.getScrollOffsetY() !== scrollTarget.y) {
+                parentSW.node.current.scrollTo(scrollTarget);
+                parentSW.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);
+                recalculateLayout(cls);
+            }
+        }
+    }
+    public inlineScroll(direction: string, nextFocus: AbstractFocusModel) {
+        const scrollContextParents = this.getParentScrollers(nextFocus);
+        const contextParameters = {
+            currentFocus: nextFocus,
+        };
+
+        scrollContextParents.forEach((p: AbstractFocusModel) => {
+            const scrollTarget = p.isHorizontal()
+                ? this.calculateHorizontalScrollViewTarget(direction, p, contextParameters)
+                : this.calculateVerticalScrollViewTarget(direction, p, contextParameters);
+
+            if (scrollTarget) {
+                if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
+                    p.node.current.scrollTo(scrollTarget);
                     p.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);
-                    if (isDebuggerEnabled) {
-                        Object.values(focusMap).forEach((v) => {
-                            recalculateLayout(v);
-                        });
-                    } else {
-                        recalculateLayout(currentFocus);
-                    }
+                    recalculateLayout(nextFocus);
                 }
             }
         });
@@ -93,14 +117,18 @@ class Scroller {
         }
 
         if (DIRECTION_RIGHT.includes(direction)) {
+            let xMaxScroll = scrollView.getLayout().xMaxScroll || scrollView.getMostRightChildren().getLayout()?.xMax || 0;
+            xMaxScroll += scrollView.getLayout().xMin || 0;
+
             //Prevent OVERSCROLL
             const targetX = currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset + windowWidth;
-            if (scrollView.getLayout().xMaxScroll >= targetX) {
+            if (xMaxScroll >= targetX) {
                 scrollTarget.x = currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset;
             } else {
-                scrollTarget.x = scrollView.getLayout().xMaxScroll + horizontalViewportOffset - windowWidth;
+                scrollTarget.x = xMaxScroll + horizontalViewportOffset - windowWidth;
             }
         }
+
 
         if (DIRECTION_LEFT.includes(direction)) {
             scrollTarget.x = Math.min(
@@ -125,13 +153,11 @@ class Scroller {
         const currentLayout = currentFocus.getLayout();
         const scrollTarget = { x: scrollView.getScrollOffsetX(), y: scrollView.getScrollOffsetY() };
         const verticalViewportOffset = currentFocus.getScreen()?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
-        
+
         let yMaxScroll = scrollView.getLayout().yMaxScroll || scrollView.getMostBottomChildren().getLayout()?.yMax || 0;
         yMaxScroll += scrollView.getLayout().yMin || 0;
 
         const targetY = currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset + scrollContentHeight;
-
-
         if (DIRECTION_UP.includes(direction)) {
             const innerViewMin = scrollView.getLayout().innerView.yMin;
             scrollTarget.y = Math.min(
