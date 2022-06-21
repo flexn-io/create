@@ -4,6 +4,8 @@ import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { getRandomData, interval, testProps } from '../utils';
 import Screen from './screen';
+import { TouchableOpacity} from 'react-native';
+
 
 const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const { theme } = useContext(ThemeContext);
@@ -18,20 +20,22 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
 
     return (
         <Screen style={[theme.styles.screen, styles.screen]}>
-            <List
-                items={data}
-                itemDimensions={{ height: isFactorMobile ? 200 : 250 }}
-                rowHeight={isFactorMobile ? 350 : 400}
-                animatorOptions={{ type: 'scale_with_border', scale: 1.1 }}
-                focusOptions={{ forbiddenFocusDirections: ['right'] }}
-                itemSpacing={isFactorMobile ? 15 : 30}
-                cardStyle={styles.cardStyle}
-                {...testProps('testing')}
-                onPress={(data) => {
-                    navigation.navigate(ROUTES.DETAILS, { row: data.rowNumber, index: data.index });
-                }}
-                // data.index grazins reikalinga indexa man test propsui galimai
-            />
+            <TouchableOpacity
+                {...testProps('template-carousels-screen-container')}
+            >
+                <List
+                    items={data}
+                    itemDimensions={{ height: isFactorMobile ? 200 : 250 }}
+                    rowHeight={isFactorMobile ? 350 : 400}
+                    animatorOptions={{ type: 'scale_with_border', scale: 1.1 }}
+                    focusOptions={{ forbiddenFocusDirections: ['right'] }}
+                    itemSpacing={isFactorMobile ? 15 : 30}
+                    cardStyle={styles.cardStyle}
+                    onPress={(data) => {
+                        navigation.navigate(ROUTES.DETAILS, { row: data.rowNumber, index: data.index });
+                    }}
+                />
+            </TouchableOpacity>
         </Screen>
     );
 };
