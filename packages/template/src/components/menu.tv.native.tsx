@@ -77,7 +77,6 @@ const Menu = ({ navigation }) => {
                     name="md-home"
                     size={theme.static.iconSize}
                     color={theme.static.colorBrand}
-                    {...testProps('template-menu-home-icon')}
                 />
                 <AnimatedText
                     style={[
@@ -101,7 +100,6 @@ const Menu = ({ navigation }) => {
                     name="md-rocket"
                     size={theme.static.iconSize}
                     color={theme.static.colorBrand}
-                    {...testProps('template-menu-carousels-icon')}
                 />
                 <AnimatedText
                     style={[
@@ -128,7 +126,6 @@ const Menu = ({ navigation }) => {
                     name="ios-albums"
                     size={theme.static.iconSize}
                     color={theme.static.colorBrand}
-                    {...testProps('template-menu-my-modal-icon')}
                 />
                 <AnimatedText
                     style={[
