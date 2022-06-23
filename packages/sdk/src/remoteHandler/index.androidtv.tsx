@@ -37,7 +37,7 @@ function useTVRemoteHandler(callback: any) {
         return () => {
             if (listener) listener.remove();
         };
-    }, []);
+    }, [callback]);
 
     return {};
 }
