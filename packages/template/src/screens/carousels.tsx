@@ -4,7 +4,7 @@ import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { getRandomData, interval, testProps } from '../utils';
 import Screen from './screen';
-import { TouchableOpacity} from 'react-native';
+import { View } from 'react-native';
 
 
 const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
@@ -20,7 +20,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
 
     return (
         <Screen style={[theme.styles.screen, styles.screen]}>
-            <TouchableOpacity
+            <View
                 {...testProps('template-carousels-screen-container')}
             >
                 <List
@@ -35,7 +35,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                         navigation.navigate(ROUTES.DETAILS, { row: data.rowNumber, index: data.index });
                     }}
                 />
-            </TouchableOpacity>
+            </View>
         </Screen>
     );
 };
