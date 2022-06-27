@@ -193,7 +193,7 @@ class CoreManager {
         const candidates = Object.values(focusMap).filter(
             (c) => c.isInForeground() && c.isFocusable() && c.getId() !== currentFocus.getId()
         );
-        
+
         const output: {
             match1: number;
             match1Context?: AbstractFocusModel;
@@ -203,7 +203,7 @@ class CoreManager {
             match1: 9999999,
             match2: 9999999,
         };
-        
+
         for (let i = 0; i < candidates.length; i++) {
             const cls = candidates[i];
 
@@ -239,6 +239,9 @@ class CoreManager {
                 if (parent.containsForbiddenDirection(direction)) {
                     return currentFocus;
                 }
+
+                currentFocus.getParent()?.onBlur();
+                closestContext.getParent()?.onFocus();
 
                 if (closestContext.getParent()?.isRecyclable()) {
                     const parent = closestContext.getParent() as Recycler;
@@ -279,13 +282,13 @@ class CoreManager {
         recalculateLayout(cls);
         const nextLayout = cls.getLayout();
         const currentLayout = this._currentFocus?.getLayout();
-        
+
         if (!nextLayout || !currentLayout) {
             // eslint-disable-next-line
             Logger.getInstance().warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
             return;
         }
-        
+
         distCalc(output, getDirectionName(direction), this._currentFocus as AbstractFocusModel, cls);
     };
 

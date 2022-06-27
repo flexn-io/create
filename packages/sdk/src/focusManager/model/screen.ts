@@ -27,7 +27,7 @@ class Screen extends AbstractFocusModel {
     private _verticalViewportOffset: number;
     private _forbiddenFocusDirections: ForbiddenFocusDirections[];
     private _initialLoadInProgress: boolean;
-    private _componentsPendingLayoutMap: {[key: string]: boolean};
+    private _componentsPendingLayoutMap: { [key: string]: boolean };
     private _unmountingComponents: number;
     private _preferredFocus?: View;
     private _currentFocus?: View;
@@ -77,7 +77,7 @@ class Screen extends AbstractFocusModel {
         this._isFocused = false;
         this._unmountingComponents = 0;
         this._initialLoadInProgress = true;
-        
+
         this._componentsPendingLayoutMap = {};
 
         this._onFocus = onFocus;
@@ -109,6 +109,9 @@ class Screen extends AbstractFocusModel {
             CoreManager.executeFocus(cls);
             CoreManager.executeUpdateGuideLines();
             cls.getScreen()?.onFocus();
+            if (cls.getParent()?.getId() !== cls.getScreen()?.getId()) {
+                cls.getParent()?.onFocus();
+            }
         } else {
             Logger.getInstance().log('Focusable not found');
         }
@@ -128,7 +131,7 @@ class Screen extends AbstractFocusModel {
             if (cls.getId() === this._precalculatedFocus?.getId()) {
                 delete this._precalculatedFocus;
             }
-            if (this._unmountingComponents <= 0) {
+            if (this._unmountingComponents <= 0 && !this._currentFocus) {
                 this.setFocus(this.getFirstFocusableOnScreen());
             }
         }, DELAY_TIME_IN_MS);
