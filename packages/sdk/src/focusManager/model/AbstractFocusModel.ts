@@ -1,5 +1,6 @@
 import { recalculateLayout } from '../layoutManager';
 import Screen, { STATE_BACKGROUND } from './screen';
+import Recycler from './recycler';
 
 const TYPE_SCREEN = 'screen';
 // const TYPE_VIEW = 'view';
@@ -99,6 +100,12 @@ export default abstract class AbstractFocusModel {
                         this.getParent()?.getChildren().splice(index, 1);
                     }
                 });
+            if (this.getParent()?.isRecyclable()) {
+                const recycler = this.getParent() as Recycler;
+                if (recycler.getFocusedView()?.getId() === this.getId()) {
+                    recycler.setFocusedView(undefined);
+                }
+            }
         } else {
             this.getChildren().forEach((_, index) => {
                 this.removeChildren(index);

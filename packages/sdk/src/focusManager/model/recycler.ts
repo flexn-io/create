@@ -133,7 +133,7 @@ class Recycler extends AbstractFocusModel {
         return this._focusedIndex;
     }
 
-    public setFocusedView(view: View): this {
+    public setFocusedView(view?: View): this {
         this._focusedView = view;
 
         return this;
