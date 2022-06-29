@@ -74,15 +74,20 @@ class CoreManager {
         }
 
         if (this._currentFocus) {
-            // @ts-ignore
-            UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId, 'cmdBlur', null);
+            if (this._currentFocus.node.current) {
+                // @ts-ignore
+                UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId, 'cmdBlur', null);
+            }
             this._currentFocus.onBlur();
             this._currentFocus.setIsFocused(false);
         }
 
         this._currentFocus = cls;
-        // @ts-ignore
-        UIManager.dispatchViewManagerCommand(cls.nodeId, 'cmdFocus', null);
+
+        if (cls.node.current) {
+            // @ts-ignore
+            UIManager.dispatchViewManagerCommand(cls.nodeId, 'cmdFocus', null);
+        }
         cls.onFocus();
         cls.setIsFocused(true);
         // cls.setFocus();
