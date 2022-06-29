@@ -74,15 +74,20 @@ class CoreManager {
         }
 
         if (this._currentFocus) {
-            // @ts-ignore
-            UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId, 'cmdBlur', null);
+            if (this._currentFocus.node.current) {
+                // @ts-ignore
+                UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId, 'cmdBlur', null);
+            }
             this._currentFocus.onBlur();
             this._currentFocus.setIsFocused(false);
         }
 
         this._currentFocus = cls;
-        // @ts-ignore
-        UIManager.dispatchViewManagerCommand(cls.nodeId, 'cmdFocus', null);
+
+        if (cls.node.current) {
+            // @ts-ignore
+            UIManager.dispatchViewManagerCommand(cls.nodeId, 'cmdFocus', null);
+        }
         cls.onFocus();
         cls.setIsFocused(true);
         // cls.setFocus();
@@ -194,6 +199,7 @@ class CoreManager {
             (c) => c.isInForeground() && c.isFocusable() && c.getId() !== currentFocus.getId()
         );
 
+        let closestContext: AbstractFocusModel | undefined;
         const output: {
             match1: number;
             match1Context?: AbstractFocusModel;
@@ -204,27 +210,58 @@ class CoreManager {
             match2: 9999999,
         };
 
-        for (let i = 0; i < candidates.length; i++) {
-            const cls = candidates[i];
+        if (this._currentFocus?.getParent()?.isRecyclable()) {
+            const [nextContext, goOut] = this.findClosestRecyclerNode(this._currentFocus, direction);
+            if (goOut) {
 
-            this.findClosestNode(cls, direction, output);
+                for (let i = 0; i < candidates.length; i++) {
+                    const cls = candidates[i];
+        
+                    this.findClosestNode(cls, direction, output);
+                }
+                
+                closestContext = output.match1Context || output.match2Context;
+                console.log('ASDSADAS', 'GOING OUT', closestContext);
+
+            } else {
+                console.log('ASDSADAS', 'not GOING OUT', nextContext);
+                closestContext = nextContext;
+            }
+        } else {
+            for (let i = 0; i < candidates.length; i++) {
+                const cls = candidates[i];
+    
+                this.findClosestNode(cls, direction, output);
+            }
+            
+            closestContext = output.match1Context || output.match2Context;
         }
-
-        let closestContext: AbstractFocusModel | undefined = output.match1Context || output.match2Context;
+        
 
         if (closestContext) {
             if (currentFocus.getParent()?.isRecyclable()) {
                 const parent = currentFocus.getParent() as Recycler;
 
-                const d1 = parent.isHorizontal() ? ['right', 'swipeRight'] : ['down', 'swipeDown'];
-                const d2 = parent.isHorizontal() ? ['left', 'swipeLeft'] : ['up', 'swipeUp'];
-                const lastIsVisible = d1.includes(direction) ? parent.isLastVisible?.() : true;
-                const firstIsVisible = d2.includes(direction) ? parent.isFirstVisible?.() : true;
-                if (!lastIsVisible || !firstIsVisible) {
-                    if (closestContext.getParent()?.getId() !== parent.getId()) {
-                        return currentFocus;
-                    }
-                }
+                // console.log('IS_FIRST_VISIBLE', parent.isFirstVisible(direction));
+                // console.log('IS_LAST_VISIBLE', parent.isLastVisible(direction));
+
+                // if (parent.isNested()) {
+                //     if (closestContext.getParent()?.getParent()?.getId() !== parent.getParent()?.getId()) {
+                //         return currentFocus;
+                //     }
+                // } else if (closestContext.getParent()?.getId() !== parent.getId()) {
+                //     return currentFocus;
+                // }
+
+                // if (!parent.isLastVisible(direction) || !parent.isFirstVisible(direction)) {
+                //     if (parent.isNested()) {
+                //         if (closestContext.getParent()?.getParent()?.getId() !== parent.getParent()?.getId()) {
+                //             return currentFocus;
+                //         }
+                //     } else if (closestContext.getParent()?.getId() !== parent.getId()) {
+                //         return currentFocus;
+                //     }
+                // }
             }
 
             if (closestContext.getParent()?.getId() !== currentFocus.getParent()?.getId()) {
@@ -277,6 +314,32 @@ class CoreManager {
 
         return this._currentFocus;
     };
+
+    private findClosestRecyclerNode(cls: AbstractFocusModel, direction: string) {
+        const add = ['right', 'down'].includes(direction) ? 1 : -1;
+        const parent = cls.getParent() as Recycler;
+
+        if (parent.isNested()) {
+            let goOut = false;
+            const currentIndex = cls.getParent()?.getRepeatContext()?.index || 0;
+            const parentNested = parent.getParent() as Recycler;
+            const nextRecycler = parentNested.getChildren().find(ch => ch.getRepeatContext()?.index === currentIndex + add);
+
+            const nextFocusable = nextRecycler?.getChildren()[0];
+
+            if (nextRecycler?.getRepeatContext()?.index + 1 > parentNested.getLayouts().length || nextRecycler?.getRepeatContext()?.index === 0) {
+                goOut = true;
+            }
+
+            return [nextFocusable, goOut];
+        } else {
+            const goOut = false;
+            const currentIndex = cls.getRepeatContext()?.index || 0;
+            const nextFocusable = parent.getChildren().find(ch => ch.getRepeatContext()?.index === currentIndex + add);
+            return [nextFocusable, goOut];
+        }
+
+    }
 
     public findClosestNode = (cls: AbstractFocusModel, direction: string, output: any) => {
         recalculateLayout(cls);

@@ -55,11 +55,9 @@ const euclideanDistance = (current: AbstractFocusModel, next: AbstractFocusModel
             break;
         case 'down':
             c1 = Math.abs(nextLayout.yMin - currentLayout.yMax);
-            c2 = Math.abs(currentLayout.xMin - nextLayout.xMin);
             break;
         case 'up':
             c1 = Math.abs(currentLayout.yMin - nextLayout.yMax);
-            c2 = Math.abs(currentLayout.xMin - nextLayout.xMin);
             break;   
         default:
             c1 = 0;
@@ -97,7 +95,7 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
             break;
         }
         case 'down': {
-            if (currentLayout.yMax <= nextLayout.yMin + OVERLAP_NEXT_VALUE) {
+            if (currentLayout.yMin <= nextLayout.yMin + OVERLAP_NEXT_VALUE) {
                 const isIntersects = intersects(
                     currentLayout.xCenter,
                     current.getLayout().width,

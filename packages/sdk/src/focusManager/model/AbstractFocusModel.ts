@@ -121,7 +121,7 @@ export default abstract class AbstractFocusModel {
 
     public getMostBottomChildren(): AbstractFocusModel {
         return this.getChildren().sort((a: AbstractFocusModel, b: AbstractFocusModel) => {
-            if (a.getLayout().yMax > b.getLayout().yMax) {
+            if (a.getLayout()?.yMax > b.getLayout()?.yMax) {
                 return 1;
             }
 
@@ -131,7 +131,7 @@ export default abstract class AbstractFocusModel {
 
     public getMostRightChildren(): AbstractFocusModel {
         return this.getChildren().sort((a: AbstractFocusModel, b: AbstractFocusModel) => {
-            if (a.getLayout().xMax > b.getLayout().xMax) {
+            if (a.getLayout()?.xMax > b.getLayout()?.xMax) {
                 return 1;
             }
 
@@ -271,13 +271,5 @@ export default abstract class AbstractFocusModel {
 
     public getFocusKey(): string {
         return '';
-    }
-
-    public isFirstVisible(): boolean {
-        return true;
-    }
-
-    public isLastVisible(): boolean {
-        return true;
     }
 }

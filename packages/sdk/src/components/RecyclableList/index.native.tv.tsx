@@ -76,13 +76,13 @@ export default function RecyclerView({
             const recyclerItemsCount = vr['_params'].itemCount;
             const vt: any = vr['_viewabilityTracker'] || {};
 
-            ClsInstance.isLastVisible = () => {
+            ClsInstance._isLastVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
-
+                console.log('IS-VISIBLE-LAST', visibleIndexes, recyclerItemsCount);
                 return visibleIndexes[visibleIndexes.length - 1] + 1 === recyclerItemsCount;
             };
 
-            ClsInstance.isFirstVisible = () => {
+            ClsInstance._isFirstVisible = () => {
                 const visibleIndexes = vt['_visibleIndexes'];
 
                 return visibleIndexes[0] === 0;
