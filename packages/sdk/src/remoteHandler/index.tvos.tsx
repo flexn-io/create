@@ -1,6 +1,25 @@
 import { useEffect, useCallback } from 'react';
-import { NativeModules, NativeEventEmitter } from 'react-native';
+import { NativeModules, NativeEventEmitter, EmitterSubscription } from 'react-native';
 import throttle from 'lodash.throttle';
+
+const EVENT_NAME = 'onTVRemoteKey';
+
+class TVRemoteHandler {
+    __listener: any;
+    __eventEmitter = new NativeEventEmitter(NativeModules.TvRemoteHandler);
+
+    enable(component: any, callback: any): void {
+        this.__listener = this.__eventEmitter.addListener(EVENT_NAME, (eventData: any) => {
+            if (eventData.eventKeyAction === 'down') {
+                callback(component, eventData);
+            }
+        });
+    }
+
+    disable(): void {
+        if (this.__listener) this.__listener.remove();
+    }
+}
 
 const useTVRemoteHandler = (callback: any) => {
     const cb = useCallback(throttle(callback, 100), []);
@@ -8,19 +27,19 @@ const useTVRemoteHandler = (callback: any) => {
     useEffect(() => {
         const { TvRemoteHandler } = NativeModules;
         const eventEmitter = new NativeEventEmitter(TvRemoteHandler);
-        const executeEvent = (eventData: any) => {
+        const listener: EmitterSubscription = eventEmitter.addListener(EVENT_NAME, (eventData: any) => {
             if (eventData.eventKeyAction === 'down') {
                 cb(eventData);
             }
-        };
-
-        eventEmitter.addListener('onTVRemoteKey', executeEvent);
+        });
 
         return () => {
-            eventEmitter.removeListener('onTVRemoteKey', executeEvent);
+            if (listener) {
+                listener.remove();
+            }
         };
-    });
+    }, [callback]);
 
     return {};
 };
-export { useTVRemoteHandler };
+export { useTVRemoteHandler, TVRemoteHandler };

@@ -119,6 +119,8 @@ export interface RecyclerViewProps {
     unmeasurableRelativeDimensions: { x?: number; y?: number };
     focusOptions?: RecyclableListFocusOptions;
     disableItemContainer?: boolean;
+    onBlur?: () => void;
+    onFocus?: () => void;
 }
 
 //@deprecated

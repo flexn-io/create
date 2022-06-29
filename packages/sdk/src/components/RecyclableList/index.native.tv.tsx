@@ -32,6 +32,12 @@ export default function RecyclerView({
     unmeasurableRelativeDimensions = { y: 0, x: 0 },
     focusOptions = {},
     disableItemContainer = false,
+    onFocus = () => {
+        return null;
+    },
+    onBlur = () => {
+        return null;
+    },
     ...props
 }: RecyclerViewProps) {
     const scrollViewRef = useRef<HTMLDivElement | null>(null);
@@ -47,6 +53,8 @@ export default function RecyclerView({
                 isNested: !!repeatContext,
                 parent: pctx,
                 repeatContext,
+                onFocus,
+                onBlur,
                 ...focusOptions,
             })
     );
@@ -114,7 +122,6 @@ export default function RecyclerView({
         <RNView ref={rnViewRef} onLayout={onLayout} style={style}>
             <RecyclerListView
                 ref={rlvRef}
-
                 dataProvider={dataProvider}
                 scrollViewProps={{
                     ...scrollViewProps,
@@ -130,8 +137,7 @@ export default function RecyclerView({
                     const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
                     const { y, x } = event.nativeEvent.contentOffset;
 
-                    ClsInstance
-                        .setScrollOffsetY(y)
+                    ClsInstance.setScrollOffsetY(y)
                         .setScrollOffsetX(x)
                         .updateLayoutProperty('yMaxScroll', height)
                         .updateLayoutProperty('scrollContentHeight', scrollContentHeight);

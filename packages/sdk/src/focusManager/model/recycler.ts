@@ -25,10 +25,13 @@ class Recycler extends AbstractFocusModel {
     public isLastVisible: () => boolean;
     public isFirstVisible: () => boolean;
 
+    private _onFocus?: () => void;
+    private _onBlur?: () => void;
+
     constructor(params: any) {
         super(params);
 
-        const { isHorizontal, isNested, parent, repeatContext, forbiddenFocusDirections } = params;
+        const { isHorizontal, isNested, parent, repeatContext, forbiddenFocusDirections, onFocus, onBlur } = params;
 
         this._id = `recycler-${makeid(8)}`;
         this._type = 'recycler';
@@ -44,6 +47,8 @@ class Recycler extends AbstractFocusModel {
 
         this.isLastVisible = () => false;
         this.isFirstVisible = () => false;
+        this._onFocus = onFocus;
+        this._onBlur = onBlur;
     }
 
     public getType(): string {
@@ -128,7 +133,7 @@ class Recycler extends AbstractFocusModel {
         return this._focusedIndex;
     }
 
-    public setFocusedView(view: View): this {
+    public setFocusedView(view?: View): this {
         this._focusedView = view;
 
         return this;
@@ -136,6 +141,18 @@ class Recycler extends AbstractFocusModel {
 
     public getFocusedView(): View | undefined {
         return this._focusedView;
+    }
+
+    public onFocus(): void {
+        if (this._onFocus) {
+            this._onFocus();
+        }
+    }
+
+    public onBlur(): void {
+        if (this._onBlur) {
+            this._onBlur();
+        }
     }
 }
 
