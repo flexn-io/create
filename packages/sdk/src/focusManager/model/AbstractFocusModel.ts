@@ -272,4 +272,8 @@ export default abstract class AbstractFocusModel {
     public getFocusKey(): string {
         return '';
     }
+
+    public getNextFocusable(_direction: string): AbstractFocusModel | undefined | null {
+        return;
+    }
 }

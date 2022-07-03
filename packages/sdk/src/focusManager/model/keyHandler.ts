@@ -4,15 +4,16 @@ import throttle from 'lodash.throttle';
 import CoreManager from './core';
 import { DIRECTION } from '../constants';
 import Logger from './logger';
+import Grid from './grid';
 
 const EVENT_KEY_ACTION_UP = 'up';
 const EVENT_KEY_ACTION_DOWN = 'down';
 const EVENT_KEY_ACTION_LONG_PRESS = 'longPress';
 
 // const INTERVAL_TIME_MS = 100;
-const INTERVAL_TIME_MS = 50;
+const INTERVAL_TIME_MS = 100;
 const SCROLL_INDEX_INTERVAL_ROW = 3;
-const SCROLL_INDEX_INTERVAL_GRID = 1;
+const SCROLL_INDEX_INTERVAL_GRID = 5;
 const SCROLL_INDEX_INTERVAL_LIST = 1;
 // const MIN_VERTICAL_SCROLLING = 50;
 
@@ -31,9 +32,16 @@ class KeyHandler {
     private _longPressInterval: any;
     private _stopKeyDownEvents: boolean;
 
+    private _currentScrollTarget: any;
+    private _currentIndex: number;
+    private _maxIndex: number;
+
     constructor() {
         this._stopKeyDownEvents = false;
         this._longPressInterval = 0;
+        this._currentIndex = 0;
+        this._maxIndex = 0;
+        this._currentScrollTarget = {};
 
         const { TvRemoteHandler } = NativeModules;
 
@@ -158,16 +166,17 @@ class KeyHandler {
                 }
 
                 if (EVENT_TYPE_UP === eventType) {
-                    selectedIndex -= this.isNested() ? SCROLL_INDEX_INTERVAL_LIST : SCROLL_INDEX_INTERVAL_GRID;
+                    selectedIndex -= this.isNested() ? SCROLL_INDEX_INTERVAL_LIST : this.getGridScrollInterval();
                     if (selectedIndex < 0) selectedIndex = 0;
                 }
 
                 if (EVENT_TYPE_DOWN === eventType) {
-                    selectedIndex += this.isNested() ? SCROLL_INDEX_INTERVAL_LIST : SCROLL_INDEX_INTERVAL_GRID;
+                    selectedIndex += this.isNested() ? SCROLL_INDEX_INTERVAL_LIST : this.getGridScrollInterval();
                     if (selectedIndex > this.getMaxIndex(true)) selectedIndex = this.getMaxIndex(true);
                 }
-
-                CoreManager.executeInlineFocus(selectedIndex, eventType);
+                console.log('selectedIndex', selectedIndex);
+                this._currentIndex = selectedIndex;
+                this._currentScrollTarget = CoreManager.executeInlineFocus(selectedIndex, eventType);
                 CoreManager.executeUpdateGuideLines();
 
                 if (selectedIndex === 0 || selectedIndex === this.getMaxIndex(EVENT_TYPE_DOWN === eventType)) {
@@ -179,13 +188,32 @@ class KeyHandler {
     }
 
     private onKeyUp(eventType: string) {
-        this._stopKeyDownEvents = false;
         if (this._longPressInterval) {
             clearInterval(this._longPressInterval);
             this._longPressInterval = 0;
             setTimeout(() => {
-                this.onKeyDown(eventType);
-            }, 100);
+                this._stopKeyDownEvents = false;
+
+                const currentFocus = CoreManager.getCurrentFocus();
+
+                const closestByIndex = currentFocus
+                    ?.getParent()
+                    ?.getChildren()
+                    .find((ch) => ch.getRepeatContext()?.index === this._currentIndex);
+
+                console.log(
+                    'this._currentScrollTarget',
+                    this._currentIndex,
+                    this._currentScrollTarget
+                    // closestByIndex?.getLayout()?.yMin,
+                    // closestByIndex?.getLayout()?.xMin
+                );
+                if (closestByIndex) {
+                    CoreManager.executeFocus(closestByIndex);
+                    CoreManager.executeScroll(eventType);
+                    CoreManager.executeUpdateGuideLines();
+                }
+            }, 200);
         }
     }
 
@@ -200,12 +228,16 @@ class KeyHandler {
     }
 
     private getMaxIndex(vertical = false): number {
+        if (this._maxIndex) {
+            return this._maxIndex;
+        }
         let parent = CoreManager.getCurrentFocus()?.getParent();
         if (this.isNested() && vertical) {
             parent = parent?.getParent();
         }
         if (parent) {
-            return parent.getLayouts().length;
+            this._maxIndex = parent.getLayouts().length;
+            return this._maxIndex;
         }
 
         return 0;
@@ -227,6 +259,17 @@ class KeyHandler {
         const parent = CoreManager.getCurrentFocus()?.getParent();
 
         return parent?.isRecyclable() && parent?.isNested() ? true : false;
+    }
+
+    private getGridScrollInterval(): number {
+        const currentFocus = CoreManager.getCurrentFocus();
+        if (currentFocus) {
+            if (currentFocus.getParent()?.getType() === 'grid') {
+                return (currentFocus.getParent() as Grid).getItemsInRow();
+            }
+        }
+
+        return SCROLL_INDEX_INTERVAL_GRID;
     }
 }
 

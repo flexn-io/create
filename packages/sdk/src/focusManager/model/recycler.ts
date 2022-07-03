@@ -1,11 +1,9 @@
-import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 import { ForbiddenFocusDirections } from '../types';
-import { alterForbiddenFocusDirections } from '../helpers';
+import { alterForbiddenFocusDirections, makeid } from '../helpers';
 import View from './view';
-
 class Recycler extends AbstractFocusModel {
-    private _type: string;
+    protected _type: string;
     private _parent?: AbstractFocusModel;
     private _layouts: any;
     private _scrollOffsetX: number;
@@ -21,9 +19,6 @@ class Recycler extends AbstractFocusModel {
               index: number;
           }
         | undefined;
-
-    public _isLastVisible: () => boolean;
-    public _isFirstVisible: () => boolean;
 
     private _onFocus?: () => void;
     private _onBlur?: () => void;
@@ -45,8 +40,6 @@ class Recycler extends AbstractFocusModel {
         this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._focusedIndex = 0;
 
-        this._isLastVisible = () => false;
-        this._isFirstVisible = () => false;
         this._onFocus = onFocus;
         this._onBlur = onBlur;
     }
@@ -153,53 +146,6 @@ class Recycler extends AbstractFocusModel {
         if (this._onBlur) {
             this._onBlur();
         }
-    }
-
-    public isFirstVisible(direction: string): boolean {
-        // Nested recycler
-        if (this.getRepeatContext()) {
-            const parent = this.getParent() as Recycler;
-
-            const availableDirections = parent.isHorizontal() ? ['left', 'swipeLeft'] : ['up', 'swipeUp'];
-
-            if (availableDirections.includes(direction)) {
-                return parent._isFirstVisible();
-            }
-
-            return true;
-            // console.log('PARENT_REPEAT_CTX', this.getParent());
-        }
-
-        const availableDirections = this.isHorizontal() ? ['left', 'swipeLeft'] : ['up', 'swipeUp'];
-
-        if (availableDirections.includes(direction)) {
-            return this._isFirstVisible();
-        }
-
-        return true;
-    };
-
-    public isLastVisible(direction: string): boolean {
-        // Nested recycler
-        if (this.getRepeatContext()) {
-            const parent = this.getParent() as Recycler;
-        
-            const availableDirections = parent.isHorizontal() ? ['right', 'swipeRight'] : ['down', 'swipeDown'];
-        
-            if (availableDirections.includes(direction)) {
-                return parent._isLastVisible();
-            }
-
-            return true;
-        }
-                
-        const availableDirections = this.isHorizontal() ? ['right', 'swipeRight'] : ['down', 'swipeDown'];
-
-        if (availableDirections.includes(direction)) {
-            return this._isLastVisible();
-        }
-
-        return true;
     }
 }
 

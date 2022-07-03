@@ -8,7 +8,9 @@ import {
 import CoreManager from '../../focusManager/model/core';
 import { measure } from '../../focusManager/layoutManager';
 import type { RecyclerViewProps } from '../../focusManager/types';
-import RecyclerClass from '../../focusManager/model/recycler';
+import Grid from '../../focusManager/model/grid';
+import List from '../../focusManager/model/list';
+import Row from '../../focusManager/model/row';
 
 const Column = null;
 
@@ -32,6 +34,7 @@ export default function RecyclerView({
     unmeasurableRelativeDimensions = { y: 0, x: 0 },
     focusOptions = {},
     disableItemContainer = false,
+    type,
     onFocus = () => {
         return null;
     },
@@ -44,11 +47,21 @@ export default function RecyclerView({
     const rlvRef = useRef<RecyclerListView<any, any>>(null);
     const rnViewRef = useRef<RNView>(null);
 
+    if (!type) {
+        throw new Error('Please specify type. One of grid, list, row');
+    }
+
+    if (!['list', 'grid', 'row'].includes(type)) {
+        throw new Error(`Incorrect type ${type}. Valid types is grid, list, row`);
+    }
+
     const pctx = repeatContext?.parentContext || parentContext;
+    
+    // const [stateIndex, setStateIndex] = useState(repeatContext?.index);
 
     const [ClsInstance] = useState(
-        () =>
-            new RecyclerClass({
+        () => {
+            const params = {
                 isHorizontal,
                 isNested: !!repeatContext,
                 parent: pctx,
@@ -56,9 +69,18 @@ export default function RecyclerView({
                 onFocus,
                 onBlur,
                 ...focusOptions,
-            })
-    );
+            };
 
+            if (type === 'grid') {
+                return new Grid(params);
+            } else if (type === 'row') {
+                return new Row(params);
+            } else {
+                return new List(params);
+            }
+        }
+    );
+    
     if (repeatContext) {
         ClsInstance.setRepeatContext(repeatContext);
     }
@@ -70,23 +92,6 @@ export default function RecyclerView({
 
         if (vr && (!ClsInstance.getLayouts() || layouts.length !== ClsInstance.getLayouts().length)) {
             ClsInstance.setLayouts(layouts);
-        }
-
-        if (vr?.['_params']) {
-            const recyclerItemsCount = vr['_params'].itemCount;
-            const vt: any = vr['_viewabilityTracker'] || {};
-
-            ClsInstance._isLastVisible = () => {
-                const visibleIndexes = vt['_visibleIndexes'];
-                console.log('IS-VISIBLE-LAST', visibleIndexes, recyclerItemsCount);
-                return visibleIndexes[visibleIndexes.length - 1] + 1 === recyclerItemsCount;
-            };
-
-            ClsInstance._isFirstVisible = () => {
-                const visibleIndexes = vt['_visibleIndexes'];
-
-                return visibleIndexes[0] === 0;
-            };
         }
 
         return rowRenderer(type, data, index, { parentContext: ClsInstance, index }, renderProps);
@@ -148,6 +153,7 @@ export default function RecyclerView({
                 disableItemContainer={disableItemContainer}
                 isHorizontal={isHorizontal}
                 contentContainerStyle={contentContainerStyle}
+                // renderAheadOffset={1000}
                 {...props}
             />
         </RNView>

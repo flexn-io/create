@@ -8,6 +8,7 @@ import View from './view';
 import Recycler from './recycler';
 import Screen from './screen';
 import Logger from './logger';
+import { DIRECTION_VERTICAL } from '../constants';
 class CoreManager {
     public _focusMap: {
         [key: string]: AbstractFocusModel;
@@ -90,7 +91,7 @@ class CoreManager {
         }
         cls.onFocus();
         cls.setIsFocused(true);
-        // cls.setFocus();
+
         if (cls.getScreen()) {
             cls.getScreen()?.setCurrentFocus(cls as View);
         }
@@ -129,6 +130,7 @@ class CoreManager {
 
             if (target) {
                 Scroller.scrollTo(this._currentFocus, target, direction);
+                return target;
             }
         }
     }
@@ -171,14 +173,17 @@ class CoreManager {
         }
     };
 
-    public getNextFocusableContext = (direction: string): AbstractFocusModel | undefined | null => {
+    public getNextFocusableContext = (
+        direction: string,
+        forceNonRecyclerSearch = false,
+        c?: any
+    ): AbstractFocusModel | undefined | null => {
         const currentFocus = this._currentFocus;
         const focusMap = this._focusMap;
 
         if (!currentFocus) {
             return focusMap[Object.keys(focusMap)[0]];
         }
-
         const nextForcedFocusKey = getNextForcedFocusKey(currentFocus, direction, this._focusMap);
         if (nextForcedFocusKey) {
             this.focusElementByFocusKey(nextForcedFocusKey);
@@ -195,11 +200,13 @@ class CoreManager {
             return currentFocus;
         }
 
-        const candidates = Object.values(focusMap).filter(
-            (c) => c.isInForeground() && c.isFocusable() && c.getId() !== currentFocus.getId()
-        );
+        const candidates =
+            c ??
+            Object.values(focusMap).filter(
+                (c) => c.isInForeground() && c.isFocusable() && c.getId() !== currentFocus.getId()
+            );
 
-        let closestContext: AbstractFocusModel | undefined;
+        let closestContext: AbstractFocusModel | undefined | null;
         const output: {
             match1: number;
             match1Context?: AbstractFocusModel;
@@ -210,60 +217,20 @@ class CoreManager {
             match2: 9999999,
         };
 
-        if (this._currentFocus?.getParent()?.isRecyclable()) {
-            const [nextContext, goOut] = this.findClosestRecyclerNode(this._currentFocus, direction);
-            if (goOut) {
-
-                for (let i = 0; i < candidates.length; i++) {
-                    const cls = candidates[i];
-        
-                    this.findClosestNode(cls, direction, output);
-                }
-                
-                closestContext = output.match1Context || output.match2Context;
-                console.log('ASDSADAS', 'GOING OUT', closestContext);
-
-            } else {
-                console.log('ASDSADAS', 'not GOING OUT', nextContext);
-                closestContext = nextContext;
-            }
+        if (this._currentFocus?.getParent()?.isRecyclable() && !forceNonRecyclerSearch) {
+            const owner = this.getFocusTaskExecutor(direction);
+            closestContext = owner?.getNextFocusable(direction);
         } else {
             for (let i = 0; i < candidates.length; i++) {
                 const cls = candidates[i];
-    
+
                 this.findClosestNode(cls, direction, output);
             }
-            
+
             closestContext = output.match1Context || output.match2Context;
         }
-        
 
         if (closestContext) {
-            if (currentFocus.getParent()?.isRecyclable()) {
-                const parent = currentFocus.getParent() as Recycler;
-
-                // console.log('IS_FIRST_VISIBLE', parent.isFirstVisible(direction));
-                // console.log('IS_LAST_VISIBLE', parent.isLastVisible(direction));
-
-                // if (parent.isNested()) {
-                //     if (closestContext.getParent()?.getParent()?.getId() !== parent.getParent()?.getId()) {
-                //         return currentFocus;
-                //     }
-                // } else if (closestContext.getParent()?.getId() !== parent.getId()) {
-                //     return currentFocus;
-                // }
-
-                // if (!parent.isLastVisible(direction) || !parent.isFirstVisible(direction)) {
-                //     if (parent.isNested()) {
-                //         if (closestContext.getParent()?.getParent()?.getId() !== parent.getParent()?.getId()) {
-                //             return currentFocus;
-                //         }
-                //     } else if (closestContext.getParent()?.getId() !== parent.getId()) {
-                //         return currentFocus;
-                //     }
-                // }
-            }
-
             if (closestContext.getParent()?.getId() !== currentFocus.getParent()?.getId()) {
                 const parent = currentFocus.getParent() as AbstractFocusModel;
 
@@ -315,30 +282,12 @@ class CoreManager {
         return this._currentFocus;
     };
 
-    private findClosestRecyclerNode(cls: AbstractFocusModel, direction: string) {
-        const add = ['right', 'down'].includes(direction) ? 1 : -1;
-        const parent = cls.getParent() as Recycler;
-
-        if (parent.isNested()) {
-            let goOut = false;
-            const currentIndex = cls.getParent()?.getRepeatContext()?.index || 0;
-            const parentNested = parent.getParent() as Recycler;
-            const nextRecycler = parentNested.getChildren().find(ch => ch.getRepeatContext()?.index === currentIndex + add);
-
-            const nextFocusable = nextRecycler?.getChildren()[0];
-
-            if (nextRecycler?.getRepeatContext()?.index + 1 > parentNested.getLayouts().length || nextRecycler?.getRepeatContext()?.index === 0) {
-                goOut = true;
-            }
-
-            return [nextFocusable, goOut];
-        } else {
-            const goOut = false;
-            const currentIndex = cls.getRepeatContext()?.index || 0;
-            const nextFocusable = parent.getChildren().find(ch => ch.getRepeatContext()?.index === currentIndex + add);
-            return [nextFocusable, goOut];
+    private getFocusTaskExecutor(direction: string) {
+        if (this._currentFocus?.getParent()?.isNested() && DIRECTION_VERTICAL.includes(direction)) {
+            return this._currentFocus?.getParent()?.getParent();
         }
 
+        return this._currentFocus?.getParent();
     }
 
     public findClosestNode = (cls: AbstractFocusModel, direction: string, output: any) => {

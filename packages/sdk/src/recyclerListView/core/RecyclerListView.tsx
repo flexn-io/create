@@ -104,6 +104,7 @@ export interface RecyclerListViewProps {
     externalScrollView?: { new (props: ScrollViewDefaultProps): BaseScrollView };
     layoutSize?: Dimension;
     initialOffset?: number;
+    type: string;
     initialXOffset?: number;
     initialRenderIndex?: number;
     scrollThrottle?: number;
@@ -692,6 +693,7 @@ export default class RecyclerListView<
             if (!this.props.forceNonDeterministicRendering) {
                 this._checkExpectedDimensionDiscrepancy(itemRect, type, dataIndex);
             }
+
             return (
                 <ViewRenderer
                     key={key}

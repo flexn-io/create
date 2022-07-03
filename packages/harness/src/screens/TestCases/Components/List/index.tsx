@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Pressable, View } from '@flexn/sdk';
+import { List, View } from '@flexn/sdk';
 import Screen from '../../../../components/Screen';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
@@ -32,7 +32,6 @@ const ListTest = () => {
 
     return (
         <Screen>
-            <Pressable  style={{height: 200, width: 500, borderColor: 'red', borderWidth: 1}} />
             <View>
                 <List
                     items={data}
@@ -46,7 +45,6 @@ const ListTest = () => {
                     style={{height: 600}}
                 />
             </View>
-            <Pressable  style={{height: 200, width: 500, borderColor: 'red', borderWidth: 1}} />
         </Screen>
     );
 };

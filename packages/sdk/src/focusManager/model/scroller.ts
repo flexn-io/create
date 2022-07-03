@@ -117,7 +117,8 @@ class Scroller {
         }
 
         if (DIRECTION_RIGHT.includes(direction)) {
-            let xMaxScroll = scrollView.getLayout().xMaxScroll || scrollView.getMostRightChildren().getLayout()?.xMax || 0;
+            let xMaxScroll =
+                scrollView.getLayout().xMaxScroll || scrollView.getMostRightChildren().getLayout()?.xMax || 0;
             xMaxScroll += scrollView.getLayout().xMin || 0;
 
             //Prevent OVERSCROLL
@@ -128,7 +129,6 @@ class Scroller {
                 scrollTarget.x = xMaxScroll + horizontalViewportOffset - windowWidth;
             }
         }
-
 
         if (DIRECTION_LEFT.includes(direction)) {
             scrollTarget.x = Math.min(
