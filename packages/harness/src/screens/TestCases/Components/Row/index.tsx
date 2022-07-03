@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { Row, Grid, View, ScrollView } from '@flexn/sdk';
+import { Row, View, ScrollView } from '@flexn/sdk';
 import Screen from '../../../../components/Screen';
 
 const { height } = Dimensions.get('screen');
@@ -28,8 +28,6 @@ function generateData(width, height, items = 30) {
 const RowTest = () => {
     const data = [...generateData(400, 250, 10)];
 
-    const dataGrid = [...generateData(400, 250, 15)];
-
     return (
         <Screen>
             <View style={{ height }}>
@@ -43,24 +41,6 @@ const RowTest = () => {
                             itemSpacing={30}
                             itemDimensions={{ height: 400 }}
                         />
-                    </View>
-
-                    {/* <View style={{ top: 200 }}>
-                        <Row
-                            items={data}
-                            itemsInViewport={5}
-                            style={{ height: 500, marginLeft: 0 }}
-                            itemSpacing={30}
-                            itemDimensions={{ height: 400 }}
-                        />
-                    </View> */}
-
-                    <View style={{ marginTop: 200 }}>
-                        {/* <PosterCard
-                            src={{ uri: `https://placekitten.com/500/500` }}
-                            style={{ width: 500, height: 500, marginHorizontal: 15 }}
-                        /> */}
-                        <Grid items={dataGrid} itemsInViewport={5} itemSpacing={30} itemDimensions={{ height: 200 }} style={{ height: 600 }} />
                     </View>
                 </ScrollView>
             </View>

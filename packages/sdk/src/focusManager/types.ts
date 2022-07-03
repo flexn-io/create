@@ -119,6 +119,7 @@ export interface RecyclerViewProps {
     unmeasurableRelativeDimensions: { x?: number; y?: number };
     focusOptions?: RecyclableListFocusOptions;
     disableItemContainer?: boolean;
+    initialRenderIndex?: number;
     type: 'list' | 'grid' | 'row';
     onBlur?: () => void;
     onFocus?: () => void;

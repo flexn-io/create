@@ -7,6 +7,7 @@ import View from './view';
 import { alterForbiddenFocusDirections } from '../helpers';
 import { findLowestRelativeCoordinates } from '../layoutManager';
 import { DEFAULT_VIEWPORT_OFFSET } from '../constants';
+import Recycler from './recycler';
 
 const DELAY_TIME_IN_MS = 100;
 
@@ -141,9 +142,16 @@ class Screen extends AbstractFocusModel {
         if (this.isInForeground()) {
             if (this._currentFocus) return this._currentFocus;
             if (this._preferredFocus) return this._preferredFocus;
-            if (this._precalculatedFocus) return this._precalculatedFocus;
+            if (this._precalculatedFocus) {
+                if (this._precalculatedFocus.getParent()?.isRecyclable()) {
+                    const recycler = this._precalculatedFocus.getParent() as Recycler;
+                    if (recycler.getFocusedView()) return recycler.getFocusedView();
+                }
+                return this._precalculatedFocus;
+            }
 
             this.precalculateFocus(this);
+
             return this._precalculatedFocus;
         }
     };

@@ -30,7 +30,6 @@ class List extends Recycler {
                     c.isFocusable() &&
                     c.getParent()?.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getParent()?.getId()
             );
-
             return Core.getNextFocusableContext(direction, true, candidates);
         } else if (!this._isInBounds(direction)) {
             const nextFocus = Core.getNextFocusableContext(direction, true);
@@ -55,6 +54,10 @@ class List extends Recycler {
         }
 
         return true;
+    }
+
+    public scrollToInitialRenderIndex(): void {
+        //TODO: implement
     }
 }
 

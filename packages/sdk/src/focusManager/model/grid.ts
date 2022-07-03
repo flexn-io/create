@@ -1,6 +1,7 @@
 import Recycler from './recycler';
 import Core from './core';
 import AbstractFocusModel from './AbstractFocusModel';
+import Scroller from './scroller';
 
 class Grid extends Recycler {
     private _itemsInRow: number;
@@ -95,6 +96,15 @@ class Grid extends Recycler {
         this._itemsInRow = Object.keys(groups).length;
 
         return this._itemsInRow;
+    }
+
+    public scrollToInitialRenderIndex(): void {
+        const layout: any = this.getLayouts()[this.getInitialRenderIndex()] ?? { x: 0, y: 0 };
+        const verticalOffset = this.getScreen()?.getVerticalViewportOffset() ?? 0;
+        const target = { x: 0, y: layout.y - verticalOffset };
+        setTimeout(() => {
+            Scroller.scrollRecycler(target, this);
+        }, 0);
     }
 }
 

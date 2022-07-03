@@ -1,6 +1,7 @@
 import AbstractFocusModel from './AbstractFocusModel';
 import Recycler from './recycler';
 import Core from './core';
+import Scroller from './scroller';
 
 class Row extends Recycler {
     constructor(params: any) {
@@ -34,6 +35,14 @@ class Row extends Recycler {
         } else if (!this._isInBounds(direction) || ['up', 'down'].includes(direction)) {
             const nextFocus = Core.getNextFocusableContext(direction, true);
 
+            if (
+                ['right', 'left'].includes(direction) &&
+                nextFocus?.getParent()?.isRecyclable() &&
+                nextFocus?.getParent()?.isHorizontal()
+            ) {
+                return Core.getCurrentFocus();
+            }
+
             if (nextFocus) {
                 Core.executeFocus(nextFocus);
                 Core.executeScroll(direction);
@@ -54,6 +63,15 @@ class Row extends Recycler {
         }
 
         return true;
+    }
+
+    public scrollToInitialRenderIndex(): void {
+        const layout: any = this.getLayouts()[this.getInitialRenderIndex()] ?? { x: 0, y: 0 };
+        const horizontalOffset = this.getScreen()?.getHorizontalViewportOffset() ?? 0;
+        const target = { x: layout.x - horizontalOffset, y: 0 };
+        setTimeout(() => {
+            Scroller.scrollRecycler(target, this);
+        }, 0);
     }
 }
 

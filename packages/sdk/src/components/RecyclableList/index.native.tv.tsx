@@ -35,6 +35,7 @@ export default function RecyclerView({
     focusOptions = {},
     disableItemContainer = false,
     type,
+    initialRenderIndex,
     onFocus = () => {
         return null;
     },
@@ -43,6 +44,7 @@ export default function RecyclerView({
     },
     ...props
 }: RecyclerViewProps) {
+    const layoutsReady = useRef(false);
     const scrollViewRef = useRef<HTMLDivElement | null>(null);
     const rlvRef = useRef<RecyclerListView<any, any>>(null);
     const rnViewRef = useRef<RNView>(null);
@@ -66,6 +68,7 @@ export default function RecyclerView({
                 isNested: !!repeatContext,
                 parent: pctx,
                 repeatContext,
+                initialRenderIndex,
                 onFocus,
                 onBlur,
                 ...focusOptions,
@@ -92,9 +95,19 @@ export default function RecyclerView({
 
         if (vr && (!ClsInstance.getLayouts() || layouts.length !== ClsInstance.getLayouts().length)) {
             ClsInstance.setLayouts(layouts);
+            if (!layoutsReady.current) {
+                layoutsReady.current = true;
+                onLayoutsReady();
+            }
         }
 
         return rowRenderer(type, data, index, { parentContext: ClsInstance, index }, renderProps);
+    };
+
+    const onLayoutsReady = () => {
+        if (ClsInstance.getInitialRenderIndex()) {
+            ClsInstance.scrollToInitialRenderIndex();
+        }
     };
 
     useEffect(() => {
@@ -153,7 +166,7 @@ export default function RecyclerView({
                 disableItemContainer={disableItemContainer}
                 isHorizontal={isHorizontal}
                 contentContainerStyle={contentContainerStyle}
-                // renderAheadOffset={1000}
+                renderAheadOffset={1500}
                 {...props}
             />
         </RNView>

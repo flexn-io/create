@@ -12,6 +12,7 @@ class Recycler extends AbstractFocusModel {
     private _isHorizontal: boolean;
     private _forbiddenFocusDirections: ForbiddenFocusDirections[];
     private _focusedIndex: number;
+    private _initialRenderIndex: number;
     private _focusedView?: View;
     private _repeatContext:
         | {
@@ -26,7 +27,16 @@ class Recycler extends AbstractFocusModel {
     constructor(params: any) {
         super(params);
 
-        const { isHorizontal, isNested, parent, repeatContext, forbiddenFocusDirections, onFocus, onBlur } = params;
+        const {
+            isHorizontal,
+            isNested,
+            parent,
+            repeatContext,
+            forbiddenFocusDirections,
+            onFocus,
+            onBlur,
+            initialRenderIndex = 0,
+        } = params;
 
         this._id = `recycler-${makeid(8)}`;
         this._type = 'recycler';
@@ -39,6 +49,7 @@ class Recycler extends AbstractFocusModel {
         this._repeatContext = repeatContext;
         this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._focusedIndex = 0;
+        this._initialRenderIndex = initialRenderIndex > 0 ? initialRenderIndex - 1 : 0;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
@@ -130,6 +141,10 @@ class Recycler extends AbstractFocusModel {
         this._focusedView = view;
 
         return this;
+    }
+
+    public getInitialRenderIndex(): number {
+        return this._initialRenderIndex;
     }
 
     public getFocusedView(): View | undefined {

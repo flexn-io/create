@@ -10,12 +10,10 @@ const EVENT_KEY_ACTION_UP = 'up';
 const EVENT_KEY_ACTION_DOWN = 'down';
 const EVENT_KEY_ACTION_LONG_PRESS = 'longPress';
 
-// const INTERVAL_TIME_MS = 100;
 const INTERVAL_TIME_MS = 100;
 const SCROLL_INDEX_INTERVAL_ROW = 3;
 const SCROLL_INDEX_INTERVAL_GRID = 5;
 const SCROLL_INDEX_INTERVAL_LIST = 1;
-// const MIN_VERTICAL_SCROLLING = 50;
 
 const EVENT_TYPE_SELECT = 'select';
 const EVENT_TYPE_RIGHT = 'right';
@@ -174,17 +172,33 @@ class KeyHandler {
                     selectedIndex += this.isNested() ? SCROLL_INDEX_INTERVAL_LIST : this.getGridScrollInterval();
                     if (selectedIndex > this.getMaxIndex(true)) selectedIndex = this.getMaxIndex(true);
                 }
-                console.log('selectedIndex', selectedIndex);
                 this._currentIndex = selectedIndex;
                 this._currentScrollTarget = CoreManager.executeInlineFocus(selectedIndex, eventType);
                 CoreManager.executeUpdateGuideLines();
 
                 if (selectedIndex === 0 || selectedIndex === this.getMaxIndex(EVENT_TYPE_DOWN === eventType)) {
                     clearInterval(this._longPressInterval);
-                    this._stopKeyDownEvents = false;
+                    this.onEnd(selectedIndex, eventType);
                 }
             }, INTERVAL_TIME_MS);
         }
+    }
+
+    private onEnd(selectedIndex: number, eventType: string) {
+        setTimeout(() => {
+            const currentFocus = CoreManager.getCurrentFocus();
+            const index = selectedIndex === 0 ? selectedIndex : selectedIndex - 1;
+            const closestByIndex = currentFocus
+                ?.getParent()
+                ?.getChildren()
+                .find((ch) => ch.getRepeatContext()?.index === index);
+
+            if (closestByIndex) {
+                CoreManager.executeFocus(closestByIndex);
+                CoreManager.executeScroll(eventType);
+                CoreManager.executeUpdateGuideLines();
+            }
+        }, 300);
     }
 
     private onKeyUp(eventType: string) {
@@ -201,13 +215,6 @@ class KeyHandler {
                     ?.getChildren()
                     .find((ch) => ch.getRepeatContext()?.index === this._currentIndex);
 
-                console.log(
-                    'this._currentScrollTarget',
-                    this._currentIndex,
-                    this._currentScrollTarget
-                    // closestByIndex?.getLayout()?.yMin,
-                    // closestByIndex?.getLayout()?.xMin
-                );
                 if (closestByIndex) {
                     CoreManager.executeFocus(closestByIndex);
                     CoreManager.executeScroll(eventType);
@@ -228,9 +235,6 @@ class KeyHandler {
     }
 
     private getMaxIndex(vertical = false): number {
-        if (this._maxIndex) {
-            return this._maxIndex;
-        }
         let parent = CoreManager.getCurrentFocus()?.getParent();
         if (this.isNested() && vertical) {
             parent = parent?.getParent();

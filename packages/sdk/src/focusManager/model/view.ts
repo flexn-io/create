@@ -57,7 +57,9 @@ class View extends AbstractFocusModel {
     private init() {
         if (this.getParent()?.isRecyclable()) {
             const parent = this.getParent() as Recycler;
-            if (!parent.getFocusedView() && this.getRepeatContext()?.index === 0) {
+            if (parent.getInitialRenderIndex() && parent.getInitialRenderIndex() === this.getRepeatContext()?.index) {
+                parent.setFocusedView(this);
+            } else if (!parent.getFocusedView() && this.getRepeatContext()?.index === 0) {
                 parent.setFocusedView(this);
             }
         }
