@@ -268,14 +268,22 @@ class CoreManager {
 
         if (this._currentFocus?.getParent()) {
             const parent = this._currentFocus?.getParent() as AbstractFocusModel;
-            const _nextForcedFocusKey = getNextForcedFocusKey(parent, direction, this._focusMap);
-            if (_nextForcedFocusKey) {
-                this.focusElementByFocusKey(_nextForcedFocusKey);
-                return;
+            const parents = [parent];
+            if (parent.getParent()?.isScreen()) {
+                //@ts-expect-error parent exists
+                parents.push(parent.getParent());
             }
+            for (const idx in parents) {
+                const p = parents[idx];
+                const _nextForcedFocusKey = getNextForcedFocusKey(p, direction, this._focusMap);
+                if (_nextForcedFocusKey) {
+                    this.focusElementByFocusKey(_nextForcedFocusKey);
+                    return;
+                }
 
-            if (parent.containsForbiddenDirection(direction)) {
-                return currentFocus;
+                if (parent.containsForbiddenDirection(direction)) {
+                    return currentFocus;
+                }
             }
         }
 

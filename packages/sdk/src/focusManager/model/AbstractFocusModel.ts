@@ -12,10 +12,10 @@ export default abstract class AbstractFocusModel {
     protected _children: AbstractFocusModel[];
     protected _screen: Screen | undefined;
 
-    protected _nextFocusRight: string;
-    protected _nextFocusLeft: string;
-    protected _nextFocusUp: string;
-    protected _nextFocusDown: string;
+    protected _nextFocusRight: string | string[];
+    protected _nextFocusLeft: string | string[];
+    protected _nextFocusUp: string | string[];
+    protected _nextFocusDown: string | string[];
 
     constructor(params: any) {
         const { nextFocusRight, nextFocusLeft, nextFocusUp, nextFocusDown } = params;
@@ -149,19 +149,19 @@ export default abstract class AbstractFocusModel {
         }
     }
 
-    public getNextFocusRight(): string {
+    public getNextFocusRight(): string | string[] {
         return this._nextFocusRight || '';
     }
 
-    public getNextFocusLeft(): string {
+    public getNextFocusLeft(): string | string[] {
         return this._nextFocusLeft || '';
     }
 
-    public getNextFocusUp(): string {
+    public getNextFocusUp(): string | string[] {
         return this._nextFocusUp || '';
     }
 
-    public getNextFocusDown(): string {
+    public getNextFocusDown(): string | string[] {
         return this._nextFocusDown || '';
     }
 
