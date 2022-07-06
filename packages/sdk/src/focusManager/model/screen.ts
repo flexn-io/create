@@ -212,6 +212,12 @@ class Screen extends AbstractFocusModel {
         return this._horizontalWindowAlignment;
     }
 
+    public setOrder(value: number): this {
+        this._order = value;
+
+        return this;
+    };
+
     public getOrder(): number {
         return this._order;
     }

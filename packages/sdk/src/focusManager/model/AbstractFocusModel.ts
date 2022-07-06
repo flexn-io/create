@@ -262,7 +262,11 @@ export default abstract class AbstractFocusModel {
     }
 
     public getOrder(): number {
-        return 0;
+        if (this.isScreen()) {
+            return this.getOrder();
+        }
+
+        return this.getScreen()?.getOrder() || 0;
     }
 
     public isScreen(): boolean {

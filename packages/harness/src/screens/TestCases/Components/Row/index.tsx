@@ -1,9 +1,6 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
-import { Row, View, ScrollView } from '@flexn/sdk';
+import React, { useEffect, useState } from 'react';
+import { Row, View} from '@flexn/sdk';
 import Screen from '../../../../components/Screen';
-
-const { height } = Dimensions.get('screen');
 
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
@@ -26,26 +23,39 @@ function generateData(width, height, items = 30) {
 }
 
 const RowTest = () => {
+    const [hideModal, setHideModal] = useState(false);
     const data = [...generateData(400, 250, 10)];
 
-    return (
-        <Screen>
-            <View style={{ height }}>
-                {/* <ScrollView contentContainerStyle={{ height: height + 600 }} nestedScrollEnabled> */}
-                <ScrollView>
-                    <View style={{ marginTop: 200 }}>
-                        <Row
-                            items={data}
-                            itemsInViewport={5}
-                            style={{ height: 500, marginLeft: 0 }}
-                            itemSpacing={30}
-                            itemDimensions={{ height: 400 }}
-                        />
-                    </View>
-                </ScrollView>
-            </View>
+    useEffect(() => {
+        setTimeout(() => {
+            setHideModal(true);
+        }, 4000);
+    }, []);
 
-        </Screen>
+    return (
+        <View>
+            {!hideModal && (
+                <Screen stealFocus screenOrder={1} focusOptions={{nextFocusDown: 's2'}}>
+                    <View style={{ marginTop: 100 }}>
+                        {/* <Pressable style={{ width: 300, height: 100, borderColor: 'red', borderWidth: 1 }} /> */}
+                    </View>
+                </Screen>
+            )}
+            <Screen stealFocus={false} focusOptions={{focusKey: 's2'}}>
+                <View style={{ marginTop: 400 }}>
+                    {/* {!hideModal && (
+                        <Pressable style={{ width: 300, height: 100, borderColor: 'red', borderWidth: 1 }} />
+                    )} */}
+                    <Row
+                        items={data}
+                        itemsInViewport={5}
+                        style={{ height: 500, marginLeft: 0 }}
+                        itemSpacing={30}
+                        itemDimensions={{ height: 400 }}
+                    />
+                </View>
+            </Screen>
+        </View> 
     );
 };
 

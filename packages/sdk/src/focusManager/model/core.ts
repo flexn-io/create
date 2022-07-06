@@ -67,6 +67,25 @@ class CoreManager {
         if (cls.getId() === this._currentFocus?.getId()) {
             this._currentFocus = null;
         }
+        if (cls.isScreen()) {
+            setTimeout(() => {
+                this.onScreenRemoved();
+            }, 0);
+        }
+    }
+
+    public onScreenRemoved() {
+        const maxOrder = Math.max(
+            ...Object.values(this._focusMap).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
+        );
+        
+        const nextScreen = Object.values(this._focusMap).find(
+            (c) => c.isInForeground() && c.isScreen() && c.getOrder() === maxOrder
+        ) as Screen;
+
+        if (nextScreen) {
+            nextScreen.setFocus(nextScreen.getFirstFocusableOnScreen());
+        }
     }
 
     public executeFocus(cls: AbstractFocusModel) {
@@ -200,12 +219,6 @@ class CoreManager {
             return currentFocus;
         }
 
-        const candidates =
-            c ??
-            Object.values(focusMap).filter(
-                (c) => c.isInForeground() && c.isFocusable() && c.getId() !== currentFocus.getId()
-            );
-
         let closestContext: AbstractFocusModel | undefined | null;
         const output: {
             match1: number;
@@ -221,6 +234,17 @@ class CoreManager {
             const owner = this.getFocusTaskExecutor(direction);
             closestContext = owner?.getNextFocusable(direction);
         } else {
+            const maxOrder = Math.max(
+                ...Object.values(focusMap).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
+            );
+                        
+            const candidates =
+                c ??
+                Object.values(focusMap).filter(
+                    (c) => c.isInForeground() && c.isFocusable() && c.getId() !== currentFocus.getId() && c.getOrder() === maxOrder
+                );
+
+                
             for (let i = 0; i < candidates.length; i++) {
                 const cls = candidates[i];
 
@@ -267,12 +291,15 @@ class CoreManager {
         }
 
         if (this._currentFocus?.getParent()) {
-            const parent = this._currentFocus?.getParent() as AbstractFocusModel;
-            const parents = [parent];
-            if (parent.getParent()?.isScreen()) {
-                //@ts-expect-error parent exists
-                parents.push(parent.getParent());
+            let parent = this._currentFocus.getParent();
+            const parents = parent ? [parent] : [];
+            while (parent) {
+                parent = parent?.getParent();
+                if (parent) {
+                    parents.push(parent);
+                }
             }
+
             for (const idx in parents) {
                 const p = parents[idx];
                 const _nextForcedFocusKey = getNextForcedFocusKey(p, direction, this._focusMap);
@@ -280,8 +307,11 @@ class CoreManager {
                     this.focusElementByFocusKey(_nextForcedFocusKey);
                     return;
                 }
+            }
 
-                if (parent.containsForbiddenDirection(direction)) {
+            for (const idx in parents) {
+                const p = parents[idx];
+                if (p.containsForbiddenDirection(direction)) {
                     return currentFocus;
                 }
             }

@@ -24,11 +24,16 @@ class Row extends Recycler {
 
     public getNextFocusable(direction: string): AbstractFocusModel | undefined | null {
         if (this._isInBounds(direction) && ['right', 'left'].includes(direction)) {
+            const maxOrder = Math.max(
+                ...Object.values(Core.getFocusMap()).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
+            );
+
             const candidates = Object.values(Core.getFocusMap()).filter(
                 (c) =>
                     c.isInForeground() &&
                     c.isFocusable() &&
-                    c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId()
+                    c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId() &&
+                    c.getOrder() === maxOrder
             );
 
             return Core.getNextFocusableContext(direction, true, candidates);

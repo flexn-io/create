@@ -33,11 +33,16 @@ class Grid extends Recycler {
         this.getItemsInRow();
 
         if (this._isInBounds(direction)) {
+            const maxOrder = Math.max(
+                ...Object.values(Core.getFocusMap()).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
+            );
+
             const candidates = Object.values(Core.getFocusMap()).filter(
                 (c) =>
                     c.isInForeground() &&
                     c.isFocusable() &&
-                    c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId()
+                    c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId() && 
+                    c.getOrder() === maxOrder
             );
             const next = Core.getNextFocusableContext(direction, true, candidates);
 
