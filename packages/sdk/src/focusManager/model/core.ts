@@ -8,7 +8,6 @@ import View from './view';
 import Recycler from './recycler';
 import Screen from './screen';
 import Logger from './logger';
-import { DIRECTION_VERTICAL } from '../constants';
 class CoreManager {
     public _focusMap: {
         [key: string]: AbstractFocusModel;
@@ -75,12 +74,8 @@ class CoreManager {
     }
 
     public onScreenRemoved() {
-        const maxOrder = Math.max(
-            ...Object.values(this._focusMap).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
-        );
-
         const nextScreen = Object.values(this._focusMap).find(
-            (c) => c.isInForeground() && c.isScreen() && c.getOrder() === maxOrder
+            (c) => c.isInForeground() && c.isScreen() && c.getOrder() === this.getCurrentMaxOrder()
         ) as Screen;
 
         if (nextScreen) {

@@ -45,11 +45,7 @@ class Row extends Recycler {
                 return Core.getCurrentFocus();
             }
 
-            if (nextFocus) {
-                Core.executeFocus(nextFocus);
-                Core.executeScroll(direction);
-                Core.executeUpdateGuideLines();
-            }
+            return nextFocus;
         }
     }
 
@@ -76,7 +72,7 @@ class Row extends Recycler {
         }, 0);
     }
 
-    public getFocusTaskExecutor(direction: string) {
+    public getFocusTaskExecutor(direction: string): AbstractFocusModel | undefined {
         if (this.isNested() && DIRECTION_VERTICAL.includes(direction)) {
             return this.getParent();
         }

@@ -34,13 +34,7 @@ class List extends Recycler {
 
             return Core.getNextFocusableContext(direction, candidates);
         } else if (!this._isInBounds(direction)) {
-            const nextFocus = Core.getNextFocusableContext(direction);
-
-            if (nextFocus) {
-                Core.executeFocus(nextFocus);
-                Core.executeScroll(direction);
-                Core.executeUpdateGuideLines();
-            }
+            return Core.getNextFocusableContext(direction);
         }
     }
 
@@ -62,7 +56,7 @@ class List extends Recycler {
         //TODO: implement
     }
 
-    public getFocusTaskExecutor(direction: string) {
+    public getFocusTaskExecutor(_direction: string): AbstractFocusModel {
         return this;
     };
 }

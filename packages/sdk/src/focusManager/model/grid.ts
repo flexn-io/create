@@ -49,24 +49,12 @@ class Grid extends Recycler {
                 this.getCurrentRow() === this.getMaxRows() - 1
             ) {
                 const max = Math.max(...candidates.map((o) => o.getRepeatContext()?.index || 0));
-                const maxCandidate = candidates.find((o) => o.getRepeatContext()?.index === max);
-                if (maxCandidate) {
-                    Core.executeFocus(maxCandidate);
-                    Core.executeScroll(direction);
-                    Core.executeUpdateGuideLines();
-                    return;
-                }
+                return candidates.find((o) => o.getRepeatContext()?.index === max);
             }
 
             return next;
         } else if (!this._isInBounds(direction)) {
-            const nextFocus = Core.getNextFocusableContext(direction);
-
-            if (nextFocus) {
-                Core.executeFocus(nextFocus);
-                Core.executeScroll(direction);
-                Core.executeUpdateGuideLines();
-            }
+            return Core.getNextFocusableContext(direction);
         }
     }
 
@@ -113,7 +101,7 @@ class Grid extends Recycler {
         }, 0);
     }
 
-    public getFocusTaskExecutor(direction: string) {
+    public getFocusTaskExecutor(_direction: string): AbstractFocusModel {
         return this;
     };
 }
