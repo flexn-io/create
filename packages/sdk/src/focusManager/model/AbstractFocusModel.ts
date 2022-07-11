@@ -280,4 +280,12 @@ export default abstract class AbstractFocusModel {
     public getNextFocusable(_direction: string): AbstractFocusModel | undefined | null {
         return;
     }
+
+    public getFocusTaskExecutor(direction: string): AbstractFocusModel | undefined | null {
+        if (this.getParent()?.getFocusTaskExecutor(direction)) {
+            return this.getParent()?.getFocusTaskExecutor(direction);
+        }
+        
+        return null;
+    };
 }

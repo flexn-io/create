@@ -33,18 +33,15 @@ class Grid extends Recycler {
         this.getItemsInRow();
 
         if (this._isInBounds(direction)) {
-            const maxOrder = Math.max(
-                ...Object.values(Core.getFocusMap()).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
-            );
-
             const candidates = Object.values(Core.getFocusMap()).filter(
                 (c) =>
                     c.isInForeground() &&
                     c.isFocusable() &&
                     c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId() && 
-                    c.getOrder() === maxOrder
+                    c.getOrder() === Core.getCurrentMaxOrder()
             );
-            const next = Core.getNextFocusableContext(direction, true, candidates);
+
+            const next = Core.getNextFocusableContext(direction, candidates);
 
             if (
                 direction === 'down' &&
@@ -63,7 +60,7 @@ class Grid extends Recycler {
 
             return next;
         } else if (!this._isInBounds(direction)) {
-            const nextFocus = Core.getNextFocusableContext(direction, true);
+            const nextFocus = Core.getNextFocusableContext(direction);
 
             if (nextFocus) {
                 Core.executeFocus(nextFocus);
@@ -82,6 +79,10 @@ class Grid extends Recycler {
         }
 
         if (row === maxRows && direction === 'down') {
+            return false;
+        }
+
+        if (['left', 'right'].includes(direction)) {
             return false;
         }
 
@@ -111,6 +112,10 @@ class Grid extends Recycler {
             Scroller.scrollRecycler(target, this);
         }, 0);
     }
+
+    public getFocusTaskExecutor(direction: string) {
+        return this;
+    };
 }
 
 export default Grid;

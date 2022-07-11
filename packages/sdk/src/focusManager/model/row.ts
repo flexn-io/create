@@ -2,6 +2,7 @@ import AbstractFocusModel from './AbstractFocusModel';
 import Recycler from './recycler';
 import Core from './core';
 import Scroller from './scroller';
+import { DIRECTION_VERTICAL } from '../constants';
 
 class Row extends Recycler {
     constructor(params: any) {
@@ -24,21 +25,17 @@ class Row extends Recycler {
 
     public getNextFocusable(direction: string): AbstractFocusModel | undefined | null {
         if (this._isInBounds(direction) && ['right', 'left'].includes(direction)) {
-            const maxOrder = Math.max(
-                ...Object.values(Core.getFocusMap()).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
-            );
-
             const candidates = Object.values(Core.getFocusMap()).filter(
                 (c) =>
                     c.isInForeground() &&
                     c.isFocusable() &&
                     c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId() &&
-                    c.getOrder() === maxOrder
+                    c.getOrder() === Core.getCurrentMaxOrder()
             );
 
-            return Core.getNextFocusableContext(direction, true, candidates);
+            return Core.getNextFocusableContext(direction, candidates);
         } else if (!this._isInBounds(direction) || ['up', 'down'].includes(direction)) {
-            const nextFocus = Core.getNextFocusableContext(direction, true);
+            const nextFocus = Core.getNextFocusableContext(direction);
 
             if (
                 ['right', 'left'].includes(direction) &&
@@ -78,6 +75,14 @@ class Row extends Recycler {
             Scroller.scrollRecycler(target, this);
         }, 0);
     }
+
+    public getFocusTaskExecutor(direction: string) {
+        if (this.isNested() && DIRECTION_VERTICAL.includes(direction)) {
+            return this.getParent();
+        }
+
+        return this;
+    };
 }
 
 export default Row;

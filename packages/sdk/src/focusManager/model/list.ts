@@ -24,20 +24,17 @@ class List extends Recycler {
 
     public getNextFocusable(direction: string): AbstractFocusModel | undefined | null {
         if (this._isInBounds(direction)) {
-            const maxOrder = Math.max(
-                ...Object.values(Core.getFocusMap()).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
-            );
-
             const candidates = Object.values(Core.getFocusMap()).filter(
                 (c) =>
                     c.isInForeground() &&
                     c.isFocusable() &&
                     c.getParent()?.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getParent()?.getId() &&
-                    c.getOrder() === maxOrder
+                    c.getOrder() === Core.getCurrentMaxOrder()
             );
-            return Core.getNextFocusableContext(direction, true, candidates);
+
+            return Core.getNextFocusableContext(direction, candidates);
         } else if (!this._isInBounds(direction)) {
-            const nextFocus = Core.getNextFocusableContext(direction, true);
+            const nextFocus = Core.getNextFocusableContext(direction);
 
             if (nextFocus) {
                 Core.executeFocus(nextFocus);
@@ -64,6 +61,10 @@ class List extends Recycler {
     public scrollToInitialRenderIndex(): void {
         //TODO: implement
     }
+
+    public getFocusTaskExecutor(direction: string) {
+        return this;
+    };
 }
 
 export default List;

@@ -78,7 +78,7 @@ class CoreManager {
         const maxOrder = Math.max(
             ...Object.values(this._focusMap).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
         );
-        
+
         const nextScreen = Object.values(this._focusMap).find(
             (c) => c.isInForeground() && c.isScreen() && c.getOrder() === maxOrder
         ) as Screen;
@@ -118,6 +118,13 @@ class CoreManager {
 
     public executeDirectionalFocus(direction: string) {
         if (this._currentFocus) {
+            if (this._currentFocus.getFocusTaskExecutor(direction)) {
+                const focusExecutor = this._currentFocus.getFocusTaskExecutor(direction);
+                const next = focusExecutor?.getNextFocusable(direction);
+                if (next) this.executeFocus(next);
+                return;
+            }
+
             const next = this.getNextFocusableContext(direction);
             if (next) this.executeFocus(next);
         }
@@ -194,8 +201,7 @@ class CoreManager {
 
     public getNextFocusableContext = (
         direction: string,
-        forceNonRecyclerSearch = false,
-        c?: any
+        ownCandidates?: AbstractFocusModel[]
     ): AbstractFocusModel | undefined | null => {
         const currentFocus = this._currentFocus;
         const focusMap = this._focusMap;
@@ -230,29 +236,23 @@ class CoreManager {
             match2: 9999999,
         };
 
-        if (this._currentFocus?.getParent()?.isRecyclable() && !forceNonRecyclerSearch) {
-            const owner = this.getFocusTaskExecutor(direction);
-            closestContext = owner?.getNextFocusable(direction);
-        } else {
-            const maxOrder = Math.max(
-                ...Object.values(focusMap).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
+        const candidates =
+            ownCandidates ??
+            Object.values(focusMap).filter(
+                (c) =>
+                    c.isInForeground() &&
+                    c.isFocusable() &&
+                    c.getId() !== currentFocus.getId() &&
+                    c.getOrder() === this.getCurrentMaxOrder()
             );
-                        
-            const candidates =
-                c ??
-                Object.values(focusMap).filter(
-                    (c) => c.isInForeground() && c.isFocusable() && c.getId() !== currentFocus.getId() && c.getOrder() === maxOrder
-                );
 
-                
-            for (let i = 0; i < candidates.length; i++) {
-                const cls = candidates[i];
+        for (let i = 0; i < candidates.length; i++) {
+            const cls = candidates[i];
 
-                this.findClosestNode(cls, direction, output);
-            }
-
-            closestContext = output.match1Context || output.match2Context;
+            this.findClosestNode(cls, direction, output);
         }
+
+        closestContext = output.match1Context || output.match2Context;
 
         if (closestContext) {
             if (closestContext.getParent()?.getId() !== currentFocus.getParent()?.getId()) {
@@ -320,12 +320,8 @@ class CoreManager {
         return this._currentFocus;
     };
 
-    private getFocusTaskExecutor(direction: string) {
-        if (this._currentFocus?.getParent()?.isNested() && DIRECTION_VERTICAL.includes(direction)) {
-            return this._currentFocus?.getParent()?.getParent();
-        }
-
-        return this._currentFocus?.getParent();
+    public getCurrentMaxOrder(): number {
+        return Math.max(...Object.values(this._focusMap).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder())));
     }
 
     public findClosestNode = (cls: AbstractFocusModel, direction: string, output: any) => {
