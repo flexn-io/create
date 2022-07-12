@@ -55,7 +55,7 @@
         "react-native-carplay": "2.0.0",
         "react-native-gesture-handler": "1.10.3",
         "react-native-google-cast": "4.1.2",
-        "react-native-media-query": "1.0.12",
+        "react-native-media-query": "github:aurimasmi/react-native-media-query",
         "react-native-reanimated": "1.13.3",
         "react-native-safe-area-context": "3.1.8",
         "react-native-screens": "2.2.0",
