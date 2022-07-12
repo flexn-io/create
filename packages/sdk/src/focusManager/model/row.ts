@@ -1,5 +1,6 @@
 import AbstractFocusModel from './AbstractFocusModel';
 import Recycler from './recycler';
+import View from './view';
 import Core from './core';
 import Scroller from './scroller';
 import { DIRECTION_VERTICAL } from '../constants';
@@ -69,9 +70,18 @@ class Row extends Recycler {
         const layout: any = this.getLayouts()[this.getInitialRenderIndex()] ?? { x: 0, y: 0 };
         const horizontalOffset = this.getScreen()?.getHorizontalViewportOffset() ?? 0;
         const target = { x: layout.x - horizontalOffset, y: 0 };
+        
         setTimeout(() => {
             Scroller.scrollRecycler(target, this);
         }, 0);
+
+        const interval = setInterval(() => {
+            const currentChildren = this.getChildren().find(ch => ch.getRepeatContext()?.index === this.getInitialRenderIndex());
+            if (currentChildren) {
+                this.setFocusedView(currentChildren as View);
+                clearInterval(interval);
+            }
+        }, 100);
     }
 
     public getFocusTaskExecutor(direction: string): AbstractFocusModel | undefined {

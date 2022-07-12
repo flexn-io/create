@@ -49,7 +49,7 @@ class Recycler extends AbstractFocusModel {
         this._repeatContext = repeatContext;
         this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._focusedIndex = 0;
-        this._initialRenderIndex = initialRenderIndex > 0 ? initialRenderIndex - 1 : 0;
+        this._initialRenderIndex = initialRenderIndex;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;

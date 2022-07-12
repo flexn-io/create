@@ -42,7 +42,6 @@ const ListTest = () => {
                     titleStyle={styles.titleStyle}
                     cardStyle={styles.cardStyle}
                     focusOptions={{ forbiddenFocusDirections: ['right'] }}
-                    style={{height: 600}}
                 />
             </View>
         </Screen>
