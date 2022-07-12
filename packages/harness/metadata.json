@@ -1,6 +1,6 @@
 {
     "name": "app-harness",
-    "version": "0.16.1-rnmq-upgrade",
+    "version": "0.16.1-rnmq-upgrade.1",
     "identifier": "io.flexn.app.harness",
     "icon": "./static/icon.png"
 }
