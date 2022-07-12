@@ -119,7 +119,6 @@ class CoreManager {
                 if (next) this.executeFocus(next);
                 return;
             }
-
             const next = this.getNextFocusableContext(direction);
             if (next) this.executeFocus(next);
         }
@@ -196,7 +195,8 @@ class CoreManager {
 
     public getNextFocusableContext = (
         direction: string,
-        ownCandidates?: AbstractFocusModel[]
+        ownCandidates?: AbstractFocusModel[],
+        findFocusInParent = true
     ): AbstractFocusModel | undefined | null => {
         const currentFocus = this._currentFocus;
         const focusMap = this._focusMap;
@@ -285,7 +285,7 @@ class CoreManager {
             return closestContext;
         }
 
-        if (this._currentFocus?.getParent()) {
+        if (this._currentFocus?.getParent() && findFocusInParent) {
             let parent = this._currentFocus.getParent();
             const parents = parent ? [parent] : [];
             while (parent) {

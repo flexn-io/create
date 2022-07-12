@@ -41,7 +41,7 @@ class Grid extends Recycler {
                     c.getOrder() === Core.getCurrentMaxOrder()
             );
 
-            const next = Core.getNextFocusableContext(direction, candidates);
+            const next = Core.getNextFocusableContext(direction, candidates, false);
 
             if (
                 direction === 'down' &&

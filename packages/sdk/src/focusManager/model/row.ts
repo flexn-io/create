@@ -24,6 +24,8 @@ class Row extends Recycler {
     }
 
     public getNextFocusable(direction: string): AbstractFocusModel | undefined | null {
+        
+
         if (this._isInBounds(direction) && ['right', 'left'].includes(direction)) {
             const candidates = Object.values(Core.getFocusMap()).filter(
                 (c) =>
@@ -33,7 +35,7 @@ class Row extends Recycler {
                     c.getOrder() === Core.getCurrentMaxOrder()
             );
 
-            return Core.getNextFocusableContext(direction, candidates);
+            return Core.getNextFocusableContext(direction, candidates, false);
         } else if (!this._isInBounds(direction) || ['up', 'down'].includes(direction)) {
             const nextFocus = Core.getNextFocusableContext(direction);
 

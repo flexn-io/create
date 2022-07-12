@@ -58,32 +58,30 @@ export default function RecyclerView({
     }
 
     const pctx = repeatContext?.parentContext || parentContext;
-    
+
     // const [stateIndex, setStateIndex] = useState(repeatContext?.index);
 
-    const [ClsInstance] = useState(
-        () => {
-            const params = {
-                isHorizontal,
-                isNested: !!repeatContext,
-                parent: pctx,
-                repeatContext,
-                initialRenderIndex,
-                onFocus,
-                onBlur,
-                ...focusOptions,
-            };
+    const [ClsInstance] = useState(() => {
+        const params = {
+            isHorizontal,
+            isNested: !!repeatContext,
+            parent: pctx,
+            repeatContext,
+            initialRenderIndex,
+            onFocus,
+            onBlur,
+            ...focusOptions,
+        };
 
-            if (type === 'grid') {
-                return new Grid(params);
-            } else if (type === 'row') {
-                return new Row(params);
-            } else {
-                return new List(params);
-            }
+        if (type === 'grid') {
+            return new Grid(params);
+        } else if (type === 'row') {
+            return new Row(params);
+        } else {
+            return new List(params);
         }
-    );
-    
+    });
+
     if (repeatContext) {
         ClsInstance.setRepeatContext(repeatContext);
     }
@@ -166,7 +164,7 @@ export default function RecyclerView({
                 disableItemContainer={disableItemContainer}
                 isHorizontal={isHorizontal}
                 contentContainerStyle={contentContainerStyle}
-                renderAheadOffset={1500}
+                // renderAheadOffset={1500}
                 {...props}
             />
         </RNView>

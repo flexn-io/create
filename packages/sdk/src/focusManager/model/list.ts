@@ -32,7 +32,7 @@ class List extends Recycler {
                     c.getOrder() === Core.getCurrentMaxOrder()
             );
 
-            return Core.getNextFocusableContext(direction, candidates);
+            return Core.getNextFocusableContext(direction, candidates, false);
         } else if (!this._isInBounds(direction)) {
             return Core.getNextFocusableContext(direction);
         }
