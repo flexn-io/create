@@ -55,7 +55,7 @@
     "isTemplate": true,
     "plugins": {
         "@flexn/sdk": {
-            "version": "0.16.1-rnmq-upgrade.2",
+            "version": "0.16.1-rnmq-upgrade.3",
             "webpack": {
                 "modulePaths": true,
                 "moduleAliases": true
