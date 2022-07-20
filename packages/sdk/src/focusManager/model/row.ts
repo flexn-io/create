@@ -26,7 +26,6 @@ class Row extends Recycler {
 
     public getNextFocusable(direction: string): AbstractFocusModel | undefined | null {
         
-
         if (this._isInBounds(direction) && ['right', 'left'].includes(direction)) {
             const candidates = Object.values(Core.getFocusMap()).filter(
                 (c) =>
@@ -45,6 +44,7 @@ class Row extends Recycler {
                 nextFocus?.getParent()?.isRecyclable() &&
                 nextFocus?.getParent()?.isHorizontal()
             ) {
+
                 return Core.getCurrentFocus();
             }
 
@@ -54,6 +54,10 @@ class Row extends Recycler {
 
     private _isInBounds(direction: string): boolean {
         const current = this.getCurrentFocusIndex();
+
+        if (!this.isHorizontal() && ['right', 'left'].includes(direction)) {
+            return false;
+        }
 
         if (direction === 'left' && current === 0) {
             return false;
