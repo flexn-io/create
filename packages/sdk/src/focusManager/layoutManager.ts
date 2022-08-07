@@ -21,13 +21,14 @@ export function findLowestRelativeCoordinates(cls: AbstractFocusModel) {
 
 function recalculateAbsolutes(cls: AbstractFocusModel) {
     const layout = cls.getLayout();
+
     cls.updateLayoutProperty('absolute', {
-        xMin: layout.xMin - layout.xOffset,
-        xMax: layout.xMax - layout.xOffset,
-        yMin: layout.yMin - layout.yOffset,
-        yMax: layout.yMax - layout.yOffset,
-        xCenter: layout.xCenter - layout.xOffset,
-        yCenter: layout.yCenter - layout.yOffset,
+        xMin: layout.xMin - layout.xOffset + layout.xOffsetDiff,
+        xMax: layout.xMax - layout.xOffset + layout.xOffsetDiff,
+        yMin: layout.yMin - layout.yOffset + layout.yOffsetDiff,
+        yMax: layout.yMax - layout.yOffset + layout.yOffsetDiff,
+        xCenter: layout.xCenter - layout.xOffset + layout.xOffsetDiff,
+        yCenter: layout.yCenter - layout.yOffset + layout.yOffsetDiff,
     });
 }
 
@@ -106,10 +107,38 @@ function measure(
                 xMin: 0,
                 xMax: 0,
             },
+            yOffsetDiff: 0,
+            xOffsetDiff: 0,
         };
 
-        if (cls.getLayout()) {
-            layout.yOffset = cls.getLayout().yOffset;
+        if (!repeatContext) {
+            if (cls.getLayout()) {
+                layout.yOffsetDiff = cls.getLayout().yOffsetDiff;
+                layout.xOffsetDiff = cls.getLayout().xOffsetDiff;
+
+                layout.yOffsetDiff =
+                    layout.yOffsetDiff === 0
+                        ? cls.getLayout()?.yMin - pgY
+                        : layout.yOffsetDiff + (cls.getLayout()?.yMin - pgY);
+                layout.xOffsetDiff =
+                    layout.xOffsetDiff === 0
+                        ? cls.getLayout()?.xMin - pgX
+                        : layout.xOffsetDiff + (cls.getLayout()?.xMin - pgX);
+            } else {
+                let offsetX = 0;
+                let offsetY = 0;
+                let parent = cls.getParent();
+                while (parent) {
+                    if (parent.isScrollable()) {
+                        offsetX += parent.getScrollOffsetX() || 0;
+                        offsetY += parent.getScrollOffsetY() || 0;
+                    }
+                    parent = parent?.getParent();
+                }
+
+                layout.yOffsetDiff = offsetY;
+                layout.xOffsetDiff = offsetX;
+            }
         }
 
         // TODO: move it out from here
@@ -125,7 +154,9 @@ function measure(
         cls.setLayout(layout);
 
         findLowestRelativeCoordinates(cls);
+
         recalculateLayout(cls);
+
         if (callback) callback();
     });
 

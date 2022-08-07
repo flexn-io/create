@@ -25,7 +25,6 @@ class Row extends Recycler {
     }
 
     public getNextFocusable(direction: string): AbstractFocusModel | undefined | null {
-        
         if (this._isInBounds(direction) && ['right', 'left'].includes(direction)) {
             const candidates = Object.values(Core.getFocusMap()).filter(
                 (c) =>
@@ -44,7 +43,6 @@ class Row extends Recycler {
                 nextFocus?.getParent()?.isRecyclable() &&
                 nextFocus?.getParent()?.isHorizontal()
             ) {
-
                 return Core.getCurrentFocus();
             }
 
@@ -74,16 +72,18 @@ class Row extends Recycler {
         const layout: any = this.getLayouts()[this.getInitialRenderIndex()] ?? { x: 0, y: 0 };
         const horizontalOffset = this.getScreen()?.getHorizontalViewportOffset() ?? 0;
         const verticalOffset = this.getScreen()?.getVerticalViewportOffset() ?? 0;
-        const target = this.isHorizontal() ?
-            { x: layout.x - horizontalOffset, y: 0 } :
-            { y: layout.y - verticalOffset, x: 0 };
-        
+        const target = this.isHorizontal()
+            ? { x: layout.x - horizontalOffset, y: 0 }
+            : { y: layout.y - verticalOffset, x: 0 };
+
         setTimeout(() => {
             Scroller.scrollRecycler(target, this);
         }, 0);
 
         const interval = setInterval(() => {
-            const currentChildren = this.getChildren().find(ch => ch.getRepeatContext()?.index === this.getInitialRenderIndex());
+            const currentChildren = this.getChildren().find(
+                (ch) => ch.getRepeatContext()?.index === this.getInitialRenderIndex()
+            );
             if (currentChildren) {
                 this.setFocusedView(currentChildren as View);
                 clearInterval(interval);
@@ -97,7 +97,7 @@ class Row extends Recycler {
         }
 
         return this;
-    };
+    }
 }
 
 export default Row;
