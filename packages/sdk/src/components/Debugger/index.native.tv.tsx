@@ -45,40 +45,46 @@ export default function FocusDebugger() {
     if (CoreManager.isDebuggerEnabled) {
         const contexts: any = [];
         const contextMap = CoreManager.getFocusMap(); // eslint-disable-line prefer-destructuring
-        Object.values(contextMap).forEach((ctx: AbstractFocusModel) => {
-            const parentInForeground = ctx.getScreen()?.isInForeground();
-            if (ctx.getLayout() && parentInForeground) {
-                const borderColor = colors[ctx.getType()] || 'white';
-                contexts.push(
-                    <RNView
-                        key={`${ctx.getId()}${ctx.nodeId}`}
-                        style={{
-                            width: ctx.getLayout().width,
-                            height: ctx.getLayout().height,
-                            borderColor,
-                            borderWidth: ctx.getIsFocused() ? 5 : 1,
-                            position: 'absolute',
-                            top: ctx.getLayout().absolute.yMin,
-                            left: ctx.getLayout().absolute.xMin,
-                        }}
-                    >
-                        <Text style={{ color: borderColor }}>{ctx.getId().substr(ctx.getId().length - 5)}</Text>
-                    </RNView>,
-                    <RNView
-                        key={ctx.getId()}
-                        style={{
-                            width: 6,
-                            height: 6,
-                            borderRadius: 5,
-                            backgroundColor: borderColor,
-                            position: 'absolute',
-                            left: ctx.getLayout().absolute.xCenter - 3,
-                            top: ctx.getLayout().absolute.yCenter - 3,
-                        }}
-                    />
-                );
-            }
-        });
+        Object.values(contextMap)
+            .filter((ctx) => ctx.getType() === 'view')
+            .forEach((ctx: AbstractFocusModel) => {
+                const parentInForeground = ctx.getScreen()?.isInForeground();
+                if (ctx.getLayout() && parentInForeground) {
+                    const borderColor = colors[ctx.getType()] || 'white';
+                    contexts.push(
+                        <RNView
+                            key={`${ctx.getId()}${ctx.nodeId}`}
+                            style={{
+                                width: ctx.getLayout().width,
+                                height: ctx.getLayout().height,
+                                borderColor,
+                                borderWidth: ctx.getIsFocused() ? 5 : 1,
+                                position: 'absolute',
+                                top: isNaN(ctx.getLayout().absolute.yMin) ? 0 : ctx.getLayout().absolute.yMin,
+                                left: isNaN(ctx.getLayout().absolute.xMin) ? 0 : ctx.getLayout().absolute.xMin,
+                            }}
+                        >
+                            <Text style={{ color: borderColor }}>{ctx.getId().substr(ctx.getId().length - 5)}</Text>
+                        </RNView>,
+                        <RNView
+                            key={ctx.getId()}
+                            style={{
+                                width: 6,
+                                height: 6,
+                                borderRadius: 5,
+                                backgroundColor: borderColor,
+                                position: 'absolute',
+                                top: isNaN(ctx.getLayout().absolute.xCenter - 3)
+                                    ? 0
+                                    : ctx.getLayout().absolute.xCenter - 3,
+                                left: isNaN(ctx.getLayout().absolute.yCenter - 3)
+                                    ? 0
+                                    : ctx.getLayout().absolute.yCenter - 3,
+                            }}
+                        />
+                    );
+                }
+            });
 
         return (
             <RNView
@@ -96,7 +102,7 @@ export default function FocusDebugger() {
                         width: '100%',
                         height: 1,
                         backgroundColor: 'red',
-                        top: CoreManager.guideLineY,
+                        top: isNaN(CoreManager.guideLineY) ? 0 : CoreManager.guideLineY,
                         position: 'absolute',
                     }}
                 />
@@ -105,7 +111,7 @@ export default function FocusDebugger() {
                         height: '100%',
                         width: 1,
                         backgroundColor: 'red',
-                        left: CoreManager.guideLineX,
+                        left: isNaN(CoreManager.guideLineX) ? 0 : CoreManager.guideLineX,
                         position: 'absolute',
                     }}
                 />

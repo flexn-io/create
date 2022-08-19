@@ -88,6 +88,7 @@ const Grid = ({
 
     const renderGrid = () => (
         <RecyclableList
+            type="grid"
             dataProvider={dataProvider}
             layoutProvider={layoutProvider.current}
             rowRenderer={(_type: string | number, data, _index: number, repeatContext: any, renderProps) => {

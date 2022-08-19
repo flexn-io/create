@@ -101,7 +101,7 @@ const List = ({
     const renderRow = ({ index, data, title, repeatContext }: any) => {
         return (
             <Carousel
-                index={index}
+                key={index}
                 items={data.items}
                 itemsInViewport={data.itemsInViewport || itemsInViewport}
                 title={title}
@@ -134,6 +134,7 @@ const List = ({
     const renderRecycler = () => {
         return (
             <RecyclableList
+                type="list"
                 isHorizontal={false}
                 scrollViewProps={{
                     showsVerticalScrollIndicator: false,

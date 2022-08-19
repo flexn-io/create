@@ -42,7 +42,6 @@ interface RowProps {
 }
 
 const Row = ({
-    index,
     items,
     title,
     itemsInViewport,
@@ -103,7 +102,6 @@ const Row = ({
         if (renderCard) {
             return renderCard(data, _repeatContext, { ...rowDimensions.item }, _renderProps);
         }
-
         return (
             <PosterCard
                 src={{ uri: data.backgroundImage }}
@@ -125,9 +123,7 @@ const Row = ({
         if (!isLoading) {
             return (
                 <RecyclableList
-                    {...(index !== undefined && {
-                        key: index,
-                    })}
+                    type="row"
                     dataProvider={dataProvider}
                     layoutProvider={layoutProvider.current}
                     initialXOffset={Ratio(initialXOffset)}
