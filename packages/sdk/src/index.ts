@@ -1,6 +1,8 @@
 // Functions
 import CoreManager from './focusManager/model/core';
 
+export { CoreManager };
+
 export function focusElementByFocusKey(focusKey: string) {
     CoreManager.focusElementByFocusKey(focusKey);
 }

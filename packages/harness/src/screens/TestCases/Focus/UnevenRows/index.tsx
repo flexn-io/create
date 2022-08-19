@@ -45,6 +45,7 @@ const List = ({
                 {rowIndex + 1} row ({rowItemCount} items)
             </Text>
             <RecyclableList
+                type="row"
                 dataProvider={dataProvider}
                 layoutProvider={layoutProvider}
                 rowRenderer={(_type: string | number, _data: any, index: number, repeatContext: any) => (

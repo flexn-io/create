@@ -52,6 +52,10 @@ const Screen = React.forwardRef<any, ScreenProps>(
             }
         }, [screenState]);
 
+        useEffect(() => {
+            ClsInstance.setOrder(screenOrder);
+        }, [screenOrder]);
+
         useEffect(
             () => () => {
                 CoreManager.removeFocusable(ClsInstance);

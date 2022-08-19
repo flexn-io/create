@@ -1,8 +1,13 @@
 package io.flexn.sdk.animators;
 
 import android.animation.TimeAnimator;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.RelativeLayout;
 
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.views.view.ReactViewGroup;
@@ -17,13 +22,13 @@ class ScaleAnimator extends AbstractAnimator implements TimeAnimator.TimeListene
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
     public void onFocus(boolean animated) {
-        this.mView.bringToFront();
-        this.mView.invalidate();
+        this.mView.setTranslationZ(1);
         animateFocus(true, false);
     }
 
     public void onBlur(boolean animated) {
-       animateFocus(false, false);
+        this.mView.setTranslationZ(0);
+        animateFocus(false, false);
     }
 
     void animateFocus(boolean select, boolean immediate) {

@@ -9,6 +9,7 @@ import {
     DEFAULT_VIEWPORT_OFFSET,
 } from '../constants';
 import ScrollView from './scrollview';
+import Recycler from './recycler';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -56,6 +57,17 @@ class Scroller {
             }
         }
     }
+
+    public scrollRecycler(scrollTarget: { x: number; y: number }, scroller: Recycler) {
+        if (scrollTarget) {
+            if (scroller.getScrollOffsetX() !== scrollTarget.x || scroller.getScrollOffsetY() !== scrollTarget.y) {
+                scroller.node.current.scrollTo(scrollTarget);
+                scroller.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);
+                recalculateLayout(scroller);
+            }
+        }
+    }
+
     public inlineScroll(direction: string, nextFocus: AbstractFocusModel) {
         const scrollContextParents = this.getParentScrollers(nextFocus);
         const contextParameters = {
@@ -117,7 +129,8 @@ class Scroller {
         }
 
         if (DIRECTION_RIGHT.includes(direction)) {
-            let xMaxScroll = scrollView.getLayout().xMaxScroll || scrollView.getMostRightChildren().getLayout()?.xMax || 0;
+            let xMaxScroll =
+                scrollView.getLayout().xMaxScroll || scrollView.getMostRightChildren().getLayout()?.xMax || 0;
             xMaxScroll += scrollView.getLayout().xMin || 0;
 
             //Prevent OVERSCROLL
@@ -128,7 +141,6 @@ class Scroller {
                 scrollTarget.x = xMaxScroll + horizontalViewportOffset - windowWidth;
             }
         }
-
 
         if (DIRECTION_LEFT.includes(direction)) {
             scrollTarget.x = Math.min(

@@ -8,6 +8,8 @@ import ViewportVerHoz from './ViewportVerHoz';
 import Moonshine from './moonshine';
 import FocusNext from './FocusNext';
 import NonScrollableScrollView from './NonScrollableScrollView';
+import ListOfRows from './ListOfRows';
+import RecalculateLayout from './RecalculateLayout';
 
 export default {
     AbsoluteSideDrawer,
@@ -20,4 +22,6 @@ export default {
     ViewportBothEdgesVertical,
     FocusNext,
     NonScrollableScrollView,
+    ListOfRows,
+    RecalculateLayout,
 };
