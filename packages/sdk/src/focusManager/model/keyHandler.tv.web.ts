@@ -9,48 +9,64 @@ const EVENT_TYPE_RIGHT = 'right';
 const EVENT_TYPE_LEFT = 'left';
 const EVENT_TYPE_DOWN = 'down';
 const EVENT_TYPE_UP = 'up';
+const EVENT_TYPE_PLAY_PAUSE = 'playPause';
+
+const DEFAULT_KEY_MAP = {
+    37: EVENT_TYPE_LEFT,
+    38: EVENT_TYPE_UP,
+    39: EVENT_TYPE_RIGHT,
+    40: EVENT_TYPE_DOWN,
+    13: EVENT_TYPE_SELECT,
+    32: EVENT_TYPE_PLAY_PAUSE,
+};
 
 const IS_ANDROID_BASED = isPlatformAndroidtv || isPlatformFiretv;
 
 class KeyHandler {
-
-    private _stopKeyDownEvents: boolean;
+    private keyUpEventListener: (event: KeyboardEvent) => void;
 
     constructor() {
-        this._stopKeyDownEvents = false;
-
-
-        this.onKeyDown = throttle(this.onKeyDown.bind(this), 100);
+        this.keyUpEventListener = null;
+        this.onKeyDown = this.onKeyDown.bind(this);
         this.enableKeyHandler = this.enableKeyHandler.bind(this);
 
         this.enableKeyHandler();
     }
 
     private enableKeyHandler() {
+        this.keyUpEventListener = (event: KeyboardEvent) => {
+            const eventType = DEFAULT_KEY_MAP[event.keyCode];
+            
+            console.log('eventType', event.keyCode);
+            this.onKeyDown(eventType);
+        };
 
+        window.addEventListener('keyup', this.keyUpEventListener);
     }
-    
+
+    public removeListeners() {
+
+    };
+
     private onKeyDown(eventType: string) {
         if (eventType === 'playPause') {
             Logger.getInstance().debug(CoreManager);
             CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
         }
 
-        if (!this._stopKeyDownEvents) {
-            if (IS_ANDROID_BASED && eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
-                CoreManager.getCurrentFocus()?.onPress();
+        if (IS_ANDROID_BASED && eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
+            CoreManager.getCurrentFocus()?.onPress();
+        }
+
+        if (CoreManager.getCurrentFocus()) {
+            if (CoreManager.hasPendingUpdateGuideLines) {
+                CoreManager.executeUpdateGuideLines();
             }
 
-            if (CoreManager.getCurrentFocus()) {
-                if (CoreManager.hasPendingUpdateGuideLines) {
-                    CoreManager.executeUpdateGuideLines();
-                }
-
-                if (DIRECTION.includes(eventType)) {
-                    CoreManager.executeDirectionalFocus(eventType);
-                    CoreManager.executeScroll(eventType);
-                    CoreManager.executeUpdateGuideLines();
-                }
+            if (DIRECTION.includes(eventType)) {
+                CoreManager.executeDirectionalFocus(eventType);
+                CoreManager.executeScroll(eventType);
+                CoreManager.executeUpdateGuideLines();
             }
         }
     }
