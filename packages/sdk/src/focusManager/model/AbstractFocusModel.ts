@@ -1,8 +1,8 @@
 import { recalculateLayout } from '../layoutManager';
-import Screen, { STATE_BACKGROUND } from './screen';
-import Recycler from './recycler';
+import { Recycler, Screen, ScreenStates } from '../types';
 
 const TYPE_SCREEN = 'screen';
+export const STATE_BACKGROUND: ScreenStates = 'background';
 // const TYPE_VIEW = 'view';
 // const TYPE_RECYCLER = 'recycler';
 // const TYPE_SCROLLVIEW = 'scrollview';

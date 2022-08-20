@@ -7,6 +7,9 @@
     "bugs": {
         "url": "https://github.com/flexn-io/flexn/issues"
     },
+    "browserslist": [
+        "> 2%"
+    ],
     "license": "MIT",
     "author": "Flexn BV",
     "files": [
@@ -46,7 +49,8 @@
         "@lightningjs/cli": "2.7.1",
         "@lightningjs/core": "^2.6.0",
         "@lightningjs/sdk": "4.3.3",
-        "@lightningjs/ui-components": "^1.2.1"
+        "@lightningjs/ui-components": "^1.2.1",
+        "raf": "3.4.1"
     },
     "devDependencies": {
         "@flexn/graybox": "0.17.0-alpha.8",
@@ -65,14 +69,14 @@
         "@react-navigation/routers": "5.1.0",
         "@react-navigation/stack": "5.9.2",
         "@react-navigation/web": "1.0.0-alpha.9",
-        "@rnv/engine-lightning": "0.36.0-canary.13",
-        "@rnv/engine-rn": "0.36.0-canary.13",
-        "@rnv/engine-rn-electron": "0.36.0-canary.13",
-        "@rnv/engine-rn-next": "0.36.0-canary.13",
-        "@rnv/engine-rn-tvos": "0.36.0-canary.13",
-        "@rnv/engine-rn-web": "0.36.0-canary.13",
-        "@rnv/engine-rn-windows": "0.36.0-canary.13",
-        "@rnv/renative": "0.36.0-canary.13",
+        "@rnv/engine-lightning": "0.36.1",
+        "@rnv/engine-rn": "0.36.1",
+        "@rnv/engine-rn-electron": "0.36.1",
+        "@rnv/engine-rn-next": "0.36.1",
+        "@rnv/engine-rn-tvos": "0.36.1",
+        "@rnv/engine-rn-web": "0.36.1",
+        "@rnv/engine-rn-windows": "0.36.1",
+        "@rnv/renative": "0.36.1",
         "@rollup/plugin-typescript": "^8.3.2",
         "@types/react-native": "0.67.2",
         "http-server": "^14.1.0",
@@ -93,7 +97,7 @@
         "react-native-vector-icons": "8.1.0",
         "react-native-web": "0.17.5",
         "react-native-windows": "0.63.36",
-        "rnv": "0.36.0-canary.13",
+        "rnv": "0.36.1",
         "rollup": "^2.70.2",
         "rollup-plugin-license": "2.7.0",
         "tslib": "2.3.1",

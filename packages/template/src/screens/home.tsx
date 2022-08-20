@@ -20,6 +20,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
         backgroundColorFocus: theme.static.colorBrand,
     };
 
+    console.log('home');
     return (
         <Screen style={theme.styles.screen} focusOptions={{ verticalWindowAlignment: 'both-edge' }}>
             <ScrollView
