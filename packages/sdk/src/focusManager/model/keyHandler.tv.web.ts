@@ -1,5 +1,4 @@
 import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
-import throttle from 'lodash.throttle';
 import CoreManager from './core';
 import { DIRECTION } from '../constants';
 import Logger from './logger';
@@ -11,7 +10,7 @@ const EVENT_TYPE_DOWN = 'down';
 const EVENT_TYPE_UP = 'up';
 const EVENT_TYPE_PLAY_PAUSE = 'playPause';
 
-const DEFAULT_KEY_MAP = {
+const DEFAULT_KEY_MAP: any = {
     37: EVENT_TYPE_LEFT,
     38: EVENT_TYPE_UP,
     39: EVENT_TYPE_RIGHT,
@@ -23,10 +22,9 @@ const DEFAULT_KEY_MAP = {
 const IS_ANDROID_BASED = isPlatformAndroidtv || isPlatformFiretv;
 
 class KeyHandler {
-    private keyUpEventListener: (event: KeyboardEvent) => void;
+    private keyUpEventListener?: (event: KeyboardEvent) => void;
 
     constructor() {
-        this.keyUpEventListener = null;
         this.onKeyDown = this.onKeyDown.bind(this);
         this.enableKeyHandler = this.enableKeyHandler.bind(this);
 
@@ -37,7 +35,6 @@ class KeyHandler {
         this.keyUpEventListener = (event: KeyboardEvent) => {
             const eventType = DEFAULT_KEY_MAP[event.keyCode];
             
-            console.log('eventType', event.keyCode);
             this.onKeyDown(eventType);
         };
 
@@ -45,7 +42,7 @@ class KeyHandler {
     }
 
     public removeListeners() {
-
+        // to be implemented
     };
 
     private onKeyDown(eventType: string) {

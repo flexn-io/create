@@ -11,20 +11,21 @@ const ModalStack = createStackNavigator();
 const Stack = createStackNavigator();
 
 const CarouselsStack = () => (
-    <Stack.Navigator headerMode="none">
+    <Stack.Navigator>
         <Stack.Screen name={ROUTES.CAROUSELS} component={ScreenCarousels} />
         <Stack.Screen name={ROUTES.DETAILS} component={ScreenDetails} />
     </Stack.Navigator>
 );
 
 const App = () => {
+    // eslint-disable-next-line
     const { theme } = useContext(ThemeContext);
 
     return (
         <NavigationContainer>
             <ModalStack.Navigator
                 // headerMode="none"
-                initialRouteName="home"
+                initialRouteName="carousels"
                 // mode="modal"
                 screenOptions={{
                     cardStyleInterpolator: CardStyleInterpolators.forScaleFromCenterAndroid,

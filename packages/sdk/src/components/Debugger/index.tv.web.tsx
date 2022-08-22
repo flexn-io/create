@@ -49,6 +49,7 @@ export default function FocusDebugger() {
             .filter((ctx) => ctx.getType() === 'view')
             .forEach((ctx: AbstractFocusModel) => {
                 const parentInForeground = ctx.getScreen()?.isInForeground();
+
                 if (ctx.getLayout() && parentInForeground) {
                     const borderColor = colors[ctx.getType()] || 'white';
                     contexts.push(
@@ -85,7 +86,7 @@ export default function FocusDebugger() {
                     );
                 }
             });
-
+        
         return (
             <RNView
                 style={{

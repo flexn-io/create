@@ -247,8 +247,7 @@
             "target": "es5"
         },
         "webos": {
-            "engine": "engine-lightning",
-            "target": "es5"
+            "engine": "engine-rn-web"
         },
         "tvos": {
             "engine": "engine-rn-tvos"

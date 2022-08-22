@@ -134,6 +134,7 @@ const List = ({
     const renderRecycler = () => {
         return (
             <RecyclableList
+                parentContext={parentContext}
                 type="list"
                 isHorizontal={false}
                 scrollViewProps={{
