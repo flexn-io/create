@@ -49,9 +49,42 @@ const View = React.forwardRef<any, ViewProps>(
                     repeatContext,
                     parent: pctx,
                     ...focusOptions,
+                    onFocus: onComponentFocus,
+                    onBlur: onComponentBlur,
                 });
             }
         });
+
+        const onComponentFocus = () => {
+            ref.current.setNativeProps({
+                style: {
+                    borderWidth: 2,
+                    borderColor: 'red',
+                }
+            });
+
+            // ref.current.setNativeProps({
+            //     style: {
+            //         transform: [{scale: 1.1}]
+            //     }
+            // });
+            // console.log('ref.current', ref.current);
+            onFocus();
+        };
+
+        const onComponentBlur = () => {
+            ref.current.setNativeProps({
+                style: {
+                    borderWidth: 0
+                }
+            });            
+            // ref.current.setNativeProps({
+            //     style: {
+            //         transform: [{scale: 1}]
+            //     }
+            // });
+            onBlur();
+        };
 
         // We must re-assign repeat context as View instances are re-used in recycled
         if (repeatContext) {
@@ -76,8 +109,8 @@ const View = React.forwardRef<any, ViewProps>(
         useEffect(() => {
             (ViewInstance as ViewClass)?.updateEvents?.({
                 onPress,
-                onFocus,
-                onBlur,
+                onFocus: onComponentFocus,
+                onBlur: onComponentBlur,
             });
         }, [onPress, onFocus, onBlur]);
 
