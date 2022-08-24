@@ -1,4 +1,3 @@
-import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 import CoreManager from './core';
 import { DIRECTION } from '../constants';
 import Logger from './logger';
@@ -18,8 +17,6 @@ const DEFAULT_KEY_MAP: any = {
     13: EVENT_TYPE_SELECT,
     32: EVENT_TYPE_PLAY_PAUSE,
 };
-
-const IS_ANDROID_BASED = isPlatformAndroidtv || isPlatformFiretv;
 
 class KeyHandler {
     private keyUpEventListener?: (event: KeyboardEvent) => void;
@@ -51,7 +48,7 @@ class KeyHandler {
             CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
         }
 
-        if (IS_ANDROID_BASED && eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
+        if (eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
             CoreManager.getCurrentFocus()?.onPress();
         }
 

@@ -58,7 +58,7 @@ const View = React.forwardRef<any, ViewProps>(
         const onComponentFocus = () => {
             ref.current.setNativeProps({
                 style: {
-                    borderWidth: 2,
+                    // borderWidth: 2,
                     borderColor: 'red',
                 }
             });
@@ -75,7 +75,8 @@ const View = React.forwardRef<any, ViewProps>(
         const onComponentBlur = () => {
             ref.current.setNativeProps({
                 style: {
-                    borderWidth: 0
+                    borderColor: 'blue',
+                    // borderWidth: 0
                 }
             });            
             // ref.current.setNativeProps({
