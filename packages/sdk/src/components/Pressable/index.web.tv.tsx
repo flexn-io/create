@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View as RNView } from 'react-native';
+import { View as RNView, Animated } from 'react-native';
 import { useCombinedRefs, usePrevious, flattenStyle } from '../../focusManager/helpers';
 import type { ViewProps } from '../../focusManager/types';
 import CoreManager from '../../focusManager/model/core';
@@ -7,6 +7,7 @@ import { measure } from '../../focusManager/layoutManager';
 
 import ViewClass from '../../focusManager/model/view';
 import Screen from '../../focusManager/model/screen';
+import { ANIMATION_TYPES } from '../..';
 
 export const defaultAnimation = {
     type: 'scale',
@@ -35,10 +36,13 @@ const View = React.forwardRef<any, ViewProps>(
         },
         refOuter
     ) => {
+        const scaleAnim = useRef(new Animated.Value(1)).current;
         const refInner = useRef(null);
         const ref = useCombinedRefs(refOuter, refInner);
         const prevFocus = usePrevious(focus);
         const pctx = repeatContext?.parentContext || parentContext;
+        const animatorOptions = focusOptions.animatorOptions || defaultAnimation;
+        const flattenedStyle = flattenStyle(style);
 
         const [ViewInstance, setViewInstance] = useState(() => {
             if (!focus) {
@@ -56,34 +60,78 @@ const View = React.forwardRef<any, ViewProps>(
         });
 
         const onComponentFocus = () => {
-            ref.current.setNativeProps({
-                style: {
-                    // borderWidth: 2,
-                    borderColor: 'red',
-                }
-            });
+            switch (animatorOptions.type) {
+                case ANIMATION_TYPES.SCALE:
+                    Animated.timing(
+                        scaleAnim,
+                        {
+                            toValue: animatorOptions.scale,
+                            duration: 200,
+                            useNativeDriver: true
+                        }
+                    ).start();
+                    break;
+                case ANIMATION_TYPES.SCALE_BORDER:
+                    Animated.timing(
+                        scaleAnim,
+                        {
+                            toValue: animatorOptions.scale,
+                            duration: 200,
+                            useNativeDriver: true
+                        }
+                    ).start();
+                    ref.current.setNativeProps({
+                        borderColor: flattenedStyle.borderColor,
+                        borderWidth: flattenedStyle.borderWidth,
+                    });
+                    break;
+                case ANIMATION_TYPES.BORDER:
+                    ref.current.setNativeProps({
+                        borderColor: flattenedStyle.borderColor,
+                        borderWidth: flattenedStyle.borderWidth,
+                    });
+                    break;  
+                default:
+                    break;
+            }
 
-            // ref.current.setNativeProps({
-            //     style: {
-            //         transform: [{scale: 1.1}]
-            //     }
-            // });
-            // console.log('ref.current', ref.current);
             onFocus();
         };
 
         const onComponentBlur = () => {
-            ref.current.setNativeProps({
-                style: {
-                    borderColor: 'blue',
-                    // borderWidth: 0
-                }
-            });            
-            // ref.current.setNativeProps({
-            //     style: {
-            //         transform: [{scale: 1}]
-            //     }
-            // });
+            switch (animatorOptions.type) {
+                case ANIMATION_TYPES.SCALE:
+                    Animated.timing(
+                        scaleAnim,
+                        {
+                            toValue: 1,
+                            duration: 200,
+                            useNativeDriver: true
+                        }
+                    ).start();
+                    break;
+                case ANIMATION_TYPES.SCALE_BORDER:
+                    Animated.timing(
+                        scaleAnim,
+                        {
+                            toValue: 1,
+                            duration: 200,
+                            useNativeDriver: true
+                        }
+                    ).start();
+                    ref.current.setNativeProps({
+                        borderWidth: 0,
+                    });
+                    break;
+                case ANIMATION_TYPES.BORDER:
+                    ref.current.setNativeProps({
+                        borderWidth: 0,
+                    });
+                    break;  
+                default:
+                    break;
+            }
+
             onBlur();
         };
 
@@ -91,6 +139,24 @@ const View = React.forwardRef<any, ViewProps>(
         if (repeatContext) {
             ViewInstance.setRepeatContext(repeatContext);
         }
+
+        useEffect(() => {
+            if (focus) {
+                scaleAnim.addListener(({ value }) => {
+                    if (ref.current) {
+                        ref.current.setNativeProps({
+                            style: {
+                                transform: [{ scale: value }]
+                            }
+                        });
+                    }
+                });
+            }
+
+            return () => {
+                scaleAnim.removeAllListeners();
+            };
+        }, [focus]);
 
         useEffect(() => {
             // If item initially was not focusable, but during the time it became focusable we capturing that here
@@ -156,8 +222,6 @@ const View = React.forwardRef<any, ViewProps>(
         }
 
         if (focus) {
-            const flattenedStyle = flattenStyle(style);
-
             return (
                 <RNView
                     style={flattenedStyle}
