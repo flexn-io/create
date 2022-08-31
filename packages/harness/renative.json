@@ -84,7 +84,25 @@
                     "io.flexn.sdk.TvRemoteHandlerModule",
                     "android.view.KeyEvent;"
                 ],
-                "activityMethods": []
+                "activityMethods": [
+                    "override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {",
+                    "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"up\");",
+                    "return super.onKeyUp(keyCode, event)",
+                    "}",
+                    "override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {",
+                    "   TvRemoteHandlerModule.getInstance().onKeyEvent(event,  \"longPress\");",
+                    "    return super.onKeyLongPress(keyCode, event)",
+                    "}",
+                    "override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {",
+                    "if(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {",
+                    "event?.startTracking();",
+                    "TvRemoteHandlerModule.getInstance().onKeyEvent(event,\"down\");",
+                    "return true;",
+                    "}",
+                    "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"down\");",
+                    "return super.onKeyDown(keyCode, event)",
+                    "}"
+                ]
             }
         },
         "@rnv/renative": "source:flexn",
