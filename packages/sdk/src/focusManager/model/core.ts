@@ -89,7 +89,7 @@ class CoreManager {
         }
 
         if (this._currentFocus) {
-            if (this._currentFocus.node.current && !isWebtv) {
+            if (this._currentFocus.node.current && !isWebtv()) {
                 // @ts-ignore
                 UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId, 'cmdBlur', null);
             }
@@ -99,7 +99,7 @@ class CoreManager {
 
         this._currentFocus = cls;
 
-        if (cls.node.current && !isWebtv) {
+        if (cls.node.current && !isWebtv()) {
             // @ts-ignore
             UIManager.dispatchViewManagerCommand(cls.nodeId, 'cmdFocus', null);
         }
