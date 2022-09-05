@@ -1,5 +1,5 @@
 import React from 'react';
-import { List } from '@flexn/sdk';
+import { List, View } from '@flexn/sdk';
 import Screen from '../../../../components/Screen';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
@@ -22,7 +22,7 @@ function generateData(width, height, items = 30) {
 }
 
 const ListTest = () => {
-    const data = [...Array(3000).keys()].map(() => {
+    const data = [...Array(5).keys()].map(() => {
         return {
             rowTitle: kittyNames[interval()],
             items: generateData(400, 250, 100),
@@ -32,16 +32,18 @@ const ListTest = () => {
 
     return (
         <Screen>
-            <List
-                items={data}
-                itemsInViewport={5}
-                itemSpacing={30}
-                itemDimensions={{ height: 250 }}
-                rowHeight={400}
-                titleStyle={styles.titleStyle}
-                cardStyle={styles.cardStyle}
-                focusOptions={{ forbiddenFocusDirections: ['right'] }}
-            />
+            <View>
+                <List
+                    items={data}
+                    itemsInViewport={5}
+                    itemSpacing={30}
+                    itemDimensions={{ height: 250 }}
+                    rowHeight={400}
+                    titleStyle={styles.titleStyle}
+                    cardStyle={styles.cardStyle}
+                    focusOptions={{ forbiddenFocusDirections: ['right'] }}
+                />
+            </View>
         </Screen>
     );
 };

@@ -1,11 +1,9 @@
-import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 import { ForbiddenFocusDirections } from '../types';
-import { alterForbiddenFocusDirections } from '../helpers';
+import { alterForbiddenFocusDirections, makeid } from '../helpers';
 import View from './view';
-
 class Recycler extends AbstractFocusModel {
-    private _type: string;
+    protected _type: string;
     private _parent?: AbstractFocusModel;
     private _layouts: any;
     private _scrollOffsetX: number;
@@ -14,6 +12,7 @@ class Recycler extends AbstractFocusModel {
     private _isHorizontal: boolean;
     private _forbiddenFocusDirections: ForbiddenFocusDirections[];
     private _focusedIndex: number;
+    private _initialRenderIndex: number;
     private _focusedView?: View;
     private _repeatContext:
         | {
@@ -22,16 +21,22 @@ class Recycler extends AbstractFocusModel {
           }
         | undefined;
 
-    public isLastVisible: () => boolean;
-    public isFirstVisible: () => boolean;
-
     private _onFocus?: () => void;
     private _onBlur?: () => void;
 
     constructor(params: any) {
         super(params);
 
-        const { isHorizontal, isNested, parent, repeatContext, forbiddenFocusDirections, onFocus, onBlur } = params;
+        const {
+            isHorizontal,
+            isNested,
+            parent,
+            repeatContext,
+            forbiddenFocusDirections,
+            onFocus,
+            onBlur,
+            initialRenderIndex = 0,
+        } = params;
 
         this._id = `recycler-${makeid(8)}`;
         this._type = 'recycler';
@@ -44,9 +49,8 @@ class Recycler extends AbstractFocusModel {
         this._repeatContext = repeatContext;
         this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._focusedIndex = 0;
+        this._initialRenderIndex = initialRenderIndex;
 
-        this.isLastVisible = () => false;
-        this.isFirstVisible = () => false;
         this._onFocus = onFocus;
         this._onBlur = onBlur;
     }
@@ -137,6 +141,10 @@ class Recycler extends AbstractFocusModel {
         this._focusedView = view;
 
         return this;
+    }
+
+    public getInitialRenderIndex(): number {
+        return this._initialRenderIndex;
     }
 
     public getFocusedView(): View | undefined {

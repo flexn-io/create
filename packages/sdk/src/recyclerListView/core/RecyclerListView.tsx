@@ -44,7 +44,9 @@ import { ComponentCompat } from '../utils/ComponentCompat';
 import ScrollComponent from '../platform/reactnative/scrollcomponent/ScrollComponent';
 import ViewRenderer from '../platform/reactnative/viewrenderer/ViewRenderer';
 import { Platform } from 'react-native';
+import { isPlatformTvos, isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 const IS_WEB = !Platform || Platform.OS === 'web';
+const IS_NATIVE_TV = isPlatformTvos || isPlatformAndroidtv || isPlatformFiretv;
 //#endif
 
 /***
@@ -104,6 +106,7 @@ export interface RecyclerListViewProps {
     externalScrollView?: { new (props: ScrollViewDefaultProps): BaseScrollView };
     layoutSize?: Dimension;
     initialOffset?: number;
+    type: string;
     initialXOffset?: number;
     initialRenderIndex?: number;
     scrollThrottle?: number;
@@ -624,7 +627,7 @@ export default class RecyclerListView<
         }
         this._params = {
             initialOffset: this._initialOffset ? this._initialOffset : props.initialOffset,
-            initialRenderIndex: props.initialRenderIndex,
+            initialRenderIndex: IS_NATIVE_TV ? 0 : props.initialRenderIndex,
             isHorizontal: props.isHorizontal,
             itemCount: props.dataProvider.getSize(),
             renderAheadOffset: props.renderAheadOffset,
@@ -692,6 +695,7 @@ export default class RecyclerListView<
             if (!this.props.forceNonDeterministicRendering) {
                 this._checkExpectedDimensionDiscrepancy(itemRect, type, dataIndex);
             }
+
             return (
                 <ViewRenderer
                     key={key}

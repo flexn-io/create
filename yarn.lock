@@ -22324,12 +22324,13 @@ react-native-iphone-x-helper@^1.2.1, react-native-iphone-x-helper@^1.3.0:
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
 
-react-native-media-query@1.0.10:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/react-native-media-query/-/react-native-media-query-1.0.10.tgz#b548dc58cf9f45c7d633d24a6386626302ae61e1"
-  integrity sha512-xQOq7ICBXpurXu0R5FakbVrEtR6TgR3PEqDBwuaT9uEhJzAXhPMJ+hMmbOqgYEaBIvsMj9jTSCphWwrHbGgTKg==
+react-native-media-query@1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/react-native-media-query/-/react-native-media-query-1.0.12.tgz#09a279fd444648a3804e48e6b7aaefb9956aa806"
+  integrity sha512-tX925xCSBAi2fpwQgXriIjzLJgSbCdDI6mHqZbp7XAHhMhj3bRtYLkkfR8jG4F4hqdlVbkbtExU57+dH6GWgYw==
   dependencies:
     css-mediaquery "^0.1.2"
+    react-native-web "0.17.5"
 
 react-native-reanimated@1.13.3:
   version "1.13.3"

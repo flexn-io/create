@@ -12,10 +12,10 @@ export default abstract class AbstractFocusModel {
     protected _children: AbstractFocusModel[];
     protected _screen: Screen | undefined;
 
-    protected _nextFocusRight: string;
-    protected _nextFocusLeft: string;
-    protected _nextFocusUp: string;
-    protected _nextFocusDown: string;
+    protected _nextFocusRight: string | string[];
+    protected _nextFocusLeft: string | string[];
+    protected _nextFocusUp: string | string[];
+    protected _nextFocusDown: string | string[];
 
     constructor(params: any) {
         const { nextFocusRight, nextFocusLeft, nextFocusUp, nextFocusDown } = params;
@@ -121,7 +121,7 @@ export default abstract class AbstractFocusModel {
 
     public getMostBottomChildren(): AbstractFocusModel {
         return this.getChildren().sort((a: AbstractFocusModel, b: AbstractFocusModel) => {
-            if (a.getLayout().yMax > b.getLayout().yMax) {
+            if (a.getLayout()?.yMax > b.getLayout()?.yMax) {
                 return 1;
             }
 
@@ -131,7 +131,7 @@ export default abstract class AbstractFocusModel {
 
     public getMostRightChildren(): AbstractFocusModel {
         return this.getChildren().sort((a: AbstractFocusModel, b: AbstractFocusModel) => {
-            if (a.getLayout().xMax > b.getLayout().xMax) {
+            if (a.getLayout()?.xMax > b.getLayout()?.xMax) {
                 return 1;
             }
 
@@ -149,19 +149,19 @@ export default abstract class AbstractFocusModel {
         }
     }
 
-    public getNextFocusRight(): string {
+    public getNextFocusRight(): string | string[] {
         return this._nextFocusRight || '';
     }
 
-    public getNextFocusLeft(): string {
+    public getNextFocusLeft(): string | string[] {
         return this._nextFocusLeft || '';
     }
 
-    public getNextFocusUp(): string {
+    public getNextFocusUp(): string | string[] {
         return this._nextFocusUp || '';
     }
 
-    public getNextFocusDown(): string {
+    public getNextFocusDown(): string | string[] {
         return this._nextFocusDown || '';
     }
 
@@ -262,7 +262,11 @@ export default abstract class AbstractFocusModel {
     }
 
     public getOrder(): number {
-        return 0;
+        if (this.isScreen()) {
+            return this.getOrder();
+        }
+
+        return this.getScreen()?.getOrder() || 0;
     }
 
     public isScreen(): boolean {
@@ -273,11 +277,15 @@ export default abstract class AbstractFocusModel {
         return '';
     }
 
-    public isFirstVisible(): boolean {
-        return true;
+    public getNextFocusable(_direction: string): AbstractFocusModel | undefined | null {
+        return;
     }
 
-    public isLastVisible(): boolean {
-        return true;
-    }
+    public getFocusTaskExecutor(direction: string): AbstractFocusModel | undefined | null {
+        if (this.getParent()?.getFocusTaskExecutor(direction)) {
+            return this.getParent()?.getFocusTaskExecutor(direction);
+        }
+        
+        return null;
+    };
 }

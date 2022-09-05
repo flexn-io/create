@@ -5,6 +5,10 @@ import AbstractFocusModel from './model/AbstractFocusModel';
 const OVERLAP_THRESHOLD_PERCENTAGE = 20;
 const OVERLAP_NEXT_VALUE = 10;
 
+const nextOverlapValue = (currentSize: number): number => {
+    return (currentSize * OVERLAP_NEXT_VALUE) / 100;
+};
+
 const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: number, endOfNext: number) => {
     const a1 = guideLine - sizeOfCurrent * 0.5;
     const a2 = guideLine + sizeOfCurrent * 0.5;
@@ -55,12 +59,10 @@ const euclideanDistance = (current: AbstractFocusModel, next: AbstractFocusModel
             break;
         case 'down':
             c1 = Math.abs(nextLayout.yMin - currentLayout.yMax);
-            c2 = Math.abs(currentLayout.xMin - nextLayout.xMin);
             break;
         case 'up':
             c1 = Math.abs(currentLayout.yMin - nextLayout.yMax);
-            c2 = Math.abs(currentLayout.xMin - nextLayout.xMin);
-            break;   
+            break;
         default:
             c1 = 0;
             break;
@@ -70,7 +72,7 @@ const euclideanDistance = (current: AbstractFocusModel, next: AbstractFocusModel
         Math.sqrt(Math.pow(c1, 2) + Math.pow(c2, 2)),
         Math.sqrt(Math.pow(c1, 2) + Math.pow(c3, 2)),
         Math.sqrt(Math.pow(c1, 2) + Math.pow(c4, 2)),
-        Math.sqrt(Math.pow(c1, 2) + Math.pow(c5, 2)),
+        Math.sqrt(Math.pow(c1, 2) + Math.pow(c5, 2))
     );
 };
 
@@ -80,7 +82,7 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
 
     switch (direction) {
         case 'up': {
-            if (currentLayout.yMin >= nextLayout.yMax - OVERLAP_NEXT_VALUE) {
+            if (currentLayout.yMin >= nextLayout.yMax - nextOverlapValue(next.getLayout().height)) {
                 const isIntersects = intersects(
                     currentLayout.xCenter,
                     current.getLayout().width,
@@ -97,7 +99,7 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
             break;
         }
         case 'down': {
-            if (currentLayout.yMax <= nextLayout.yMin + OVERLAP_NEXT_VALUE) {
+            if (currentLayout.yMin + nextOverlapValue(current.getLayout().height) <= nextLayout.yMin) {
                 const isIntersects = intersects(
                     currentLayout.xCenter,
                     current.getLayout().width,
@@ -113,7 +115,7 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
             break;
         }
         case 'left': {
-            if (currentLayout.xMin >= nextLayout.xMax - OVERLAP_NEXT_VALUE) {
+            if (currentLayout.xMin >= nextLayout.xMax - nextOverlapValue(next.getLayout().width)) {
                 const isIntersects = intersects(
                     currentLayout.yCenter,
                     current.getLayout().height,
@@ -129,7 +131,7 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
             break;
         }
         case 'right': {
-            if (currentLayout.xMax <= nextLayout.xMin + OVERLAP_NEXT_VALUE) {
+            if (currentLayout.xMax <= nextLayout.xMin + nextOverlapValue(next.getLayout().width)) {
                 const isIntersects = intersects(
                     currentLayout.yCenter,
                     current.getLayout().height,
@@ -151,12 +153,7 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
     return ['', 0];
 };
 
-export const distCalc = (
-    output: any,
-    direction: string,
-    current: AbstractFocusModel,
-    next: AbstractFocusModel
-) => {
+export const distCalc = (output: any, direction: string, current: AbstractFocusModel, next: AbstractFocusModel) => {
     const [priority, dist] = closestDist(current, next, direction);
 
     switch (priority) {

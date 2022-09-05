@@ -261,7 +261,10 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
         menuButtonText: {
             marginLeft: isFactorTv ? Ratio(16) : 8,
             ...isFactorTv && {
-                position: 'absolute'
+                position: 'absolute',
+                ...(isPlatformAndroidtv || isPlatformFiretv) && {
+                    left: -50,
+                }
             }
         },
         recyclerContainer: {
