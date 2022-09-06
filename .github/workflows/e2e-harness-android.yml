@@ -18,7 +18,7 @@ on:
 jobs:
     e2e-harness-android:
         if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event.label.name == 'e2e-harness-android' || github.event.label.name == 'e2e' }}
-        runs-on: [self-hosted, macos, x64]
+        runs-on: [self-hosted, macos, intel]
         env:
             GHP_AUTH_TOKEN: ${{ secrets.GHP_AUTH_TOKEN }}
         steps:
