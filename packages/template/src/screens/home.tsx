@@ -1,8 +1,9 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Text, View, ScrollView, TouchableOpacity, Image, ANIMATION_TYPES } from '@flexn/sdk';
 import { Api } from '@rnv/renative';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { ROUTES, ICON_LOGO, ThemeContext } from '../config';
+import axios from 'axios';
+import { ROUTES, ICON_LOGO, ThemeContext, RUNTIME } from '../config';
 import { useNavigate, useOpenURL } from '../hooks';
 import { testProps } from '../utils';
 import Screen from './screen';
@@ -12,12 +13,18 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
     const swRef = useRef<ScrollView>() as React.MutableRefObject<ScrollView>;
     const navigate = useNavigate({ navigation });
     const openURL = useOpenURL();
+    const [data, setData] = useState<any>();
 
     const { theme, toggle } = useContext(ThemeContext);
 
     const focusAnimation = {
         type: ANIMATION_TYPES.BACKGROUND,
         backgroundColorFocus: theme.static.colorBrand,
+    };
+
+    const getData = async () => {
+        const response = await axios.get(RUNTIME.backendServiceUrl);
+        setData(response.data);
     };
 
     return (
@@ -33,6 +40,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                 <Text style={theme.styles.textH3}>{`platform: ${Api.platform}`}</Text>
                 <Text style={theme.styles.textH3}>{`factor: ${Api.formFactor}`}</Text>
                 <Text style={theme.styles.textH3}>{`engine: ${Api.engine}`}</Text>
+                <Text style={theme.styles.textH3}>{`message: ${data?.message || 'no message'}`}</Text>
                 <TouchableOpacity
                     onPress={toggle}
                     onFocus={() => {
@@ -58,6 +66,17 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                     {...testProps('template-screen-home-now-try-me-button')}
                 >
                     <Text style={theme.styles.buttonText}>Now Try Me!</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={getData}
+                    style={theme.styles.button}
+                    focusOptions={{
+                        nextFocusLeft: 'side-menu',
+                        animatorOptions: focusAnimation,
+                    }}
+                    {...testProps('template-screen-home-now-try-me-button')}
+                >
+                    <Text style={theme.styles.buttonText}>Now Me, Please!</Text>
                 </TouchableOpacity>
                 <Text style={[theme.styles.textH3, { marginTop: 20 }]}>Explore more</Text>
                 <View style={{ marginTop: 10, flexDirection: 'row' }}>

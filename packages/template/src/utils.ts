@@ -1,10 +1,4 @@
-import {
-    isPlatformIos,
-    isPlatformMacos,
-    isPlatformTvos,
-    isPlatformWeb,
-    getWidth
-} from './imports';
+import { isPlatformIos, isPlatformMacos, isPlatformTvos, isPlatformWeb, getWidth } from './imports';
 
 export function testProps(testId = '') {
     if (!testId) {
@@ -125,7 +119,7 @@ export function interval(min = 0, max = kittyNames.length - 1) {
 }
 
 const data = {};
-export function getRandomData(row, idx, itemsInViewport = 6, height = 250, items = 50) {
+export function getRandomData(row, idx, itemsInViewport = 6, height = 250, items = 50, sample = null) {
     const width = Math.floor(getWidth() / itemsInViewport);
 
     if (data[row] && idx !== undefined) {
@@ -135,16 +129,32 @@ export function getRandomData(row, idx, itemsInViewport = 6, height = 250, items
     const temp = [];
     let hIndex = 1;
     for (let index = 0; index < items; index++) {
-        temp.push({
-            //@ts-expect-error for web TVs to compile
-            index,
-            //@ts-expect-error for web TVs to compile
-            backgroundImage: `https://placekitten.com/${width}/${height + hIndex}`,
-            //@ts-expect-error for web TVs to compile
-            title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
-            //@ts-expect-error for web TVs to compile
-            rowNumber: row,
-        });
+        if (sample) {
+            const random = Math.floor(Math.random() * sample.items!.length);
+            const item = sample.items![random];
+
+            temp.push({
+                //@ts-expect-error for web TVs to compile
+                index,
+                //@ts-expect-error for web TVs to compile
+                backgroundImage: item.avatar,
+                //@ts-expect-error for web TVs to compile
+                title: `${item.first_name} ${item.last_name}`,
+                //@ts-expect-error for web TVs to compile
+                rowNumber: row,
+            });
+        } else {
+            temp.push({
+                //@ts-expect-error for web TVs to compile
+                index,
+                //@ts-expect-error for web TVs to compile
+                backgroundImage: `https://placekitten.com/${width}/${height + hIndex}`,
+                //@ts-expect-error for web TVs to compile
+                title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
+                //@ts-expect-error for web TVs to compile
+                rowNumber: row,
+            });
+        }
 
         if (hIndex === 10) {
             hIndex = 1;

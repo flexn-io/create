@@ -1,35 +1,65 @@
 {
     "templateConfig": {
-        "includedPaths": [
-            "buildHooks",
-            "src",
-            "index.js",
-            "tsconfig.json"
-        ],
+        "includedPaths": ["buildHooks", "src", "index.js", "tsconfig.json", "backend"],
         "packageTemplate": {
+            "dependencies": {
+                "@rnv/integration-terraform": "0.0.4"
+            },
             "devDependencies": {
                 "typescript": "4.5.4",
                 "@types/react": "17.0.37"
             }
-        }
+        },
+        "bootstrapQuestions": [
+            {
+                "title": "Backend enabled?",
+                "type": "list",
+                "configProp": {
+                    "key": "runtime.backendServiceEnabled",
+                    "file": "renative.json"
+                },
+                "options": [
+                    {
+                        "title": "Yes",
+                        "value": true,
+                        "bootstrapQuestions": [
+                            {
+                                "title": "What's your name?",
+                                "required": true,
+                                "type": "input",
+                                "configProp": {
+                                    "key": "backendServiceConfig.userName",
+                                    "file": "renative.json"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "title": "No",
+                        "value": false
+                    }
+                ]
+            }
+        ]
     },
     "defaults": {
-        "supportedPlatforms": [
-            "android",
-            "androidtv",
-            "firetv",
-            "androidwear",
-            "ios",
-            "web",
-            "macos",
-            "tvos"
-        ]
+        "supportedPlatforms": ["android", "androidtv", "firetv", "androidwear", "ios", "web", "macos", "tvos"]
     },
     "engines": {
         "@rnv/engine-rn": "source:rnv",
         "@rnv/engine-rn-next": "source:rnv",
         "@rnv/engine-rn-tvos": "source:rnv"
     },
+    "integrations": {
+        "@rnv/integration-terraform": {}
+    },
+    "requiredBackendOutputs": [
+        {
+            "fromKey": "outputs.function_url.value",
+            "toFile": "renative.json",
+            "toKey": "runtime.backendServiceUrl"
+        }
+    ],
     "plugins": {},
     "platforms": {},
     "extendsTemplate": "renative.json"

@@ -1,6 +1,6 @@
 {
     "name": "@flexn/template",
-    "version": "0.16.1-rnmq-upgrade.3",
+    "version": "0.16.1-feat-studio.5",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/flexn#readme",
@@ -10,6 +10,7 @@
     "license": "MIT",
     "author": "Flexn BV",
     "files": [
+        "backend",
         "appConfigs/app",
         "appConfigs/base/assets/runtime",
         "appConfigs/base/fonts",
