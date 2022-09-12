@@ -1,6 +1,6 @@
 {
     "name": "@flexn/template",
-    "version": "0.18.0-alpha.5",
+    "version": "0.18.0-alpha.6",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/flexn#readme",
@@ -50,8 +50,8 @@
         "raf": "3.4.1"
     },
     "devDependencies": {
-        "@flexn/graybox": "0.18.0-alpha.5",
-        "@flexn/sdk": "0.18.0-alpha.5",
+        "@flexn/graybox": "0.18.0-alpha.6",
+        "@flexn/sdk": "0.18.0-alpha.6",
         "@flexn/typescript": "0.1.4",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/masked-view": "0.1.6",
