@@ -55,7 +55,7 @@
     "isTemplate": true,
     "plugins": {
         "@flexn/sdk": {
-            "version": "0.18.0-alpha.6",
+            "version": "0.18.0-alpha.7",
             "webpack": {
                 "modulePaths": true,
                 "moduleAliases": true
