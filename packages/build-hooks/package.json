@@ -1,6 +1,6 @@
 {
     "name": "@flexn/build-hooks",
-    "version": "0.18.0-alpha.4",
+    "version": "0.18.0-alpha.5",
     "description": "Flexn Build Hooks",
     "main": "lib/index",
     "types": "lib/index",
