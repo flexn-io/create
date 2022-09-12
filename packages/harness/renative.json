@@ -36,7 +36,8 @@
             "firetv",
             "chromecast",
             "androidwear",
-            "tizen"
+            "tizen",
+            "webos"
         ]
     },
     "isMonorepo": true,

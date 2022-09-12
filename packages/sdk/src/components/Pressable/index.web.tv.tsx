@@ -93,7 +93,9 @@ const View = React.forwardRef<any, ViewProps>(
                     break;
                 case ANIMATION_TYPES.BACKGROUND:
                     ref.current.setNativeProps({
-                        backgroundColor: animatorOptions.backgroundColorFocus,
+                        style: {
+                            backgroundColor: animatorOptions.backgroundColorFocus,
+                        }
                     });
                     break;  
                 default:
@@ -135,7 +137,9 @@ const View = React.forwardRef<any, ViewProps>(
                     break;  
                 case ANIMATION_TYPES.BACKGROUND:
                     ref.current.setNativeProps({
-                        backgroundColor: flattenedStyle.backgroundColor,
+                        style: {
+                            backgroundColor: flattenedStyle.backgroundColor,
+                        }
                     });
                     break; 
                 default:
