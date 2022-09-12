@@ -90,6 +90,11 @@ const View = React.forwardRef<any, ViewProps>(
                         borderColor: flattenedStyle.borderColor,
                         borderWidth: flattenedStyle.borderWidth,
                     });
+                    break;
+                case ANIMATION_TYPES.BACKGROUND:
+                    ref.current.setNativeProps({
+                        backgroundColor: animatorOptions.backgroundColorFocus,
+                    });
                     break;  
                 default:
                     break;
@@ -128,6 +133,11 @@ const View = React.forwardRef<any, ViewProps>(
                         borderWidth: 0,
                     });
                     break;  
+                case ANIMATION_TYPES.BACKGROUND:
+                    ref.current.setNativeProps({
+                        backgroundColor: flattenedStyle.backgroundColor,
+                    });
+                    break; 
                 default:
                     break;
             }
