@@ -79,19 +79,19 @@
         "jetifier": "1.6.5",
         "next": "12.0.9",
         "raf": "3.4.1",
-        "react": "17.0.2",
-        "react-art": "17.0.2",
-        "react-dom": "17.0.2",
+        "react": "18.1.0",
+        "react-art": "18.1.0",
+        "react-dom": "18.1.0",
         "react-native": "0.67.2",
         "react-native-gesture-handler": "1.10.3",
         "react-native-google-cast": "4.1.2",
-        "react-native-media-query": "1.0.12",
+        "react-native-media-query": "2.0.0",
         "react-native-reanimated": "1.13.3",
         "react-native-safe-area-context": "3.1.0",
         "react-native-screens": "2.2.0",
         "react-native-tvos": "0.66.3-1",
         "react-native-vector-icons": "8.1.0",
-        "react-native-web": "0.17.5",
+        "react-native-web": "0.18.9",
         "react-native-windows": "0.63.36",
         "rnv": "0.36.0-canary.13",
         "rollup": "^2.70.2",
@@ -104,9 +104,6 @@
     },
     "publishConfig": {
         "access": "public"
-    },
-    "resolutions": {
-        "react-native-web": "0.17.5"
     },
     "dependencies:doNotUseInTemplate": {},
     "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc"

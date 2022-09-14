@@ -1,11 +1,6 @@
 {
     "templateConfig": {
-        "includedPaths": [
-            "buildHooks",
-            "src",
-            "index.js",
-            "tsconfig.json"
-        ],
+        "includedPaths": ["buildHooks", "src", "index.js", "tsconfig.json"],
         "packageTemplate": {
             "devDependencies": {
                 "typescript": "4.5.4",
@@ -14,16 +9,7 @@
         }
     },
     "defaults": {
-        "supportedPlatforms": [
-            "android",
-            "androidtv",
-            "firetv",
-            "androidwear",
-            "ios",
-            "web",
-            "macos",
-            "tvos"
-        ]
+        "supportedPlatforms": ["android", "androidtv", "firetv", "androidwear", "ios", "web", "macos", "tvos"]
     },
     "engines": {
         "@rnv/engine-rn": "source:rnv",
