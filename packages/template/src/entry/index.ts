@@ -1,3 +1,4 @@
+import 'react-native/Libraries/Core/InitializeCore';
 import { AppRegistry, LogBox } from 'react-native';
 import { enableScreens } from 'react-native-screens';
 import immediateShim from 'react-native/Libraries/Core/Timers/immediateShim';
