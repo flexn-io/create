@@ -1,10 +1,9 @@
-import { List } from '@flexn/sdk';
+import { List, View } from '@flexn/sdk';
 import React, { useContext } from 'react';
 import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv/renative';
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { getRandomData, interval, testProps } from '../utils';
 import Screen from './screen';
-import { View } from 'react-native';
 
 const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const { theme } = useContext(ThemeContext);
