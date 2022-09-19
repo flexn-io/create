@@ -74,9 +74,12 @@ class CoreManager {
     }
 
     public onScreenRemoved() {
-        const nextScreen = Object.values(this._focusMap).find(
+        const screens = Object.values(this._focusMap).filter(
             (c) => c.isInForeground() && c.isScreen() && c.getOrder() === this.getCurrentMaxOrder()
-        ) as Screen;
+        ) as Screen[];
+
+        const nextScreen = screens.find((c) => c?.hasStealFocus()) ?? screens[0];
+
 
         if (nextScreen) {
             nextScreen.setFocus(nextScreen.getFirstFocusableOnScreen());
