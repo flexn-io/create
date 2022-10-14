@@ -58,6 +58,7 @@
         "deploy-template-firetv": "cd packages/template && npx rnv build -p firetv -s production -c template --packageManager yarn --ci && yarn deploy:firetv-prod",
         "deploy-template-firetv-alpha": "cd packages/template && npx rnv build -p firetv -s canary -c template --packageManager yarn --ci && yarn deploy:firetv-alpha",
         "deploy-template-web": "cd packages/template && npx rnv export -p web -s production -c template --packageManager yarn --ci && yarn deploy:web-prod",
+        "deploy-template-web-alpha": "cd packages/template && npx rnv export -p web -s canary -c template --packageManager yarn --ci && yarn deploy:web-alpha",
         "e2e-harness-ios": "cd packages/harness && npx rnv build -p ios -s test --packageManager yarn && yarn e2e:ios",
         "e2e-harness-android": "cd packages/harness && npx rnv build -p android -s test --packageManager yarn && yarn e2e:android",
         "e2e-harness-tvos": "cd packages/harness && npx rnv build -p tvos -s test --packageManager yarn && yarn e2e:tvos",
