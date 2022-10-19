@@ -9,15 +9,18 @@
         "buildSchemes": {
             "debug": {
                 "id": "io.flexn.template.debug",
-                "title": "Flexn Debug"
+                "title": "Template Debug"
             },
             "test": {
                 "id": "io.flexn.template.test",
-                "title": "Flexn Test"
+                "title": "Template Test"
             },
             "canary": {
                 "id": "io.flexn.template.alpha",
-                "title": "Flexn Alpha"
+                "title": "Template Alpha"
+            },
+            "production": {
+                "title": "Template Production"
             }
         },
         "ignoreWarnings": true,
