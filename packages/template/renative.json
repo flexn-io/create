@@ -146,7 +146,7 @@
     "platforms": {
         "android": {
             "targetSdkVersion": 30,
-            "compileSdkVersion": 30,
+            "compileSdkVersion": 31,
             "reactNativeEngine": "hermes",
             "enableAndroidX": true,
             "gradle.properties": {
@@ -177,7 +177,7 @@
             "engine": "engine-rn-tvos",
             "reactNativeEngine": "hermes",
             "targetSdkVersion": 30,
-            "compileSdkVersion": 30,
+            "compileSdkVersion": 31,
             "enableAndroidX": true,
             "gradle.properties": {
                 "android.useDeprecatedNdk": true,
@@ -206,7 +206,7 @@
         "firetv": {
             "engine": "engine-rn-tvos",
             "targetSdkVersion": 30,
-            "compileSdkVersion": 30,
+            "compileSdkVersion": 31,
             "reactNativeEngine": "hermes",
             "enableAndroidX": true,
             "gradle.properties": {

@@ -29,6 +29,8 @@
         "test": "jest --coverage",
         "tests:jest-watch": "jest --watch",
         "tests:jest-coverage": "jest --coverage",
+        "decrypt-harness": "cd packages/harness && npx rnv crypto decrypt --ci",
+        "decrypt-template": "cd packages/template && npx rnv crypto decrypt -c template --ci",
         "deploy-harness-macos": "cd packages/harness && npx rnv export -p macos -s production --packageManager yarn --ci && yarn deploy:macos-prod",
         "deploy-harness-macos-alpha": "cd packages/harness && npx rnv export -p macos -s canary --packageManager yarn --ci && yarn deploy:macos-alpha",
         "deploy-harness-ios": "cd packages/harness && npx rnv export -p ios -s production --packageManager yarn --ci && yarn deploy:ios-prod",
