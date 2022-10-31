@@ -57,7 +57,8 @@ describe('Test template', () => {
         await FlexnRunner.clickById('template-home-screen-now-try-me-button');
         await FlexnRunner.pressButtonDown(1);
         await FlexnRunner.pressButtonSelect(1);
-        await FlexnRunner.expectToBeDisplayedById('template-carousels-screen-container');
+        // https://github.com/flexn-io/flexn/issues/50
+        // await FlexnRunner.expectToBeDisplayedById('template-carousels-screen-container');
         if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
             await FlexnRunner.clickById('template-menu-drawer-button');
         }
