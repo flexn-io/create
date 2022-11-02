@@ -112,7 +112,7 @@ function measure(
         };
 
         if (!repeatContext) {
-            if (cls.getLayout()) {
+            if (cls.getLayout() && cls.getParent()?.isRecyclable()) {
                 layout.yOffsetDiff = cls.getLayout().yOffsetDiff;
                 layout.xOffsetDiff = cls.getLayout().xOffsetDiff;
 

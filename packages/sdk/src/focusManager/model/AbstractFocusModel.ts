@@ -1,4 +1,4 @@
-import { recalculateLayout } from '../layoutManager';
+import { measure, recalculateLayout } from '../layoutManager';
 import { Recycler, Screen, ScreenStates } from '../types';
 
 const TYPE_SCREEN = 'screen';
@@ -149,6 +149,16 @@ export default abstract class AbstractFocusModel {
         }
     }
 
+    public remeasureChildrenLayouts(ch: AbstractFocusModel) {
+        ch.getChildren().forEach((a: AbstractFocusModel) => {
+            this.remeasureChildrenLayouts(a);
+        });
+
+        if (ch.isInForeground()) {
+            measure(ch, ch.node);
+        }
+    }
+
     public getNextFocusRight(): string | string[] {
         return this._nextFocusRight || '';
     }
@@ -285,7 +295,7 @@ export default abstract class AbstractFocusModel {
         if (this.getParent()?.getFocusTaskExecutor(direction)) {
             return this.getParent()?.getFocusTaskExecutor(direction);
         }
-        
+
         return null;
-    };
+    }
 }

@@ -46,6 +46,7 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
 
         const onLayout = () => {
             measure(ClsInstance, ref);
+            ClsInstance.remeasureChildrenLayouts(ClsInstance);
         };
 
         return (

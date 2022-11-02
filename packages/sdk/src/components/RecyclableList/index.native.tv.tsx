@@ -132,6 +132,7 @@ export default function RecyclerView({
             y: paddingTop + marginTop + top + (unmeasurableRelativeDimensions.y || 0),
         };
         measure(ClsInstance, rnViewRef, unmeasurableDimensions);
+        ClsInstance.remeasureChildrenLayouts(ClsInstance);
     };
 
     return (
