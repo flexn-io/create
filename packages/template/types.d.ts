@@ -11,8 +11,6 @@ declare module 'react-native' {
     };
 }
 
-declare module 'recyclerlistview' {
-
-}
+declare module 'recyclerlistview' {}
 
 export default {};

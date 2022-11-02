@@ -523,7 +523,7 @@
             }
         },
         "react-native-media-query": {
-            "version": "github:aurimasmi/react-native-media-query"
+            "version": "2.0.0"
         },
         "@flexn/typescript": {
             "version": "0.1.4"

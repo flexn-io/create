@@ -29,6 +29,20 @@
     "scripts": {
         "bootstrap": "cd ../.. && yarn bootstrap",
         "build": "tsc --noEmit",
+        "deploy:android-alpha": "npx rnv deploy -p android -s canary --only --hooks",
+        "deploy:android-prod": "npx rnv deploy -p android -s production --only --hooks",
+        "deploy:androidtv-alpha": "npx rnv deploy -p androidtv -s canary --only --hooks",
+        "deploy:androidtv-prod": "npx rnv deploy -p androidtv -s production --only --hooks",
+        "deploy:firetv-alpha": "npx rnv deploy -p firetv -s canary --only --hooks",
+        "deploy:firetv-prod": "npx rnv deploy -p firetv -s production --only --hooks",
+        "deploy:ios-alpha": "npx rnv deploy -p ios -s canary --only --hooks",
+        "deploy:ios-prod": "npx rnv deploy -p ios -s production --only --hooks",
+        "deploy:macos-alpha": "npx rnv deploy -p macos -s canary --only --hooks",
+        "deploy:macos-prod": "npx rnv deploy -p macos -s production --only --hooks",
+        "deploy:tvos-alpha": "npx rnv deploy -p tvos -s canary --only --hooks",
+        "deploy:tvos-prod": "npx rnv deploy -p tvos -s production --only --hooks",
+        "deploy:web-alpha": "npx rnv deploy -p web -s canary --only --hooks",
+        "deploy:web-prod": "npx rnv deploy -p web -s production --only --hooks",
         "e2e:all": "yarn e2e:ios ; yarn e2e:tvos ; yarn e2e:android ; yarn e2e:androidtv ; yarn e2e:macos ; yarn e2e:web",
         "e2e:android": "PLATFORM=android JAVA_HOME=$(/usr/libexec/java_home) npx wdio wdio.conf.js",
         "e2e:androidtv": "PLATFORM=androidtv JAVA_HOME=$(/usr/libexec/java_home) npx wdio wdio.conf.js",
@@ -86,13 +100,13 @@
         "react-native": "0.67.2",
         "react-native-gesture-handler": "1.10.3",
         "react-native-google-cast": "4.1.2",
-        "react-native-media-query": "1.0.12",
+        "react-native-media-query": "2.0.0",
         "react-native-reanimated": "1.13.3",
         "react-native-safe-area-context": "3.1.0",
         "react-native-screens": "2.2.0",
         "react-native-tvos": "0.66.3-1",
         "react-native-vector-icons": "8.1.0",
-        "react-native-web": "0.17.5",
+        "react-native-web": "0.18.9",
         "react-native-windows": "0.63.36",
         "rnv": "0.36.1",
         "rollup": "^2.70.2",
@@ -109,9 +123,6 @@
     "browserslist": [
         "> 2%"
     ],
-    "resolutions": {
-        "react-native-web": "0.17.5"
-    },
     "dependencies:doNotUseInTemplate": {},
     "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc"
 }
