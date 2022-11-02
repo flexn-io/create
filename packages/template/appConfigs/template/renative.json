@@ -164,7 +164,6 @@
         "tizen": {
             "package": "samsungdev",
             "id": "samsungdev.TestHarness",
-            "entryFile": "index.lng",
             "certificateProfile": "samsungdev"
         },
         "tizenwatch": {

@@ -12,3 +12,4 @@ packages/**/lib/**
 **/dist/**
 **/platformAssets/**
 **/platformBuilds/**
+packages/template/appConfigs/base/assets/webos/public/webOSTVjs-1.1.1/**

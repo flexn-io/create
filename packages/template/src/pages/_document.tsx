@@ -11,7 +11,7 @@ class MyDocument extends Document {
         const styles = [getStyleElement(), flush()];
         return { html, head, styles: React.Children.toArray(styles) };
     }
-
+    
     render() {
         return (
             <Html lang="en">

@@ -55,7 +55,7 @@
     "isTemplate": true,
     "plugins": {
         "@flexn/sdk": {
-            "version": "0.17.0-alpha.10",
+            "version": "0.18.0-alpha.8",
             "webpack": {
                 "modulePaths": true,
                 "moduleAliases": true
@@ -254,12 +254,11 @@
             }
         },
         "tizen": {
-            "engine": "engine-lightning",
+            "engine": "engine-rn-web",
             "target": "es5"
         },
         "webos": {
-            "engine": "engine-lightning",
-            "target": "es5"
+            "engine": "engine-rn-web"
         },
         "tvos": {
             "engine": "engine-rn-tvos"

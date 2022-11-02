@@ -3,14 +3,7 @@
     "private": true,
     "scripts": {
         "prepare": "yarn run lerna:link && npx lerna run prepare --parallel",
-        "watch": "concurrently \"yarn watch-sdk\" \"yarn watch-harness\" \"yarn watch-graybox\" \"yarn watch-template\" \"yarn watch-build-hooks\" --raw",
-        "watch2": "yarn watch-sdk & yarn watch-harness & yarn watch-graybox & yarn watch-template",
-        "watch3": "lerna run --parallel --concurrency 2 watch",
-        "watch-sdk": "cd packages/sdk && yarn watch",
-        "watch-harness": "cd packages/harness && yarn watch",
-        "watch-graybox": "cd packages/graybox && yarn watch",
-        "watch-template": "cd packages/template && yarn watch",
-        "watch-build-hooks": "cd packages/build-hooks && yarn watch",
+        "watch": "npx lerna run --parallel --concurrency 2 watch",
         "build:all:clean": "npx lerna run build:clean",
         "build": "lerna run build",
         "lint": "yarn lint:js",
@@ -118,8 +111,8 @@
         "rnv": "0.36.0-canary.13",
         "simple-git": "^2.46.0",
         "ts-jest": "^27.0.7",
-        "tslib": "2.3.1",
-        "typescript": "4.5.4"
+        "tslib": "2.4.1",
+        "typescript": "4.7.4"
     },
     "resolutions": {
         "resolve": "2.0.0-next.3"
