@@ -15,8 +15,6 @@ on:
 jobs:
     deploy-docs-prod:
         runs-on: [self-hosted, macos]
-        env:
-            GHP_AUTH_TOKEN: ${{ secrets.GHP_AUTH_TOKEN }}
         steps:
             - uses: actions/checkout@v2
             - name: Run Docs Deploy Prod
