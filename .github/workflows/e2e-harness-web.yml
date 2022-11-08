@@ -31,18 +31,18 @@ jobs:
               run: |
                   yarn e2e-harness-web
             - name: Post message to Slack via webhook
-              if: ${{ github.event_name == 'push' && failure() }}
+              if: ${{ failure() }}
               uses: slackapi/slack-github-action@v1.23.0
               with:
                   payload: |
                       {
-                        "text": " <!here> *Harness Web e2e tests FAILED after* <${{ github.event.pull_request.html_url || github.event.head_commit.url }}|push> :alert:",
+                        "text": " test ",
                         "blocks": [
                           {
                             "type": "section",
                             "text": {
                               "type": "mrkdwn",
-                              "text": " <!here> *Harness Web e2e tests FAILED after* <${{ github.event.pull_request.html_url || github.event.head_commit.url }}|push> :alert:"
+                              "text": " test "
                             }
                           }
                         ]
