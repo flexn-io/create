@@ -30,3 +30,22 @@ jobs:
             - name: E2E Harness App AndroidTV
               run: |
                   yarn e2e-harness-androidtv
+            - name: Post message to Slack via webhook
+              if: ${{ github.event_name == 'push' && failure() }}
+              uses: slackapi/slack-github-action@v1.23.0
+              with:
+                  payload: |
+                      {
+                        "text": " <!here> *Harness AndroidTV e2e tests FAILED after* <${{ github.event.pull_request.html_url || github.event.head_commit.url }}|push> :alert:",
+                        "blocks": [
+                          {
+                            "type": "section",
+                            "text": {
+                              "type": "mrkdwn",
+                              "text": " <!here> *Harness AndroidTV e2e tests FAILED after* <${{ github.event.pull_request.html_url || github.event.head_commit.url }}|push> :alert:"
+                            }
+                          }
+                        ]
+                      }
+              env:
+                  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
