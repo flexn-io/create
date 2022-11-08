@@ -59,7 +59,7 @@
         "e2e-harness-tvos": "cd packages/harness && npx rnv build -p tvos -s test --packageManager yarn --ci && yarn e2e:tvos",
         "e2e-harness-androidtv": "cd packages/harness && npx rnv build -p androidtv -s test --packageManager yarn --ci && yarn e2e:androidtv",
         "e2e-harness-macos": "cd packages/harness && npx rnv build -p macos -s test --packageManager yarn --ci && yarn e2e:macos",
-        "e2e-harness-web": "cd packages/harness && npx rnv start -p web -s test --packageManager yarn & sleep 60 && cd packages/harness --ci && yarn e2e:web && kill $(lsof -t -i:8080)",
+        "e2e-harness-web": "cd packages/harness && npx rnv start -p web -s test --packageManager yarn --ci & sleep 60 && cd packages/harness && yarn e2e:web && kill $(lsof -t -i:8080)",
         "e2e-template-ios": "cd packages/template && npx rnv build -p ios -s test -c template --packageManager yarn --ci && yarn e2e:ios",
         "e2e-template-android": "cd packages/template && npx rnv build -p android -s test -c template --packageManager yarn --ci && yarn e2e:android",
         "e2e-template-tvos": "cd packages/template && npx rnv build -p tvos -s test -c template --packageManager yarn --ci && yarn e2e:tvos",
