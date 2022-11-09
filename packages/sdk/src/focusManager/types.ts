@@ -7,7 +7,11 @@ import type {
     ViewStyle,
     ScrollView,
 } from 'react-native';
-import AbstractFocusModel from './model/AbstractFocusModel';
+import AbstractModel from './model/AbstractFocusModel';
+import ViewModel from './model/view';
+import RecyclerModel from './model/recycler';
+import ScreenModel from './model/screen';
+
 export type ForbiddenFocusDirections =
     | 'down'
     | 'up'
@@ -178,4 +182,8 @@ export interface Context {
     nextFocusDown?: string | string[];
 }
 
-export type FocusMap = { [key: string]: AbstractFocusModel };
+export type FocusMap = { [key: string]: AbstractModel };
+export type View = ViewModel;
+export type Recycler = RecyclerModel;
+export type Screen = ScreenModel;
+export type AbstractFocusModel = AbstractModel;

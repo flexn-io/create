@@ -36,13 +36,14 @@
             "firetv",
             "chromecast",
             "androidwear",
-            "tizen"
+            "tizen",
+            "webos"
         ]
     },
     "isMonorepo": true,
     "plugins": {
         "@flexn/sdk": {
-            "version": "0.17.0-alpha.10",
+            "version": "0.18.0-alpha.8",
             "webpack": {
                 "modulePaths": true,
                 "moduleAliases": true
@@ -294,7 +295,7 @@
     "currentTemplate": "@flexn/template",
     "templates": {
         "@flexn/template": {
-            "version": "0.17.0-alpha.10"
+            "version": "0.18.0-alpha.8"
         }
     }
 }

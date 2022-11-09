@@ -1,12 +1,12 @@
 import { findNodeHandle, UIManager } from 'react-native';
+import { isPlatformTizen, isPlatformWebos } from '@rnv/renative';
 import { distCalc } from '../nextFocusFinder';
 import { getNextForcedFocusKey, getDirectionName } from '../helpers';
 import { recalculateLayout } from '../layoutManager';
-import AbstractFocusModel from './AbstractFocusModel';
+
+import { View, Recycler, Screen, AbstractFocusModel } from '../types';
+
 import Scroller from './scroller';
-import View from './view';
-import Recycler from './recycler';
-import Screen from './screen';
 import Logger from './logger';
 class CoreManager {
     public _focusMap: {
@@ -92,7 +92,7 @@ class CoreManager {
         }
 
         if (this._currentFocus) {
-            if (this._currentFocus.node.current) {
+            if (this._currentFocus.node.current && (!isPlatformTizen && !isPlatformWebos)) {
                 // @ts-ignore
                 UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId, 'cmdBlur', null);
             }
@@ -102,7 +102,7 @@ class CoreManager {
 
         this._currentFocus = cls;
 
-        if (cls.node.current) {
+        if (cls.node.current && (!isPlatformTizen && !isPlatformWebos)) {
             // @ts-ignore
             UIManager.dispatchViewManagerCommand(cls.nodeId, 'cmdFocus', null);
         }
