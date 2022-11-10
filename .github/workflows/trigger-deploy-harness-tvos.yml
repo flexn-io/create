@@ -17,7 +17,7 @@ jobs:
         runs-on: [self-hosted, macos]
         steps:
             - name: Trigger Deploy Harness tvOS
-            - uses: actions/github-script@v6
+              uses: actions/github-script@v6
               with:
                 github-token: ${{ secrets.GHP_AUTH_TOKEN }}
                 script: |
