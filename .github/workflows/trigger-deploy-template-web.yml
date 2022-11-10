@@ -16,8 +16,8 @@ jobs:
     trigger-deploy-template-web:
         runs-on: [self-hosted, macos]
         steps:
-            - name: Trigger Deploy Template Web
-              uses: actions/github-script@v6
+            - uses: actions/github-script@v6
+              name: Trigger Deploy Template Web
               with:
                 github-token: ${{ secrets.GHP_AUTH_TOKEN }}
                 script: |
