@@ -1,0 +1,29 @@
+name: Trigger Deploy Template App (iOS)
+
+env:
+    VERSION: '2.6.3'
+    ImageOS: ubuntu18
+defaults:
+    run:
+        shell: zsh -l {0}
+on:
+    workflow_dispatch:
+    push:
+        tags:
+            - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+    trigger-deploy-template-ios:
+        runs-on: [self-hosted, macos]
+        steps:
+            - name: Trigger Deploy Template iOS
+              uses: actions/github-script@v6
+              with:
+                github-token: ${{ secrets.GHP_AUTH_TOKEN }}
+                script: |
+                  await github.rest.actions.createWorkflowDispatch({
+                    owner: 'flexn-io',
+                    repo: 'flexn-private',
+                    workflow_id: 'deploy-template-ios.yml',
+                    ref: 'main'
+                  })s
