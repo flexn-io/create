@@ -169,7 +169,7 @@
         "androidtv": {
             "engine": "engine-rn-tvos",
             "reactNativeEngine": "hermes",
-            "targetSdkVersion": 30,
+            "targetSdkVersion": 31,
             "compileSdkVersion": 31,
             "enableAndroidX": true,
             "gradle.properties": {
@@ -177,6 +177,7 @@
                 "android.enableJetifier": true,
                 "android.useAndroidX": true,
                 "android.debug.obsoleteApi": true,
+                "android:exported": true,
                 "org.gradle.jvmargs": "-Xmx3g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8",
                 "org.gradle.daemon": true,
                 "org.gradle.parallel": true,
