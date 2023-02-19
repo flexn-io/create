@@ -112,11 +112,11 @@
         "xcode": "2.1.0"
     },
     "devDependencies": {
-        "@rnv/engine-rn": "0.36.0-canary.13",
-        "@rnv/engine-rn-next": "0.36.0-canary.13",
-        "@rnv/engine-rn-tvos": "0.36.0-canary.13",
-        "@rnv/engine-rn-web": "0.36.0-canary.13",
-        "@rnv/engine-rn-windows": "0.36.0-canary.13",
+        "@rnv/engine-rn": "0.36.1",
+        "@rnv/engine-rn-next": "0.36.1",
+        "@rnv/engine-rn-tvos": "0.36.1",
+        "@rnv/engine-rn-web": "0.36.1",
+        "@rnv/engine-rn-windows": "0.36.1",
         "xcode": "2.1.0"
     },
     "optionalDependencies": {
