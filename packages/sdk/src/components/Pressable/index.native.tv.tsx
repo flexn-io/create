@@ -10,6 +10,7 @@ import TvFocusableViewManager from '../../focusableView';
 
 import ViewClass from '../../focusManager/model/view';
 import Screen from '../../focusManager/model/screen';
+import useOnLayout from '../../hooks/useOnLayout';
 
 export const defaultAnimation = {
     type: 'scale',
@@ -112,17 +113,28 @@ const View = React.forwardRef<any, ViewProps>(
             return child;
         });
 
-        const onLayout = async () => {
+        const { onLayout } = useOnLayout(async () => {
             console.log('ON LAYOUT FROM PRESSABLE');
             await measureAsync(ViewInstance, ref, undefined, undefined, true);
             ViewInstance.getScreen()?.removeComponentFromPendingLayoutMap(ViewInstance.getId());
-        };
+        });
 
-        const onLayoutNonPressable = () => {
+        const { onLayout: onLayoutNonPressable } = useOnLayout(async () => {
             console.log('ON LAYOUT NON PRESSABLE');
-
             ViewInstance?.remeasureChildrenLayouts?.(ViewInstance);
-        };
+        });
+
+        // const onLayout = async () => {
+        //     console.log('ON LAYOUT FROM PRESSABLE');
+        //     await measureAsync(ViewInstance, ref, undefined, undefined, true);
+        //     ViewInstance.getScreen()?.removeComponentFromPendingLayoutMap(ViewInstance.getId());
+        // };
+
+        // const onLayoutNonPressable = () => {
+        //     console.log('ON LAYOUT NON PRESSABLE');
+
+        //     ViewInstance?.remeasureChildrenLayouts?.(ViewInstance);
+        // };
 
         // In recycled mode we must re-measure on render
         if (repeatContext && ref.current) {

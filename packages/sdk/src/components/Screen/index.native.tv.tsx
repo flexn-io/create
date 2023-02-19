@@ -7,6 +7,7 @@ import CoreManager from '../../focusManager/model/core';
 import { measure } from '../../focusManager/layoutManager';
 
 import ScreenClass from '../../focusManager/model/screen';
+import useOnLayout from '../../hooks/useOnLayout';
 
 const Screen = React.forwardRef<any, ScreenProps>(
     (
@@ -63,9 +64,13 @@ const Screen = React.forwardRef<any, ScreenProps>(
             []
         );
 
-        const onLayout = () => {
+        const { onLayout } = useOnLayout(async () => {
             measure(ClsInstance, ref);
-        };
+        });
+
+        // const onLayout = () => {
+        //     measure(ClsInstance, ref);
+        // };
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {

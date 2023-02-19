@@ -11,6 +11,7 @@ import type { RecyclerViewProps } from '../../focusManager/types';
 import Grid from '../../focusManager/model/grid';
 import List from '../../focusManager/model/list';
 import Row from '../../focusManager/model/row';
+import useOnLayout from '../../hooks/useOnLayout';
 
 const Column = null;
 
@@ -126,13 +127,21 @@ export default function RecyclerView({
     const top = parseStyleProps(flattenStyles?.top);
     const left = parseStyleProps(flattenStyles?.left);
 
-    const onLayout = () => {
+    const { onLayout } = useOnLayout(async () => {
         const unmeasurableDimensions = {
             x: paddingLeft + marginLeft + left + (unmeasurableRelativeDimensions.x || 0),
             y: paddingTop + marginTop + top + (unmeasurableRelativeDimensions.y || 0),
         };
         measure(ClsInstance, rnViewRef, unmeasurableDimensions);
-    };
+    });
+
+    // const onLayout = () => {
+    //     const unmeasurableDimensions = {
+    //         x: paddingLeft + marginLeft + left + (unmeasurableRelativeDimensions.x || 0),
+    //         y: paddingTop + marginTop + top + (unmeasurableRelativeDimensions.y || 0),
+    //     };
+    //     measure(ClsInstance, rnViewRef, unmeasurableDimensions);
+    // };
 
     return (
         <RNView ref={rnViewRef} onLayout={onLayout} style={style}>

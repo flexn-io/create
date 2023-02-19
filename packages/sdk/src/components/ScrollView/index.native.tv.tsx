@@ -4,6 +4,7 @@ import type { ScrollViewProps } from '../../focusManager/types';
 import CoreManager from '../../focusManager/model/core';
 import { measure, measureAsync, recalculateLayout } from '../../focusManager/layoutManager';
 import ScrollViewClass from '../../focusManager/model/scrollview';
+import useOnLayout from '../../hooks/useOnLayout';
 
 const ScrollView = React.forwardRef<any, ScrollViewProps>(
     ({ children, style, parentContext, horizontal, focusOptions, ...props }: ScrollViewProps, refOuter) => {
@@ -44,10 +45,15 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
             };
         }, []);
 
-        const onLayout = async () => {
+        const { onLayout } = useOnLayout(async () => {
             await measureAsync(ClsInstance, ref);
             ClsInstance.remeasureChildrenLayouts(ClsInstance);
-        };
+        });
+
+        // const onLayout = async () => {
+        //     await measureAsync(ClsInstance, ref);
+        //     ClsInstance.remeasureChildrenLayouts(ClsInstance);
+        // };
 
         return (
             <RNScrollView

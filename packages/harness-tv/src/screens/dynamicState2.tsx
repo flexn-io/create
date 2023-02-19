@@ -16,6 +16,7 @@ import { generateData, Ratio } from '../utils';
 
 const DynamicState = () => {
     const [button1Visible, setButton1Visible] = useState(true);
+    const [button2, setButton2] = useState({ marginTop: 100 });
 
     const layoutProvider: any = useRef();
     const dataProviderInstance = useRef(new RecyclableListDataProvider((r1, r2) => r1 !== r2)).current;
@@ -39,8 +40,9 @@ const DynamicState = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            setButton1Visible(false);
-        }, 1000);
+            // setButton1Visible(false);
+            setButton2({ marginTop: 300 });
+        }, 3000);
     }, []);
 
     return (
@@ -56,7 +58,7 @@ const DynamicState = () => {
                     )}
                     <View>
                         <Button
-                            style={{ ...styles.button, marginTop: 100 }}
+                            style={{ ...styles.button, marginTop: 100, ...button2 }}
                             title="Button5"
                             textStyle={styles.buttonTextStyle}
                         />

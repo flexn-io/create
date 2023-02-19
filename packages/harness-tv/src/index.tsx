@@ -1,6 +1,6 @@
 import React from 'react';
 import { App, Debugger } from '@flexn/sdk';
-import Navigation from './navigation ';
+import Navigation from './navigation';
 
 const Root = () => {
     return (
