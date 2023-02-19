@@ -9,6 +9,8 @@ export function focusElementByFocusKey(focusKey: string) {
     CoreManager.focusElementByFocusKey(focusKey);
 }
 
+// window.CoreManager = CoreManager;
+
 // Primitive components
 export { default as ActivityIndicator } from './components/ActivityIndicator';
 export { default as App } from './components/App';
@@ -31,6 +33,7 @@ export { default as TextInput } from './components/TextInput';
 export { default as View } from './components/View';
 export { default as ImageBackground } from './components/ImageBackground';
 export { default as Modal } from './components/Modal';
+export { default as FlashList } from './components/FlashList';
 
 // Complex components
 export { PosterCard } from './complexComponents/Card';

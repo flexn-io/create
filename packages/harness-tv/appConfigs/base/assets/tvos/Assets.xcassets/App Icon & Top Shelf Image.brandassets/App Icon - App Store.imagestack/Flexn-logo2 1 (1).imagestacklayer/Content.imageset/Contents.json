@@ -1,0 +1,17 @@
+{
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  },
+  "images" : [
+    {
+      "scale" : "1x",
+      "idiom" : "tv",
+      "filename" : "Flexn-logo2 1 (1).png"
+    },
+    {
+      "scale" : "2x",
+      "idiom" : "tv"
+    }
+  ]
+}

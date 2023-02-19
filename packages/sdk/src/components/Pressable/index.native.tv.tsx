@@ -5,7 +5,7 @@ import { useCombinedRefs, usePrevious, flattenStyle } from '../../focusManager/h
 import type { ViewProps } from '../../focusManager/types';
 import CoreManager from '../../focusManager/model/core';
 import { ANIMATIONS } from '../../focusManager/constants';
-import { measure } from '../../focusManager/layoutManager';
+import { measure, measureAsync } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
 import ViewClass from '../../focusManager/model/view';
@@ -96,7 +96,6 @@ const View = React.forwardRef<any, ViewProps>(
 
             return () => {
                 if (focus) {
-
                     CoreManager.removeFocusable(ViewInstance);
                     ViewInstance.getScreen()?.onViewRemoved(ViewInstance);
                 }
@@ -113,10 +112,16 @@ const View = React.forwardRef<any, ViewProps>(
             return child;
         });
 
-        const onLayout = () => {
-            measure(ViewInstance, ref, undefined, () => {
-                ViewInstance.getScreen()?.removeComponentFromPendingLayoutMap(ViewInstance.getId());
-            });
+        const onLayout = async () => {
+            console.log('ON LAYOUT FROM PRESSABLE');
+            await measureAsync(ViewInstance, ref, undefined, undefined, true);
+            ViewInstance.getScreen()?.removeComponentFromPendingLayoutMap(ViewInstance.getId());
+        };
+
+        const onLayoutNonPressable = () => {
+            console.log('ON LAYOUT NON PRESSABLE');
+
+            ViewInstance?.remeasureChildrenLayouts?.(ViewInstance);
         };
 
         // In recycled mode we must re-measure on render
@@ -149,7 +154,7 @@ const View = React.forwardRef<any, ViewProps>(
 
             return (
                 <TvFocusableViewManager
-                    isTVSelectable
+                    isTVSelectable={true}
                     style={flattenedStyle}
                     onLayout={onLayout}
                     animatorOptions={animatorOptions}
@@ -163,7 +168,7 @@ const View = React.forwardRef<any, ViewProps>(
         }
 
         return (
-            <RNView style={style} {...props} ref={ref}>
+            <RNView style={style} {...props} ref={ref} onLayout={onLayoutNonPressable}>
                 {childrenWithProps}
             </RNView>
         );

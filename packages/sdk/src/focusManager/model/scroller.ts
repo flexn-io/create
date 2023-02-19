@@ -36,6 +36,7 @@ class Scroller {
 
             if (scrollTarget) {
                 if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
+                    // p.node.current.scrollTo(scrollTarget);
                     p.node.current.scrollTo(scrollTarget);
                 }
             }
@@ -66,27 +67,6 @@ class Scroller {
                 recalculateLayout(scroller);
             }
         }
-    }
-
-    public inlineScroll(direction: string, nextFocus: AbstractFocusModel) {
-        const scrollContextParents = this.getParentScrollers(nextFocus);
-        const contextParameters = {
-            currentFocus: nextFocus,
-        };
-
-        scrollContextParents.forEach((p: AbstractFocusModel) => {
-            const scrollTarget = p.isHorizontal()
-                ? this.calculateHorizontalScrollViewTarget(direction, p, contextParameters)
-                : this.calculateVerticalScrollViewTarget(direction, p, contextParameters);
-
-            if (scrollTarget) {
-                if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
-                    p.node.current.scrollTo(scrollTarget);
-                    p.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);
-                    recalculateLayout(nextFocus);
-                }
-            }
-        });
     }
 
     private getParentScrollers(currentFocus: AbstractFocusModel) {
@@ -186,6 +166,8 @@ class Scroller {
 
         if (scrollTarget.x < 0) scrollTarget.x = 0;
         if (scrollTarget.y < 0) scrollTarget.y = 0;
+
+        // console.log({ yMaxScroll, target: scrollTarget.y });
 
         return scrollTarget;
     }

@@ -129,6 +129,25 @@ export interface RecyclerViewProps {
     onFocus?: () => void;
 }
 
+
+export interface FlashListProps {
+    data: any;
+    parentContext?: any;
+    repeatContext?: any;
+    isHorizontal?: boolean;
+    children?: React.ReactNode;
+    rowRenderer: any;
+    bounces?: boolean;
+    scrollViewProps?: any;
+    scrollEventThrottle?: number;
+    style?: StyleProp<ViewStyle>;
+    focusOptions?: RecyclableListFocusOptions;
+    initialRenderIndex?: number;
+    type: 'list' | 'grid' | 'row';
+    onBlur?: () => void;
+    onFocus?: () => void;
+}
+
 //@deprecated
 export interface Context {
     id: string;

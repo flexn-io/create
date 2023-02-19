@@ -113,6 +113,9 @@ class KeyHandler {
     }
 
     private onKeyDown(eventType: string) {
+        // console.log('direction', eventType)
+
+        // if (eventType === 'playPause' || eventType === 'select') {
         if (eventType === 'playPause') {
             Logger.getInstance().debug(CoreManager);
             CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;

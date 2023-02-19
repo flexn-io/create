@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useImperativeHandle } from 'react';
 import { ScrollView as RNScrollView } from 'react-native';
 import type { ScrollViewProps } from '../../focusManager/types';
 import CoreManager from '../../focusManager/model/core';
-import { measure, recalculateLayout } from '../../focusManager/layoutManager';
+import { measure, measureAsync, recalculateLayout } from '../../focusManager/layoutManager';
 import ScrollViewClass from '../../focusManager/model/scrollview';
 
 const ScrollView = React.forwardRef<any, ScrollViewProps>(
@@ -44,8 +44,9 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
             };
         }, []);
 
-        const onLayout = () => {
-            measure(ClsInstance, ref);
+        const onLayout = async () => {
+            await measureAsync(ClsInstance, ref);
+            ClsInstance.remeasureChildrenLayouts(ClsInstance);
         };
 
         return (
@@ -61,15 +62,13 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
                     const { y, x } = event.nativeEvent.contentOffset;
                     const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
 
-                    ClsInstance
-                        .setScrollOffsetY(y)
+                    ClsInstance.setScrollOffsetY(y)
                         .setScrollOffsetX(x)
                         .updateLayoutProperty('yMaxScroll', height)
                         .updateLayoutProperty('xMaxScroll', width)
                         .updateLayoutProperty('scrollContentHeight', scrollContentHeight);
 
                     ClsInstance.recalculateChildrenLayouts(ClsInstance);
-
                 }}
                 {...props}
             >

@@ -42,7 +42,8 @@
         "lodash-es": "4.17.21",
         "lodash.debounce": "^4.0.8",
         "lodash.throttle": "^4.0.8",
-        "ts-object-utils": "0.0.5"
+        "ts-object-utils": "0.0.5",
+        "@shopify/flash-list": "1.4.1"
     },
     "peerDependencies": {
         "react": "^18.1.0",
