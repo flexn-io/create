@@ -1,6 +1,6 @@
 {
     "name": "@flexn/template",
-    "version": "0.18.0-alpha.10",
+    "version": "0.20.0-alpha.0",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/flexn#readme",
@@ -57,14 +57,13 @@
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
     "dependencies": {
+        "@flexn/graybox": "0.20.0-alpha.0",
+        "@flexn/sdk": "0.20.0-alpha.0",
+        "@flexn/typescript": "0.1.4",
         "@lightningjs/cli": "2.7.1",
         "@lightningjs/core": "^2.6.0",
         "@lightningjs/sdk": "4.3.3",
         "@lightningjs/ui-components": "^1.2.1",
-        "raf": "3.4.1",
-        "@flexn/graybox": "0.18.0-alpha.10",
-        "@flexn/sdk": "0.18.0-alpha.10",
-        "@flexn/typescript": "0.1.4",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/masked-view": "0.1.6",
         "@react-native-windows/cli": "0.63.12",
@@ -91,6 +90,7 @@
         "http-server": "^14.1.0",
         "jetifier": "1.6.5",
         "next": "12.0.9",
+        "raf": "3.4.1",
         "react": "18.1.0",
         "react-art": "18.1.0",
         "react-dom": "18.1.0",
@@ -113,8 +113,8 @@
     },
     "devDependencies": {
         "@rnv/engine-rn": "0.36.0-canary.13",
-        "@rnv/engine-rn-tvos": "0.36.0-canary.13",
         "@rnv/engine-rn-next": "0.36.0-canary.13",
+        "@rnv/engine-rn-tvos": "0.36.0-canary.13",
         "@rnv/engine-rn-web": "0.36.0-canary.13",
         "@rnv/engine-rn-windows": "0.36.0-canary.13",
         "xcode": "2.1.0"
