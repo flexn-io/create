@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Selector from '../screens/selector';
 import Row from '../screens/row';
 import DynamicState from '../screens/dynamicState';
+import DynamicState2 from '../screens/dynamicState2';
 import DirectionalFocus from '../screens/directionalFocus';
 import Animations from '../screens/animations';
 import List from '../screens/list';
@@ -13,10 +14,11 @@ const RootStack = createNativeStackNavigator();
 const Navigation = () => {
     return (
         <NavigationContainer>
-            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="List">
+            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="DynamicState2">
                 <RootStack.Screen name="Selector" component={Selector} />
                 <RootStack.Screen name="Row" component={Row} />
                 <RootStack.Screen name="DynamicState" component={DynamicState} />
+                <RootStack.Screen name="DynamicState2" component={DynamicState2} />
                 <RootStack.Screen name="DirectionalFocus" component={DirectionalFocus} />
                 <RootStack.Screen name="Animations" component={Animations} />
                 <RootStack.Screen name="List" component={List} />

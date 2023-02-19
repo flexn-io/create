@@ -76,6 +76,11 @@ function _measure(
     resolve?: any,
     remeasuring?: boolean
 ) {
+    if (!ref?.current) {
+        if (resolve) resolve();
+        return;
+    }
+
     ref.current.measure((_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
         let pgX;
         let pgY;
