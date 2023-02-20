@@ -50,11 +50,6 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
             ClsInstance.remeasureChildrenLayouts(ClsInstance);
         });
 
-        // const onLayout = async () => {
-        //     await measureAsync(ClsInstance, ref);
-        //     ClsInstance.remeasureChildrenLayouts(ClsInstance);
-        // };
-
         return (
             <RNScrollView
                 ref={ref}

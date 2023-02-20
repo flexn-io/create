@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 export function withParentContextMapper(WrappedComponent: any) {
     return class extends React.Component<any, any> {
         render() {

@@ -135,14 +135,6 @@ export default function RecyclerView({
         measure(ClsInstance, rnViewRef, unmeasurableDimensions);
     });
 
-    // const onLayout = () => {
-    //     const unmeasurableDimensions = {
-    //         x: paddingLeft + marginLeft + left + (unmeasurableRelativeDimensions.x || 0),
-    //         y: paddingTop + marginTop + top + (unmeasurableRelativeDimensions.y || 0),
-    //     };
-    //     measure(ClsInstance, rnViewRef, unmeasurableDimensions);
-    // };
-
     return (
         <RNView ref={rnViewRef} onLayout={onLayout} style={style}>
             <RecyclerListView

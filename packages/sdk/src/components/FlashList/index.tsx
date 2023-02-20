@@ -8,6 +8,7 @@ import Grid from '../../focusManager/model/grid';
 import List from '../../focusManager/model/list';
 import Row from '../../focusManager/model/row';
 import { FlashListProps } from '../../focusManager/types';
+import useOnLayout from '../../hooks/useOnLayout';
 
 const FlashList = ({
     style,
@@ -89,10 +90,10 @@ const FlashList = ({
         }
     };
 
-    const onLayout = async () => {
+    const { onLayout } = useOnLayout(async () => {
         await measureAsync(ClsInstance, rnViewRef);
         setMeasured(true);
-    };
+    });
 
     return (
         <RNView ref={rnViewRef} onLayout={onLayout} style={style}>

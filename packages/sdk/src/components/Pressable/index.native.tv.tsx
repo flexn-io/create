@@ -114,27 +114,13 @@ const View = React.forwardRef<any, ViewProps>(
         });
 
         const { onLayout } = useOnLayout(async () => {
-            console.log('ON LAYOUT FROM PRESSABLE');
             await measureAsync(ViewInstance, ref, undefined, undefined, true);
             ViewInstance.getScreen()?.removeComponentFromPendingLayoutMap(ViewInstance.getId());
         });
 
-        const { onLayout: onLayoutNonPressable } = useOnLayout(async () => {
-            console.log('ON LAYOUT NON PRESSABLE');
+        const { onLayout: onLayoutNonPressable } = useOnLayout(() => {
             ViewInstance?.remeasureChildrenLayouts?.(ViewInstance);
         });
-
-        // const onLayout = async () => {
-        //     console.log('ON LAYOUT FROM PRESSABLE');
-        //     await measureAsync(ViewInstance, ref, undefined, undefined, true);
-        //     ViewInstance.getScreen()?.removeComponentFromPendingLayoutMap(ViewInstance.getId());
-        // };
-
-        // const onLayoutNonPressable = () => {
-        //     console.log('ON LAYOUT NON PRESSABLE');
-
-        //     ViewInstance?.remeasureChildrenLayouts?.(ViewInstance);
-        // };
 
         // In recycled mode we must re-measure on render
         if (repeatContext && ref.current) {

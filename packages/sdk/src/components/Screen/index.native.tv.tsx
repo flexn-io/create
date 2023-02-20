@@ -64,13 +64,9 @@ const Screen = React.forwardRef<any, ScreenProps>(
             []
         );
 
-        const { onLayout } = useOnLayout(async () => {
+        const { onLayout } = useOnLayout(() => {
             measure(ClsInstance, ref);
         });
-
-        // const onLayout = () => {
-        //     measure(ClsInstance, ref);
-        // };
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
