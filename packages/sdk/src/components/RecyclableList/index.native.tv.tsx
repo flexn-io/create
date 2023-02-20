@@ -136,6 +136,7 @@ export default function RecyclerView({
             y: paddingTop + marginTop + top + (unmeasurableRelativeDimensions.y || 0),
         };
         await measureAsync(ClsInstance, rnViewRef, unmeasurableDimensions);
+        setMeasured(true);
     });
 
     return (
