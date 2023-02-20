@@ -43,7 +43,7 @@
     "isMonorepo": true,
     "plugins": {
         "@flexn/sdk": {
-            "version": "0.20.0-alpha.4",
+            "version": "0.20.0-alpha.5",
             "webpack": {
                 "modulePaths": true,
                 "moduleAliases": true
@@ -295,7 +295,7 @@
     "currentTemplate": "@flexn/template",
     "templates": {
         "@flexn/template": {
-            "version": "0.20.0-alpha.4"
+            "version": "0.20.0-alpha.5"
         }
     }
 }
