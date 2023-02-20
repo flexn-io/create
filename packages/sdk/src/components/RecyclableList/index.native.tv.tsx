@@ -6,7 +6,7 @@ import {
     RecyclerListView,
 } from '../../recyclerListView';
 import CoreManager from '../../focusManager/model/core';
-import { measure } from '../../focusManager/layoutManager';
+import { measure, measureAsync } from '../../focusManager/layoutManager';
 import type { RecyclerViewProps } from '../../focusManager/types';
 import Grid from '../../focusManager/model/grid';
 import List from '../../focusManager/model/list';
@@ -49,6 +49,7 @@ export default function RecyclerView({
     const scrollViewRef = useRef<HTMLDivElement | null>(null);
     const rlvRef = useRef<RecyclerListView<any, any>>(null);
     const rnViewRef = useRef<RNView>(null);
+    const [measured, setMeasured] = useState(false);
 
     if (!type) {
         throw new Error('Please specify type. One of grid, list, row');
@@ -110,12 +111,14 @@ export default function RecyclerView({
     };
 
     useEffect(() => {
-        CoreManager.registerFocusable(ClsInstance, scrollViewRef);
+        if (measured) {
+            CoreManager.registerFocusable(ClsInstance, scrollViewRef);
+        }
 
         return () => {
             CoreManager.removeFocusable(ClsInstance);
         };
-    }, []);
+    }, [measured]);
 
     const flattenContentContainerStyle = StyleSheet.flatten(contentContainerStyle);
     const flattenStyles = StyleSheet.flatten(style);
@@ -132,42 +135,44 @@ export default function RecyclerView({
             x: paddingLeft + marginLeft + left + (unmeasurableRelativeDimensions.x || 0),
             y: paddingTop + marginTop + top + (unmeasurableRelativeDimensions.y || 0),
         };
-        measure(ClsInstance, rnViewRef, unmeasurableDimensions);
+        await measureAsync(ClsInstance, rnViewRef, unmeasurableDimensions);
     });
 
     return (
         <RNView ref={rnViewRef} onLayout={onLayout} style={style}>
-            <RecyclerListView
-                ref={rlvRef}
-                dataProvider={dataProvider}
-                scrollViewProps={{
-                    ...scrollViewProps,
-                    ref: (ref: any) => {
-                        // eslint-disable-next-line no-underscore-dangle
-                        scrollViewRef.current = ref?._scrollViewRef; // `scrollTo()` is not working otherwise
-                    },
-                    scrollEnabled: false,
-                    scrollEventThrottle: 320,
-                }}
-                onScroll={(event: any) => {
-                    const { height } = event.nativeEvent.contentSize;
-                    const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
-                    const { y, x } = event.nativeEvent.contentOffset;
+            {measured && (
+                <RecyclerListView
+                    ref={rlvRef}
+                    dataProvider={dataProvider}
+                    scrollViewProps={{
+                        ...scrollViewProps,
+                        ref: (ref: any) => {
+                            // eslint-disable-next-line no-underscore-dangle
+                            scrollViewRef.current = ref?._scrollViewRef; // `scrollTo()` is not working otherwise
+                        },
+                        scrollEnabled: false,
+                        scrollEventThrottle: 320,
+                    }}
+                    onScroll={(event: any) => {
+                        const { height } = event.nativeEvent.contentSize;
+                        const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
+                        const { y, x } = event.nativeEvent.contentOffset;
 
-                    ClsInstance.setScrollOffsetY(y)
-                        .setScrollOffsetX(x)
-                        .updateLayoutProperty('yMaxScroll', height)
-                        .updateLayoutProperty('scrollContentHeight', scrollContentHeight);
+                        ClsInstance.setScrollOffsetY(y)
+                            .setScrollOffsetX(x)
+                            .updateLayoutProperty('yMaxScroll', height)
+                            .updateLayoutProperty('scrollContentHeight', scrollContentHeight);
 
-                    ClsInstance.recalculateChildrenLayouts(ClsInstance);
-                }}
-                rowRenderer={rowRendererWithProps}
-                disableItemContainer={disableItemContainer}
-                isHorizontal={isHorizontal}
-                contentContainerStyle={contentContainerStyle}
-                renderAheadOffset={1000}
-                {...props}
-            />
+                        ClsInstance.recalculateChildrenLayouts(ClsInstance);
+                    }}
+                    rowRenderer={rowRendererWithProps}
+                    disableItemContainer={disableItemContainer}
+                    isHorizontal={isHorizontal}
+                    contentContainerStyle={contentContainerStyle}
+                    renderAheadOffset={1000}
+                    {...props}
+                />
+            )}
         </RNView>
     );
 }
