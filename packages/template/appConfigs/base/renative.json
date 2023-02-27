@@ -108,7 +108,7 @@
                     "title": "Flexn Canary",
                     "exportOptions": {
                         "method": "app-store",
-                        "uploadBitcode": true,
+                        "uploadBitcode": false,
                         "compileBitcode": false,
                         "uploadSymbols": true,
                         "signingStyle": "manual",
@@ -123,7 +123,7 @@
                     "bundleIsDev": false,
                     "exportOptions": {
                         "method": "app-store",
-                        "uploadBitcode": true,
+                        "uploadBitcode": false,
                         "compileBitcode": false,
                         "uploadSymbols": true,
                         "signingStyle": "manual",
@@ -175,7 +175,7 @@
                     "multipleAPKs": false,
                     "exportOptions": {
                         "method": "app-store",
-                        "uploadBitcode": true,
+                        "uploadBitcode": false,
                         "compileBitcode": false,
                         "uploadSymbols": true,
                         "provisioningProfiles": {}
@@ -189,7 +189,7 @@
                     "bundleIsDev": false,
                     "exportOptions": {
                         "method": "app-store",
-                        "uploadBitcode": true,
+                        "uploadBitcode": false,
                         "compileBitcode": false,
                         "uploadSymbols": true,
                         "provisioningProfiles": {}
