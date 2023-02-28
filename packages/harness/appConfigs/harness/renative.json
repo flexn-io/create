@@ -18,6 +18,9 @@
             "canary": {
                 "id": "io.flexn.harness.alpha",
                 "title": "Harness Alpha"
+            },
+            "production": {
+                "title": "Harness Production"
             }
         },
         "ignoreWarnings": true,
@@ -99,7 +102,6 @@
                 },
                 "production": {
                     "firebaseId": "1:855221150579:ios:e84e4a15880b5f72381b06",
-                    "title": "Flexn Harness Adhoc",
                     "id": "flexn.harness",
                     "provisionProfileSpecifier": "flexn.harness-adhoc",
                     "exportOptions": {

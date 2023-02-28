@@ -15,16 +15,20 @@
         "versionFormat": "0.0.0",
         "buildSchemes": {
             "debug": {
-                "description": "Use for local development"
+                "description": "Use for local development",
+                "title": "Flexn Debug"
             },
             "test": {
-                "description": "Use to run automation"
+                "description": "Use to run automation",
+                "title": "Flexn Test"
             },
             "canary": {
-                "description": "Use for pre-production deployments"
+                "description": "Use for pre-production deployments",
+                "title": "Flexn Canary"
             },
             "production": {
-                "description": "Use for production deployments"
+                "description": "Use for production deployments",
+                "title": "Flexn Production"
             }
         },
         "backgroundColor": "#111111",
@@ -90,8 +94,7 @@
                 "debug": {
                     "id": "io.flexn.template.debug",
                     "runScheme": "Debug",
-                    "bundleAssets": false,
-                    "title": "Flexn Debug"
+                    "bundleAssets": false
                 },
                 "test": {
                     "runScheme": "Debug",
@@ -105,7 +108,6 @@
                     "bundleAssets": true,
                     "bundleIsDev": false,
                     "multipleAPKs": false,
-                    "title": "Flexn Canary",
                     "exportOptions": {
                         "method": "app-store",
                         "uploadBitcode": false,
@@ -157,8 +159,7 @@
                 "debug": {
                     "id": "io.flexn.template.debug",
                     "runScheme": "Debug",
-                    "bundleAssets": false,
-                    "title": "Flexn Debug"
+                    "bundleAssets": false
                 },
                 "test": {
                     "runScheme": "Debug",
@@ -169,7 +170,6 @@
                     "runScheme": "Release",
                     "provisioningStyle": "Manual",
                     "codeSignIdentity": "Apple Distribution",
-                    "title": "Flexn Canary",
                     "bundleAssets": true,
                     "bundleIsDev": false,
                     "multipleAPKs": false,
@@ -252,8 +252,7 @@
                 "debug": {
                     "id": "io.flexn.template.debug",
                     "signingConfig": "Debug",
-                    "bundleAssets": false,
-                    "title": "Flexn Debug"
+                    "bundleAssets": false
                 },
                 "test": {
                     "signingConfig": "Debug",
@@ -263,8 +262,7 @@
                     "signingConfig": "Release",
                     "bundleAssets": true,
                     "bundleIsDev": false,
-                    "multipleAPKs": false,
-                    "title": "Flexn Canary"
+                    "multipleAPKs": false
                 },
                 "production": {
                     "signingConfig": "Release",
@@ -289,7 +287,6 @@
             "buildSchemes": {
                 "debug": {
                     "id": "io.flexn.template.debug",
-                    "title": "Flexn Debug",
                     "signingConfig": "Debug",
                     "bundleAssets": false
                 },
@@ -301,8 +298,7 @@
                     "signingConfig": "Release",
                     "bundleAssets": true,
                     "bundleIsDev": false,
-                    "multipleAPKs": false,
-                    "title": "Flexn Canary"
+                    "multipleAPKs": false
                 },
                 "production": {
                     "signingConfig": "Release",
