@@ -46,7 +46,7 @@ export { default as Row } from './complexComponents/Row';
 export { default as StyleSheet } from './apis/StyleSheet';
 export { default as Animated } from './apis/Animated';
 export { default as Appearance } from './apis/Appearance';
-export { ScreenProps, ScreenStates } from './focusManager/types';
+export { ScreenProps, ScreenStates, Context } from './focusManager/types';
 
 // Constants
 export { ANIMATION_TYPES } from './focusManager/constants';
