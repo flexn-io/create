@@ -68,7 +68,9 @@ const Screen = React.forwardRef<any, ScreenProps>(
             measure(ClsInstance, ref);
         });
 
-        const childrenWithProps = React.Children.map(children, (child) => {
+        const chRendered = typeof children === 'function' ? children(ClsInstance) : children;
+
+        const childrenWithProps = React.Children.map(chRendered, (child) => {
             if (React.isValidElement(child)) {
                 return React.cloneElement(child, { parentContext: ClsInstance });
             }

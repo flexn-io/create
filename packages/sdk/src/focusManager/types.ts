@@ -100,7 +100,7 @@ export interface ScreenProps {
     screenState?: ScreenStates;
     screenOrder?: number;
     stealFocus?: boolean;
-    children?: React.ReactNode;
+    children?(focusModel?: AbstractFocusModel): React.ReactNode;
     style?: StyleProp<ViewStyle>;
     onBlur?: () => void;
     onFocus?: () => void;
