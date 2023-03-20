@@ -32,7 +32,7 @@ const DynamicState = () => {
 
     const rowRenderer = (_type: string | number, item: any, index: number, repeatContext: any) => {
         return (
-            <Pressable style={styles.packshot} repeatContext={repeatContext}>
+            <Pressable style={styles.packshot} focusRepeatContext={repeatContext}>
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>
         );

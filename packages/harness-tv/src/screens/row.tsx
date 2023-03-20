@@ -27,7 +27,7 @@ const Row = () => {
 
     const rowRenderer = ({ item }, contextInfo) => {
         return (
-            <Pressable style={styles.packshot} repeatContext={contextInfo}>
+            <Pressable style={styles.packshot} focusRepeatContext={contextInfo}>
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>
         );

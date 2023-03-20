@@ -14,7 +14,7 @@ const RootStack = createNativeStackNavigator();
 const Navigation = () => {
     return (
         <NavigationContainer>
-            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="DynamicState2">
+            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="DynamicState">
                 <RootStack.Screen name="Selector" component={Selector} />
                 <RootStack.Screen name="Row" component={Row} />
                 <RootStack.Screen name="DynamicState" component={DynamicState} />

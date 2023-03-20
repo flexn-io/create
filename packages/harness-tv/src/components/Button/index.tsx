@@ -40,7 +40,7 @@ interface ButtonProps {
     accessible?: boolean;
     accessibilityLabel?: string;
     onPress?: any;
-    parentContext?: string;
+    focusContext?: string;
 }
 
 const Button = ({
@@ -56,7 +56,7 @@ const Button = ({
     accessibilityLabel,
     onPress,
     activeOpacity,
-    parentContext,
+    focusContext,
 }: ButtonProps) => (
     <Pressable
         style={[styles.button, style]}
@@ -65,7 +65,7 @@ const Button = ({
         testID={testID}
         accessible={accessible}
         accessibilityLabel={accessibilityLabel}
-        parentContext={parentContext}
+        focusContext={focusContext}
     >
         {iconName ? (
             <Icon
