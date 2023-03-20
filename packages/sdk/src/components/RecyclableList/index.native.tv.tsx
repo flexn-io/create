@@ -5,7 +5,7 @@ import {
     LayoutProvider as RecyclableListLayoutProvider,
     RecyclerListView,
 } from '../../recyclerListView';
-import CoreManager from '../../focusManager/model/core';
+import CoreManager from '../../focusManager/service/core';
 import { measure, measureAsync } from '../../focusManager/layoutManager';
 import type { RecyclerViewProps } from '../../focusManager/types';
 import Grid from '../../focusManager/model/grid';

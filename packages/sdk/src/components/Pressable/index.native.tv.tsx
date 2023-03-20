@@ -3,7 +3,7 @@ import { View as RNView } from 'react-native';
 import { isPlatformTvos } from '@rnv/renative';
 import { useCombinedRefs, usePrevious, flattenStyle } from '../../focusManager/helpers';
 import type { ViewProps } from '../../focusManager/types';
-import CoreManager from '../../focusManager/model/core';
+import CoreManager from '../../focusManager/service/core';
 import { ANIMATIONS } from '../../focusManager/constants';
 import { measure, measureAsync } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
 import { FlashList as FlashListComp } from '@shopify/flash-list';
-import CoreManager from '../../focusManager/model/core';
+import CoreManager from '../../focusManager/service/core';
 import { measureAsync } from '../../focusManager/layoutManager';
 
 import Grid from '../../focusManager/model/grid';

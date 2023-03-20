@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView, Animated } from 'react-native';
 import { useCombinedRefs, usePrevious, flattenStyle } from '../../focusManager/helpers';
 import type { ViewProps } from '../../focusManager/types';
-import CoreManager from '../../focusManager/model/core';
+import CoreManager from '../../focusManager/service/core';
 import { measure } from '../../focusManager/layoutManager';
 
 import ViewClass from '../../focusManager/model/view';

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useImperativeHandle } from 'react';
 import { ScrollView as RNScrollView } from 'react-native';
 import type { ScrollViewProps } from '../../focusManager/types';
-import CoreManager from '../../focusManager/model/core';
+import CoreManager from '../../focusManager/service/core';
 import { measure, measureAsync, recalculateLayout } from '../../focusManager/layoutManager';
 import ScrollViewClass from '../../focusManager/model/scrollview';
 import useOnLayout from '../../hooks/useOnLayout';

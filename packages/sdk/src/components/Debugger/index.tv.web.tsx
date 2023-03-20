@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, Dimensions, View as RNView } from 'react-native';
-import CoreManager from '../../focusManager/model/core';
+import CoreManager from '../../focusManager/service/core';
 import AbstractFocusModel from '../../focusManager/model/AbstractFocusModel';
 
 const windowWidth = Dimensions.get('window').width;
@@ -86,7 +86,7 @@ export default function FocusDebugger() {
                     );
                 }
             });
-        
+
         return (
             <RNView
                 style={{

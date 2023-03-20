@@ -3,7 +3,7 @@ import { View as RNView } from 'react-native';
 import { SCREEN_STATES } from '../../focusManager/constants';
 import type { ScreenProps } from '../../focusManager/types';
 import { useCombinedRefs } from '../../focusManager/helpers';
-import CoreManager from '../../focusManager/model/core';
+import CoreManager from '../../focusManager/service/core';
 import { measure } from '../../focusManager/layoutManager';
 
 import ScreenClass from '../../focusManager/model/screen';
