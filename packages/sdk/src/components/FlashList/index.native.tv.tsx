@@ -13,10 +13,10 @@ import useOnLayout from '../../hooks/useOnLayout';
 const FlashList = ({
     style,
     scrollViewProps,
-    parentContext,
+    focusContext,
     isHorizontal = true,
     rowRenderer,
-    repeatContext,
+    focusRepeatContext,
     focusOptions = {},
     type,
     initialRenderIndex,
@@ -34,15 +34,15 @@ const FlashList = ({
     const rlvRef = useRef<FlashListComp<any>>(null);
     const rnViewRef = useRef<RNView>(null);
 
-    const pctx = repeatContext?.parentContext || parentContext;
+    const pctx = focusRepeatContext?.focusContext || focusContext;
 
     const [measured, setMeasured] = useState(false);
     const [ClsInstance] = useState(() => {
         const params = {
             isHorizontal,
-            isNested: !!repeatContext,
+            isNested: !!focusRepeatContext,
             parent: pctx,
-            repeatContext,
+            repeatContext: focusRepeatContext,
             initialRenderIndex,
             onFocus,
             onBlur,
@@ -81,7 +81,7 @@ const FlashList = ({
             }
         }
 
-        return rowRenderer(props, { parentContext: ClsInstance, index: props.index });
+        return rowRenderer(props, { focusContext: ClsInstance, index: props.index });
     };
 
     const onLayoutsReady = () => {

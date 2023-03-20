@@ -24,8 +24,8 @@ const View = React.forwardRef<any, ViewProps>(
             style,
             focus = true,
             focusOptions = {},
-            parentContext,
-            repeatContext,
+            focusContext,
+            focusRepeatContext,
             onPress = () => {
                 return null;
             },
@@ -42,7 +42,7 @@ const View = React.forwardRef<any, ViewProps>(
         const refInner = useRef(null);
         const ref = useCombinedRefs(refOuter, refInner);
         const prevFocus = usePrevious(focus);
-        const pctx = repeatContext?.parentContext || parentContext;
+        const pctx = focusRepeatContext?.focusContext || focusContext;
 
         const [ViewInstance, setViewInstance] = useState(() => {
             if (!focus) {
@@ -50,7 +50,7 @@ const View = React.forwardRef<any, ViewProps>(
             } else {
                 return new ViewClass({
                     focus,
-                    repeatContext,
+                    repeatContext: focusRepeatContext,
                     parent: pctx,
                     ...focusOptions,
                 });
@@ -58,8 +58,8 @@ const View = React.forwardRef<any, ViewProps>(
         });
 
         // We must re-assign repeat context as View instances are re-used in recycled
-        if (repeatContext) {
-            ViewInstance.setRepeatContext(repeatContext);
+        if (focusRepeatContext) {
+            ViewInstance.setRepeatContext(focusRepeatContext);
         }
 
         useEffect(() => {
@@ -67,7 +67,7 @@ const View = React.forwardRef<any, ViewProps>(
             if (prevFocus === false && focus === true) {
                 const cls = new ViewClass({
                     focus: true,
-                    repeatContext,
+                    repeatContext: focusRepeatContext,
                     parent: pctx,
                     forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
                 });
@@ -106,7 +106,7 @@ const View = React.forwardRef<any, ViewProps>(
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
                 return React.cloneElement(child, {
-                    parentContext: ViewInstance,
+                    focusContext: ViewInstance,
                 });
             }
 
@@ -123,7 +123,7 @@ const View = React.forwardRef<any, ViewProps>(
         });
 
         // In recycled mode we must re-measure on render
-        if (repeatContext && ref.current) {
+        if (focusRepeatContext && ref.current) {
             measure(ViewInstance, ref);
         }
 

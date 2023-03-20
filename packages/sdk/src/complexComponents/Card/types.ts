@@ -12,7 +12,7 @@ export interface CardProps extends React.ComponentPropsWithRef<any> {
     onBlur?(): void;
     resizeMode?: ImageResizeMode;
     title?: string;
-    parentContext?: Context;
-    repeatContext?: Context;
+    focusContext?: Context;
+    focusRepeatContext?: Context;
     focusOptions?: PressableFocusOptions;
 }

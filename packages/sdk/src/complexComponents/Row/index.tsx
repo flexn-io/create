@@ -20,8 +20,8 @@ type RowItem = {
 };
 interface RowProps {
     index?: number;
-    parentContext?: Context;
-    repeatContext?: Context;
+    focusContext?: Context;
+    focusRepeatContext?: Context;
     title?: string;
     focusOptions?: RecyclableListFocusOptions;
     animatorOptions?: any;
@@ -51,8 +51,8 @@ const Row = forwardRef<RecylerListRef, RowProps>(
             items,
             title,
             itemsInViewport,
-            parentContext,
-            repeatContext,
+            focusContext,
+            focusRepeatContext,
             focusOptions,
             animatorOptions,
             style = {},
@@ -124,7 +124,7 @@ const Row = forwardRef<RecylerListRef, RowProps>(
                     onFocus={() => onFocus?.(data)}
                     onBlur={() => onBlur?.(data)}
                     onPress={() => onPress?.(data)}
-                    repeatContext={_repeatContext}
+                    focusRepeatContext={_repeatContext}
                     renderProps={_renderProps}
                     focusOptions={{
                         animatorOptions,
@@ -142,7 +142,7 @@ const Row = forwardRef<RecylerListRef, RowProps>(
                         dataProvider={dataProvider}
                         layoutProvider={layoutProvider.current}
                         initialXOffset={Ratio(initialXOffset)}
-                        repeatContext={repeatContext}
+                        focusRepeatContext={focusRepeatContext}
                         rowRenderer={rowRenderer}
                         disableItemContainer={disableItemContainer && isPlatformTvos}
                         isHorizontal
@@ -172,7 +172,7 @@ const Row = forwardRef<RecylerListRef, RowProps>(
         };
 
         return (
-            <View parentContext={parentContext} style={style} onLayout={onLayout} ref={ref}>
+            <View focusContext={focusContext} style={style} onLayout={onLayout} ref={ref}>
                 {renderTitle()}
                 {renderRecycler()}
             </View>

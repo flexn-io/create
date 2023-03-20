@@ -25,12 +25,12 @@ const parseStyleProps = (prop?: string | number): number => {
 
 export default function RecyclerView({
     style,
-    parentContext,
+    focusContext,
     isHorizontal = true,
     rowRenderer,
     scrollViewProps,
     dataProvider,
-    repeatContext,
+    focusRepeatContext,
     contentContainerStyle,
     unmeasurableRelativeDimensions = { y: 0, x: 0 },
     focusOptions = {},
@@ -59,16 +59,16 @@ export default function RecyclerView({
         throw new Error(`Incorrect type ${type}. Valid types is grid, list, row`);
     }
 
-    const pctx = repeatContext?.parentContext || parentContext;
+    const pctx = focusRepeatContext?.focusContext || focusContext;
 
     // const [stateIndex, setStateIndex] = useState(repeatContext?.index);
 
     const [ClsInstance] = useState(() => {
         const params = {
             isHorizontal,
-            isNested: !!repeatContext,
+            isNested: !!focusRepeatContext,
             parent: pctx,
-            repeatContext,
+            repeatContext: focusRepeatContext,
             initialRenderIndex,
             onFocus,
             onBlur,
@@ -84,8 +84,8 @@ export default function RecyclerView({
         }
     });
 
-    if (repeatContext) {
-        ClsInstance.setRepeatContext(repeatContext);
+    if (focusRepeatContext) {
+        ClsInstance.setRepeatContext(focusRepeatContext);
     }
 
     const rowRendererWithProps = (type: any, data: any, index: any, _extendedState: any, renderProps: any) => {
@@ -101,7 +101,7 @@ export default function RecyclerView({
             }
         }
 
-        return rowRenderer(type, data, index, { parentContext: ClsInstance, index }, renderProps);
+        return rowRenderer(type, data, index, { focusContext: ClsInstance, index }, renderProps);
     };
 
     const onLayoutsReady = () => {

@@ -15,7 +15,7 @@ type RowItem = {
     title?: string;
 };
 interface ListProps {
-    parentContext?: Context;
+    focusContext?: Context;
     focusOptions?: RecyclableListFocusOptions;
     animatorOptions?: any;
     itemsInViewport?: number;
@@ -42,7 +42,7 @@ interface ListProps {
 }
 
 const List = ({
-    parentContext,
+    focusContext,
     items,
     itemsInViewport = 5,
     style = {},
@@ -98,7 +98,7 @@ const List = ({
 
     setLayoutProvider();
 
-    const renderRow = ({ index, data, title, repeatContext }: any) => {
+    const renderRow = ({ index, data, title, focusRepeatContext }: any) => {
         return (
             <Carousel
                 key={index}
@@ -109,7 +109,7 @@ const List = ({
                 onFocus={onFocus}
                 onBlur={onBlur}
                 renderCard={renderCard}
-                repeatContext={repeatContext}
+                focusRepeatContext={focusRepeatContext}
                 style={{
                     width: boundaries.width,
                     height: Ratio(rowHeight),
@@ -134,7 +134,7 @@ const List = ({
     const renderRecycler = () => {
         return (
             <RecyclableList
-                parentContext={parentContext}
+                focusContext={focusContext}
                 type="list"
                 isHorizontal={false}
                 scrollViewProps={{
@@ -143,13 +143,13 @@ const List = ({
                 style={[{ width: boundaries.width, height: boundaries.height }]}
                 dataProvider={dataProvider}
                 layoutProvider={layoutProvider.current}
-                rowRenderer={(_type: string | number, rowData: any, index: number, repeatContext: any) => {
+                rowRenderer={(_type: string | number, rowData: any, index: number, focusRepeatContext: any) => {
                     return renderRow({
                         index,
                         data: rowData,
                         title: rowData.rowTitle,
-                        nestedParentContext: repeatContext?.parentContext,
-                        repeatContext: repeatContext,
+                        nestedParentContext: focusRepeatContext?.focusContext,
+                        focusRepeatContext: focusRepeatContext,
                     });
                 }}
                 focusOptions={focusOptions}
@@ -158,7 +158,7 @@ const List = ({
     };
 
     return (
-        <View parentContext={parentContext} style={style} onLayout={onLayout} ref={ref}>
+        <View focusContext={focusContext} style={style} onLayout={onLayout} ref={ref}>
             {renderRecycler()}
         </View>
     );

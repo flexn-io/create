@@ -16,7 +16,7 @@ type RowItem = {
 };
 
 interface GridProps {
-    parentContext?: Context;
+    focusContext?: Context;
     focusOptions?: RecyclableListFocusOptions;
     itemsInViewport: number;
     style?: StyleProp<ViewStyle>;
@@ -44,7 +44,7 @@ const Grid = ({
     horizontalItemSpacing = 0,
     itemDimensions,
     itemsInViewport = 5,
-    parentContext,
+    focusContext,
     focusOptions,
     rerenderData,
     animatorOptions,
@@ -91,9 +91,9 @@ const Grid = ({
             type="grid"
             dataProvider={dataProvider}
             layoutProvider={layoutProvider.current}
-            rowRenderer={(_type: string | number, data, _index: number, repeatContext: any, renderProps) => {
+            rowRenderer={(_type: string | number, data, _index: number, focusRepeatContext: any, renderProps) => {
                 if (renderCard) {
-                    return renderCard(data, repeatContext, { ...rowDimensions.item }, renderProps);
+                    return renderCard(data, focusRepeatContext, { ...rowDimensions.item }, renderProps);
                 }
                 return (
                     <PosterCard
@@ -103,7 +103,7 @@ const Grid = ({
                         onFocus={() => onFocus?.(data)}
                         onPress={() => onPress?.(data)}
                         onBlur={() => onBlur?.(data)}
-                        repeatContext={repeatContext}
+                        focusRepeatContext={focusRepeatContext}
                         renderProps={renderProps}
                         focusOptions={{ animatorOptions }}
                     />
@@ -121,7 +121,7 @@ const Grid = ({
     );
 
     return (
-        <View parentContext={parentContext} style={style} onLayout={onLayout} ref={ref}>
+        <View focusContext={focusContext} style={style} onLayout={onLayout} ref={ref}>
             {!isLoading && renderGrid()}
         </View>
     );

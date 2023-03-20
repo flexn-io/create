@@ -21,8 +21,8 @@ const View = React.forwardRef<any, ViewProps>(
             style,
             focus = true,
             focusOptions = {},
-            parentContext,
-            repeatContext,
+            focusContext,
+            focusRepeatContext,
             onPress = () => {
                 return null;
             },
@@ -40,7 +40,7 @@ const View = React.forwardRef<any, ViewProps>(
         const refInner = useRef(null);
         const ref = useCombinedRefs(refOuter, refInner);
         const prevFocus = usePrevious(focus);
-        const pctx = repeatContext?.parentContext || parentContext;
+        const pctx = focusRepeatContext?.focusContext || focusContext;
         const animatorOptions = focusOptions.animatorOptions || defaultAnimation;
         const flattenedStyle = flattenStyle(style);
 
@@ -50,7 +50,7 @@ const View = React.forwardRef<any, ViewProps>(
             } else {
                 return new ViewClass({
                     focus,
-                    repeatContext,
+                    repeatContext: focusRepeatContext,
                     parent: pctx,
                     ...focusOptions,
                     onFocus: onComponentFocus,
@@ -62,24 +62,18 @@ const View = React.forwardRef<any, ViewProps>(
         const onComponentFocus = () => {
             switch (animatorOptions.type) {
                 case ANIMATION_TYPES.SCALE:
-                    Animated.timing(
-                        scaleAnim,
-                        {
-                            toValue: animatorOptions.scale,
-                            duration: 200,
-                            useNativeDriver: true
-                        }
-                    ).start();
+                    Animated.timing(scaleAnim, {
+                        toValue: animatorOptions.scale,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
                     break;
                 case ANIMATION_TYPES.SCALE_BORDER:
-                    Animated.timing(
-                        scaleAnim,
-                        {
-                            toValue: animatorOptions.scale,
-                            duration: 200,
-                            useNativeDriver: true
-                        }
-                    ).start();
+                    Animated.timing(scaleAnim, {
+                        toValue: animatorOptions.scale,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
                     ref.current.setNativeProps({
                         borderColor: flattenedStyle.borderColor,
                         borderWidth: flattenedStyle.borderWidth,
@@ -95,9 +89,9 @@ const View = React.forwardRef<any, ViewProps>(
                     ref.current.setNativeProps({
                         style: {
                             backgroundColor: animatorOptions.backgroundColorFocus,
-                        }
+                        },
                     });
-                    break;  
+                    break;
                 default:
                     break;
             }
@@ -108,24 +102,18 @@ const View = React.forwardRef<any, ViewProps>(
         const onComponentBlur = () => {
             switch (animatorOptions.type) {
                 case ANIMATION_TYPES.SCALE:
-                    Animated.timing(
-                        scaleAnim,
-                        {
-                            toValue: 1,
-                            duration: 200,
-                            useNativeDriver: true
-                        }
-                    ).start();
+                    Animated.timing(scaleAnim, {
+                        toValue: 1,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
                     break;
                 case ANIMATION_TYPES.SCALE_BORDER:
-                    Animated.timing(
-                        scaleAnim,
-                        {
-                            toValue: 1,
-                            duration: 200,
-                            useNativeDriver: true
-                        }
-                    ).start();
+                    Animated.timing(scaleAnim, {
+                        toValue: 1,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
                     ref.current.setNativeProps({
                         borderWidth: 0,
                     });
@@ -134,14 +122,14 @@ const View = React.forwardRef<any, ViewProps>(
                     ref.current.setNativeProps({
                         borderWidth: 0,
                     });
-                    break;  
+                    break;
                 case ANIMATION_TYPES.BACKGROUND:
                     ref.current.setNativeProps({
                         style: {
                             backgroundColor: flattenedStyle.backgroundColor,
-                        }
+                        },
                     });
-                    break; 
+                    break;
                 default:
                     break;
             }
@@ -150,8 +138,8 @@ const View = React.forwardRef<any, ViewProps>(
         };
 
         // We must re-assign repeat context as View instances are re-used in recycled
-        if (repeatContext) {
-            ViewInstance.setRepeatContext(repeatContext);
+        if (focusRepeatContext) {
+            ViewInstance.setRepeatContext(focusRepeatContext);
         }
 
         useEffect(() => {
@@ -160,8 +148,8 @@ const View = React.forwardRef<any, ViewProps>(
                     if (ref.current) {
                         ref.current.setNativeProps({
                             style: {
-                                transform: [{ scale: value }]
-                            }
+                                transform: [{ scale: value }],
+                            },
                         });
                     }
                 });
@@ -177,7 +165,7 @@ const View = React.forwardRef<any, ViewProps>(
             if (prevFocus === false && focus === true) {
                 const cls = new ViewClass({
                     focus: true,
-                    repeatContext,
+                    repeatContext: focusRepeatContext,
                     parent: pctx,
                     forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
                 });
@@ -207,7 +195,6 @@ const View = React.forwardRef<any, ViewProps>(
 
             return () => {
                 if (focus) {
-
                     CoreManager.removeFocusable(ViewInstance);
                     ViewInstance.getScreen()?.onViewRemoved(ViewInstance);
                 }
@@ -217,7 +204,7 @@ const View = React.forwardRef<any, ViewProps>(
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
                 return React.cloneElement(child, {
-                    parentContext: ViewInstance,
+                    focusContext: ViewInstance,
                 });
             }
 
@@ -231,18 +218,13 @@ const View = React.forwardRef<any, ViewProps>(
         };
 
         // In recycled mode we must re-measure on render
-        if (repeatContext && ref.current) {
+        if (focusRepeatContext && ref.current) {
             measure(ViewInstance, ref);
         }
 
         if (focus) {
             return (
-                <RNView
-                    style={flattenedStyle}
-                    onLayout={onLayout}
-                    {...props}
-                    ref={ref}
-                >
+                <RNView style={flattenedStyle} onLayout={onLayout} {...props} ref={ref}>
                     {childrenWithProps}
                 </RNView>
             );

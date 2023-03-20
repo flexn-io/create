@@ -18,8 +18,8 @@ const Card = React.forwardRef<any, CardProps>(
             onFocus,
             onPress,
             onBlur,
-            parentContext,
-            repeatContext,
+            focusContext,
+            focusRepeatContext,
             focusOptions,
             renderProps,
         },
@@ -82,8 +82,8 @@ const Card = React.forwardRef<any, CardProps>(
             <Pressable
                 ref={ref}
                 style={containerStyle}
-                parentContext={parentContext}
-                repeatContext={repeatContext}
+                focusContext={focusContext}
+                focusRepeatContext={focusRepeatContext}
                 onFocus={onFocus}
                 onBlur={onBlur}
                 onPress={onPress}

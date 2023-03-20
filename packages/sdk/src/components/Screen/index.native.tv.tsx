@@ -72,7 +72,7 @@ const Screen = React.forwardRef<any, ScreenProps>(
 
         const childrenWithProps = React.Children.map(chRendered, (child) => {
             if (React.isValidElement(child)) {
-                return React.cloneElement(child, { parentContext: ClsInstance });
+                return React.cloneElement(child, { focusContext: ClsInstance });
             }
             return child;
         });

@@ -59,8 +59,8 @@ export type RecyclableListFocusOptions = {
 export interface ViewProps extends RNViewProps {
     focus?: boolean;
     focusOptions?: PressableFocusOptions;
-    parentContext?: any;
-    repeatContext?: any;
+    focusContext?: any;
+    focusRepeatContext?: any;
     onPress?: (e: GestureResponderEvent | any) => void;
     onBlur?: (response?: any) => void;
     onFocus?: any;
@@ -76,8 +76,8 @@ export interface ViewProps extends RNViewProps {
 export interface PressableProps extends RNPressableProps {
     focus?: boolean;
     focusOptions?: PressableFocusOptions;
-    parentContext?: any;
-    repeatContext?: any;
+    focusContext?: any;
+    focusRepeatContext?: any;
     onPress?: (e: GestureResponderEvent | any) => void;
     onBlur?: (response?: any) => void;
     onFocus?: any;
@@ -89,7 +89,7 @@ export interface PressableProps extends RNPressableProps {
 }
 
 export interface ScrollViewProps extends RNScrollViewProps {
-    parentContext?: any;
+    focusContext?: any;
     horizontal?: boolean;
     children?: React.ReactNode;
     ref?: React.MutableRefObject<ScrollView>;
@@ -108,8 +108,8 @@ export interface ScreenProps {
 }
 
 export interface RecyclerViewProps {
-    parentContext?: any;
-    repeatContext?: any;
+    focusContext?: any;
+    focusRepeatContext?: any;
     isHorizontal?: boolean;
     children?: React.ReactNode;
     dataProvider: any;
@@ -129,11 +129,10 @@ export interface RecyclerViewProps {
     onFocus?: () => void;
 }
 
-
 export interface FlashListProps {
     data: any;
-    parentContext?: any;
-    repeatContext?: any;
+    focusContext?: any;
+    focusRepeatContext?: any;
     isHorizontal?: boolean;
     children?: React.ReactNode;
     rowRenderer: any;
@@ -189,8 +188,8 @@ export interface Context {
     initialFocus?: Context;
     firstFocusable?: Context;
     lastFocused?: Context;
-    repeatContext?: Context;
-    parentContext?: Context;
+    focusRepeatContext?: Context;
+    focusContext?: Context;
 
     layouts?: any;
     index?: number;
@@ -206,3 +205,4 @@ export type View = ViewModel;
 export type Recycler = RecyclerModel;
 export type Screen = ScreenModel;
 export type AbstractFocusModel = AbstractModel;
+export type FocusContext = AbstractModel;

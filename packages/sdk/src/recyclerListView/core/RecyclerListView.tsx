@@ -130,7 +130,7 @@ export interface RecyclerListViewProps {
     scrollViewProps?: object;
     applyWindowCorrection?: (offsetX: number, offsetY: number, windowCorrection: WindowCorrection) => void;
     onItemLayout?: (index: number) => void;
-    repeatContext?: Context;
+    focusRepeatContext?: Context;
     unmeasurableRelativeDimensions?: { x?: number; y?: number };
 }
 
