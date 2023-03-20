@@ -1,6 +1,6 @@
 import Recycler from './recycler';
 import Row from './row';
-import Core from './core';
+import Core from '../service/core';
 import AbstractFocusModel from './AbstractFocusModel';
 
 class List extends Recycler {
@@ -58,7 +58,7 @@ class List extends Recycler {
 
     public getFocusTaskExecutor(_direction: string): AbstractFocusModel {
         return this;
-    };
+    }
 }
 
 export default List;

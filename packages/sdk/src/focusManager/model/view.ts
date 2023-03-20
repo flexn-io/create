@@ -1,4 +1,4 @@
-import CoreManager from './core';
+import CoreManager from '../service/core';
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 import { alterForbiddenFocusDirections } from '../helpers';

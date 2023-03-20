@@ -1,5 +1,5 @@
 // Functions
-import CoreManager from './focusManager/model/core';
+import CoreManager from './focusManager/service/core';
 
 // global.CoreManager = CoreManager;
 

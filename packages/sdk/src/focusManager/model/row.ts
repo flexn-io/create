@@ -1,8 +1,8 @@
 import AbstractFocusModel from './AbstractFocusModel';
 import Recycler from './recycler';
 import View from './view';
-import Core from './core';
-import Scroller from './scroller';
+import Core from '../service/core';
+import Scroller from '../service/scroller';
 import { DIRECTION_VERTICAL } from '../constants';
 
 class Row extends Recycler {

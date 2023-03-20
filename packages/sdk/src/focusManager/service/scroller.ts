@@ -8,7 +8,7 @@ import {
     DIRECTION_RIGHT,
     DEFAULT_VIEWPORT_OFFSET,
 } from '../constants';
-import ScrollView from './scrollview';
+import ScrollView from '../model/scrollview';
 import Recycler from './recycler';
 
 const windowWidth = Dimensions.get('window').width;

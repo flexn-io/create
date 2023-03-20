@@ -1,6 +1,6 @@
 import { ScreenStates, ForbiddenFocusDirections } from '../types';
-import CoreManager from './core';
-import Logger from './logger';
+import CoreManager from '../service/core';
+import Logger from '../service/logger';
 import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 import View from './view';
@@ -216,7 +216,7 @@ class Screen extends AbstractFocusModel {
         this._order = value;
 
         return this;
-    };
+    }
 
     public getOrder(): number {
         return this._order;
