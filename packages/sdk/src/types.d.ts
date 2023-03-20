@@ -6,19 +6,19 @@ declare module 'react-native' {
     }
     class ViewProps {
         animatorOptions?: any;
-        parentContext?: any;
+        focusContext?: any;
         className?: any;
     }
     class TouchableOpacityProps {
-        parentContext?: any;
+        focusContext?: any;
         className?: any;
     }
     class PressableProps {
-        parentContext?: any;
+        focusContext?: any;
         className?: any;
     }
     class ScrollViewProps {
-        parentContext?: any;
+        focusContext?: any;
     }
     interface UIManagerStatic {
         dispatchViewManagerCommand: (

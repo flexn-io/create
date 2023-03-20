@@ -6,14 +6,14 @@ import { measure, recalculateLayout } from '../../focusManager/layoutManager';
 import ScrollViewClass from '../../focusManager/model/scrollview';
 
 const ScrollView = React.forwardRef<any, ScrollViewProps>(
-    ({ children, style, parentContext, horizontal, focusOptions, ...props }: ScrollViewProps, refOuter) => {
+    ({ children, style, focusContext, horizontal, focusOptions, ...props }: ScrollViewProps, refOuter) => {
         const ref = useRef<RNScrollView>() as React.MutableRefObject<RNScrollView>;
 
         const [ClsInstance] = useState<ScrollViewClass>(
             () =>
                 new ScrollViewClass({
                     horizontal,
-                    parent: parentContext,
+                    parent: focusContext,
                     ...focusOptions,
                 })
         );
@@ -31,7 +31,7 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
-                return React.cloneElement(child, { parentContext: ClsInstance });
+                return React.cloneElement(child, { focusContext: ClsInstance });
             }
             return child;
         });
@@ -61,15 +61,13 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
                     const { y, x } = event.nativeEvent.contentOffset;
                     const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
 
-                    ClsInstance
-                        .setScrollOffsetY(y)
+                    ClsInstance.setScrollOffsetY(y)
                         .setScrollOffsetX(x)
                         .updateLayoutProperty('yMaxScroll', height)
                         .updateLayoutProperty('xMaxScroll', width)
                         .updateLayoutProperty('scrollContentHeight', scrollContentHeight);
 
                     ClsInstance.recalculateChildrenLayouts(ClsInstance);
-
                 }}
                 {...props}
             >
