@@ -2,7 +2,7 @@
 
 ## Overview
 
-Testing package using WebdriverIO. iOS, tvOS, Android, AndroidTV, macOS use Appium server and Web uses Selenium Standalone Server. Reporting is done using Allure reporter.
+Testing package using WebdriverIO. iOS, tvOS, Android, AndroidTV, macOS use Appium Server and Web uses Selenium Standalone Server. Reporting is done using Allure Reporter.
 
 ## Package import
 
@@ -96,9 +96,9 @@ For iOS/tvOS:
 1. Add the following code to wdio.capabilities.js file under ios/tvos object. `<Device udid>` must be replaced by device udid. Device udid can be found under indentifier on Xcode by navigating to Window -> Devices and Simulators and selecting connected device. `<Team ID>` must be replaced by Team ID. Team ID can be found using developer account. Sign in to `developer.apple.com/account`, and click Membership in the sidebar. Team ID appears in the Membership Information section under the team name.
 
 ```javascript
-    udid: '<Device udid>',
-    xcodeOrgId: '<Team ID>',
-    xcodeSigningId: 'iPhone Developer'
+udid: '<Device udid>',
+xcodeOrgId: '<Team ID>',
+xcodeSigningId: 'iPhone Developer'
 ```
 
 2. If the first step doesn't work, then open `./node-modules/appium-webdriveragent/WebDriverAgent.xcodeproj`. Select WebDriverAgent project and select WebDriverAgentRunner (for iOS) or WebDriverAgentRunner_tvOS (for tvOS) target, then under Signing & Capabilities tab select developer team.
@@ -170,9 +170,9 @@ FlexnRunner.launchApp()
 
 IMPORTANT: must be included in before hook:
 ```javascript
-    before(() => {
-        FlexnRunner.launchApp();
-    });
+before(() => {
+    FlexnRunner.launchApp();
+});
 ```
 
 ### getElementById
