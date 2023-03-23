@@ -193,7 +193,7 @@ FlexnRunner.getElementById(selector)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | test ID of the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### getElementByText
 
@@ -214,7 +214,7 @@ FlexnRunner.getElementByText(selector)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | visible text on the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### scrollById
 
@@ -234,9 +234,9 @@ FlexnRunner.scrollById(selectorTo, direction, selectorFrom)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selectorTo | string | test ID of the element to which scroll is executed. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selectorTo | string | test ID of the element to which scroll is executed. For more context look at [Selector strategies](#selector-strategies) |
 | direction | either 'up', 'down', 'left' or 'right' | direction of the scroll |
-| selectorFrom | string | test ID of the element from which scroll is executed. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selectorFrom | string | test ID of the element from which scroll is executed. For more context look at [Selector strategies](#selector-strategies) |
 
 ### clickById
 
@@ -257,7 +257,7 @@ FlexnRunner.clickById(selector)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | test ID of the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### clickByText
 
@@ -277,7 +277,7 @@ FlexnRunner.clickByText(selector)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | visible text on the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### pressButtonHome
 
@@ -437,7 +437,7 @@ FlexnRunner.expectToBeExistingById(selector)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | test ID of the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### expectToBeExistingByText
 
@@ -457,7 +457,7 @@ FlexnRunner.expectToBeExistingByText(selector)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | visible text on the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### expectToBeDisplayedById
 
@@ -477,7 +477,7 @@ FlexnRunner.expectToBeDisplayedById(selector)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | test ID of the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### expectToBeDisplayedByText
 
@@ -497,7 +497,7 @@ FlexnRunner.expectToBeDisplayedByText(selector)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | visible text on the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### expectToBeClickableById
 
@@ -517,7 +517,7 @@ FlexnRunner.expectToBeClickableById(selector)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | test ID of the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### expectToBeClickableByText
 
@@ -537,7 +537,7 @@ FlexnRunner.expectToBeClickableByText(selector)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | visible text on the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### waitForDisplayedById
 
@@ -557,7 +557,7 @@ FlexnRunner.waitForDisplayedById(selector, timeout)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | test ID of the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 | timeout | number | time in ms (default: 60000) for which waiting action is executed |
 
 ### waitForDisplayedByText
@@ -578,7 +578,7 @@ FlexnRunner.waitForDisplayedByText(selector, timeout)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | visible text on the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
 | timeout | number | time in ms (default: 60000) for which waiting action is executed |
 
 ### waitForExistById
@@ -599,7 +599,7 @@ FlexnRunner.waitForExistById(selector, timeout)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | test ID of the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 | timeout | number | time in ms (default: 60000) for which waiting action is executed |
 
 ### waitForExistByText
@@ -620,7 +620,7 @@ FlexnRunner.waitForExistByText(selector, timeout)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | visible text on the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
 | timeout | number | time in ms (default: 60000) for which waiting action is executed |
 
 ### waitForClickableById
@@ -641,7 +641,7 @@ FlexnRunner.waitForClickableById(selector, timeout)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | test ID of the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 | timeout | number | time in ms (default: 60000) for which waiting action is executed |
 
 ### waitForClickableByText
@@ -662,7 +662,7 @@ FlexnRunner.waitForClickableByText(selector, timeout)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | visible text on the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
 | timeout | number | time in ms (default: 60000) for which waiting action is executed |
 
 ### setValueById
@@ -683,7 +683,7 @@ FlexnRunner.setValueById(selector, value)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | test ID of the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 | value | string | value to be added |
 
 ### clearValueById
@@ -704,7 +704,7 @@ FlexnRunner.clearValueById(selector)
 
 | Name  | Type | Details |
 | --- | --- | --- |
-| selector | string | test ID of the element. For more context look at [Selector strategies](https://github.com/flexn-io/flexn/tree/main/packages/graybox#selector-strategies) |
+| selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### pause
 
