@@ -8,7 +8,9 @@ Testing package using WebdriverIO. iOS, tvOS, Android, AndroidTV, macOS use Appi
 
 In specs file add Graybox import to use the package:
 
-`const FlexnRunner = require('@flexn/graybox').default;`
+```javascript
+const FlexnRunner = require('@flexn/graybox').default;
+```
 
 ## Local test environment setup
 
@@ -162,7 +164,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.launchApp()`
+```javascript
+FlexnRunner.launchApp()
+```
 
 IMPORTANT: must be included in before hook:
 ```javascript
@@ -181,7 +185,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.getElementById(selector)`
+```javascript
+FlexnRunner.getElementById(selector)
+```
 
 **Arguments**
 
@@ -199,7 +205,10 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.getElementByText(selector)`
+
+```javascript
+FlexnRunner.getElementByText(selector)
+```
 
 **Arguments**
 
@@ -217,7 +226,9 @@ Supported on: iOS, macOS, Android, Web.
 
 **Usage**
 
-`FlexnRunner.scrollById(selectorTo, direction, selectorFrom)`
+```javascript
+FlexnRunner.scrollById(selectorTo, direction, selectorFrom)
+```
 
 **Arguments**
 
@@ -237,7 +248,10 @@ Supported on: iOS, macOS, Android, Web.
 
 **Usage**
 
-`FlexnRunner.clickById(selector)`
+
+```javascript
+FlexnRunner.clickById(selector)
+```
 
 **Arguments**
 
@@ -255,7 +269,9 @@ Supported on: iOS, macOS, Android, Web.
 
 **Usage**
 
-`FlexnRunner.clickByText(selector)`
+```javascript
+FlexnRunner.clickByText(selector)
+```
 
 **Arguments**
 
@@ -273,7 +289,9 @@ Supported on: iOS, tvOS, Android, AndroidTV.
 
 **Usage**
 
-`FlexnRunner.pressButtonHome(n)`
+```javascript
+FlexnRunner.pressButtonHome(n)
+```
 
 **Arguments**
 
@@ -291,7 +309,9 @@ Supported on: iOS, tvOS, Android, AndroidTV.
 
 **Usage**
 
-`FlexnRunner.pressButtonBack(n)`
+```javascript
+FlexnRunner.pressButtonBack(n)
+```
 
 **Arguments**
 
@@ -309,7 +329,9 @@ Supported on: tvOS, AndroidTV.
 
 **Usage**
 
-`FlexnRunner.pressButtonUp(n)`
+```javascript
+FlexnRunner.pressButtonUp(n)
+```
 
 **Arguments**
 
@@ -327,7 +349,9 @@ Supported on: tvOS, AndroidTV.
 
 **Usage**
 
-`FlexnRunner.pressButtonDown(n)`
+```javascript
+FlexnRunner.pressButtonDown(n)
+```
 
 **Arguments**
 
@@ -345,7 +369,9 @@ Supported on: tvOS, AndroidTV.
 
 **Usage**
 
-`FlexnRunner.pressButtonLeft(n)`
+```javascript
+FlexnRunner.pressButtonLeft(n)
+```
 
 **Arguments**
 
@@ -363,7 +389,9 @@ Supported on: tvOS, AndroidTV.
 
 **Usage**
 
-`FlexnRunner.pressButtonRight(n)`
+```javascript
+FlexnRunner.pressButtonRight(n)
+```
 
 **Arguments**
 
@@ -381,7 +409,9 @@ Supported on: tvOS, AndroidTV.
 
 **Usage**
 
-`FlexnRunner.pressButtonSelect(n)`
+```javascript
+FlexnRunner.pressButtonSelect(n)
+```
 
 **Arguments**
 
@@ -399,7 +429,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.expectToBeExistingById(selector)`
+```javascript
+FlexnRunner.expectToBeExistingById(selector)
+```
 
 **Arguments**
 
@@ -417,7 +449,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.expectToBeExistingByText(selector)`
+```javascript
+FlexnRunner.expectToBeExistingByText(selector)
+```
 
 **Arguments**
 
@@ -435,7 +469,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.expectToBeDisplayedById(selector)`
+```javascript
+FlexnRunner.expectToBeDisplayedById(selector)
+```
 
 **Arguments**
 
@@ -453,7 +489,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.expectToBeDisplayedByText(selector)`
+```javascript
+FlexnRunner.expectToBeDisplayedByText(selector)
+```
 
 **Arguments**
 
@@ -471,7 +509,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.expectToBeClickableById(selector)`
+```javascript
+FlexnRunner.expectToBeClickableById(selector)
+```
 
 **Arguments**
 
@@ -489,7 +529,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.expectToBeClickableByText(selector)`
+```javascript
+FlexnRunner.expectToBeClickableByText(selector)
+```
 
 **Arguments**
 
@@ -507,7 +549,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.waitForDisplayedById(selector, timeout)`
+```javascript
+FlexnRunner.waitForDisplayedById(selector, timeout)
+```
 
 **Arguments**
 
@@ -526,7 +570,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.waitForDisplayedByText(selector, timeout)`
+```javascript
+FlexnRunner.waitForDisplayedByText(selector, timeout)
+```
 
 **Arguments**
 
@@ -545,7 +591,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.waitForExistById(selector, timeout)`
+```javascript
+FlexnRunner.waitForExistById(selector, timeout)
+```
 
 **Arguments**
 
@@ -564,7 +612,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.waitForExistByText(selector, timeout)`
+```javascript
+FlexnRunner.waitForExistByText(selector, timeout)
+```
 
 **Arguments**
 
@@ -583,7 +633,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.waitForClickableById(selector, timeout)`
+```javascript
+FlexnRunner.waitForClickableById(selector, timeout)
+```
 
 **Arguments**
 
@@ -602,7 +654,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.waitForClickableByText(selector, timeout)`
+```javascript
+FlexnRunner.waitForClickableByText(selector, timeout)
+```
 
 **Arguments**
 
@@ -621,7 +675,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.setValueById(selector, value)`
+```javascript
+FlexnRunner.setValueById(selector, value)
+```
 
 **Arguments**
 
@@ -640,7 +696,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.clearValueById(selector)`
+```javascript
+FlexnRunner.clearValueById(selector)
+```
 
 **Arguments**
 
@@ -658,7 +716,9 @@ Supported on all platforms.
 
 **Usage**
 
-`FlexnRunner.pause(time)`
+```javascript
+FlexnRunner.pause(time)
+```
 
 **Arguments**
 
@@ -672,7 +732,9 @@ Logs to cli `GIVEN:` with provided message.
 
 **Usage**
 
-`FlexnRunner.GIVEN(message)`
+```javascript
+FlexnRunner.GIVEN(message)
+```
 
 **Arguments**
 
@@ -686,7 +748,9 @@ Logs to cli `WHEN:` with provided message.
 
 **Usage**
 
-`FlexnRunner.WHEN(message)`
+```javascript
+FlexnRunner.WHEN(message)
+```
 
 **Arguments**
 
@@ -700,7 +764,9 @@ Logs to cli `THEN:` with provided message.
 
 **Usage**
 
-`FlexnRunner.THEN(message)`
+```javascript
+FlexnRunner.THEN(message)
+```
 
 **Arguments**
 
