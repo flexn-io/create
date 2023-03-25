@@ -15,7 +15,7 @@ const FlashList = ({
     scrollViewProps,
     focusContext,
     isHorizontal = true,
-    rowRenderer,
+    renderItem,
     focusRepeatContext,
     focusOptions = {},
     type,
@@ -81,7 +81,8 @@ const FlashList = ({
             }
         }
 
-        return rowRenderer(props, { focusContext: ClsInstance, index: props.index });
+        //@ts-ignore
+        return renderItem(props, { focusContext: ClsInstance, index: props.index });
     };
 
     const onLayoutsReady = () => {

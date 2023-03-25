@@ -7,6 +7,7 @@ import type {
     ViewStyle,
     ScrollView,
 } from 'react-native';
+import { FlashListProps as FLProps } from '@shopify/flash-list';
 import AbstractModel from './model/AbstractFocusModel';
 import ViewModel from './model/view';
 import RecyclerModel from './model/recycler';
@@ -129,16 +130,12 @@ export interface RecyclerViewProps {
     onFocus?: () => void;
 }
 
-export interface FlashListProps {
-    data: any;
+export interface FlashListProps extends FLProps<any> {
     focusContext?: any;
     focusRepeatContext?: any;
     isHorizontal?: boolean;
+    scrollViewProps: any;
     children?: React.ReactNode;
-    rowRenderer: any;
-    bounces?: boolean;
-    scrollViewProps?: any;
-    scrollEventThrottle?: number;
     style?: StyleProp<ViewStyle>;
     focusOptions?: RecyclableListFocusOptions;
     initialRenderIndex?: number;
