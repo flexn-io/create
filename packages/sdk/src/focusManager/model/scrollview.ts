@@ -66,7 +66,7 @@ class ScrollView extends AbstractFocusModel {
         return this;
     }
 
-    public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
+    public getRepeatContext(): { focusContext: AbstractFocusModel; index: number } | undefined {
         return;
     }
 }

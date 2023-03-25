@@ -36,9 +36,9 @@ export default abstract class AbstractFocusModel {
 
     abstract getRepeatContext():
         | {
-            parentContext: AbstractFocusModel;
-            index: number;
-        }
+              focusContext: AbstractFocusModel;
+              index: number;
+          }
         | undefined;
 
     abstract setRepeatContext(rp: AbstractFocusModel): this;

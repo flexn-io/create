@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Selector from '../screens/selector';
-import Row from '../screens/row';
-import DynamicState from '../screens/dynamicState';
-import DynamicState2 from '../screens/dynamicState2';
-import DirectionalFocus from '../screens/directionalFocus';
-import Animations from '../screens/animations';
-import List from '../screens/list';
+import Selector from './selector';
+import Row from './row';
+import DynamicState from './dynamicState';
+import DynamicState2 from './dynamicState2';
+import DirectionalFocus from './directionalFocus';
+import Animations from './animations';
+import List from './list';
 
 const RootStack = createNativeStackNavigator();
 

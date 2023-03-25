@@ -87,7 +87,7 @@ function _measure(
 
         const repeatContext = cls.getRepeatContext();
         if (repeatContext !== undefined) {
-            const pCtx = repeatContext.parentContext;
+            const pCtx = repeatContext.focusContext;
             if (pCtx !== undefined) {
                 const rLayout = pCtx.getLayouts()[repeatContext.index || 0];
                 // console.log('XMIN', pCtx.getLayout().xMin);
@@ -136,7 +136,7 @@ function _measure(
         // TODO: move it out from here
         const parent = cls.getParent();
         if (parent?.isScrollable() && parent?.getLayout()) {
-            const pCtx = cls?.getRepeatContext()?.parentContext;
+            const pCtx = cls?.getRepeatContext()?.focusContext;
             if (pCtx) {
                 const rLayout = pCtx.getLayouts()[pCtx.getLayouts().length - 1];
                 parent.updateLayoutProperty('xMaxScroll', pCtx.getLayout().xMin + width + rLayout.x);
