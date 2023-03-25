@@ -1,6 +1,7 @@
 // import { Dimensions } from 'react-native';
 // import Logger from './model/logger';
 import AbstractFocusModel from './model/AbstractFocusModel';
+import View from './model/view';
 
 const OVERLAP_THRESHOLD_PERCENTAGE = 20;
 const OVERLAP_NEXT_VALUE = 10;
@@ -32,7 +33,7 @@ const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: numbe
     return false;
 };
 
-const euclideanDistance = (current: AbstractFocusModel, next: AbstractFocusModel, direction: string) => {
+const euclideanDistance = (current: View, next: View, direction: string) => {
     const currentLayout = current.getLayout().absolute;
     const nextLayout = next.getLayout().absolute;
 
@@ -76,7 +77,7 @@ const euclideanDistance = (current: AbstractFocusModel, next: AbstractFocusModel
     );
 };
 
-const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, direction: string) => {
+const closestDist = (current: View, next: View, direction: string) => {
     const currentLayout = current.getLayout().absolute;
     const nextLayout = next.getLayout().absolute;
 
@@ -153,7 +154,7 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
     return ['', 0];
 };
 
-export const distCalc = (output: any, direction: string, current: AbstractFocusModel, next: AbstractFocusModel) => {
+export const distCalc = (output: any, direction: string, current: View, next: View) => {
     const [priority, dist] = closestDist(current, next, direction);
 
     switch (priority) {

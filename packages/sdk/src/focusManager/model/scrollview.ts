@@ -2,9 +2,6 @@ import { makeid } from '../helpers';
 import AbstractFocusModel from './AbstractFocusModel';
 
 class ScrollView extends AbstractFocusModel {
-    private _type: string;
-
-    private _parent?: AbstractFocusModel;
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
     private _isHorizontal: boolean;
@@ -20,10 +17,7 @@ class ScrollView extends AbstractFocusModel {
         this._type = 'scrollview';
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;
-    }
-
-    public getType(): string {
-        return this._type;
+        this._isScrollable = true;
     }
 
     public setScrollOffsetX(value: number): this {
@@ -46,28 +40,8 @@ class ScrollView extends AbstractFocusModel {
         return this._scrollOffsetY;
     }
 
-    public isScrollable(): boolean {
-        return true;
-    }
-
-    public isFocusable(): boolean {
-        return false;
-    }
-
     public isHorizontal(): boolean {
         return this._isHorizontal;
-    }
-
-    public getParent(): AbstractFocusModel | undefined {
-        return this._parent;
-    }
-
-    public setRepeatContext(_value: any): this {
-        return this;
-    }
-
-    public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
-        return;
     }
 }
 

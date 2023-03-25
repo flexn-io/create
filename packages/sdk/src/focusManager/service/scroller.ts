@@ -1,5 +1,5 @@
 import { Dimensions } from 'react-native';
-import AbstractFocusModel from './AbstractFocusModel';
+import AbstractFocusModel from '../model/AbstractFocusModel';
 import { recalculateLayout } from '../layoutManager';
 import {
     DIRECTION_VERTICAL,
@@ -9,7 +9,8 @@ import {
     DEFAULT_VIEWPORT_OFFSET,
 } from '../constants';
 import ScrollView from '../model/scrollview';
-import Recycler from './recycler';
+import Recycler from '../model/recycler';
+import View from '../model/view';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -140,7 +141,7 @@ class Scroller {
         scrollView: AbstractFocusModel,
         contextParameters: any
     ) {
-        const { currentFocus }: { currentFocus: AbstractFocusModel } = contextParameters;
+        const { currentFocus }: { currentFocus: View } = contextParameters;
         const { scrollContentHeight } = scrollView.getLayout();
         const currentLayout = currentFocus.getLayout();
         const scrollTarget = { x: scrollView.getScrollOffsetX(), y: scrollView.getScrollOffsetY() };

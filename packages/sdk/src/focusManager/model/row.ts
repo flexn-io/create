@@ -16,20 +16,19 @@ class Row extends Recycler {
         return this._type;
     }
 
-    public getLastFocused(): AbstractFocusModel {
-        return this?.getFocusedView() ?? this.getChildren()[0];
+    public getLastFocused(): View | undefined {
+        return this?.getFocusedView() ?? this.getFirstFocusableChildren();
     }
 
     private getCurrentFocusIndex(): number {
         return Core.getCurrentFocus()?.getRepeatContext()?.index || 0;
     }
 
-    public getNextFocusable(direction: string): AbstractFocusModel | undefined | null {
+    public getNextFocusable(direction: string): View | undefined | null {
         if (this._isInBounds(direction) && ['right', 'left'].includes(direction)) {
-            const candidates = Object.values(Core.getFocusMap()).filter(
+            const candidates = Object.values(Core.getViews()).filter(
                 (c) =>
                     c.isInForeground() &&
-                    c.isFocusable() &&
                     c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId() &&
                     c.getOrder() === Core.getCurrentMaxOrder()
             );

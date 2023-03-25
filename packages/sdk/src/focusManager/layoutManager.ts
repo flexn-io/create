@@ -1,34 +1,28 @@
-import { CONTEXT_TYPES } from './constants';
-import AbstractFocusModel from './model/AbstractFocusModel';
+import AbstractFocusModel, { TYPE_RECYCLER, TYPE_SCROLL_VIEW, TYPE_VIEW } from './model/AbstractFocusModel';
+import Recycler from './model/recycler';
 import Screen from './model/screen';
+import ScrollView from './model/scrollview';
 import View from './model/view';
 
-export function findLowestRelativeCoordinates(cls: AbstractFocusModel) {
-    const screen = cls.getScreen() as Screen;
+export function findLowestRelativeCoordinates(model: View) {
+    const screen = model.getScreen() as Screen;
 
-    if (screen && cls.getType() === CONTEXT_TYPES.VIEW) {
+    if (screen) {
         const layout = screen.getPrecalculatedFocus()?.getLayout();
-
-        // console.log('xMin5', layout?.xMin)
-
         const c1 = !screen.getPrecalculatedFocus();
-        const c2 = layout?.yMin === cls.getLayout()?.yMin && layout?.xMin >= cls.getLayout()?.xMin;
-        const c3 = layout?.yMin > cls.getLayout()?.yMin;
+        const c2 = layout?.yMin === model.getLayout()?.yMin && layout?.xMin >= model.getLayout()?.xMin;
+        const c3 = layout?.yMin > model.getLayout()?.yMin;
 
         if (c1 || c2 || c3) {
-            cls.getScreen()?.setPrecalculatedFocus(cls as View);
+            model.getScreen()?.setPrecalculatedFocus(model);
         }
     }
 }
 
-function recalculateAbsolutes(cls: AbstractFocusModel) {
-    const layout = cls.getLayout();
+function recalculateAbsolutes(model: AbstractFocusModel) {
+    const layout = model.getLayout();
 
-    // console.log('xMin4', layout?.xMin)
-
-    // console.log({ id: cls.getId(), pgX: layout.xMin, pgY: layout.yMin });
-
-    cls.updateLayoutProperty('absolute', {
+    model.updateLayoutProperty('absolute', {
         xMin: layout.xMin - layout.xOffset,
         xMax: layout.xMax - layout.xOffset,
         yMin: layout.yMin - layout.yOffset,
@@ -48,8 +42,10 @@ function recalculateLayout(cls: AbstractFocusModel, remeasuring?: boolean) {
     let parent = cls.getParent();
     while (parent) {
         if (parent.isScrollable()) {
-            offsetX += parent.getScrollOffsetX() || 0;
-            offsetY += parent.getScrollOffsetY() || 0;
+            if (parent instanceof ScrollView || parent instanceof Recycler) {
+                offsetX += parent.getScrollOffsetX();
+                offsetY += parent.getScrollOffsetY();
+            }
         }
         parent = parent?.getParent();
     }
@@ -69,7 +65,7 @@ function recalculateLayout(cls: AbstractFocusModel, remeasuring?: boolean) {
 }
 
 function _measure(
-    cls: AbstractFocusModel,
+    model: AbstractFocusModel,
     ref: any,
     unmeasurableRelatives?: { x: number; y: number },
     callback?: () => void,
@@ -85,30 +81,28 @@ function _measure(
         let pgX;
         let pgY;
 
-        const repeatContext = cls.getRepeatContext();
+        const repeatContext = model.getRepeatContext();
         if (repeatContext !== undefined) {
             const pCtx = repeatContext.parentContext;
-            if (pCtx !== undefined) {
+            if (pCtx !== undefined && pCtx instanceof Recycler) {
                 const rLayout = pCtx.getLayouts()[repeatContext.index || 0];
-                // console.log('XMIN', pCtx.getLayout().xMin);
                 pgX = pCtx.getLayout().xMin + rLayout.x;
                 pgY = pCtx.getLayout().yMin + rLayout.y;
             }
         } else {
             pgY = pageY;
             pgX = pageX;
-            // console.log('XMIN', cls.getId(), pgX);
         }
 
         // Single and nested recyclers can't measure itself due to logic above
-        if (unmeasurableRelatives && cls.getType() === CONTEXT_TYPES.RECYCLER) {
+        if (unmeasurableRelatives && model.getType() === TYPE_RECYCLER) {
             pgX = pgX + unmeasurableRelatives.x;
             pgY = pgY + unmeasurableRelatives.y;
         }
 
-        if (cls.getLayout()?.width && cls.getLayout().width !== width) {
-            width = cls.getLayout()?.width;
-            height = cls.getLayout()?.height;
+        if (model.getLayout()?.width && model.getLayout().width !== width) {
+            width = model.getLayout()?.width;
+            height = model.getLayout()?.height;
         }
 
         const layout = {
@@ -134,34 +128,36 @@ function _measure(
         };
 
         // TODO: move it out from here
-        const parent = cls.getParent();
+        const parent = model.getParent();
         if (parent?.isScrollable() && parent?.getLayout()) {
-            const pCtx = cls?.getRepeatContext()?.parentContext;
-            if (pCtx) {
+            const pCtx = model?.getRepeatContext()?.parentContext;
+            if (pCtx && pCtx instanceof Recycler) {
                 const rLayout = pCtx.getLayouts()[pCtx.getLayouts().length - 1];
                 parent.updateLayoutProperty('xMaxScroll', pCtx.getLayout().xMin + width + rLayout.x);
             }
         }
 
-        cls.setLayout(layout);
+        model.setLayout(layout);
 
-        findLowestRelativeCoordinates(cls);
+        if (model.getType() === TYPE_VIEW) {
+            findLowestRelativeCoordinates(model as View);
+        }
 
-        recalculateLayout(cls, remeasuring);
+        recalculateLayout(model, remeasuring);
 
         if (callback) callback();
         if (resolve) resolve(true);
     });
 
     // get the layout of innerView in scroll
-    if (cls.getType() === 'scrollView')
+    if (model.getType() === TYPE_SCROLL_VIEW)
         // eslint-disable-next-line no-underscore-dangle
         ref.current._children[0].measure(
             (_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
-                cls.updateLayoutProperty('innerView', {
-                    yMax: pageY + height - cls.getLayout().yMax,
+                model.updateLayoutProperty('innerView', {
+                    yMax: pageY + height - model.getLayout().yMax,
                     yMin: pageY + pageY,
-                    xMax: pageX + width - cls.getLayout().xMax,
+                    xMax: pageX + width - model.getLayout().xMax,
                     xMin: pageX,
                 });
             }
@@ -169,25 +165,25 @@ function _measure(
 }
 
 export function measureAsync(
-    cls: AbstractFocusModel,
+    model: AbstractFocusModel,
     ref: any,
     unmeasurableRelatives?: { x: number; y: number },
     callback?: () => void,
     remeasuring?: boolean
 ) {
     return new Promise((resolve) => {
-        _measure(cls, ref, unmeasurableRelatives, callback, resolve, remeasuring);
+        _measure(model, ref, unmeasurableRelatives, callback, resolve, remeasuring);
     });
 }
 
 function measure(
-    cls: AbstractFocusModel,
+    model: AbstractFocusModel,
     ref: any,
     unmeasurableRelatives?: { x: number; y: number },
     callback?: () => void,
     remeasuring?: boolean
 ) {
-    _measure(cls, ref, unmeasurableRelatives, callback, null, remeasuring);
+    _measure(model, ref, unmeasurableRelatives, callback, null, remeasuring);
 }
 
 export { measure, recalculateLayout };

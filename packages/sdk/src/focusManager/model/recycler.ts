@@ -2,15 +2,18 @@ import AbstractFocusModel from './AbstractFocusModel';
 import { ForbiddenFocusDirections } from '../types';
 import { alterForbiddenFocusDirections, makeid } from '../helpers';
 import View from './view';
+
+export interface ScrollViewInt extends Recycler {
+    getScrollOffsetY(): number;
+    getScrollOffsetX(): number;
+}
+
 class Recycler extends AbstractFocusModel {
-    protected _type: string;
-    private _parent?: AbstractFocusModel;
     private _layouts: any;
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
     private _isNested: boolean;
     private _isHorizontal: boolean;
-    private _forbiddenFocusDirections: ForbiddenFocusDirections[];
     private _focusedIndex: number;
     private _initialRenderIndex: number;
     private _focusedView?: View;
@@ -20,9 +23,6 @@ class Recycler extends AbstractFocusModel {
               index: number;
           }
         | undefined;
-
-    private _onFocus?: () => void;
-    private _onBlur?: () => void;
 
     constructor(params: any) {
         super(params);
@@ -41,6 +41,7 @@ class Recycler extends AbstractFocusModel {
         this._id = `recycler-${makeid(8)}`;
         this._type = 'recycler';
         this._layouts = [];
+        this._isScrollable = true;
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;
         this._isNested = isNested;
@@ -55,15 +56,7 @@ class Recycler extends AbstractFocusModel {
         this._onBlur = onBlur;
     }
 
-    public getType(): string {
-        return this._type;
-    }
-
-    public isFocusable(): boolean {
-        return false;
-    }
-
-    public getLayouts(): [] {
+    public getLayouts(): { x: number; y: number }[] {
         return this._layouts;
     }
 
@@ -71,14 +64,6 @@ class Recycler extends AbstractFocusModel {
         this._layouts = layouts;
 
         return this;
-    }
-
-    public isScrollable(): boolean {
-        return true;
-    }
-
-    public isRecyclable(): boolean {
-        return true;
     }
 
     public isNested(): boolean {
@@ -107,10 +92,6 @@ class Recycler extends AbstractFocusModel {
 
     public getScrollOffsetY(): number {
         return this._scrollOffsetY;
-    }
-
-    public getParent(): AbstractFocusModel | undefined {
-        return this._parent;
     }
 
     public setRepeatContext(value: any): this {
@@ -149,18 +130,6 @@ class Recycler extends AbstractFocusModel {
 
     public getFocusedView(): View | undefined {
         return this._focusedView;
-    }
-
-    public onFocus(): void {
-        if (this._onFocus) {
-            this._onFocus();
-        }
-    }
-
-    public onBlur(): void {
-        if (this._onBlur) {
-            this._onBlur();
-        }
     }
 }
 

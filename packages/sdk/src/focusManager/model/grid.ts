@@ -2,6 +2,7 @@ import Recycler from './recycler';
 import Core from '../service/core';
 import AbstractFocusModel from './AbstractFocusModel';
 import Scroller from '../service/scroller';
+import View from './view';
 
 class Grid extends Recycler {
     private _itemsInRow: number;
@@ -29,14 +30,13 @@ class Grid extends Recycler {
         return Math.ceil(this.getLayouts().length / this._itemsInRow);
     }
 
-    public getNextFocusable(direction: string): AbstractFocusModel | undefined | null {
+    public getNextFocusable(direction: string): View | undefined | null {
         this.getItemsInRow();
 
         if (this._isInBounds(direction)) {
-            const candidates = Object.values(Core.getFocusMap()).filter(
+            const candidates = Object.values(Core.getViews()).filter(
                 (c) =>
                     c.isInForeground() &&
-                    c.isFocusable() &&
                     c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId() &&
                     c.getOrder() === Core.getCurrentMaxOrder()
             );

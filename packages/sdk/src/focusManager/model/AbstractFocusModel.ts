@@ -1,27 +1,41 @@
-import { measure, measureAsync, recalculateLayout } from '../layoutManager';
-import { Recycler, Screen, ScreenStates } from '../types';
+import { measure, recalculateLayout } from '../layoutManager';
+import { ForbiddenFocusDirections, Recycler, Screen, ScreenStates } from '../types';
+import View from './view';
 
-const TYPE_SCREEN = 'screen';
+export const TYPE_SCREEN = 'screen';
+export const TYPE_VIEW = 'view';
+export const TYPE_RECYCLER = 'recycler';
+export const TYPE_SCROLL_VIEW = 'scrollview';
+
 export const STATE_BACKGROUND: ScreenStates = 'background';
-// const TYPE_VIEW = 'view';
-// const TYPE_RECYCLER = 'recycler';
-// const TYPE_SCROLLVIEW = 'scrollview';
 export default abstract class AbstractFocusModel {
     protected _layout: any;
     protected _id: string;
+    protected _type: string;
+    protected _parent: AbstractFocusModel | undefined;
     protected _children: AbstractFocusModel[];
     protected _screen: Screen | undefined;
+    protected _forbiddenFocusDirections: ForbiddenFocusDirections[];
+    protected _isFocusable: boolean;
+    protected _isScrollable: boolean;
 
     protected _nextFocusRight: string | string[];
     protected _nextFocusLeft: string | string[];
     protected _nextFocusUp: string | string[];
     protected _nextFocusDown: string | string[];
 
+    protected _onFocus?: () => void;
+    protected _onBlur?: () => void;
+
     constructor(params: any) {
         const { nextFocusRight, nextFocusLeft, nextFocusUp, nextFocusDown } = params;
 
         this._id = '';
+        this._type = '';
         this._children = [];
+        this._isFocusable = false;
+        this._isScrollable = false;
+        this._forbiddenFocusDirections = [];
         this._nextFocusRight = nextFocusRight;
         this._nextFocusLeft = nextFocusLeft;
         this._nextFocusUp = nextFocusUp;
@@ -31,32 +45,12 @@ export default abstract class AbstractFocusModel {
     public nodeId?: number | null;
     public node?: any;
 
-    abstract getType(): string;
-    abstract getParent(): AbstractFocusModel | undefined;
+    public getType(): string {
+        return this._type;
+    }
 
-    abstract getRepeatContext():
-        | {
-            parentContext: AbstractFocusModel;
-            index: number;
-        }
-        | undefined;
-
-    abstract setRepeatContext(rp: AbstractFocusModel): this;
-
-    public getScreen(): Screen | undefined {
-        if (this._screen) {
-            return this._screen;
-        }
-
-        let parentCls = this.getParent();
-        while (parentCls && !parentCls.isScreen()) {
-            parentCls = parentCls.getParent();
-        }
-
-        if (parentCls?.isScreen()) {
-            this._screen = parentCls as Screen;
-            return this._screen;
-        }
+    public getParent(): AbstractFocusModel | undefined {
+        return this._parent;
     }
 
     public getId(): string {
@@ -91,6 +85,30 @@ export default abstract class AbstractFocusModel {
         return this;
     }
 
+    public isScrollable(): boolean {
+        return this._isScrollable;
+    }
+
+    public isFocusable(): boolean {
+        return this._isFocusable;
+    }
+
+    public getScreen(): Screen | undefined {
+        if (this._screen) {
+            return this._screen;
+        }
+
+        let parentCls = this.getParent();
+        while (parentCls && parentCls.getType() !== TYPE_SCREEN) {
+            parentCls = parentCls.getParent();
+        }
+
+        if (parentCls?.getType() === TYPE_SCREEN) {
+            this._screen = parentCls as Screen;
+            return this._screen;
+        }
+    }
+
     public removeChildrenFromParent(): this {
         if (this.getParent()) {
             this.getParent()
@@ -100,7 +118,7 @@ export default abstract class AbstractFocusModel {
                         this.getParent()?.getChildren().splice(index, 1);
                     }
                 });
-            if (this.getParent()?.isRecyclable()) {
+            if (this.getParent()?.getType() === TYPE_RECYCLER) {
                 const recycler = this.getParent() as Recycler;
                 if (recycler.getFocusedView()?.getId() === this.getId()) {
                     recycler.setFocusedView(undefined);
@@ -117,6 +135,10 @@ export default abstract class AbstractFocusModel {
 
     public getChildren(): AbstractFocusModel[] {
         return this._children;
+    }
+
+    public getFirstFocusableChildren(): View | undefined {
+        return this._children.find((ch) => ch.isFocusable()) as View;
     }
 
     public getMostBottomChildren(): AbstractFocusModel {
@@ -151,7 +173,6 @@ export default abstract class AbstractFocusModel {
 
     public remeasureChildrenLayouts(ch: AbstractFocusModel) {
         if (ch.isInForeground()) {
-            // console.log('MEASURING ID:', ch.getId());
             measure(ch, ch.node, undefined, undefined, true);
         }
 
@@ -176,68 +197,20 @@ export default abstract class AbstractFocusModel {
         return this._nextFocusDown || '';
     }
 
-    public getLayouts(): any {
-        throw new Error('Method is not implemented');
-    }
-
-    public isScrollable(): boolean {
-        return false;
-    }
-
-    public setScrollOffsetX(_value: number): this {
-        return this;
-    }
-
-    public getScrollOffsetX(): number {
-        return 0;
-    }
-
-    public getScrollOffsetY(): number {
-        return 0;
-    }
-
-    public setScrollOffsetY(_value: number): this {
-        return this;
-    }
-
-    public setIsFocused(_isFocused: boolean): this {
-        return this;
-    }
-
-    public getIsFocused(): boolean {
-        return false;
-    }
-
-    public isFocusable(): boolean {
-        return false;
-    }
-
     public getForbiddenFocusDirections(): string[] {
-        return [];
-    }
-
-    public isHorizontal(): boolean {
-        return false;
-    }
-
-    public isRecyclable() {
-        return false;
-    }
-
-    public isNested() {
-        return false;
+        return this._forbiddenFocusDirections;
     }
 
     public onFocus(): void {
-        // NO ACTION
+        if (this._onFocus) {
+            this._onFocus();
+        }
     }
 
     public onBlur(): void {
-        // NO ACTION
-    }
-
-    public onPress(): void {
-        // NO ACTION
+        if (this._onBlur) {
+            this._onBlur();
+        }
     }
 
     public getState(): string {
@@ -268,28 +241,12 @@ export default abstract class AbstractFocusModel {
         return this.getForbiddenFocusDirections().includes(direction);
     }
 
-    public setFocus(_cls?: AbstractFocusModel): void {
-        // TODO: Implement
-    }
-
     public getOrder(): number {
-        if (this.isScreen()) {
+        if (this.getType() === TYPE_SCREEN) {
             return this.getOrder();
         }
 
         return this.getScreen()?.getOrder() || 0;
-    }
-
-    public isScreen(): boolean {
-        return false;
-    }
-
-    public getFocusKey(): string {
-        return '';
-    }
-
-    public getNextFocusable(_direction: string): AbstractFocusModel | undefined | null {
-        return;
     }
 
     public getFocusTaskExecutor(direction: string): AbstractFocusModel | undefined | null {
@@ -298,5 +255,9 @@ export default abstract class AbstractFocusModel {
         }
 
         return null;
+    }
+
+    public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
+        return;
     }
 }

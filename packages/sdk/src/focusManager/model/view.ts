@@ -1,15 +1,11 @@
 import CoreManager from '../service/core';
 import { makeid } from '../helpers';
-import AbstractFocusModel from './AbstractFocusModel';
+import AbstractFocusModel, { TYPE_RECYCLER } from './AbstractFocusModel';
 import { alterForbiddenFocusDirections } from '../helpers';
-import { ForbiddenFocusDirections } from '../types';
 import Recycler from './recycler';
 
 class View extends AbstractFocusModel {
-    private _type: string;
-    private _parent?: AbstractFocusModel;
     private _isFocused: boolean;
-    private _forbiddenFocusDirections: ForbiddenFocusDirections[];
     private _focusKey: string;
     private _hasPreferredFocus: boolean;
     private _repeatContext:
@@ -19,8 +15,6 @@ class View extends AbstractFocusModel {
           }
         | undefined;
 
-    private _onFocus?: () => void;
-    private _onBlur?: () => void;
     private _onPress?: () => void;
 
     constructor(params: any) {
@@ -42,6 +36,7 @@ class View extends AbstractFocusModel {
         this._type = 'view';
         this._parent = parent;
         this._isFocused = false;
+        this._isFocusable = true;
         this._repeatContext = repeatContext;
         this._focusKey = focusKey;
         this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
@@ -55,7 +50,7 @@ class View extends AbstractFocusModel {
     }
 
     private init() {
-        if (this.getParent()?.isRecyclable()) {
+        if (this.getParent()?.getType() === TYPE_RECYCLER) {
             const parent = this.getParent() as Recycler;
             if (parent.getInitialRenderIndex() && parent.getInitialRenderIndex() === this.getRepeatContext()?.index) {
                 parent.setFocusedView(this);
@@ -63,10 +58,6 @@ class View extends AbstractFocusModel {
                 parent.setFocusedView(this);
             }
         }
-    }
-
-    public getType(): string {
-        return this._type;
     }
 
     public isFocusable(): boolean {
@@ -86,18 +77,6 @@ class View extends AbstractFocusModel {
         CoreManager.executeUpdateGuideLines();
     }
 
-    public onFocus(): void {
-        if (this._onFocus) {
-            this._onFocus();
-        }
-    }
-
-    public onBlur(): void {
-        if (this._onBlur) {
-            this._onBlur();
-        }
-    }
-
     public onPress(): void {
         if (this._onPress) {
             this._onPress();
@@ -107,7 +86,7 @@ class View extends AbstractFocusModel {
     public setIsFocused(value: boolean): this {
         this._isFocused = value;
 
-        if (value && this.getParent()?.isRecyclable()) {
+        if (value && this.getParent()?.getType() === TYPE_RECYCLER) {
             const currentIndex = this.getRepeatContext()?.index;
             if (currentIndex !== undefined) {
                 (this.getParent() as Recycler).setFocusedIndex(currentIndex).setFocusedView(this);
@@ -131,16 +110,8 @@ class View extends AbstractFocusModel {
         return this._repeatContext;
     }
 
-    public getParent(): AbstractFocusModel | undefined {
-        return this._parent;
-    }
-
     public getFocusKey(): string {
         return this._focusKey;
-    }
-
-    public getForbiddenFocusDirections(): ForbiddenFocusDirections[] {
-        return this._forbiddenFocusDirections;
     }
 
     public hasPreferredFocus(): boolean {

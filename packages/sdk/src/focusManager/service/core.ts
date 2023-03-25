@@ -8,12 +8,17 @@ import { View, Recycler, Screen, AbstractFocusModel } from '../types';
 
 import Scroller from './scroller';
 import Logger from './logger';
+import { TYPE_RECYCLER } from '../model/AbstractFocusModel';
 class CoreManager {
+    public _focusAwareElements: Record<string, AbstractFocusModel>;
+    public _views: Record<string, View>;
+    public _screens: Record<string, Screen>;
+
     public _focusMap: {
         [key: string]: AbstractFocusModel;
     };
 
-    public _currentFocus: AbstractFocusModel | null;
+    public _currentFocus: View | null;
 
     private _debuggerEnabled: boolean;
 
@@ -24,6 +29,10 @@ class CoreManager {
     private _guideLineX: number;
 
     constructor() {
+        this._focusAwareElements = {};
+        this._views = {};
+        this._screens = {};
+
         this._focusMap = {};
 
         this._currentFocus = null;
@@ -34,39 +43,49 @@ class CoreManager {
         this._guideLineX = 0;
     }
 
-    public registerFocusable(cls: AbstractFocusModel, node?: any) {
-        if (this._focusMap[cls.getId()]) {
+    public registerFocusable(model: AbstractFocusModel, node?: any) {
+        if (this._focusAwareElements[model.getId()]) {
             return;
         }
         if (node) {
             const nodeId = findNodeHandle(node.current);
-            cls.nodeId = nodeId;
-            cls.node = node;
+            model.nodeId = nodeId;
+            model.node = node;
         }
 
-        this._focusMap[cls.getId()] = cls;
+        this._focusAwareElements[model.getId()] = model;
 
-        Object.keys(this._focusMap).forEach((k) => {
-            const v = this._focusMap[k];
+        if (model.getType() === 'screen') {
+            this._screens[model.getId()] = model as Screen;
+        } else if (model.getType() === 'view') {
+            this._views[model.getId()] = model as View;
+        }
+
+        Object.keys(this._focusAwareElements).forEach((k) => {
+            const v = this._focusAwareElements[k];
 
             // Register as parent for children
-            if (v.getParent() && v.getParent()?.getId() === cls.getId()) {
-                cls.addChildren(v);
+            if (v.getParent() && v.getParent()?.getId() === model.getId()) {
+                model.addChildren(v);
             }
             // Register as child in parent
-            if (cls.getParent() && cls.getParent()?.getId() === v.getId()) {
-                v.addChildren(cls);
+            if (model.getParent() && model.getParent()?.getId() === v.getId()) {
+                v.addChildren(model);
             }
         });
     }
 
-    public removeFocusable(cls: AbstractFocusModel) {
-        cls.removeChildrenFromParent();
-        delete this._focusMap[cls.getId()];
-        if (cls.getId() === this._currentFocus?.getId()) {
+    public removeFocusable(model: AbstractFocusModel) {
+        model.removeChildrenFromParent();
+
+        delete this._focusAwareElements[model.getId()];
+        delete this._views[model.getId()];
+        delete this._screens[model.getId()];
+
+        if (model.getId() === this._currentFocus?.getId()) {
             this._currentFocus = null;
         }
-        if (cls.isScreen()) {
+        if (model.isScreen()) {
             setTimeout(() => {
                 this.onScreenRemoved();
             }, 0);
@@ -74,25 +93,24 @@ class CoreManager {
     }
 
     public onScreenRemoved() {
-        const screens = Object.values(this._focusMap).filter(
-            (c) => c.isInForeground() && c.isScreen() && c.getOrder() === this.getCurrentMaxOrder()
-        ) as Screen[];
+        const screens = Object.values(this._screens).filter(
+            (c) => c.isInForeground() && c.getOrder() === this.getCurrentMaxOrder()
+        );
 
         const nextScreen = screens.find((c) => c?.hasStealFocus()) ?? screens[0];
-
 
         if (nextScreen) {
             nextScreen.setFocus(nextScreen.getFirstFocusableOnScreen());
         }
     }
 
-    public executeFocus(cls: AbstractFocusModel) {
-        if (cls.getId() === this._currentFocus?.getId()) {
+    public executeFocus(model: View) {
+        if (model.getId() === this._currentFocus?.getId()) {
             return;
         }
 
         if (this._currentFocus) {
-            if (this._currentFocus.node.current && (!isPlatformTizen && !isPlatformWebos)) {
+            if (this._currentFocus.node.current && !isPlatformTizen && !isPlatformWebos) {
                 // @ts-ignore
                 UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId, 'cmdBlur', null);
             }
@@ -100,17 +118,17 @@ class CoreManager {
             this._currentFocus.setIsFocused(false);
         }
 
-        this._currentFocus = cls;
+        this._currentFocus = model;
 
-        if (cls.node.current && (!isPlatformTizen && !isPlatformWebos)) {
+        if (model.node.current && !isPlatformTizen && !isPlatformWebos) {
             // @ts-ignore
-            UIManager.dispatchViewManagerCommand(cls.nodeId, 'cmdFocus', null);
+            UIManager.dispatchViewManagerCommand(model.nodeId, 'cmdFocus', null);
         }
-        cls.onFocus();
-        cls.setIsFocused(true);
+        model.onFocus();
+        model.setIsFocused(true);
 
-        if (cls.getScreen()) {
-            cls.getScreen()?.setCurrentFocus(cls as View);
+        if (model.getScreen()) {
+            model.getScreen()?.setCurrentFocus(model);
         }
     }
 
@@ -183,30 +201,34 @@ class CoreManager {
     }
 
     public focusElementByFocusKey = (focusKey: string) => {
-        const element: AbstractFocusModel | undefined = Object.values(this._focusMap).find(
-            (cls) => cls.getFocusKey() === focusKey && cls.isInForeground()
+        const view = Object.values(this._views).find(
+            (model) => model.getFocusKey() === focusKey && model.isInForeground()
         );
 
-        if (element) {
-            if (element.isScreen()) {
-                element.setFocus((element as Screen).getFirstFocusableOnScreen());
-            } else {
-                element.setFocus();
+        if (view) {
+            view.setFocus();
+        } else {
+            const screen = Object.values(this._screens).find(
+                (model) => model.getFocusKey() === focusKey && model.isInForeground()
+            );
+            if (screen) {
+                screen.setFocus(screen.getFirstFocusableOnScreen());
             }
         }
     };
 
     public getNextFocusableContext = (
         direction: string,
-        ownCandidates?: AbstractFocusModel[],
+        ownCandidates?: View[],
         findFocusInParent = true
-    ): AbstractFocusModel | undefined | null => {
+    ): View | undefined | null => {
         const currentFocus = this._currentFocus;
-        const focusMap = this._focusMap;
+        const views = this._views;
 
         if (!currentFocus) {
-            return focusMap[Object.keys(focusMap)[0]];
+            return views[Object.keys(views)[0]];
         }
+
         const nextForcedFocusKey = getNextForcedFocusKey(currentFocus, direction, this._focusMap);
         if (nextForcedFocusKey) {
             this.focusElementByFocusKey(nextForcedFocusKey);
@@ -223,12 +245,12 @@ class CoreManager {
             return currentFocus;
         }
 
-        let closestContext: AbstractFocusModel | undefined | null;
+        let closestContext: View | undefined | null;
         const output: {
             match1: number;
-            match1Context?: AbstractFocusModel;
+            match1Context?: View;
             match2: number;
-            match2Context?: AbstractFocusModel;
+            match2Context?: View;
         } = {
             match1: 9999999,
             match2: 9999999,
@@ -236,10 +258,9 @@ class CoreManager {
 
         const candidates =
             ownCandidates ??
-            Object.values(focusMap).filter(
+            Object.values(views).filter(
                 (c) =>
                     c.isInForeground() &&
-                    c.isFocusable() &&
                     c.getId() !== currentFocus.getId() &&
                     c.getOrder() === this.getCurrentMaxOrder()
             );
@@ -269,7 +290,7 @@ class CoreManager {
                 currentFocus.getParent()?.onBlur();
                 closestContext.getParent()?.onFocus();
 
-                if (closestContext.getParent()?.isRecyclable()) {
+                if (closestContext.getParent()?.getType() === TYPE_RECYCLER) {
                     const parent = closestContext.getParent() as Recycler;
 
                     closestContext = parent.getFocusedView() ?? closestContext;
@@ -322,9 +343,9 @@ class CoreManager {
         return Math.max(...Object.values(this._focusMap).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder())));
     }
 
-    public findClosestNode = (cls: AbstractFocusModel, direction: string, output: any) => {
-        recalculateLayout(cls);
-        const nextLayout = cls.getLayout();
+    public findClosestNode = (model: View, direction: string, output: any) => {
+        recalculateLayout(model);
+        const nextLayout = model.getLayout();
         const currentLayout = this._currentFocus?.getLayout();
 
         if (!nextLayout || !currentLayout) {
@@ -333,7 +354,9 @@ class CoreManager {
             return;
         }
 
-        distCalc(output, getDirectionName(direction), this._currentFocus as AbstractFocusModel, cls);
+        if (this._currentFocus) {
+            distCalc(output, getDirectionName(direction), this._currentFocus, model);
+        }
     };
 
     public get isDebuggerEnabled(): boolean {
@@ -356,12 +379,16 @@ class CoreManager {
         return this._guideLineX;
     }
 
-    public getCurrentFocus(): AbstractFocusModel | null {
+    public getCurrentFocus(): View | null {
         return this._currentFocus;
     }
 
     public getFocusMap(): { [key: string]: AbstractFocusModel } {
         return this._focusMap;
+    }
+
+    public getViews(): Record<string, View> {
+        return this._views;
     }
 }
 

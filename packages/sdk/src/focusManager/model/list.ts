@@ -1,7 +1,8 @@
 import Recycler from './recycler';
 import Row from './row';
 import Core from '../service/core';
-import AbstractFocusModel from './AbstractFocusModel';
+import AbstractFocusModel, { TYPE_RECYCLER } from './AbstractFocusModel';
+import View from './view';
 
 class List extends Recycler {
     constructor(params: any) {
@@ -19,15 +20,18 @@ class List extends Recycler {
     }
 
     private getCurrentFocusIndex(): number {
-        return Core.getCurrentFocus()?.getParent()?.getRepeatContext()?.index || 0;
+        if (Core.getCurrentFocus()?.getParent()?.getType() === TYPE_RECYCLER) {
+            return (Core.getCurrentFocus()?.getParent() as Recycler).getRepeatContext()?.index || 0;
+        }
+
+        return 0;
     }
 
-    public getNextFocusable(direction: string): AbstractFocusModel | undefined | null {
+    public getNextFocusable(direction: string): View | undefined | null {
         if (this._isInBounds(direction)) {
-            const candidates = Object.values(Core.getFocusMap()).filter(
+            const candidates = Object.values(Core.getViews()).filter(
                 (c) =>
                     c.isInForeground() &&
-                    c.isFocusable() &&
                     c.getParent()?.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getParent()?.getId() &&
                     c.getOrder() === Core.getCurrentMaxOrder()
             );
