@@ -3,11 +3,6 @@
     "compilerOptions": {
         "outDir": "./lib",
         "rootDir": "./src",
-        "types": [
-            "node",
-            "webdriverio/async",
-            "@wdio/mocha-framework"
-        ]
+        "types": ["node", "@wdio/globals/types", "@wdio/mocha-framework"]
     }
 }
-
