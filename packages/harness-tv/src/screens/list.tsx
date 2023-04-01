@@ -98,7 +98,7 @@ const Row = () => {
 
     return (
         <Screen style={{ backgroundColor: '#222222' }}>
-            <List data={data} rowRenderer={listRowRenderer} estimatedRowHeight={200} />
+            <List data={data} renderItem={listRowRenderer} estimatedRowHeight={200} />
         </Screen>
     );
 };

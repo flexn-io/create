@@ -19,7 +19,7 @@ class Recycler extends AbstractFocusModel {
     private _focusedView?: View;
     private _repeatContext:
         | {
-              parentContext: AbstractFocusModel;
+              focusContext: AbstractFocusModel;
               index: number;
           }
         | undefined;
@@ -100,7 +100,7 @@ class Recycler extends AbstractFocusModel {
         return this;
     }
 
-    public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
+    public getRepeatContext(): { focusContext: AbstractFocusModel; index: number } | undefined {
         return this._repeatContext;
     }
 

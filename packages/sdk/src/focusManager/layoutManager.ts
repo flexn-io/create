@@ -83,8 +83,8 @@ function _measure(
 
         const repeatContext = model.getRepeatContext();
         if (repeatContext !== undefined) {
-            const pCtx = repeatContext.parentContext;
-            if (pCtx !== undefined && pCtx instanceof Recycler) {
+            const pCtx = repeatContext.focusContext;
+            if (pCtx !== undefined) {
                 const rLayout = pCtx.getLayouts()[repeatContext.index || 0];
                 pgX = pCtx.getLayout().xMin + rLayout.x;
                 pgY = pCtx.getLayout().yMin + rLayout.y;
@@ -130,8 +130,13 @@ function _measure(
         // TODO: move it out from here
         const parent = model.getParent();
         if (parent?.isScrollable() && parent?.getLayout()) {
+<<<<<<< HEAD
             const pCtx = model?.getRepeatContext()?.parentContext;
             if (pCtx && pCtx instanceof Recycler) {
+=======
+            const pCtx = cls?.getRepeatContext()?.focusContext;
+            if (pCtx) {
+>>>>>>> feat/flash-list-impl
                 const rLayout = pCtx.getLayouts()[pCtx.getLayouts().length - 1];
                 parent.updateLayoutProperty('xMaxScroll', pCtx.getLayout().xMin + width + rLayout.x);
             }

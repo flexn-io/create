@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
-import { FlashList as FlashListComp } from '@shopify/flash-list';
+import { FlashList as FlashListComp, ListRenderItemInfo } from '@shopify/flash-list';
 import CoreManager from '../../focusManager/service/core';
 import { measureAsync } from '../../focusManager/layoutManager';
 
@@ -15,7 +15,7 @@ const FlashList = ({
     scrollViewProps,
     focusContext,
     isHorizontal = true,
-    rowRenderer,
+    renderItem,
     focusRepeatContext,
     focusOptions = {},
     type,
@@ -28,14 +28,13 @@ const FlashList = ({
         return null;
     },
     ...props
-}: FlashListProps) => {
+}: FlashListProps<any>) => {
     const layoutsReady = useRef(false);
     const scrollViewRef = useRef<HTMLDivElement | null>();
     const rlvRef = useRef<FlashListComp<any>>(null);
     const rnViewRef = useRef<RNView>(null);
 
     const pctx = focusRepeatContext?.focusContext || focusContext;
-
     const [measured, setMeasured] = useState(false);
     const [ClsInstance] = useState(() => {
         const params = {
@@ -68,7 +67,7 @@ const FlashList = ({
         };
     }, [measured]);
 
-    const rowRendererWithProps = (props: any) => {
+    const rowRendererWithProps = ({ item, index, target }: ListRenderItemInfo<any>) => {
         //@ts-ignore
         const lm = rlvRef.current?.state?.layoutProvider?._lastLayoutManager;
         const layouts: any = lm?.['_layouts'];
@@ -81,7 +80,12 @@ const FlashList = ({
             }
         }
 
-        return rowRenderer(props, { focusContext: ClsInstance, index: props.index });
+        return renderItem?.({
+            item,
+            index,
+            target,
+            focusRepeatContext: { focusContext: ClsInstance, index },
+        });
     };
 
     const onLayoutsReady = () => {
