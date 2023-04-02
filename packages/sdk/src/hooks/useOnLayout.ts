@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { InteractionManager } from 'react-native';
 import Event, { EVENT_TYPES } from '../focusManager/events';
-import { FocusModel } from '../focusManager/types';
+import FocusModel from '../focusManager/model/FocusModel';
 
 export default function useOnLayout(model: FocusModel | null, callback?: (() => void) | (() => Promise<void>)) {
     const interactionPromise = useRef<Promise<any>>();

@@ -1,10 +1,8 @@
 import { ForbiddenFocusDirections, ScreenStates } from '../types';
 import CoreManager from '../service/core';
 import Logger from '../service/logger';
-import { makeid } from '../helpers';
-import FocusModel, { TYPE_RECYCLER, TYPE_VIEW } from './AbstractFocusModel';
+import FocusModel, { TYPE_RECYCLER, TYPE_VIEW } from './FocusModel';
 import View from './view';
-import { alterForbiddenFocusDirections } from '../helpers';
 import { findLowestRelativeCoordinates, measureSync } from '../layoutManager';
 import { DEFAULT_VIEWPORT_OFFSET } from '../constants';
 import Recycler from './recycler';
@@ -69,7 +67,7 @@ class Screen extends FocusModel {
             onBlur,
         } = params;
 
-        this._id = `screen-${makeid(8)}`;
+        this._id = `screen-${CoreManager.generateID(8)}`;
         this._type = 'screen';
         this._state = state;
         this._prevState = prevState;
@@ -79,7 +77,7 @@ class Screen extends FocusModel {
         this._horizontalWindowAlignment = horizontalWindowAlignment;
         this._horizontalViewportOffset = horizontalViewportOffset;
         this._verticalViewportOffset = verticalViewportOffset;
-        this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._stealFocus = stealFocus;
         this._isFocused = false;
         this._unmountingComponents = 0;
@@ -110,7 +108,7 @@ class Screen extends FocusModel {
 
     private _onUnmount() {
         CoreManager.removeFocusAwareComponent(this);
-        CoreManager.onScreenRemoved();
+        this.onScreenRemoved();
         this.unsubscribeEvents();
     }
 
@@ -135,6 +133,18 @@ class Screen extends FocusModel {
     }
 
     // END EVENTS
+
+    public onScreenRemoved() {
+        const screens = Object.values(CoreManager._screens).filter(
+            (c) => c.isInForeground() && c.getOrder() === CoreManager.getCurrentMaxOrder()
+        );
+
+        const nextScreen = screens.find((c) => c?.hasStealFocus()) ?? screens[0];
+
+        if (nextScreen) {
+            nextScreen.setFocus(nextScreen.getFirstFocusableOnScreen());
+        }
+    }
 
     public addComponentToPendingLayoutMap(id: string): void {
         this._componentsPendingLayoutMap[id] = true;

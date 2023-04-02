@@ -1,7 +1,5 @@
 import CoreManager from '../service/core';
-import { makeid } from '../helpers';
-import FocusModel, { TYPE_RECYCLER } from './AbstractFocusModel';
-import { alterForbiddenFocusDirections } from '../helpers';
+import FocusModel, { TYPE_RECYCLER } from './FocusModel';
 import Recycler from './recycler';
 import ScrollView from './scrollview';
 import Event, { EVENT_TYPES } from '../events';
@@ -37,7 +35,7 @@ class View extends FocusModel {
             hasPreferredFocus,
         } = params;
 
-        const id = makeid(8);
+        const id = CoreManager.generateID(8);
         this._id = parent?.getId() ? `${parent.getId()}:view-${id}` : `view-${id}`;
         this._type = 'view';
         this._parent = parent;
@@ -45,7 +43,7 @@ class View extends FocusModel {
         this._isFocusable = true;
         this._repeatContext = repeatContext;
         this._focusKey = focusKey;
-        this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._hasPreferredFocus = hasPreferredFocus;
 
         this._onFocus = onFocus;
@@ -90,6 +88,7 @@ class View extends FocusModel {
     private _onUnmount() {
         CoreManager.removeFocusAwareComponent(this);
         this.getScreen()?.onViewRemoved(this);
+        this.unsubscribeEvents();
     }
 
     private async _onLayout() {

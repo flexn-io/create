@@ -1,6 +1,5 @@
-import AbstractFocusModel from './AbstractFocusModel';
+import AbstractFocusModel from './FocusModel';
 import { ForbiddenFocusDirections } from '../types';
-import { alterForbiddenFocusDirections, makeid } from '../helpers';
 import View from './view';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
@@ -43,7 +42,7 @@ class RecyclerView extends AbstractFocusModel {
         } = params;
 
         this._layoutsReady = false;
-        this._id = `recycler-${makeid(8)}`;
+        this._id = `recycler-${CoreManager.generateID(8)}`;
         this._type = 'recycler';
         this._layouts = [];
         this._isScrollable = true;
@@ -53,7 +52,7 @@ class RecyclerView extends AbstractFocusModel {
         this._isHorizontal = isHorizontal;
         this._parent = parent;
         this._repeatContext = repeatContext;
-        this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._focusedIndex = 0;
         this._initialRenderIndex = initialRenderIndex;
 
@@ -78,10 +77,12 @@ class RecyclerView extends AbstractFocusModel {
 
     protected _onUnmount() {
         CoreManager.removeFocusAwareComponent(this);
+        this.unsubscribeEvents();
     }
 
     protected async _onLayout() {
         await measureAsync({ model: this });
+        Event.emit(this, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
     }
 
     // END EVENTS
@@ -101,6 +102,12 @@ class RecyclerView extends AbstractFocusModel {
             }
 
             this._layoutsReady = true;
+
+            const repeatLayout = layouts[layouts.length - 1];
+            this.updateLayoutProperty('xMaxScroll', this.getLayout().xMax + repeatLayout.x).updateLayoutProperty(
+                'yMaxScroll',
+                this.getLayout().yMax + repeatLayout.y
+            );
         }
 
         return this;

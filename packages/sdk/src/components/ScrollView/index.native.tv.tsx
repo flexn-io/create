@@ -6,11 +6,10 @@ import { recalculateLayout } from '../../focusManager/layoutManager';
 import ScrollViewClass from '../../focusManager/model/scrollview';
 import useOnLayout from '../../hooks/useOnLayout';
 import useOnComponentLifeCycle from '../../hooks/useOnComponentLifeCycle';
+import useOnRefChange from '../../hooks/useOnRefChange';
 
 const ScrollView = React.forwardRef<any, ScrollViewProps>(
     ({ children, style, focusContext, horizontal, focusOptions, ...props }: ScrollViewProps, refOuter) => {
-        const ref = useRef<RNScrollView>() as React.MutableRefObject<RNScrollView>;
-
         const [model] = useState<ScrollViewClass>(
             () =>
                 new ScrollViewClass({
@@ -20,9 +19,11 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
                 })
         );
 
+        const { onRefChange, targetRef } = useOnRefChange(model);
+
         useImperativeHandle(refOuter, () => ({
             scrollTo: ({ x, y }: { x?: number; y?: number }) => {
-                if (ref.current) ref.current.scrollTo({ x, y });
+                if (targetRef.current) targetRef.current.scrollTo({ x, y });
                 if (x !== undefined) model.setScrollOffsetX(x);
                 if (y !== undefined) model.setScrollOffsetY(y);
                 if (CoreManager._currentFocus) {
@@ -44,7 +45,7 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
 
         return (
             <RNScrollView
-                ref={ref}
+                ref={onRefChange}
                 onLayout={onLayout}
                 style={style}
                 horizontal={horizontal}

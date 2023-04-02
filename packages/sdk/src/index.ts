@@ -20,11 +20,6 @@ export { default as Image } from './components/Image';
 export { default as Pressable } from './components/Pressable';
 export { default as TouchableOpacity } from './components/TouchableOpacity';
 export { default as Icon } from './components/Icon';
-export {
-    default as RecyclableList,
-    RecyclableListDataProvider,
-    RecyclableListLayoutProvider,
-} from './components/RecyclableList';
 export { default as Screen } from './components/Screen';
 export { default as ScrollView } from './components/ScrollView';
 export { default as Switch } from './components/Switch';
@@ -49,7 +44,7 @@ export { default as Appearance } from './apis/Appearance';
 export {
     ScreenProps,
     ScreenStates,
-    AbstractFocusModel as FocusContext,
+    FocusContext,
     CreateListRenderItem,
     CreateListRenderItemInfo,
 } from './focusManager/types';

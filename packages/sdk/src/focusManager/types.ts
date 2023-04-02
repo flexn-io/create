@@ -8,10 +8,17 @@ import type {
     ScrollView,
 } from 'react-native';
 import { FlashListProps as FLProps, ListRenderItemInfo } from '@shopify/flash-list';
-import AbstractModel from './model/AbstractFocusModel';
-import ViewModel from './model/view';
-import RecyclerModel from './model/recycler';
-import ScreenModel from './model/screen';
+import FocusModel from './model/FocusModel';
+import View from './model/view';
+
+export type ClosestNodeOutput = {
+    match1: number;
+    match1Model?: View;
+    match2: number;
+    match2Model?: View;
+    match3: number;
+    match3Model?: View;
+};
 
 export type ForbiddenFocusDirections =
     | 'down'
@@ -22,6 +29,7 @@ export type ForbiddenFocusDirections =
     | 'swipeUp'
     | 'swipeLeft'
     | 'swipeRight';
+
 export type WindowAlignment = 'both-edge' | 'low-edge';
 export type ScreenStates = 'background' | 'foreground';
 
@@ -77,7 +85,7 @@ export interface ViewProps extends RNViewProps {
 export interface PressableProps extends RNPressableProps {
     focus?: boolean;
     focusOptions?: PressableFocusOptions;
-    focusContext?: any;
+    focusContext?: FocusModel;
     focusRepeatContext?: any;
     onPress?: (e: GestureResponderEvent | any) => void;
     onBlur?: (response?: any) => void;
@@ -101,33 +109,11 @@ export interface ScreenProps {
     screenState?: ScreenStates;
     screenOrder?: number;
     stealFocus?: boolean;
-    children?: (React.ReactNode | React.ReactNode[]) | ((focusModel?: AbstractFocusModel) => React.ReactNode);
+    children?: (React.ReactNode | React.ReactNode[]) | ((focusModel?: FocusModel) => React.ReactNode);
     style?: StyleProp<ViewStyle>;
     onBlur?: () => void;
     onFocus?: () => void;
     focusOptions?: ScreenFocusOptions;
-}
-
-export interface RecyclerViewProps {
-    focusContext?: any;
-    focusRepeatContext?: any;
-    isHorizontal?: boolean;
-    children?: React.ReactNode;
-    dataProvider: any;
-    layoutProvider: any;
-    rowRenderer: any;
-    bounces?: boolean;
-    scrollViewProps?: any;
-    scrollEventThrottle?: number;
-    contentContainerStyle?: StyleProp<ViewStyle>;
-    style?: StyleProp<ViewStyle>;
-    unmeasurableRelativeDimensions: { x?: number; y?: number };
-    focusOptions?: RecyclableListFocusOptions;
-    disableItemContainer?: boolean;
-    initialRenderIndex?: number;
-    type: 'list' | 'grid' | 'row';
-    onBlur?: () => void;
-    onFocus?: () => void;
 }
 
 export type CreateListRenderItemInfo<Item> = {
@@ -140,8 +126,8 @@ export type CreateListRenderItemInfo<Item> = {
 export type CreateListRenderItem<Item> = (info: CreateListRenderItemInfo<Item>) => React.ReactElement | null;
 
 export interface FlashListProps<Item> extends FLProps<Item> {
-    focusContext?: any;
-    focusRepeatContext?: any;
+    focusContext?: FocusModel;
+    focusRepeatContext?: CreateListRenderItemInfo<Item>;
     isHorizontal?: boolean;
     scrollViewProps?: any;
     children?: React.ReactNode;
@@ -154,64 +140,4 @@ export interface FlashListProps<Item> extends FLProps<Item> {
     onFocus?: () => void;
 }
 
-//@deprecated
-export interface Context {
-    id: string;
-    type: string;
-
-    children: Context[];
-
-    parent?: Context;
-
-    layout?: any;
-    prevState?: string;
-
-    screen?: Context;
-
-    data?: any;
-    onFocus?(): void;
-    onBlur?(): void;
-    isScrollable?: boolean;
-    nodeId?: any;
-    node?: any;
-    isFocused?: boolean;
-    isHorizontal?: boolean;
-    stealFocus?: boolean;
-    verticalWindowAlignment?: string;
-    horizontalWindowAlignment?: string;
-    horizontalViewportOffset?: number;
-    verticalViewportOffset?: number;
-    isNested?: boolean;
-    order?: number;
-    scrollOffsetX?: number;
-    scrollOffsetY?: number;
-    isLastVisible?(): boolean;
-    isFirstVisible?(): boolean;
-    isRecyclable?: boolean;
-    isFocusable?: boolean;
-    focusKey?: string;
-    state?: string; // proper type
-
-    initialFocus?: Context;
-    firstFocusable?: Context;
-    lastFocused?: Context;
-    focusRepeatContext?: Context;
-    focusContext?: Context;
-
-    layouts?: any;
-    index?: number;
-    forbiddenFocusDirections?: string[];
-    nextFocusLeft?: string | string[];
-    nextFocusRight?: string | string[];
-    nextFocusUp?: string | string[];
-    nextFocusDown?: string | string[];
-}
-
-export type FocusMap = { [key: string]: AbstractModel };
-export type View = ViewModel;
-export type Recycler = RecyclerModel;
-export type Screen = ScreenModel;
-export type AbstractFocusModel = AbstractModel;
-export type FocusContext = AbstractModel;
-
-export type RecyclerView = RecyclerModel;
+export type FocusContext = FocusModel;

@@ -8,13 +8,16 @@ import DynamicState2 from '../screens/dynamicState2';
 import DirectionalFocus from '../screens/directionalFocus';
 import Animations from '../screens/animations';
 import List from '../screens/list';
+import VerticalScroll from '../screens/verticalScroll';
+import HorizontalScroll from '../screens/horizontalScroll';
+import NestedScroll from '../screens/nestedScroll';
 
 const RootStack = createNativeStackNavigator();
 
 const Navigation = () => {
     return (
         <NavigationContainer>
-            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Row">
+            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="NestedScroll">
                 <RootStack.Screen name="Selector" component={Selector} />
                 <RootStack.Screen name="Row" component={Row} />
                 <RootStack.Screen name="DynamicState" component={DynamicState} />
@@ -22,6 +25,9 @@ const Navigation = () => {
                 <RootStack.Screen name="DirectionalFocus" component={DirectionalFocus} />
                 <RootStack.Screen name="Animations" component={Animations} />
                 <RootStack.Screen name="List" component={List} />
+                <RootStack.Screen name="VerticalScroll" component={VerticalScroll} />
+                <RootStack.Screen name="HorizontalScroll" component={HorizontalScroll} />
+                <RootStack.Screen name="NestedScroll" component={NestedScroll} />
             </RootStack.Navigator>
         </NavigationContainer>
     );

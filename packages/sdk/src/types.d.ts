@@ -7,18 +7,22 @@ declare module 'react-native' {
     class ViewProps {
         animatorOptions?: any;
         focusContext?: any;
+        focusOptions?: any;
         className?: any;
     }
     class TouchableOpacityProps {
         focusContext?: any;
+        focusOptions?: any;
         className?: any;
     }
     class PressableProps {
         focusContext?: any;
+        focusOptions?: any;
         className?: any;
     }
     class ScrollViewProps {
         focusContext?: any;
+        focusOptions?: any;
     }
     interface UIManagerStatic {
         dispatchViewManagerCommand: (

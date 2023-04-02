@@ -8,11 +8,12 @@ export default function useOnRefChange(model: AbstractFocusModel | null): {
     const targetRef = useRef<MutableRefObject<any>>();
 
     const onRefChange = useCallback((node) => {
-        targetRef.current = node.current ?? node;
+        targetRef.current = node?.current ?? node;
     }, []);
 
     useEffect(() => {
         if (model) {
+            console.log('SDJKFJKLDSJKFLDSF', model.getId(), targetRef);
             model.setNode(targetRef);
         }
     }, [targetRef]);

@@ -45,7 +45,7 @@ import ScrollComponent from '../platform/reactnative/scrollcomponent/ScrollCompo
 import ViewRenderer from '../platform/reactnative/viewrenderer/ViewRenderer';
 import { Platform } from 'react-native';
 import { isPlatformTvos, isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
-import { Context } from '../../focusManager/types';
+import FocusModel from '../../focusManager/model/FocusModel';
 const IS_WEB = !Platform || Platform.OS === 'web';
 const IS_NATIVE_TV = isPlatformTvos || isPlatformAndroidtv || isPlatformFiretv;
 //#endif
@@ -130,7 +130,7 @@ export interface RecyclerListViewProps {
     scrollViewProps?: object;
     applyWindowCorrection?: (offsetX: number, offsetY: number, windowCorrection: WindowCorrection) => void;
     onItemLayout?: (index: number) => void;
-    focusRepeatContext?: Context;
+    focusRepeatContext?: FocusModel;
     unmeasurableRelativeDimensions?: { x?: number; y?: number };
 }
 

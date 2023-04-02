@@ -4,7 +4,7 @@ import throttle from 'lodash.throttle';
 import CoreManager from './core';
 import { DIRECTION } from '../constants';
 import Logger from './logger';
-import Grid from './grid';
+import Grid from '../model/grid';
 
 const EVENT_KEY_ACTION_UP = 'up';
 const EVENT_KEY_ACTION_DOWN = 'down';

@@ -1,9 +1,9 @@
-import FocusModel, { TYPE_SCROLL_VIEW, TYPE_VIEW } from './model/AbstractFocusModel';
+import FocusModel, { TYPE_VIEW } from './model/FocusModel';
 import RecyclerView from './model/recycler';
 import ScrollView from './model/scrollview';
 import View from './model/view';
 
-export function findLowestRelativeCoordinates(model: View) {
+const findLowestRelativeCoordinates = (model: View) => {
     const screen = model.getScreen();
 
     if (screen) {
@@ -16,9 +16,9 @@ export function findLowestRelativeCoordinates(model: View) {
             model.getScreen()?.setPrecalculatedFocus(model);
         }
     }
-}
+};
 
-function recalculateAbsolutes(model: FocusModel) {
+const recalculateAbsolutes = (model: FocusModel) => {
     const layout = model.getLayout();
 
     model.updateLayoutProperty('absolute', {
@@ -29,12 +29,13 @@ function recalculateAbsolutes(model: FocusModel) {
         xCenter: layout.xCenter - layout.xOffset,
         yCenter: layout.yCenter - layout.yOffset,
     });
-}
+};
 
-function recalculateLayout(model: FocusModel, remeasure?: boolean) {
+const recalculateLayout = (model: FocusModel, remeasure?: boolean) => {
     if (!model?.getLayout()) {
         return;
     }
+
     // This is needed because ScrollView offsets
     let offsetX = 0;
     let offsetY = 0;
@@ -60,7 +61,7 @@ function recalculateLayout(model: FocusModel, remeasure?: boolean) {
     model.updateLayoutProperty('xOffset', offsetX).updateLayoutProperty('yOffset', offsetY);
 
     recalculateAbsolutes(model);
-}
+};
 
 const measure = ({
     model,
@@ -121,16 +122,6 @@ const measure = ({
                     },
                 };
 
-                //         // TODO: move it out from here
-                //         // const parent = model.getParent();
-                //         // if (parent?.isScrollable() && parent?.getLayout()) {
-                //         //     const pCtx = model?.getRepeatContext()?.focusContext;
-                //         //     if (pCtx && pCtx instanceof Recycler) {
-                //         //         const rLayout = pCtx.getLayouts()[pCtx.getLayouts().length - 1];
-                //         //         parent.updateLayoutProperty('xMaxScroll', pCtx.getLayout().xMin + width + rLayout.x);
-                //         //     }
-                //         // }
-
                 model.setLayout(layout);
 
                 if (model.getType() === TYPE_VIEW) {
@@ -143,20 +134,6 @@ const measure = ({
                 if (resolve) resolve();
             }
         );
-
-        // get the layout of innerView in scroll
-        if (model.getType() === TYPE_SCROLL_VIEW)
-            // eslint-disable-next-line no-underscore-dangle
-            model.node.current._children[0].measure(
-                (_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
-                    model.updateLayoutProperty('innerView', {
-                        yMax: pageY + height - model.getLayout().yMax,
-                        yMin: pageY + pageY,
-                        xMax: pageX + width - model.getLayout().xMax,
-                        xMin: pageX,
-                    });
-                }
-            );
     } else {
         resolve?.();
     }

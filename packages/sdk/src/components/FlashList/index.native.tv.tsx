@@ -1,7 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
 import { FlashList as FlashListComp, ListRenderItemInfo } from '@shopify/flash-list';
-import { measureAsync } from '../../focusManager/layoutManager';
 
 import Grid from '../../focusManager/model/grid';
 import List from '../../focusManager/model/list';
@@ -61,14 +60,15 @@ const FlashList = ({
 
     const { onRefChange } = useOnRefChange(model);
 
-    const { onLayout } = useOnLayout(null, async () => {
-        Event.emit(model, EVENT_TYPES.ON_LAYOUT);
+    const { onLayout } = useOnLayout(model);
 
-        //TODO: REMOVE IT!!!!!!
-        setTimeout(() => {
+    useEffect(() => {
+        const unsubscribe = Event.subscribe(model, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED, () => {
             setMeasured(true);
-        }, 100);
-    });
+        });
+
+        return () => unsubscribe();
+    }, []);
 
     const rowRendererWithProps = ({ item, index, target }: ListRenderItemInfo<any>) => {
         const lm = rlvRef.current?.state?.layoutProvider.getLayoutManager();
@@ -99,6 +99,9 @@ const FlashList = ({
                         ref: (ref: any) => {
                             // eslint-disable-next-line no-underscore-dangle
                             scrollViewRef.current = ref?._scrollViewRef; // `scrollTo()` is not working otherwise
+                            if (model.getNode().current) {
+                                model.getNode().current.scrollTo = ref?._scrollViewRef.scrollTo;
+                            }
                         },
                         scrollEnabled: false,
                         scrollEventThrottle: 320,

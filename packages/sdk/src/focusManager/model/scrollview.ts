@@ -1,5 +1,4 @@
-import { makeid } from '../helpers';
-import AbstractFocusModel from './AbstractFocusModel';
+import AbstractFocusModel from './FocusModel';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
@@ -14,7 +13,7 @@ class ScrollView extends AbstractFocusModel {
 
         const { horizontal, parent } = params;
 
-        this._id = `scroll-${makeid(8)}`;
+        this._id = `scroll-${CoreManager.generateID(8)}`;
         this._isHorizontal = horizontal;
         this._parent = parent;
         this._type = 'scrollview';
@@ -40,7 +39,6 @@ class ScrollView extends AbstractFocusModel {
 
     private _onUnmount() {
         CoreManager.removeFocusAwareComponent(this);
-        CoreManager.onScreenRemoved();
         this.unsubscribeEvents();
     }
 

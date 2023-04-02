@@ -1,10 +1,11 @@
 import { MutableRefObject } from 'react';
-import { View as ViewRefType } from 'react-native';
 import { measureSync, recalculateLayout } from '../layoutManager';
-import { ForbiddenFocusDirections, Recycler, Screen, ScreenStates } from '../types';
+import { ForbiddenFocusDirections, ScreenStates } from '../types';
 import Grid from './grid';
 import List from './list';
+import RecyclerView from './recycler';
 import Row from './row';
+import Screen from './screen';
 import View from './view';
 
 export const TYPE_SCREEN = 'screen';
@@ -61,9 +62,6 @@ export default abstract class FocusModel {
     protected unsubscribeEvents() {
         this._events.forEach((event) => event());
     }
-    // public getParent(): FocusModel | undefined {
-    //     return this._parent;
-    // }
 
     public getParent(): FocusModel | undefined {
         return this._parent;
@@ -135,7 +133,7 @@ export default abstract class FocusModel {
                     }
                 });
             if (this.getParent()?.getType() === TYPE_RECYCLER) {
-                const recycler = this.getParent() as Recycler;
+                const recycler = this.getParent() as RecyclerView;
                 if (recycler.getFocusedView()?.getId() === this.getId()) {
                     recycler.setFocusedView(undefined);
                 }

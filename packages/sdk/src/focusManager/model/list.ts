@@ -1,7 +1,7 @@
 import Recycler from './recycler';
 import Row from './row';
 import Core from '../service/core';
-import AbstractFocusModel, { TYPE_RECYCLER } from './AbstractFocusModel';
+import AbstractFocusModel, { TYPE_RECYCLER } from './FocusModel';
 import View from './view';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
@@ -30,10 +30,12 @@ class List extends Recycler {
 
     protected _onUnmount() {
         CoreManager.removeFocusAwareComponent(this);
+        this.unsubscribeEvents();
     }
 
     protected async _onLayout() {
         await measureAsync({ model: this });
+        Event.emit(this, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
     }
 
     // END EVENTS

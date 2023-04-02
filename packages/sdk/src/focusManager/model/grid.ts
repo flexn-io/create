@@ -33,10 +33,12 @@ class Grid extends Recycler {
 
     protected _onUnmount() {
         CoreManager.removeFocusAwareComponent(this);
+        this.unsubscribeEvents();
     }
 
     protected async _onLayout() {
         await measureAsync({ model: this });
+        Event.emit(this, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
     }
 
     // END EVENTS
