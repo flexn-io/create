@@ -2,14 +2,18 @@ import AbstractFocusModel from './AbstractFocusModel';
 import { ForbiddenFocusDirections } from '../types';
 import { alterForbiddenFocusDirections, makeid } from '../helpers';
 import View from './view';
+import Event, { EVENT_TYPES } from '../events';
+import { CoreManager } from '../..';
+import { measureAsync } from '../layoutManager';
 
-export interface ScrollViewInt extends Recycler {
-    getScrollOffsetY(): number;
-    getScrollOffsetX(): number;
-}
+// export interface ScrollViewInt extends RecyclerView {
+//     getScrollOffsetY(): number;
+//     getScrollOffsetX(): number;
+// }
 
-class Recycler extends AbstractFocusModel {
-    private _layouts: any;
+class RecyclerView extends AbstractFocusModel {
+    private _layouts: { x: number; y: number }[];
+    private _layoutsReady: boolean;
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
     private _isNested: boolean;
@@ -38,6 +42,7 @@ class Recycler extends AbstractFocusModel {
             initialRenderIndex = 0,
         } = params;
 
+        this._layoutsReady = false;
         this._id = `recycler-${makeid(8)}`;
         this._type = 'recycler';
         this._layouts = [];
@@ -54,14 +59,49 @@ class Recycler extends AbstractFocusModel {
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
+
+        this._onMountAndMeasured = this._onMountAndMeasured.bind(this);
+        this._onUnmount = this._onUnmount.bind(this);
+        this._onLayout = this._onLayout.bind(this);
+
+        this._events = [
+            Event.subscribe(this, EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
+            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+        ];
     }
+
+    // EVENTS
+    protected _onMountAndMeasured() {
+        CoreManager.registerFocusAwareComponent(this);
+    }
+
+    protected _onUnmount() {
+        CoreManager.removeFocusAwareComponent(this);
+    }
+
+    protected async _onLayout() {
+        await measureAsync({ model: this });
+    }
+
+    // END EVENTS
 
     public getLayouts(): { x: number; y: number }[] {
         return this._layouts;
     }
 
-    public setLayouts(layouts: any) {
-        this._layouts = layouts;
+    public updateLayouts(layouts: { x: number; y: number }[] | undefined) {
+        if (layouts && this._layouts.length !== layouts.length) {
+            this._layouts = layouts;
+
+            if (!this._layoutsReady) {
+                if (this.getInitialRenderIndex()) {
+                    this.scrollToInitialRenderIndex();
+                }
+            }
+
+            this._layoutsReady = true;
+        }
 
         return this;
     }
@@ -131,6 +171,10 @@ class Recycler extends AbstractFocusModel {
     public getFocusedView(): View | undefined {
         return this._focusedView;
     }
+
+    public scrollToInitialRenderIndex(): void {
+        //TODO: implement
+    }
 }
 
-export default Recycler;
+export default RecyclerView;

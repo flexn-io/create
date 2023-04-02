@@ -1,8 +1,10 @@
 import Recycler from './recycler';
 import Core from '../service/core';
-import AbstractFocusModel from './AbstractFocusModel';
 import Scroller from '../service/scroller';
 import View from './view';
+import Event, { EVENT_TYPES } from '../events';
+import { CoreManager } from '../..';
+import { measureAsync } from '../layoutManager';
 
 class Grid extends Recycler {
     private _itemsInRow: number;
@@ -12,7 +14,32 @@ class Grid extends Recycler {
 
         this._type = 'grid';
         this._itemsInRow = 0;
+
+        this._onMountAndMeasured = this._onMountAndMeasured.bind(this);
+        this._onUnmount = this._onUnmount.bind(this);
+        this._onLayout = this._onLayout.bind(this);
+
+        this._events = [
+            Event.subscribe(this, EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
+            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+        ];
     }
+
+    // EVENTS
+    protected _onMountAndMeasured() {
+        CoreManager.registerFocusAwareComponent(this);
+    }
+
+    protected _onUnmount() {
+        CoreManager.removeFocusAwareComponent(this);
+    }
+
+    protected async _onLayout() {
+        await measureAsync({ model: this });
+    }
+
+    // END EVENTS
 
     public getType(): string {
         return this._type;
@@ -101,7 +128,7 @@ class Grid extends Recycler {
         }, 0);
     }
 
-    public getFocusTaskExecutor(_direction: string): AbstractFocusModel {
+    public getFocusTaskExecutor(_direction: string): Grid {
         return this;
     }
 }

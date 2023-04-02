@@ -4,19 +4,17 @@ import { distCalc } from '../nextFocusFinder';
 import { getNextForcedFocusKey, getDirectionName } from '../helpers';
 import { recalculateLayout } from '../layoutManager';
 
-import { View, Recycler, Screen, AbstractFocusModel } from '../types';
-
 import Scroller from './scroller';
+import Screen from '../model/screen';
+import View from '../model/view';
+import RecyclerView from '../model/recycler';
+
 import Logger from './logger';
-import { TYPE_RECYCLER } from '../model/AbstractFocusModel';
+import FocusModel, { TYPE_RECYCLER } from '../model/AbstractFocusModel';
 class CoreManager {
-    public _focusAwareElements: Record<string, AbstractFocusModel>;
+    public _focusAwareElements: Record<string, FocusModel>;
     public _views: Record<string, View>;
     public _screens: Record<string, Screen>;
-
-    public _focusMap: {
-        [key: string]: AbstractFocusModel;
-    };
 
     public _currentFocus: View | null;
 
@@ -32,32 +30,29 @@ class CoreManager {
         this._focusAwareElements = {};
         this._views = {};
         this._screens = {};
-
-        this._focusMap = {};
-
         this._currentFocus = null;
-
         this._debuggerEnabled = false;
         this._hasPendingUpdateGuideLines = false;
         this._guideLineY = 0;
         this._guideLineX = 0;
     }
 
-    public registerFocusable(model: AbstractFocusModel, node?: any) {
+    public registerFocusAwareComponent(model: FocusModel, node?: any) {
         if (this._focusAwareElements[model.getId()]) {
             return;
         }
-        if (node) {
-            const nodeId = findNodeHandle(node.current);
+
+        if (model.getNode()) {
+            const nodeId = findNodeHandle(model.getNode().current);
             model.nodeId = nodeId;
-            model.node = node;
+            // model.node = node;
         }
 
         this._focusAwareElements[model.getId()] = model;
 
-        if (model.getType() === 'screen') {
+        if (model instanceof Screen) {
             this._screens[model.getId()] = model as Screen;
-        } else if (model.getType() === 'view') {
+        } else if (model instanceof View) {
             this._views[model.getId()] = model as View;
         }
 
@@ -75,7 +70,7 @@ class CoreManager {
         });
     }
 
-    public removeFocusable(model: AbstractFocusModel) {
+    public removeFocusAwareComponent(model: FocusModel) {
         model.removeChildrenFromParent();
 
         delete this._focusAwareElements[model.getId()];
@@ -84,11 +79,6 @@ class CoreManager {
 
         if (model.getId() === this._currentFocus?.getId()) {
             this._currentFocus = null;
-        }
-        if (model.isScreen()) {
-            setTimeout(() => {
-                this.onScreenRemoved();
-            }, 0);
         }
     }
 
@@ -179,7 +169,7 @@ class CoreManager {
     public executeScroll(direction = '') {
         const contextParameters = {
             currentFocus: this._currentFocus,
-            focusMap: this._focusMap,
+            focusMap: this._focusAwareElements,
             isDebuggerEnabled: this._debuggerEnabled,
         };
         Scroller.scroll(direction, contextParameters);
@@ -229,7 +219,7 @@ class CoreManager {
             return views[Object.keys(views)[0]];
         }
 
-        const nextForcedFocusKey = getNextForcedFocusKey(currentFocus, direction, this._focusMap);
+        const nextForcedFocusKey = getNextForcedFocusKey(currentFocus, direction, this._focusAwareElements);
         if (nextForcedFocusKey) {
             this.focusElementByFocusKey(nextForcedFocusKey);
             return;
@@ -275,7 +265,7 @@ class CoreManager {
 
         if (closestContext) {
             if (closestContext.getParent()?.getId() !== currentFocus.getParent()?.getId()) {
-                const parent = currentFocus.getParent() as AbstractFocusModel;
+                const parent = currentFocus.getParent() as FocusModel;
 
                 const nextForcedFocusKey = getNextForcedFocusKey(parent, direction, this._focusMap);
                 if (nextForcedFocusKey) {
@@ -291,7 +281,7 @@ class CoreManager {
                 closestContext.getParent()?.onFocus();
 
                 if (closestContext.getParent()?.getType() === TYPE_RECYCLER) {
-                    const parent = closestContext.getParent() as Recycler;
+                    const parent = closestContext.getParent() as RecyclerView;
 
                     closestContext = parent.getFocusedView() ?? closestContext;
                 }
@@ -321,7 +311,7 @@ class CoreManager {
 
             for (const idx in parents) {
                 const p = parents[idx];
-                const _nextForcedFocusKey = getNextForcedFocusKey(p, direction, this._focusMap);
+                const _nextForcedFocusKey = getNextForcedFocusKey(p, direction, this._focusAwareElements);
                 if (_nextForcedFocusKey) {
                     this.focusElementByFocusKey(_nextForcedFocusKey);
                     return;
@@ -340,7 +330,9 @@ class CoreManager {
     };
 
     public getCurrentMaxOrder(): number {
-        return Math.max(...Object.values(this._focusMap).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder())));
+        return Math.max(
+            ...Object.values(this._focusAwareElements).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
+        );
     }
 
     public findClosestNode = (model: View, direction: string, output: any) => {
@@ -383,8 +375,8 @@ class CoreManager {
         return this._currentFocus;
     }
 
-    public getFocusMap(): { [key: string]: AbstractFocusModel } {
-        return this._focusMap;
+    public getFocusMap(): { [key: string]: FocusModel } {
+        return this._focusAwareElements;
     }
 
     public getViews(): Record<string, View> {

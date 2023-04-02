@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
 import { FlashList as FlashListComp, ListRenderItemInfo } from '@shopify/flash-list';
-import CoreManager from '../../focusManager/service/core';
 import { measureAsync } from '../../focusManager/layoutManager';
 
 import Grid from '../../focusManager/model/grid';
@@ -9,6 +8,9 @@ import List from '../../focusManager/model/list';
 import Row from '../../focusManager/model/row';
 import { FlashListProps } from '../../focusManager/types';
 import useOnLayout from '../../hooks/useOnLayout';
+import useOnRefChange from '../../hooks/useOnRefChange';
+import useFocusAwareComponentRegister from '../../hooks/useOnComponentLifeCycle';
+import Event, { EVENT_TYPES } from '../../focusManager/events';
 
 const FlashList = ({
     style,
@@ -29,19 +31,17 @@ const FlashList = ({
     },
     ...props
 }: FlashListProps<any>) => {
-    const layoutsReady = useRef(false);
+    const [measured, setMeasured] = useState(false);
+
     const scrollViewRef = useRef<HTMLDivElement | null>();
     const rlvRef = useRef<FlashListComp<any>>(null);
-    const rnViewRef = useRef<RNView>(null);
 
-    const pctx = focusRepeatContext?.focusContext || focusContext;
-    const [measured, setMeasured] = useState(false);
-    const [ClsInstance] = useState(() => {
+    const [model] = useState<List | Grid | Row>(() => {
         const params = {
             isHorizontal,
             isNested: !!focusRepeatContext,
-            parent: pctx,
-            repeatContext: focusRepeatContext,
+            parent: focusRepeatContext?.focusContext || focusContext,
+            focusRepeatContext,
             initialRenderIndex,
             onFocus,
             onBlur,
@@ -57,50 +57,35 @@ const FlashList = ({
         }
     });
 
-    useEffect(() => {
-        if (measured) {
-            CoreManager.registerFocusable(ClsInstance, scrollViewRef);
-        }
+    useFocusAwareComponentRegister({ model, measured });
 
-        return () => {
-            CoreManager.removeFocusable(ClsInstance);
-        };
-    }, [measured]);
+    const { onRefChange } = useOnRefChange(model);
+
+    const { onLayout } = useOnLayout(null, async () => {
+        Event.emit(model, EVENT_TYPES.ON_LAYOUT);
+
+        //TODO: REMOVE IT!!!!!!
+        setTimeout(() => {
+            setMeasured(true);
+        }, 100);
+    });
 
     const rowRendererWithProps = ({ item, index, target }: ListRenderItemInfo<any>) => {
-        //@ts-ignore
-        const lm = rlvRef.current?.state?.layoutProvider?._lastLayoutManager;
-        const layouts: any = lm?.['_layouts'];
+        const lm = rlvRef.current?.state?.layoutProvider.getLayoutManager();
+        const layouts: { x: number; y: number }[] | undefined = lm?.getLayouts();
 
-        if (layouts && (!ClsInstance.getLayouts() || layouts.length !== ClsInstance.getLayouts().length)) {
-            ClsInstance.setLayouts(layouts);
-            if (!layoutsReady.current) {
-                layoutsReady.current = true;
-                onLayoutsReady();
-            }
-        }
+        model.updateLayouts(layouts);
 
         return renderItem?.({
             item,
             index,
             target,
-            focusRepeatContext: { focusContext: ClsInstance, index },
+            focusRepeatContext: { focusContext: model, index },
         });
     };
 
-    const onLayoutsReady = () => {
-        if (ClsInstance.getInitialRenderIndex()) {
-            ClsInstance.scrollToInitialRenderIndex();
-        }
-    };
-
-    const { onLayout } = useOnLayout(async () => {
-        await measureAsync(ClsInstance, rnViewRef);
-        setMeasured(true);
-    });
-
     return (
-        <RNView ref={rnViewRef} onLayout={onLayout} style={style}>
+        <RNView ref={onRefChange} onLayout={onLayout} style={style}>
             {measured && (
                 <FlashListComp
                     ref={rlvRef}
@@ -123,12 +108,13 @@ const FlashList = ({
                         const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
                         const { y, x } = event.nativeEvent.contentOffset;
 
-                        ClsInstance.setScrollOffsetY(y)
+                        model
+                            .setScrollOffsetY(y)
                             .setScrollOffsetX(x)
                             .updateLayoutProperty('yMaxScroll', height)
                             .updateLayoutProperty('scrollContentHeight', scrollContentHeight);
 
-                        ClsInstance.recalculateChildrenLayouts(ClsInstance);
+                        model.recalculateChildrenLayouts(model);
                     }}
                 />
             )}

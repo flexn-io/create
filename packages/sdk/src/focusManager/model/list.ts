@@ -3,14 +3,40 @@ import Row from './row';
 import Core from '../service/core';
 import AbstractFocusModel, { TYPE_RECYCLER } from './AbstractFocusModel';
 import View from './view';
+import Event, { EVENT_TYPES } from '../events';
+import { CoreManager } from '../..';
+import { measureAsync } from '../layoutManager';
 
 class List extends Recycler {
     constructor(params: any) {
         super(params);
 
         this._type = 'list';
+        this._onMountAndMeasured = this._onMountAndMeasured.bind(this);
+        this._onUnmount = this._onUnmount.bind(this);
+        this._onLayout = this._onLayout.bind(this);
+
+        this._events = [
+            Event.subscribe(this, EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
+            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+        ];
     }
 
+    // EVENTS
+    protected _onMountAndMeasured() {
+        CoreManager.registerFocusAwareComponent(this);
+    }
+
+    protected _onUnmount() {
+        CoreManager.removeFocusAwareComponent(this);
+    }
+
+    protected async _onLayout() {
+        await measureAsync({ model: this });
+    }
+
+    // END EVENTS
     public getType(): string {
         return this._type;
     }
@@ -60,7 +86,7 @@ class List extends Recycler {
         //TODO: implement
     }
 
-    public getFocusTaskExecutor(_direction: string): AbstractFocusModel {
+    public getFocusTaskExecutor(_direction: string): List {
         return this;
     }
 }

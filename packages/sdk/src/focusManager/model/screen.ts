@@ -1,13 +1,14 @@
-import { ScreenStates, ForbiddenFocusDirections } from '../types';
+import { ForbiddenFocusDirections, ScreenStates } from '../types';
 import CoreManager from '../service/core';
 import Logger from '../service/logger';
 import { makeid } from '../helpers';
-import AbstractFocusModel, { TYPE_RECYCLER, TYPE_VIEW } from './AbstractFocusModel';
+import FocusModel, { TYPE_RECYCLER, TYPE_VIEW } from './AbstractFocusModel';
 import View from './view';
 import { alterForbiddenFocusDirections } from '../helpers';
-import { findLowestRelativeCoordinates } from '../layoutManager';
+import { findLowestRelativeCoordinates, measureSync } from '../layoutManager';
 import { DEFAULT_VIEWPORT_OFFSET } from '../constants';
 import Recycler from './recycler';
+import Event, { EVENT_TYPES } from '../events';
 
 const DELAY_TIME_IN_MS = 100;
 
@@ -16,12 +17,27 @@ export const STATE_FOREGROUND: ScreenStates = 'foreground';
 const ALIGNMENT_BOTH_EDGE = 'bot-edge';
 const ALIGNMENT_LOW_EDGE = 'low-edge';
 
-class Screen extends AbstractFocusModel {
+type ScreenModelParams = {
+    focusKey?: string;
+    state: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
+    prevState: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
+    verticalWindowAlignment: typeof ALIGNMENT_LOW_EDGE;
+    horizontalWindowAlignment: typeof ALIGNMENT_LOW_EDGE;
+    horizontalViewportOffset: number;
+    verticalViewportOffset: number;
+    forbiddenFocusDirections: ForbiddenFocusDirections[];
+    zOrder: number;
+    stealFocus: boolean;
+    onFocus?(): void;
+    onBlur?(): void;
+};
+
+class Screen extends FocusModel {
     public _type: string;
     private _state: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
     private _prevState: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
-    private _verticalWindowAlignment: typeof ALIGNMENT_BOTH_EDGE | typeof ALIGNMENT_LOW_EDGE;
-    private _horizontalWindowAlignment: typeof ALIGNMENT_BOTH_EDGE | typeof ALIGNMENT_LOW_EDGE;
+    private _verticalWindowAlignment: typeof ALIGNMENT_LOW_EDGE;
+    private _horizontalWindowAlignment: typeof ALIGNMENT_LOW_EDGE;
     private _order: number;
     private _focusKey: string;
     private _horizontalViewportOffset: number;
@@ -35,7 +51,7 @@ class Screen extends AbstractFocusModel {
     private _stealFocus: boolean;
     private _isFocused: boolean;
 
-    constructor(params: any) {
+    constructor(params: ScreenModelParams) {
         super(params);
 
         const {
@@ -73,7 +89,52 @@ class Screen extends AbstractFocusModel {
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
+
+        this._onMount = this._onMount.bind(this);
+        this._onUnmount = this._onUnmount.bind(this);
+        this._onLayout = this._onLayout.bind(this);
+        this._onPropertyChanged = this._onPropertyChanged.bind(this);
+
+        this._events = [
+            Event.subscribe(this, EVENT_TYPES.ON_MOUNT, this._onMount),
+            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(this, EVENT_TYPES.ON_PROPERTY_CHANGED, this._onPropertyChanged),
+        ];
     }
+
+    // EVENTS
+    private _onMount() {
+        CoreManager.registerFocusAwareComponent(this);
+    }
+
+    private _onUnmount() {
+        CoreManager.removeFocusAwareComponent(this);
+        CoreManager.onScreenRemoved();
+        this.unsubscribeEvents();
+    }
+
+    private _onLayout() {
+        measureSync({ model: this });
+    }
+
+    private _onPropertyChanged({ property, newValue }: { property: string; newValue: any }) {
+        switch (property) {
+            case 'state':
+                this.setPrevState(this.getState()).setState(newValue);
+                if (this.isPrevStateBackground() && this.isInForeground()) {
+                    this.setFocus(this.getFirstFocusableOnScreen());
+                }
+                break;
+            case 'order':
+                this.setOrder(newValue);
+                break;
+            default:
+                break;
+        }
+    }
+
+    // END EVENTS
 
     public addComponentToPendingLayoutMap(id: string): void {
         this._componentsPendingLayoutMap[id] = true;
@@ -146,7 +207,7 @@ class Screen extends AbstractFocusModel {
         }
     };
 
-    private precalculateFocus(model: AbstractFocusModel) {
+    private precalculateFocus(model: FocusModel) {
         model.getChildren().forEach((ch) => {
             this.precalculateFocus(ch);
         });
@@ -228,7 +289,7 @@ class Screen extends AbstractFocusModel {
         return this._initialLoadInProgress;
     }
 
-    public getChildren(): AbstractFocusModel[] {
+    public getChildren(): FocusModel[] {
         return this._children;
     }
 

@@ -13,23 +13,10 @@ export function makeid(length: number) {
     return result;
 }
 
-export function flattenStyle(style: any) {
-    let flattenedStyle: any = {};
-    if (Array.isArray(style)) {
-        style.map((item) => {
-            item && Object.keys(item) && Object.keys(item).map((key) => (flattenedStyle[key] = item[key]));
-        });
-    } else {
-        flattenedStyle = style || {};
-    }
-
-    return { ...flattenedStyle };
-}
-
 export function getDirectionName(direction: string) {
     switch (direction) {
         case 'swipeLeft':
-        case 'left': 
+        case 'left':
             return 'left';
         case 'swipeRight':
         case 'right':
@@ -99,30 +86,4 @@ export function getNextForcedFocusKey(
     }
 
     return null;
-}
-
-export function useCombinedRefs(...refs: any) {
-    const targetRef = React.useRef<any | null>(null);
-
-    React.useEffect(() => {
-        refs.forEach((ref: any) => {
-            if (!ref) return;
-
-            if (typeof ref === 'function') {
-                ref(targetRef.current);
-            } else {
-                ref.current = targetRef.current; //eslint-disable-line
-            }
-        });
-    }, [refs]);
-
-    return targetRef;
-}
-
-export function usePrevious(value: any) {
-    const ref = useRef();
-    useEffect(() => {
-        ref.current = value;
-    });
-    return ref.current;
 }

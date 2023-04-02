@@ -213,3 +213,5 @@ export type Recycler = RecyclerModel;
 export type Screen = ScreenModel;
 export type AbstractFocusModel = AbstractModel;
 export type FocusContext = AbstractModel;
+
+export type RecyclerView = RecyclerModel;

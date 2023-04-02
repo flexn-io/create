@@ -1,5 +1,10 @@
-import { measure, recalculateLayout } from '../layoutManager';
+import { MutableRefObject } from 'react';
+import { View as ViewRefType } from 'react-native';
+import { measureSync, recalculateLayout } from '../layoutManager';
 import { ForbiddenFocusDirections, Recycler, Screen, ScreenStates } from '../types';
+import Grid from './grid';
+import List from './list';
+import Row from './row';
 import View from './view';
 
 export const TYPE_SCREEN = 'screen';
@@ -8,12 +13,12 @@ export const TYPE_RECYCLER = 'recycler';
 export const TYPE_SCROLL_VIEW = 'scrollview';
 
 export const STATE_BACKGROUND: ScreenStates = 'background';
-export default abstract class AbstractFocusModel {
+export default abstract class FocusModel {
     protected _layout: any;
     protected _id: string;
     protected _type: string;
-    protected _parent: AbstractFocusModel | undefined;
-    protected _children: AbstractFocusModel[];
+    protected _parent: FocusModel | undefined;
+    protected _children: FocusModel[];
     protected _screen: Screen | undefined;
     protected _forbiddenFocusDirections: ForbiddenFocusDirections[];
     protected _isFocusable: boolean;
@@ -27,12 +32,16 @@ export default abstract class AbstractFocusModel {
     protected _onFocus?: () => void;
     protected _onBlur?: () => void;
 
+    protected _events: { (): void }[];
+
     constructor(params: any) {
         const { nextFocusRight, nextFocusLeft, nextFocusUp, nextFocusDown } = params;
 
         this._id = '';
         this._type = '';
         this._children = [];
+        this._events = [];
+        this.node = { current: undefined };
         this._isFocusable = false;
         this._isScrollable = false;
         this._forbiddenFocusDirections = [];
@@ -43,13 +52,20 @@ export default abstract class AbstractFocusModel {
     }
 
     public nodeId?: number | null;
-    public node?: any;
+    public node: MutableRefObject<any>;
 
     public getType(): string {
         return this._type;
     }
 
-    public getParent(): AbstractFocusModel | undefined {
+    protected unsubscribeEvents() {
+        this._events.forEach((event) => event());
+    }
+    // public getParent(): FocusModel | undefined {
+    //     return this._parent;
+    // }
+
+    public getParent(): FocusModel | undefined {
         return this._parent;
     }
 
@@ -73,7 +89,7 @@ export default abstract class AbstractFocusModel {
         return this._layout;
     }
 
-    public addChildren(cls: AbstractFocusModel): this {
+    public addChildren(cls: FocusModel): this {
         this._children.push(cls);
 
         return this;
@@ -133,7 +149,7 @@ export default abstract class AbstractFocusModel {
         return this;
     }
 
-    public getChildren(): AbstractFocusModel[] {
+    public getChildren(): FocusModel[] {
         return this._children;
     }
 
@@ -141,8 +157,8 @@ export default abstract class AbstractFocusModel {
         return this._children.find((ch) => ch.isFocusable()) as View;
     }
 
-    public getMostBottomChildren(): AbstractFocusModel {
-        return this.getChildren().sort((a: AbstractFocusModel, b: AbstractFocusModel) => {
+    public getMostBottomChildren(): FocusModel {
+        return this.getChildren().sort((a: FocusModel, b: FocusModel) => {
             if (a.getLayout()?.yMax > b.getLayout()?.yMax) {
                 return 1;
             }
@@ -151,8 +167,8 @@ export default abstract class AbstractFocusModel {
         })[this.getChildren().length - 1];
     }
 
-    public getMostRightChildren(): AbstractFocusModel {
-        return this.getChildren().sort((a: AbstractFocusModel, b: AbstractFocusModel) => {
+    public getMostRightChildren(): FocusModel {
+        return this.getChildren().sort((a: FocusModel, b: FocusModel) => {
             if (a.getLayout()?.xMax > b.getLayout()?.xMax) {
                 return 1;
             }
@@ -161,8 +177,8 @@ export default abstract class AbstractFocusModel {
         })[this.getChildren().length - 1];
     }
 
-    public recalculateChildrenLayouts(ch: AbstractFocusModel) {
-        ch.getChildren().forEach((a: AbstractFocusModel) => {
+    public recalculateChildrenLayouts(ch: FocusModel) {
+        ch.getChildren().forEach((a: FocusModel) => {
             this.recalculateChildrenLayouts(a);
         });
 
@@ -171,12 +187,12 @@ export default abstract class AbstractFocusModel {
         }
     }
 
-    public remeasureChildrenLayouts(ch: AbstractFocusModel) {
-        if (ch.isInForeground()) {
-            measure(ch, ch.node, undefined, undefined, true);
+    public remeasureChildrenLayouts(model: FocusModel) {
+        if (model.isInForeground()) {
+            measureSync({ model, remeasure: true });
         }
 
-        ch.getChildren().forEach((a: AbstractFocusModel) => {
+        model.getChildren().forEach((a: FocusModel) => {
             this.remeasureChildrenLayouts(a);
         });
     }
@@ -249,15 +265,19 @@ export default abstract class AbstractFocusModel {
         return this.getScreen()?.getOrder() || 0;
     }
 
-    public getFocusTaskExecutor(direction: string): AbstractFocusModel | undefined | null {
+    public getFocusTaskExecutor(direction: string): Grid | Row | List | undefined {
         if (this.getParent()?.getFocusTaskExecutor(direction)) {
             return this.getParent()?.getFocusTaskExecutor(direction);
         }
-
-        return null;
     }
 
-    public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
-        return;
+    public setNode(ref: MutableRefObject<any>): FocusModel {
+        this.node = ref;
+
+        return this;
+    }
+
+    public getNode(): { current: MutableRefObject<any> | null } {
+        return this.node;
     }
 }
