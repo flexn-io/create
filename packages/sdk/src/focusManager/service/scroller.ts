@@ -17,7 +17,18 @@ class Scroller {
             return;
         }
 
-        const scrollContextParents = this.getParentScrollers(currentFocus);
+        const scrollContextParents: ScrollView[] = [];
+        let parent = currentFocus?.getParent();
+
+        // We can only scroll 2 ScrollView at max. one Horizontally and Vertically
+        const directionsFilled: any[] = [];
+        while (parent) {
+            if (parent instanceof ScrollView && !directionsFilled.includes(parent.isHorizontal())) {
+                directionsFilled.push(parent.isHorizontal());
+                scrollContextParents.push(parent);
+            }
+            parent = parent?.getParent();
+        }
 
         scrollContextParents.forEach((p: ScrollView) => {
             const scrollTarget = this.calculateScrollViewTarget(direction, p, contextParameters);
@@ -54,25 +65,7 @@ class Scroller {
         // }
     }
 
-    private getParentScrollers(currentFocus: FocusModel): ScrollView[] {
-        const scrollContextParents: ScrollView[] = [];
-        let parent = currentFocus?.getParent();
-        // We can only scroll 2 ScrollView at max. one Horz and Vert
-        const directionsFilled: any[] = [];
-        while (parent) {
-            if (parent.isScrollable() && !directionsFilled.includes(parent.isHorizontal())) {
-                directionsFilled.push(parent.isHorizontal());
-                scrollContextParents.push(parent);
-            }
-            parent = parent?.getParent();
-        }
-
-        return scrollContextParents;
-    }
-
     private calculateScrollViewTarget(direction: string, scrollView: ScrollView, contextParameters: any) {
-        // console.log('IS_NESTED_DIFFERENT_DIRECTION', this.isScrollViewNestedWithDifferentDirection(scrollView));
-
         const { currentFocus }: { currentFocus: FocusModel } = contextParameters;
         const currentLayout = currentFocus.getLayout();
         const scrollTarget = { x: scrollView.getScrollOffsetX(), y: scrollView.getScrollOffsetY() };
@@ -81,49 +74,55 @@ class Scroller {
             currentFocus.getScreen()?.getHorizontalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
         const verticalViewportOffset = currentFocus.getScreen()?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
 
-        if (DIRECTION_RIGHT.includes(direction)) {
-            if (!scrollView.isHorizontal() && currentLayout.yMin < scrollView.getScrollOffsetY()) {
-                scrollTarget.y = currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin;
-                console.log(scrollTarget, { direction });
-            }
+        switch (true) {
+            case DIRECTION_RIGHT.includes(direction):
+                {
+                    if (!scrollView.isHorizontal() && currentLayout.yMin < scrollView.getScrollOffsetY()) {
+                        scrollTarget.y = currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin;
+                        console.log(scrollTarget, { direction });
+                    }
 
-            scrollTarget.x = Math.max(
-                currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset,
-                scrollView.getScrollOffsetX()
-            );
-        }
+                    scrollTarget.x = Math.max(
+                        currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset,
+                        scrollView.getScrollOffsetX()
+                    );
+                }
+                break;
+            case DIRECTION_LEFT.includes(direction):
+                {
+                    if (!scrollView.isHorizontal() && currentLayout.yMin < scrollView.getScrollOffsetY()) {
+                        scrollTarget.y = currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin;
+                        console.log(scrollTarget, { direction });
+                    }
 
-        if (DIRECTION_LEFT.includes(direction)) {
-            if (!scrollView.isHorizontal() && currentLayout.yMin < scrollView.getScrollOffsetY()) {
-                scrollTarget.y = currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin;
-                console.log(scrollTarget, { direction });
-            }
-
-            scrollTarget.x = Math.min(
-                currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset,
-                scrollView.getScrollOffsetX()
-            );
-        }
-
-        if (DIRECTION_UP.includes(direction)) {
-            scrollTarget.y = Math.min(
-                // currentLayout.yMin - innerViewMin - verticalViewportOffset - scrollView.getLayout().yMin,
-                currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin,
-                scrollView.getScrollOffsetY()
-            );
-        }
-
-        if (DIRECTION_DOWN.includes(direction)) {
-            scrollTarget.y = Math.max(
-                currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin,
-                scrollView.getScrollOffsetY()
-            );
+                    scrollTarget.x = Math.min(
+                        currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset,
+                        scrollView.getScrollOffsetX()
+                    );
+                }
+                break;
+            case DIRECTION_UP.includes(direction):
+                {
+                    scrollTarget.y = Math.min(
+                        currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin,
+                        scrollView.getScrollOffsetY()
+                    );
+                }
+                break;
+            case DIRECTION_DOWN.includes(direction):
+                {
+                    scrollTarget.y = Math.max(
+                        currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin,
+                        scrollView.getScrollOffsetY()
+                    );
+                }
+                break;
+            default:
+                break;
         }
 
         if (scrollTarget.x < 0) scrollTarget.x = 0;
         if (scrollTarget.y < 0) scrollTarget.y = 0;
-
-        // console.log(scrollView, scrollTarget, { direction });
 
         return scrollTarget;
     }
