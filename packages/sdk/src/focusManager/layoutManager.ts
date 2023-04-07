@@ -3,7 +3,7 @@ import RecyclerView from './model/recycler';
 import ScrollView from './model/scrollview';
 import View from './model/view';
 
-const findLowestRelativeCoordinates = (model: View) => {
+export const findLowestRelativeCoordinates = (model: View) => {
     const screen = model.getScreen();
 
     if (screen) {

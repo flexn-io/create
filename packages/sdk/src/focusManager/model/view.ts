@@ -76,7 +76,6 @@ class View extends FocusModel {
 
     // EVENTS
     private _onMount() {
-        console.log('VIEW_HAS_MOUNT_EVENT', this);
         CoreManager.registerFocusAwareComponent(this);
         const screen = this.getScreen();
         if (screen) {

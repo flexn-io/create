@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, MutableRefObject } from 'react';
-import { AbstractFocusModel } from '../focusManager/types';
+import FocusModel from '../focusManager/model/FocusModel';
 
-export default function useOnRefChange(model: AbstractFocusModel | null): {
+export default function useOnRefChange(model: FocusModel | null): {
     targetRef: MutableRefObject<any>;
     onRefChange: any;
 } {
@@ -13,7 +13,6 @@ export default function useOnRefChange(model: AbstractFocusModel | null): {
 
     useEffect(() => {
         if (model) {
-            console.log('SDJKFJKLDSJKFLDSF', model.getId(), targetRef);
             model.setNode(targetRef);
         }
     }, [targetRef]);

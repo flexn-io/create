@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView, StyleSheet } from 'react-native';
 import { isPlatformTvos } from '@rnv/renative';
 import type { ViewProps } from '../../focusManager/types';
-import CoreManager from '../../focusManager/service/core';
 import { ANIMATIONS } from '../../focusManager/constants';
 import { measureSync } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';

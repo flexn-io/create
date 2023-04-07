@@ -79,7 +79,7 @@ class Scroller {
                 {
                     if (!scrollView.isHorizontal() && currentLayout.yMin < scrollView.getScrollOffsetY()) {
                         scrollTarget.y = currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin;
-                        console.log(scrollTarget, { direction });
+                        // console.log(scrollTarget, { direction });
                     }
 
                     scrollTarget.x = Math.max(
@@ -92,7 +92,7 @@ class Scroller {
                 {
                     if (!scrollView.isHorizontal() && currentLayout.yMin < scrollView.getScrollOffsetY()) {
                         scrollTarget.y = currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin;
-                        console.log(scrollTarget, { direction });
+                        // console.log(scrollTarget, { direction });
                     }
 
                     scrollTarget.x = Math.min(

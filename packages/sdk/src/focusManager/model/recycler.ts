@@ -5,11 +5,6 @@ import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 
-// export interface ScrollViewInt extends RecyclerView {
-//     getScrollOffsetY(): number;
-//     getScrollOffsetX(): number;
-// }
-
 class RecyclerView extends AbstractFocusModel {
     private _layouts: { x: number; y: number }[];
     private _layoutsReady: boolean;

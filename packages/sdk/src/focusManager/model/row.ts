@@ -1,4 +1,3 @@
-import AbstractFocusModel from './FocusModel';
 import Recycler from './recycler';
 import View from './view';
 import Core from '../service/core';
@@ -37,7 +36,6 @@ class Row extends Recycler {
 
     protected async _onLayout() {
         await measureAsync({ model: this });
-        console.log('sdmklfkjdslfjkldsf');
         Event.emit(this, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
     }
 

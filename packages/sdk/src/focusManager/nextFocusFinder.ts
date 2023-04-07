@@ -1,6 +1,5 @@
 // import { Dimensions } from 'react-native';
 // import Logger from './model/logger';
-import AbstractFocusModel from './model/FocusModel';
 import View from './model/view';
 import { ClosestNodeOutput } from './types';
 

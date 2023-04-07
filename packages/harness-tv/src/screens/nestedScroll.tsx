@@ -16,7 +16,7 @@ const NestedScroll = () => {
             <View style={{ marginTop: 10, marginLeft: 20 }}>
                 <ScrollView style={{ width: '100%' }}>
                     {verticalItems.map((item, index) => (
-                        <View>
+                        <View key={index}>
                             <Pressable style={styles.itemVertical}>
                                 <Text style={styles.text}>{index + 1}</Text>
                             </Pressable>

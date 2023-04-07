@@ -1,7 +1,7 @@
 import Recycler from './recycler';
 import Row from './row';
 import Core from '../service/core';
-import AbstractFocusModel, { TYPE_RECYCLER } from './FocusModel';
+import { TYPE_RECYCLER } from './FocusModel';
 import View from './view';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';

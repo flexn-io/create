@@ -1,7 +1,6 @@
 import { findNodeHandle, UIManager } from 'react-native';
 import { isPlatformTizen, isPlatformWebos } from '@rnv/renative';
 import { distCalc } from '../nextFocusFinder';
-import { getDirectionName } from '../helpers';
 import { recalculateLayout } from '../layoutManager';
 
 import Scroller from './scroller';
@@ -368,7 +367,7 @@ class CoreManager {
         }
 
         if (this._currentFocus) {
-            return distCalc(output, getDirectionName(direction), this._currentFocus, model);
+            return distCalc(output, this.getDirectionName(direction), this._currentFocus, model);
         }
 
         return null;
