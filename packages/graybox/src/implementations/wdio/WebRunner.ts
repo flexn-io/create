@@ -20,9 +20,9 @@ class WebRunner extends AbstractRunner {
     };
 
     getElementByText = async (selector: string) => {
-        const array = await $$(`//*[normalize-space(text())='${selector}']`);
+        const array = await $$(`//*[text()='${selector}']`);
         if (array.length <= 1) {
-            return $(`//*[normalize-space(text())='${selector}']`);
+            return $(`//*[text()='${selector}']`);
         } else {
             for (const element of array) {
                 const isDisplayed = await element.isDisplayed();
