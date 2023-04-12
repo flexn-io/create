@@ -64,7 +64,7 @@
         "raf": "3.4.1"
     },
     "devDependencies": {
-        "@flexn/graybox": "0.18.0-alpha.8",
+        "@flexn/graybox": "0.20.0-alpha.18",
         "@flexn/sdk": "0.18.0-alpha.8",
         "@flexn/typescript": "0.1.4",
         "@react-native-community/cli": "^6.0.0",
