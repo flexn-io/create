@@ -9,6 +9,9 @@ describe('Test template', () => {
         await FlexnRunner.expectToBeDisplayedById('template-home-screen-flexn-image');
         await FlexnRunner.expectToBeDisplayedById('template-home-screen-welcome-message-text');
         await FlexnRunner.expectToBeDisplayedById('template-home-screen-version-number-text');
+        await FlexnRunner.expectToBeDisplayedById('template-home-screen-platform-text');
+        await FlexnRunner.expectToBeDisplayedById('template-home-screen-factor-text');
+        await FlexnRunner.expectToBeDisplayedById('template-home-screen-engine-text');
         await FlexnRunner.expectToBeDisplayedById('template-home-screen-try-me-button');
         await FlexnRunner.expectToBeDisplayedById('template-home-screen-now-try-me-button');
     });
@@ -42,7 +45,7 @@ describe('Test template', () => {
         await FlexnRunner.pressButtonLeft(1);
         await FlexnRunner.pressButtonDown(2);
         await FlexnRunner.pressButtonSelect(1);
-        await FlexnRunner.expectToBeDisplayedById('template-modal-screen-container');
+        await FlexnRunner.expectToBeDisplayedByText('This is my Modal!');
         await FlexnRunner.clickById('template-modal-screen-close-button');
         if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
             await FlexnRunner.waitForDisplayedById('template-menu-home-button');
