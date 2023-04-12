@@ -8,7 +8,7 @@ import { interval, Ratio } from '../utils';
 
 const NestedScroll = () => {
     const [verticalItems, setVerticalItems] = useState(Array(12).fill(0));
-    const [horizontalItems, setHorizontalItems] = useState(Array(15).fill(0));
+    const [horizontalItems, setHorizontalItems] = useState(Array(20).fill(0));
 
     return (
         <Screen style={{ backgroundColor: '#222222' }}>

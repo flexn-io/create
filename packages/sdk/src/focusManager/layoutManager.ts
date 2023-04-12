@@ -63,6 +63,8 @@ const recalculateLayout = (model: FocusModel, remeasure?: boolean) => {
     recalculateAbsolutes(model);
 };
 
+// let measureTimes = 0;
+
 const measure = ({
     model,
     callback,
@@ -75,6 +77,8 @@ const measure = ({
     remeasure?: boolean;
 }) => {
     if (model.node.current) {
+        // measureTimes++;
+        // console.log({ measureTimes }, model.getId());
         model.node.current.measure(
             (_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
                 let pgX;

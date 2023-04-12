@@ -27,6 +27,8 @@ class CoreManager {
 
     private _guideLineX: number;
 
+    private _pendingLayoutMeasurements: any;
+
     constructor() {
         this._focusAwareElements = {};
         this._views = {};
@@ -36,6 +38,22 @@ class CoreManager {
         this._hasPendingUpdateGuideLines = false;
         this._guideLineY = 0;
         this._guideLineX = 0;
+
+        this._pendingLayoutMeasurements = {};
+    }
+
+    public setPendingLayoutMeasurement(model: FocusModel, callback?: any) {
+        if (this._pendingLayoutMeasurements[model.getId()]) {
+            clearTimeout(this._pendingLayoutMeasurements[model.getId()]);
+        } else {
+            callback();
+            this._pendingLayoutMeasurements[model.getId()] = 1;
+            return;
+        }
+
+        this._pendingLayoutMeasurements[model.getId()] = setTimeout(() => {
+            callback();
+        }, 100);
     }
 
     public registerFocusAwareComponent(model: FocusModel) {

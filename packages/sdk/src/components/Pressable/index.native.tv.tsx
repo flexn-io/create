@@ -54,9 +54,13 @@ const View = React.forwardRef<any, ViewProps>(
 
         const { onLayout } = useOnLayout(model);
 
-        const { onLayout: onLayoutNonPressable } = useOnLayout(null, () => {
-            model?.remeasureChildrenLayouts?.(model);
-        });
+        const { onLayout: onLayoutNonPressable } = useOnLayout(
+            model,
+            () => {
+                model?.remeasureChildrenLayouts?.(model);
+            },
+            true
+        );
 
         // We must re-assign repeat context as View instances are re-used in recycled
         if (focusRepeatContext) {
