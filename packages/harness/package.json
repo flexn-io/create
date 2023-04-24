@@ -83,7 +83,7 @@
         "tslib": "2.3.1"
     },
     "devDependencies": {
-        "@flexn/graybox": "0.20.0-alpha.18",
+        "@flexn/graybox": "0.20.0-alpha.19",
         "@flexn/template": "0.18.0-alpha.8",
         "@rnv/engine-lightning": "0.36.1",
         "@rnv/engine-rn": "0.36.1",
