@@ -23,9 +23,9 @@ class Scroller {
         // We can only scroll 2 ScrollView at max. one Horizontally and Vertically
         const directionsFilled: any[] = [];
         while (parent) {
-            if (parent instanceof ScrollView && !directionsFilled.includes(parent.isHorizontal())) {
-                directionsFilled.push(parent.isHorizontal());
-                scrollContextParents.push(parent);
+            if (parent.isScrollable() && !directionsFilled.includes((parent as ScrollView).isHorizontal())) {
+                directionsFilled.push((parent as ScrollView).isHorizontal());
+                scrollContextParents.push(parent as ScrollView);
             }
             parent = parent?.getParent();
         }
@@ -35,6 +35,8 @@ class Scroller {
 
             if (scrollTarget) {
                 if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
+                    console.log(p.node);
+
                     p.node.current.scrollTo(scrollTarget);
                 }
             }
@@ -79,7 +81,6 @@ class Scroller {
                 {
                     if (!scrollView.isHorizontal() && currentLayout.yMin < scrollView.getScrollOffsetY()) {
                         scrollTarget.y = currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin;
-                        // console.log(scrollTarget, { direction });
                     }
 
                     scrollTarget.x = Math.max(
