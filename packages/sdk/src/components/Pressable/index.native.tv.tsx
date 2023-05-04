@@ -125,7 +125,7 @@ const View = React.forwardRef<any, ViewProps>(
             animatorOptions = { ...animatorOptions, style: { ...flattenedStyle } };
             let borderProps = {};
             const isBorderAnimation = [ANIMATIONS.BORDER, ANIMATIONS.SCALE_BORDER].includes(animatorOptions.type);
-            if (!isBorderAnimation) {
+            if (!isBorderAnimation && flattenedStyle) {
                 borderProps = {
                     focusableBorderWidth: flattenedStyle.borderWidth,
                     focusableBorderLeftWidth: flattenedStyle.borderLeftWidth,
@@ -136,7 +136,7 @@ const View = React.forwardRef<any, ViewProps>(
                     focusableBorderEndWidth: flattenedStyle.borderEndWidth,
                 };
             } else {
-                if (isPlatformTvos) {
+                if (isPlatformTvos && flattenedStyle) {
                     delete flattenedStyle.borderWidth;
                 }
             }
