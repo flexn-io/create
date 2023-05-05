@@ -35,7 +35,7 @@ class Scroller {
 
             if (scrollTarget) {
                 if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
-                    console.log(p.node);
+                    // console.log(p.node);
 
                     p.node.current.scrollTo(scrollTarget);
                 }

@@ -102,7 +102,9 @@ export default function FocusDebugger() {
                         width: '100%',
                         height: 1,
                         backgroundColor: 'red',
-                        top: isNaN(CoreManager.guideLineY) ? 0 : CoreManager.guideLineY,
+                        top: isNaN(CoreManager._currentFocus?.getLayout()?.absolute?.yCenter)
+                            ? 0
+                            : CoreManager._currentFocus?.getLayout().absolute.yCenter,
                         position: 'absolute',
                     }}
                 />
@@ -111,7 +113,9 @@ export default function FocusDebugger() {
                         height: '100%',
                         width: 1,
                         backgroundColor: 'red',
-                        left: isNaN(CoreManager.guideLineX) ? 0 : CoreManager.guideLineX,
+                        left: isNaN(CoreManager._currentFocus?.getLayout()?.absolute?.xCenter)
+                            ? 0
+                            : CoreManager._currentFocus?.getLayout().absolute.xCenter,
                         position: 'absolute',
                     }}
                 />

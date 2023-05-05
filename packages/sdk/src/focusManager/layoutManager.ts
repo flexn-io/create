@@ -26,8 +26,8 @@ const recalculateAbsolutes = (model: FocusModel) => {
         xMax: layout.xMax - layout.xOffset,
         yMin: layout.yMin - layout.yOffset,
         yMax: layout.yMax - layout.yOffset,
-        xCenter: layout.xCenter - layout.xOffset,
-        yCenter: layout.yCenter - layout.yOffset,
+        xCenter: (layout.xMin - layout.xOffset) + Math.floor(layout.width / 2),
+        yCenter: (layout.yMin - layout.yOffset) + Math.floor(layout.height / 2),
     });
 };
 
@@ -50,12 +50,14 @@ const recalculateLayout = (model: FocusModel, remeasure?: boolean) => {
         parent = parent?.getParent();
     }
 
-    // If layout is being remeasured from parent to children calculating min positions
+    // If layout is being remeasured from parent to children calculating positions
     // we should take into account scroll view offset and add it
     if (remeasure) {
         model
             .updateLayoutProperty('xMin', model.getLayout().xMin + offsetX)
-            .updateLayoutProperty('yMin', model.getLayout().yMin + offsetY);
+            .updateLayoutProperty('xMax', model.getLayout().xMax + offsetX)
+            .updateLayoutProperty('yMin', model.getLayout().yMin + offsetY)
+            .updateLayoutProperty('yMax', model.getLayout().yMax + offsetY);
     }
 
     model.updateLayoutProperty('xOffset', offsetX).updateLayoutProperty('yOffset', offsetY);
