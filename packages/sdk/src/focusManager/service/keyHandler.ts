@@ -127,14 +127,9 @@ class KeyHandler {
             }
 
             if (CoreManager.getCurrentFocus()) {
-                if (CoreManager.hasPendingUpdateGuideLines) {
-                    CoreManager.executeUpdateGuideLines();
-                }
-
                 if (DIRECTION.includes(eventType)) {
                     CoreManager.executeDirectionalFocus(eventType);
                     CoreManager.executeScroll(eventType);
-                    CoreManager.executeUpdateGuideLines();
                 }
             }
         }
@@ -177,7 +172,6 @@ class KeyHandler {
                 }
                 this._currentIndex = selectedIndex;
                 this._currentScrollTarget = CoreManager.executeInlineFocus(selectedIndex, eventType);
-                CoreManager.executeUpdateGuideLines();
 
                 if (selectedIndex === 0 || selectedIndex === this.getMaxIndex(EVENT_TYPE_DOWN === eventType)) {
                     clearInterval(this._longPressInterval);
@@ -199,7 +193,6 @@ class KeyHandler {
             if (closestByIndex) {
                 CoreManager.executeFocus(closestByIndex);
                 CoreManager.executeScroll(eventType);
-                CoreManager.executeUpdateGuideLines();
             }
         }, 300);
     }
@@ -221,7 +214,6 @@ class KeyHandler {
                 if (closestByIndex) {
                     CoreManager.executeFocus(closestByIndex);
                     CoreManager.executeScroll(eventType);
-                    CoreManager.executeUpdateGuideLines();
                 }
             }, 200);
         }

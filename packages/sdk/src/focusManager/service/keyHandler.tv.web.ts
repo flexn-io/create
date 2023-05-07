@@ -31,7 +31,7 @@ class KeyHandler {
     private enableKeyHandler() {
         this.keyUpEventListener = (event: KeyboardEvent) => {
             const eventType = DEFAULT_KEY_MAP[event.keyCode];
-            
+
             this.onKeyDown(eventType);
         };
 
@@ -53,14 +53,9 @@ class KeyHandler {
         }
 
         if (CoreManager.getCurrentFocus()) {
-            if (CoreManager.hasPendingUpdateGuideLines) {
-                CoreManager.executeUpdateGuideLines();
-            }
-
             if (DIRECTION.includes(eventType)) {
                 CoreManager.executeDirectionalFocus(eventType);
                 CoreManager.executeScroll(eventType);
-                CoreManager.executeUpdateGuideLines();
             }
         }
     }

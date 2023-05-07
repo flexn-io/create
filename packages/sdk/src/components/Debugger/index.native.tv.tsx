@@ -10,9 +10,6 @@ export default function FocusDebugger() {
     const [seconds, setSeconds] = useState(0);
     useEffect(() => {
         let interval: any = null;
-        if (CoreManager.hasPendingUpdateGuideLines) {
-            CoreManager.executeUpdateGuideLines();
-        }
         interval = setInterval(() => {
             setSeconds((s) => s + 1);
         }, 500);

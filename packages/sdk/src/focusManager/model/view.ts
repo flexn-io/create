@@ -14,9 +14,9 @@ class View extends FocusModel {
     private _hasPreferredFocus: boolean;
     private _repeatContext:
         | {
-              focusContext: FocusModel;
-              index: number;
-          }
+            focusContext: FocusModel;
+            index: number;
+        }
         | undefined;
 
     private _onPress?: () => void;
@@ -111,7 +111,6 @@ class View extends FocusModel {
 
     public setFocus() {
         CoreManager.executeFocus(this);
-        CoreManager.executeUpdateGuideLines();
     }
 
     public onPress(): void {

@@ -174,7 +174,6 @@ class Screen extends FocusModel {
         if (model) {
             CoreManager.getCurrentFocus()?.getScreen()?.onBlur?.();
             CoreManager.executeFocus(model);
-            CoreManager.executeUpdateGuideLines();
             model.getScreen()?.onFocus();
             if (model.getParent()?.getId() !== model.getScreen()?.getId()) {
                 model.getParent()?.onFocus();

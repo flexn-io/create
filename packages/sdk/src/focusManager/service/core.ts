@@ -21,12 +21,6 @@ class CoreManager {
 
     private _debuggerEnabled: boolean;
 
-    private _hasPendingUpdateGuideLines: boolean;
-
-    private _guideLineY: number;
-
-    private _guideLineX: number;
-
     private _pendingLayoutMeasurements: any;
 
     constructor() {
@@ -35,9 +29,6 @@ class CoreManager {
         this._screens = {};
         this._currentFocus = null;
         this._debuggerEnabled = false;
-        this._hasPendingUpdateGuideLines = false;
-        this._guideLineY = 0;
-        this._guideLineX = 0;
 
         this._pendingLayoutMeasurements = {};
     }
@@ -178,21 +169,6 @@ class CoreManager {
             isDebuggerEnabled: this._debuggerEnabled,
         };
         Scroller.calculateAndScrollToTarget(direction, contextParameters);
-    }
-
-    public executeUpdateGuideLines() {
-        if (!this._currentFocus?.getLayout()) {
-            this._hasPendingUpdateGuideLines = true;
-            return;
-        }
-
-        if (this._guideLineX !== this._currentFocus.getLayout().absolute.xCenter) {
-            this._guideLineX = this._currentFocus.getLayout().absolute.xCenter;
-        }
-        if (this._guideLineY !== this._currentFocus.getLayout().absolute.yCenter) {
-            this._guideLineY = this._currentFocus.getLayout().absolute.yCenter;
-        }
-        this._hasPendingUpdateGuideLines = false;
     }
 
     public focusElementByFocusKey = (focusKey: string) => {
@@ -442,18 +418,6 @@ class CoreManager {
 
     public set debuggerEnabled(enabled: boolean) {
         this._debuggerEnabled = enabled;
-    }
-
-    public get hasPendingUpdateGuideLines(): boolean {
-        return this._hasPendingUpdateGuideLines;
-    }
-
-    public get guideLineY(): number {
-        return this._guideLineY;
-    }
-
-    public get guideLineX(): number {
-        return this._guideLineX;
     }
 
     public getCurrentFocus(): View | null {

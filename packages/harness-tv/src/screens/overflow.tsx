@@ -9,6 +9,7 @@ import { Ratio } from '../utils';
 const Overflow = () => {
     const [layer1Buttons] = useState(Array(5).fill(0));
     const [layer2Buttons] = useState(Array(5).fill(0));
+    const [layer3Buttons] = useState(Array(5).fill(0));
 
     return (
         <View style={{ backgroundColor: '#222222', flex: 1 }}>
@@ -16,6 +17,7 @@ const Overflow = () => {
                 style={{ backgroundColor: '#222222', position: 'absolute' }}
                 group="layer1"
                 focusOptions={{ nextFocusRight: ['layer2'], focusKey: 'layer1' }}
+                stealFocus={false}
             >
                 <View style={{ position: 'absolute' }}>
                     {layer1Buttons.map((_, i) => (
@@ -31,12 +33,29 @@ const Overflow = () => {
                 style={{ backgroundColor: '#222222', position: 'absolute' }}
                 group="layer2"
                 focusOptions={{ nextFocusLeft: ['layer1'], focusKey: 'layer2' }}
+                stealFocus={false}
             >
                 <View style={{ position: 'absolute' }}>
                     {layer2Buttons.map((_, i) => (
                         <Button
                             style={{ ...styles.button2, ...styles.button2Pos }}
                             title={`Layer 2 Button ${i + 1}`}
+                            textStyle={styles.buttonTextStyle}
+                        />
+                    ))}
+                </View>
+            </Screen>
+            <Screen
+                style={{ backgroundColor: '#222222', position: 'absolute' }}
+                stealFocus
+                // group="layer2"
+                // focusOptions={{ nextFocusLeft: ['layer1'], focusKey: 'layer2' }}
+            >
+                <View style={{ position: 'absolute' }}>
+                    {layer3Buttons.map((_, i) => (
+                        <Button
+                            style={{ ...styles.button2, ...styles.button3Pos }}
+                            title={`Layer 3 Button ${i + 1}`}
                             textStyle={styles.buttonTextStyle}
                         />
                     ))}
@@ -84,6 +103,10 @@ const styles = StyleSheet.create({
     button2Pos: {
         left: Ratio(50),
         top: Ratio(110),
+    },
+    button3Pos: {
+        left: Ratio(700),
+        // top: Ratio(110),
     },
 });
 
