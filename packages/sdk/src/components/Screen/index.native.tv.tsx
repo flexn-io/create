@@ -15,6 +15,7 @@ const Screen = React.forwardRef<any, ScreenProps>(
             style,
             screenState = SCREEN_STATES.FOREGROUND,
             screenOrder = 0,
+            group,
             stealFocus = true,
             focusOptions = {},
             onFocus,
@@ -33,6 +34,7 @@ const Screen = React.forwardRef<any, ScreenProps>(
                     stealFocus,
                     onFocus,
                     onBlur,
+                    group,
                     ...focusOptions,
                 })
         );

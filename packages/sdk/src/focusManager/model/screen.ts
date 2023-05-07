@@ -17,6 +17,8 @@ const ALIGNMENT_LOW_EDGE = 'low-edge';
 
 type ScreenModelParams = {
     focusKey?: string;
+    group?: string;
+    order?: number;
     state: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
     prevState: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
     verticalWindowAlignment: typeof ALIGNMENT_LOW_EDGE;
@@ -24,7 +26,7 @@ type ScreenModelParams = {
     horizontalViewportOffset: number;
     verticalViewportOffset: number;
     forbiddenFocusDirections: ForbiddenFocusDirections[];
-    zOrder: number;
+    zOrder?: number;
     stealFocus: boolean;
     onFocus?(): void;
     onBlur?(): void;
@@ -48,6 +50,7 @@ class Screen extends FocusModel {
     private _precalculatedFocus?: View;
     private _stealFocus: boolean;
     private _isFocused: boolean;
+    private _group: string;
 
     constructor(params: ScreenModelParams) {
         super(params);
@@ -58,6 +61,7 @@ class Screen extends FocusModel {
             order = 0,
             stealFocus = true,
             focusKey = '',
+            group = '',
             verticalWindowAlignment = ALIGNMENT_LOW_EDGE,
             horizontalWindowAlignment = ALIGNMENT_LOW_EDGE,
             horizontalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
@@ -69,6 +73,7 @@ class Screen extends FocusModel {
 
         this._id = `screen-${CoreManager.generateID(8)}`;
         this._type = 'screen';
+        this._group = group;
         this._state = state;
         this._prevState = prevState;
         this._order = order;
@@ -345,6 +350,10 @@ class Screen extends FocusModel {
 
     public hasStealFocus(): boolean {
         return this._stealFocus;
+    }
+
+    public getGroup() {
+        return this._group ?? '';
     }
 }
 

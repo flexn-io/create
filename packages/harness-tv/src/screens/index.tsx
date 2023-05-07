@@ -8,13 +8,14 @@ import DynamicState2 from './dynamicState2';
 import DirectionalFocus from './directionalFocus';
 import Animations from './animations';
 import List from './list';
+import Overflow from './overflow';
 
 const RootStack = createNativeStackNavigator();
 
 const Navigation = () => {
     return (
         <NavigationContainer>
-            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Row">
+            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Overflow">
                 <RootStack.Screen name="Selector" component={Selector} />
                 <RootStack.Screen name="Row" component={Row} />
                 <RootStack.Screen name="DynamicState" component={DynamicState} />
@@ -22,6 +23,7 @@ const Navigation = () => {
                 <RootStack.Screen name="DirectionalFocus" component={DirectionalFocus} />
                 <RootStack.Screen name="Animations" component={Animations} />
                 <RootStack.Screen name="List" component={List} />
+                <RootStack.Screen name="Overflow" component={Overflow} />
             </RootStack.Navigator>
         </NavigationContainer>
     );

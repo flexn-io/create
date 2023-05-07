@@ -253,7 +253,8 @@ class CoreManager {
                 (c) =>
                     c.isInForeground() &&
                     c.getId() !== currentFocus.getId() &&
-                    c.getOrder() === this.getCurrentMaxOrder()
+                    c.getOrder() === this.getCurrentMaxOrder() &&
+                    c.getScreen()?.getGroup() === this.getCurrentFocus()?.getScreen()?.getGroup()
             );
 
         for (let i = 0; i < candidates.length; i++) {
@@ -349,17 +350,17 @@ class CoreManager {
             default:
                 break;
         }
-
         return nextFocusDirection ? this.pickActiveForcedFocusContext(nextFocusDirection) : null;
     }
 
     public pickActiveForcedFocusContext(nextForcedFocusKey: string | string[]): string | null {
         const isActive = (focusKey: string) =>
-            Object.values(this._views).find((model) => model.getFocusKey() === focusKey && model.isInForeground());
+            Object.values({ ...this._views, ...this._screens }).find((model) => model.getFocusKey() === focusKey && model.isInForeground());
 
         if (Array.isArray(nextForcedFocusKey)) {
             for (let index = 0; index < nextForcedFocusKey.length; index++) {
                 const focusKey = nextForcedFocusKey[index];
+
                 if (isActive(focusKey)) return focusKey;
             }
             return null;

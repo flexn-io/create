@@ -113,6 +113,7 @@ export interface ScreenProps {
     style?: StyleProp<ViewStyle>;
     onBlur?: () => void;
     onFocus?: () => void;
+    group?: string;
     focusOptions?: ScreenFocusOptions;
 }
 
