@@ -50,7 +50,7 @@ class Screen extends FocusModel {
     private _precalculatedFocus?: View;
     private _stealFocus: boolean;
     private _isFocused: boolean;
-    private _group: string;
+    private _group?: string;
 
     constructor(params: ScreenModelParams) {
         super(params);
@@ -61,7 +61,7 @@ class Screen extends FocusModel {
             order = 0,
             stealFocus = true,
             focusKey = '',
-            group = '',
+            group,
             verticalWindowAlignment = ALIGNMENT_LOW_EDGE,
             horizontalWindowAlignment = ALIGNMENT_LOW_EDGE,
             horizontalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
@@ -352,7 +352,7 @@ class Screen extends FocusModel {
     }
 
     public getGroup() {
-        return this._group ?? '';
+        return this._group;
     }
 }
 
