@@ -523,7 +523,7 @@
             }
         },
         "@flexn/sdk": {
-            "version": "0.20.0-alpha.24",
+            "version": "0.20.0-alpha.25",
             "webpack": {
                 "modulePaths": true,
                 "moduleAliases": true
