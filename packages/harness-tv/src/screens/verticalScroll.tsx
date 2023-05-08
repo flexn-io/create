@@ -3,11 +3,10 @@ import { StyleSheet, Text } from 'react-native';
 import { View, ScrollView, Pressable } from '@flexn/sdk';
 import { getScaledValue } from '@rnv/renative';
 import Screen from './screen';
-import { Button } from '../components/Button';
-import { interval, Ratio } from '../utils';
+import { Ratio } from '../utils';
 
 const DynamicState = () => {
-    const [arrayItems, setArrayItems] = useState(Array(20).fill(0));
+    const [arrayItems] = useState(Array(20).fill(0));
 
     return (
         <Screen style={{ backgroundColor: '#222222' }}>

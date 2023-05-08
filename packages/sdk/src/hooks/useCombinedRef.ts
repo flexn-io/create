@@ -1,4 +1,4 @@
-import { useRef, useEffect, MutableRefObject, ForwardedRef, LegacyRef } from 'react';
+import { useEffect, MutableRefObject, ForwardedRef, LegacyRef } from 'react';
 import FocusModel from '../focusManager/model/FocusModel';
 import useOnRefChange from './useOnRefChange';
 

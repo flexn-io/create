@@ -26,8 +26,8 @@ const recalculateAbsolutes = (model: FocusModel) => {
         xMax: layout.xMax - layout.xOffset,
         yMin: layout.yMin - layout.yOffset,
         yMax: layout.yMax - layout.yOffset,
-        xCenter: (layout.xMin - layout.xOffset) + Math.floor(layout.width / 2),
-        yCenter: (layout.yMin - layout.yOffset) + Math.floor(layout.height / 2),
+        xCenter: layout.xMin - layout.xOffset + Math.floor(layout.width / 2),
+        yCenter: layout.yMin - layout.yOffset + Math.floor(layout.height / 2),
     });
 };
 
@@ -65,7 +65,7 @@ const recalculateLayout = (model: FocusModel, remeasure?: boolean) => {
     recalculateAbsolutes(model);
 };
 
-let measureTimes = 0;
+// let measureTimes = 0;
 
 const measure = ({
     model,
@@ -79,7 +79,7 @@ const measure = ({
     remeasure?: boolean;
 }) => {
     if (model.node.current) {
-        measureTimes++;
+        // measureTimes++;
         // console.log({ measureTimes }, model.getId());
         model.node.current.measure(
             (_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {

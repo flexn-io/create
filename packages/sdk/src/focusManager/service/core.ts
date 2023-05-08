@@ -53,6 +53,7 @@ class CoreManager {
         }
 
         if (model.getNode()) {
+            // @ts-ignore
             const nodeId = findNodeHandle(model.getNode().current);
             model.nodeId = nodeId;
         }
@@ -132,7 +133,7 @@ class CoreManager {
         }
     }
 
-    public executeInlineFocus(nextIndex = 0, direction: string) {
+    public executeInlineFocus(_nextIndex = 0, _direction: string) {
         // let target: any;
         // const parent = this._currentFocus?.getParent();
         // if (parent?.isRecyclable() && this._currentFocus) {

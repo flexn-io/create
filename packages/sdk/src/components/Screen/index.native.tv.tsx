@@ -57,6 +57,7 @@ const Screen = React.forwardRef<any, ScreenProps>(
 
         const childrenWithProps = React.Children.map(chRendered, (child) => {
             if (React.isValidElement(child)) {
+                //@ts-ignore
                 return React.cloneElement(child, { focusContext: model });
             }
             return child;

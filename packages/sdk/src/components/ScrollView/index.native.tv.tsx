@@ -1,4 +1,4 @@
-import React, { useRef, useState, useImperativeHandle } from 'react';
+import React, { useState, useImperativeHandle } from 'react';
 import { ScrollView as RNScrollView } from 'react-native';
 import type { ScrollViewProps } from '../../focusManager/types';
 import CoreManager from '../../focusManager/service/core';

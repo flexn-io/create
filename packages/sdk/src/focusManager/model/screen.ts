@@ -21,11 +21,11 @@ type ScreenModelParams = {
     order?: number;
     state: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
     prevState: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
-    verticalWindowAlignment: typeof ALIGNMENT_LOW_EDGE;
-    horizontalWindowAlignment: typeof ALIGNMENT_LOW_EDGE;
-    horizontalViewportOffset: number;
-    verticalViewportOffset: number;
-    forbiddenFocusDirections: ForbiddenFocusDirections[];
+    verticalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
+    horizontalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
+    horizontalViewportOffset?: number;
+    verticalViewportOffset?: number;
+    forbiddenFocusDirections?: ForbiddenFocusDirections[];
     zOrder?: number;
     stealFocus: boolean;
     onFocus?(): void;

@@ -3,12 +3,11 @@ import { StyleSheet, Text } from 'react-native';
 import { View, ScrollView, Pressable } from '@flexn/sdk';
 import { getScaledValue } from '@rnv/renative';
 import Screen from './screen';
-import { Button } from '../components/Button';
-import { interval, Ratio } from '../utils';
+import { Ratio } from '../utils';
 
 const NestedScroll = () => {
-    const [verticalItems, setVerticalItems] = useState(Array(12).fill(0));
-    const [horizontalItems, setHorizontalItems] = useState(Array(20).fill(0));
+    const [verticalItems] = useState(Array(12).fill(0));
+    const [horizontalItems] = useState(Array(20).fill(0));
 
     return (
         <Screen style={{ backgroundColor: '#222222' }}>

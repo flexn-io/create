@@ -78,7 +78,7 @@ const Row = () => {
         generateData(200, 200, 100),
         generateData(200, 200, 100),
     ]);
-    const [data2] = useState(generateData(200, 200, 100));
+    // const [data2] = useState(generateData(200, 200, 100));
 
     const rowRenderer = ({ item }, contextInfo) => {
         return (

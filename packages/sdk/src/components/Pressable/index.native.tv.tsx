@@ -103,7 +103,8 @@ const View = React.forwardRef<any, ViewProps>(
         }, [onPress, onFocus, onBlur]);
 
         // In recycled mode we must re-measure on render
-        if (focusRepeatContext && ref.current) {
+        //@ts-ignore
+        if (focusRepeatContext && ref?.current) {
             // model.setNode(ref);
             measureSync({ model });
         }

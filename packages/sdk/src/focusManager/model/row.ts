@@ -6,6 +6,7 @@ import { DIRECTION_VERTICAL } from '../constants';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
+import RecyclerView from './recycler';
 
 class Row extends Recycler {
     constructor(params: any) {
@@ -68,8 +69,8 @@ class Row extends Recycler {
 
             if (
                 ['right', 'left'].includes(direction) &&
-                nextFocus?.getParent()?.isRecyclable() &&
-                nextFocus?.getParent()?.isHorizontal()
+                nextFocus?.getParent() instanceof RecyclerView &&
+                (nextFocus?.getParent() as RecyclerView)?.isHorizontal()
             ) {
                 return Core.getCurrentFocus();
             }
@@ -110,7 +111,7 @@ class Row extends Recycler {
 
         const interval = setInterval(() => {
             const currentChildren = this.getChildren().find(
-                (ch) => ch.getRepeatContext()?.index === this.getInitialRenderIndex()
+                (ch) => ch instanceof View && ch.getRepeatContext()?.index === this.getInitialRenderIndex()
             );
             if (currentChildren) {
                 this.setFocusedView(currentChildren as View);
@@ -121,7 +122,7 @@ class Row extends Recycler {
 
     public getFocusTaskExecutor(direction: string): Row | undefined {
         if (this.isNested() && DIRECTION_VERTICAL.includes(direction)) {
-            return this.getParent();
+            return this.getParent() as Row;
         }
 
         return this;

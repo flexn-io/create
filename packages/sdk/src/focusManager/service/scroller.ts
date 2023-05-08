@@ -43,7 +43,7 @@ class Scroller {
         });
     }
 
-    public scrollToTarget(cls: FocusModel, scrollTarget: { x: number; y: number }, direction: string) {
+    public scrollToTarget(_cls: FocusModel, _scrollTarget: { x: number; y: number }, _direction: string) {
         // let parentSW = cls.getParent() as ScrollView;
         // if (['up', 'down'].includes(direction) && parentSW.isNested()) {
         //     parentSW = cls.getParent()?.getParent() as ScrollView;
@@ -57,7 +57,7 @@ class Scroller {
         // }
     }
 
-    public scrollRecycler(scrollTarget: { x: number; y: number }, scroller: Recycler) {
+    public scrollRecycler(_scrollTarget: { x: number; y: number }, _scroller: Recycler) {
         // if (scrollTarget) {
         //     if (scroller.getScrollOffsetX() !== scrollTarget.x || scroller.getScrollOffsetY() !== scrollTarget.y) {
         //         scroller.node.current.scrollTo(scrollTarget);

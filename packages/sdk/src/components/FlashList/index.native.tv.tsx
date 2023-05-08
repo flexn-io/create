@@ -39,6 +39,7 @@ const FlashList = ({
         const params = {
             isHorizontal,
             isNested: !!focusRepeatContext,
+            //@ts-ignore
             parent: focusRepeatContext?.focusContext || focusContext,
             focusRepeatContext,
             initialRenderIndex,
@@ -100,6 +101,7 @@ const FlashList = ({
                             // eslint-disable-next-line no-underscore-dangle
                             scrollViewRef.current = ref?._scrollViewRef; // `scrollTo()` is not working otherwise
                             if (model.getNode().current) {
+                                //@ts-ignore
                                 model.getNode().current.scrollTo = ref?._scrollViewRef.scrollTo;
                             }
                         },

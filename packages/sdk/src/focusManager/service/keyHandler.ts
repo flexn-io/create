@@ -5,6 +5,8 @@ import CoreManager from './core';
 import { DIRECTION } from '../constants';
 import Logger from './logger';
 import Grid from '../model/grid';
+import View from '../model/view';
+import RecyclerView from '../model/recycler';
 
 const EVENT_KEY_ACTION_UP = 'up';
 const EVENT_KEY_ACTION_DOWN = 'down';
@@ -188,9 +190,9 @@ class KeyHandler {
             const closestByIndex = currentFocus
                 ?.getParent()
                 ?.getChildren()
-                .find((ch) => ch.getRepeatContext()?.index === index);
+                .find((ch) => ch instanceof View && ch.getRepeatContext()?.index === index);
 
-            if (closestByIndex) {
+            if (closestByIndex && closestByIndex instanceof View) {
                 CoreManager.executeFocus(closestByIndex);
                 CoreManager.executeScroll(eventType);
             }
@@ -209,9 +211,9 @@ class KeyHandler {
                 const closestByIndex = currentFocus
                     ?.getParent()
                     ?.getChildren()
-                    .find((ch) => ch.getRepeatContext()?.index === this._currentIndex);
+                    .find((ch) => ch instanceof View && ch.getRepeatContext()?.index === this._currentIndex);
 
-                if (closestByIndex) {
+                if (closestByIndex && closestByIndex instanceof View) {
                     CoreManager.executeFocus(closestByIndex);
                     CoreManager.executeScroll(eventType);
                 }
@@ -234,7 +236,7 @@ class KeyHandler {
         if (this.isNested() && vertical) {
             parent = parent?.getParent();
         }
-        if (parent) {
+        if (parent && parent instanceof RecyclerView) {
             this._maxIndex = parent.getLayouts().length;
             return this._maxIndex;
         }
@@ -245,19 +247,19 @@ class KeyHandler {
     private isInRecycler(): boolean {
         const parent = CoreManager.getCurrentFocus()?.getParent();
 
-        return parent?.isRecyclable() ? true : false;
+        return parent instanceof RecyclerView ? true : false;
     }
 
     private isHorizontal(): boolean {
         const parent = CoreManager.getCurrentFocus()?.getParent();
 
-        return parent?.isRecyclable() && parent?.isHorizontal() ? true : false;
+        return parent instanceof RecyclerView && parent?.isHorizontal() ? true : false;
     }
 
     private isNested(): boolean {
         const parent = CoreManager.getCurrentFocus()?.getParent();
 
-        return parent?.isRecyclable() && parent?.isNested() ? true : false;
+        return parent instanceof RecyclerView && parent?.isNested() ? true : false;
     }
 
     private getGridScrollInterval(): number {

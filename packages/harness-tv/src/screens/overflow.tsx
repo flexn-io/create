@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
-import { Animated, Pressable, StyleSheet } from 'react-native';
-import { View, withParentContextMapper } from '@flexn/sdk';
+import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { View } from '@flexn/sdk';
 import { getScaledValue } from '@rnv/renative';
 import Screen from './screen';
 import { Button } from '../components/Button';

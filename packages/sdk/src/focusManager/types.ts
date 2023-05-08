@@ -33,6 +33,8 @@ export type ForbiddenFocusDirections =
 export type WindowAlignment = 'both-edge' | 'low-edge';
 export type ScreenStates = 'background' | 'foreground';
 
+const ALIGNMENT_LOW_EDGE = 'low-edge';
+
 export type PressableFocusOptions = {
     forbiddenFocusDirections?: ForbiddenFocusDirections[];
     animatorOptions?: any;
@@ -47,8 +49,8 @@ export type PressableFocusOptions = {
 export type ScreenFocusOptions = {
     forbiddenFocusDirections?: ForbiddenFocusDirections[];
     focusKey?: string;
-    verticalWindowAlignment?: WindowAlignment;
-    horizontalWindowAlignment?: WindowAlignment;
+    verticalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
+    horizontalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
     horizontalViewportOffset?: number;
     verticalViewportOffset?: number;
     nextFocusLeft?: string | string[];

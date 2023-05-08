@@ -88,20 +88,21 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             alignSelf: 'stretch',
             width: '100%',
         },
-        modalContainer: isEngineRnNext
-            ? {
-                  position: 'absolute',
-                  backgroundColor: currentTheme.colorBgPrimary,
-                  zIndex: 100,
-                  top: 0,
-                  left: 0,
-                  height: '100vh',
-                  width: '100%',
-              }
-            : {
-                  flex: 1,
-                  backgroundColor: currentTheme.colorBgPrimary,
-              },
+        modalContainer: {
+            ...(isEngineRnNext && {
+                position: 'absolute',
+                backgroundColor: currentTheme.colorBgPrimary,
+                zIndex: 100,
+                top: 0,
+                left: 0,
+                height: '100vh',
+                width: '100%',
+            }),
+            ...(!isEngineRnNext && {
+                flex: 1,
+                backgroundColor: currentTheme.colorBgPrimary,
+            }),
+        },
         textH1: {
             fontFamily: currentTheme.primaryFontFamily,
             fontSize: getScaledValue(28),
@@ -188,23 +189,22 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             height: getScaledValue(100),
         },
         menuContainer: {
-            ...(isFactorTv
-                ? {
-                      height: '100%',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                  }
-                : {
-                      paddingTop: getScaledValue(hasHorizontalMenu ? 20 : 40),
-                      backgroundColor: currentTheme.colorBgPrimary,
-                      alignItems: 'flex-start',
-                      borderBottomWidth: getScaledValue(hasHorizontalMenu ? 1 : 0),
-                      borderColor: currentTheme.colorBorder,
-                      flexDirection: hasHorizontalMenu ? 'row' : 'column',
-                      borderRightWidth: getScaledValue(hasHorizontalMenu ? 0 : 1),
-                      width: isPlatformMacos ? currentTheme.menuWidth : '100%',
-                      height: currentTheme.menuHeight,
-                  }),
+            ...(isFactorTv && {
+                height: '100%',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }),
+            ...(!isFactorTv && {
+                paddingTop: getScaledValue(hasHorizontalMenu ? 20 : 40),
+                backgroundColor: currentTheme.colorBgPrimary,
+                alignItems: 'flex-start',
+                borderBottomWidth: getScaledValue(hasHorizontalMenu ? 1 : 0),
+                borderColor: currentTheme.colorBorder,
+                flexDirection: hasHorizontalMenu ? 'row' : 'column',
+                borderRightWidth: getScaledValue(hasHorizontalMenu ? 0 : 1),
+                width: isPlatformMacos ? currentTheme.menuWidth : '100%',
+                height: currentTheme.menuHeight,
+            }),
         },
         menuContainerBurgerOpen: {
             height: '100vh',

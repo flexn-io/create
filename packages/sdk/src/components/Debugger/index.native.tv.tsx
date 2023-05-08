@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, Dimensions, View as RNView } from 'react-native';
 import CoreManager from '../../focusManager/service/core';
 import AbstractFocusModel from '../../focusManager/model/FocusModel';
+import View from '../../focusManager/model/view';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -55,7 +56,7 @@ export default function FocusDebugger() {
                                 width: ctx.getLayout().width,
                                 height: ctx.getLayout().height,
                                 borderColor,
-                                borderWidth: ctx.getIsFocused() ? 5 : 1,
+                                borderWidth: (ctx as View).getIsFocused() ? 5 : 1,
                                 position: 'absolute',
                                 top: isNaN(ctx.getLayout().absolute.yMin) ? 0 : ctx.getLayout().absolute.yMin,
                                 left: isNaN(ctx.getLayout().absolute.xMin) ? 0 : ctx.getLayout().absolute.xMin,

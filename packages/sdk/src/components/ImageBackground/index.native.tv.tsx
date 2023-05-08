@@ -1,10 +1,10 @@
 import React from 'react';
 import { ImageBackground as RNImageBackground, ImageBackgroundProps } from 'react-native';
-import type { Context } from '../../focusManager/types';
+import type { FocusContext } from '../../focusManager/types';
 
 interface ImageBackgroundPropsExtended extends ImageBackgroundProps {
     children?: React.ReactNode;
-    focusContext: Context;
+    focusContext: FocusContext;
 }
 
 const ImageBackground = ({ children, focusContext, source, ...props }: ImageBackgroundPropsExtended) => {
