@@ -1,6 +1,6 @@
 //
 //  AnimatorProperty.swift
-//  FlexnSDK
+//  FlexnCreate
 //
 //  Created by Aurimas Mickys on 2022-03-02.
 //

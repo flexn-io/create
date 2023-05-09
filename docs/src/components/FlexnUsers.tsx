@@ -11,7 +11,7 @@ export default function FlexnUsers(): JSX.Element {
             separator
         >
             <div className="flexn-users">
-                <Image src="/img/Flexn-users.svg" />
+                <Image src="/img/flexn-users-logos.svg" />
             </div>
             <style>{`
                 .flexn-users {

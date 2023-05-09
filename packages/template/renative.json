@@ -61,12 +61,12 @@
                 "moduleAliases": true
             },
             "tvos": {
-                "podName": "FlexnSDK"
+                "podName": "FlexnCreate"
             },
             "androidtv": {
-                "package": "io.flexn.sdk.FlexnSdkPackage",
-                "projectName": "flexn-io-sdk",
-                "activityImports": ["io.flexn.sdk.TvRemoteHandlerModule", "android.view.KeyEvent;"],
+                "package": "io.flexn.create.FlexnCreatePackage",
+                "projectName": "flexn-io-create",
+                "activityImports": ["io.flexn.create.TvRemoteHandlerModule", "android.view.KeyEvent;"],
                 "activityMethods": [
                     "override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {",
                     "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"up\");",
@@ -88,9 +88,9 @@
                 ]
             },
             "firetv": {
-                "package": "io.flexn.sdk.FlexnSdkPackage",
-                "projectName": "flexn-io-sdk",
-                "activityImports": ["io.flexn.sdk.TvRemoteHandlerModule", "android.view.KeyEvent;"],
+                "package": "io.flexn.create.FlexnCreatePackage",
+                "projectName": "flexn-io-create",
+                "activityImports": ["io.flexn.create.TvRemoteHandlerModule", "android.view.KeyEvent;"],
                 "activityMethods": [
                     "override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {",
                     "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"up\");",

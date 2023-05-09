@@ -80,7 +80,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                         <Icon name="github" size={theme.static.iconSize} color={theme.static.colorBrand} />
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => openURL('https://sdk.flexn.org')}
+                        onPress={() => openURL('https://create.flexn.org')}
                         style={theme.styles.icon}
                         {...testProps('template-home-screen-chrome-button')}
                     >

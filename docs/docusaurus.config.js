@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
     title: 'Flexn Create SDK',
     tagline: 'Multiplatform is easy',
-    url: 'https://sdk.flexn.org',
+    url: 'https://create.flexn.org',
     baseUrl: '/',
     onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'warn',
@@ -46,7 +46,7 @@ const config = {
             navbar: {
                 logo: {
                     alt: 'Flexn Logo',
-                    src: 'img/FlexnSDk-logo.svg',
+                    src: 'img/create-logo.svg',
                 },
                 items: [
                     {
@@ -74,7 +74,7 @@ const config = {
                 style: 'light',
                 logo: {
                     alt: 'Flexn logo',
-                    src: 'img/Flexn-full.svg',
+                    src: 'img/flexn-logo-full.svg',
                     href: 'https://flexn.io',
                     width: 100,
                     height: 30,

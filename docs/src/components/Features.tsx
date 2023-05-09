@@ -14,7 +14,7 @@ export default function HomepageFeatures(): JSX.Element {
                     title="Bootstrap templates"
                     subtitle="Ready to go template allows you to go from 0 to 100 
                 almost instantly."
-                    websiteUrl="https://sdk.flexn.org/docs/tutorials/advanced/bootstrap"
+                    websiteUrl="https://create.flexn.org/docs/tutorials/advanced/bootstrap"
                     containerClassName="firstModule"
                 />
                 <Module
@@ -28,14 +28,14 @@ export default function HomepageFeatures(): JSX.Element {
                 <Module
                     title="Javascript & Typescript"
                     subtitle="You can use Flexn Create SDK in both Javascript and Typescript environments"
-                    websiteUrl="https://sdk.flexn.org/docs/introduction"
+                    websiteUrl="https://create.flexn.org/docs/introduction"
                     containerClassName="firstModule"
                 />
 
                 <Module
                     title="Community Plugins"
                     subtitle="The SDK is just the entry point into the vast pool of 3rd party opensource plugins"
-                    websiteUrl="https://sdk.flexn.org/docs/tutorials/basics/quickstart"
+                    websiteUrl="https://create.flexn.org/docs/tutorials/basics/quickstart"
                 />
             </div>
         </Section>

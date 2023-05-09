@@ -14,14 +14,14 @@ export default function Showcases(): JSX.Element {
             <div className="showcases">
                 <div className="row">
                     <div className={clsx('showcases-left', 'image-box')}>
-                        <Image className="showcases-left-image" src="/img/Showcase1.svg" />
+                        <Image className="showcases-left-image" src="/img/scr-showcase1.svg" />
                     </div>
                     <div className="showcases-right">
                         <div className={clsx('showcase-right', 'image-box')}>
-                            <Image className="showcases-right-image" src="/img/Showcase2.svg" height="80%" />
+                            <Image className="showcases-right-image" src="/img/scr-showcase2.svg" height="80%" />
                         </div>
                         <div className={clsx('showcase-right', 'image-box')}>
-                            <Image className="showcases-right-image" src="/img/Showcase3.svg" />
+                            <Image className="showcases-right-image" src="/img/scr-showcase3.svg" />
                         </div>
                     </div>
                 </div>

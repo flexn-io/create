@@ -31,7 +31,7 @@ You can reach out to us through [@flexn_io](http://twitter.com/flexn_io) (the Fl
 
 ## Helping with Documentation
 
-The Flexn documentation is hosted as part of the Flexn repository at https://github.com/flexn-io/create/docs. The website itself is located at <https://sdk.flexn.org/> and it is built using [Docusaurus](https://docusaurus.io/). If there's anything you'd like to change in the docs, you can get started by clicking on the "Edit" button located on the upper right of most pages in the website.
+The Flexn documentation is hosted as part of the Flexn repository at https://github.com/flexn-io/create/docs. The website itself is located at <https://create.flexn.org/> and it is built using [Docusaurus](https://docusaurus.io/). If there's anything you'd like to change in the docs, you can get started by clicking on the "Edit" button located on the upper right of most pages in the website.
 
 If you are adding new functionality or introducing a change in behavior, we will ask you to update the documentation to reflect your changes.
 

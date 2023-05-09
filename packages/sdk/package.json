@@ -17,7 +17,7 @@
         "android",
         "!android/build",
         "pluginTemplates",
-        "FlexnSDK.podspec",
+        "FlexnCreate.podspec",
         "renative.plugin.json"
     ],
     "publishConfig": {

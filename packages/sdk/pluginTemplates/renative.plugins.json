@@ -476,7 +476,7 @@
             }
         },
         "react-native-web": "source:rnv",
-        "@flexn/create": {
+        "@flexn/sdk": {
             "version": "0.18.0-alpha.8",
             "webpack": {
                 "modulePaths": true,
@@ -492,6 +492,24 @@
             "firetv": {
                 "package": "io.flexn.sdk.FlexnSdkPackage",
                 "projectName": "flexn-io-sdk"
+            }
+        },
+        "@flexn/create": {
+            "version": "0.18.0-alpha.8",
+            "webpack": {
+                "modulePaths": true,
+                "moduleAliases": true
+            },
+            "tvos": {
+                "podName": "FlexnCreate"
+            },
+            "androidtv": {
+                "package": "io.flexn.create.FlexnCreatePackage",
+                "projectName": "flexn-io-create"
+            },
+            "firetv": {
+                "package": "io.flexn.create.FlexnCreatePackage",
+                "projectName": "flexn-io-create"
             }
         },
         "react-native-media-query": {

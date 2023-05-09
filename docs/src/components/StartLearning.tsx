@@ -13,7 +13,7 @@ export default function StartLearning(): JSX.Element {
             remaining essentially unchanged."
         >
             <div className="start-learning">
-                <Image src="/img/StartLearning.svg" />
+                <Image src="/img/start-learning.svg" />
                 <Button
                     onClick={() => history.push('/docs/introduction')}
                     className="button"
