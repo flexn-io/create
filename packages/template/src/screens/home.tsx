@@ -33,7 +33,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                     {...testProps('template-home-screen-flexn-image')}
                 />
                 <Text style={theme.styles.textH1} {...testProps('template-home-screen-welcome-message-text')}>
-                    {'Flexn Create SDK Example'}{' '}
+                    {'Flexn Create Example'}{' '}
                 </Text>
                 <Text style={theme.styles.textH2} {...testProps('template-home-screen-version-number-text')}>
                     v {packageJson.version}{' '}

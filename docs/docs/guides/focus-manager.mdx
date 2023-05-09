@@ -12,10 +12,10 @@ First we need to understand that whole communication between Javascript and nati
 Native Focus Manager works in a way that whole decision making about what to focus next, what's initial focus and so on happens on native side and we as javascript developers have to obey
 to those decisions. The problem is that those decisions are not always right because of various reasons like:
 
-- Each application has it own layout which sometimes can be very complex;
-- Sometimes our application have items which is not perfectly aligned;
-- We have different navigation paradigms in our apps;
-- and so on... 
+-   Each application has it own layout which sometimes can be very complex;
+-   Sometimes our application have items which is not perfectly aligned;
+-   We have different navigation paradigms in our apps;
+-   and so on...
 
 Therefore if we have real world application(something way more complex than "Hello world") we're start hitting the problem when native focus manager proving us wrong
 decisions and focus start working not as we expecting...
@@ -28,29 +28,29 @@ import * as React from 'react';
 import { findNodeHandle, View, TouchableOpacity } from 'react-native';
 
 const MyComponent = () => {
-  const ref1 = React.useRef();
-  const ref2 = React.useRef();
-  const ref3 = React.useRef();
+    const ref1 = React.useRef();
+    const ref2 = React.useRef();
+    const ref3 = React.useRef();
 
-  React.useEffect(() => {
-    ref1.current.setNativeProps({
-      setNextFocusUp: findNodeHandle(ref2.current),
-    });
-    ref2.current.setNativeProps({
-      setNextFocusUp: findNodeHandle(ref3.current),
-    });
-    ref3.current.setNativeProps({
-      setNextFocusDown: findNodeHandle(ref2.current),
-    });
-  }, []);
+    React.useEffect(() => {
+        ref1.current.setNativeProps({
+            setNextFocusUp: findNodeHandle(ref2.current),
+        });
+        ref2.current.setNativeProps({
+            setNextFocusUp: findNodeHandle(ref3.current),
+        });
+        ref3.current.setNativeProps({
+            setNextFocusDown: findNodeHandle(ref2.current),
+        });
+    }, []);
 
-  return (
-    <View>
-      <TouchableOpacity ref={ref1} />
-      <TouchableOpacity ref={ref2} />
-      <TouchableOpacity ref={ref3} />
-    </View>
-  );
+    return (
+        <View>
+            <TouchableOpacity ref={ref1} />
+            <TouchableOpacity ref={ref2} />
+            <TouchableOpacity ref={ref3} />
+        </View>
+    );
 };
 
 export default MyComponent;
@@ -60,11 +60,11 @@ So in this example for Native Focus Manager we're saying that once first Touchab
 will be second TouchableOpacity, second TouchableOpacity on up command will focus last one and last on once down button is pressed will move focus back to 2nd TouchableOpacity.
 Well it looks like we have some control, but it has some fundamental issues like:
 
-- We are communicating with native code and React Native bridge has delay, so usually these focus enforcements makes focus manager do 2 actions: first native default one and second
-our which we wrote in javascript which eventually it can make very bad user experience;
-- Having complex apps which has a lot of different components and screens managing these references become tremendous work which also makes our code base very fragile;
-- This focus enforcement was working on Android TV only, before React Native cut down support for TV's at all and [this library](https://github.com/react-native-tvos/react-native-tvos) was
-created which added support for tvOS also, but it works in slightly different way.
+-   We are communicating with native code and React Native bridge has delay, so usually these focus enforcements makes focus manager do 2 actions: first native default one and second
+    our which we wrote in javascript which eventually it can make very bad user experience;
+-   Having complex apps which has a lot of different components and screens managing these references become tremendous work which also makes our code base very fragile;
+-   This focus enforcement was working on Android TV only, before React Native cut down support for TV's at all and [this library](https://github.com/react-native-tvos/react-native-tvos) was
+    created which added support for tvOS also, but it works in slightly different way.
 
 ## Flexn Focus Manager
 
@@ -90,11 +90,7 @@ import * as React from 'react';
 import { App } from '@flexn/create';
 
 const MyApp = () => {
-  return (
-    <App>
-      ...rest of your code
-    </App>
-  );
+    return <App>...rest of your code</App>;
 };
 
 export default MyApp;
@@ -106,10 +102,10 @@ Screen represents collection of the children's which belongs only for particular
 has to be like that. With Screen you can create things like modals which overlaps the context, side navigation which typically always visible for user whatever you navigate or anything
 else depends on your application structure. There are few important rules working with screens:
 
-- You can never wrap screen into another screen. That doesn't work;
-- Screen must have states. More about those below;
+-   You can never wrap screen into another screen. That doesn't work;
+-   Screen must have states. More about those below;
 
-State of the screen tells focus manager whenever your screen is in foreground and visible for user or it's moved to background. Example bellow shows simple implementation with 
+State of the screen tells focus manager whenever your screen is in foreground and visible for user or it's moved to background. Example bellow shows simple implementation with
 [react-navigation](https://reactnavigation.org/).
 
 ```javascript
@@ -121,91 +117,92 @@ import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 const Stack = createNativeStackNavigator();
 
 const Screen1 = ({ navigation }) => {
-  const [screenState, setScreenState] = React.useState<ScreenStates>('foreground');
+    const [screenState, setScreenState] = React.useState < ScreenStates > 'foreground';
 
-  useFocusEffect(
-    React.useCallback(() => {
-      setScreenState('foreground');
-      return () => {
-        setScreenState('background');
-      };
-    }, [])
-  );
+    useFocusEffect(
+        React.useCallback(() => {
+            setScreenState('foreground');
+            return () => {
+                setScreenState('background');
+            };
+        }, [])
+    );
 
-  return (
-    <Screen style={styles.container} screenState={screenState}>
-      <Pressable style={styles.button} onPress={() => navigation.navigate('myScreen2')}>
-        <Text>Navigate to screen 2</Text>
-      </Pressable>
-      <Pressable style={styles.button}>
-        <Text>Empty action button</Text>
-      </Pressable>
-    </Screen>
-  );
+    return (
+        <Screen style={styles.container} screenState={screenState}>
+            <Pressable style={styles.button} onPress={() => navigation.navigate('myScreen2')}>
+                <Text>Navigate to screen 2</Text>
+            </Pressable>
+            <Pressable style={styles.button}>
+                <Text>Empty action button</Text>
+            </Pressable>
+        </Screen>
+    );
 };
 
 const Screen2 = ({ navigation }) => {
-  const [screenState, setScreenState] = React.useState<ScreenStates>('foreground');
+    const [screenState, setScreenState] = React.useState < ScreenStates > 'foreground';
 
-  useFocusEffect(
-    React.useCallback(() => {
-      setScreenState('foreground');
-      return () => {
-        setScreenState('background');
-      };
-    }, [])
-  );
+    useFocusEffect(
+        React.useCallback(() => {
+            setScreenState('foreground');
+            return () => {
+                setScreenState('background');
+            };
+        }, [])
+    );
 
-  return (
-    <Screen style={styles.container} screenState={screenState}>
-      <Pressable style={styles.button} onPress={() => navigation.navigate('myScreen1')}>
-        <Text>Back to screen 1</Text>
-      </Pressable>
-      <Pressable style={styles.button}>
-        <Text>Empty action button</Text>
-      </Pressable>
-    </Screen>
-  );
+    return (
+        <Screen style={styles.container} screenState={screenState}>
+            <Pressable style={styles.button} onPress={() => navigation.navigate('myScreen1')}>
+                <Text>Back to screen 1</Text>
+            </Pressable>
+            <Pressable style={styles.button}>
+                <Text>Empty action button</Text>
+            </Pressable>
+        </Screen>
+    );
 };
 
 const MyApp = () => {
-  return (
-    <App>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="myScreen1" component={Screen1} />
-          <Stack.Screen name="myScreen2" component={Screen2} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </App>
-  );
+    return (
+        <App>
+            <NavigationContainer>
+                <Stack.Navigator>
+                    <Stack.Screen name="myScreen1" component={Screen1} />
+                    <Stack.Screen name="myScreen2" component={Screen2} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </App>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  button: {
-    margin: 20,
-    borderWidth: 2,
-    borderRadius: 25,
-    borderColor: '#111111',
-    height: 50,
-    width: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+    },
+    button: {
+        margin: 20,
+        borderWidth: 2,
+        borderRadius: 25,
+        borderColor: '#111111',
+        height: 50,
+        width: 200,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
 export default MyApp;
 ```
 
 There are only two states you have to deal with
-- `foreground` means screen is active in the focus finder;
-- `background` screen is removed from the focus finder;
+
+-   `foreground` means screen is active in the focus finder;
+-   `background` screen is removed from the focus finder;
 
 As example above shows we're changing screen state based on your activity. If we are in Screen1 we setting screen state as `foreground` and once we leave that screen `background`
 state is applied. Same story with Screen2.
@@ -215,7 +212,7 @@ state is applied. Same story with Screen2.
 ### Working with modals
 
 The tricky thing with modal is that usually Modal is opened on the top of already active content. In this case focus finder somehow should recognize that we want to search for
-next focusable only in overflowing modal and what if there are more that one Modal on the screen? 
+next focusable only in overflowing modal and what if there are more that one Modal on the screen?
 
 For situation described above Screen offers property called `screenOrder` which allows different screens to overlap which each other at the same time keeping focus to the right place.
 
@@ -224,74 +221,73 @@ import * as React from 'react';
 import { App, Screen, Text, Pressable, StyleSheet } from '@flexn/create';
 
 const MyApp = () => {
-  const [modalOpen, setModalOpen] = React.useState(false);
+    const [modalOpen, setModalOpen] = React.useState(false);
 
-  const renderModal = () => {
-    if (modalOpen) {
-      return (
-        <Screen style={styles.modal} screenOrder={1}>
-          <Pressable style={styles.button}>
-            <Text>Hello from Flexn Create SDK</Text>
-          </Pressable>
-          <Pressable style={styles.button}>
-            <Text>Hello from Flexn Create SDK</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => setModalOpen(false)}>
-            <Text>Close modal</Text>
-          </Pressable>
-        </Screen>
-      );
-    }
+    const renderModal = () => {
+        if (modalOpen) {
+            return (
+                <Screen style={styles.modal} screenOrder={1}>
+                    <Pressable style={styles.button}>
+                        <Text>Hello from Flexn Create</Text>
+                    </Pressable>
+                    <Pressable style={styles.button}>
+                        <Text>Hello from Flexn Create</Text>
+                    </Pressable>
+                    <Pressable style={styles.button} onPress={() => setModalOpen(false)}>
+                        <Text>Close modal</Text>
+                    </Pressable>
+                </Screen>
+            );
+        }
 
-    return null;
-  };
+        return null;
+    };
 
-  return (
-    <App style={{ flex: 1, width: '100%', height: '100%' }}>
-      <Screen style={styles.container}>
-        <Pressable style={styles.button} onPress={() => setModalOpen(true)}>
-          <Text>Open modal</Text>
-        </Pressable>
-      </Screen>
-      {renderModal()}
-    </App>
-  );
+    return (
+        <App style={{ flex: 1, width: '100%', height: '100%' }}>
+            <Screen style={styles.container}>
+                <Pressable style={styles.button} onPress={() => setModalOpen(true)}>
+                    <Text>Open modal</Text>
+                </Pressable>
+            </Screen>
+            {renderModal()}
+        </App>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  modal: {
-    position: 'absolute',
-    left: 150,
-    top: 75,
-    right: 150,
-    bottom: 75,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'red',
-  },
-  button: {
-    margin: 20,
-    borderWidth: 2,
-    borderRadius: 25,
-    borderColor: '#111111',
-    height: 50,
-    width: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+    },
+    modal: {
+        position: 'absolute',
+        left: 150,
+        top: 75,
+        right: 150,
+        bottom: 75,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'red',
+    },
+    button: {
+        margin: 20,
+        borderWidth: 2,
+        borderRadius: 25,
+        borderColor: '#111111',
+        height: 50,
+        width: 200,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
 export default MyApp;
-
 ```
 
-By default `screenOrder` has 0 value. So in this case setting anything else bigger than 0 allows us keep multiple foreground screens in the viewport at the same time overflowing 
+By default `screenOrder` has 0 value. So in this case setting anything else bigger than 0 allows us keep multiple foreground screens in the viewport at the same time overflowing
 each other.
 
 ### Creating custom components
@@ -305,41 +301,41 @@ import * as React from 'react';
 import { App, Screen, Text, Pressable, StyleSheet } from '@flexn/create';
 
 const MyCustomComponent = ({ parentContext }: { parentContext?: any }) => {
-  return (
-    <Pressable parentContext={parentContext} style={styles.focusableElement}>
-      <Text>Hello from Flexn Create SDK</Text>
-    </Pressable>
-  );
+    return (
+        <Pressable parentContext={parentContext} style={styles.focusableElement}>
+            <Text>Hello from Flexn Create</Text>
+        </Pressable>
+    );
 };
 
 const MyApp = () => {
-  return (
-    <App>
-      <Screen style={styles.container}>
-        <Pressable style={styles.focusableElement}>
-          <Text>Hello from Flexn Create SDK</Text>
-        </Pressable>
-        <Pressable style={styles.focusableElement}>
-          <Text>Hello from Flexn Create SDK</Text>
-        </Pressable>
-        <MyCustomComponent />
-      </Screen>
-    </App>
-  );
+    return (
+        <App>
+            <Screen style={styles.container}>
+                <Pressable style={styles.focusableElement}>
+                    <Text>Hello from Flexn Create</Text>
+                </Pressable>
+                <Pressable style={styles.focusableElement}>
+                    <Text>Hello from Flexn Create</Text>
+                </Pressable>
+                <MyCustomComponent />
+            </Screen>
+        </App>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  focusableElement: {
-    width: 250,
-    height: 250,
-    backgroundColor: '#0A74E6',
-    margin: 20,
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    focusableElement: {
+        width: 250,
+        height: 250,
+        backgroundColor: '#0A74E6',
+        margin: 20,
+    },
 });
 
 export default MyApp;
@@ -349,5 +345,3 @@ As you can see in this example we are creating our custom component called `MyCu
 to be passed down to your parent component of return function. After doing that Flexn Focus Manager will take care of the rest.
 
 **IMPORTANT: do not create property for any of your custom component called `parentContext` it's reserved by Flexn Focus Manager.**
-
-

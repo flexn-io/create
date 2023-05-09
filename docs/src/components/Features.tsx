@@ -6,7 +6,7 @@ export default function HomepageFeatures(): JSX.Element {
     return (
         <Section
             title="Features"
-            subtitle="Flexn Create SDK comes with built-in features making multiplatform development easy"
+            subtitle="Flexn Create comes with built-in features making multiplatform development easy"
             separator
         >
             <div>
@@ -19,7 +19,7 @@ export default function HomepageFeatures(): JSX.Element {
                 />
                 <Module
                     title="Powered by ReNative"
-                    subtitle="Flexn Create SDK adds optimised multiplatform UI on top of ReNative ecosystem allowing you take advantage of full project control,
+                    subtitle="Flexn Create adds optimised multiplatform UI on top of ReNative ecosystem allowing you take advantage of full project control,
                 scalability features and deployment pipelines out of the box"
                     websiteUrl="https://renative.org/"
                 />
@@ -27,7 +27,7 @@ export default function HomepageFeatures(): JSX.Element {
             <div>
                 <Module
                     title="Javascript & Typescript"
-                    subtitle="You can use Flexn Create SDK in both Javascript and Typescript environments"
+                    subtitle="You can use Flexn Create in both Javascript and Typescript environments"
                     websiteUrl="https://create.flexn.org/docs/introduction"
                     containerClassName="firstModule"
                 />

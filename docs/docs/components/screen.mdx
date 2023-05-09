@@ -7,128 +7,135 @@ Wrapper component which should be wrapping each screen. It has actual functional
 Screen defines the context of the page and tells Focus Manager about your app structure. Screen can't ever be inside another Screen.
 
 ## Usage
+
 ```javascript
 import * as React from 'react';
 import { Text } from 'react-native';
 import { App, Screen, StyleSheet } from '@flexn/create';
 
 const MyScreen = () => {
-  return (
-    <App>
-      <Screen style={styles.container}>
-        <Text style={styles.text}>Hello from Flexn Create SDK!</Text>
-      </Screen>
-    </App>
-  );
+    return (
+        <App>
+            <Screen style={styles.container}>
+                <Text style={styles.text}>Hello from Flexn Create!</Text>
+            </Screen>
+        </App>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  text: {
-    fontSize: 22,
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+    },
+    text: {
+        fontSize: 22,
+    },
 });
 
 export default MyScreen;
 ```
 
-
 ## Props
 
-<Prop value="children" /><Badge required /> 
+<Prop value="children" />
+<Badge required />{' '}
 
-Type: *React.ReactNode*
+Type: _React.ReactNode_
 
 Content of the Screen
 
-------------------------------------------------------------
+---
 
-<Prop value="screenState" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+<Prop value="screenState" />
+<Badge value="Android TV, Fire TV, Apple TV" platform />{' '}
 
-Type: *foreground | background*
+Type: _foreground | background_
 
 Default value: `foreground`
 
-If screen has `background` state it remains in the memory, but it's excluded from the Focus Manager engine. That means Focus Manager ignoring that screen when 
+If screen has `background` state it remains in the memory, but it's excluded from the Focus Manager engine. That means Focus Manager ignoring that screen when
 trying to find next focusable element.
 
-------------------------------------------------------------
+---
 
-<Prop value="screenOrder" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+<Prop value="screenOrder" />
+<Badge value="Android TV, Fire TV, Apple TV" platform />{' '}
 
-Type: *number*
+Type: _number_
 
 Default value: `0`
 
-Property which is very useful working with modals. You can have multiple `foreground` screens at the same time which overlapping each other, but once you define 
+Property which is very useful working with modals. You can have multiple `foreground` screens at the same time which overlapping each other, but once you define
 `screenOrder` property Focus Manager searching for next focusable element only in those screens which has higher `screenOrder`.
 
-------------------------------------------------------------
+---
 
-<Prop value="stealFocus" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+<Prop value="stealFocus" />
+<Badge value="Android TV, Fire TV, Apple TV" platform />{' '}
 
-Type: *boolean*
+Type: _boolean_
 
 Default value: `true`
 
 If there are more screens on the singe page this property tells Focus Manager in which Screen context focus should be initially placed.
 
-------------------------------------------------------------
+---
 
 <Prop value="style" />
 
-Type: *StyleProp< TextStyle >*
+Type: _StyleProp< TextStyle >_
 
 Styles for the View.
 
-------------------------------------------------------------
+---
 
-<Prop value="onFocus" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+<Prop value="onFocus" />
+<Badge value="Android TV, Fire TV, Apple TV" platform />{' '}
 
-Type: *() => void*
+Type: _() => void_
 
 Event fired when screen gains focus.
 
-------------------------------------------------------------
+---
 
-<Prop value="onBlur" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+<Prop value="onBlur" />
+<Badge value="Android TV, Fire TV, Apple TV" platform />{' '}
 
-Type: *() => void*
+Type: _() => void_
 
 Event fired when screen lose focus.
 
-------------------------------------------------------------
+---
 
-<Prop value="focusOptions" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+<Prop value="focusOptions" />
+<Badge value="Android TV, Fire TV, Apple TV" platform />{' '}
 
-Type: *ScreenFocusOptions*
+Type: _ScreenFocusOptions_
 
 Property which holds following related properties:
 
 <Prop value="forbiddenFocusDirections" subProperty />
 
-Type: *ForbiddenFocusDirections[]*
+Type: _ForbiddenFocusDirections[]_
 
-Can contain one or more directions. It prevents screen to lose focus when specific direction is defined and that direction remote control button is pressed. 
+Can contain one or more directions. It prevents screen to lose focus when specific direction is defined and that direction remote control button is pressed.
 
-<Prop value="focusKey" subProperty/>
+<Prop value="focusKey" subProperty />
 
-Type: *string*
+Type: _string_
 
 An unique string which can be used to force focus on specific foreground screen by `focusKey`.
 
 <Prop value="horizontalWindowAlignment" subProperty />
 
-Type: *both-edge | low-edge*
+Type: _both-edge | low-edge_
 
 Default value: `low-edge`
 
-Property which makes viewport of the screen horizontally align according to provided value. 
+Property which makes viewport of the screen horizontally align according to provided value.
 
 When `low-edge` is defined then viewport is allways keeping focused element at the top of the screen.
 
@@ -136,7 +143,7 @@ When `both-edge` is defined then focused element is kept more less within the to
 
 <Prop value="verticalWindowAlignment" subProperty />
 
-Type: *both-edge | low-edge*
+Type: _both-edge | low-edge_
 
 Default value: `low-edge`
 

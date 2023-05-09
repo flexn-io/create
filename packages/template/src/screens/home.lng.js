@@ -39,7 +39,7 @@ export default class Home extends Lightning.Component {
                 src: Utils.asset('logo.png'),
                 flexItem: { marginBottom: 50 },
             },
-            Text1: this._renderText('Flexn Create SDK Example', 56),
+            Text1: this._renderText('Flexn Create Example', 56),
             Text2: this._renderText(`v ${packageJson.version}`, 40),
             Text3: this._renderText('platform: tizen/webos', 30),
             Text4: this._renderText('factor: tv', 30),

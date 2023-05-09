@@ -76,7 +76,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
         contentContainerStyle={theme.styles.container}
       >
         <Image style={theme.styles.image} source={ICON_LOGO} />
-        <Text style={theme.styles.textH1}>{'Flexn Create SDK Example'}</Text>
+        <Text style={theme.styles.textH1}>{'Flexn Create Example'}</Text>
         <Text style={theme.styles.textH2}>v {packageJson.version}</Text>
         <Text style={theme.styles.textH3}>{`platform: ${Api.platform}`}</Text>
         <Text style={theme.styles.textH3}>{`factor: ${Api.formFactor}`}</Text>

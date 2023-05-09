@@ -39,7 +39,7 @@ If you are adding new functionality or introducing a change in behavior, we will
 
 Code-level contributions to Flexn generally come in the form of [pull requests](https://help.github.com/en/articles/about-pull-requests). These are done by forking the repo and making changes locally. Directly in the repo, there is the [`template` app](/packages/template) that you can install on your device (or simulators) and use to test the changes you're making to Flexn sources.
 
-The process of proposing a change to Flexn Create SDK can be summarized as follows:
+The process of proposing a change to Flexn Create can be summarized as follows:
 
 1. Fork the Flexn repository and create your branch from `main`.
 2. Make the desired changes to Flexn sources. Use the `packages/template` and `packages/harness` app to test them out.

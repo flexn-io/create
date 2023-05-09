@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-    title: 'Flexn Create SDK',
+    title: 'Flexn Create',
     tagline: 'Multiplatform is easy',
     url: 'https://create.flexn.org',
     baseUrl: '/',
@@ -45,7 +45,8 @@ const config = {
         ({
             navbar: {
                 logo: {
-                    alt: 'Flexn Logo',
+                    title: 'Create',
+                    alt: 'Flexn Create',
                     src: 'img/create-logo.svg',
                 },
                 items: [
