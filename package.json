@@ -83,28 +83,26 @@
         "release-alpha": "lerna version --force-publish --no-git-tag-version --no-push && yarn update-versions && yarn gitCommit && lerna publish from-package --dist-tag alpha --yes && yarn gitTag",
         "release-feat": "lerna version --force-publish --no-git-tag-version --no-push && yarn update-versions && yarn gitCommit && lerna publish from-package --dist-tag feat --yes && yarn gitTag",
         "release-dry": "lerna version --force-publish --no-git-tag-version --no-push && npx rnv hooks run -x updateVersions",
-        "deploy-packages": "npm run deploy-all && npx lerna publish from-package --yes && git push origin HEAD"
+        "deploy-packages": "npm run deploy-all && npx lerna publish from-package --yes && git push origin HEAD",
+        "prettier-write-all": "npx prettier '**/*.{js,jsx,ts,tsx,mjs,cjs,json,md}' --write --config .prettierrc.js",
+        "prettier-write-json": "npx prettier '**/{package.json,renative.plugins.json,renative.json}' --write --config .prettierrc.js"
     },
     "devDependencies": {
-        "@flexn/eslint-config": "0.1.4",
+        "@flexn/eslint-config": "0.1.5",
         "@flexn/prettier-config": "0.1.4",
-        "@flexn/typescript": "0.1.4",
-        "@types/jest": "^27.0.2",
+        "@flexn/typescript": "0.2.4",
+        "@types/jest": "27.0.2",
         "@types/lodash-es": "4.17.5",
         "@types/lodash.debounce": "^4.0.6",
-        "@types/node": "^16.11.7",
+        "@types/node": "16.11.7",
         "@types/react": "17.0.41",
         "@types/react-dom": "17.0.11",
         "@types/react-native": "0.67.2",
-        "@typescript-eslint/eslint-plugin": "^5.4.0",
-        "@typescript-eslint/parser": "^5.4.0",
-        "concurrently": "7.0.0",
-        "eslint": "^8.2.0",
         "google-drive-connect": "^1.1.2",
         "googleapis": "39",
         "husky": "4.2.5",
         "isomorphic-unfetch": "^3.1.0",
-        "jest": "^27.3.1",
+        "jest": "27.3.1",
         "lerna": "4.0.0",
         "lint-staged": "8.1.0",
         "rimraf": "^2.6.3",
@@ -112,10 +110,19 @@
         "simple-git": "^2.46.0",
         "ts-jest": "^27.0.7",
         "tslib": "2.4.1",
-        "typescript": "4.7.4"
+        "typescript": "4.7.4",
+        "prettier": "2.3.1",
+        "eslint": "8.7.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-react": "^7.29.4",
+        "eslint-plugin-react-hooks": "^4.3.0",
+        "@typescript-eslint/eslint-plugin": "^5.22.0",
+        "@typescript-eslint/parser": "^5.22.0"
     },
     "resolutions": {
-        "resolve": "2.0.0-next.3"
+        "resolve": "2.0.0-next.3",
+        "@types/react": "17.0.41",
+        "tslib": "2.4.0"
     },
     "husky": {
         "hooks": {
