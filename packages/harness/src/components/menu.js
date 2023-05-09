@@ -1,4 +1,4 @@
-import { Text, View } from '@flexn/sdk';
+import { Text, View } from '@flexn/create';
 import React from 'react';
 import { Button, getScaledValue, Icon, StyleSheet, useNavigate, useOpenDrawer } from '@rnv/renative';
 import Theme, { hasHorizontalMenu, ROUTES, themeStyles } from '../config';

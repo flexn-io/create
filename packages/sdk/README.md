@@ -1,1 +1,1 @@
-# @flexn/sdk
+# @flexn/create

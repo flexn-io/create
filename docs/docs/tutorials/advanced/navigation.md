@@ -129,7 +129,7 @@ The next is desktop navigation create a file called `src/navigation/index.deskto
 ```javascript
 import React, { useContext, useEffect } from 'react';
 import { StatusBar } from 'react-native';
-import { View } from '@flexn/sdk';
+import { View } from '@flexn/create';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import ScreenHome from '../screens/home';
@@ -199,7 +199,7 @@ As you can see we're using `createNativeStackNavigator` instead if `createStackN
 
 ```javascript
 import React, { useEffect, useCallback } from 'react';
-import { View } from '@flexn/sdk';
+import { View } from '@flexn/create';
 import { TVMenuControl, StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
@@ -401,7 +401,7 @@ And finally create `src/pages/_app.tsx` define our pages wrapper and add top [me
 
 ```javascript
 import React from 'react';
-import { View } from '@flexn/sdk';
+import { View } from '@flexn/create';
 import Menu from '../components/menu';
 import { themeStyles, ThemeProvider } from '../config';
 

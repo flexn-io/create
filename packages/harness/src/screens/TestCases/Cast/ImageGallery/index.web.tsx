@@ -1,1 +1,1 @@
-export { View as default } from '@flexn/sdk';
+export { View as default } from '@flexn/create';

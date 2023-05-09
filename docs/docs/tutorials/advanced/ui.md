@@ -374,7 +374,7 @@ On web and mobile our menu needs to be just a View, which wraps all the menu ite
 
 ```typescript
 import React, { useContext, useState } from 'react';
-import { View, TouchableOpacity, Text } from '@flexn/sdk';
+import { View, TouchableOpacity, Text } from '@flexn/create';
 import { testProps } from '../utils';
 import { isFactorBrowser } from '@rnv/renative';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -506,7 +506,7 @@ However, default animations and layout from react navigation don't work that wel
 ```typescript
 import React, { useContext, useRef } from 'react';
 import { Animated } from 'react-native';
-import { TouchableOpacity, Text, Screen } from '@flexn/sdk';
+import { TouchableOpacity, Text, Screen } from '@flexn/create';
 import { testProps } from '../utils';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ThemeContext, ROUTES, Ratio } from '../config';

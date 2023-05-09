@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from '@flexn/sdk';
+import { ScrollView, Text, View } from '@flexn/create';
 import * as Sentry from '@sentry/react-native';
 import React from 'react';
 import { useNavigate } from '../../hooks/navigation';

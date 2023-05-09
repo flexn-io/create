@@ -1,5 +1,5 @@
 import { Lightning } from '@lightningjs/sdk';
-import { Row } from '@flexn/sdk';
+import { Row } from '@flexn/create';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 

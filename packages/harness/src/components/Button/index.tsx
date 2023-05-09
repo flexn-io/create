@@ -1,4 +1,4 @@
-import { Pressable, Text, Icon } from '@flexn/sdk';
+import { Pressable, Text, Icon } from '@flexn/create';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { getScaledValue } from '@rnv/renative';

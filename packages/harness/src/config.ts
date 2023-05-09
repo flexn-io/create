@@ -10,7 +10,7 @@ import {
     // registerServiceWorker,
 } from '@rnv/renative';
 import '../platformAssets/runtime/fontManager';
-import { StyleSheet } from '@flexn/sdk';
+import { StyleSheet } from '@flexn/create';
 
 import Config from '../platformAssets/renative.runtime.json';
 export { default as ICON_LOGO } from '../platformAssets/runtime/logo.png';

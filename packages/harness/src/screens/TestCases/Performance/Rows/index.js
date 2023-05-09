@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from '@flexn/sdk';
+import { ScrollView, Text, View } from '@flexn/create';
 import React from 'react';
 import { isPlatformWeb } from '@rnv/renative';
 import { useNavigate } from '../../../../../hooks/navigation';

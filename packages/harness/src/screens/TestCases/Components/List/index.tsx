@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, View } from '@flexn/sdk';
+import { List, View } from '@flexn/create';
 import Screen from '../../../../components/Screen';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];

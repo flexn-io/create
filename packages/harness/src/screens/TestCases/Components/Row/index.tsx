@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, View} from '@flexn/sdk';
+import { Row, View} from '@flexn/create';
 import Screen from '../../../../components/Screen';
 
 

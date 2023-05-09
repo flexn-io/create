@@ -1,3 +1,3 @@
-import { Screen } from '@flexn/sdk';
+import { Screen } from '@flexn/create';
 
 export default Screen;

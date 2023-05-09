@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from 'react';
 import { Animated } from 'react-native';
-import { TouchableOpacity, Text, Screen } from '@flexn/sdk';
+import { TouchableOpacity, Text, Screen } from '@flexn/create';
 import { testProps } from '../utils';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ThemeContext, ROUTES, Ratio } from '../config';

@@ -7,7 +7,7 @@ import {
     Screen,
     ScrollView,
     View,
-} from '@flexn/sdk';
+} from '@flexn/create';
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { getScaledValue } from '@rnv/renative';

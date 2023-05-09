@@ -1,4 +1,4 @@
-import { View } from '@flexn/sdk';
+import { View } from '@flexn/create';
 import { useRouter } from 'next/router';
 import React from 'react';
 import Menu from '../components/menu';

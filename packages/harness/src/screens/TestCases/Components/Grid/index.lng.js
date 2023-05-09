@@ -1,5 +1,5 @@
 import { Lightning } from '@lightningjs/sdk';
-import { Grid as FlexnGrid } from '@flexn/sdk';
+import { Grid as FlexnGrid } from '@flexn/create';
 
 // const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 

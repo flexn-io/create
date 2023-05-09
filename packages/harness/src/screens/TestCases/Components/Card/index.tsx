@@ -1,5 +1,5 @@
 import React from 'react';
-import { PosterCard } from '@flexn/sdk';
+import { PosterCard } from '@flexn/create';
 import Screen from '../../../../components/Screen';
 
 const CardTest = () => {

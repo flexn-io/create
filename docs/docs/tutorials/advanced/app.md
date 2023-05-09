@@ -143,7 +143,7 @@ Only one final step remains before our application file is ready - TV Focus (you
 
 ```typescript
 import React from 'react';
-import { App as SDKApp, Debugger } from '@flexn/sdk';
+import { App as SDKApp, Debugger } from '@flexn/create';
 import { ThemeProvider } from '../config';
 import Navigation from '../navigation';
 

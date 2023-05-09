@@ -4,7 +4,7 @@ import {
     ScrollView,
     Text,
     Pressable
-} from '@flexn/sdk';
+} from '@flexn/create';
 
 const RecalculateLayout = () => {
     const [borderWidth, setBorderWidth] = useState(1);

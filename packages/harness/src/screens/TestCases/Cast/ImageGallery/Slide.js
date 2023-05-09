@@ -1,4 +1,4 @@
-import { Image, TouchableOpacity, Text, View } from '@flexn/sdk';
+import { Image, TouchableOpacity, Text, View } from '@flexn/create';
 import React from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
 import { ParallaxImage } from 'react-native-snap-carousel';

@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from '@flexn/sdk';
+import { ScrollView, Text, View } from '@flexn/create';
 import React from 'react';
 import { Button, usePop } from '@rnv/renative';
 import Theme, { themeStyles } from '../config';

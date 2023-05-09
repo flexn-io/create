@@ -1,4 +1,4 @@
-import { Text } from '@flexn/sdk';
+import { Text } from '@flexn/create';
 import React from 'react';
 import Screen from '../../../../../components/Screen';
 import Theme from '../../../../../config';

@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { Text, View, ScrollView, TouchableOpacity, Image, ANIMATION_TYPES } from '@flexn/sdk';
+import { Text, View, ScrollView, TouchableOpacity, Image, ANIMATION_TYPES } from '@flexn/create';
 import { Api } from '@rnv/renative';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ROUTES, ICON_LOGO, ThemeContext } from '../config';
@@ -28,7 +28,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                 contentContainerStyle={theme.styles.container}
             >
                 <Image style={theme.styles.image} source={ICON_LOGO} {...testProps('template-home-screen-flexn-image')} />
-                <Text style={theme.styles.textH1} {...testProps('template-home-screen-welcome-message-text')} >{'Flexn SDK Example'} </Text>
+                <Text style={theme.styles.textH1} {...testProps('template-home-screen-welcome-message-text')} >{'Flexn Create SDK Example'} </Text>
                 <Text style={theme.styles.textH2} {...testProps('template-home-screen-version-number-text')} >v {packageJson.version} </Text>
                 <Text style={theme.styles.textH3}>{`platform: ${Api.platform}`}</Text>
                 <Text style={theme.styles.textH3}>{`factor: ${Api.formFactor}`}</Text>
@@ -62,7 +62,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                 <Text style={[theme.styles.textH3, { marginTop: 20 }]}>Explore more</Text>
                 <View style={{ marginTop: 10, flexDirection: 'row' }}>
                     <TouchableOpacity
-                        onPress={() => openURL('https://github.com/flexn-io/flexn')}
+                        onPress={() => openURL('https://github.com/flexn-io/create')}
                         style={theme.styles.icon}
                         focusOptions={{
                             forbiddenFocusDirections: ['left'],

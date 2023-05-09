@@ -1,5 +1,5 @@
 import React from 'react';
-import { PosterCard, ScrollView, View } from '@flexn/sdk';
+import { PosterCard, ScrollView, View } from '@flexn/create';
 import Screen from '../../../../components/Screen';
 
 const CardTest = () => {

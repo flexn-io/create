@@ -17,7 +17,7 @@
         "platformBuildsDir": "./platformBuilds",
         "pluginTemplates": {
             "flexn": {
-                "npm": "@flexn/sdk",
+                "npm": "@flexn/create",
                 "path": "./pluginTemplates"
             }
         }
@@ -54,7 +54,7 @@
     "isMonorepo": true,
     "isTemplate": true,
     "plugins": {
-        "@flexn/sdk": {
+        "@flexn/create": {
             "version": "0.18.0-alpha.8",
             "webpack": {
                 "modulePaths": true,

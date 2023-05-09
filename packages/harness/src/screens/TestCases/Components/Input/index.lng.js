@@ -1,5 +1,5 @@
 import { Lightning } from '@lightningjs/sdk';
-import { TextInput } from '@flexn/sdk';
+import { TextInput } from '@flexn/create';
 
 export default class InputTest extends Lightning.Component {
     static _template() {

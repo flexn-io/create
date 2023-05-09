@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text, ScrollView } from '@flexn/sdk';
+import { TouchableOpacity, Text, ScrollView } from '@flexn/create';
 import React from 'react';
 import Screen from '../../../../components/Screen';
 import { themeStyles } from '../../../../config';

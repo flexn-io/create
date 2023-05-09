@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
-import { View } from '@flexn/sdk';
+import { View } from '@flexn/create';
 import { TVMenuControl, StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {

@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text, ScrollView } from '@flexn/sdk';
+import { TouchableOpacity, Text, ScrollView } from '@flexn/create';
 import React from 'react';
 import { Dimensions } from 'react-native';
 import Screen from '../../../../components/Screen';

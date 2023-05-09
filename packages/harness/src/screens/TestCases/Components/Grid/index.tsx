@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from '@flexn/sdk';
+import { Grid } from '@flexn/create';
 import Screen from '../../../../components/Screen';
 
 function generateData(width, height, items = 50) {

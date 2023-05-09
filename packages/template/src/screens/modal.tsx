@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Text, View, ScrollView, TouchableOpacity } from '@flexn/sdk';
+import { Text, View, ScrollView, TouchableOpacity } from '@flexn/create';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ThemeContext } from '../config';
 import { usePop } from '../hooks';

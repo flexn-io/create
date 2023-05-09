@@ -77,17 +77,17 @@ like focus animations to native code. Having this combination in mind we managed
 
 ## How to use it
 
-Nevertheless Flexn Focus Manager is simple enough it has some fundamental rules which we need to comply to use it right. All primitive components must be exported from `@flexn/sdk` since
+Nevertheless Flexn Focus Manager is simple enough it has some fundamental rules which we need to comply to use it right. All primitive components must be exported from `@flexn/create` since
 each of them are designed for Flexn Focus Manager and helps it to understand our application layout. API for each component is described in section above so here we will go through some
 real app examples and rules.
 
 ### Root of your app
 
-Root of your application must be wrapped with `import { App } from '@flexn/sdk';` it's a single import which initialize Flexn Focus Manager events to be accessible within whole app.
+Root of your application must be wrapped with `import { App } from '@flexn/create';` it's a single import which initialize Flexn Focus Manager events to be accessible within whole app.
 
 ```javascript
 import * as React from 'react';
-import { App } from '@flexn/sdk';
+import { App } from '@flexn/create';
 
 const MyApp = () => {
   return (
@@ -114,7 +114,7 @@ State of the screen tells focus manager whenever your screen is in foreground an
 
 ```javascript
 import * as React from 'react';
-import { App, Screen, Text, Pressable, StyleSheet, ScreenStates } from '@flexn/sdk';
+import { App, Screen, Text, Pressable, StyleSheet, ScreenStates } from '@flexn/create';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 
@@ -221,7 +221,7 @@ For situation described above Screen offers property called `screenOrder` which 
 
 ```javascript
 import * as React from 'react';
-import { App, Screen, Text, Pressable, StyleSheet } from '@flexn/sdk';
+import { App, Screen, Text, Pressable, StyleSheet } from '@flexn/create';
 
 const MyApp = () => {
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -231,10 +231,10 @@ const MyApp = () => {
       return (
         <Screen style={styles.modal} screenOrder={1}>
           <Pressable style={styles.button}>
-            <Text>Hello from Flexn SDK</Text>
+            <Text>Hello from Flexn Create SDK</Text>
           </Pressable>
           <Pressable style={styles.button}>
-            <Text>Hello from Flexn SDK</Text>
+            <Text>Hello from Flexn Create SDK</Text>
           </Pressable>
           <Pressable style={styles.button} onPress={() => setModalOpen(false)}>
             <Text>Close modal</Text>
@@ -297,17 +297,17 @@ each other.
 ### Creating custom components
 
 Flexn Focus Manager understand app layout by creating `context` for each element in focus equation. Context holds all necessary information of element for focus manager.
-All primitive components which is exported from `@flexn/sdk` taking care of holding and passing context down to other elements by itself, but if you have created your custom component
+All primitive components which is exported from `@flexn/create` taking care of holding and passing context down to other elements by itself, but if you have created your custom component
 this needs to be done by manually(which is very easy):
 
 ```javascript
 import * as React from 'react';
-import { App, Screen, Text, Pressable, StyleSheet } from '@flexn/sdk';
+import { App, Screen, Text, Pressable, StyleSheet } from '@flexn/create';
 
 const MyCustomComponent = ({ parentContext }: { parentContext?: any }) => {
   return (
     <Pressable parentContext={parentContext} style={styles.focusableElement}>
-      <Text>Hello from Flexn SDK</Text>
+      <Text>Hello from Flexn Create SDK</Text>
     </Pressable>
   );
 };
@@ -317,10 +317,10 @@ const MyApp = () => {
     <App>
       <Screen style={styles.container}>
         <Pressable style={styles.focusableElement}>
-          <Text>Hello from Flexn SDK</Text>
+          <Text>Hello from Flexn Create SDK</Text>
         </Pressable>
         <Pressable style={styles.focusableElement}>
-          <Text>Hello from Flexn SDK</Text>
+          <Text>Hello from Flexn Create SDK</Text>
         </Pressable>
         <MyCustomComponent />
       </Screen>

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, TouchableOpacity, Text } from '@flexn/sdk';
+import { View, TouchableOpacity, Text } from '@flexn/create';
 import { testProps } from '../utils';
 import { isFactorBrowser } from '@rnv/renative';
 import Icon from 'react-native-vector-icons/Ionicons';

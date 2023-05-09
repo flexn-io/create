@@ -1,4 +1,4 @@
-import { View } from '@flexn/sdk';
+import { View } from '@flexn/create';
 import { navigate, Router } from '@reach/router';
 import React, { useEffect } from 'react';
 import Menu from '../components/menu';

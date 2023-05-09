@@ -1,6 +1,6 @@
 // /* eslint-disable react-hooks/rules-of-hooks */
 
-import { ScrollView, Text, View } from '@flexn/sdk';
+import { ScrollView, Text, View } from '@flexn/create';
 import * as Sentry from '@sentry/react-native';
 import React, { useEffect, useState } from 'react';
 import { PixelRatio } from 'react-native';

@@ -8,7 +8,7 @@ import {
     RecyclableList,
     RecyclableListDataProvider,
     RecyclableListLayoutProvider,
-} from '@flexn/sdk';
+} from '@flexn/create';
 import { useEffect } from 'react';
 
 const Row = ({ parentContext, data, uniqueId, cachePosition, getCachePosition, repeatContext, index }) => {

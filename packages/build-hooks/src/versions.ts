@@ -6,7 +6,7 @@ const { readObjectSync, writeFileSync } = FileUtils;
 const { logHook } = Logger;
 
 //TODO: not useful unless we use independent versioning
-// const VERSIONED_PACKAGES = ['@flexn/sdk', '@flexn/template'];
+// const VERSIONED_PACKAGES = ['@flexn/create', '@flexn/template'];
 
 
 

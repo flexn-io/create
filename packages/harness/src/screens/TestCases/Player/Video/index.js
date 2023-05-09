@@ -1,4 +1,4 @@
-import { Text, View } from '@flexn/sdk';
+import { Text, View } from '@flexn/create';
 import React, { useEffect } from 'react';
 import { Button } from '@rnv/renative';
 import { themeStyles } from '../../../../config';

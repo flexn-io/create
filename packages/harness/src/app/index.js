@@ -1,4 +1,4 @@
-import { App, Debugger } from '@flexn/sdk';
+import { App, Debugger } from '@flexn/create';
 import { DarkTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from '@react-navigation/stack';

@@ -6,7 +6,7 @@ import {
     ScrollView,
     ActivityIndicator,
     ANIMATION_TYPES,
-} from '@flexn/sdk';
+} from '@flexn/create';
 import React, { useContext, useState, useEffect } from 'react';
 import { isPlatformWeb } from '@rnv/renative';
 import { ThemeContext, ROUTES } from '../config';

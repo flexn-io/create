@@ -1,4 +1,4 @@
-import { Text, View } from '@flexn/sdk';
+import { Text, View } from '@flexn/create';
 import React, { useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import Carousel from 'react-native-snap-carousel';

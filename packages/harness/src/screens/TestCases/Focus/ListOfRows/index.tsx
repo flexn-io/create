@@ -7,7 +7,7 @@ import {
     RecyclableList,
     RecyclableListDataProvider,
     RecyclableListLayoutProvider,
-} from '@flexn/sdk';
+} from '@flexn/create';
 
 import ContextHelper from './ContextHelper';
 import Row from './row';

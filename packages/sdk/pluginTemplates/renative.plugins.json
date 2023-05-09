@@ -504,7 +504,7 @@
             }
         },
         "react-native-web": "source:rnv",
-        "@flexn/sdk": {
+        "@flexn/create": {
             "version": "0.18.0-alpha.8",
             "webpack": {
                 "modulePaths": true,

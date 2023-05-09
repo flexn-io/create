@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { ScrollView, Text, View } from '@flexn/sdk';
+import { ScrollView, Text, View } from '@flexn/create';
 import React, { useState } from 'react';
 import { useNavigate } from '@rnv/renative';
 // @ts-expect-error will only exist after rnv run

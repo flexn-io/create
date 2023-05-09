@@ -1,5 +1,5 @@
 import { Lightning } from '@lightningjs/sdk';
-import { Pressable } from '@flexn/sdk';
+import { Pressable } from '@flexn/create';
 
 export default class Press extends Lightning.Component {
     static _template() {

@@ -3,9 +3,9 @@
     "version": "0.18.0-alpha.8",
     "description": "Flexn Template",
     "keywords": [],
-    "homepage": "https://github.com/flexn-io/flexn#readme",
+    "homepage": "https://github.com/flexn-io/create#readme",
     "bugs": {
-        "url": "https://github.com/flexn-io/flexn/issues"
+        "url": "https://github.com/flexn-io/create/issues"
     },
     "license": "MIT",
     "author": "Flexn BV",
@@ -24,7 +24,7 @@
     "repository": {
         "directory": "packages/template",
         "type": "git",
-        "url": "git+https://github.com/flexn-io/flexn.git"
+        "url": "git+https://github.com/flexn-io/create.git"
     },
     "scripts": {
         "bootstrap": "cd ../.. && yarn bootstrap",
@@ -65,7 +65,7 @@
     },
     "devDependencies": {
         "@flexn/graybox": "0.18.0-alpha.8",
-        "@flexn/sdk": "0.18.0-alpha.8",
+        "@flexn/create": "0.18.0-alpha.8",
         "@flexn/typescript": "0.1.4",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/masked-view": "0.1.6",

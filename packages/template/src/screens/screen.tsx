@@ -1,4 +1,4 @@
-import { Screen as FMScreen, ScreenProps, ScreenStates } from '@flexn/sdk';
+import { Screen as FMScreen, ScreenProps, ScreenStates } from '@flexn/create';
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '../hooks';
 

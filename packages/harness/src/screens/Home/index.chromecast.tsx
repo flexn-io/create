@@ -1,4 +1,4 @@
-import { Image, ScrollView, Text, View } from '@flexn/sdk';
+import { Image, ScrollView, Text, View } from '@flexn/create';
 import React from 'react';
 import { ICON_LOGO, themeStyles, CONFIG } from '../../config';
 

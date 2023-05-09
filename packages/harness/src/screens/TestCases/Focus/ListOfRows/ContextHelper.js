@@ -1,4 +1,4 @@
-import { ContextProvider } from '@flexn/sdk';
+import { ContextProvider } from '@flexn/create';
 
 export default class ContextHelper extends ContextProvider {
     constructor(uniqueKey) {

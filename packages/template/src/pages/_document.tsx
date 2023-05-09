@@ -16,7 +16,7 @@ class MyDocument extends Document {
         return (
             <Html lang="en">
                 <Head>
-                    <meta name="description" content="Flexn SDK Example" />
+                    <meta name="description" content="Flexn Create SDK Example" />
                     <link rel="shortcut icon" href="/favicon.ico" />
                 </Head>
                 <body>

@@ -1,4 +1,4 @@
-import { Image, TouchableOpacity, ScrollView, Text, View } from '@flexn/sdk';
+import { Image, TouchableOpacity, ScrollView, Text, View } from '@flexn/create';
 import { FlatList } from 'react-native';
 import React from 'react';
 import { themeStyles } from '../../../../../config';

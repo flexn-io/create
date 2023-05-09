@@ -1,4 +1,4 @@
-import { List, View } from '@flexn/sdk';
+import { List, View } from '@flexn/create';
 import React, { useContext } from 'react';
 import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv/renative';
 import { ThemeContext, ROUTES, Ratio } from '../config';

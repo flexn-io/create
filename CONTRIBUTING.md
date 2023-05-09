@@ -14,12 +14,12 @@ As a reminder, all contributors are expected to adhere to the [Code of Conduct](
 
 ## Ways to Contribute
 
-If you are eager to start contributing code right away, we have a list of [good first issues](https://github.com/flexn-io/flexn/labels/good%20first%20issue) that contain bugs which have a relatively limited scope. As you gain more experience and demonstrate a commitment to evolving Flexn, you may be granted issue management permissions in the repository.
+If you are eager to start contributing code right away, we have a list of [good first issues](https://github.com/flexn-io/create/labels/good%20first%20issue) that contain bugs which have a relatively limited scope. As you gain more experience and demonstrate a commitment to evolving Flexn, you may be granted issue management permissions in the repository.
 
 There are other ways you can contribute without writing a single line of code. Here are a few things you can do to help out:
 
 1. **Replying and handling open issues.** We get a lot of issues every day, and some of them may lack necessary information. You can help out by guiding people through the process of filling out the issue template, asking for clarifying information, or pointing them to existing issues that match their description of the problem. 
-2. **Reviewing pull requests for the docs.** Reviewing [documentation updates](https://github.com/flexn-io/flexn/pulls) can be as simple as checking for spelling and grammar. If you encounter situations that can be explained better in the docs, click **Edit** at the top of most docs pages to get started with your own contribution.
+2. **Reviewing pull requests for the docs.** Reviewing [documentation updates](https://github.com/flexn-io/create/pulls) can be as simple as checking for spelling and grammar. If you encounter situations that can be explained better in the docs, click **Edit** at the top of most docs pages to get started with your own contribution.
 3. **Help people write test plans.** Some pull requests sent to the main repository may lack a proper test plan. These help reviewers understand how the change was tested, and can speed up the time it takes for a contribution to be accepted.
 
 Each of these tasks is highly impactful, and maintainers will greatly appreciate your help.
@@ -34,7 +34,7 @@ You can reach out to us through [@flexn_io](http://twitter.com/flexn_io) (the Fl
 
 ## Helping with Documentation
 
-The Flexn documentation is hosted as part of the Flexn repository at https://github.com/flexn-io/flexn/docs. The website itself is located at <https://sdk.flexn.org/> and it is built using [Docusaurus](https://docusaurus.io/). If there's anything you'd like to change in the docs, you can get started by clicking on the "Edit" button located on the upper right of most pages in the website.
+The Flexn documentation is hosted as part of the Flexn repository at https://github.com/flexn-io/create/docs. The website itself is located at <https://sdk.flexn.org/> and it is built using [Docusaurus](https://docusaurus.io/). If there's anything you'd like to change in the docs, you can get started by clicking on the "Edit" button located on the upper right of most pages in the website.
 
 If you are adding new functionality or introducing a change in behavior, we will ask you to update the documentation to reflect your changes.
 
@@ -43,7 +43,7 @@ If you are adding new functionality or introducing a change in behavior, we will
 
 Code-level contributions to Flexn generally come in the form of [pull requests](https://help.github.com/en/articles/about-pull-requests). These are done by forking the repo and making changes locally. Directly in the repo, there is the [`template` app](/packages/template) that you can install on your device (or simulators) and use to test the changes you're making to Flexn sources.
 
-The process of proposing a change to Flexn SDK can be summarized as follows:
+The process of proposing a change to Flexn Create SDK can be summarized as follows:
 
 1. Fork the Flexn repository and create your branch from `main`.
 2. Make the desired changes to Flexn sources. Use the `packages/template` and `packages/harness` app to test them out.
@@ -63,7 +63,7 @@ If all goes well, your pull request will be merged. If it is not merged, maintai
 
 ### Tests
 
-Tests help us prevent regressions from being introduced to the codebase. The GitHub repository is continuously tested using Github Actions, the results of which are available through the Checks functionality on [commits](https://github.com/flexn-io/flexn/commits/HEAD) and pull requests. 
+Tests help us prevent regressions from being introduced to the codebase. The GitHub repository is continuously tested using Github Actions, the results of which are available through the Checks functionality on [commits](https://github.com/flexn-io/create/commits/HEAD) and pull requests. 
 
 ## Community Contributions
 
@@ -74,5 +74,5 @@ Contributions to Flexn are not limited to GitHub. You can help others by sharing
 As you work on Flexn, it is natural that sooner or later you may require help. People interested in contributing may take advantage of the following:
 
 * **Twitter**. The Flexn team has its own account at [@flexn_io](https://twitter.com/flexn_io). If you feel stuck, or need help contributing, please do not hesitate to reach out.
-* **Proposals Repository**. If you are considering working on a feature large in scope, consider [creating a proposal first](https://github.com/flexn-io/flexn/discussions). The community can help you figure out the right approach, and we'd be happy to help.
+* **Proposals Repository**. If you are considering working on a feature large in scope, consider [creating a proposal first](https://github.com/flexn-io/create/discussions). The community can help you figure out the right approach, and we'd be happy to help.
 * **Flexn Community Slack**. While we try to hold most discussions in public, sometimes it can be beneficial to have conversations in real time with other contributors. People who have demonstrated a commitment to moving Flexn forward through sustained contributions to the project may eventually be invited to join the Flexn Community Slack.
