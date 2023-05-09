@@ -1,8 +1,5 @@
 import { Dimensions, PixelRatio } from 'react-native';
-import {
-    isPlatformAndroidtv,
-    isPlatformFiretv,
-} from '@rnv/renative';
+import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 const { height } = Dimensions.get('screen');
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];

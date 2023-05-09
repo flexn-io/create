@@ -14,7 +14,7 @@ const HorizontalScroll = () => {
             <View style={{ marginTop: 300 }}>
                 <ScrollView horizontal>
                     {arrayItems.map((item, index) => (
-                        <Pressable style={styles.item}>
+                        <Pressable style={styles.item} key={index}>
                             <Text style={styles.text}>{index + 1}</Text>
                         </Pressable>
                     ))}

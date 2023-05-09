@@ -23,7 +23,7 @@ const NestedScroll = () => {
                                 <View style={{ position: 'absolute', marginLeft: 200, marginTop: 20 * index }}>
                                     <ScrollView horizontal>
                                         {horizontalItems.map((item, index) => (
-                                            <Pressable style={styles.itemHorizontal}>
+                                            <Pressable style={styles.itemHorizontal} key={index}>
                                                 <Text style={styles.text}>{index + 1}</Text>
                                             </Pressable>
                                         ))}
