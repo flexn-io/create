@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Row, View} from '@flexn/create';
+import { Row, View } from '@flexn/create';
 import Screen from '../../../../components/Screen';
-
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -35,13 +34,13 @@ const RowTest = () => {
     return (
         <View>
             {!hideModal && (
-                <Screen stealFocus screenOrder={1} focusOptions={{nextFocusDown: 's2'}}>
+                <Screen stealFocus screenOrder={1} focusOptions={{ nextFocusDown: 's2' }}>
                     <View style={{ marginTop: 100 }}>
                         {/* <Pressable style={{ width: 300, height: 100, borderColor: 'red', borderWidth: 1 }} /> */}
                     </View>
                 </Screen>
             )}
-            <Screen stealFocus={false} focusOptions={{focusKey: 's2'}}>
+            <Screen stealFocus={false} focusOptions={{ focusKey: 's2' }}>
                 <View style={{ marginTop: 400 }}>
                     {/* {!hideModal && (
                         <Pressable style={{ width: 300, height: 100, borderColor: 'red', borderWidth: 1 }} />
@@ -55,7 +54,7 @@ const RowTest = () => {
                     />
                 </View>
             </Screen>
-        </View> 
+        </View>
     );
 };
 

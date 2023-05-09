@@ -62,7 +62,6 @@ export default class Carousels extends Lightning.Component {
                 },
             },
         };
-
     }
 
     _init() {

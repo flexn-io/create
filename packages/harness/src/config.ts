@@ -70,14 +70,14 @@ export const themeStyles = StyleSheet.create({
     },
     modalContainer: isEngineRnWeb
         ? {
-            position: 'absolute',
-            backgroundColor: theme.color1,
-            zIndex: 100,
-            top: 0,
-            left: 0,
-            height: '100vh',
-            width: '100%',
-        }
+              position: 'absolute',
+              backgroundColor: theme.color1,
+              zIndex: 100,
+              top: 0,
+              left: 0,
+              height: '100vh',
+              width: '100%',
+          }
         : { flex: 1, backgroundColor: theme.color1 },
     textH2: {
         fontFamily: theme.primaryFontFamily,

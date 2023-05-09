@@ -216,7 +216,7 @@ class Screen extends AbstractFocusModel {
         this._order = value;
 
         return this;
-    };
+    }
 
     public getOrder(): number {
         return this._order;

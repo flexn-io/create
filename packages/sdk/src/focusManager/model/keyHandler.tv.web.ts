@@ -31,7 +31,7 @@ class KeyHandler {
     private enableKeyHandler() {
         this.keyUpEventListener = (event: KeyboardEvent) => {
             const eventType = DEFAULT_KEY_MAP[event.keyCode];
-            
+
             this.onKeyDown(eventType);
         };
 
@@ -40,7 +40,7 @@ class KeyHandler {
 
     public removeListeners() {
         // to be implemented
-    };
+    }
 
     private onKeyDown(eventType: string) {
         if (eventType === 'playPause') {

@@ -1,6 +1,6 @@
 import { Exception } from './CustomError';
 
-const RecyclerListViewExceptions: {[key: string]: Exception} = {
+const RecyclerListViewExceptions: { [key: string]: Exception } = {
     initializationException: {
         message: 'Parameters required for initializing the module are missing',
         type: 'Initialization essentials missing',
@@ -14,13 +14,15 @@ const RecyclerListViewExceptions: {[key: string]: Exception} = {
         type: 'ItemTypeNullException',
     },
     layoutException: {
-        message: 'RecyclerListView needs to have a bounded size. Currently height or, width is 0.' +
-                    'Consider adding style={{flex:1}} or, fixed dimensions',
+        message:
+            'RecyclerListView needs to have a bounded size. Currently height or, width is 0.' +
+            'Consider adding style={{flex:1}} or, fixed dimensions',
         type: 'LayoutException',
     },
     platformNotDetectedException: {
-        message: "Unable to detect the running platform, if you're trying to run recyclerlistview " +
-        'in browser make sure process.env.RLV_ENV is set to browser in webpack config',
+        message:
+            "Unable to detect the running platform, if you're trying to run recyclerlistview " +
+            'in browser make sure process.env.RLV_ENV is set to browser in webpack config',
         type: 'PlatformNotDetectedException',
     },
     unresolvedDependenciesException: {

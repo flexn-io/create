@@ -16,8 +16,7 @@ const iosFirebaseDeploy = (config: any) =>
         const firebaseId = Common.getConfigProp(config, config.platform, 'firebaseId');
         const title = Common.getConfigProp(config, config.platform, 'title');
 
-        const args = `firebase appdistribution:distribute ${
-            ipaPath} --app ${firebaseId} --groups "RS" --token="${token}"`;
+        const args = `firebase appdistribution:distribute ${ipaPath} --app ${firebaseId} --groups "RS" --token="${token}"`;
 
         Exec.executeAsync(config, args, {
             shell: true,

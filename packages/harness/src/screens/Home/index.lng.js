@@ -28,7 +28,7 @@ export default class HomeScreen extends Lightning.Component {
                 children: [
                     ...Object.entries(CategorizedTestCases).map(([testCasesCategory, testCases], idx) => ({
                         type: TestCaseList,
-                        testCases: { 
+                        testCases: {
                             label: testCasesCategory,
                             tests: testCases,
                             color: testCaseCategoryColors[idx],

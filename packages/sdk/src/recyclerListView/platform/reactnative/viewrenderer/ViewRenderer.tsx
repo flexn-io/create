@@ -15,30 +15,30 @@ export default class ViewRenderer extends BaseViewRenderer<any> {
     public renderCompat(): JSX.Element | JSX.Element[] | null {
         const props = this.props.forceNonDeterministicRendering
             ? {
-                ref: this._setRef,
-                onLayout: this._onLayout,
-                style: {
-                    flexDirection: this.props.isHorizontal ? 'column' : 'row',
-                    left: this.props.x,
-                    position: 'absolute',
-                    top: this.props.y,
-                    ...this.props.styleOverrides,
-                    ...this.animatorStyleOverrides,
-                },
-            }
+                  ref: this._setRef,
+                  onLayout: this._onLayout,
+                  style: {
+                      flexDirection: this.props.isHorizontal ? 'column' : 'row',
+                      left: this.props.x,
+                      position: 'absolute',
+                      top: this.props.y,
+                      ...this.props.styleOverrides,
+                      ...this.animatorStyleOverrides,
+                  },
+              }
             : {
-                ref: this._setRef,
-                style: {
-                    left: this.props.x,
-                    position: 'absolute',
-                    top: this.props.y,
-                    height: this.props.height,
-                    width: this.props.width,
-                    ...this.props.styleOverrides,
-                    ...this.animatorStyleOverrides,
-                },
-            };
-        
+                  ref: this._setRef,
+                  style: {
+                      left: this.props.x,
+                      position: 'absolute',
+                      top: this.props.y,
+                      height: this.props.height,
+                      width: this.props.width,
+                      ...this.props.styleOverrides,
+                      ...this.animatorStyleOverrides,
+                  },
+              };
+
         if (this.props.disableItemContainer === true) {
             return this.renderChild(props);
         } else {

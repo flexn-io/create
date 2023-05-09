@@ -37,11 +37,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                 style={theme.styles.menuButton}
                 {...testProps('template-menu-home-button')}
             >
-                <Icon
-                    name="md-home"
-                    size={theme.static.iconSize}
-                    color={theme.static.colorBrand}
-                />
+                <Icon name="md-home" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <Text style={[theme.styles.buttonText, theme.styles.menuButtonText]}>Home</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -49,11 +45,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                 style={theme.styles.menuButton}
                 {...testProps('template-menu-carousels-button')}
             >
-                <Icon
-                    name="md-rocket"
-                    size={theme.static.iconSize}
-                    color={theme.static.colorBrand}
-                />
+                <Icon name="md-rocket" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <Text style={[theme.styles.buttonText, theme.styles.menuButtonText]}>Carousels</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -61,11 +53,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                 style={theme.styles.menuButton}
                 {...testProps('template-menu-my-modal-button')}
             >
-                <Icon
-                    name="ios-albums"
-                    size={theme.static.iconSize}
-                    color={theme.static.colorBrand}
-                />
+                <Icon name="ios-albums" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <Text style={[theme.styles.buttonText, theme.styles.menuButtonText]}>My Modal</Text>
             </TouchableOpacity>
         </>

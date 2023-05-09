@@ -16,7 +16,7 @@ const capabilities = {
             platformVersion: '15.5',
             automationName: 'XCUITest',
             bundleId: 'io.flexn.harness.test',
-            app: 'platformBuilds/harness_ios/build/RNVApp/Build/Products/Debug-iphonesimulator/RNVApp.app'
+            app: 'platformBuilds/harness_ios/build/RNVApp/Build/Products/Debug-iphonesimulator/RNVApp.app',
         },
     ],
     tvos: [
@@ -26,7 +26,7 @@ const capabilities = {
             platformVersion: '15.4',
             automationName: 'XCUITest',
             bundleId: 'io.flexn.harness.test',
-            app: 'platformBuilds/harness_tvos/build/RNVAppTVOS/Build/Products/Debug-appletvsimulator/RNVAppTVOS.app'
+            app: 'platformBuilds/harness_tvos/build/RNVAppTVOS/Build/Products/Debug-appletvsimulator/RNVAppTVOS.app',
         },
     ],
     android: [
@@ -37,7 +37,7 @@ const capabilities = {
             automationName: 'UiAutomator2',
             appPackage: 'io.flexn.harness.test',
             appActivity: 'io.flexn.harness.test.MainActivity',
-            app: 'platformBuilds/harness_android/app/build/outputs/apk/debug/app-debug.apk'
+            app: 'platformBuilds/harness_android/app/build/outputs/apk/debug/app-debug.apk',
         },
     ],
     androidtv: [
@@ -48,14 +48,14 @@ const capabilities = {
             automationName: 'UiAutomator2',
             appPackage: 'io.flexn.harness.test',
             appActivity: 'io.flexn.harness.test.MainActivity',
-            app: 'platformBuilds/harness_androidtv/app/build/outputs/apk/debug/app-debug.apk'
+            app: 'platformBuilds/harness_androidtv/app/build/outputs/apk/debug/app-debug.apk',
         },
     ],
     macos: [
         {
             platformName: 'Mac',
             automationName: 'Mac2',
-            bundleId: 'io.flexn.harness.test'
+            bundleId: 'io.flexn.harness.test',
         },
     ],
     web: [

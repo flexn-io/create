@@ -5,4 +5,3 @@ import type { ScreenProps } from '../../focusManager/types';
 export default function Screen({ children, style }: ScreenProps) {
     return <View style={style}>{children}</View>;
 }
- 

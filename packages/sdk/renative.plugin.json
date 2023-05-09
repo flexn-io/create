@@ -1,9 +1,6 @@
 {
-    "plugins": {
-
-    },
+    "plugins": {},
     "npm": {
-        "dependencies": {
-        }
+        "dependencies": {}
     }
 }

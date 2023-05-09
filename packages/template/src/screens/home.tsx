@@ -27,9 +27,17 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                 ref={swRef}
                 contentContainerStyle={theme.styles.container}
             >
-                <Image style={theme.styles.image} source={ICON_LOGO} {...testProps('template-home-screen-flexn-image')} />
-                <Text style={theme.styles.textH1} {...testProps('template-home-screen-welcome-message-text')} >{'Flexn Create SDK Example'} </Text>
-                <Text style={theme.styles.textH2} {...testProps('template-home-screen-version-number-text')} >v {packageJson.version} </Text>
+                <Image
+                    style={theme.styles.image}
+                    source={ICON_LOGO}
+                    {...testProps('template-home-screen-flexn-image')}
+                />
+                <Text style={theme.styles.textH1} {...testProps('template-home-screen-welcome-message-text')}>
+                    {'Flexn Create SDK Example'}{' '}
+                </Text>
+                <Text style={theme.styles.textH2} {...testProps('template-home-screen-version-number-text')}>
+                    v {packageJson.version}{' '}
+                </Text>
                 <Text style={theme.styles.textH3}>{`platform: ${Api.platform}`}</Text>
                 <Text style={theme.styles.textH3}>{`factor: ${Api.formFactor}`}</Text>
                 <Text style={theme.styles.textH3}>{`engine: ${Api.engine}`}</Text>

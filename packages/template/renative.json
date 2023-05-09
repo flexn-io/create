@@ -66,10 +66,7 @@
             "androidtv": {
                 "package": "io.flexn.sdk.FlexnSdkPackage",
                 "projectName": "flexn-io-sdk",
-                "activityImports": [
-                    "io.flexn.sdk.TvRemoteHandlerModule",
-                    "android.view.KeyEvent;"
-                ],
+                "activityImports": ["io.flexn.sdk.TvRemoteHandlerModule", "android.view.KeyEvent;"],
                 "activityMethods": [
                     "override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {",
                     "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"up\");",
@@ -93,10 +90,7 @@
             "firetv": {
                 "package": "io.flexn.sdk.FlexnSdkPackage",
                 "projectName": "flexn-io-sdk",
-                "activityImports": [
-                    "io.flexn.sdk.TvRemoteHandlerModule",
-                    "android.view.KeyEvent;"
-                ],
+                "activityImports": ["io.flexn.sdk.TvRemoteHandlerModule", "android.view.KeyEvent;"],
                 "activityMethods": [
                     "override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {",
                     "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"up\");",
@@ -240,17 +234,13 @@
         "web": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "chromecast": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "tizen": {
@@ -265,9 +255,7 @@
         },
         "macos": {
             "engine": "engine-rn",
-            "excludedPlugins": [
-                "react-native-linear-gradient"
-            ]
+            "excludedPlugins": ["react-native-linear-gradient"]
         },
         "windows": {
             "engine": "engine-rn-windows"

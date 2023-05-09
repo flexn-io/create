@@ -3,8 +3,12 @@
  * Availability check, add/remove etc are all O(1), uses two maps to achieve constant time operation
  */
 
-interface PseudoSet {[key: string]: string; }
-interface NullablePseudoSet {[key: string]: string|null; }
+interface PseudoSet {
+    [key: string]: string;
+}
+interface NullablePseudoSet {
+    [key: string]: string | null;
+}
 
 export default class RecycleItemPool {
     private _recyclableObjectMap: { [key: string]: NullablePseudoSet };
@@ -15,7 +19,7 @@ export default class RecycleItemPool {
         this._availabilitySet = {};
     }
 
-    public putRecycledObject(objectType: string | number, object: string): void  {
+    public putRecycledObject(objectType: string | number, object: string): void {
         objectType = this._stringify(objectType);
         const objectSet = this._getRelevantSet(objectType);
         if (!this._availabilitySet[object]) {
@@ -42,7 +46,7 @@ export default class RecycleItemPool {
         return recycledObject;
     }
 
-    public removeFromPool(object: string): boolean  {
+    public removeFromPool(object: string): boolean {
         if (this._availabilitySet[object]) {
             delete this._getRelevantSet(this._availabilitySet[object])[object];
             delete this._availabilitySet[object];
@@ -51,7 +55,7 @@ export default class RecycleItemPool {
         return false;
     }
 
-    public clearAll(): void  {
+    public clearAll(): void {
         this._recyclableObjectMap = {};
         this._availabilitySet = {};
     }

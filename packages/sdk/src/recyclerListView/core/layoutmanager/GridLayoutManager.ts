@@ -15,7 +15,7 @@ export class GridLayoutManager extends WrapGridLayoutManager {
         maxSpan: number,
         acceptableRelayoutDelta: number,
         isHorizontal?: boolean,
-        cachedLayouts?: Layout[],
+        cachedLayouts?: Layout[]
     ) {
         super(layoutProvider, renderWindowSize, isHorizontal, cachedLayouts);
         this._getSpan = getSpan;
@@ -66,12 +66,10 @@ export class GridLayoutManager extends WrapGridLayoutManager {
         const columnSpanForIndex = this._getSpan(index);
         return this._isGridHorizontal
             ? {
-                height:
-            (this._renderWindowSize.height / this._maxSpan) * columnSpanForIndex,
-            }
+                  height: (this._renderWindowSize.height / this._maxSpan) * columnSpanForIndex,
+              }
             : {
-                width:
-            (this._renderWindowSize.width / this._maxSpan) * columnSpanForIndex,
-            };
+                  width: (this._renderWindowSize.width / this._maxSpan) * columnSpanForIndex,
+              };
     }
 }

@@ -24,22 +24,22 @@ export default class ViewRenderer extends BaseViewRenderer<any> {
     public renderCompat(): JSX.Element {
         const style: CSSProperties = this.props.forceNonDeterministicRendering
             ? {
-                transform: this._getTransform(),
-                WebkitTransform: this._getTransform(),
-                ...styles.baseViewStyle,
-                ...this.props.styleOverrides,
-                ...this.animatorStyleOverrides,
-            }
+                  transform: this._getTransform(),
+                  WebkitTransform: this._getTransform(),
+                  ...styles.baseViewStyle,
+                  ...this.props.styleOverrides,
+                  ...this.animatorStyleOverrides,
+              }
             : {
-                height: this.props.height,
-                overflow: 'hidden',
-                width: this.props.width,
-                transform: this._getTransform(),
-                WebkitTransform: this._getTransform(),
-                ...styles.baseViewStyle,
-                ...this.props.styleOverrides,
-                ...this.animatorStyleOverrides,
-            };
+                  height: this.props.height,
+                  overflow: 'hidden',
+                  width: this.props.width,
+                  transform: this._getTransform(),
+                  WebkitTransform: this._getTransform(),
+                  ...styles.baseViewStyle,
+                  ...this.props.styleOverrides,
+                  ...this.animatorStyleOverrides,
+              };
         return (
             <div ref={this._setRef} style={style}>
                 {this.renderChild()}

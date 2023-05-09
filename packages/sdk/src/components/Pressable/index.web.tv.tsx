@@ -62,24 +62,18 @@ const View = React.forwardRef<any, ViewProps>(
         const onComponentFocus = () => {
             switch (animatorOptions.type) {
                 case ANIMATION_TYPES.SCALE:
-                    Animated.timing(
-                        scaleAnim,
-                        {
-                            toValue: animatorOptions.scale,
-                            duration: 200,
-                            useNativeDriver: true
-                        }
-                    ).start();
+                    Animated.timing(scaleAnim, {
+                        toValue: animatorOptions.scale,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
                     break;
                 case ANIMATION_TYPES.SCALE_BORDER:
-                    Animated.timing(
-                        scaleAnim,
-                        {
-                            toValue: animatorOptions.scale,
-                            duration: 200,
-                            useNativeDriver: true
-                        }
-                    ).start();
+                    Animated.timing(scaleAnim, {
+                        toValue: animatorOptions.scale,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
                     ref.current.setNativeProps({
                         borderColor: flattenedStyle.borderColor,
                         borderWidth: flattenedStyle.borderWidth,
@@ -95,9 +89,9 @@ const View = React.forwardRef<any, ViewProps>(
                     ref.current.setNativeProps({
                         style: {
                             backgroundColor: animatorOptions.backgroundColorFocus,
-                        }
+                        },
                     });
-                    break;  
+                    break;
                 default:
                     break;
             }
@@ -108,24 +102,18 @@ const View = React.forwardRef<any, ViewProps>(
         const onComponentBlur = () => {
             switch (animatorOptions.type) {
                 case ANIMATION_TYPES.SCALE:
-                    Animated.timing(
-                        scaleAnim,
-                        {
-                            toValue: 1,
-                            duration: 200,
-                            useNativeDriver: true
-                        }
-                    ).start();
+                    Animated.timing(scaleAnim, {
+                        toValue: 1,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
                     break;
                 case ANIMATION_TYPES.SCALE_BORDER:
-                    Animated.timing(
-                        scaleAnim,
-                        {
-                            toValue: 1,
-                            duration: 200,
-                            useNativeDriver: true
-                        }
-                    ).start();
+                    Animated.timing(scaleAnim, {
+                        toValue: 1,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
                     ref.current.setNativeProps({
                         borderWidth: 0,
                     });
@@ -134,14 +122,14 @@ const View = React.forwardRef<any, ViewProps>(
                     ref.current.setNativeProps({
                         borderWidth: 0,
                     });
-                    break;  
+                    break;
                 case ANIMATION_TYPES.BACKGROUND:
                     ref.current.setNativeProps({
                         style: {
                             backgroundColor: flattenedStyle.backgroundColor,
-                        }
+                        },
                     });
-                    break; 
+                    break;
                 default:
                     break;
             }
@@ -160,8 +148,8 @@ const View = React.forwardRef<any, ViewProps>(
                     if (ref.current) {
                         ref.current.setNativeProps({
                             style: {
-                                transform: [{ scale: value }]
-                            }
+                                transform: [{ scale: value }],
+                            },
                         });
                     }
                 });
@@ -207,7 +195,6 @@ const View = React.forwardRef<any, ViewProps>(
 
             return () => {
                 if (focus) {
-
                     CoreManager.removeFocusable(ViewInstance);
                     ViewInstance.getScreen()?.onViewRemoved(ViewInstance);
                 }
@@ -237,12 +224,7 @@ const View = React.forwardRef<any, ViewProps>(
 
         if (focus) {
             return (
-                <RNView
-                    style={flattenedStyle}
-                    onLayout={onLayout}
-                    {...props}
-                    ref={ref}
-                >
+                <RNView style={flattenedStyle} onLayout={onLayout} {...props} ref={ref}>
                     {childrenWithProps}
                 </RNView>
             );

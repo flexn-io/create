@@ -1,5 +1,5 @@
 import { Dimensions } from 'react-native';
-import {  isPlatformAndroidtv } from '@rnv/renative';
+import { isPlatformAndroidtv } from '@rnv/renative';
 export const getWidth = () => {
     return Dimensions.get('window').width * (isPlatformAndroidtv ? 2 : 1);
 };

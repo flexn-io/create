@@ -13,11 +13,11 @@ export interface ScrollViewDefaultProps {
 export interface ScrollEvent {
     nativeEvent: {
         contentOffset: {
-            x: number,
-            y: number,
-        },
-        layoutMeasurement?: Dimension,
-        contentSize?: Dimension,
+            x: number;
+            y: number;
+        };
+        layoutMeasurement?: Dimension;
+        contentSize?: Dimension;
     };
 }
 export default abstract class BaseScrollView extends React.Component<ScrollViewDefaultProps, Record<string, unknown>> {
@@ -25,5 +25,5 @@ export default abstract class BaseScrollView extends React.Component<ScrollViewD
         super(props);
     }
 
-    public abstract scrollTo(scrollInput: { x: number, y: number, animated: boolean }): void;
+    public abstract scrollTo(scrollInput: { x: number; y: number; animated: boolean }): void;
 }

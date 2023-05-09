@@ -51,9 +51,7 @@
             "version": "0.2.6",
             "ios": {
                 "podName": "react-native-home-indicator",
-                "appDelegateImports": [
-                    "react_native_home_indicator"
-                ],
+                "appDelegateImports": ["react_native_home_indicator"],
                 "appDelegateMethods": {
                     "application": {
                         "didFinishLaunchingWithOptions": [
@@ -208,21 +206,14 @@
             "ios": {
                 "path": "node_modules/react-native-carplay",
                 "podName": "react-native-carplay",
-                "appDelegateImports": [
-                    "CarPlay",
-                    "react_native_carplay"
-                ],
-                "appDelegateExtensions": [
-                    "CPApplicationDelegate"
-                ],
+                "appDelegateImports": ["CarPlay", "react_native_carplay"],
+                "appDelegateExtensions": ["CPApplicationDelegate"],
                 "appDelegateMethods": {
                     "application": {
                         "didConnectCarInterfaceController": [
                             "RNCarPlay.connect(with: interfaceController, window: window)"
                         ],
-                        "didDisconnectCarInterfaceController": [
-                            "RNCarPlay.disconnect()"
-                        ]
+                        "didDisconnectCarInterfaceController": ["RNCarPlay.disconnect()"]
                     }
                 }
             }
@@ -232,9 +223,7 @@
             "android": {
                 "package": "io.sentry.react.RNSentryPackage",
                 "app/build.gradle": {
-                    "apply": [
-                        "from: \"{{PLUGIN_ROOT}}/sentry.gradle\""
-                    ]
+                    "apply": ["from: \"{{PLUGIN_ROOT}}/sentry.gradle\""]
                 },
                 "projectName": "@sentry_react-native",
                 "path": "node_modules/@sentry/react-native/android",
@@ -243,9 +232,7 @@
             "androidtv": {
                 "package": "io.sentry.react.RNSentryPackage",
                 "app/build.gradle": {
-                    "apply": [
-                        "from: \"{{PLUGIN_ROOT}}/sentry.gradle\""
-                    ]
+                    "apply": ["from: \"{{PLUGIN_ROOT}}/sentry.gradle\""]
                 },
                 "projectName": "@sentry_react-native",
                 "path": "node_modules/@sentry/react-native/android",
@@ -254,9 +241,7 @@
             "firetv": {
                 "package": "io.sentry.react.RNSentryPackage",
                 "app/build.gradle": {
-                    "apply": [
-                        "from: \"{{PLUGIN_ROOT}}/sentry.gradle\""
-                    ]
+                    "apply": ["from: \"{{PLUGIN_ROOT}}/sentry.gradle\""]
                 },
                 "projectName": "@sentry_react-native",
                 "path": "node_modules/@sentry/react-native/android",
@@ -265,9 +250,7 @@
             "androidwear": {
                 "package": "io.sentry.react.RNSentryPackage",
                 "app/build.gradle": {
-                    "apply": [
-                        "from: \"{{PLUGIN_ROOT}}/sentry.gradle\""
-                    ]
+                    "apply": ["from: \"{{PLUGIN_ROOT}}/sentry.gradle\""]
                 },
                 "projectName": "@sentry_react-native",
                 "path": "node_modules/@sentry/react-native/android",
@@ -361,18 +344,13 @@
                 "podName": "react-native-google-cast",
                 "path": "node_modules/react-native-google-cast/ios",
                 "plist": {
-                    "NSBonjourServices": [
-                        "_googlecast._tcp",
-                        "_{{props.applicationID}}._googlecast._tcp"
-                    ],
+                    "NSBonjourServices": ["_googlecast._tcp", "_{{props.applicationID}}._googlecast._tcp"],
                     "NSLocalNetworkUsageDescription": "${PRODUCT_NAME} uses the local network to discover Cast-enabled devices on your WiFi network.",
                     "NSBluetoothAlwaysUsageDescription": "${PRODUCT_NAME} uses Bluetooth to discover nearby Cast devices.",
                     "NSBluetoothPeripheralUsageDescription": "${PRODUCT_NAME} uses Bluetooth to discover nearby Cast devices.",
                     "NSMicrophoneUsageDescription": "${PRODUCT_NAME} uses microphone access to listen for ultrasonic tokens when pairing with nearby Cast devices."
                 },
-                "appDelegateImports": [
-                    "GoogleCast"
-                ],
+                "appDelegateImports": ["GoogleCast"],
                 "appDelegateMethods": {
                     "application": {
                         "didFinishLaunchingWithOptions": [
@@ -399,17 +377,11 @@
                     }
                 },
                 "MainApplication": {
-                    "packages": [
-                        "com.reactnative.googlecast.GoogleCastPackage"
-                    ]
+                    "packages": ["com.reactnative.googlecast.GoogleCastPackage"]
                 },
                 "mainActivity": {
-                    "imports": [
-                        "com.google.android.gms.cast.framework.CastContext"
-                    ],
-                    "createMethods": [
-                        "CastContext.getSharedInstance(this)"
-                    ]
+                    "imports": ["com.google.android.gms.cast.framework.CastContext"],
+                    "createMethods": ["CastContext.getSharedInstance(this)"]
                 },
                 "AndroidManifest": {
                     "children": [

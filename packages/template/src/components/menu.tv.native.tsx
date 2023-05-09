@@ -59,9 +59,15 @@ const Menu = ({ navigation }) => {
     };
 
     return (
-        <Screen style={theme.styles.menuContainer} onFocus={onFocus} onBlur={onBlur} stealFocus={false} focusOptions={{
-            focusKey: 'side-menu'
-        }}>
+        <Screen
+            style={theme.styles.menuContainer}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            stealFocus={false}
+            focusOptions={{
+                focusKey: 'side-menu',
+            }}
+        >
             <Animated.View
                 style={[theme.styles.sideMenuContainerAnimation, { transform: [{ translateX: translateBgAnim }] }]}
             />
@@ -73,11 +79,7 @@ const Menu = ({ navigation }) => {
                 }}
                 {...testProps('template-menu-home-button')}
             >
-                <Icon
-                    name="md-home"
-                    size={theme.static.iconSize}
-                    color={theme.static.colorBrand}
-                />
+                <Icon name="md-home" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <AnimatedText
                     style={[
                         theme.styles.buttonText,
@@ -96,11 +98,7 @@ const Menu = ({ navigation }) => {
                 style={theme.styles.menuButton}
                 {...testProps('template-menu-carousels-button')}
             >
-                <Icon
-                    name="md-rocket"
-                    size={theme.static.iconSize}
-                    color={theme.static.colorBrand}
-                />
+                <Icon name="md-rocket" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <AnimatedText
                     style={[
                         theme.styles.buttonText,
@@ -122,11 +120,7 @@ const Menu = ({ navigation }) => {
                 }}
                 {...testProps('template-menu-my-modal-button')}
             >
-                <Icon
-                    name="ios-albums"
-                    size={theme.static.iconSize}
-                    color={theme.static.colorBrand}
-                />
+                <Icon name="ios-albums" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <AnimatedText
                     style={[
                         theme.styles.buttonText,

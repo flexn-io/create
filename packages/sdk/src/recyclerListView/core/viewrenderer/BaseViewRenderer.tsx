@@ -20,8 +20,8 @@ export interface ViewRendererProps<T> {
         index: number,
         extendedState?: object,
         renderProps?: {
-            style: object, 
-            ref: object,
+            style: object;
+            ref: object;
         }
     ) => JSX.Element | JSX.Element[] | null;
     layoutType: string | number;

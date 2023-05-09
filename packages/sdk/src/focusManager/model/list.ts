@@ -58,7 +58,7 @@ class List extends Recycler {
 
     public getFocusTaskExecutor(_direction: string): AbstractFocusModel {
         return this;
-    };
+    }
 }
 
 export default List;

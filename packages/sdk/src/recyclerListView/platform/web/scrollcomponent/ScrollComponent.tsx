@@ -37,25 +37,36 @@ export default class ScrollComponent extends BaseScrollComponent {
     public render(): JSX.Element {
         const Scroller = this.props.externalScrollView as any; //TSI
         return (
-            <Scroller ref={(scrollView: BaseScrollView) => this._scrollViewRef = scrollView as (BaseScrollView | null)}
+            <Scroller
+                ref={(scrollView: BaseScrollView) => (this._scrollViewRef = scrollView as BaseScrollView | null)}
                 {...this.props}
                 horizontal={this.props.isHorizontal}
                 onScroll={this._onScroll}
-                onSizeChanged={this._onSizeChanged}>
-
-                <div style={{
-                    height: this.props.contentHeight,
-                    width: this.props.contentWidth,
-                }}>
+                onSizeChanged={this._onSizeChanged}
+            >
+                <div
+                    style={{
+                        height: this.props.contentHeight,
+                        width: this.props.contentWidth,
+                    }}
+                >
                     {this.props.children}
                 </div>
-                {this.props.renderFooter ? <div style={this.props.isHorizontal ? {
-                    left: this.props.contentWidth,
-                    position: 'absolute',
-                    top: 0,
-                } : undefined}>
-                    {this.props.renderFooter()}
-                </div> : null}
+                {this.props.renderFooter ? (
+                    <div
+                        style={
+                            this.props.isHorizontal
+                                ? {
+                                      left: this.props.contentWidth,
+                                      position: 'absolute',
+                                      top: 0,
+                                  }
+                                : undefined
+                        }
+                    >
+                        {this.props.renderFooter()}
+                    </div>
+                ) : null}
             </Scroller>
         );
     }

@@ -285,7 +285,7 @@ export default abstract class AbstractFocusModel {
         if (this.getParent()?.getFocusTaskExecutor(direction)) {
             return this.getParent()?.getFocusTaskExecutor(direction);
         }
-        
+
         return null;
-    };
+    }
 }

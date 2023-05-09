@@ -8,11 +8,14 @@ const { logHook } = Logger;
 //TODO: not useful unless we use independent versioning
 // const VERSIONED_PACKAGES = ['@flexn/create', '@flexn/template'];
 
-
-
-const updateDeps = (pkgConfig:any, depKey:string, packageNamesAll:Array<string>, packageConfigs:any, semVer = '') => {
+const updateDeps = (
+    pkgConfig: any,
+    depKey: string,
+    packageNamesAll: Array<string>,
+    packageConfigs: any,
+    semVer = ''
+) => {
     const { pkgFile } = pkgConfig;
-
 
     packageNamesAll.forEach((v) => {
         if (pkgFile) {
@@ -22,7 +25,7 @@ const updateDeps = (pkgConfig:any, depKey:string, packageNamesAll:Array<string>,
                 const newVer = `${semVer}${packageConfigs[v].pkgFile?.version}`;
 
                 if (currVer !== newVer) {
-                    //eslint-disable-next-line no-console 
+                    //eslint-disable-next-line no-console
                     console.log('Found linked dependency to update:', v, currVer, newVer);
                     hasChanges = true;
                     pkgFile[depKey][v] = newVer;
@@ -36,51 +39,48 @@ const updateDeps = (pkgConfig:any, depKey:string, packageNamesAll:Array<string>,
     });
 };
 
-const updateRnvDeps = (pkgConfig:any, packageNamesAll:Array<string>, packageConfigs:any, semVer = '') => {
+const updateRnvDeps = (pkgConfig: any, packageNamesAll: Array<string>, packageConfigs: any, semVer = '') => {
     const { rnvFile, pkgFile, metaFile, rnvPath, metaPath, plugTempFile, plugTempPath } = pkgConfig;
-
 
     packageNamesAll.forEach((v) => {
         const newVer = `${semVer}${packageConfigs[v].pkgFile?.version}`;
         if (rnvFile) {
             let hasRnvChanges = false;
             const templateVer = rnvFile?.templates?.[v]?.version;
-            
+
             if (templateVer) {
-                
                 if (templateVer !== newVer) {
-                    //eslint-disable-next-line no-console 
+                    //eslint-disable-next-line no-console
                     console.log('Found linked plugin dependency to update:', v, templateVer, newVer);
                     hasRnvChanges = true;
                     rnvFile.templates[v].version = newVer;
                 }
             }
-            
+
             const rnvPlugin = rnvFile.plugins[v];
             if (rnvPlugin?.version) {
                 rnvPlugin.version = `${newVer}`;
                 hasRnvChanges = true;
             } else if (rnvPlugin) {
-                if(!rnvPlugin.startsWith('source')) {
+                if (!rnvPlugin.startsWith('source')) {
                     rnvFile.plugins[v] = newVer;
                     hasRnvChanges = true;
                 }
             }
 
-            
             if (hasRnvChanges) {
                 const output = Doctor.fixPackageObject(rnvFile);
                 FileUtils.writeFileSync(rnvPath, output, 4, true);
             }
         }
 
-        if(metaFile) {
+        if (metaFile) {
             metaFile.version = pkgFile.version;
             const output = Doctor.fixPackageObject(metaFile);
             writeFileSync(metaPath, output);
         }
 
-        if(plugTempFile) {
+        if (plugTempFile) {
             let hasChanges = false;
             const rnvPlugin = plugTempFile.pluginTemplates[v];
             if (rnvPlugin?.version) {
@@ -91,7 +91,6 @@ const updateRnvDeps = (pkgConfig:any, packageNamesAll:Array<string>, packageConf
                 hasChanges = true;
             }
 
-            
             if (hasChanges) {
                 const output = Doctor.fixPackageObject(plugTempFile);
                 FileUtils.writeFileSync(plugTempPath, output, 4, true);
@@ -101,16 +100,13 @@ const updateRnvDeps = (pkgConfig:any, packageNamesAll:Array<string>, packageConf
 };
 
 export const updateVersions = (c: any) => {
-
     const pkgDirPath = path.join(c.paths.project.dir, 'packages');
     const dirs = fs.readdirSync(pkgDirPath);
 
-    const packageNamesAll:any = [];
-    const packageConfigs:any = {};
+    const packageNamesAll: any = [];
+    const packageConfigs: any = {};
 
     const parsePackages = (dirPath: string) => {
-
-
         const conf: any = {};
 
         if (fs.statSync(dirPath).isDirectory()) {
@@ -146,7 +142,7 @@ export const updateVersions = (c: any) => {
         parsePackages(path.join(pkgDirPath, dir));
     });
 
-    packageNamesAll.forEach((pkgName:string) => {
+    packageNamesAll.forEach((pkgName: string) => {
         const pkgConfig = packageConfigs[pkgName];
         updateDeps(pkgConfig, 'dependencies', packageNamesAll, packageConfigs);
         updateDeps(pkgConfig, 'devDependencies', packageNamesAll, packageConfigs);
@@ -154,9 +150,6 @@ export const updateVersions = (c: any) => {
         updateDeps(pkgConfig, 'peerDependencies', packageNamesAll, packageConfigs, '^');
         updateRnvDeps(pkgConfig, packageNamesAll, packageConfigs);
     });
-
-
-
 };
 
 export const prePublish = async (c: any) => {

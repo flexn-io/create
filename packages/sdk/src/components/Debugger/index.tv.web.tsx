@@ -86,7 +86,7 @@ export default function FocusDebugger() {
                     );
                 }
             });
-        
+
         return (
             <RNView
                 style={{

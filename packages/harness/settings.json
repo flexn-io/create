@@ -1,24 +1,24 @@
 {
-  "appSettings": {
-    "stage": {
-      "clearColor": "0x00000000",
-      "useImageWorker": true
+    "appSettings": {
+        "stage": {
+            "clearColor": "0x00000000",
+            "useImageWorker": true
+        },
+        "debug": false
     },
-    "debug": false
-  },
-  "platformSettings": {
-    "path": "./static",
-    "log": true,
-    "showVersion": true,
-    "showFps": true,
-    "inspector": true,
-    "router": {
-      "lazyCreate": true,
-      "lazyDestroy": true,
-      "gcOnUnload": true,
-      "backtracking": true,
-      "reuseInstance": false,
-      "destroyOnHistoryBack": false
+    "platformSettings": {
+        "path": "./static",
+        "log": true,
+        "showVersion": true,
+        "showFps": true,
+        "inspector": true,
+        "router": {
+            "lazyCreate": true,
+            "lazyDestroy": true,
+            "gcOnUnload": true,
+            "backtracking": true,
+            "reuseInstance": false,
+            "destroyOnHistoryBack": false
+        }
     }
-  }
 }

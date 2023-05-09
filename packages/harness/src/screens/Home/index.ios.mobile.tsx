@@ -14,7 +14,6 @@ import CategorizedTestCases from '../TestCases';
 import TestCaseList from './TestCaseList';
 import { useNavigate } from '../../hooks/navigation';
 
-
 const testCaseCategoryColors = ['teal', 'orange', 'cornflowerblue', 'coral', 'chocolate'];
 
 const ScreenHome = (props: any) => {

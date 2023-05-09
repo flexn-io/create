@@ -19,10 +19,16 @@ const GridTest = () => {
 
     return (
         <Screen>
-            <Grid items={data} itemsInViewport={5} itemSpacing={30} itemDimensions={{ height: 200 }} animatorOptions={{
-                type: 'scale',
-                scale: 1.3
-            }} />
+            <Grid
+                items={data}
+                itemsInViewport={5}
+                itemSpacing={30}
+                itemDimensions={{ height: 200 }}
+                animatorOptions={{
+                    type: 'scale',
+                    scale: 1.3,
+                }}
+            />
         </Screen>
     );
 };

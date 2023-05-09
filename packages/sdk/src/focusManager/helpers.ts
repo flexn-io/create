@@ -29,7 +29,7 @@ export function flattenStyle(style: any) {
 export function getDirectionName(direction: string) {
     switch (direction) {
         case 'swipeLeft':
-        case 'left': 
+        case 'left':
             return 'left';
         case 'swipeRight':
         case 'right':

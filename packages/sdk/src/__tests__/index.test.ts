@@ -12,5 +12,3 @@ describe('Test Case 1', () => {
         expect(console.log).toBeCalled();
     });
 });
-
-

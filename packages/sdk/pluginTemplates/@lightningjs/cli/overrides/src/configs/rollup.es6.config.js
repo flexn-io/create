@@ -19,7 +19,7 @@
 
 const path = require('path');
 const process = require('process');
-const {babel} = require('@rollup/plugin-babel');
+const { babel } = require('@rollup/plugin-babel');
 const babelPluginClassProperties = require('@babel/plugin-proposal-class-properties');
 const resolve = require('@rollup/plugin-node-resolve').nodeResolve;
 const commonjs = require('@rollup/plugin-commonjs');
@@ -61,14 +61,17 @@ module.exports = {
                 '~': path.resolve(process.cwd(), 'node_modules/'),
             },
         }),
-        resolve({ mainFields: ['module', 'main', 'browser'], extensions: process.env.RNV_EXTENSIONS.split(',').map(extension => `.${extension}`) }),
+        resolve({
+            mainFields: ['module', 'main', 'browser'],
+            extensions: process.env.RNV_EXTENSIONS.split(',').map((extension) => `.${extension}`),
+        }),
         commonjs({ sourceMap: false }),
         babel({
             plugins: [babelPluginClassProperties],
         }),
         tsPlugin(),
         (process.env.LNG_BUILD_MINIFY === 'true' || process.env.NODE_ENV === 'production') &&
-      minify({ keep_fnames: true }),
+            minify({ keep_fnames: true }),
         license({
             banner: {
                 content: [
@@ -94,12 +97,12 @@ module.exports = {
         format: 'iife',
         inlineDynamicImports: true,
         sourcemap:
-      process.env.NODE_ENV === 'production'
-          ? true
-          : process.env.LNG_BUILD_SOURCEMAP === undefined
-              ? true
-              : process.env.LNG_BUILD_SOURCEMAP === 'false'
-                  ? false
-                  : process.env.LNG_BUILD_SOURCEMAP,
+            process.env.NODE_ENV === 'production'
+                ? true
+                : process.env.LNG_BUILD_SOURCEMAP === undefined
+                ? true
+                : process.env.LNG_BUILD_SOURCEMAP === 'false'
+                ? false
+                : process.env.LNG_BUILD_SOURCEMAP,
     },
 };

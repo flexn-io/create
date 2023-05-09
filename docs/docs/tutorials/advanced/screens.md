@@ -16,23 +16,23 @@ import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '../hooks';
 
 const Screen = ({ children, stealFocus, focusOptions, style, ...rest }: ScreenProps) => {
-  const [screenState, setScreenState] = useState < ScreenStates > 'foreground';
+    const [screenState, setScreenState] = useState < ScreenStates > 'foreground';
 
-  useFocusEffect(
-    useCallback(() => {
-      setScreenState('foreground');
+    useFocusEffect(
+        useCallback(() => {
+            setScreenState('foreground');
 
-      return () => {
-        setScreenState('background');
-      };
-    }, [])
-  );
+            return () => {
+                setScreenState('background');
+            };
+        }, [])
+    );
 
-  return (
-    <FMScreen screenState={screenState} stealFocus={stealFocus} focusOptions={focusOptions} style={style} {...rest}>
-      {children}
-    </FMScreen>
-  );
+    return (
+        <FMScreen screenState={screenState} stealFocus={stealFocus} focusOptions={focusOptions} style={style} {...rest}>
+            {children}
+        </FMScreen>
+    );
 };
 
 export default Screen;
@@ -153,30 +153,30 @@ import { isFactorMobile } from '@rnv/renative';
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
 function interval(min = 0, max = kittyNames.length - 1) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 const data = {};
 export function getRandomData(row: number, idx?: number, items = 50) {
-  const width = isFactorMobile ? 400 : 650;
-  const height = 200;
+    const width = isFactorMobile ? 400 : 650;
+    const height = 200;
 
-  if (data[row] && idx !== undefined) {
-    return data[row][idx];
-  }
+    if (data[row] && idx !== undefined) {
+        return data[row][idx];
+    }
 
-  const temp: { backgroundImage: string, title: string, index: number }[] = [];
-  for (let index = 0; index < items; index++) {
-    temp.push({
-      index,
-      backgroundImage: `https://placekitten.com/${width + row}/${height + index}`,
-      title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
-    });
-  }
+    const temp: { backgroundImage: string, title: string, index: number }[] = [];
+    for (let index = 0; index < items; index++) {
+        temp.push({
+            index,
+            backgroundImage: `https://placekitten.com/${width + row}/${height + index}`,
+            title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
+        });
+    }
 
-  data[row] = temp;
+    data[row] = temp;
 
-  return temp;
+    return temp;
 }
 ```
 
@@ -271,57 +271,57 @@ Finally add function which is rendering our carousels:
 
 ```javascript
 const RecyclerExample = ({ items, rowNumber, dimensions: { layout, item }, parentContext, navigation }: any) => {
-  const navigate = useNavigate({ navigation });
-  const { theme } = useContext(ThemeContext);
+    const navigate = useNavigate({ navigation });
+    const { theme } = useContext(ThemeContext);
 
-  const [dataProvider] = useState(
-    new RecyclableListDataProvider((r1: number, r2: number) => r1 !== r2).cloneWithRows(items)
-  );
+    const [dataProvider] = useState(
+        new RecyclableListDataProvider((r1: number, r2: number) => r1 !== r2).cloneWithRows(items)
+    );
 
-  const layoutProvider = useRef(
-    new RecyclableListLayoutProvider(
-      () => '_',
-      (_: string | number, dim: { width: number, height: number }) => {
-        dim.width = layout.width;
-        dim.height = layout.height;
-      }
-    )
-  ).current;
+    const layoutProvider = useRef(
+        new RecyclableListLayoutProvider(
+            () => '_',
+            (_: string | number, dim: { width: number, height: number }) => {
+                dim.width = layout.width;
+                dim.height = layout.height;
+            }
+        )
+    ).current;
 
-  return (
-    <View parentContext={parentContext} style={theme.styles.recyclerContainer}>
-      <RecyclableList
-        dataProvider={dataProvider}
-        layoutProvider={layoutProvider}
-        rowRenderer={(_type: string | number, data: any, index: number, repeatContext: any) => {
-          return (
-            <TouchableOpacity
-              style={[theme.styles.recyclerItem, { width: item.width, height: item.height }]}
-              repeatContext={repeatContext}
-              onPress={() => {
-                navigate(ROUTES.DETAILS, { row: rowNumber, index: data.index });
-              }}
-              {...testProps(`template-my-page-image-pressable-${index}`)}
-            >
-              <Image source={{ uri: data.backgroundImage }} style={{ width: '100%', height: '80%' }} />
-              <Text style={theme.styles.recyclerItemText} numberOfLines={1}>
-                {data.title}
-              </Text>
-            </TouchableOpacity>
-          );
-        }}
-        isHorizontal
-        style={theme.styles.recycler}
-        contentContainerStyle={theme.styles.recyclerContent}
-        scrollViewProps={{
-          showsHorizontalScrollIndicator: false,
-        }}
-        focusOptions={{
-          forbiddenFocusDirections: ['right'],
-        }}
-      />
-    </View>
-  );
+    return (
+        <View parentContext={parentContext} style={theme.styles.recyclerContainer}>
+            <RecyclableList
+                dataProvider={dataProvider}
+                layoutProvider={layoutProvider}
+                rowRenderer={(_type: string | number, data: any, index: number, repeatContext: any) => {
+                    return (
+                        <TouchableOpacity
+                            style={[theme.styles.recyclerItem, { width: item.width, height: item.height }]}
+                            repeatContext={repeatContext}
+                            onPress={() => {
+                                navigate(ROUTES.DETAILS, { row: rowNumber, index: data.index });
+                            }}
+                            {...testProps(`template-my-page-image-pressable-${index}`)}
+                        >
+                            <Image source={{ uri: data.backgroundImage }} style={{ width: '100%', height: '80%' }} />
+                            <Text style={theme.styles.recyclerItemText} numberOfLines={1}>
+                                {data.title}
+                            </Text>
+                        </TouchableOpacity>
+                    );
+                }}
+                isHorizontal
+                style={theme.styles.recycler}
+                contentContainerStyle={theme.styles.recyclerContent}
+                scrollViewProps={{
+                    showsHorizontalScrollIndicator: false,
+                }}
+                focusOptions={{
+                    forbiddenFocusDirections: ['right'],
+                }}
+            />
+        </View>
+    );
 };
 ```
 
@@ -417,21 +417,21 @@ import { usePop } from '../hooks';
 import Screen from './screen';
 
 const ScreenModal = ({ navigation }: { navigation?: any }) => {
-  const pop = usePop({ navigation });
-  const { theme } = useContext(ThemeContext);
+    const pop = usePop({ navigation });
+    const { theme } = useContext(ThemeContext);
 
-  return (
-    <Screen style={theme.styles.screenModal} screenOrder={1}>
-      <View style={theme.styles.modalHeader}>
-        <TouchableOpacity onPress={() => pop()} style={theme.styles.icon}>
-          <Icon name="close" size={theme.static.iconSize} color={theme.static.colorBrand} />
-        </TouchableOpacity>
-      </View>
-      <ScrollView contentContainerStyle={[theme.styles.container, { flex: 1 }]}>
-        <Text style={theme.styles.textH2}>This is my Modal!</Text>
-      </ScrollView>
-    </Screen>
-  );
+    return (
+        <Screen style={theme.styles.screenModal} screenOrder={1}>
+            <View style={theme.styles.modalHeader}>
+                <TouchableOpacity onPress={() => pop()} style={theme.styles.icon}>
+                    <Icon name="close" size={theme.static.iconSize} color={theme.static.colorBrand} />
+                </TouchableOpacity>
+            </View>
+            <ScrollView contentContainerStyle={[theme.styles.container, { flex: 1 }]}>
+                <Text style={theme.styles.textH2}>This is my Modal!</Text>
+            </ScrollView>
+        </Screen>
+    );
 };
 
 export default ScreenModal;
@@ -448,9 +448,9 @@ import { themeStyles } from '../config';
 import Screen from './screen';
 
 const ScreenCast = () => (
-  <Screen style={themeStyles.screen}>
-    <Text style={themeStyles.textH2}>This is cast Page!</Text>
-  </Screen>
+    <Screen style={themeStyles.screen}>
+        <Text style={themeStyles.textH2}>This is cast Page!</Text>
+    </Screen>
 );
 
 export default ScreenCast;

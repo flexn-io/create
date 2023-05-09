@@ -29,7 +29,7 @@ rnv new --projectTemplate @flexn/template
 
 ## Getting Started
 
-https://sdk.flexn.org/docs/tutorials/basics/quickstart 
+https://sdk.flexn.org/docs/tutorials/basics/quickstart
 
 ## Documentation
 
@@ -39,11 +39,9 @@ https://sdk.flexn.org/docs/introduction
 
 https://github.com/flexn-io/create/discussions
 
-
 ## Contributors
 
 Thanks to all contributors [[Contribute]](CONTRIBUTING.md).
-
 
 ## Development
 

@@ -65,9 +65,7 @@ const List = ({
                             backgroundColor: 'green',
                             marginHorizontal: 25,
                         }}
-                        {...testProps(
-                            `flexn-screens-focus-uneven-rows-flat-list-row-${rowIndex}-item-${index}`
-                        )}
+                        {...testProps(`flexn-screens-focus-uneven-rows-flat-list-row-${rowIndex}-item-${index}`)}
                     />
                 )}
                 isHorizontal

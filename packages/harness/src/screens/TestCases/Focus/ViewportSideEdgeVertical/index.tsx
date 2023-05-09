@@ -27,7 +27,7 @@ const ViewportSideEdgeVertical = () => (
                             colorFocus: '#ff0000',
                             borderWidth: Ratio(3),
                         },
-                        forbiddenFocusDirections: i === rows.length -1 ? ['right'] : []
+                        forbiddenFocusDirections: i === rows.length - 1 ? ['right'] : [],
                     }}
                     {...testProps('flexn-screens-focus-misaligned-buttons-btn-1')}
                 />

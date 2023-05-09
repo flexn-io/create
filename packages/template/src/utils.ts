@@ -1,10 +1,4 @@
-import {
-    isPlatformIos,
-    isPlatformMacos,
-    isPlatformTvos,
-    isPlatformWeb,
-    getWidth
-} from './imports';
+import { isPlatformIos, isPlatformMacos, isPlatformTvos, isPlatformWeb, getWidth } from './imports';
 
 export function testProps(testId: string | undefined) {
     if (!testId) {

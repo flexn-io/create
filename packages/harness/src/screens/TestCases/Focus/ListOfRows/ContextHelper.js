@@ -9,7 +9,7 @@ export default class ContextHelper extends ContextProvider {
 
     getUniqueKey() {
         return this._uniqueKey;
-    };
+    }
 
     save(key, value) {
         this._contextStore[key] = value;

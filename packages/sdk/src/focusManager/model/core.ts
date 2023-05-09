@@ -80,7 +80,6 @@ class CoreManager {
 
         const nextScreen = screens.find((c) => c?.hasStealFocus()) ?? screens[0];
 
-
         if (nextScreen) {
             nextScreen.setFocus(nextScreen.getFirstFocusableOnScreen());
         }
@@ -92,7 +91,7 @@ class CoreManager {
         }
 
         if (this._currentFocus) {
-            if (this._currentFocus.node.current && (!isPlatformTizen && !isPlatformWebos)) {
+            if (this._currentFocus.node.current && !isPlatformTizen && !isPlatformWebos) {
                 // @ts-ignore
                 UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId, 'cmdBlur', null);
             }
@@ -102,7 +101,7 @@ class CoreManager {
 
         this._currentFocus = cls;
 
-        if (cls.node.current && (!isPlatformTizen && !isPlatformWebos)) {
+        if (cls.node.current && !isPlatformTizen && !isPlatformWebos) {
             // @ts-ignore
             UIManager.dispatchViewManagerCommand(cls.nodeId, 'cmdFocus', null);
         }

@@ -96,7 +96,6 @@ const View = React.forwardRef<any, ViewProps>(
 
             return () => {
                 if (focus) {
-
                     CoreManager.removeFocusable(ViewInstance);
                     ViewInstance.getScreen()?.onViewRemoved(ViewInstance);
                 }

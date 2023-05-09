@@ -18,7 +18,7 @@ export const CONTEXT_TYPES = {
 
 export const WINDOW_ALIGNMENT = {
     BOTH_EDGE: 'both-edge',
-    LOW_EDGE: 'low-edge'
+    LOW_EDGE: 'low-edge',
 };
 
 export const defaultAnimation = {

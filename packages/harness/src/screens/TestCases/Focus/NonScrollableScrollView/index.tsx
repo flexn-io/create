@@ -8,14 +8,14 @@ import Screen from '../../../../components/Screen';
 const NonScrollableScrollView = () => {
     const array = [];
     const renderCards = () => {
-        return array.map(() => (
+        return array.map((i) => (
             <PosterCard
                 src={{ uri: `https://placekitten.com/250/250` }}
+                key={i}
                 style={{
                     width: 250,
                     height: 250,
                     marginHorizontal: 15,
-
                 }}
             />
         ));
@@ -24,9 +24,7 @@ const NonScrollableScrollView = () => {
     return (
         <Screen>
             <ScrollView horizontal>
-                <View style={{ flexDirection: 'row' }}>
-                    {renderCards()}
-                </View>
+                <View style={{ flexDirection: 'row' }}>{renderCards()}</View>
             </ScrollView>
         </Screen>
     );

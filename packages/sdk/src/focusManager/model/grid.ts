@@ -37,7 +37,7 @@ class Grid extends Recycler {
                 (c) =>
                     c.isInForeground() &&
                     c.isFocusable() &&
-                    c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId() && 
+                    c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId() &&
                     c.getOrder() === Core.getCurrentMaxOrder()
             );
 
@@ -103,7 +103,7 @@ class Grid extends Recycler {
 
     public getFocusTaskExecutor(_direction: string): AbstractFocusModel {
         return this;
-    };
+    }
 }
 
 export default Grid;

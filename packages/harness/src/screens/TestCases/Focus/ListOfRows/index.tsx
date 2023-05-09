@@ -2,12 +2,7 @@
 /* eslint-disable */
 import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions } from 'react-native';
-import {
-    Screen,
-    RecyclableList,
-    RecyclableListDataProvider,
-    RecyclableListLayoutProvider,
-} from '@flexn/create';
+import { Screen, RecyclableList, RecyclableListDataProvider, RecyclableListLayoutProvider } from '@flexn/create';
 
 import ContextHelper from './ContextHelper';
 import Row from './row';
@@ -35,7 +30,7 @@ const ListOfRows = () => {
     const parentArray: any = useRef([]);
     const childArray: any = useRef([]);
     const childrenCachePositions: any = useRef();
-    
+
     const [dataProvider, setDataProvider] = useState(
         new RecyclableListDataProvider((r1, r2) => {
             return r1 !== r2;
@@ -129,7 +124,7 @@ const ListOfRows = () => {
     useEffect(() => {
         generateData();
     }, []);
-    
+
     return (
         <Screen style={{ flex: 1 }}>
             <RecyclableList

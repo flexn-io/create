@@ -1,2 +1,1 @@
-
-declare module 'rnv'
+declare module 'rnv';

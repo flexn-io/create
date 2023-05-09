@@ -18,9 +18,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
 
     return (
         <Screen style={[theme.styles.screen, styles.screen]}>
-            <View
-                {...testProps('template-carousels-screen-container')}
-            >
+            <View {...testProps('template-carousels-screen-container')}>
                 <List
                     items={data}
                     itemDimensions={{ height: isFactorMobile ? 200 : 250 }}
@@ -40,13 +38,13 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
 
 const styles = {
     screen: {
-        left: isFactorMobile || isPlatformMacos || isPlatformWeb  ? 0 : Ratio(100),
+        left: isFactorMobile || isPlatformMacos || isPlatformWeb ? 0 : Ratio(100),
     },
     cardStyle: {
         borderWidth: isFactorMobile ? 0 : 5,
         borderRadius: 5,
         borderColor: isFactorTv ? '#0A74E6' : 'transparent',
-        fontSize: isFactorMobile ? 16 : 26
+        fontSize: isFactorMobile ? 16 : 26,
     },
 };
 

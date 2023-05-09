@@ -2,7 +2,6 @@ import React from 'react';
 import Module from './Module';
 import Section from './Section';
 
-
 export default function HomepageFeatures(): JSX.Element {
     return (
         <Section
