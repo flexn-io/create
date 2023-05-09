@@ -1,7 +1,10 @@
 import Recycler from './recycler';
-import Core from './core';
-import AbstractFocusModel from './AbstractFocusModel';
-import Scroller from './scroller';
+import Core from '../service/core';
+import Scroller from '../service/scroller';
+import View from './view';
+import Event, { EVENT_TYPES } from '../events';
+import { CoreManager } from '../..';
+import { measureAsync } from '../layoutManager';
 
 class Grid extends Recycler {
     private _itemsInRow: number;
@@ -11,7 +14,34 @@ class Grid extends Recycler {
 
         this._type = 'grid';
         this._itemsInRow = 0;
+
+        this._onMountAndMeasured = this._onMountAndMeasured.bind(this);
+        this._onUnmount = this._onUnmount.bind(this);
+        this._onLayout = this._onLayout.bind(this);
+
+        this._events = [
+            Event.subscribe(this, EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
+            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+        ];
     }
+
+    // EVENTS
+    protected _onMountAndMeasured() {
+        CoreManager.registerFocusAwareComponent(this);
+    }
+
+    protected _onUnmount() {
+        CoreManager.removeFocusAwareComponent(this);
+        this.unsubscribeEvents();
+    }
+
+    protected async _onLayout() {
+        await measureAsync({ model: this });
+        Event.emit(this, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
+    }
+
+    // END EVENTS
 
     public getType(): string {
         return this._type;
@@ -29,14 +59,13 @@ class Grid extends Recycler {
         return Math.ceil(this.getLayouts().length / this._itemsInRow);
     }
 
-    public getNextFocusable(direction: string): AbstractFocusModel | undefined | null {
+    public getNextFocusable(direction: string): View | undefined | null {
         this.getItemsInRow();
 
         if (this._isInBounds(direction)) {
-            const candidates = Object.values(Core.getFocusMap()).filter(
+            const candidates = Object.values(Core.getViews()).filter(
                 (c) =>
                     c.isInForeground() &&
-                    c.isFocusable() &&
                     c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId() &&
                     c.getOrder() === Core.getCurrentMaxOrder()
             );
@@ -101,7 +130,7 @@ class Grid extends Recycler {
         }, 0);
     }
 
-    public getFocusTaskExecutor(_direction: string): AbstractFocusModel {
+    public getFocusTaskExecutor(_direction: string): Grid {
         return this;
     }
 }

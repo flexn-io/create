@@ -1,7 +1,7 @@
 {
     "name": "@flexn/create",
-    "version": "0.18.0-alpha.8",
-    "description": "Flexn Create",
+    "version": "0.20.0-alpha.25",
+    "description": "Flexn Create SDK",
     "main": "lib/index",
     "types": "lib/index",
     "scripts": {
@@ -26,19 +26,20 @@
     "repository": {
         "directory": "packages/sdk",
         "type": "git",
-        "url": "git+https://github.com/flexn-io/create.git"
+        "url": "git+https://github.com/flexn-io/flexn.git"
     },
     "keywords": [],
     "author": "Flexn BV",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/flexn-io/create/issues"
+        "url": "https://github.com/flexn-io/flexn/issues"
     },
-    "homepage": "https://github.com/flexn-io/create#readme",
+    "homepage": "https://github.com/flexn-io/flexn#readme",
     "dependencies": {
         "@lightningjs/core": "^2.6.0",
         "@lightningjs/sdk": "4.3.3",
         "@lightningjs/ui-components": "^1.2.1",
+        "@shopify/flash-list": "1.4.1",
         "lodash-es": "4.17.21",
         "lodash.debounce": "^4.0.8",
         "lodash.throttle": "^4.0.8",

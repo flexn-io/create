@@ -85,11 +85,6 @@
             "permissions": [
                 "*"
             ],
-            "excludedArchs": [
-                {
-                    "sdk=iphonesimulator*": "arm64"
-                }
-            ],
             "buildSchemes": {
                 "debug": {
                     "id": "io.flexn.template.debug",

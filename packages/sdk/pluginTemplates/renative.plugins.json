@@ -476,8 +476,26 @@
             }
         },
         "react-native-web": "source:rnv",
+        "@shopify/flash-list": {
+            "version": "1.4.1",
+            "tvos": {
+                "podName": "RNFlashList"
+            },
+            "ios": {
+                "podName": "RNFlashList"
+            },
+            "android": {
+                "package": "com.shopify.reactnative.flash_list.ReactNativeFlashListPackage"
+            },
+            "androidtv": {
+                "package": "com.shopify.reactnative.flash_list.ReactNativeFlashListPackage"
+            },
+            "firetv": {
+                "package": "com.shopify.reactnative.flash_list.ReactNativeFlashListPackage"
+            }
+        },
         "@flexn/sdk": {
-            "version": "0.18.0-alpha.8",
+            "version": "0.20.0-alpha.25",
             "webpack": {
                 "modulePaths": true,
                 "moduleAliases": true
@@ -495,7 +513,7 @@
             }
         },
         "@flexn/create": {
-            "version": "0.18.0-alpha.8",
+            "version": "0.18.0-alpha.25",
             "webpack": {
                 "modulePaths": true,
                 "moduleAliases": true

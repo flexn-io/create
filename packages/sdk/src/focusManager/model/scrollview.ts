@@ -1,10 +1,9 @@
-import { makeid } from '../helpers';
-import AbstractFocusModel from './AbstractFocusModel';
+import AbstractFocusModel from './FocusModel';
+import Event, { EVENT_TYPES } from '../events';
+import { CoreManager } from '../..';
+import { measureAsync } from '../layoutManager';
 
 class ScrollView extends AbstractFocusModel {
-    private _type: string;
-
-    private _parent?: AbstractFocusModel;
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
     private _isHorizontal: boolean;
@@ -14,17 +13,41 @@ class ScrollView extends AbstractFocusModel {
 
         const { horizontal, parent } = params;
 
-        this._id = `scroll-${makeid(8)}`;
+        this._id = `scroll-${CoreManager.generateID(8)}`;
         this._isHorizontal = horizontal;
         this._parent = parent;
         this._type = 'scrollview';
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;
+        this._isScrollable = true;
+
+        this._onMount = this._onMount.bind(this);
+        this._onUnmount = this._onUnmount.bind(this);
+        this._onLayout = this._onLayout.bind(this);
+
+        this._events = [
+            Event.subscribe(this, EVENT_TYPES.ON_MOUNT, this._onMount),
+            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+        ];
     }
 
-    public getType(): string {
-        return this._type;
+    // EVENTS
+    private _onMount() {
+        CoreManager.registerFocusAwareComponent(this);
     }
+
+    private _onUnmount() {
+        CoreManager.removeFocusAwareComponent(this);
+        this.unsubscribeEvents();
+    }
+
+    private async _onLayout() {
+        await measureAsync({ model: this });
+        this.remeasureChildrenLayouts(this);
+    }
+
+    // END EVENTS
 
     public setScrollOffsetX(value: number): this {
         this._scrollOffsetX = value;
@@ -46,28 +69,8 @@ class ScrollView extends AbstractFocusModel {
         return this._scrollOffsetY;
     }
 
-    public isScrollable(): boolean {
-        return true;
-    }
-
-    public isFocusable(): boolean {
-        return false;
-    }
-
     public isHorizontal(): boolean {
         return this._isHorizontal;
-    }
-
-    public getParent(): AbstractFocusModel | undefined {
-        return this._parent;
-    }
-
-    public setRepeatContext(_value: any): this {
-        return this;
-    }
-
-    public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
-        return;
     }
 }
 

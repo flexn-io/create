@@ -34,7 +34,7 @@ export default function HomepageFeatures(): JSX.Element {
 
                 <Module
                     title="Community Plugins"
-                    subtitle="The SDK is just the entry point into the vast pool of 3rd party opensource plugins"
+                    subtitle="Flexn Create is just the entry point into the vast pool of 3rd party opensource plugins"
                     websiteUrl="https://create.flexn.org/docs/tutorials/basics/quickstart"
                 />
             </div>

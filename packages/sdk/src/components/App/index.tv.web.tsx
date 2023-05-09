@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View as RNView } from 'react-native';
-import KeyHandler from '../../focusManager/model/keyHandler';
+import KeyHandler from '../../focusManager/service/keyHandler';
 
 export default function App({ children, ...props }: { children: any }) {
     useEffect(() => {

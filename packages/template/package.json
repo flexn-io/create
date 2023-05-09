@@ -1,11 +1,11 @@
 {
     "name": "@flexn/template",
-    "version": "0.18.0-alpha.8",
+    "version": "0.20.0-alpha.25",
     "description": "Flexn Template",
     "keywords": [],
-    "homepage": "https://github.com/flexn-io/create#readme",
+    "homepage": "https://github.com/flexn-io/flexn#readme",
     "bugs": {
-        "url": "https://github.com/flexn-io/create/issues"
+        "url": "https://github.com/flexn-io/flexn/issues"
     },
     "license": "MIT",
     "author": "Flexn BV",
@@ -24,24 +24,24 @@
     "repository": {
         "directory": "packages/template",
         "type": "git",
-        "url": "git+https://github.com/flexn-io/create.git"
+        "url": "git+https://github.com/flexn-io/flexn.git"
     },
     "scripts": {
         "bootstrap": "cd ../.. && yarn bootstrap",
         "build": "tsc --noEmit",
-        "deploy:android-canary": "npx rnv deploy -p android -s canary --only --hooks",
+        "deploy:android-alpha": "npx rnv deploy -p android -s canary --only --hooks",
         "deploy:android-prod": "npx rnv deploy -p android -s production --only --hooks",
-        "deploy:androidtv-canary": "npx rnv deploy -p androidtv -s canary --only --hooks",
+        "deploy:androidtv-alpha": "npx rnv deploy -p androidtv -s canary --only --hooks",
         "deploy:androidtv-prod": "npx rnv deploy -p androidtv -s production --only --hooks",
-        "deploy:firetv-canary": "npx rnv deploy -p firetv -s canary --only --hooks",
+        "deploy:firetv-alpha": "npx rnv deploy -p firetv -s canary --only --hooks",
         "deploy:firetv-prod": "npx rnv deploy -p firetv -s production --only --hooks",
-        "deploy:ios-canary": "npx rnv deploy -p ios -s canary --only --hooks",
+        "deploy:ios-alpha": "npx rnv deploy -p ios -s canary --only --hooks",
         "deploy:ios-prod": "npx rnv deploy -p ios -s production --only --hooks",
-        "deploy:macos-canary": "npx rnv deploy -p macos -s canary --only --hooks",
+        "deploy:macos-alpha": "npx rnv deploy -p macos -s canary --only --hooks",
         "deploy:macos-prod": "npx rnv deploy -p macos -s production --only --hooks",
-        "deploy:tvos-canary": "npx rnv deploy -p tvos -s canary --only --hooks",
+        "deploy:tvos-alpha": "npx rnv deploy -p tvos -s canary --only --hooks",
         "deploy:tvos-prod": "npx rnv deploy -p tvos -s production --only --hooks",
-        "deploy:web-canary": "npx rnv deploy -p web -s canary --only --hooks",
+        "deploy:web-alpha": "npx rnv deploy -p web -s canary --only --hooks",
         "deploy:web-prod": "npx rnv deploy -p web -s production --only --hooks",
         "e2e:all": "yarn e2e:ios ; yarn e2e:tvos ; yarn e2e:android ; yarn e2e:androidtv ; yarn e2e:macos ; yarn e2e:web",
         "e2e:android": "PLATFORM=android JAVA_HOME=$(/usr/libexec/java_home) npx wdio wdio.conf.js",
@@ -57,16 +57,13 @@
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
     "dependencies": {
+        "@flexn/graybox": "0.20.0-alpha.25",
+        "@flexn/create": "0.20.0-alpha.25",
+        "@flexn/typescript": "0.1.4",
         "@lightningjs/cli": "2.7.1",
         "@lightningjs/core": "^2.6.0",
         "@lightningjs/sdk": "4.3.3",
         "@lightningjs/ui-components": "^1.2.1",
-        "raf": "3.4.1"
-    },
-    "devDependencies": {
-        "@flexn/graybox": "0.18.0-alpha.8",
-        "@flexn/create": "0.18.0-alpha.8",
-        "@flexn/typescript": "0.1.4",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/masked-view": "0.1.6",
         "@react-native-windows/cli": "0.63.12",
@@ -112,6 +109,14 @@
         "rollup": "^2.70.2",
         "rollup-plugin-license": "2.7.0",
         "tslib": "2.3.1",
+        "xcode": "2.1.0"
+    },
+    "devDependencies": {
+        "@rnv/engine-rn": "0.36.1",
+        "@rnv/engine-rn-next": "0.36.1",
+        "@rnv/engine-rn-tvos": "0.36.1",
+        "@rnv/engine-rn-web": "0.36.1",
+        "@rnv/engine-rn-windows": "0.36.1",
         "xcode": "2.1.0"
     },
     "optionalDependencies": {

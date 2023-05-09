@@ -1,6 +1,7 @@
 // import { Dimensions } from 'react-native';
 // import Logger from './model/logger';
-import AbstractFocusModel from './model/AbstractFocusModel';
+import View from './model/view';
+import { ClosestNodeOutput } from './types';
 
 const OVERLAP_THRESHOLD_PERCENTAGE = 20;
 const OVERLAP_NEXT_VALUE = 10;
@@ -32,7 +33,7 @@ const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: numbe
     return false;
 };
 
-const euclideanDistance = (current: AbstractFocusModel, next: AbstractFocusModel, direction: string) => {
+const euclideanDistance = (current: View, next: View, direction: string): number => {
     const currentLayout = current.getLayout().absolute;
     const nextLayout = next.getLayout().absolute;
 
@@ -41,12 +42,12 @@ const euclideanDistance = (current: AbstractFocusModel, next: AbstractFocusModel
     if (direction === 'left' || direction === 'right') {
         c2 = Math.abs(currentLayout.yMin - nextLayout.yMin);
         c3 = Math.abs(currentLayout.yMax - nextLayout.yMin);
-        c4 = Math.abs(nextLayout.yMin - currentLayout.yMax);
+        c4 = Math.abs(currentLayout.yMin - nextLayout.yMax);
         c5 = Math.abs(currentLayout.yMax - nextLayout.yMax);
     } else {
         c2 = Math.abs(currentLayout.xMin - nextLayout.xMin);
         c3 = Math.abs(currentLayout.xMax - nextLayout.xMin);
-        c4 = Math.abs(nextLayout.xMin - currentLayout.xMax);
+        c4 = Math.abs(currentLayout.xMin - nextLayout.xMax);
         c5 = Math.abs(currentLayout.xMax - nextLayout.xMax);
     }
 
@@ -76,7 +77,7 @@ const euclideanDistance = (current: AbstractFocusModel, next: AbstractFocusModel
     );
 };
 
-const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, direction: string) => {
+const closestDist = (current: View, next: View, direction: string): [string, number] => {
     const currentLayout = current.getLayout().absolute;
     const nextLayout = next.getLayout().absolute;
 
@@ -153,30 +154,39 @@ const closestDist = (current: AbstractFocusModel, next: AbstractFocusModel, dire
     return ['', 0];
 };
 
-export const distCalc = (output: any, direction: string, current: AbstractFocusModel, next: AbstractFocusModel) => {
+export const distCalc = (currentClosestNodeOutput: ClosestNodeOutput, direction: string, current: View, next: View) => {
     const [priority, dist] = closestDist(current, next, direction);
+
+    const output: ClosestNodeOutput = { ...currentClosestNodeOutput };
+
+    // console.log({
+    //     priority,
+    //     dist,
+    //     next: next.getId(),
+    // });
 
     switch (priority) {
         case 'p1':
             {
-                if (dist !== undefined && output.match1 >= dist) {
+                if (dist !== undefined && currentClosestNodeOutput.match1 >= dist) {
                     output.match1 = dist;
-                    output.match1Context = next;
+                    output.match1Model = next;
                     // console.log('FOUND', dist, priority, current.getId(), next.getId());
                 }
             }
             break;
         case 'p2':
             {
-                if (dist !== undefined && output.match2 >= dist) {
+                if (dist !== undefined && currentClosestNodeOutput.match2 >= dist) {
                     output.match2 = dist;
-                    output.match2Context = next;
+                    output.match2Model = next;
                     // console.log('FOUND', dist, priority, current.getId(), next.getId());
                 }
             }
             break;
-
         default:
             break;
     }
+
+    return output;
 };

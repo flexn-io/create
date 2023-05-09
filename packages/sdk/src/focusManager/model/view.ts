@@ -1,26 +1,24 @@
-import CoreManager from './core';
-import { makeid } from '../helpers';
-import AbstractFocusModel from './AbstractFocusModel';
-import { alterForbiddenFocusDirections } from '../helpers';
-import { ForbiddenFocusDirections } from '../types';
+import CoreManager from '../service/core';
+import FocusModel, { TYPE_RECYCLER } from './FocusModel';
 import Recycler from './recycler';
+import ScrollView from './scrollview';
+import Event, { EVENT_TYPES } from '../events';
+import { measureAsync } from '../layoutManager';
 
-class View extends AbstractFocusModel {
-    private _type: string;
-    private _parent?: AbstractFocusModel;
+class View extends FocusModel {
+    private _parentRecyclerView?: Recycler;
+    private _parentScrollView?: ScrollView;
+
     private _isFocused: boolean;
-    private _forbiddenFocusDirections: ForbiddenFocusDirections[];
     private _focusKey: string;
     private _hasPreferredFocus: boolean;
     private _repeatContext:
         | {
-              parentContext: AbstractFocusModel;
-              index: number;
-          }
+            focusContext: FocusModel;
+            index: number;
+        }
         | undefined;
 
-    private _onFocus?: () => void;
-    private _onBlur?: () => void;
     private _onPress?: () => void;
 
     constructor(params: any) {
@@ -37,25 +35,36 @@ class View extends AbstractFocusModel {
             hasPreferredFocus,
         } = params;
 
-        const id = makeid(8);
+        const id = CoreManager.generateID(8);
         this._id = parent?.getId() ? `${parent.getId()}:view-${id}` : `view-${id}`;
         this._type = 'view';
         this._parent = parent;
         this._isFocused = false;
+        this._isFocusable = true;
         this._repeatContext = repeatContext;
         this._focusKey = focusKey;
-        this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._hasPreferredFocus = hasPreferredFocus;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
         this._onPress = onPress;
 
+        this._onMount = this._onMount.bind(this);
+        this._onUnmount = this._onUnmount.bind(this);
+        this._onLayout = this._onLayout.bind(this);
+
+        this._events = [
+            Event.subscribe(this, EVENT_TYPES.ON_MOUNT, this._onMount),
+            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+        ];
+
         this.init();
     }
 
     private init() {
-        if (this.getParent()?.isRecyclable()) {
+        if (this.getParent()?.getType() === TYPE_RECYCLER) {
             const parent = this.getParent() as Recycler;
             if (parent.getInitialRenderIndex() && parent.getInitialRenderIndex() === this.getRepeatContext()?.index) {
                 parent.setFocusedView(this);
@@ -65,9 +74,28 @@ class View extends AbstractFocusModel {
         }
     }
 
-    public getType(): string {
-        return this._type;
+    // EVENTS
+    private _onMount() {
+        CoreManager.registerFocusAwareComponent(this);
+        const screen = this.getScreen();
+        if (screen) {
+            screen.addComponentToPendingLayoutMap(this.getId());
+            if (this.hasPreferredFocus()) screen.setPreferredFocus(this);
+        }
     }
+
+    private _onUnmount() {
+        CoreManager.removeFocusAwareComponent(this);
+        this.getScreen()?.onViewRemoved(this);
+        this.unsubscribeEvents();
+    }
+
+    private async _onLayout() {
+        await measureAsync({ model: this });
+        this.getScreen()?.removeComponentFromPendingLayoutMap(this.getId());
+    }
+
+    // END EVENTS
 
     public isFocusable(): boolean {
         return true;
@@ -83,19 +111,6 @@ class View extends AbstractFocusModel {
 
     public setFocus() {
         CoreManager.executeFocus(this);
-        CoreManager.executeUpdateGuideLines();
-    }
-
-    public onFocus(): void {
-        if (this._onFocus) {
-            this._onFocus();
-        }
-    }
-
-    public onBlur(): void {
-        if (this._onBlur) {
-            this._onBlur();
-        }
     }
 
     public onPress(): void {
@@ -107,7 +122,7 @@ class View extends AbstractFocusModel {
     public setIsFocused(value: boolean): this {
         this._isFocused = value;
 
-        if (value && this.getParent()?.isRecyclable()) {
+        if (value && this.getParent()?.getType() === TYPE_RECYCLER) {
             const currentIndex = this.getRepeatContext()?.index;
             if (currentIndex !== undefined) {
                 (this.getParent() as Recycler).setFocusedIndex(currentIndex).setFocusedView(this);
@@ -127,24 +142,36 @@ class View extends AbstractFocusModel {
         return this;
     }
 
-    public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
+    public getRepeatContext(): { focusContext: FocusModel; index: number } | undefined {
         return this._repeatContext;
-    }
-
-    public getParent(): AbstractFocusModel | undefined {
-        return this._parent;
     }
 
     public getFocusKey(): string {
         return this._focusKey;
     }
 
-    public getForbiddenFocusDirections(): ForbiddenFocusDirections[] {
-        return this._forbiddenFocusDirections;
-    }
-
     public hasPreferredFocus(): boolean {
         return this._hasPreferredFocus;
+    }
+
+    public setParentRecyclerView(recyclerView: Recycler) {
+        this._parentRecyclerView = recyclerView;
+
+        return this;
+    }
+
+    public getParentRecyclerView(): Recycler | undefined {
+        return this._parentRecyclerView;
+    }
+
+    public setParentScrollView(scrollView: ScrollView) {
+        this._parentScrollView = scrollView;
+
+        return this;
+    }
+
+    public getParentScrollView(): ScrollView | undefined {
+        return this._parentScrollView;
     }
 }
 

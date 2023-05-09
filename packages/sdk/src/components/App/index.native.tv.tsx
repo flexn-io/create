@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View as RNView, ScrollView as RNScrollView, TouchableOpacity, findNodeHandle } from 'react-native';
 import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
-import KeyHandler from '../../focusManager/model/keyHandler';
+import KeyHandler from '../../focusManager/service/keyHandler';
 
 const isAndroidBased = isPlatformAndroidtv || isPlatformFiretv;
 

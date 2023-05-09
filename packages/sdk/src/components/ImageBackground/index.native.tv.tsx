@@ -1,16 +1,16 @@
 import React from 'react';
 import { ImageBackground as RNImageBackground, ImageBackgroundProps } from 'react-native';
-import type { Context } from '../../focusManager/types';
+import type { FocusContext } from '../../focusManager/types';
 
 interface ImageBackgroundPropsExtended extends ImageBackgroundProps {
     children?: React.ReactNode;
-    parentContext: Context;
+    focusContext: FocusContext;
 }
 
-const ImageBackground = ({ children, parentContext, source, ...props }: ImageBackgroundPropsExtended) => {
+const ImageBackground = ({ children, focusContext, source, ...props }: ImageBackgroundPropsExtended) => {
     const childrenWithProps = React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
-            return React.cloneElement(child, { parentContext });
+            return React.cloneElement(child, { focusContext });
         }
         return child;
     });

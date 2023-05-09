@@ -1,35 +1,64 @@
-import AbstractFocusModel from './AbstractFocusModel';
 import Recycler from './recycler';
 import View from './view';
-import Core from './core';
-import Scroller from './scroller';
+import Core from '../service/core';
+import Scroller from '../service/scroller';
 import { DIRECTION_VERTICAL } from '../constants';
+import Event, { EVENT_TYPES } from '../events';
+import { CoreManager } from '../..';
+import { measureAsync } from '../layoutManager';
+import RecyclerView from './recycler';
 
 class Row extends Recycler {
     constructor(params: any) {
         super(params);
 
         this._type = 'row';
+
+        this._onMountAndMeasured = this._onMountAndMeasured.bind(this);
+        this._onUnmount = this._onUnmount.bind(this);
+        this._onLayout = this._onLayout.bind(this);
+
+        this._events = [
+            Event.subscribe(this, EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
+            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+        ];
     }
+
+    // EVENTS
+    protected _onMountAndMeasured() {
+        CoreManager.registerFocusAwareComponent(this);
+    }
+
+    protected _onUnmount() {
+        CoreManager.removeFocusAwareComponent(this);
+        this.unsubscribeEvents();
+    }
+
+    protected async _onLayout() {
+        await measureAsync({ model: this });
+        Event.emit(this, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
+    }
+
+    // END EVENTS
 
     public getType(): string {
         return this._type;
     }
 
-    public getLastFocused(): AbstractFocusModel {
-        return this?.getFocusedView() ?? this.getChildren()[0];
+    public getLastFocused(): View | undefined {
+        return this?.getFocusedView() ?? this.getFirstFocusableChildren();
     }
 
     private getCurrentFocusIndex(): number {
         return Core.getCurrentFocus()?.getRepeatContext()?.index || 0;
     }
 
-    public getNextFocusable(direction: string): AbstractFocusModel | undefined | null {
+    public getNextFocusable(direction: string): View | undefined | null {
         if (this._isInBounds(direction) && ['right', 'left'].includes(direction)) {
-            const candidates = Object.values(Core.getFocusMap()).filter(
+            const candidates = Object.values(Core.getViews()).filter(
                 (c) =>
                     c.isInForeground() &&
-                    c.isFocusable() &&
                     c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId() &&
                     c.getOrder() === Core.getCurrentMaxOrder()
             );
@@ -40,8 +69,8 @@ class Row extends Recycler {
 
             if (
                 ['right', 'left'].includes(direction) &&
-                nextFocus?.getParent()?.isRecyclable() &&
-                nextFocus?.getParent()?.isHorizontal()
+                nextFocus?.getParent() instanceof RecyclerView &&
+                (nextFocus?.getParent() as RecyclerView)?.isHorizontal()
             ) {
                 return Core.getCurrentFocus();
             }
@@ -82,7 +111,7 @@ class Row extends Recycler {
 
         const interval = setInterval(() => {
             const currentChildren = this.getChildren().find(
-                (ch) => ch.getRepeatContext()?.index === this.getInitialRenderIndex()
+                (ch) => ch instanceof View && ch.getRepeatContext()?.index === this.getInitialRenderIndex()
             );
             if (currentChildren) {
                 this.setFocusedView(currentChildren as View);
@@ -91,9 +120,9 @@ class Row extends Recycler {
         }, 100);
     }
 
-    public getFocusTaskExecutor(direction: string): AbstractFocusModel | undefined {
+    public getFocusTaskExecutor(direction: string): Row | undefined {
         if (this.isNested() && DIRECTION_VERTICAL.includes(direction)) {
-            return this.getParent();
+            return this.getParent() as Row;
         }
 
         return this;

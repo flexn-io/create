@@ -1,15 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View as RNView } from 'react-native';
+import { View as RNView, StyleSheet } from 'react-native';
 import { isPlatformTvos } from '@rnv/renative';
-import { useCombinedRefs, usePrevious, flattenStyle } from '../../focusManager/helpers';
 import type { ViewProps } from '../../focusManager/types';
-import CoreManager from '../../focusManager/model/core';
 import { ANIMATIONS } from '../../focusManager/constants';
-import { measure } from '../../focusManager/layoutManager';
+import { measureSync } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
 import ViewClass from '../../focusManager/model/view';
-import Screen from '../../focusManager/model/screen';
+import useOnLayout from '../../hooks/useOnLayout';
+import { useCombinedRefs } from '../../hooks/useCombinedRef';
+import { usePrevious } from '../../hooks/usePrevious';
+import Event, { EVENT_TYPES } from '../../focusManager/events';
 
 export const defaultAnimation = {
     type: 'scale',
@@ -23,114 +24,109 @@ const View = React.forwardRef<any, ViewProps>(
             style,
             focus = true,
             focusOptions = {},
-            parentContext,
-            repeatContext,
-            onPress = () => {
-                return null;
-            },
-            onFocus = () => {
-                return null;
-            },
-            onBlur = () => {
-                return null;
-            },
+            focusContext,
+            focusRepeatContext,
+            onPress,
+            onFocus,
+            onBlur,
             ...props
         },
         refOuter
     ) => {
-        const refInner = useRef(null);
-        const ref = useCombinedRefs(refOuter, refInner);
+        const refInner = useRef<RNView>();
         const prevFocus = usePrevious(focus);
-        const pctx = repeatContext?.parentContext || parentContext;
+        const parent = focusRepeatContext?.focusContext || focusContext;
 
-        const [ViewInstance, setViewInstance] = useState(() => {
+        const [model, setModel] = useState<ViewClass>(() => {
             if (!focus) {
-                return pctx;
+                return parent;
             } else {
                 return new ViewClass({
                     focus,
-                    repeatContext,
-                    parent: pctx,
+                    focusRepeatContext,
+                    parent,
                     ...focusOptions,
                 });
             }
         });
 
+        const ref = useCombinedRefs<RNView>({ refs: [refOuter, refInner], model: focus ? model : null });
+
+        const { onLayout } = useOnLayout(model);
+
+        const { onLayout: onLayoutNonPressable } = useOnLayout(
+            model,
+            () => {
+                model?.remeasureChildrenLayouts?.(model);
+            },
+            true
+        );
+
         // We must re-assign repeat context as View instances are re-used in recycled
-        if (repeatContext) {
-            ViewInstance.setRepeatContext(repeatContext);
+        if (focusRepeatContext) {
+            model.setRepeatContext(focusRepeatContext);
         }
 
         useEffect(() => {
             // If item initially was not focusable, but during the time it became focusable we capturing that here
             if (prevFocus === false && focus === true) {
-                const cls = new ViewClass({
+                const model = new ViewClass({
                     focus: true,
-                    repeatContext,
-                    parent: pctx,
+                    focusRepeatContext,
+                    parent,
                     forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
                 });
 
-                setViewInstance(cls);
-                CoreManager.registerFocusable(cls, ref);
+                setModel(model);
+
+                Event.emit(model, EVENT_TYPES.ON_MOUNT);
             }
         }, [focus]);
 
         useEffect(() => {
-            (ViewInstance as ViewClass)?.updateEvents?.({
+            if (focus) {
+                Event.emit(model, EVENT_TYPES.ON_MOUNT);
+            }
+            return () => {
+                if (focus) {
+                    Event.emit(model, EVENT_TYPES.ON_UNMOUNT);
+                }
+            };
+        }, []);
+
+        useEffect(() => {
+            model?.updateEvents?.({
                 onPress,
                 onFocus,
                 onBlur,
             });
         }, [onPress, onFocus, onBlur]);
 
-        useEffect(() => {
-            if (focus) {
-                CoreManager.registerFocusable(ViewInstance, ref);
-                const screen = ViewInstance.getScreen() as Screen;
-                if (screen) {
-                    screen.addComponentToPendingLayoutMap(ViewInstance.getId());
-                    if (ViewInstance.hasPreferredFocus()) screen.setPreferredFocus(ViewInstance);
-                }
-            }
-
-            return () => {
-                if (focus) {
-                    CoreManager.removeFocusable(ViewInstance);
-                    ViewInstance.getScreen()?.onViewRemoved(ViewInstance);
-                }
-            };
-        }, []);
+        // In recycled mode we must re-measure on render
+        //@ts-ignore
+        if (focusRepeatContext && ref?.current) {
+            // model.setNode(ref);
+            measureSync({ model });
+        }
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
                 return React.cloneElement(child, {
-                    parentContext: ViewInstance,
+                    focusContext: model,
                 });
             }
 
             return child;
         });
 
-        const onLayout = () => {
-            measure(ViewInstance, ref, undefined, () => {
-                ViewInstance.getScreen()?.removeComponentFromPendingLayoutMap(ViewInstance.getId());
-            });
-        };
-
-        // In recycled mode we must re-measure on render
-        if (repeatContext && ref.current) {
-            measure(ViewInstance, ref);
-        }
-
         if (focus) {
             let animatorOptions = focusOptions.animatorOptions || defaultAnimation;
 
-            const flattenedStyle = flattenStyle(style);
+            const flattenedStyle = StyleSheet.flatten(style);
             animatorOptions = { ...animatorOptions, style: { ...flattenedStyle } };
             let borderProps = {};
             const isBorderAnimation = [ANIMATIONS.BORDER, ANIMATIONS.SCALE_BORDER].includes(animatorOptions.type);
-            if (!isBorderAnimation) {
+            if (!isBorderAnimation && flattenedStyle) {
                 borderProps = {
                     focusableBorderWidth: flattenedStyle.borderWidth,
                     focusableBorderLeftWidth: flattenedStyle.borderLeftWidth,
@@ -138,17 +134,17 @@ const View = React.forwardRef<any, ViewProps>(
                     focusableBorderTopWidth: flattenedStyle.borderTopWidth,
                     focusableBorderBottomWidth: flattenedStyle.borderBottomWidth,
                     focusableBorderStartWidth: flattenedStyle.borderStartWidth,
-                    focusableBorderEndWidth: flattenedStyle.borderEndWith,
+                    focusableBorderEndWidth: flattenedStyle.borderEndWidth,
                 };
             } else {
-                if (isPlatformTvos) {
+                if (isPlatformTvos && flattenedStyle) {
                     delete flattenedStyle.borderWidth;
                 }
             }
 
             return (
                 <TvFocusableViewManager
-                    isTVSelectable
+                    isTVSelectable={true}
                     style={flattenedStyle}
                     onLayout={onLayout}
                     animatorOptions={animatorOptions}
@@ -162,7 +158,7 @@ const View = React.forwardRef<any, ViewProps>(
         }
 
         return (
-            <RNView style={style} {...props} ref={ref}>
+            <RNView style={style} {...props} ref={ref} onLayout={onLayoutNonPressable}>
                 {childrenWithProps}
             </RNView>
         );

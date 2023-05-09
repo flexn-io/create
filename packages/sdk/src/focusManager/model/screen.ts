@@ -1,13 +1,12 @@
-import { ScreenStates, ForbiddenFocusDirections } from '../types';
-import CoreManager from './core';
-import Logger from './logger';
-import { makeid } from '../helpers';
-import AbstractFocusModel from './AbstractFocusModel';
+import { ForbiddenFocusDirections, ScreenStates } from '../types';
+import CoreManager from '../service/core';
+import Logger from '../service/logger';
+import FocusModel, { TYPE_RECYCLER, TYPE_VIEW } from './FocusModel';
 import View from './view';
-import { alterForbiddenFocusDirections } from '../helpers';
-import { findLowestRelativeCoordinates } from '../layoutManager';
+import { findLowestRelativeCoordinates, measureSync } from '../layoutManager';
 import { DEFAULT_VIEWPORT_OFFSET } from '../constants';
 import Recycler from './recycler';
+import Event, { EVENT_TYPES } from '../events';
 
 const DELAY_TIME_IN_MS = 100;
 
@@ -16,17 +15,33 @@ export const STATE_FOREGROUND: ScreenStates = 'foreground';
 const ALIGNMENT_BOTH_EDGE = 'bot-edge';
 const ALIGNMENT_LOW_EDGE = 'low-edge';
 
-class Screen extends AbstractFocusModel {
+type ScreenModelParams = {
+    focusKey?: string;
+    group?: string;
+    order?: number;
+    state: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
+    prevState: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
+    verticalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
+    horizontalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
+    horizontalViewportOffset?: number;
+    verticalViewportOffset?: number;
+    forbiddenFocusDirections?: ForbiddenFocusDirections[];
+    zOrder?: number;
+    stealFocus: boolean;
+    onFocus?(): void;
+    onBlur?(): void;
+};
+
+class Screen extends FocusModel {
     public _type: string;
     private _state: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
     private _prevState: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
-    private _verticalWindowAlignment: typeof ALIGNMENT_BOTH_EDGE | typeof ALIGNMENT_LOW_EDGE;
-    private _horizontalWindowAlignment: typeof ALIGNMENT_BOTH_EDGE | typeof ALIGNMENT_LOW_EDGE;
+    private _verticalWindowAlignment: typeof ALIGNMENT_LOW_EDGE;
+    private _horizontalWindowAlignment: typeof ALIGNMENT_LOW_EDGE;
     private _order: number;
     private _focusKey: string;
     private _horizontalViewportOffset: number;
     private _verticalViewportOffset: number;
-    private _forbiddenFocusDirections: ForbiddenFocusDirections[];
     private _initialLoadInProgress: boolean;
     private _componentsPendingLayoutMap: { [key: string]: boolean };
     private _unmountingComponents: number;
@@ -35,17 +50,9 @@ class Screen extends AbstractFocusModel {
     private _precalculatedFocus?: View;
     private _stealFocus: boolean;
     private _isFocused: boolean;
-    private _repeatContext:
-        | {
-              parentContext: AbstractFocusModel;
-              index: number;
-          }
-        | undefined;
+    private _group?: string;
 
-    private _onFocus?: () => void;
-    private _onBlur?: () => void;
-
-    constructor(params: any) {
+    constructor(params: ScreenModelParams) {
         super(params);
 
         const {
@@ -54,6 +61,7 @@ class Screen extends AbstractFocusModel {
             order = 0,
             stealFocus = true,
             focusKey = '',
+            group,
             verticalWindowAlignment = ALIGNMENT_LOW_EDGE,
             horizontalWindowAlignment = ALIGNMENT_LOW_EDGE,
             horizontalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
@@ -63,8 +71,9 @@ class Screen extends AbstractFocusModel {
             onBlur,
         } = params;
 
-        this._id = `screen-${makeid(8)}`;
+        this._id = `screen-${CoreManager.generateID(8)}`;
         this._type = 'screen';
+        this._group = group;
         this._state = state;
         this._prevState = prevState;
         this._order = order;
@@ -73,7 +82,7 @@ class Screen extends AbstractFocusModel {
         this._horizontalWindowAlignment = horizontalWindowAlignment;
         this._horizontalViewportOffset = horizontalViewportOffset;
         this._verticalViewportOffset = verticalViewportOffset;
-        this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._stealFocus = stealFocus;
         this._isFocused = false;
         this._unmountingComponents = 0;
@@ -83,6 +92,63 @@ class Screen extends AbstractFocusModel {
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
+
+        this._onMount = this._onMount.bind(this);
+        this._onUnmount = this._onUnmount.bind(this);
+        this._onLayout = this._onLayout.bind(this);
+        this._onPropertyChanged = this._onPropertyChanged.bind(this);
+
+        this._events = [
+            Event.subscribe(this, EVENT_TYPES.ON_MOUNT, this._onMount),
+            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(this, EVENT_TYPES.ON_PROPERTY_CHANGED, this._onPropertyChanged),
+        ];
+    }
+
+    // EVENTS
+    private _onMount() {
+        CoreManager.registerFocusAwareComponent(this);
+    }
+
+    private _onUnmount() {
+        CoreManager.removeFocusAwareComponent(this);
+        this.onScreenRemoved();
+        this.unsubscribeEvents();
+    }
+
+    private _onLayout() {
+        measureSync({ model: this });
+    }
+
+    private _onPropertyChanged({ property, newValue }: { property: string; newValue: any }) {
+        switch (property) {
+            case 'state':
+                this.setPrevState(this.getState()).setState(newValue);
+                if (this.isPrevStateBackground() && this.isInForeground()) {
+                    this.setFocus(this.getFirstFocusableOnScreen());
+                }
+                break;
+            case 'order':
+                this.setOrder(newValue);
+                break;
+            default:
+                break;
+        }
+    }
+
+    // END EVENTS
+
+    public onScreenRemoved() {
+        const screens = Object.values(CoreManager._screens).filter(
+            (c) => c.isInForeground() && c.getOrder() === CoreManager.getCurrentMaxOrder()
+        );
+
+        const nextScreen = screens.find((c) => c?.hasStealFocus()) ?? screens[0];
+
+        if (nextScreen) {
+            nextScreen.setFocus(nextScreen.getFirstFocusableOnScreen());
+        }
     }
 
     public addComponentToPendingLayoutMap(id: string): void {
@@ -104,32 +170,31 @@ class Screen extends AbstractFocusModel {
         }
     }
 
-    public setFocus(cls?: AbstractFocusModel) {
-        if (cls) {
+    public setFocus(model?: View) {
+        if (model) {
             CoreManager.getCurrentFocus()?.getScreen()?.onBlur?.();
-            CoreManager.executeFocus(cls);
-            CoreManager.executeUpdateGuideLines();
-            cls.getScreen()?.onFocus();
-            if (cls.getParent()?.getId() !== cls.getScreen()?.getId()) {
-                cls.getParent()?.onFocus();
+            CoreManager.executeFocus(model);
+            model.getScreen()?.onFocus();
+            if (model.getParent()?.getId() !== model.getScreen()?.getId()) {
+                model.getParent()?.onFocus();
             }
         } else {
             Logger.getInstance().log('Focusable not found');
         }
     }
 
-    public onViewRemoved(cls: View): void {
+    public onViewRemoved(model: View): void {
         this._unmountingComponents++;
 
         setTimeout(() => {
             this._unmountingComponents--;
-            if (cls.getId() === this._currentFocus?.getId()) {
+            if (model.getId() === this._currentFocus?.getId()) {
                 delete this._currentFocus;
             }
-            if (cls.getId() === this._preferredFocus?.getId()) {
+            if (model.getId() === this._preferredFocus?.getId()) {
                 delete this._preferredFocus;
             }
-            if (cls.getId() === this._precalculatedFocus?.getId()) {
+            if (model.getId() === this._precalculatedFocus?.getId()) {
                 delete this._precalculatedFocus;
             }
             if (this._unmountingComponents <= 0 && !this._currentFocus) {
@@ -138,12 +203,12 @@ class Screen extends AbstractFocusModel {
         }, DELAY_TIME_IN_MS);
     }
 
-    public getFirstFocusableOnScreen = (): AbstractFocusModel | undefined => {
+    public getFirstFocusableOnScreen = (): View | undefined => {
         if (this.isInForeground()) {
             if (this._currentFocus) return this._currentFocus;
             if (this._preferredFocus) return this._preferredFocus;
             if (this._precalculatedFocus) {
-                if (this._precalculatedFocus.getParent()?.isRecyclable()) {
+                if (this._precalculatedFocus.getParent()?.getType() === TYPE_RECYCLER) {
                     const recycler = this._precalculatedFocus.getParent() as Recycler;
                     if (recycler.getFocusedView()) return recycler.getFocusedView();
                 }
@@ -156,24 +221,18 @@ class Screen extends AbstractFocusModel {
         }
     };
 
-    private precalculateFocus(cls: AbstractFocusModel) {
-        cls.getChildren().forEach((ch) => {
+    private precalculateFocus(model: FocusModel) {
+        model.getChildren().forEach((ch) => {
             this.precalculateFocus(ch);
         });
 
-        findLowestRelativeCoordinates(cls);
+        if (model.getType() === TYPE_VIEW) {
+            findLowestRelativeCoordinates(model as View);
+        }
     }
 
     public getType(): string {
         return this._type;
-    }
-
-    public setScreen(_cls: AbstractFocusModel): this {
-        return this;
-    }
-
-    public getScreen(): undefined {
-        return undefined;
     }
 
     public getState(): typeof STATE_BACKGROUND | typeof STATE_FOREGROUND {
@@ -234,10 +293,6 @@ class Screen extends AbstractFocusModel {
         return this._verticalViewportOffset;
     }
 
-    public getForbiddenFocusDirections(): ForbiddenFocusDirections[] {
-        return this._forbiddenFocusDirections;
-    }
-
     public setInitialLoadInProgress(value: boolean): this {
         this._initialLoadInProgress = value;
 
@@ -248,16 +303,12 @@ class Screen extends AbstractFocusModel {
         return this._initialLoadInProgress;
     }
 
-    public getChildren(): AbstractFocusModel[] {
+    public getChildren(): FocusModel[] {
         return this._children;
     }
 
-    public getParent(): AbstractFocusModel | undefined {
-        return undefined;
-    }
-
-    public setPreferredFocus(cls: View): this {
-        this._preferredFocus = cls;
+    public setPreferredFocus(model: View): this {
+        this._preferredFocus = model;
 
         return this;
     }
@@ -266,14 +317,14 @@ class Screen extends AbstractFocusModel {
         return this._preferredFocus;
     }
 
-    public setPrecalculatedFocus(cls: View): this {
-        this._precalculatedFocus = cls;
+    public setPrecalculatedFocus(model: View): this {
+        this._precalculatedFocus = model;
 
         return this;
     }
 
-    public setCurrentFocus(cls: View): this {
-        this._currentFocus = cls;
+    public setCurrentFocus(model: View): this {
+        this._currentFocus = model;
 
         return this;
     }
@@ -296,36 +347,12 @@ class Screen extends AbstractFocusModel {
         return this._isFocused;
     }
 
-    public isFocusable(): boolean {
-        return false;
-    }
-
-    public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
-        return this._repeatContext;
-    }
-
     public hasStealFocus(): boolean {
         return this._stealFocus;
     }
 
-    public isScreen(): boolean {
-        return true;
-    }
-
-    public onFocus(): void {
-        if (this._onFocus) {
-            this._onFocus();
-        }
-    }
-
-    public onBlur(): void {
-        if (this._onBlur) {
-            this._onBlur();
-        }
-    }
-
-    public setRepeatContext(_value: any): this {
-        return this;
+    public getGroup() {
+        return this._group;
     }
 }
 

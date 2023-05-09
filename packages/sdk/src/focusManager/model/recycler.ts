@@ -1,28 +1,26 @@
-import AbstractFocusModel from './AbstractFocusModel';
+import AbstractFocusModel from './FocusModel';
 import { ForbiddenFocusDirections } from '../types';
-import { alterForbiddenFocusDirections, makeid } from '../helpers';
 import View from './view';
-class Recycler extends AbstractFocusModel {
-    protected _type: string;
-    private _parent?: AbstractFocusModel;
-    private _layouts: any;
+import Event, { EVENT_TYPES } from '../events';
+import { CoreManager } from '../..';
+import { measureAsync } from '../layoutManager';
+
+class RecyclerView extends AbstractFocusModel {
+    private _layouts: { x: number; y: number }[];
+    private _layoutsReady: boolean;
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
     private _isNested: boolean;
     private _isHorizontal: boolean;
-    private _forbiddenFocusDirections: ForbiddenFocusDirections[];
     private _focusedIndex: number;
     private _initialRenderIndex: number;
     private _focusedView?: View;
     private _repeatContext:
         | {
-              parentContext: AbstractFocusModel;
+              focusContext: AbstractFocusModel;
               index: number;
           }
         | undefined;
-
-    private _onFocus?: () => void;
-    private _onBlur?: () => void;
 
     constructor(params: any) {
         super(params);
@@ -38,47 +36,76 @@ class Recycler extends AbstractFocusModel {
             initialRenderIndex = 0,
         } = params;
 
-        this._id = `recycler-${makeid(8)}`;
+        this._layoutsReady = false;
+        this._id = `recycler-${CoreManager.generateID(8)}`;
         this._type = 'recycler';
         this._layouts = [];
+        this._isScrollable = true;
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;
         this._isNested = isNested;
         this._isHorizontal = isHorizontal;
         this._parent = parent;
         this._repeatContext = repeatContext;
-        this._forbiddenFocusDirections = alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._focusedIndex = 0;
         this._initialRenderIndex = initialRenderIndex;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
+
+        this._onMountAndMeasured = this._onMountAndMeasured.bind(this);
+        this._onUnmount = this._onUnmount.bind(this);
+        this._onLayout = this._onLayout.bind(this);
+
+        this._events = [
+            Event.subscribe(this, EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
+            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+        ];
     }
 
-    public getType(): string {
-        return this._type;
+    // EVENTS
+    protected _onMountAndMeasured() {
+        CoreManager.registerFocusAwareComponent(this);
     }
 
-    public isFocusable(): boolean {
-        return false;
+    protected _onUnmount() {
+        CoreManager.removeFocusAwareComponent(this);
+        this.unsubscribeEvents();
     }
 
-    public getLayouts(): [] {
+    protected async _onLayout() {
+        await measureAsync({ model: this });
+        Event.emit(this, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
+    }
+
+    // END EVENTS
+
+    public getLayouts(): { x: number; y: number }[] {
         return this._layouts;
     }
 
-    public setLayouts(layouts: any) {
-        this._layouts = layouts;
+    public updateLayouts(layouts: { x: number; y: number }[] | undefined) {
+        if (layouts && this._layouts.length !== layouts.length) {
+            this._layouts = layouts;
+
+            if (!this._layoutsReady) {
+                if (this.getInitialRenderIndex()) {
+                    this.scrollToInitialRenderIndex();
+                }
+            }
+
+            this._layoutsReady = true;
+
+            const repeatLayout = layouts[layouts.length - 1];
+            this.updateLayoutProperty('xMaxScroll', this.getLayout().xMax + repeatLayout.x).updateLayoutProperty(
+                'yMaxScroll',
+                this.getLayout().yMax + repeatLayout.y
+            );
+        }
 
         return this;
-    }
-
-    public isScrollable(): boolean {
-        return true;
-    }
-
-    public isRecyclable(): boolean {
-        return true;
     }
 
     public isNested(): boolean {
@@ -109,17 +136,13 @@ class Recycler extends AbstractFocusModel {
         return this._scrollOffsetY;
     }
 
-    public getParent(): AbstractFocusModel | undefined {
-        return this._parent;
-    }
-
     public setRepeatContext(value: any): this {
         this._repeatContext = value;
 
         return this;
     }
 
-    public getRepeatContext(): { parentContext: AbstractFocusModel; index: number } | undefined {
+    public getRepeatContext(): { focusContext: AbstractFocusModel; index: number } | undefined {
         return this._repeatContext;
     }
 
@@ -151,17 +174,9 @@ class Recycler extends AbstractFocusModel {
         return this._focusedView;
     }
 
-    public onFocus(): void {
-        if (this._onFocus) {
-            this._onFocus();
-        }
-    }
-
-    public onBlur(): void {
-        if (this._onBlur) {
-            this._onBlur();
-        }
+    public scrollToInitialRenderIndex(): void {
+        //TODO: implement
     }
 }
 
-export default Recycler;
+export default RecyclerView;
