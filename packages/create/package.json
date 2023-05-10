@@ -24,17 +24,17 @@
         "access": "public"
     },
     "repository": {
-        "directory": "packages/sdk",
+        "directory": "packages/create",
         "type": "git",
-        "url": "git+https://github.com/flexn-io/flexn.git"
+        "url": "git+https://github.com/flexn-io/create.git"
     },
     "keywords": [],
     "author": "Flexn BV",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/flexn-io/flexn/issues"
+        "url": "https://github.com/flexn-io/create/issues"
     },
-    "homepage": "https://github.com/flexn-io/flexn#readme",
+    "homepage": "https://github.com/flexn-io/create#readme",
     "dependencies": {
         "@lightningjs/core": "^2.6.0",
         "@lightningjs/sdk": "4.3.3",

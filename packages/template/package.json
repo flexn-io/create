@@ -3,9 +3,9 @@
     "version": "0.20.0-alpha.25",
     "description": "Flexn Template",
     "keywords": [],
-    "homepage": "https://github.com/flexn-io/flexn#readme",
+    "homepage": "https://github.com/flexn-io/create#readme",
     "bugs": {
-        "url": "https://github.com/flexn-io/flexn/issues"
+        "url": "https://github.com/flexn-io/create/issues"
     },
     "license": "MIT",
     "author": "Flexn BV",
@@ -24,7 +24,7 @@
     "repository": {
         "directory": "packages/template",
         "type": "git",
-        "url": "git+https://github.com/flexn-io/flexn.git"
+        "url": "git+https://github.com/flexn-io/create.git"
     },
     "scripts": {
         "bootstrap": "cd ../.. && yarn bootstrap",

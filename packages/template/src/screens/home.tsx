@@ -70,7 +70,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                 <Text style={[theme.styles.textH3, { marginTop: 20 }]}>Explore more</Text>
                 <View style={{ marginTop: 10, flexDirection: 'row' }}>
                     <TouchableOpacity
-                        onPress={() => openURL('https://github.com/flexn-io/flexn')}
+                        onPress={() => openURL('https://github.com/flexn-io/create')}
                         style={theme.styles.icon}
                         focusOptions={{
                             forbiddenFocusDirections: ['left'],

@@ -42,7 +42,7 @@ Code-level contributions to Flexn generally come in the form of [pull requests](
 The process of proposing a change to Flexn Create can be summarized as follows:
 
 1. Fork the Flexn repository and create your branch from `main`.
-2. Make the desired changes to Flexn sources. Use the `packages/template` and `packages/harness` app to test them out.
+2. Make the desired changes to Flexn sources. Use the `packages/template` and `packages/app-harness` app to test them out.
 3. If you've added code that should be tested, add tests.
 4. If you've changed APIs, update the documentation, which lives in [docs](/docs).
 5. Ensure the test suite passes, either locally or on CI once you opened a pull request.
