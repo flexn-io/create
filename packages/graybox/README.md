@@ -149,8 +149,8 @@ Text selector strategy varies from platform to platform. This strategy doesn't r
 | macOS using Apple SDK | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `name` attribute |
 | Android | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `text` attribute |
 | AndroidTV | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `text` attribute |
-| macOS using Electron | [Element with certain text](https://webdriver.io/docs/selectors/#element-with-certain-text) strategy selector with predefined `div` attribute |
-| Web | [Element with certain text](https://webdriver.io/docs/selectors/#element-with-certain-text) strategy selector with predefined `div` attribute |
+| macOS using Electron | [xPath](https://webdriver.io/docs/selectors/#xpath) strategy selector |
+| Web | [xPath](https://webdriver.io/docs/selectors/#xpath) strategy selector |
 
 ## Methods
 

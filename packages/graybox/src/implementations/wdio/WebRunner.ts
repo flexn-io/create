@@ -7,10 +7,9 @@ class WebRunner extends AbstractRunner {
 
     getElementById = async (selector: string) => {
         const array = await $$(`[data-testid="${selector}"]`);
-        if (array.length <= 1){
+        if (array.length <= 1) {
             return $(`[data-testid="${selector}"]`);
-        }
-        else {
+        } else {
             for (const element of array) {
                 const isDisplayed = await element.isDisplayed();
                 if (isDisplayed) {
@@ -19,13 +18,12 @@ class WebRunner extends AbstractRunner {
             }
         }
     };
-    
+
     getElementByText = async (selector: string) => {
-        const array = await $$(`div=${selector}`);
-        if (array.length <= 1){
-            return $(`div=${selector}`);
-        }
-        else {
+        const array = await $$(`//*[text()='${selector}']`);
+        if (array.length <= 1) {
+            return $(`//*[text()='${selector}']`);
+        } else {
             for (const element of array) {
                 const isDisplayed = await element.isDisplayed();
                 if (isDisplayed) {
