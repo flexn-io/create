@@ -1,7 +1,7 @@
 import { ScrollView, Text, View } from '@flexn/create';
 import React from 'react';
 import { isPlatformWeb } from '@rnv/renative';
-import { useNavigate } from '../../../../../hooks/navigation';
+import { useNavigate } from '../../../../hooks/navigation';
 import { Button } from '../../../../components/Button';
 import Screen from '../../../../components/Screen';
 import { themeStyles } from '../../../../config';
@@ -12,8 +12,8 @@ const Rows = (props) => {
     const navigate = useNavigate(props);
 
     let scrollRef;
-    let handleFocus;
-    let handleUp;
+    // let handleFocus;
+    // let handleUp;
 
     const handleOnPress = (amount) => {
         const route = isPlatformWeb ? '/RowsScreen' : 'RowsScreen';
@@ -39,9 +39,9 @@ const Rows = (props) => {
                             textStyle={[themeStyles.buttonText, { color: 'lightcoral' }]}
                             title={`${amount} rows`}
                             onPress={() => handleOnPress(amount)}
-                            onEnterPress={() => handleOnPress(amount)}
-                            onBecameFocused={handleFocus}
-                            onArrowPress={index === 0 && handleUp}
+                            // onEnterPress={() => handleOnPress(amount)}
+                            // onBecameFocused={handleFocus}
+                            // onArrowPress={index === 0 && handleUp}
                             {...testProps(`flexn-screens-focus-performance-rows-button-${index}-rows-amount-${amount}`)}
                         />
                     ))}
