@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/react-native';
 import React, { useEffect, useState } from 'react';
 import { PixelRatio } from 'react-native';
 import { CarPlay, GridTemplate } from 'react-native-carplay';
-import { CastButton } from 'react-native-google-cast';
+// import { CastButton } from 'react-native-google-cast';
 import { Api } from '@rnv/renative';
 import { Button } from '../../components/Button';
 import { CONFIG, themeStyles } from '../../config';
@@ -122,14 +122,14 @@ const ScreenHome = (props: any) => {
             <Text style={{ position: 'absolute', top: 25, right: 10, color: 'white' }}>
                 Version: {CONFIG.appVersion} Built: {CONFIG.timestamp}
             </Text>
-            <CastButton
+            {/* <CastButton
                 style={{
                     width: 48,
                     height: 48,
                     marginRight: 48,
                     tintColor: '#ffffff',
                 }}
-            />
+            /> */}
         </View>
     );
 };

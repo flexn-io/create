@@ -1,9 +1,9 @@
 {
-    "name": "flexn",
+    "name": "create",
     "private": true,
     "scripts": {
         "prepare": "yarn run lerna:link && npx lerna run prepare --parallel",
-        "watch": "npx lerna run --parallel --concurrency 2 watch",
+        "watch": "npx lerna run --parallel --concurrency 1 watch",
         "build:all:clean": "npx lerna run build:clean",
         "build": "lerna run build",
         "lint": "yarn lint:js",

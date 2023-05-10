@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
-import { CastButton } from 'react-native-google-cast';
+// import { CastButton } from 'react-native-google-cast';
 import { getScaledValue } from '@rnv/renative';
 import Menu, { DrawerButton } from '../components/menu';
 import ScreenModal from '../components/screenModal';
@@ -40,9 +40,9 @@ const StackNavigator = ({ navigation }) => (
             component={ScreenHome}
             options={{
                 headerLeft: () => <DrawerButton navigation={navigation} />,
-                headerRight: () => (
-                    <CastButton style={{ width: Theme.iconSize, height: Theme.iconSize, tintColor: Theme.color3 }} />
-                ),
+                // headerRight: () => (
+                //     <CastButton style={{ width: Theme.iconSize, height: Theme.iconSize, tintColor: Theme.color3 }} />
+                // ),
             }}
         />
     </Stack.Navigator>

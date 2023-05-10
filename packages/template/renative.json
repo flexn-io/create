@@ -130,11 +130,6 @@
         "@react-navigation": "source:flexn",
         "react-native-screens": "source:rnv",
         "react-native-safe-area-context": "source:rnv",
-        "react-native-google-cast": {
-            "ios": {
-                "enabled": false
-            }
-        },
         "react-native-reanimated": "source:flexn",
         "react-native-gesture-handler": "source:flexn",
         "react-native-media-query": "source:flexn",
