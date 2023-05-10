@@ -142,15 +142,15 @@ Test ID selector strategy varies from platform to platform. Table below shows fr
 
 Text selector strategy varies from platform to platform. This strategy doesn't require any additional property setting in application source code assuming element has visible text in front end. When writing tests user needs to provide only visible text on the element to method and Graybox handles everything else on every platform.
 
-| Platform              | Text selector strategy                                                                                                                        |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| iOS                   | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `label` attribute                     |
-| tvOS                  | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `label` attribute                     |
-| macOS using Apple SDK | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `name` attribute                      |
-| Android               | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `text` attribute                      |
-| AndroidTV             | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `text` attribute                      |
-| macOS using Electron  | [Element with certain text](https://webdriver.io/docs/selectors/#element-with-certain-text) strategy selector with predefined `div` attribute |
-| Web                   | [Element with certain text](https://webdriver.io/docs/selectors/#element-with-certain-text) strategy selector with predefined `div` attribute |
+| Platform              | Text selector strategy                                                                                                    |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| iOS                   | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `label` attribute |
+| tvOS                  | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `label` attribute |
+| macOS using Apple SDK | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `name` attribute  |
+| Android               | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `text` attribute  |
+| AndroidTV             | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `text` attribute  |
+| macOS using Electron  | [xPath](https://webdriver.io/docs/selectors/#xpath) strategy selector                                                     |
+| Web                   | [xPath](https://webdriver.io/docs/selectors/#xpath) strategy selector                                                     |
 
 ## Methods
 

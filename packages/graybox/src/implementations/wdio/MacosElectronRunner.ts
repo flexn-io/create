@@ -5,24 +5,53 @@ class MacosElectronRunner extends AbstractRunner {
         // do nothing
     };
 
-    getElementById = (selector: string) => {
-        return $(`[data-testid="${selector}"]`);
+    getElementById = async (selector: string) => {
+        const array = await $$(`[data-testid="${selector}"]`);
+        if (array.length <= 1) {
+            return $(`[data-testid="${selector}"]`);
+        } else {
+            for (const element of array) {
+                const isDisplayed = await element.isDisplayed();
+                if (isDisplayed) {
+                    return element;
+                }
+            }
+        }
     };
 
-    getElementByText = (selector: string) => {
-        return $(`div=${selector}`);
+    getElementByText = async (selector: string) => {
+        const array = await $$(`//*[text()='${selector}']`);
+        if (array.length <= 1) {
+            return $(`//*[text()='${selector}']`);
+        } else {
+            for (const element of array) {
+                const isDisplayed = await element.isDisplayed();
+                if (isDisplayed) {
+                    return element;
+                }
+            }
+        }
     };
 
     scrollById = async (selector: string) => {
-        await (await this.getElementById(selector)).scrollIntoView();
+        const element = await this.getElementById(selector);
+        if (element) {
+            await element.scrollIntoView();
+        }
     };
 
     clickById = async (selector: string) => {
-        await (await this.getElementById(selector)).click();
+        const element = await this.getElementById(selector);
+        if (element) {
+            await element.click();
+        }
     };
 
     clickByText = async (selector: string) => {
-        await (await this.getElementByText(selector)).click();
+        const element = await this.getElementByText(selector);
+        if (element) {
+            await element.click();
+        }
     };
 
     pressButtonHome = () => {
