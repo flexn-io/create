@@ -34,7 +34,7 @@ You can reach out to us through [@flexn_io](http://twitter.com/flexn_io) (the Fl
 
 ## Helping with Documentation
 
-The Flexn documentation is hosted as part of the Flexn repository at https://github.com/flexn-io/flexn/docs. The website itself is located at <https://sdk.flexn.org/> and it is built using [Docusaurus](https://docusaurus.io/). If there's anything you'd like to change in the docs, you can get started by clicking on the "Edit" button located on the upper right of most pages in the website.
+The Flexn documentation is hosted as part of the Flexn repository at https://github.com/flexn-io/flexn/docs. The website itself is located at <https://create.flexn.org/> and it is built using [Docusaurus](https://docusaurus.io/). If there's anything you'd like to change in the docs, you can get started by clicking on the "Edit" button located on the upper right of most pages in the website.
 
 If you are adding new functionality or introducing a change in behavior, we will ask you to update the documentation to reflect your changes.
 
@@ -43,7 +43,7 @@ If you are adding new functionality or introducing a change in behavior, we will
 
 Code-level contributions to Flexn generally come in the form of [pull requests](https://help.github.com/en/articles/about-pull-requests). These are done by forking the repo and making changes locally. Directly in the repo, there is the [`template` app](/packages/template) that you can install on your device (or simulators) and use to test the changes you're making to Flexn sources.
 
-The process of proposing a change to Flexn SDK can be summarized as follows:
+The process of proposing a change to Flexn Create can be summarized as follows:
 
 1. Fork the Flexn repository and create your branch from `main`.
 2. Make the desired changes to Flexn sources. Use the `packages/template` and `packages/harness` app to test them out.

@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://sdk.flexn.org">
+  <a href="https://create.flexn.org">
     <img src="https://github.com/flexn-io/flexn/blob/main/docs/static/img/logo128.png?raw=true" height="128" width="128">
     <h1 align="center">FlexnSDK</h1>
   </a>
@@ -29,11 +29,11 @@ rnv new --projectTemplate @flexn/template
 
 ## Getting Started
 
-https://sdk.flexn.org/docs/tutorials/basics/quickstart 
+https://create.flexn.org/docs/tutorials/basics/quickstart 
 
 ## Documentation
 
-https://sdk.flexn.org/docs/introduction
+https://create.flexn.org/docs/introduction
 
 ## Community
 

@@ -76,7 +76,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
         contentContainerStyle={theme.styles.container}
       >
         <Image style={theme.styles.image} source={ICON_LOGO} />
-        <Text style={theme.styles.textH1}>{'Flexn SDK Example'}</Text>
+        <Text style={theme.styles.textH1}>{'Flexn Create Example'}</Text>
         <Text style={theme.styles.textH2}>v {packageJson.version}</Text>
         <Text style={theme.styles.textH3}>{`platform: ${Api.platform}`}</Text>
         <Text style={theme.styles.textH3}>{`factor: ${Api.formFactor}`}</Text>
@@ -118,7 +118,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
             <Icon name="github" size={theme.static.iconSize} color={theme.static.colorBrand} />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => openURL('https://sdk.flexn.org')}
+            onPress={() => openURL('https://create.flexn.org')}
             style={theme.styles.icon}
             {...testProps('template-screen-home-navigate-to-renative')}
           >

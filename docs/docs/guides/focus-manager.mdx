@@ -231,10 +231,10 @@ const MyApp = () => {
       return (
         <Screen style={styles.modal} screenOrder={1}>
           <Pressable style={styles.button}>
-            <Text>Hello from Flexn SDK</Text>
+            <Text>Hello from Flexn Create</Text>
           </Pressable>
           <Pressable style={styles.button}>
-            <Text>Hello from Flexn SDK</Text>
+            <Text>Hello from Flexn Create</Text>
           </Pressable>
           <Pressable style={styles.button} onPress={() => setModalOpen(false)}>
             <Text>Close modal</Text>
@@ -307,7 +307,7 @@ import { App, Screen, Text, Pressable, StyleSheet } from '@flexn/sdk';
 const MyCustomComponent = ({ parentContext }: { parentContext?: any }) => {
   return (
     <Pressable parentContext={parentContext} style={styles.focusableElement}>
-      <Text>Hello from Flexn SDK</Text>
+      <Text>Hello from Flexn Create</Text>
     </Pressable>
   );
 };
@@ -317,10 +317,10 @@ const MyApp = () => {
     <App>
       <Screen style={styles.container}>
         <Pressable style={styles.focusableElement}>
-          <Text>Hello from Flexn SDK</Text>
+          <Text>Hello from Flexn Create</Text>
         </Pressable>
         <Pressable style={styles.focusableElement}>
-          <Text>Hello from Flexn SDK</Text>
+          <Text>Hello from Flexn Create</Text>
         </Pressable>
         <MyCustomComponent />
       </Screen>

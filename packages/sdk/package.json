@@ -1,7 +1,7 @@
 {
     "name": "@flexn/sdk",
     "version": "0.18.0-alpha.8",
-    "description": "Flexn SDK",
+    "description": "Flexn Create",
     "main": "lib/index",
     "types": "lib/index",
     "scripts": {
