@@ -44,8 +44,8 @@ const config = {
         /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
         ({
             navbar: {
+                title: 'Create',
                 logo: {
-                    title: 'Create',
                     alt: 'Flexn Create',
                     src: 'img/create-logo.svg',
                 },
