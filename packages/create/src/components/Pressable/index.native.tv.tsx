@@ -122,7 +122,7 @@ const View = React.forwardRef<any, ViewProps>(
         if (focus) {
             let animatorOptions = focusOptions.animatorOptions || defaultAnimation;
 
-            const flattenedStyle = StyleSheet.flatten(style);
+            const flattenedStyle = style && { ...StyleSheet.flatten(style) };
             animatorOptions = { ...animatorOptions, style: { ...flattenedStyle } };
             let borderProps = {};
             const isBorderAnimation = [ANIMATIONS.BORDER, ANIMATIONS.SCALE_BORDER].includes(animatorOptions.type);
