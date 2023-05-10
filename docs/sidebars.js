@@ -26,7 +26,7 @@ const sidebars = {
         {
             type: 'doc',
             label: 'Quickstart',
-            id: 'tutorials/basics/quickstart'
+            id: 'tutorials/basics/quickstart',
         },
         {
             type: 'category',
@@ -37,8 +37,8 @@ const sidebars = {
                 'tutorials/advanced/app',
                 'tutorials/advanced/screens',
                 'tutorials/advanced/navigation',
-                'tutorials/advanced/ui'
-            ]
+                'tutorials/advanced/ui',
+            ],
         },
         {
             label: 'Components',
@@ -65,12 +65,10 @@ const sidebars = {
         {
             label: 'Guides',
             type: 'category',
-            items: [
-                'guides/focus-manager',
-            ],
+            items: ['guides/focus-manager'],
             collapsed: false,
         },
-    ]
+    ],
 };
 
 module.exports = sidebars;

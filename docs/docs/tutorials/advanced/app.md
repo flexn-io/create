@@ -17,37 +17,37 @@ const lightStyleSheet = createStyleSheet(staticThemes.light);
 const darkStyleSheet = createStyleSheet(staticThemes.dark);
 
 const themes = {
-  light: {
-    static: { ...staticThemes.light },
-    styles: lightStyleSheet.styles,
-    ids: lightStyleSheet.ids,
-  },
-  dark: {
-    static: { ...staticThemes.dark },
-    styles: darkStyleSheet.styles,
-    ids: darkStyleSheet.ids,
-  },
+    light: {
+        static: { ...staticThemes.light },
+        styles: lightStyleSheet.styles,
+        ids: lightStyleSheet.ids,
+    },
+    dark: {
+        static: { ...staticThemes.dark },
+        styles: darkStyleSheet.styles,
+        ids: darkStyleSheet.ids,
+    },
 };
 
 type ThemeContextType = {
-  theme: Theme;
-  dark: boolean;
-  toggle?: () => void;
+    theme: Theme;
+    dark: boolean;
+    toggle?: () => void;
 };
 
 export const ThemeContext = createContext<ThemeContextType>({ theme: themes.dark, dark: true });
 
 export function ThemeProvider({ children }) {
-  const [dark, setDark] = useState<ThemeContextType['dark']>(false);
+    const [dark, setDark] = useState<ThemeContextType['dark']>(false);
 
-  const toggle = () => {
-    const isDark = !dark;
-    setDark(isDark);
-  };
+    const toggle = () => {
+        const isDark = !dark;
+        setDark(isDark);
+    };
 
-  const theme = dark ? themes.dark : themes.light;
+    const theme = dark ? themes.dark : themes.light;
 
-  return <ThemeContext.Provider value={{ theme, dark, toggle }}>{children}</ThemeContext.Provider>;
+    return <ThemeContext.Provider value={{ theme, dark, toggle }}>{children}</ThemeContext.Provider>;
 }
 ```
 
@@ -57,68 +57,68 @@ With this snippet above we're missing the type definition, therefore in a separa
 import { ImageStyle, StatusBarStyle, TextStyle, ViewStyle } from 'react-native';
 
 export type StaticTheme = {
-  primaryFontFamily?: string;
-  iconSize: number;
-  buttonSize: number;
-  menuWidth: number;
-  menuHeight: number;
-  colorLight?: string;
-  colorBrand: string;
-  colorBgPrimary: string;
-  colorTextPrimary: string;
-  colorTextSecondary: string;
-  colorBorder: string;
-  statusBar: StatusBarStyle;
+    primaryFontFamily?: string;
+    iconSize: number;
+    buttonSize: number;
+    menuWidth: number;
+    menuHeight: number;
+    colorLight?: string;
+    colorBrand: string;
+    colorBgPrimary: string;
+    colorTextPrimary: string;
+    colorTextSecondary: string;
+    colorBorder: string;
+    statusBar: StatusBarStyle;
 };
 
 export type ApplicationStyles = {
-  app: ViewStyle;
-  appContainer: ViewStyle;
-  container: ViewStyle;
-  modalContainer: ViewStyle;
-  textH1: TextStyle;
-  textH2: TextStyle;
-  textH3: TextStyle;
-  text: TextStyle;
-  icon: ViewStyle;
-  button: ViewStyle;
-  buttonText: TextStyle;
-  screen: ViewStyle;
-  screenModal: ViewStyle;
-  headerTitle: TextStyle;
-  header: ViewStyle;
-  modalHeader: ViewStyle;
-  image: ImageStyle;
-  menuContainer: ViewStyle;
-  menuButton: ViewStyle;
-  recycler: ViewStyle;
-  recyclerItem: ViewStyle;
-  sideMenuContainerAnimation: ViewStyle;
-  menuButtonText: TextStyle;
-  recyclerContent: ViewStyle;
-  recyclerContainer: ViewStyle;
-  burgerMenuBtn: ViewStyle;
-  menuContainerBurgerOpen: ViewStyle;
-  menuItemsBurgerOpen: ViewStyle;
-  detailsInfoContainer: ViewStyle;
-  menuItems: ViewStyle;
-  center: ViewStyle;
-  detailsTitle: TextStyle;
-  recyclerItemText: TextStyle;
+    app: ViewStyle;
+    appContainer: ViewStyle;
+    container: ViewStyle;
+    modalContainer: ViewStyle;
+    textH1: TextStyle;
+    textH2: TextStyle;
+    textH3: TextStyle;
+    text: TextStyle;
+    icon: ViewStyle;
+    button: ViewStyle;
+    buttonText: TextStyle;
+    screen: ViewStyle;
+    screenModal: ViewStyle;
+    headerTitle: TextStyle;
+    header: ViewStyle;
+    modalHeader: ViewStyle;
+    image: ImageStyle;
+    menuContainer: ViewStyle;
+    menuButton: ViewStyle;
+    recycler: ViewStyle;
+    recyclerItem: ViewStyle;
+    sideMenuContainerAnimation: ViewStyle;
+    menuButtonText: TextStyle;
+    recyclerContent: ViewStyle;
+    recyclerContainer: ViewStyle;
+    burgerMenuBtn: ViewStyle;
+    menuContainerBurgerOpen: ViewStyle;
+    menuItemsBurgerOpen: ViewStyle;
+    detailsInfoContainer: ViewStyle;
+    menuItems: ViewStyle;
+    center: ViewStyle;
+    detailsTitle: TextStyle;
+    recyclerItemText: TextStyle;
 };
 
 export type RNMQIDS = {
-  menuContainer: string;
-  burgerMenuBtn: string;
-  menuContainerBurgerOpen: string;
-  menuItemsBurgerOpen: string;
-  menuItems: string;
+    menuContainer: string;
+    burgerMenuBtn: string;
+    menuContainerBurgerOpen: string;
+    menuItemsBurgerOpen: string;
+    menuItems: string;
 };
 
 export type Theme = {
-  static: StaticTheme;
-  styles: ApplicationStyles;
-  ids: RNMQIDS;
+    static: StaticTheme;
+    styles: ApplicationStyles;
+    ids: RNMQIDS;
 };
 ```
 
@@ -130,10 +130,10 @@ import { ThemeProvider } from '../config';
 import Navigation from '../navigation';
 
 const App = () => (
-  <ThemeProvider>
-    <Navigation />
-    <Debugger />
-  </ThemeProvider>
+    <ThemeProvider>
+        <Navigation />
+        <Debugger />
+    </ThemeProvider>
 );
 
 export default App;
@@ -143,31 +143,31 @@ Only one final step remains before our application file is ready - TV Focus (you
 
 ```typescript
 import React from 'react';
-import { App as SDKApp, Debugger } from '@flexn/sdk';
+import { App, Debugger } from '@flexn/create';
 import { ThemeProvider } from '../config';
 import Navigation from '../navigation';
 
-const App = () => (
-  <ThemeProvider>
-    <SDKApp style={{ flex: 1 }}>
-      <Navigation />
-      <Debugger />
-    </SDKApp>
-  </ThemeProvider>
+const MyApp = () => (
+    <ThemeProvider>
+        <App style={{ flex: 1 }}>
+            <Navigation />
+            <Debugger />
+        </App>
+    </ThemeProvider>
 );
 
-export default App;
+export default MyApp;
 ```
 
 ## Hooks
 
 There are a few navigation hooks needed for a better multiplatform experience as web and native platforms use different libraries for it. Lets start with defining what we need - hooks for the most common navigation methods, which should be familiar if you have used React Navigation before:
 
-- `useNavigate`, which pushes another screen in stack if it's not already in it, otherwise goes back to it;
-- `usePop`, pops the last entry of the stack;
-- `useReplace`, replaces the last entry of the stack with a new screen;
-- `useOpenDrawer`, dispatches a navigation event, which triggers drawer to open (mocked on web);
-- `useOpenUrl`, opens a URL link in a browser (except for TV platforms);
+-   `useNavigate`, which pushes another screen in stack if it's not already in it, otherwise goes back to it;
+-   `usePop`, pops the last entry of the stack;
+-   `useReplace`, replaces the last entry of the stack with a new screen;
+-   `useOpenDrawer`, dispatches a navigation event, which triggers drawer to open (mocked on web);
+-   `useOpenUrl`, opens a URL link in a browser (except for TV platforms);
 
 Most platforms will call the general `hooks/navigation/index.ts` file as we use React Navigation for most of the platforms:
 
@@ -177,49 +177,49 @@ import { Linking } from 'react-native';
 import { isPlatformIos, isPlatformAndroid, isPlatformMacos } from '@rnv/renative';
 
 export function useNavigate({ navigation }) {
-  function navigate(route: string, params?: any) {
-    navigation.navigate(route, params);
-  }
-  return navigate;
+    function navigate(route: string, params?: any) {
+        navigation.navigate(route, params);
+    }
+    return navigate;
 }
 
 export function usePop({ navigation }) {
-  function pop() {
-    navigation.pop();
-  }
-  return pop;
+    function pop() {
+        navigation.pop();
+    }
+    return pop;
 }
 
 export function useReplace({ navigation }) {
-  function replace(route: string) {
-    if (isPlatformIos || isPlatformAndroid) {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: route }],
-      });
-    } else {
-      navigation.navigate(route);
+    function replace(route: string) {
+        if (isPlatformIos || isPlatformAndroid) {
+            navigation.reset({
+                index: 0,
+                routes: [{ name: route }],
+            });
+        } else {
+            navigation.navigate(route);
+        }
     }
-  }
-  return replace;
+    return replace;
 }
 
 export function useOpenDrawer({ navigation }) {
-  function openDrawer() {
-    navigation.dispatch({ type: 'OPEN_DRAWER' });
-  }
-  return openDrawer;
+    function openDrawer() {
+        navigation.dispatch({ type: 'OPEN_DRAWER' });
+    }
+    return openDrawer;
 }
 
 export function useOpenURL() {
-  async function openURL(url: string) {
-    if (isPlatformIos || isPlatformAndroid || isPlatformMacos) {
-      await Linking.openURL(url);
-    } else {
-      // error happened
+    async function openURL(url: string) {
+        if (isPlatformIos || isPlatformAndroid || isPlatformMacos) {
+            await Linking.openURL(url);
+        } else {
+            // error happened
+        }
     }
-  }
-  return openURL;
+    return openURL;
 }
 
 export { useFocusEffect, useNavigation };
@@ -232,49 +232,49 @@ import { Linking } from 'react-native';
 import Router, { useRouter } from 'next/router';
 
 export function useNavigate() {
-  function navigate(route: string, params?: any) {
-    if (params) {
-      Router.push({
-        pathname: route,
-        query: params,
-      });
-    } else {
-      Router.push(route, params);
+    function navigate(route: string, params?: any) {
+        if (params) {
+            Router.push({
+                pathname: route,
+                query: params,
+            });
+        } else {
+            Router.push(route, params);
+        }
     }
-  }
-  return navigate;
+    return navigate;
 }
 
 export function usePop() {
-  function pop() {
-    Router.back();
-  }
-  return pop;
+    function pop() {
+        Router.back();
+    }
+    return pop;
 }
 
 export function useReplace() {
-  function replace(route: string) {
-    Router.replace(route);
-  }
-  return replace;
+    function replace(route: string) {
+        Router.replace(route);
+    }
+    return replace;
 }
 
 export function useOpenDrawer() {
-  function openDrawer() {
-    return;
-  }
-  return openDrawer;
+    function openDrawer() {
+        return;
+    }
+    return openDrawer;
 }
 
 export function useOpenURL() {
-  async function openURL(url: string) {
-    await Linking.openURL(url);
-  }
-  return openURL;
+    async function openURL(url: string) {
+        await Linking.openURL(url);
+    }
+    return openURL;
 }
 
 export function useFocusEffect() {
-  return;
+    return;
 }
 
 export { useRouter as useNavigation };
@@ -284,12 +284,12 @@ Finally, lets create our general hooks export file - `hooks/index.ts`, where you
 
 ```typescript
 export {
-  useFocusEffect,
-  useNavigate,
-  usePop,
-  useOpenDrawer,
-  useOpenURL,
-  useReplace,
-  useNavigation,
+    useFocusEffect,
+    useNavigate,
+    usePop,
+    useOpenDrawer,
+    useOpenURL,
+    useReplace,
+    useNavigation,
 } from './navigation';
 ```

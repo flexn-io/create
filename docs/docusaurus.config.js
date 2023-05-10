@@ -6,15 +6,15 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-    title: 'Flexn SDK',
+    title: 'Flexn Create',
     tagline: 'Multiplatform is easy',
-    url: 'https://sdk.flexn.org',
+    url: 'https://create.flexn.org',
     baseUrl: '/',
     onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/favicon.ico',
-    organizationName: 'flexn', // Usually your GitHub org/user name.
-    projectName: 'flexn-sdk', // Usually your repo name.
+    organizationName: 'flexn-io', // Usually your GitHub org/user name.
+    projectName: 'create', // Usually your repo name.
     plugins: [
         [
             '@docusaurus/plugin-google-gtag',
@@ -31,7 +31,7 @@ const config = {
                 docs: {
                     sidebarPath: require.resolve('./sidebars.js'),
                     // Please change this to your repo.
-                    editUrl: 'https://github.com/flexn-io/flexn',
+                    editUrl: 'https://github.com/flexn-io/create',
                 },
                 theme: {
                     customCss: require.resolve('./src/css/custom.css'),
@@ -44,9 +44,10 @@ const config = {
         /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
         ({
             navbar: {
+                title: 'Create',
                 logo: {
-                    alt: 'Flexn Logo',
-                    src: 'img/FlexnSDk-logo.svg',
+                    alt: 'Flexn Create',
+                    src: 'img/create-logo.svg',
                 },
                 items: [
                     {
@@ -64,7 +65,7 @@ const config = {
                         target: '_self',
                     },
                     {
-                        href: 'https://github.com/flexn-io/flexn',
+                        href: 'https://github.com/flexn-io/create',
                         label: 'GitHub',
                         position: 'right',
                     },
@@ -74,7 +75,7 @@ const config = {
                 style: 'light',
                 logo: {
                     alt: 'Flexn logo',
-                    src: 'img/Flexn-full.svg',
+                    src: 'img/flexn-logo-full.svg',
                     href: 'https://flexn.io',
                     width: 100,
                     height: 30,

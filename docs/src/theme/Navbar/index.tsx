@@ -272,7 +272,7 @@ function HomeNavbar(): JSX.Element {
     return (
         <div className={clsx(styles.header, 'navbar')}>
             <a href="/">
-                <img className={styles.flexnLogo} src="/img/FlexnSDk-logo.svg" height={40} width={40} loading="eager" />
+                <img className={styles.flexnLogo} src="/img/create-logo.svg" height={40} width={40} loading="eager" />
             </a>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 {links.map((link) => (
