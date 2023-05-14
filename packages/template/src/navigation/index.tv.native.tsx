@@ -12,7 +12,7 @@ import {
 import { screensEnabled } from 'react-native-screens';
 import { isPlatformTvos } from '@rnv/renative';
 import { ScreenContainer } from 'react-native-screens'; //eslint-disable-line
-import ResourceSavingScene from '@react-navigation/drawer/src/views/ResourceSavingScene';
+import { Screen } from '@react-navigation/elements';
 
 import ScreenHome from '../screens/home';
 import ScreenCarousels from '../screens/carousels';
@@ -20,6 +20,7 @@ import ScreenDetails from '../screens/details';
 import ScreenModal from '../screens/modal';
 import Menu from '../components/menu';
 import { ROUTES } from '../config';
+import { MaybeScreen } from '@react-navigation/drawer/src/views/ScreenFallback';
 
 const createTVSideNavigator = createNavigatorFactory(Navigator);
 
@@ -70,14 +71,17 @@ function Navigator({ initialRouteName, children, screenOptions, drawerContent, .
                 }
 
                 return (
-                    <ResourceSavingScene
-                        key={route.key}
-                        style={[StyleSheet.absoluteFill, { opacity: isFocused ? 1 : 0 }]}
-                        isVisible={isFocused}
-                        enabled
-                    >
-                        {descriptor.render()}
-                    </ResourceSavingScene>
+                    <MaybeScreen visible={isFocused} enabled key={route.key}>
+                        <Screen
+                            navigation={navigation}
+                            focused={isFocused}
+                            route={route}
+                            header={{}}
+                            style={[StyleSheet.absoluteFill, { opacity: isFocused ? 1 : 0 }]}
+                        >
+                            {descriptor.render()}
+                        </Screen>
+                    </MaybeScreen>
                 );
             })}
         </ScreenContainer>

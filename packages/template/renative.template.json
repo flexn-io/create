@@ -4,7 +4,7 @@
         "packageTemplate": {
             "devDependencies": {
                 "typescript": "4.5.4",
-                "@types/react": "17.0.37"
+                "@types/react": "18.0.1"
             }
         }
     },

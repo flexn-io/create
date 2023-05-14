@@ -45,9 +45,9 @@ const App = () => {
         <View style={{ marginTop: 36, flex: 1 }}>
             <NavigationContainer>
                 <RootStack.Navigator
-                    headerMode="none"
-                    mode="modal"
                     screenOptions={{
+                        presentation: 'modal',
+                        headerShown: false,
                         cardStyleInterpolator: CardStyleInterpolators.forScaleFromCenterAndroid,
                     }}
                 >

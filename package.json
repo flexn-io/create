@@ -95,9 +95,10 @@
         "@types/lodash-es": "4.17.5",
         "@types/lodash.debounce": "^4.0.6",
         "@types/node": "16.11.7",
-        "@types/react": "17.0.41",
-        "@types/react-dom": "17.0.11",
+        "@types/react-dom": "18.0.11",
         "@types/react-native": "0.67.2",
+        "@types/chromecast-caf-receiver": "^6.0.6",
+        "@types/react-native-snap-carousel": "3.8.5",
         "google-drive-connect": "^1.1.2",
         "googleapis": "39",
         "husky": "4.2.5",
@@ -118,10 +119,6 @@
         "eslint-plugin-react-hooks": "^4.3.0",
         "@typescript-eslint/eslint-plugin": "^5.22.0",
         "@typescript-eslint/parser": "^5.22.0"
-    },
-    "resolutions": {
-        "resolve": "2.0.0-next.3",
-        "@types/react": "17.0.41"
     },
     "husky": {
         "hooks": {

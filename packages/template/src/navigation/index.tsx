@@ -16,7 +16,11 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const CarouselsStack = () => (
-    <Stack.Navigator headerMode="none">
+    <Stack.Navigator
+        screenOptions={{
+            headerShown: false,
+        }}
+    >
         <Stack.Screen name={ROUTES.CAROUSELS} component={ScreenCarousels} />
         <Stack.Screen name={ROUTES.DETAILS} component={ScreenDetails} />
     </Stack.Navigator>
@@ -66,9 +70,9 @@ const App = () => {
     return (
         <NavigationContainer>
             <ModalStack.Navigator
-                headerMode="none"
-                mode="modal"
                 screenOptions={{
+                    presentation: 'modal',
+                    headerShown: false,
                     cardStyleInterpolator: CardStyleInterpolators.forScaleFromCenterAndroid,
                 }}
             >
