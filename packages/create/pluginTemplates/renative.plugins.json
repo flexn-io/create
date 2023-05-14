@@ -151,7 +151,7 @@
                 "path": "node_modules/@react-native-community/blur",
                 "podName": "react-native-blur"
             },
-            "version": "github:Kureev/react-native-blur#v3.6.1",
+            "version": "4.3.0",
             "web": null
         },
         "@react-native-community/checkbox": {
@@ -692,7 +692,7 @@
                 "isStatic": true,
                 "podName": "RNScreens"
             },
-            "version": "github:software-mansion/react-native-screens#3.8.0"
+            "version": "3.8.0"
         },
         "react-native-super-grid": {
             "version": "5.0.0"

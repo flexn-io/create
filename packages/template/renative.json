@@ -76,7 +76,6 @@
         "react-native-reanimated": "source:flexn",
         "react-native-gesture-handler": "source:flexn",
         "react-native-media-query": "source:flexn",
-        "@flexn/typescript": "source:flexn",
         "tslib": "source:flexn",
         "@shopify/flash-list": "source:flexn"
     },
