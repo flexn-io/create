@@ -44,7 +44,7 @@
         "platformBuildsDir": "./platformBuilds",
         "pluginTemplates": {
             "flexn": {
-                "npm": "@flexn/create",
+                "npm": "@flexn/plugins",
                 "path": "./pluginTemplates"
             }
         }
@@ -194,19 +194,19 @@
         "@flexn/create": "source:flexn",
         "@lightningjs/cli": "source:flexn",
         "@lightningjs/sdk": "source:flexn",
-        "@react-native-community/cli": "source:rnv",
-        "@react-native-community/cli-platform-ios": "source:rnv",
-        "@react-native-windows/cli": "source:rnv",
+        "@react-native-community/cli": "source:flexn",
+        "@react-native-community/cli-platform-ios": "source:flexn",
+        "@react-native-windows/cli": "source:flexn",
         "@react-navigation": "source:flexn",
         "@rnv/renative": "source:flexn",
         "@sentry/react": "source:flexn",
         "@sentry/react-native": "source:flexn",
         "@sentry/tracing": "source:flexn",
-        "next": "source:rnv",
-        "react": "source:rnv",
-        "react-art": "source:rnv",
-        "react-dom": "source:rnv",
-        "react-native": "source:rnv",
+        "next": "source:flexn",
+        "react": "source:flexn",
+        "react-art": "source:flexn",
+        "react-dom": "source:flexn",
+        "react-native": "source:flexn",
         "react-native-carplay": "source:flexn",
         "react-native-gesture-handler": "source:flexn",
         "react-native-google-cast": "source:flexn",
@@ -215,11 +215,10 @@
         "react-native-safe-area-context": "source:flexn",
         "react-native-screens": "source:flexn",
         "react-native-snap-carousel": "3.9.1",
-        "react-native-tvos": "source:rnv",
+        "react-native-tvos": "source:flexn",
         "react-native-vector-icons": "source:flexn",
-        "react-native-web": "source:rnv",
-        "react-native-windows": "source:rnv",
-        "tslib": "source:flexn"
+        "react-native-web": "source:flexn",
+        "react-native-windows": "source:flexn"
     },
     "projectName": "app-harness",
     "templates": {

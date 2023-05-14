@@ -121,8 +121,7 @@
     },
     "resolutions": {
         "resolve": "2.0.0-next.3",
-        "@types/react": "17.0.41",
-        "tslib": "2.4.0"
+        "@types/react": "17.0.41"
     },
     "husky": {
         "hooks": {

@@ -56,9 +56,10 @@
         "run-all": "ttab rnv run -p web -e engine-rn-web --ci && ttab rnv run -p web --ci && ttab rnv run -p ios -t 'iPhone 8' --ci && ttab rnv run -p android -t Pixel_2_API_28 --ci && ttab rnv run -p androidtv -t Android_TV_1080p_API_28 --ci && ttab rnv run -p tvos -t \"Apple TV\" --ci && ttab rnv run -p macos --ci && ttab rnv run -p tizen -t T-samsung-5.5-x86 --ci && ttab rnv run -p webos --ci && ttab rnv run -p androidwear -t Android_Wear_Round_API_28 --ci && ttab rnv run -p tizenwatch -t W-5.5-circle-x86 --ci && ttab rnv run -p tizenmobile -t M-5.5-x86 --ci",
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
-    "dependencies": {
+    "devDependencies": {
         "@flexn/create": "0.21.0-alpha.0",
         "@flexn/graybox": "0.21.0-alpha.0",
+        "@flexn/plugins": "0.1.2",
         "@lightningjs/cli": "2.7.1",
         "@lightningjs/core": "^2.6.0",
         "@lightningjs/sdk": "4.3.3",
@@ -77,12 +78,6 @@
         "@react-navigation/stack": "5.9.2",
         "@react-navigation/web": "1.0.0-alpha.9",
         "@rnv/engine-lightning": "0.37.0-canary.7",
-        "@rnv/engine-rn": "0.37.0-canary.7",
-        "@rnv/engine-rn-electron": "0.37.0-canary.7",
-        "@rnv/engine-rn-next": "0.37.0-canary.7",
-        "@rnv/engine-rn-tvos": "0.37.0-canary.7",
-        "@rnv/engine-rn-web": "0.37.0-canary.7",
-        "@rnv/engine-rn-windows": "0.37.0-canary.7",
         "@rnv/renative": "0.37.0-canary.7",
         "@rollup/plugin-typescript": "^8.3.2",
         "@types/react-native": "0.67.2",
@@ -107,15 +102,12 @@
         "rnv": "0.37.0-canary.7",
         "rollup": "^2.70.2",
         "rollup-plugin-license": "2.7.0",
-        "tslib": "2.3.1",
-        "xcode": "2.1.0"
-    },
-    "devDependencies": {
         "@rnv/engine-rn": "0.37.0-canary.7",
         "@rnv/engine-rn-next": "0.37.0-canary.7",
         "@rnv/engine-rn-tvos": "0.37.0-canary.7",
         "@rnv/engine-rn-web": "0.37.0-canary.7",
         "@rnv/engine-rn-windows": "0.37.0-canary.7",
+        "@rnv/engine-rn-electron": "0.37.0-canary.7",
         "xcode": "2.1.0"
     },
     "optionalDependencies": {

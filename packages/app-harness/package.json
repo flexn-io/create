@@ -41,12 +41,12 @@
         "react-native-tvos": "0.66.3-1",
         "react-native-vector-icons": "8.1.0",
         "react-native-web": "0.18.0",
-        "react-native-windows": "0.67.3",
-        "tslib": "2.3.1"
+        "react-native-windows": "0.67.3"
     },
     "devDependencies": {
         "@flexn/graybox": "0.21.0-alpha.0",
         "@flexn/template": "0.21.0-alpha.0",
+        "@flexn/plugins": "0.1.2",
         "@rnv/engine-lightning": "0.37.0-canary.7",
         "@rnv/engine-rn": "0.37.0-canary.7",
         "@rnv/engine-rn-electron": "0.37.0-canary.7",
