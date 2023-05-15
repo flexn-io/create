@@ -17,6 +17,7 @@ export interface ScrollComponentProps {
     renderContentContainer?: (props?: object, children?: React.ReactNode) => React.ReactNode | null;
     renderAheadOffset: number;
     layoutSize?: Dimension;
+    children?: React.ReactNode;
 }
 export default abstract class BaseScrollComponent extends React.Component<
     ScrollComponentProps,

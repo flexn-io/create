@@ -21,6 +21,7 @@ import ScreenModal from '../screens/modal';
 import Menu from '../components/menu';
 import { ROUTES } from '../config';
 import { MaybeScreen } from '@react-navigation/drawer/src/views/ScreenFallback';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const createTVSideNavigator = createNavigatorFactory(Navigator);
 
@@ -76,7 +77,7 @@ function Navigator({ initialRouteName, children, screenOptions, drawerContent, .
                             navigation={navigation}
                             focused={isFocused}
                             route={route}
-                            header={{}}
+                            header={null}
                             style={[StyleSheet.absoluteFill, { opacity: isFocused ? 1 : 0 }]}
                         >
                             {descriptor.render()}
@@ -117,12 +118,14 @@ const SideNavigator = () => (
 );
 
 const App = () => (
-    <NavigationContainer>
-        <RootStack.Navigator screenOptions={{ headerShown: false }}>
-            <RootStack.Screen name="stack" component={SideNavigator} />
-            <RootStack.Screen name={ROUTES.MODAL} component={ScreenModal} />
-        </RootStack.Navigator>
-    </NavigationContainer>
+    <SafeAreaProvider>
+        <NavigationContainer>
+            <RootStack.Navigator screenOptions={{ headerShown: false }}>
+                <RootStack.Screen name="stack" component={SideNavigator} />
+                <RootStack.Screen name={ROUTES.MODAL} component={ScreenModal} />
+            </RootStack.Navigator>
+        </NavigationContainer>
+    </SafeAreaProvider>
 );
 
 const styles = StyleSheet.create({

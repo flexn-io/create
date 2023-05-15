@@ -76,8 +76,10 @@ export default class StickyContainer<P extends StickyContainerProps> extends Com
 
     public renderCompat(): JSX.Element {
         this._assertChildType();
+        //@ts-expect-error TODO: is this supposed to miss out on required props?
         const recycler: ReactElement<RecyclerListViewProps> = React.cloneElement(this.props.children, {
             ...this.props.children.props,
+            //@ts-expect-error
             ref: this._getRecyclerRef,
             onVisibleIndicesChanged: this._onVisibleIndicesChanged,
             onScroll: this._onScroll,
@@ -219,11 +221,14 @@ export default class StickyContainer<P extends StickyContainerProps> extends Com
     };
 
     private _isChildRecyclerInstance = (): boolean => {
-        return (
+        if (
             this.props.children.props.dataProvider &&
-            this.props.children.props.rowRenderer &&
+            // this.props.children.props.rowRenderer &&
             this.props.children.props.layoutProvider
-        );
+        ) {
+            return true;
+        }
+        return false;
     };
 
     private _getLayoutForIndex = (index: number): Layout | undefined => {

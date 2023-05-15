@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent, ScrollView, View } from 'react-native';
 import BaseScrollComponent, { ScrollComponentProps } from '../../../core/scrollcomponent/BaseScrollComponent';
 import TSCast from '../../../utils/TSCast';

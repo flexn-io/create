@@ -53,7 +53,8 @@ const Screen = React.forwardRef<any, ScreenProps>(
             Event.emit(model, EVENT_TYPES.ON_PROPERTY_CHANGED, { property: 'order', newValue: screenOrder });
         }, [screenOrder]);
 
-        const chRendered = typeof children === 'function' ? children(model) : children;
+        //TODO: is it ok to render childern as function ...when it comes to performance opts?
+        const chRendered = typeof children === 'function' ? (children as any)(model) : children;
 
         const childrenWithProps = React.Children.map(chRendered, (child) => {
             if (React.isValidElement(child)) {

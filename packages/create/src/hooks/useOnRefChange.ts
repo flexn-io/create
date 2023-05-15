@@ -7,7 +7,7 @@ export default function useOnRefChange(model: FocusModel | null): {
 } {
     const targetRef = useRef<MutableRefObject<any>>();
 
-    const onRefChange = useCallback((node) => {
+    const onRefChange = useCallback((node: MutableRefObject<any>) => {
         targetRef.current = node?.current ?? node;
     }, []);
 

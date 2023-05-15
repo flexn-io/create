@@ -9,6 +9,7 @@ export interface ScrollViewDefaultProps {
     canChangeSize: boolean;
     style?: CSSProperties | null;
     useWindowScroll: boolean;
+    children?: React.ReactNode;
 }
 export interface ScrollEvent {
     nativeEvent: {
