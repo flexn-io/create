@@ -40,7 +40,7 @@
         "react-native-snap-carousel": "3.9.1",
         "react-native-tvos": "0.66.3-1",
         "react-native-vector-icons": "9.2.0",
-        "react-native-web": "0.18.0",
+        "react-native-web": "0.18.9",
         "react-native-windows": "0.67.3"
     },
     "devDependencies": {
@@ -59,7 +59,8 @@
         "jetifier": "1.6.5",
         "react-test-renderer": "^17.0.1",
         "rnv": "0.37.0-canary.7",
-        "xcode": "2.1.0"
+        "xcode": "2.1.0",
+        "@types/react": "18.2.6"
     },
     "name": "app-harness",
     "optionalDependencies": {
