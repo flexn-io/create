@@ -1803,10 +1803,10 @@
   resolved "https://registry.npmjs.org/@flexn/eslint-config/-/eslint-config-0.1.5.tgz#620d312018a0de1e61ac023c6dc2013d987b79e6"
   integrity sha512-l49bXcYNs9CPNfTRgJQWXS+5FSeW+yYuWOLnM5nuGcs0aD7WGhIaV27H0xnaiCU90jZY9uC613Gd45035gFd0w==
 
-"@flexn/plugins@^0.1.2":
-  version "0.1.3"
-  resolved "https://registry.npmjs.org/@flexn/plugins/-/plugins-0.1.3.tgz#b866bbc396a39767ab7c6c22fd85521ace7a380c"
-  integrity sha512-geW7JLjnofoKRBMKGJNhjcWFFeoRSBFZ4ssTZ464AS93TmIxBONIzrfncJFRHWuqpKtDmxoN96GozgaUYOUIeQ==
+"@flexn/plugins@0.1.4":
+  version "0.1.4"
+  resolved "https://registry.npmjs.org/@flexn/plugins/-/plugins-0.1.4.tgz#56acbdbff2d44583da2c2afedd08907cc3458e56"
+  integrity sha512-NI71vV+IsOLUcNepahQ56mLtqOKzSbOxXj6t0leUwFTz2Fu2uvkzrxo1klS2SlGP4dVkaWMH3cpkFxiLKvuxrQ==
 
 "@flexn/prettier-config@0.1.4":
   version "0.1.4"

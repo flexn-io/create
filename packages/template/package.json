@@ -59,7 +59,7 @@
     "devDependencies": {
         "@flexn/create": "0.21.0-alpha.0",
         "@flexn/graybox": "0.21.0-alpha.0",
-        "@flexn/plugins": "^0.1.2",
+        "@flexn/plugins": "0.1.4",
         "@lightningjs/cli": "2.7.1",
         "@lightningjs/core": "^2.6.0",
         "@lightningjs/sdk": "4.3.3",

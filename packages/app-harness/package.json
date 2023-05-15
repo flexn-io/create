@@ -46,7 +46,7 @@
     "devDependencies": {
         "@flexn/graybox": "0.21.0-alpha.0",
         "@flexn/template": "0.21.0-alpha.0",
-        "@flexn/plugins": "^0.1.2",
+        "@flexn/plugins": "0.1.4",
         "@rnv/engine-lightning": "0.37.0-canary.7",
         "@rnv/engine-rn": "0.37.0-canary.7",
         "@rnv/engine-rn-electron": "0.37.0-canary.7",

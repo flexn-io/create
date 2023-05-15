@@ -33,7 +33,7 @@
         "ts-object-utils": "0.0.5"
     },
     "peerDependencies": {
-        "react": "^18.1.0",
+        "react": "^18.2.0",
         "react-native": "0.67.2"
     },
     "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc"
