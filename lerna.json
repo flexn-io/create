@@ -1,6 +1,8 @@
 {
-    "version": "0.21.0-alpha.0",
-    "packages": ["packages/*"],
+    "version": "0.21.1-alpha.0",
+    "packages": [
+        "packages/*"
+    ],
     "npmClient": "yarn",
     "useWorkspaces": true,
     "command": {
@@ -8,7 +10,11 @@
             "message": "chore(release): publish"
         },
         "bootstrap": {
-            "npmClientArgs": ["--no-package-lock", "--unsafe-perm=true", "--no-optional"]
+            "npmClientArgs": [
+                "--no-package-lock",
+                "--unsafe-perm=true",
+                "--no-optional"
+            ]
         }
     }
 }

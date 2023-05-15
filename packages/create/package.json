@@ -1,6 +1,6 @@
 {
     "name": "@flexn/create",
-    "version": "0.21.0-alpha.0",
+    "version": "0.21.1-alpha.0",
     "description": "Flexn Create SDK",
     "main": "lib/index",
     "types": "lib/index",
@@ -45,9 +45,9 @@
         "ts-object-utils": "0.0.5"
     },
     "peerDependencies": {
+        "@shopify/flash-list": "^1.4.1",
         "react": "^18.2.0",
-        "react-native": "0.67.2",
-        "@shopify/flash-list": "^1.4.1"
+        "react-native": "0.67.2"
     },
     "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc"
 }
