@@ -71,9 +71,11 @@
         "next": "source:flexn",
         "@react-native-windows/cli": "source:flexn",
         "@react-navigation": "source:flexn",
+        "@react-navigation/elements": "source:flexn",
         "react-native-screens": "source:flexn",
         "react-native-safe-area-context": "source:flexn",
         "react-native-reanimated": "source:flexn",
+        "@react-native-masked-view/masked-view": "source:flexn",
         "react-native-gesture-handler": "source:flexn",
         "react-native-media-query": "source:flexn",
         "@shopify/flash-list": "source:flexn"

@@ -91,14 +91,14 @@
         "@flexn/eslint-config": "0.1.5",
         "@flexn/prettier-config": "0.1.4",
         "@flexn/typescript": "0.2.4",
-        "@types/jest": "27.0.2",
-        "@types/lodash-es": "4.17.5",
-        "@types/lodash.debounce": "^4.0.6",
-        "@types/node": "16.11.7",
-        "@types/react-dom": "18.0.11",
-        "@types/react-native": "0.67.2",
-        "@types/chromecast-caf-receiver": "^6.0.6",
-        "@types/react-native-snap-carousel": "3.8.5",
+        "@types/jest": "~27.0.2",
+        "@types/lodash-es": "~4.17.5",
+        "@types/lodash.debounce": "~4.0.6",
+        "@types/node": "~16.11.7",
+        "@types/react-dom": "~18.2.4",
+        "@types/react-native": "~0.67.2",
+        "@types/chromecast-caf-receiver": "~6.0.6",
+        "@types/react-native-snap-carousel": "~3.8.5",
         "google-drive-connect": "^1.1.2",
         "googleapis": "39",
         "husky": "4.2.5",
@@ -140,6 +140,9 @@
             "**/@lightningjs/cli",
             "**/@lightningjs/cli/**"
         ]
+    },
+    "resolutions": {
+        "@types/react": "18.2.6"
     },
     "dependencies": {
         "@types/lodash.throttle": "^4.1.7"

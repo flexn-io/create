@@ -39,7 +39,6 @@
         "@lightningjs/core": "^2.6.0",
         "@lightningjs/sdk": "4.3.3",
         "@lightningjs/ui-components": "^1.2.1",
-        "@shopify/flash-list": "1.4.1",
         "lodash-es": "4.17.21",
         "lodash.debounce": "^4.0.8",
         "lodash.throttle": "^4.0.8",
@@ -47,7 +46,8 @@
     },
     "peerDependencies": {
         "react": "^18.1.0",
-        "react-native": "0.67.2"
+        "react-native": "0.67.2",
+        "@shopify/flash-list": "^1.4.1"
     },
     "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc"
 }
