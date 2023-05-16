@@ -59,7 +59,7 @@
     "devDependencies": {
         "@flexn/create": "0.21.1-alpha.0",
         "@flexn/graybox": "0.21.1-alpha.0",
-        "@flexn/plugins": "0.1.4",
+        "@flexn/plugins": "0.1.5",
         "@lightningjs/cli": "2.7.1",
         "@lightningjs/core": "^2.6.0",
         "@lightningjs/sdk": "4.3.3",
@@ -90,7 +90,7 @@
         "@rollup/plugin-typescript": "^8.3.2",
         "@types/react": "18.2.6",
         "http-server": "^14.1.0",
-        "jetifier": "1.6.5",
+        "jetifier": "2.0.0",
         "next": "12.1.6",
         "raf": "3.4.1",
         "react": "18.2.0",

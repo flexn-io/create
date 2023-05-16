@@ -1803,10 +1803,10 @@
   resolved "https://registry.npmjs.org/@flexn/eslint-config/-/eslint-config-0.1.5.tgz#620d312018a0de1e61ac023c6dc2013d987b79e6"
   integrity sha512-l49bXcYNs9CPNfTRgJQWXS+5FSeW+yYuWOLnM5nuGcs0aD7WGhIaV27H0xnaiCU90jZY9uC613Gd45035gFd0w==
 
-"@flexn/plugins@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.npmjs.org/@flexn/plugins/-/plugins-0.1.4.tgz#56acbdbff2d44583da2c2afedd08907cc3458e56"
-  integrity sha512-NI71vV+IsOLUcNepahQ56mLtqOKzSbOxXj6t0leUwFTz2Fu2uvkzrxo1klS2SlGP4dVkaWMH3cpkFxiLKvuxrQ==
+"@flexn/plugins@0.1.5":
+  version "0.1.5"
+  resolved "https://registry.npmjs.org/@flexn/plugins/-/plugins-0.1.5.tgz#470291096b8055f2f167e3e4eb6b60431860e199"
+  integrity sha512-05ioG87+wVYyMmGLmTjRjZr0dcDyafSuh6lXSnikNzcUOCQctOa9MtLe2L4XmkxyuPSfiurAyTc1pwoPVrc4Zg==
 
 "@flexn/prettier-config@0.1.4":
   version "0.1.4"
@@ -16136,10 +16136,10 @@ jest@27.3.1:
     import-local "^3.0.2"
     jest-cli "^27.3.1"
 
-jetifier@1.6.5:
-  version "1.6.5"
-  resolved "https://registry.npmjs.org/jetifier/-/jetifier-1.6.5.tgz#ea87324a4230bef20a9651178ecab978ee54a8cb"
-  integrity sha512-T7yzBSu9PR+DqjYt+I0KVO1XTb1QhAfHnXV5Nd3xpbXM6Xg4e3vP60Q4qkNU8Fh6PHC2PivPUNN3rY7G2MxcDQ==
+jetifier@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/jetifier/-/jetifier-2.0.0.tgz#699391367ca1fe7bc4da5f8bf691eb117758e4cb"
+  integrity sha512-J4Au9KuT74te+PCCCHKgAjyLlEa+2VyIAEPNCdE5aNkAJ6FAJcAqcdzEkSnzNksIa9NkGmC4tPiClk2e7tCJuQ==
 
 jetifier@^1.6.2:
   version "1.6.8"

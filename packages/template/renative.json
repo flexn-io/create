@@ -54,7 +54,10 @@
     "isMonorepo": true,
     "isTemplate": true,
     "plugins": {
-        "@flexn/create": "source:flexn",
+        "@flexn/create": {
+            "source": "flexn",
+            "version": "0.21.1-alpha.0"
+        },
         "@rnv/renative": "source:flexn",
         "react-native": "source:flexn",
         "react-native-web": "source:flexn",
@@ -82,8 +85,13 @@
     },
     "platforms": {
         "android": {
-            "targetSdkVersion": 30,
-            "compileSdkVersion": 31,
+            "minSdkVersion": 26,
+            "targetSdkVersion": 33,
+            "compileSdkVersion": 33,
+            "buildToolsVersion": "30.0.0",
+            "gradleBuildToolsVersion": "4.2.2",
+            "gradleWrapperVersion": "6.7.1",
+            "kotlinVersion": "1.4.21",
             "reactNativeEngine": "hermes",
             "enableAndroidX": true,
             "gradle.properties": {
@@ -112,9 +120,14 @@
         },
         "androidtv": {
             "engine": "engine-rn-tvos",
+            "minSdkVersion": 26,
+            "targetSdkVersion": 33,
+            "compileSdkVersion": 33,
+            "buildToolsVersion": "30.0.0",
+            "gradleBuildToolsVersion": "4.2.2",
+            "gradleWrapperVersion": "6.7.1",
+            "kotlinVersion": "1.4.21",
             "reactNativeEngine": "hermes",
-            "targetSdkVersion": 30,
-            "compileSdkVersion": 31,
             "enableAndroidX": true,
             "gradle.properties": {
                 "android.useDeprecatedNdk": true,
@@ -142,8 +155,13 @@
         },
         "firetv": {
             "engine": "engine-rn-tvos",
-            "targetSdkVersion": 30,
-            "compileSdkVersion": 31,
+            "minSdkVersion": 26,
+            "targetSdkVersion": 33,
+            "compileSdkVersion": 33,
+            "buildToolsVersion": "30.0.0",
+            "gradleBuildToolsVersion": "4.2.2",
+            "gradleWrapperVersion": "6.7.1",
+            "kotlinVersion": "1.4.21",
             "reactNativeEngine": "hermes",
             "enableAndroidX": true,
             "gradle.properties": {
