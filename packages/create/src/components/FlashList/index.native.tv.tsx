@@ -92,6 +92,7 @@ const FlashList = ({
                     ref={rlvRef}
                     data={data}
                     renderItem={rowRendererWithProps}
+                    horizontal={horizontal}
                     {...props}
                     overrideProps={{
                         ...scrollViewProps,

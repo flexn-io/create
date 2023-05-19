@@ -54,7 +54,10 @@
     "isMonorepo": true,
     "isTemplate": true,
     "plugins": {
-        "@flexn/create": "source:flexn",
+        "@flexn/create": {
+            "source": "flexn",
+            "version": "0.21.1-alpha.1"
+        },
         "@rnv/renative": "source:flexn",
         "react-native": "source:flexn",
         "react-native-web": "source:flexn",
@@ -76,7 +79,50 @@
         "react-native-safe-area-context": "source:flexn",
         "react-native-reanimated": "source:flexn",
         "@react-native-masked-view/masked-view": "source:flexn",
-        "react-native-gesture-handler": "source:flexn",
+        "react-native-gesture-handler": {
+            "android": {
+                "mainActivity": {
+                    "imports": [
+                        "com.swmansion.gesturehandler.RNGestureHandlerEnabledRootView"
+                    ],
+                    "methods": [
+                        "  override fun createReactActivityDelegate(): ReactActivityDelegate {",
+                        "return object : ReactActivityDelegate(this, mainComponentName) {",
+                        "override fun createRootView():ReactRootView {",
+                        "  return RNGestureHandlerEnabledRootView(this@MainActivity)",
+                        "  } \n } \n}"
+                    ]
+                },
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "androidtv": {
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "androidwear": {
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "firetv": {
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "ios": {
+                "podName": "RNGestureHandler"
+            },
+            "macos": {
+                "podName": "RNGestureHandler"
+            },
+            "tvos": {
+                "podName": "RNGestureHandler"
+            },
+            "version": "2.9.0",
+            "webpack": {
+                "moduleAliases": true,
+                "modulePaths": true
+            }
+        },
         "react-native-media-query": "source:flexn",
         "@flexn-io/shopify-flash-list": {
             "android": {
