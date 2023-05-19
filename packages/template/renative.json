@@ -78,7 +78,26 @@
         "@react-native-masked-view/masked-view": "source:flexn",
         "react-native-gesture-handler": "source:flexn",
         "react-native-media-query": "source:flexn",
-        "@shopify/flash-list": "source:flexn"
+        "@shopify/flash-list": {
+            "source": "flexn",
+            "webpack": {
+                "modulePaths": true,
+                "moduleAliases": true,
+                "nextTranspileModules": [
+                    "@shopify/flash-list"
+                ]
+            }
+        },
+        "recyclerlistview": {
+            "version": "4.2.0",
+            "webpack": {
+                "modulePaths": true,
+                "moduleAliases": true,
+                "nextTranspileModules": [
+                    "recyclerlistview"
+                ]
+            }
+        }
     },
     "platforms": {
         "android": {
@@ -177,13 +196,17 @@
         "web": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": ["lodash-es"]
+                "nextTranspileModules": [
+                    "lodash-es"
+                ]
             }
         },
         "chromecast": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": ["lodash-es"]
+                "nextTranspileModules": [
+                    "lodash-es"
+                ]
             }
         },
         "tizen": {
@@ -198,7 +221,9 @@
         },
         "macos": {
             "engine": "engine-rn",
-            "excludedPlugins": ["react-native-linear-gradient"]
+            "excludedPlugins": [
+                "react-native-linear-gradient"
+            ]
         },
         "windows": {
             "engine": "engine-rn-windows"
