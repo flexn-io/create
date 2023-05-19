@@ -1,4 +1,4 @@
-import { Pressable, Text, Icon } from '@flexn/create';
+import { Pressable, Text, Icon, FocusContext } from '@flexn/create';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { getScaledValue } from '@rnv/renative';
@@ -40,7 +40,7 @@ interface ButtonProps {
     accessible?: boolean;
     accessibilityLabel?: string;
     onPress?: any;
-    parentContext?: string;
+    focusContext?: FocusContext;
 }
 
 const Button = ({
@@ -56,7 +56,7 @@ const Button = ({
     accessibilityLabel,
     onPress,
     activeOpacity,
-    parentContext,
+    focusContext,
 }: ButtonProps) => (
     <Pressable
         style={[styles.button, style]}
@@ -65,7 +65,7 @@ const Button = ({
         testID={testID}
         accessible={accessible}
         accessibilityLabel={accessibilityLabel}
-        parentContext={parentContext}
+        focusContext={focusContext}
     >
         {iconName ? (
             <Icon

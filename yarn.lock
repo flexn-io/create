@@ -1798,6 +1798,20 @@
     webpack "4.43.0"
     webpack-manifest-plugin "~2.2.0"
 
+"@flexn/create@0.21.0-alpha.0":
+  version "0.21.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@flexn/create/-/create-0.21.0-alpha.0.tgz#3d22eac6454f3cdde9ea3727f128a595af5f0e07"
+  integrity sha512-U8ZKI4dtRZuz1kQKJB0EeVcMgBru+zmu0Xcy1HWUiMcYoW+4v74dJNTdyeQa8rTCYOT0uR9O/8o/GFP5hxgzSw==
+  dependencies:
+    "@lightningjs/core" "^2.6.0"
+    "@lightningjs/sdk" "4.3.3"
+    "@lightningjs/ui-components" "^1.2.1"
+    "@shopify/flash-list" "1.4.1"
+    lodash-es "4.17.21"
+    lodash.debounce "^4.0.8"
+    lodash.throttle "^4.0.8"
+    ts-object-utils "0.0.5"
+
 "@flexn/eslint-config@0.1.5":
   version "0.1.5"
   resolved "https://registry.npmjs.org/@flexn/eslint-config/-/eslint-config-0.1.5.tgz#620d312018a0de1e61ac023c6dc2013d987b79e6"
