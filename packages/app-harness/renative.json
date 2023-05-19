@@ -197,7 +197,10 @@
         }
     },
     "plugins": {
-        "@flexn/create": "source:flexn",
+        "@flexn/create": {
+            "source": "flexn",
+            "version": "0.21.1-alpha.1"
+        },
         "@lightningjs/cli": "source:flexn",
         "@lightningjs/sdk": "source:flexn",
         "@react-native-community/cli": "source:flexn",
@@ -214,7 +217,50 @@
         "react-dom": "source:flexn",
         "react-native": "source:flexn",
         "react-native-carplay": "source:flexn",
-        "react-native-gesture-handler": "source:flexn",
+        "react-native-gesture-handler": {
+            "android": {
+                "mainActivity": {
+                    "imports": [
+                        "com.swmansion.gesturehandler.RNGestureHandlerEnabledRootView"
+                    ],
+                    "methods": [
+                        "  override fun createReactActivityDelegate(): ReactActivityDelegate {",
+                        "return object : ReactActivityDelegate(this, mainComponentName) {",
+                        "override fun createRootView():ReactRootView {",
+                        "  return RNGestureHandlerEnabledRootView(this@MainActivity)",
+                        "  } \n } \n}"
+                    ]
+                },
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "androidtv": {
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "androidwear": {
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "firetv": {
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "ios": {
+                "podName": "RNGestureHandler"
+            },
+            "macos": {
+                "podName": "RNGestureHandler"
+            },
+            "tvos": {
+                "podName": "RNGestureHandler"
+            },
+            "version": "2.9.0",
+            "webpack": {
+                "moduleAliases": true,
+                "modulePaths": true
+            }
+        },
         "react-native-google-cast": "source:flexn",
         "react-native-media-query": "source:flexn",
         "react-native-reanimated": "source:flexn",

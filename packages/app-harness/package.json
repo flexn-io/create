@@ -38,7 +38,7 @@
         "web:release": "npx rnv build -p web -c harness -s release && vercel ./platformBuilds/harness_web/project"
     },
     "dependencies": {
-        "@flexn/create": "0.21.0-alpha.0",
+        "@flexn/create": "0.21.1-alpha.1",
         "@lightningjs/cli": "2.7.2",
         "@lightningjs/core": "^2.6.0",
         "@lightningjs/sdk": "4.3.3",
