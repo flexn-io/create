@@ -4,9 +4,11 @@ import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { getRandomData, interval, testProps } from '../utils';
 import Screen from './screen';
+import { useNavigate } from '../hooks/navigation/index.web';
 
 const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const { theme } = useContext(ThemeContext);
+    const navigate = useNavigate();
 
     const data = [...Array(10).keys()].map((rowNumber) => {
         const itemsInViewport = interval(isFactorMobile ? 1 : 3, isFactorMobile ? 3 : 5);
@@ -19,7 +21,11 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                 style={styles.cardStyle}
                 focusRepeatContext={focusRepeatContext}
                 onPress={() => {
-                    navigation.navigate(ROUTES.DETAILS, { row: 1, index: index });
+                    if (isPlatformWeb) {
+                        navigate(ROUTES.DETAILS, { row: 1, index: index });
+                    } else {
+                        navigation.navigate(ROUTES.DETAILS, { row: 1, index: index });
+                    }
                 }}
                 // animatorOptions={{ type: 'scale_with_border', scale: 1.1 }}
             >
