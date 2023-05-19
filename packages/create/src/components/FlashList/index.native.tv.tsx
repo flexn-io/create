@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
-import { FlashList as FlashListComp, ListRenderItemInfo } from '@shopify/flash-list';
+import { FlashList as FlashListComp, ListRenderItemInfo } from '@flexn-io/shopify-flash-list';
 
 import Grid from '../../focusManager/model/grid';
 import List from '../../focusManager/model/list';
@@ -15,7 +15,7 @@ const FlashList = ({
     style,
     scrollViewProps,
     focusContext,
-    isHorizontal = true,
+    horizontal = true,
     renderItem,
     focusRepeatContext,
     focusOptions = {},
@@ -37,7 +37,7 @@ const FlashList = ({
 
     const [model] = useState<List | Grid | Row>(() => {
         const params = {
-            isHorizontal,
+            isHorizontal: horizontal,
             isNested: !!focusRepeatContext,
             //@ts-ignore
             parent: focusRepeatContext?.focusContext || focusContext,
@@ -92,8 +92,6 @@ const FlashList = ({
                     ref={rlvRef}
                     data={data}
                     renderItem={rowRendererWithProps}
-                    estimatedItemSize={200}
-                    horizontal={isHorizontal}
                     {...props}
                     overrideProps={{
                         ...scrollViewProps,

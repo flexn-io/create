@@ -63,7 +63,7 @@
         "@sentry/react": "6.13.3",
         "@sentry/react-native": "3.1.1",
         "@sentry/tracing": "6.13.3",
-        "@shopify/flash-list": "1.4.1",
+        "@flexn-io/shopify-flash-list": "^1.4.3",
         "next": "12.1.6",
         "raf": "3.4.1",
         "react": "18.2.0",

@@ -7,7 +7,7 @@ import type {
     ViewStyle,
     ScrollView,
 } from 'react-native';
-import type { FlashListProps as FLProps, ListRenderItemInfo } from '@shopify/flash-list';
+import type { FlashListProps as FLProps, ListRenderItemInfo } from '@flexn-io/shopify-flash-list';
 import FocusModel from './model/FocusModel';
 import View from './model/view';
 
@@ -131,7 +131,7 @@ export type CreateListRenderItem<Item> = (info: CreateListRenderItemInfo<Item>) 
 export interface FlashListProps<Item> extends FLProps<Item> {
     focusContext?: FocusModel;
     focusRepeatContext?: CreateListRenderItemInfo<Item>;
-    isHorizontal?: boolean;
+    horizontal?: boolean;
     scrollViewProps?: any;
     children?: React.ReactNode;
     style?: StyleProp<ViewStyle>;

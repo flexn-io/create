@@ -37,7 +37,7 @@ const Row = () => {
         <Screen style={{ backgroundColor: '#222222' }}>
             <ScrollView>
                 <View style={{ top: 200 }}>
-                    <FlashList data={data} renderItem={rowRenderer} isHorizontal type="row" />
+                    <FlashList data={data} renderItem={rowRenderer} horizontal type="row" />
                 </View>
             </ScrollView>
         </Screen>

@@ -35,7 +35,13 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
             <ScrollView {...testProps('template-carousels-screen-container')}>
                 {data.map((list, index) => (
                     <View style={styles.listSeparator} key={index}>
-                        <FlashList data={list} renderItem={renderItem} type="row" estimatedItemSize={Ratio(200)} />
+                        <FlashList
+                            data={list}
+                            renderItem={renderItem}
+                            type="row"
+                            estimatedItemSize={Ratio(200)}
+                            horizontal
+                        />
                     </View>
                 ))}
             </ScrollView>
