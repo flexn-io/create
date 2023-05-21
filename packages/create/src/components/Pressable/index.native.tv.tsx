@@ -128,7 +128,7 @@ const View = React.forwardRef<any, ViewProps>(
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
-                return React.cloneElement(child, {
+                return React.cloneElement(child as React.ReactElement<any>, {
                     focusContext: model,
                 });
             }

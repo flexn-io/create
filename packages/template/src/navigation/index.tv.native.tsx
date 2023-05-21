@@ -1,52 +1,25 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { View } from '@flexn/create';
 import { TVMenuControl, StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {
-    NavigationContainer,
-    useNavigationBuilder,
-    StackActions,
-    StackRouter,
-    createNavigatorFactory,
-} from '@react-navigation/native';
-import { screensEnabled } from 'react-native-screens';
+import { NavigationContainer, useNavigationBuilder, TabRouter, createNavigatorFactory } from '@react-navigation/native';
 import { isPlatformTvos } from '@rnv/renative';
-import { ScreenContainer } from 'react-native-screens'; //eslint-disable-line
-import { Screen } from '@react-navigation/elements';
-
 import ScreenHome from '../screens/home';
 import ScreenCarousels from '../screens/carousels';
 import ScreenDetails from '../screens/details';
 import ScreenModal from '../screens/modal';
 import Menu from '../components/menu';
 import { ROUTES } from '../config';
-import { MaybeScreen } from '@react-navigation/drawer/src/views/ScreenFallback';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const createTVSideNavigator = createNavigatorFactory(Navigator);
 
 function Navigator({ initialRouteName, children, screenOptions, drawerContent, ...rest }) {
-    if (!screensEnabled()) {
-        throw new Error('Native stack is only available if React Native Screens is enabled.');
-    }
-
-    const { state, navigation, descriptors } = useNavigationBuilder(StackRouter, {
-        initialRouteName,
+    const { state, navigation, descriptors, NavigationContent } = useNavigationBuilder(TabRouter, {
         children,
         screenOptions,
+        initialRouteName,
     });
-
-    const tabPressEventHandler = useCallback(() => {
-        const isFocused = navigation.isFocused();
-        requestAnimationFrame(() => {
-            if (state.index > 0 && isFocused) {
-                navigation.dispatch({
-                    ...StackActions.popToTop(),
-                    target: state.key,
-                });
-            }
-        });
-    }, [navigation, state.index, state.key]);
 
     useEffect(() => {
         if (isPlatformTvos) {
@@ -55,52 +28,29 @@ function Navigator({ initialRouteName, children, screenOptions, drawerContent, .
                 TVMenuControl.disableTVMenuKey();
             }
         }
-
-        navigation.addListener('tabPress', tabPressEventHandler);
-        return () => navigation.removeListener('tabPress', tabPressEventHandler);
-    }, [navigation, state.index, tabPressEventHandler]);
-
-    const renderContent = () => (
-        <ScreenContainer style={styles.content}>
-            {state.routes.map((route, index) => {
-                const descriptor = descriptors[route.key];
-                const { unmountOnBlur } = descriptor.options;
-                const isFocused = state.index === index;
-
-                if (unmountOnBlur && !isFocused) {
-                    return null;
-                }
-
-                return (
-                    <MaybeScreen visible={isFocused} enabled key={route.key} style={StyleSheet.absoluteFill}>
-                        <Screen
-                            navigation={navigation}
-                            focused={isFocused}
-                            route={route}
-                            header={null}
-                            style={[StyleSheet.absoluteFill, { opacity: isFocused ? 1 : 0 }]}
-                        >
-                            {descriptor.render()}
-                        </Screen>
-                    </MaybeScreen>
-                );
-            })}
-        </ScreenContainer>
-    );
-
-    const renderDrawerView = () =>
-        drawerContent({
-            state,
-            navigation,
-            descriptors,
-            ...rest,
-        });
+    }, [navigation, state.index]);
 
     return (
-        <View style={styles.main}>
-            <View style={[styles.container]}>{renderDrawerView()}</View>
-            <View style={[styles.content]}>{renderContent()}</View>
-        </View>
+        <NavigationContent>
+            {drawerContent({
+                state,
+                navigation,
+                descriptors,
+                ...rest,
+            })}
+            <View style={styles.main}>
+                {state.routes.map((route, i) => {
+                    return (
+                        <View
+                            key={route.key}
+                            style={[StyleSheet.absoluteFill, { display: i === state.index ? 'flex' : 'none' }]}
+                        >
+                            {descriptors[route.key].render()}
+                        </View>
+                    );
+                })}
+            </View>
+        </NavigationContent>
     );
 }
 

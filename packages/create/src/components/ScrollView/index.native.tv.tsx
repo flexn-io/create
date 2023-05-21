@@ -38,7 +38,7 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
-                return React.cloneElement(child, { focusContext: model });
+                return React.cloneElement(child as React.ReactElement<any>, { focusContext: model });
             }
             return child;
         });

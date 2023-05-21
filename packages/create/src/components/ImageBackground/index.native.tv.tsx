@@ -10,7 +10,7 @@ interface ImageBackgroundPropsExtended extends ImageBackgroundProps {
 const ImageBackground = ({ children, focusContext, source, ...props }: ImageBackgroundPropsExtended) => {
     const childrenWithProps = React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
-            return React.cloneElement(child, { focusContext });
+            return React.cloneElement(child as React.ReactElement<any>, { focusContext });
         }
         return child;
     });
