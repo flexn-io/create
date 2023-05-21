@@ -10,13 +10,15 @@ import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import { usePrevious } from '../../hooks/usePrevious';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
 
-export const defaultAnimation = {
+const defaultAnimation = {
+    type: 'scale',
     focus: {
         scale: 1.1,
     },
     blur: {
         scale: 1,
     },
+    // duration: 150,
 };
 
 type FocusAnimation = {

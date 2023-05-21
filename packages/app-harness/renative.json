@@ -25,6 +25,10 @@
             "tizen",
             "webos"
         ],
+        "ports": {
+            "web": "8180",
+            "tvos": "8189"
+        },
         "title": "Template App"
     },
     "isMonorepo": true,

@@ -22,7 +22,9 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
 
     useEffect(() => {
         const params = isPlatformWeb ? router.query : route?.params;
-        setItem(getRandomData(params.row, params.index));
+        if (params) {
+            setItem(getRandomData(params.row, params.index));
+        }
     }, []);
 
     if (!item) {

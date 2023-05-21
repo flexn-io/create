@@ -32,12 +32,15 @@ function Navigator({ initialRouteName, children, screenOptions, drawerContent, .
 
     return (
         <NavigationContent>
-            {drawerContent({
-                state,
-                navigation,
-                descriptors,
-                ...rest,
-            })}
+            <View style={styles.container}>
+                {drawerContent({
+                    state,
+                    navigation,
+                    descriptors,
+                    ...rest,
+                })}
+            </View>
+
             <View style={styles.main}>
                 {state.routes.map((route, i) => {
                     return (

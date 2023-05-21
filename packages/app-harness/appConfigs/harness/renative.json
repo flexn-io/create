@@ -7,14 +7,6 @@
         "description": "Flexn Harness App",
         "teamID": "9VVQTZS9NN",
         "buildSchemes": {
-            "debug": {
-                "id": "io.flexn.harness.debug",
-                "title": "Harness Debug"
-            },
-            "test": {
-                "id": "io.flexn.harness.test",
-                "title": "Harness Test"
-            },
             "canary": {
                 "id": "io.flexn.harness.alpha",
                 "title": "Harness Alpha"
@@ -31,6 +23,14 @@
     "platforms": {
         "android": {
             "buildSchemes": {
+                "debug": {
+                    "id": "io.flexn.harness.debug",
+                    "title": "Harness Debug"
+                },
+                "test": {
+                    "id": "io.flexn.harness.test",
+                    "title": "Harness Test"
+                },
                 "production": {
                     "firebaseId": "1:855221150579:android:92c1bacc6e278b6c381b06",
                     "multipleAPKs": false
@@ -43,6 +43,14 @@
         },
         "androidtv": {
             "buildSchemes": {
+                "debug": {
+                    "id": "io.flexn.harness.debug",
+                    "title": "Harness Debug"
+                },
+                "test": {
+                    "id": "io.flexn.harness.test",
+                    "title": "Harness Test"
+                },
                 "canary": {
                     "multipleAPKs": true,
                     "aab": true
@@ -89,6 +97,14 @@
                 "com.apple.iCloud": true
             },
             "buildSchemes": {
+                "debug": {
+                    "id": "io.flexn.harness.debug",
+                    "title": "Harness Debug"
+                },
+                "test": {
+                    "id": "io.flexn.harness.test",
+                    "title": "Harness Test"
+                },
                 "canary": {
                     "firebaseId": "1:855221150579:ios:397defb352df833a381b06",
                     "id": "flexn.harness.alpha",
@@ -123,6 +139,14 @@
                 "com.apple.iCloud": true
             },
             "buildSchemes": {
+                "debug": {
+                    "id": "io.flexn.harness.debug",
+                    "title": "Harness Debug"
+                },
+                "test": {
+                    "id": "io.flexn.harness.test",
+                    "title": "Harness Test"
+                },
                 "canary": {
                     "appleId": "1596662810",
                     "id": "flexn.harness.alpha",
@@ -147,6 +171,14 @@
         },
         "macos": {
             "buildSchemes": {
+                "debug": {
+                    "id": "io.flexn.harness.debug",
+                    "title": "Harness Debug"
+                },
+                "test": {
+                    "id": "io.flexn.harness.test",
+                    "title": "Harness Test"
+                },
                 "canary": {
                     "id": "flexn.harness.alpha",
                     "provisionProfileSpecifier": "flexn.harness.alpha-catalyst-developerid",
