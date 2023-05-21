@@ -27,13 +27,13 @@ public class TvFocusableViewManager extends ViewGroupManager<Focusable> {
             Spacing.END,
     };
 
-    public static final String BORDER_WIDTH = "focusableBorderWidth";
-    public static final String BORDER_LEFT_WIDTH = "focusableBorderLeftWidth";
-    public static final String BORDER_START_WIDTH = "focusableBorderStartWidth";
-    public static final String BORDER_END_WIDTH = "focusableBorderEndWidth";
-    public static final String BORDER_TOP_WIDTH = "focusableBorderTopWidth";
-    public static final String BORDER_RIGHT_WIDTH = "focusableBorderRightWidth";
-    public static final String BORDER_BOTTOM_WIDTH = "focusableBorderBottomWidth";
+    public static final String BORDER_WIDTH = "borderWidth";
+    public static final String BORDER_LEFT_WIDTH = "borderLeftWidth";
+    public static final String BORDER_START_WIDTH = "borderStartWidth";
+    public static final String BORDER_END_WIDTH = "borderEndWidth";
+    public static final String BORDER_TOP_WIDTH = "borderTopWidth";
+    public static final String BORDER_RIGHT_WIDTH = "borderRightWidth";
+    public static final String BORDER_BOTTOM_WIDTH = "borderBottomWidth";
 
     public static final String REACT_CLASS = "TvFocusableView";
     public static final String COMMAND_FOCUS = "cmdFocus";

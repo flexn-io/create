@@ -11,23 +11,25 @@ class BorderAnimator: Animator {
     
     func onFocus(animated: Bool) {
         if (animated) {
-            UIView.transition(with: self.view, duration: AnimProperty.duration, options: .transitionCrossDissolve, animations: {
-                self.view.layer.borderColor = self.AnimProperty.borderColor
-                self.view.layer.borderWidth = self.AnimProperty.borderWidth
+            UIView.transition(with: self.view, duration: AnimProperty.focusDuration, options: .transitionCrossDissolve, animations: {
+                self.view.layer.borderColor = self.AnimProperty.focusBorderColor
+                self.view.layer.borderWidth = self.AnimProperty.focusBorderWidth
             }, completion: nil)
         } else {
-            self.view.layer.borderColor = self.AnimProperty.borderColor
-            self.view.layer.borderWidth = self.AnimProperty.borderWidth
+            self.view.layer.borderColor = self.AnimProperty.focusBorderColor
+            self.view.layer.borderWidth = self.AnimProperty.focusBorderWidth
         }
     }
     
     func onBlur(animated: Bool) {
         if (animated) {
-            UIView.transition(with: self.view, duration: AnimProperty.duration, options: .transitionCrossDissolve, animations: {
-                self.view.layer.borderWidth = 0
+            UIView.transition(with: self.view, duration: AnimProperty.blurDuration, options: .transitionCrossDissolve, animations: {
+                self.view.layer.borderColor = self.AnimProperty.blurBorderColor
+                self.view.layer.borderWidth = self.AnimProperty.blurBorderWidth
             }, completion: nil)
         } else {
-            self.view.layer.borderWidth = 0
+            self.view.layer.borderColor = self.AnimProperty.blurBorderColor
+            self.view.layer.borderWidth = self.AnimProperty.blurBorderWidth
         }
     }
     
