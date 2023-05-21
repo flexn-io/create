@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
-import { FlashList as FlashListComp, ListRenderItemInfo } from '@flexn-io/shopify-flash-list';
+import { FlashList as FlashListComp, ListRenderItemInfo } from '@flexn/shopify-flash-list';
 
 import Grid from '../../focusManager/model/grid';
 import List from '../../focusManager/model/list';

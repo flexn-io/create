@@ -39,7 +39,8 @@
     },
     "dependencies": {
         "@flexn/create": "0.21.1-alpha.1",
-        "@flexn-io/recyclerlistview": "4.2.3",
+        "@flexn/shopify-flash-list": "1.4.4",
+        "@flexn/recyclerlistview": "4.2.4",
         "@lightningjs/cli": "2.7.2",
         "@lightningjs/core": "^2.6.0",
         "@lightningjs/sdk": "4.3.3",
@@ -64,7 +65,6 @@
         "@sentry/react": "6.13.3",
         "@sentry/react-native": "3.1.1",
         "@sentry/tracing": "6.13.3",
-        "@flexn-io/shopify-flash-list": "1.4.3",
         "next": "12.1.6",
         "raf": "3.4.1",
         "react": "18.2.0",
@@ -86,7 +86,7 @@
         "recyclerlistview": "4.2.0"
     },
     "devDependencies": {
-        "@flexn/plugins": "0.1.5",
+        "@flexn/plugins": "1.0.1",
         "@flexn/graybox": "0.21.1-alpha.1",
         "@flexn/template": "0.21.1-alpha.1",
         "@rnv/engine-lightning": "0.37.0-canary.7",

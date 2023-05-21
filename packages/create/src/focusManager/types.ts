@@ -7,7 +7,7 @@ import type {
     ViewStyle,
     ScrollView,
 } from 'react-native';
-import type { FlashListProps as FLProps, ListRenderItemInfo } from '@flexn-io/shopify-flash-list';
+import type { FlashListProps as FLProps, ListRenderItemInfo } from '@flexn/shopify-flash-list';
 import FocusModel from './model/FocusModel';
 import View from './model/view';
 
