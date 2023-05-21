@@ -1798,6 +1798,25 @@
     webpack "4.43.0"
     webpack-manifest-plugin "~2.2.0"
 
+"@flexn-io/recyclerlistview@4.2.3":
+  version "4.2.3"
+  resolved "https://npm.pkg.github.com/download/@flexn-io/recyclerlistview/4.2.3/f69ac0d4167ae72b42431ef14909f121702207b3#f69ac0d4167ae72b42431ef14909f121702207b3"
+  integrity sha512-EnbSQQ3UtfVMQeNn+9uqp2QKMCPDULstxrhKkryPNvquhRTOeL54wnP1SclHAZ5joYq3Z73y2AtbRoojr+9UjQ==
+  dependencies:
+    lodash.debounce "4.0.8"
+    prop-types "15.8.1"
+    ts-object-utils "0.0.5"
+
+"@flexn-io/shopify-flash-list@1.4.3":
+  version "1.4.3"
+  resolved "https://npm.pkg.github.com/download/@flexn-io/shopify-flash-list/1.4.3/57528b992080364a31029058f450eaa074a10950#57528b992080364a31029058f450eaa074a10950"
+  integrity sha512-OKUg7nB0QklQJgslayvwoFpmM54FtR5fOxD8e9N73GVOuGOW3ud6MEjaesjGt/yaX9xrsal5ZFs45aWtuFhm+g==
+  dependencies:
+    "@flexn-io/recyclerlistview" "4.2.3"
+    "@flexn/create" "0.21.1-alpha.1"
+    recyclerlistview "4.2.0"
+    tslib "2.4.0"
+
 "@flexn/eslint-config@0.1.5":
   version "0.1.5"
   resolved "https://registry.npmjs.org/@flexn/eslint-config/-/eslint-config-0.1.5.tgz#620d312018a0de1e61ac023c6dc2013d987b79e6"
@@ -5018,14 +5037,6 @@
   dependencies:
     "@sentry/types" "6.14.3"
     tslib "^1.9.3"
-
-"@shopify/flash-list@1.4.1":
-  version "1.4.1"
-  resolved "https://registry.npmjs.org/@shopify/flash-list/-/flash-list-1.4.1.tgz#145ae2527ecec008789401db5f20cdfbbc495523"
-  integrity sha512-yM5dlhqolO/R8FKomqCrSYz0Cc82vJDikxhbu1CXXGp3rPvo/ceP9jJyKueW96SXHsn/87fcSq2BjztWjlp74Q==
-  dependencies:
-    recyclerlistview "4.2.0"
-    tslib "2.4.0"
 
 "@sideway/address@^4.1.3":
   version "4.1.4"

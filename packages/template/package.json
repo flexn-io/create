@@ -1,6 +1,6 @@
 {
     "name": "@flexn/template",
-    "version": "0.21.1-alpha.0",
+    "version": "0.21.1-alpha.1",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/create#readme",
@@ -57,9 +57,9 @@
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
     "devDependencies": {
-        "@flexn/create": "0.21.1-alpha.0",
-        "@flexn/graybox": "0.21.1-alpha.0",
         "@flexn/plugins": "0.1.5",
+        "@flexn/create": "0.21.1-alpha.1",
+        "@flexn/graybox": "0.21.1-alpha.1",
         "@lightningjs/cli": "2.7.1",
         "@lightningjs/core": "^2.6.0",
         "@lightningjs/sdk": "4.3.3",

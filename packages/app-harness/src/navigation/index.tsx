@@ -12,13 +12,14 @@ import VerticalScroll from '../screens/verticalScroll';
 import HorizontalScroll from '../screens/horizontalScroll';
 import NestedScroll from '../screens/nestedScroll';
 import Overflow from '../screens/overflow';
+import PressableAnimations from '../screens/pressableAnimations';
 
 const RootStack = createNativeStackNavigator();
 
 const Navigation = () => {
     return (
         <NavigationContainer>
-            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Overflow">
+            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="PressableAnimations">
                 <RootStack.Screen name="Selector" component={Selector} />
                 <RootStack.Screen name="Row" component={Row} />
                 <RootStack.Screen name="DynamicState" component={DynamicState} />
@@ -30,6 +31,7 @@ const Navigation = () => {
                 <RootStack.Screen name="HorizontalScroll" component={HorizontalScroll} />
                 <RootStack.Screen name="NestedScroll" component={NestedScroll} />
                 <RootStack.Screen name="Overflow" component={Overflow} />
+                <RootStack.Screen name="PressableAnimations" component={PressableAnimations} />
             </RootStack.Navigator>
         </NavigationContainer>
     );

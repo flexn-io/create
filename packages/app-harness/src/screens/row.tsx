@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { ScrollView, View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
+import { View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
 import Screen from './screen';
+
+const border = {
+    type: 'border',
+    focus: {
+        borderWidth: 5,
+        borderColor: 'yellow',
+    },
+    blur: {
+        borderWidth: 4,
+        borderColor: '#FFFFFF',
+    },
+};
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -27,7 +39,11 @@ const Row = () => {
 
     const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
         return (
-            <Pressable style={styles.packshot} focusRepeatContext={focusRepeatContext}>
+            <Pressable
+                style={styles.packshot}
+                focusRepeatContext={focusRepeatContext}
+                focusOptions={{ animatorOptions: border }}
+            >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>
         );
@@ -35,11 +51,18 @@ const Row = () => {
 
     return (
         <Screen style={{ backgroundColor: '#222222' }}>
-            <ScrollView>
-                <View style={{ top: 200 }}>
-                    <FlashList data={data} renderItem={rowRenderer} isHorizontal type="row" />
-                </View>
-            </ScrollView>
+            {/* <ScrollView> */}
+            <View style={{ top: 200, flex: 1 }}>
+                <FlashList
+                    data={data}
+                    renderItem={rowRenderer}
+                    horizontal
+                    type="row"
+                    estimatedItemSize={200}
+                    style={{ flex: 1 }}
+                />
+            </View>
+            {/* </ScrollView> */}
         </Screen>
     );
 };
@@ -51,6 +74,7 @@ const styles = StyleSheet.create({
         // borderColor: 'red',
         // borderWidth: 1,
         margin: 5,
+        // borderWidth: 2,
     },
     image: {
         width: '100%',

@@ -1,2 +1,7 @@
-//TODO: need to do this to avoid "Cannot use import statement outside a module"
-export default {};
+import React from 'react';
+import { FlashList as FL } from '@flexn-io/shopify-flash-list';
+import type { FlashListProps } from '../../focusManager/types';
+
+const FlashList = (props: FlashListProps<any>) => <FL {...props} />;
+
+export default FlashList;

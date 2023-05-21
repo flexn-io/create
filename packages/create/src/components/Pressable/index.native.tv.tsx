@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView, StyleSheet } from 'react-native';
-import { isPlatformTvos } from '@rnv/renative';
 import type { ViewProps } from '../../focusManager/types';
-import { ANIMATIONS } from '../../focusManager/constants';
 import { measureSync } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
@@ -13,8 +11,27 @@ import { usePrevious } from '../../hooks/usePrevious';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
 
 export const defaultAnimation = {
-    type: 'scale',
-    scale: 1.1,
+    focus: {
+        scale: 1.1,
+    },
+    blur: {
+        scale: 1,
+    },
+};
+
+type FocusAnimation = {
+    focus?: {
+        borderWidth?: number;
+        borderColor?: string;
+        backgroundColor?: string;
+        scale?: number;
+    };
+    blur?: {
+        borderWidth?: number;
+        borderColor?: string;
+        backgroundColor?: string;
+        scale?: number;
+    };
 };
 
 const View = React.forwardRef<any, ViewProps>(
@@ -120,26 +137,14 @@ const View = React.forwardRef<any, ViewProps>(
         });
 
         if (focus) {
-            let animatorOptions = focusOptions.animatorOptions || defaultAnimation;
+            const animatorOptions: FocusAnimation = focusOptions.animatorOptions || defaultAnimation;
+            const flattenedStyle = { ...StyleSheet.flatten(style) };
 
-            const flattenedStyle = style && { ...StyleSheet.flatten(style) };
-            animatorOptions = { ...animatorOptions, style: { ...flattenedStyle } };
-            let borderProps = {};
-            const isBorderAnimation = [ANIMATIONS.BORDER, ANIMATIONS.SCALE_BORDER].includes(animatorOptions.type);
-            if (!isBorderAnimation && flattenedStyle) {
-                borderProps = {
-                    focusableBorderWidth: flattenedStyle.borderWidth,
-                    focusableBorderLeftWidth: flattenedStyle.borderLeftWidth,
-                    focusableBorderRightWidth: flattenedStyle.borderRightWidth,
-                    focusableBorderTopWidth: flattenedStyle.borderTopWidth,
-                    focusableBorderBottomWidth: flattenedStyle.borderBottomWidth,
-                    focusableBorderStartWidth: flattenedStyle.borderStartWidth,
-                    focusableBorderEndWidth: flattenedStyle.borderEndWidth,
-                };
-            } else {
-                if (isPlatformTvos && flattenedStyle) {
-                    delete flattenedStyle.borderWidth;
-                }
+            if (animatorOptions.blur?.borderWidth !== undefined) {
+                flattenedStyle.borderWidth = animatorOptions.blur?.borderWidth;
+            }
+            if (animatorOptions.blur?.backgroundColor !== undefined) {
+                flattenedStyle.backgroundColor = animatorOptions.blur?.backgroundColor;
             }
 
             return (
@@ -148,7 +153,6 @@ const View = React.forwardRef<any, ViewProps>(
                     style={flattenedStyle}
                     onLayout={onLayout}
                     animatorOptions={animatorOptions}
-                    {...borderProps}
                     {...props}
                     ref={ref}
                 >

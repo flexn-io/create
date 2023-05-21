@@ -1,20 +1,32 @@
-import { AppRegistry } from 'react-native';
+//@ts-nocheck
+import 'react-native/Libraries/Core/InitializeCore';
+import { AppRegistry, LogBox } from 'react-native';
 import { enableScreens } from 'react-native-screens';
-// import * as Sentry from '@sentry/react-native';
-import JSTimers from 'react-native/Libraries/Core/Timers/JSTimers';
-import App from '../app';
-// import Package from '../../package.json';
-// import { SENTRY_URL } from '../../renative.private.json';
+import immediateShim from 'react-native/Libraries/Core/Timers/immediateShim';
+import queueMicrotask from 'react-native/Libraries/Core/Timers/queueMicrotask';
+import App from '../index';
 
 if (!global.setImmediate) {
-    global.setImmediate = JSTimers.setImmediate;
+    global.setImmediate = immediateShim.setImmediate;
 }
 
-// Sentry.init({
-//     release: `harness-app@${Package.version}`,
-//     dist: Package.version.replace(new RegExp(/([.,-]|alpha)/g), ''),
-//     dsn: SENTRY_URL,
-// });
+if (!global.queueMicrotask) {
+    global.queueMicrotask = queueMicrotask;
+}
+
+if (!global.performance) {
+    // @ts-expect-error Performance needs to be typed
+    global.performance = {};
+}
+
+if (typeof global.performance.now !== 'function') {
+    global.performance.now = function () {
+        const performanceNow = global.nativePerformanceNow || Date.now;
+        return performanceNow();
+    };
+}
 
 enableScreens();
+LogBox.ignoreAllLogs(); // Ignore all log notifications
+
 AppRegistry.registerComponent('App', () => App);

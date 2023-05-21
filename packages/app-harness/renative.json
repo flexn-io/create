@@ -29,17 +29,71 @@
     },
     "isMonorepo": true,
     "plugins": {
+        "@flexn/create": {
+            "source": "flexn",
+            "version": "0.21.1-alpha.1"
+        },
+        "@lightningjs/cli": "source:flexn",
+        "@lightningjs/sdk": "source:flexn",
+        "@react-native-community/cli": "source:flexn",
+        "@react-native-community/cli-platform-ios": "source:flexn",
+        "@react-native-windows/cli": "source:flexn",
+        "@react-navigation": "source:flexn",
+        "@rnv/renative": "source:flexn",
         "@sentry/react": "source:flexn",
         "@sentry/react-native": "source:flexn",
         "@sentry/tracing": "source:flexn",
         "react-native-carplay": "source:flexn",
+        "react-native-gesture-handler": {
+            "android": {
+                "mainActivity": {
+                    "imports": ["com.swmansion.gesturehandler.RNGestureHandlerEnabledRootView"],
+                    "methods": [
+                        "  override fun createReactActivityDelegate(): ReactActivityDelegate {",
+                        "return object : ReactActivityDelegate(this, mainComponentName) {",
+                        "override fun createRootView():ReactRootView {",
+                        "  return RNGestureHandlerEnabledRootView(this@MainActivity)",
+                        "  } \n } \n}"
+                    ]
+                },
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "androidtv": {
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "androidwear": {
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "firetv": {
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "ios": {
+                "podName": "RNGestureHandler"
+            },
+            "macos": {
+                "podName": "RNGestureHandler"
+            },
+            "tvos": {
+                "podName": "RNGestureHandler"
+            },
+            "version": "2.9.0",
+            "webpack": {
+                "moduleAliases": true,
+                "modulePaths": true
+            }
+        },
         "react-native-google-cast": "source:flexn",
         "react-native-snap-carousel": "3.9.1"
     },
     "projectName": "app-harness",
     "templates": {
         "@flexn/template": {
-            "version": "0.21.1-alpha.0"
+            "version": "0.21.1-alpha.1"
         }
-    }
+    },
+    "workspaceID": "flexn"
 }

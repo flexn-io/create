@@ -12,7 +12,9 @@ import ProgressiveListView from './core/ProgressiveListView';
 import { DebugHandlers } from './core/devutils/debughandlers/DebugHandlers';
 import { ComponentCompat } from './utils/ComponentCompat';
 import type { Layout, Point } from './core/layoutmanager/LayoutManager';
+import StickyContainer, { StickyContainerProps } from './core/StickyContainer';
 import type { OnRecreateParams, RecyclerListViewProps } from './core/RecyclerListView';
+import { DefaultJSItemAnimator } from './platform/reactnative/itemanimators/defaultjsanimator/DefaultJSItemAnimator';
 
 export {
     ContextProvider,
@@ -36,4 +38,7 @@ export {
     DebugHandlers,
     BaseDataProvider,
     ComponentCompat,
+    StickyContainer,
+    StickyContainerProps,
+    DefaultJSItemAnimator,
 };

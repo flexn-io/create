@@ -17,17 +17,17 @@ public class BackgroundColorAnimator extends AbstractAnimator {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onFocus(boolean animated) {
-        if (animated) {            
-            final ValueAnimator animator = ValueAnimator.ofArgb(AnimatorProperty.getBackgroundColor(), AnimatorProperty.getBackgroundColorFocus());
+        if (animated) {
+            final ValueAnimator animator = ValueAnimator.ofArgb(AnimatorProperty2.blurBackgroundColor, AnimatorProperty2.focusBackgroundColor);
             ReactViewGroup v = mView;
-            animator.setDuration(AnimatorProperty.getDuration()).addUpdateListener(animation -> {
+            animator.setDuration(AnimatorProperty2.focusDuration).addUpdateListener(animation -> {
                 int value = (int) animation.getAnimatedValue();
                 v.setBackgroundColor(value);
 
             });
             animator.start();
         } else {
-            mView.setBackgroundColor(AnimatorProperty.getBackgroundColorFocus());
+            mView.setBackgroundColor(AnimatorProperty2.focusBackgroundColor);
         }
     }
 
@@ -35,15 +35,15 @@ public class BackgroundColorAnimator extends AbstractAnimator {
     @Override
     public void onBlur(boolean animated) {
         if (animated) {
-            final ValueAnimator animator = ValueAnimator.ofArgb(AnimatorProperty.getBackgroundColorFocus(), AnimatorProperty.getBackgroundColor());
+            final ValueAnimator animator = ValueAnimator.ofArgb(AnimatorProperty2.focusBackgroundColor, AnimatorProperty2.blurBackgroundColor);
             ReactViewGroup v = mView;
-            animator.setDuration(AnimatorProperty.getDuration()).addUpdateListener(animation -> {
+            animator.setDuration(AnimatorProperty2.blurDuration).addUpdateListener(animation -> {
                 int value = (int) animation.getAnimatedValue();
                 v.setBackgroundColor(value);
             });
             animator.start();
         } else {
-            mView.setBackgroundColor(AnimatorProperty.getBackgroundColor());
+            mView.setBackgroundColor(AnimatorProperty2.focusBackgroundColor);
         }
     }
 }

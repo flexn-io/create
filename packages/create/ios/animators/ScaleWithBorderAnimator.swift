@@ -15,18 +15,19 @@ class ScaleWithBorderAnimator: Animator {
     
     func onFocus(animated: Bool) {
         self.view.layer.zPosition = 999;
-        UIView.transition(with: self.view, duration: AnimProperty.duration, options: .transitionCrossDissolve, animations: {
-            self.view.transform = CGAffineTransform(scaleX: self.AnimProperty.scale, y: self.AnimProperty.scale)
-            self.view.layer.borderColor = self.AnimProperty.borderColor
-            self.view.layer.borderWidth = self.AnimProperty.borderWidth
+        UIView.transition(with: self.view, duration: AnimProperty.focusDuration, options: .transitionCrossDissolve, animations: {
+            self.view.transform = CGAffineTransform(scaleX: self.AnimProperty.focusScale, y: self.AnimProperty.focusScale)
+            self.view.layer.borderColor = self.AnimProperty.focusBorderColor
+            self.view.layer.borderWidth = self.AnimProperty.focusBorderWidth
         }, completion: nil)
     }
 
     func onBlur(animated: Bool) {
         self.view.layer.zPosition = self.AnimProperty.zIndex;
-        UIView.transition(with: self.view, duration: AnimProperty.duration, options: .transitionCrossDissolve, animations: {
-            self.view.transform = CGAffineTransform(scaleX: 1, y: 1)
-            self.view.layer.borderWidth = 0
+        UIView.transition(with: self.view, duration: AnimProperty.blurDuration, options: .transitionCrossDissolve, animations: {
+            self.view.transform = CGAffineTransform(scaleX: self.AnimProperty.blurScale, y: self.AnimProperty.blurScale)
+            self.view.layer.borderWidth = self.AnimProperty.blurBorderWidth
+            self.view.layer.borderColor = self.AnimProperty.blurBorderColor
         }, completion: nil)
     }
 

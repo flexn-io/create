@@ -56,7 +56,7 @@
     "plugins": {
         "@flexn/create": {
             "source": "flexn",
-            "version": "0.21.1-alpha.0"
+            "version": "0.21.1-alpha.1"
         },
         "@rnv/renative": "source:flexn",
         "react-native": "source:flexn",
@@ -79,9 +79,100 @@
         "react-native-safe-area-context": "source:flexn",
         "react-native-reanimated": "source:flexn",
         "@react-native-masked-view/masked-view": "source:flexn",
-        "react-native-gesture-handler": "source:flexn",
+        "react-native-gesture-handler": {
+            "android": {
+                "mainActivity": {
+                    "imports": [
+                        "com.swmansion.gesturehandler.RNGestureHandlerEnabledRootView"
+                    ],
+                    "methods": [
+                        "  override fun createReactActivityDelegate(): ReactActivityDelegate {",
+                        "return object : ReactActivityDelegate(this, mainComponentName) {",
+                        "override fun createRootView():ReactRootView {",
+                        "  return RNGestureHandlerEnabledRootView(this@MainActivity)",
+                        "  } \n } \n}"
+                    ]
+                },
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "androidtv": {
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "androidwear": {
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "firetv": {
+                "package": "com.swmansion.gesturehandler.RNGestureHandlerPackage",
+                "path": "node_modules/react-native-gesture-handler/android"
+            },
+            "ios": {
+                "podName": "RNGestureHandler"
+            },
+            "macos": {
+                "podName": "RNGestureHandler"
+            },
+            "tvos": {
+                "podName": "RNGestureHandler"
+            },
+            "version": "2.9.0",
+            "webpack": {
+                "moduleAliases": true,
+                "modulePaths": true
+            }
+        },
         "react-native-media-query": "source:flexn",
-        "@shopify/flash-list": "source:flexn"
+        "@flexn-io/shopify-flash-list": {
+            "android": {
+                "package": "com.shopify.reactnative.flash_list.ReactNativeFlashListPackage"
+            },
+            "androidtv": {
+                "package": "com.shopify.reactnative.flash_list.ReactNativeFlashListPackage"
+            },
+            "firetv": {
+                "package": "com.shopify.reactnative.flash_list.ReactNativeFlashListPackage"
+            },
+            "ios": {
+                "podName": "RNFlashList"
+            },
+            "tvos": {
+                "podName": "RNFlashList"
+            },
+            "macos": {
+                "podName": "RNFlashList"
+            },
+            "webpack": {
+                "modulePaths": true,
+                "moduleAliases": true,
+                "nextTranspileModules": [
+                    "@flexn-io/shopify-flash-list"
+                ]
+            },
+            "version": "1.4.3"
+        },
+        "@shopify/flash-list": null,
+        "@flexn-io/recyclerlistview": {
+            "version": "4.2.3",
+            "webpack": {
+                "modulePaths": true,
+                "moduleAliases": true,
+                "nextTranspileModules": [
+                    "@flexn-io/recyclerlistview"
+                ]
+            }
+        },
+        "recyclerlistview": {
+            "version": "4.2.0",
+            "webpack": {
+                "modulePaths": true,
+                "moduleAliases": true,
+                "nextTranspileModules": [
+                    "recyclerlistview"
+                ]
+            }
+        }
     },
     "platforms": {
         "android": {
@@ -195,13 +286,17 @@
         "web": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": ["lodash-es"]
+                "nextTranspileModules": [
+                    "lodash-es"
+                ]
             }
         },
         "chromecast": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": ["lodash-es"]
+                "nextTranspileModules": [
+                    "lodash-es"
+                ]
             }
         },
         "tizen": {
@@ -216,7 +311,9 @@
         },
         "macos": {
             "engine": "engine-rn",
-            "excludedPlugins": ["react-native-linear-gradient"]
+            "excludedPlugins": [
+                "react-native-linear-gradient"
+            ]
         },
         "windows": {
             "engine": "engine-rn-windows"

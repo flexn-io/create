@@ -12,21 +12,21 @@ class BackgroundAnimator: Animator {
     
     func onFocus(animated: Bool) {
         if (animated) {
-            UIView.transition(with: self.view, duration: self.AnimProperty.duration, options: .transitionCrossDissolve, animations: {
-                self.view.backgroundColor = self.AnimProperty.backgroundColorFocus
+            UIView.transition(with: self.view, duration: self.AnimProperty.focusDuration, options: .transitionCrossDissolve, animations: {
+                self.view.backgroundColor = self.AnimProperty.focusBackgroundColor
             }, completion: nil)
         } else {
-            self.view.backgroundColor = self.AnimProperty.backgroundColorFocus
+            self.view.backgroundColor = self.AnimProperty.focusBackgroundColor
         }
     }
     
     func onBlur(animated: Bool) {
         if (animated) {
-            UIView.transition(with: self.view, duration: self.AnimProperty.duration, options: .transitionCrossDissolve, animations: {
-                self.view.backgroundColor = self.AnimProperty.backgroundColor
+            UIView.transition(with: self.view, duration: self.AnimProperty.blurDuration, options: .transitionCrossDissolve, animations: {
+                self.view.backgroundColor = self.AnimProperty.blurBackgroundColor
             }, completion: nil)
         } else {
-            self.view.backgroundColor = self.AnimProperty.backgroundColor
+            self.view.backgroundColor = self.AnimProperty.blurBackgroundColor
         }
     }
     

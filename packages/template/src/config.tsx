@@ -157,6 +157,8 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
         screen: {
             backgroundColor: currentTheme.colorBgPrimary,
             flex: 1,
+            width: '100%',
+            height: '100%',
         },
         screenModal: {
             position: 'absolute',

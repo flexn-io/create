@@ -72,7 +72,7 @@ function Navigator({ initialRouteName, children, screenOptions, drawerContent, .
                 }
 
                 return (
-                    <MaybeScreen visible={isFocused} enabled key={route.key}>
+                    <MaybeScreen visible={isFocused} enabled key={route.key} style={StyleSheet.absoluteFill}>
                         <Screen
                             navigation={navigation}
                             focused={isFocused}

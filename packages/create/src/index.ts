@@ -1,6 +1,8 @@
 // Functions
 import CoreManager from './focusManager/service/core';
 
+export * from './recyclerListView';
+
 // global.CoreManager = CoreManager;
 
 export { CoreManager };
