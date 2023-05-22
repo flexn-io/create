@@ -82,21 +82,7 @@
         "react-native-media-query": "source:flexn",
         "@flexn/shopify-flash-list": "source:flexn",
         "@flexn/recyclerlistview": "source:flexn",
-        "react-native-gesture-handler": {
-            "source": "flexn",
-            "android": {
-                "mainActivity": {
-                    "imports": ["com.swmansion.gesturehandler.RNGestureHandlerEnabledRootView"],
-                    "methods": [
-                        "  override fun createReactActivityDelegate(): ReactActivityDelegate {",
-                        "return object : ReactActivityDelegate(this, mainComponentName) {",
-                        "override fun createRootView():ReactRootView {",
-                        "  return RNGestureHandlerEnabledRootView(this@MainActivity)",
-                        "  } \n } \n}"
-                    ]
-                }
-            }
-        }
+        "react-native-gesture-handler": "source:flexn"
     },
     "platforms": {
         "android": {
