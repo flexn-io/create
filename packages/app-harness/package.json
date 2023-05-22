@@ -39,7 +39,7 @@
     },
     "dependencies": {
         "@flexn/create": "0.21.1-alpha.1",
-        "@flexn/shopify-flash-list": "1.4.4",
+        "@flexn/shopify-flash-list": "1.4.5",
         "@flexn/recyclerlistview": "4.2.4",
         "@lightningjs/cli": "2.7.2",
         "@lightningjs/core": "^2.6.0",
@@ -82,11 +82,10 @@
         "react-native-vector-icons": "9.2.0",
         "react-native-web": "0.18.9",
         "react-native-windows": "0.67.3",
-        "react-native-snap-carousel": "3.9.1",
-        "recyclerlistview": "4.2.0"
+        "react-native-snap-carousel": "3.9.1"
     },
     "devDependencies": {
-        "@flexn/plugins": "1.0.1",
+        "@flexn/plugins": "1.0.3",
         "@flexn/graybox": "0.21.1-alpha.1",
         "@flexn/template": "0.21.1-alpha.1",
         "@rnv/engine-lightning": "0.37.0-canary.7",

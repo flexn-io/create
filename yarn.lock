@@ -1803,10 +1803,10 @@
   resolved "https://registry.npmjs.org/@flexn/eslint-config/-/eslint-config-0.1.5.tgz#620d312018a0de1e61ac023c6dc2013d987b79e6"
   integrity sha512-l49bXcYNs9CPNfTRgJQWXS+5FSeW+yYuWOLnM5nuGcs0aD7WGhIaV27H0xnaiCU90jZY9uC613Gd45035gFd0w==
 
-"@flexn/plugins@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/@flexn/plugins/-/plugins-1.0.1.tgz#147ed1ef17fc917e2b1224e7a28d6c5e7a6142b9"
-  integrity sha512-GZFR+6E00PQix5rz7E81Y39JFXtB7RAUGsqNMeLUkEMPxFrYePxb7abKTkk8lMKPlLqC0XpPhQcWiYNXrSvqgA==
+"@flexn/plugins@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@flexn/plugins/-/plugins-1.0.3.tgz#326994536c3ffbf27dc8f2a54543d02736e2b1f2"
+  integrity sha512-ROL9wLuzbL3TFM9cqR9tUAU/No57UiFG4+CJ03QcPzfxmG0BycTTm3AU80sfptMRj7vs9atmPIjhZoSHpIN/VQ==
 
 "@flexn/prettier-config@0.1.4":
   version "0.1.4"
@@ -1822,13 +1822,12 @@
     prop-types "15.8.1"
     ts-object-utils "0.0.5"
 
-"@flexn/shopify-flash-list@1.4.4":
-  version "1.4.4"
-  resolved "https://registry.npmjs.org/@flexn/shopify-flash-list/-/shopify-flash-list-1.4.4.tgz#abfcb553417b0919338c4b2ef7d849de92f73ba9"
-  integrity sha512-uTJXQEl91ysZSagj0WqWHiJYeUguAzCJBnClm0hCpHhb/25pUyR/n5ORmwOgyqvU4Rfb0u6g12M43w70WWDbRw==
+"@flexn/shopify-flash-list@1.4.5":
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/@flexn/shopify-flash-list/-/shopify-flash-list-1.4.5.tgz#522dac20a82edb47d37186c60c6624540016b6f5"
+  integrity sha512-7YM70xWHwHw/VG8RVh0UtGH+EVyvzsp21viO9Ea0vrM7wUnUP7o0Seytwbb/v+9HsFfVtCcxfEuioEGCvBrdNQ==
   dependencies:
     "@flexn/recyclerlistview" "4.2.4"
-    recyclerlistview "4.2.0"
     tslib "2.4.0"
 
 "@flexn/typescript@0.2.4":
@@ -22271,15 +22270,6 @@ recursive-readdir@^2.2.2:
   integrity sha512-8HrF5ZsXk5FAH9dgsx3BlUer73nIhuj+9OrQwEbLTPOBzGkL1lsFCR01am+v+0m2Cmbs1nP12hLDl5FA7EszKA==
   dependencies:
     minimatch "^3.0.5"
-
-recyclerlistview@4.2.0:
-  version "4.2.0"
-  resolved "https://registry.npmjs.org/recyclerlistview/-/recyclerlistview-4.2.0.tgz#a140149aaa470c9787a1426452651934240d69ef"
-  integrity sha512-uuBCi0c+ggqHKwrzPX4Z/mJOzsBbjZEAwGGmlwpD/sD7raXixdAbdJ6BTcAmuWG50Cg4ru9p12M94Njwhr/27A==
-  dependencies:
-    lodash.debounce "4.0.8"
-    prop-types "15.8.1"
-    ts-object-utils "0.0.5"
 
 redent@^3.0.0:
   version "3.0.0"

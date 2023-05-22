@@ -57,9 +57,9 @@
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
     "devDependencies": {
-        "@flexn/plugins": "1.0.1",
+        "@flexn/plugins": "1.0.3",
         "@flexn/create": "0.21.1-alpha.1",
-        "@flexn/shopify-flash-list": "1.4.4",
+        "@flexn/shopify-flash-list": "1.4.5",
         "@flexn/recyclerlistview": "4.2.4",
         "@flexn/graybox": "0.21.1-alpha.1",
         "@lightningjs/cli": "2.7.1",
