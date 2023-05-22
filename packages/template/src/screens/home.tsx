@@ -17,7 +17,10 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
 
     const focusAnimation = {
         type: ANIMATION_TYPES.BACKGROUND,
-        backgroundColorFocus: theme.static.colorBrand,
+        focus: {
+            backgroundColor: theme.static.colorBrand,
+        },
+        blur: {},
     };
 
     return (

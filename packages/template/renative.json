@@ -125,7 +125,19 @@
                         "tag": "application",
                         "android:name": ".MainApplication",
                         "android:usesCleartextTraffic": true,
-                        "tools:targetApi": 28
+                        "tools:targetApi": 28,
+                        "children": [
+                            {
+                                "tag": "activity",
+                                "android:name": ".MainActivity",
+                                "android:exported": true
+                            },
+                            {
+                                "tag": "activity",
+                                "android:name": ".SplashActivity",
+                                "android:exported": true
+                            }
+                        ]
                     }
                 ]
             },
@@ -160,7 +172,19 @@
                         "tag": "application",
                         "android:name": ".MainApplication",
                         "android:usesCleartextTraffic": true,
-                        "tools:targetApi": 30
+                        "tools:targetApi": 30,
+                        "children": [
+                            {
+                                "tag": "activity",
+                                "android:name": ".MainActivity",
+                                "android:exported": true
+                            },
+                            {
+                                "tag": "activity",
+                                "android:name": ".SplashActivity",
+                                "android:exported": true
+                            }
+                        ]
                     }
                 ]
             },

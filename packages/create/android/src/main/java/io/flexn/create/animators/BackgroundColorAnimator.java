@@ -43,7 +43,7 @@ public class BackgroundColorAnimator extends AbstractAnimator {
             });
             animator.start();
         } else {
-            mView.setBackgroundColor(AnimatorProperty2.focusBackgroundColor);
+            mView.setBackgroundColor(AnimatorProperty2.blurBackgroundColor);
         }
     }
 }
