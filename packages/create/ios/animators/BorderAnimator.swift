@@ -7,6 +7,7 @@ class BorderAnimator: Animator {
     required init(view: UIView, args: NSDictionary) {
         self.view = view
         self.AnimProperty = AnimatorProperty(args: args)
+        self.view.layer.masksToBounds = true
     }
     
     func onFocus(animated: Bool) {
