@@ -4,11 +4,11 @@ import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { getRandomData, interval, testProps } from '../utils';
 import Screen from './screen';
-import { useNavigate } from '../hooks/navigation/index.web';
+import { useNavigate } from '../hooks/navigation';
 
 const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const { theme } = useContext(ThemeContext);
-    const navigate = useNavigate();
+    const navigate = useNavigate({ navigation });
 
     const data = [...Array(10).keys()].map((rowNumber) => {
         const itemsInViewport = interval(isFactorMobile ? 1 : 3, isFactorMobile ? 3 : 5);

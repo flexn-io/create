@@ -220,17 +220,13 @@
         "web": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "chromecast": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "tizen": {
@@ -244,10 +240,8 @@
             "engine": "engine-rn-tvos"
         },
         "macos": {
-            "engine": "engine-rn",
-            "excludedPlugins": [
-                "react-native-linear-gradient"
-            ]
+            "engine": "engine-rn-electron",
+            "excludedPlugins": ["react-native-linear-gradient"]
         },
         "windows": {
             "engine": "engine-rn-windows"

@@ -124,5 +124,8 @@
         "> 2%"
     ],
     "dependencies:doNotUseInTemplate": {},
-    "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc"
+    "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc",
+    "dependencies": {
+        "require": "^2.4.20"
+    }
 }
