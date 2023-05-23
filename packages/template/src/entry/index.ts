@@ -25,7 +25,6 @@ if (typeof global.performance.now !== 'function') {
     };
 }
 
-
 enableScreens();
 LogBox.ignoreAllLogs(); // Ignore all log notifications
 

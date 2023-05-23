@@ -12,7 +12,6 @@ export const getWidth = () => {
     return LAYOUT.w;
 };
 
-
 export {
     isPlatformIos,
     isPlatformMacos,

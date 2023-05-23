@@ -1,10 +1,4 @@
-import {
-    isPlatformIos,
-    isPlatformMacos,
-    isPlatformTvos,
-    isPlatformWeb,
-    getWidth
-} from './imports';
+import { isPlatformIos, isPlatformMacos, isPlatformTvos, isPlatformWeb, getWidth } from './imports';
 
 export function testProps(testId: string | undefined) {
     if (!testId) {
@@ -125,6 +119,12 @@ export function interval(min = 0, max = kittyNames.length - 1) {
 }
 
 const data = {};
+type DataItem = {
+    index: number;
+    backgroundImage: string;
+    title: string;
+    rowNumber: number;
+};
 export function getRandomData(row, idx, itemsInViewport = 6, height = 250, items = 50) {
     const width = Math.floor(getWidth() / itemsInViewport);
 
@@ -132,17 +132,13 @@ export function getRandomData(row, idx, itemsInViewport = 6, height = 250, items
         return data[row][idx];
     }
 
-    const temp = [];
+    const temp: Array<DataItem> = [];
     let hIndex = 1;
     for (let index = 0; index < items; index++) {
         temp.push({
-            //@ts-expect-error for web TVs to compile
             index,
-            //@ts-expect-error for web TVs to compile
             backgroundImage: `https://placekitten.com/${width}/${height + hIndex}`,
-            //@ts-expect-error for web TVs to compile
             title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
-            //@ts-expect-error for web TVs to compile
             rowNumber: row,
         });
 

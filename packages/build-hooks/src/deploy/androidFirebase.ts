@@ -18,8 +18,7 @@ const androidFirebaseDeploy = (config: any) =>
         const firebaseGroups = Common.getConfigProp(config, config.platform, 'firebaseGroups');
         const title = Common.getConfigProp(config, config.platform, 'title');
 
-        const args = `firebase appdistribution:distribute ${
-            apkPath} --app ${firebaseId} --groups "${firebaseGroups}" --token="${token}"`;
+        const args = `firebase appdistribution:distribute ${apkPath} --app ${firebaseId} --groups "${firebaseGroups}" --token="${token}"`;
 
         Exec.executeAsync(config, args, {
             shell: true,

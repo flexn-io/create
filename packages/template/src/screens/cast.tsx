@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from '@flexn/sdk';
+import { Text } from '@flexn/create';
 import { themeStyles } from '../config';
 import Screen from './screen';
 

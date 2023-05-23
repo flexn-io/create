@@ -1,15 +1,15 @@
 import React from 'react';
-import { App as SDKApp, Debugger } from '@flexn/sdk';
+import { App, Debugger } from '@flexn/create';
 import { ThemeProvider } from '../config';
 import Navigation from '../navigation';
 
-const App = () => (
+const MyApp = () => (
     <ThemeProvider>
-        <SDKApp style={{ flex: 1 }}>
+        <App style={{ flex: 1 }}>
             <Navigation />
             <Debugger />
-        </SDKApp>
+        </App>
     </ThemeProvider>
 );
 
-export default App;
+export default MyApp;

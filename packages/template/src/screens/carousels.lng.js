@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { Lightning, Router } from '@lightningjs/sdk';
-import { List } from '@flexn/sdk';
+import { List } from '@flexn/create';
 import { getRandomData, getHexColor, interval } from '../utils';
 import { LAYOUT, THEME_LIGHT } from '../config';
 import { ROUTES } from '../config.lng';
@@ -62,7 +62,6 @@ export default class Carousels extends Lightning.Component {
                 },
             },
         };
-
     }
 
     _init() {
