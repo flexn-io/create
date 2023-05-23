@@ -2,7 +2,12 @@ import React, { useEffect } from 'react';
 import { View } from '@flexn/create';
 import { TVMenuControl, StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer, useNavigationBuilder, TabRouter, createNavigatorFactory } from '@react-navigation/native';
+import {
+    NavigationContainer,
+    useNavigationBuilder,
+    createNavigatorFactory,
+    StackRouter,
+} from '@react-navigation/native';
 import { isPlatformTvos } from '@rnv/renative';
 import ScreenHome from '../screens/home';
 import ScreenCarousels from '../screens/carousels';
@@ -15,7 +20,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 const createTVSideNavigator = createNavigatorFactory(Navigator);
 
 function Navigator({ initialRouteName, children, screenOptions, drawerContent, ...rest }) {
-    const { state, navigation, descriptors, NavigationContent } = useNavigationBuilder(TabRouter, {
+    const { state, navigation, descriptors, NavigationContent } = useNavigationBuilder(StackRouter, {
         children,
         screenOptions,
         initialRouteName,

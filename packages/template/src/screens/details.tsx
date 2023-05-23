@@ -25,7 +25,7 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
         if (params) {
             setItem(getRandomData(params.row, params.index));
         }
-    }, [route?.params]);
+    }, []);
 
     if (!item) {
         return (
