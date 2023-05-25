@@ -58,7 +58,10 @@
             "source": "flexn",
             "version": "0.21.1-alpha.3"
         },
-        "@rnv/renative": "source:flexn",
+        "@rnv/renative": {
+            "source": "flexn",
+            "version": "0.37.0-canary.9"
+        },
         "react-native": "source:flexn",
         "react-native-web": "source:flexn",
         "react-native-tvos": "source:flexn",
