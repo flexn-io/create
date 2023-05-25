@@ -1,0 +1,228 @@
+{
+    "extendsTemplate": "appConfigs/base/renative.json",
+    "id": "harness",
+    "common": {
+        "id": "io.flexn.harness",
+        "title": "Flexn Harness App",
+        "description": "Flexn Harness App",
+        "teamID": "9VVQTZS9NN",
+        "buildSchemes": {
+            "canary": {
+                "id": "io.flexn.harness.alpha",
+                "title": "Harness Alpha"
+            },
+            "production": {
+                "title": "Harness Production"
+            }
+        },
+        "ignoreWarnings": true,
+        "ignoreLogs": true,
+        "enableSourceMaps": true,
+        "firebaseGroups": "RS"
+    },
+    "platforms": {
+        "android": {
+            "buildSchemes": {
+                "debug": {
+                    "id": "io.flexn.harness.debug",
+                    "title": "Harness Debug"
+                },
+                "test": {
+                    "id": "io.flexn.harness.test",
+                    "title": "Harness Test"
+                },
+                "production": {
+                    "firebaseId": "1:855221150579:android:92c1bacc6e278b6c381b06",
+                    "multipleAPKs": false
+                },
+                "canary": {
+                    "firebaseId": "1:855221150579:android:7a11459047f3b498381b06",
+                    "multipleAPKs": false
+                }
+            }
+        },
+        "androidtv": {
+            "buildSchemes": {
+                "debug": {
+                    "id": "io.flexn.harness.debug",
+                    "title": "Harness Debug"
+                },
+                "test": {
+                    "id": "io.flexn.harness.test",
+                    "title": "Harness Test"
+                },
+                "canary": {
+                    "multipleAPKs": true,
+                    "aab": true
+                },
+                "production": {
+                    "multipleAPKs": true,
+                    "aab": true,
+                    "versionCodeOffset": 4
+                }
+            }
+        },
+        "firetv": {
+            "googleDriveFolderID": "1HjN-o0ZWP3AG_HSnSsKdzCClMsDRfkix"
+        },
+        "web": {
+            "buildSchemes": {
+                "canary": {
+                    "vercelProjectName": "flexn-harness-web-alpha"
+                },
+                "production": {
+                    "vercelProjectName": "flexn-harness"
+                }
+            }
+        },
+        "chromecast": {
+            "buildSchemes": {
+                "canary": {
+                    "vercelProjectName": "flexn-harness-chromecast-alpha"
+                },
+                "production": {
+                    "vercelProjectName": "flexn-chromecast"
+                }
+            }
+        },
+        "androidwear": {},
+        "ios": {
+            "entitlements": {
+                "aps-environment": "development",
+                "com.apple.developer.networking.wifi-info": true
+            },
+            "systemCapabilities": {
+                "com.apple.AccessWiFi": true,
+                "com.apple.Push": true,
+                "com.apple.iCloud": true
+            },
+            "buildSchemes": {
+                "debug": {
+                    "id": "io.flexn.harness.debug",
+                    "title": "Harness Debug"
+                },
+                "test": {
+                    "id": "io.flexn.harness.test",
+                    "title": "Harness Test"
+                },
+                "canary": {
+                    "firebaseId": "1:855221150579:ios:397defb352df833a381b06",
+                    "id": "flexn.harness.alpha",
+                    "provisionProfileSpecifier": "flexn.harness.alpha-adhoc",
+                    "exportOptions": {
+                        "method": "ad-hoc",
+                        "provisioningProfiles": {
+                            "flexn.harness.alpha": "flexn.harness.alpha-adhoc"
+                        }
+                    }
+                },
+                "production": {
+                    "firebaseId": "1:855221150579:ios:e84e4a15880b5f72381b06",
+                    "id": "flexn.harness",
+                    "provisionProfileSpecifier": "flexn.harness-adhoc",
+                    "exportOptions": {
+                        "method": "ad-hoc",
+                        "provisioningProfiles": {
+                            "flexn.harness": "flexn.harness-adhoc"
+                        }
+                    }
+                }
+            }
+        },
+        "tvos": {
+            "entitlements": {
+                "aps-environment": "development"
+            },
+            "systemCapabilities": {
+                "com.apple.AccessWiFi": true,
+                "com.apple.Push": true,
+                "com.apple.iCloud": true
+            },
+            "buildSchemes": {
+                "debug": {
+                    "id": "io.flexn.harness.debug",
+                    "title": "Harness Debug"
+                },
+                "test": {
+                    "id": "io.flexn.harness.test",
+                    "title": "Harness Test"
+                },
+                "canary": {
+                    "appleId": "1596662810",
+                    "id": "flexn.harness.alpha",
+                    "provisionProfileSpecifier": "flexn.harness.alpha-tvosappstore",
+                    "exportOptions": {
+                        "provisioningProfiles": {
+                            "flexn.harness.alpha": "flexn.harness.alpha-tvosappstore"
+                        }
+                    }
+                },
+                "production": {
+                    "appleId": "1596662633",
+                    "id": "flexn.harness",
+                    "provisionProfileSpecifier": "flexn.harness-tvosappstore",
+                    "exportOptions": {
+                        "provisioningProfiles": {
+                            "flexn.harness": "flexn.harness-tvosappstore"
+                        }
+                    }
+                }
+            }
+        },
+        "macos": {
+            "buildSchemes": {
+                "debug": {
+                    "id": "io.flexn.harness.debug",
+                    "title": "Harness Debug"
+                },
+                "test": {
+                    "id": "io.flexn.harness.test",
+                    "title": "Harness Test"
+                },
+                "canary": {
+                    "id": "flexn.harness.alpha",
+                    "provisionProfileSpecifier": "flexn.harness.alpha-catalyst-developerid",
+                    "plist": {
+                        "LSApplicationCategoryType": "public.app-category.utilities"
+                    },
+                    "exportOptions": {
+                        "provisioningProfiles": {
+                            "flexn.harness.alpha": "flexn.harness.alpha-catalyst-developerid"
+                        },
+                        "signingCertificate": "Developer ID Application: Flexn B.V. (9VVQTZS9NN)"
+                    }
+                },
+                "production": {
+                    "id": "flexn.harness",
+                    "provisionProfileSpecifier": "flexn.harness-catalyst-developerid",
+                    "plist": {
+                        "LSApplicationCategoryType": "public.app-category.utilities"
+                    },
+                    "exportOptions": {
+                        "provisioningProfiles": {
+                            "flexn.harness": "flexn.harness-catalyst-developerid"
+                        },
+                        "signingCertificate": "Developer ID Application: Flexn B.V. (9VVQTZS9NN)"
+                    }
+                }
+            },
+            "googleDriveFolderID": "1iEKtbDHK4S98EasCi6c98uWNOxHLuONF"
+        },
+        "tizen": {
+            "package": "NkVRhWHJST",
+            "id": "NkVRhWHJST.TestHarness",
+            "entryFile": "src/entry/index.lng"
+        },
+        "tizenwatch": {
+            "package": "cHIP2fIRQZ",
+            "id": "cHIP2fIRQZ.Harness",
+            "appName": "Harness App",
+            "entryFile": "index.tizenwatch",
+            "certificateProfile": "portable"
+        },
+        "tizenmobile": {
+            "package": "PauodvCU2r",
+            "id": "PauodvCU2r.RNVanillaMobile"
+        }
+    }
+}

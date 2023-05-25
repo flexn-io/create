@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from '@flexn/sdk';
+import { View } from '@flexn/create';
 import Menu from '../components/menu';
 import { themeStyles, ThemeProvider } from '../config';
 

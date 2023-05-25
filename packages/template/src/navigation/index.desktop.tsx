@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { StatusBar } from 'react-native';
-import { View } from '@flexn/sdk';
+import { View } from '@flexn/create';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import ScreenHome from '../screens/home';
@@ -45,9 +45,9 @@ const App = () => {
         <View style={{ marginTop: 36, flex: 1 }}>
             <NavigationContainer>
                 <RootStack.Navigator
-                    headerMode="none"
-                    mode="modal"
                     screenOptions={{
+                        presentation: 'modal',
+                        headerShown: false,
                         cardStyleInterpolator: CardStyleInterpolators.forScaleFromCenterAndroid,
                     }}
                 >

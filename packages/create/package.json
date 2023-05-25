@@ -1,0 +1,53 @@
+{
+    "name": "@flexn/create",
+    "version": "0.21.1-alpha.3",
+    "description": "Flexn Create SDK",
+    "main": "lib/index",
+    "types": "lib/index",
+    "scripts": {
+        "watch": "tsc --watch --preserveWatchOutput",
+        "build": "yarn clean && yarn compile",
+        "clean": "rm -rf ./lib && rm -rf tsconfig.tsbuildinfo",
+        "compile": "tsc -b tsconfig.json",
+        "compile:prod": "tsc -b tsconfig.prod.json"
+    },
+    "files": [
+        "lib",
+        "ios",
+        "android",
+        "!android/build",
+        "pluginTemplates",
+        "FlexnCreate.podspec",
+        "renative.plugin.json"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "directory": "packages/create",
+        "type": "git",
+        "url": "git+https://github.com/flexn-io/create.git"
+    },
+    "keywords": [],
+    "author": "Flexn BV",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/flexn-io/create/issues"
+    },
+    "homepage": "https://github.com/flexn-io/create#readme",
+    "dependencies": {
+        "@lightningjs/core": "^2.6.0",
+        "@lightningjs/sdk": "4.3.3",
+        "@lightningjs/ui-components": "^1.2.1",
+        "lodash-es": "4.17.21",
+        "lodash.debounce": "^4.0.8",
+        "lodash.throttle": "^4.0.8",
+        "ts-object-utils": "0.0.5"
+    },
+    "peerDependencies": {
+        "@flexn/shopify-flash-list": "^1.4.4",
+        "react": "^18.2.0",
+        "react-native": "0.67.2"
+    },
+    "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc"
+}

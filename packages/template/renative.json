@@ -17,7 +17,7 @@
         "platformBuildsDir": "./platformBuilds",
         "pluginTemplates": {
             "flexn": {
-                "npm": "@flexn/sdk",
+                "npm": "@flexn/plugins",
                 "path": "./pluginTemplates"
             }
         }
@@ -54,99 +54,45 @@
     "isMonorepo": true,
     "isTemplate": true,
     "plugins": {
-        "@flexn/sdk": {
-            "version": "0.18.0-alpha.8",
-            "webpack": {
-                "modulePaths": true,
-                "moduleAliases": true
-            },
-            "tvos": {
-                "podName": "FlexnSDK"
-            },
-            "androidtv": {
-                "package": "io.flexn.sdk.FlexnSdkPackage",
-                "projectName": "flexn-io-sdk",
-                "activityImports": [
-                    "io.flexn.sdk.TvRemoteHandlerModule",
-                    "android.view.KeyEvent;"
-                ],
-                "activityMethods": [
-                    "override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {",
-                    "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"up\");",
-                    "return super.onKeyUp(keyCode, event)",
-                    "}",
-                    "override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {",
-                    "   TvRemoteHandlerModule.getInstance().onKeyEvent(event,  \"longPress\");",
-                    "    return super.onKeyLongPress(keyCode, event)",
-                    "}",
-                    "override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {",
-                    "if(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {",
-                    "event?.startTracking();",
-                    "TvRemoteHandlerModule.getInstance().onKeyEvent(event,\"down\");",
-                    "return true;",
-                    "}",
-                    "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"down\");",
-                    "return super.onKeyDown(keyCode, event)",
-                    "}"
-                ]
-            },
-            "firetv": {
-                "package": "io.flexn.sdk.FlexnSdkPackage",
-                "projectName": "flexn-io-sdk",
-                "activityImports": [
-                    "io.flexn.sdk.TvRemoteHandlerModule",
-                    "android.view.KeyEvent;"
-                ],
-                "activityMethods": [
-                    "override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {",
-                    "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"up\");",
-                    "return super.onKeyUp(keyCode, event)",
-                    "}",
-                    "override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {",
-                    "   TvRemoteHandlerModule.getInstance().onKeyEvent(event,  \"longPress\");",
-                    "    return super.onKeyLongPress(keyCode, event)",
-                    "}",
-                    "override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {",
-                    "if(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {",
-                    "event?.startTracking();",
-                    "TvRemoteHandlerModule.getInstance().onKeyEvent(event,\"down\");",
-                    "return true;",
-                    "}",
-                    "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"down\");",
-                    "return super.onKeyDown(keyCode, event)",
-                    "}"
-                ]
-            }
+        "@flexn/create": {
+            "source": "flexn",
+            "version": "0.21.1-alpha.3"
         },
         "@rnv/renative": "source:flexn",
-        "react-native": "source:rnv",
-        "react-native-web": "source:rnv",
-        "react-native-tvos": "source:rnv",
-        "react-native-windows": "source:rnv",
+        "react-native": "source:flexn",
+        "react-native-web": "source:flexn",
+        "react-native-tvos": "source:flexn",
+        "react-native-windows": "source:flexn",
         "react-native-vector-icons": "source:flexn",
         "@lightningjs/sdk": "source:flexn",
         "@lightningjs/cli": "source:flexn",
-        "react": "source:rnv",
-        "react-art": "source:rnv",
-        "react-dom": "source:rnv",
-        "@react-native-community/cli-platform-ios": "source:rnv",
-        "@react-native-community/cli": "source:rnv",
+        "react": "source:flexn",
+        "react-art": "source:flexn",
+        "react-dom": "source:flexn",
+        "@react-native-community/cli-platform-ios": "source:flexn",
+        "@react-native-community/cli": "source:flexn",
         "next": "source:flexn",
-        "@react-native-windows/cli": "source:rnv",
+        "@react-native-windows/cli": "source:flexn",
         "@react-navigation": "source:flexn",
-        "react-native-screens": "source:rnv",
-        "react-native-safe-area-context": "source:rnv",
-        "react-native-google-cast": "source:flexn",
+        "@react-navigation/elements": "source:flexn",
+        "react-native-screens": "source:flexn",
+        "react-native-safe-area-context": "source:flexn",
         "react-native-reanimated": "source:flexn",
-        "react-native-gesture-handler": "source:flexn",
+        "@react-native-masked-view/masked-view": "source:flexn",
         "react-native-media-query": "source:flexn",
-        "@flexn/typescript": "source:flexn",
-        "tslib": "source:flexn"
+        "@flexn/shopify-flash-list": "source:flexn",
+        "@flexn/recyclerlistview": "source:flexn",
+        "react-native-gesture-handler": "source:flexn"
     },
     "platforms": {
         "android": {
-            "targetSdkVersion": 30,
-            "compileSdkVersion": 31,
+            "minSdkVersion": 26,
+            "targetSdkVersion": 33,
+            "compileSdkVersion": 33,
+            "buildToolsVersion": "30.0.0",
+            "gradleBuildToolsVersion": "4.2.2",
+            "gradleWrapperVersion": "6.7.1",
+            "kotlinVersion": "1.4.21",
             "reactNativeEngine": "hermes",
             "enableAndroidX": true,
             "gradle.properties": {
@@ -165,7 +111,19 @@
                         "tag": "application",
                         "android:name": ".MainApplication",
                         "android:usesCleartextTraffic": true,
-                        "tools:targetApi": 28
+                        "tools:targetApi": 28,
+                        "children": [
+                            {
+                                "tag": "activity",
+                                "android:name": ".MainActivity",
+                                "android:exported": true
+                            },
+                            {
+                                "tag": "activity",
+                                "android:name": ".SplashActivity",
+                                "android:exported": true
+                            }
+                        ]
                     }
                 ]
             },
@@ -175,9 +133,14 @@
         },
         "androidtv": {
             "engine": "engine-rn-tvos",
+            "minSdkVersion": 26,
+            "targetSdkVersion": 33,
+            "compileSdkVersion": 33,
+            "buildToolsVersion": "30.0.0",
+            "gradleBuildToolsVersion": "4.2.2",
+            "gradleWrapperVersion": "6.7.1",
+            "kotlinVersion": "1.4.21",
             "reactNativeEngine": "hermes",
-            "targetSdkVersion": 30,
-            "compileSdkVersion": 31,
             "enableAndroidX": true,
             "gradle.properties": {
                 "android.useDeprecatedNdk": true,
@@ -195,7 +158,19 @@
                         "tag": "application",
                         "android:name": ".MainApplication",
                         "android:usesCleartextTraffic": true,
-                        "tools:targetApi": 30
+                        "tools:targetApi": 30,
+                        "children": [
+                            {
+                                "tag": "activity",
+                                "android:name": ".MainActivity",
+                                "android:exported": true
+                            },
+                            {
+                                "tag": "activity",
+                                "android:name": ".SplashActivity",
+                                "android:exported": true
+                            }
+                        ]
                     }
                 ]
             },
@@ -205,8 +180,13 @@
         },
         "firetv": {
             "engine": "engine-rn-tvos",
-            "targetSdkVersion": 30,
-            "compileSdkVersion": 31,
+            "minSdkVersion": 26,
+            "targetSdkVersion": 33,
+            "compileSdkVersion": 33,
+            "buildToolsVersion": "30.0.0",
+            "gradleBuildToolsVersion": "4.2.2",
+            "gradleWrapperVersion": "6.7.1",
+            "kotlinVersion": "1.4.21",
             "reactNativeEngine": "hermes",
             "enableAndroidX": true,
             "gradle.properties": {

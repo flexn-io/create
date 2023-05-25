@@ -14,8 +14,7 @@ export const uploadSentryMaps = (c: any) => {
         'upload-sourcemaps',
         `--dist ${version.replace(new RegExp(/([.,-]|alpha)/g), '')}`,
         `--strip-prefix ${path.resolve(__dirname, '..', '..', '..', '..', '..')}`,
-        `--rewrite platformBuilds/${c.runtime.appId}_${
-            c.platform}/main.jsbundle platformBuilds/${c.runtime.appId}_${c.platform}/main.jsbundle.map`,
+        `--rewrite platformBuilds/${c.runtime.appId}_${c.platform}/main.jsbundle platformBuilds/${c.runtime.appId}_${c.platform}/main.jsbundle.map`,
     ];
 
     return child_process.exec(

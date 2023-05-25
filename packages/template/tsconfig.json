@@ -4,13 +4,7 @@
         "outDir": "./lib",
         "rootDir": "."
     },
-    "exclude": [
-        "node_modules",
-        "**/lib/**/",
-        "**/pluginTemplates/**",
-        ".rollup.cache",
-        "build/**/",
-    ],
+    "exclude": ["node_modules", "**/lib/**/", "**/pluginTemplates/**", ".rollup.cache", "build/**/"],
     "include": [
         "./src/**/*",
         "./src/**/*.json",

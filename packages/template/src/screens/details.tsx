@@ -6,9 +6,9 @@ import {
     ScrollView,
     ActivityIndicator,
     ANIMATION_TYPES,
-} from '@flexn/sdk';
+} from '@flexn/create';
 import React, { useContext, useState, useEffect } from 'react';
-import { isPlatformWeb } from '@rnv/renative';
+import { getScaledValue, isPlatformWeb } from '@rnv/renative';
 import { ThemeContext, ROUTES } from '../config';
 import { usePop, useReplace } from '../hooks';
 import { getRandomData } from '../utils';
@@ -22,7 +22,9 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
 
     useEffect(() => {
         const params = isPlatformWeb ? router.query : route?.params;
-        setItem(getRandomData(params.row, params.index));
+        if (params) {
+            setItem(getRandomData(params.row, params.index));
+        }
     }, []);
 
     if (!item) {
@@ -45,7 +47,11 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
                         onPress={() => pop()}
                         focusOptions={{
                             forbiddenFocusDirections: ['up'],
-                            animatorOptions: { type: ANIMATION_TYPES.BORDER },
+                            animatorOptions: {
+                                type: ANIMATION_TYPES.BORDER,
+                                focus: { borderColor: '#0A74E6', borderWidth: getScaledValue(2) },
+                                blur: { borderColor: '#FFFFFF', borderWidth: getScaledValue(2) },
+                            },
                         }}
                     >
                         <Text style={[theme.styles.buttonText, { color: '#FFFFFF' }]}>Go back</Text>
@@ -55,7 +61,11 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
                         onPress={() => replace(ROUTES.HOME)}
                         focusOptions={{
                             forbiddenFocusDirections: ['down'],
-                            animatorOptions: { type: ANIMATION_TYPES.BORDER },
+                            animatorOptions: {
+                                type: ANIMATION_TYPES.BORDER,
+                                focus: { borderColor: '#0A74E6', borderWidth: getScaledValue(2) },
+                                blur: { borderColor: '#FFFFFF', borderWidth: getScaledValue(2) },
+                            },
                         }}
                     >
                         <Text style={[theme.styles.buttonText, { color: '#FFFFFF' }]}>Go to home</Text>

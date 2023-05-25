@@ -1,0 +1,50 @@
+{
+    "extendsTemplate": "@flexn/template/renative.json",
+    "crypto": {
+        "decrypt": {
+            "source": "PROJECT_HOME/secrets/privateConfigs.enc"
+        },
+        "encrypt": {
+            "dest": "PROJECT_HOME/secrets/privateConfigs.enc"
+        }
+    },
+    "currentTemplate": "@flexn/template",
+    "defaults": {
+        "id": "io.flexn.template.app",
+        "supportedPlatforms": [
+            "android",
+            "androidtv",
+            "ios",
+            "tvos",
+            "web",
+            "macos",
+            "linux",
+            "firetv",
+            "chromecast",
+            "androidwear",
+            "tizen",
+            "webos"
+        ],
+        "ports": {
+            "web": "8180",
+            "tvos": "8189"
+        },
+        "title": "Template App"
+    },
+    "isMonorepo": true,
+    "plugins": {
+        "@sentry/react": "source:flexn",
+        "@sentry/react-native": "source:flexn",
+        "@sentry/tracing": "source:flexn",
+        "react-native-carplay": "source:flexn",
+        "react-native-google-cast": "source:flexn",
+        "react-native-snap-carousel": "source:flexn"
+    },
+    "projectName": "app-harness",
+    "templates": {
+        "@flexn/template": {
+            "version": "0.21.1-alpha.3"
+        }
+    },
+    "workspaceID": "flexn"
+}

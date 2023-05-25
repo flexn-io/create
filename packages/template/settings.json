@@ -1,23 +1,23 @@
 {
-  "appSettings": {
-    "stage": {
-      "useImageWorker": true
+    "appSettings": {
+        "stage": {
+            "useImageWorker": true
+        },
+        "debug": false
     },
-    "debug": false
-  },
-  "platformSettings": {
-    "path": "./static",
-    "log": false,
-    "showVersion": false,
-    "showFps": false,
-    "inspector": false,
-    "router": {
-      "lazyCreate": true,
-      "lazyDestroy": true,
-      "gcOnUnload": true,
-      "backtracking": true,
-      "reuseInstance": false,
-      "destroyOnHistoryBack": false
+    "platformSettings": {
+        "path": "./static",
+        "log": false,
+        "showVersion": false,
+        "showFps": false,
+        "inspector": false,
+        "router": {
+            "lazyCreate": true,
+            "lazyDestroy": true,
+            "gcOnUnload": true,
+            "backtracking": true,
+            "reuseInstance": false,
+            "destroyOnHistoryBack": false
+        }
     }
-  }
 }

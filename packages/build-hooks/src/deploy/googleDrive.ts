@@ -97,8 +97,7 @@ const _googleDriveDeploy = async (config: any, driveRoot: string, binaryPath: st
             });
 
             await notifySlack(
-                `Deployed *${title}* (*${
-                    config.platform}*) *v${version}* to https://drive.google.com/drive/folders/${currentFolder.id}`,
+                `Deployed *${title}* (*${config.platform}*) *v${version}* to https://drive.google.com/drive/folders/${currentFolder.id}`,
                 config
             );
             logSuccess('Binaries uploaded to google drive succesfully!');
@@ -120,12 +119,7 @@ const googleDriveDeploy = async (c: {
     const driveRoot = Common.getConfigProp(c, c.platform, 'googleDriveFolderID');
     switch (c.platform) {
         case 'firetv':
-            return _googleDriveDeploy(
-                c,
-                driveRoot,
-                'app/build/outputs/apk/release/app-release.apk',
-                'app-release.apk'
-            );
+            return _googleDriveDeploy(c, driveRoot, 'app/build/outputs/apk/release/app-release.apk', 'app-release.apk');
         case 'macos': {
             const title = 'RNVApp'; //TODO catalyst ignores title set in build schemes
             return _googleDriveDeploy(c, driveRoot, `release/${title}.app`, `${title}.dmg`);

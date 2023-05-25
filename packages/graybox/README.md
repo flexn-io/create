@@ -132,27 +132,27 @@ udid: '<Device udid>';
 
 Test ID selector strategy varies from platform to platform. Table below shows from what property each platform maps test ID so some platforms need different properties to be set in application source code when adding test ID's. When writing tests user needs to provide only test ID itself to method and Graybox handles everything else on every platform.
 
-| Platform  | Test ID selector strategy |
-| --- | --- | 
-| iOS | [Accessibility ID](https://webdriver.io/docs/selectors/#accessibility-id) strategy selector with predefined `~` where test ID is mapped from `TestID` property |
-| tvOS | [Accessibility ID](https://webdriver.io/docs/selectors/#accessibility-id) strategy selector with predefined `~` where test ID is mapped from `TestID` property |
-| macOS using Apple SDK | [Accessibility ID](https://webdriver.io/docs/selectors/#accessibility-id) strategy selector with predefined `~` where test ID is mapped from `TestID` property |
-| Android | [Accessibility ID](https://webdriver.io/docs/selectors/#accessibility-id) strategy selector with predefined `~` where test ID is mapped from `accessibilityLabel` property. NOTE: `accessible: true` also needs to be added to the element|
-| AndroidTV | [Accessibility ID](https://webdriver.io/docs/selectors/#accessibility-id) strategy selector with predefined `~` where testID is mapped from `accessibilityLabel` property. NOTE: `accessible: true` also needs to be added to the element |
-| macOS using Electron | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `data-testid` attribute which maps test ID from `TestID` property |
-| Web | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `data-testid` attribute which maps test ID from `TestID` property |
+| Platform              | Test ID selector strategy                                                                                                                                                                                                                  |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| iOS                   | [Accessibility ID](https://webdriver.io/docs/selectors/#accessibility-id) strategy selector with predefined `~` where test ID is mapped from `TestID` property                                                                             |
+| tvOS                  | [Accessibility ID](https://webdriver.io/docs/selectors/#accessibility-id) strategy selector with predefined `~` where test ID is mapped from `TestID` property                                                                             |
+| macOS using Apple SDK | [Accessibility ID](https://webdriver.io/docs/selectors/#accessibility-id) strategy selector with predefined `~` where test ID is mapped from `TestID` property                                                                             |
+| Android               | [Accessibility ID](https://webdriver.io/docs/selectors/#accessibility-id) strategy selector with predefined `~` where test ID is mapped from `accessibilityLabel` property. NOTE: `accessible: true` also needs to be added to the element |
+| AndroidTV             | [Accessibility ID](https://webdriver.io/docs/selectors/#accessibility-id) strategy selector with predefined `~` where testID is mapped from `accessibilityLabel` property. NOTE: `accessible: true` also needs to be added to the element  |
+| macOS using Electron  | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `data-testid` attribute which maps test ID from `TestID` property                                                                  |
+| Web                   | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `data-testid` attribute which maps test ID from `TestID` property                                                                  |
 
 Text selector strategy varies from platform to platform. This strategy doesn't require any additional property setting in application source code assuming element has visible text in front end. When writing tests user needs to provide only visible text on the element to method and Graybox handles everything else on every platform.
 
-| Platform  | Text selector strategy |
-| --- | --- | 
-| iOS | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `label` attribute |
-| tvOS | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `label` attribute |
-| macOS using Apple SDK | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `name` attribute |
-| Android | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `text` attribute |
-| AndroidTV | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `text` attribute |
-| macOS using Electron | [xPath](https://webdriver.io/docs/selectors/#xpath) strategy selector |
-| Web | [xPath](https://webdriver.io/docs/selectors/#xpath) strategy selector |
+| Platform              | Text selector strategy                                                                                                    |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| iOS                   | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `label` attribute |
+| tvOS                  | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `label` attribute |
+| macOS using Apple SDK | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `name` attribute  |
+| Android               | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `text` attribute  |
+| AndroidTV             | [Name Attribute](https://webdriver.io/docs/selectors/#name-attribute) strategy selector with predefined `text` attribute  |
+| macOS using Electron  | [xPath](https://webdriver.io/docs/selectors/#xpath) strategy selector                                                     |
+| Web                   | [xPath](https://webdriver.io/docs/selectors/#xpath) strategy selector                                                     |
 
 ## Methods
 
@@ -167,10 +167,11 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.launchApp()
+FlexnRunner.launchApp();
 ```
 
 IMPORTANT: must be included in before hook:
+
 ```javascript
 before(() => {
     FlexnRunner.launchApp();
@@ -188,13 +189,13 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.getElementById(selector)
+FlexnRunner.getElementById(selector);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                      |
+| -------- | ------ | -------------------------------------------------------------------------------------------- |
 | selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### getElementByText
@@ -207,15 +208,14 @@ Supported on all platforms.
 
 **Usage**
 
-
 ```javascript
-FlexnRunner.getElementByText(selector)
+FlexnRunner.getElementByText(selector);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                           |
+| -------- | ------ | ------------------------------------------------------------------------------------------------- |
 | selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### scrollById
@@ -229,16 +229,16 @@ Supported on: iOS, macOS, Android, Web.
 **Usage**
 
 ```javascript
-FlexnRunner.scrollById(selectorTo, direction, selectorFrom)
+FlexnRunner.scrollById(selectorTo, direction, selectorFrom);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
-| selectorTo | string | test ID of the element to which scroll is executed. For more context look at [Selector strategies](#selector-strategies) |
-| direction | either 'up', 'down', 'left' or 'right' | direction of the scroll |
-| selectorFrom | string | test ID of the element from which scroll is executed. For more context look at [Selector strategies](#selector-strategies) |
+| Name         | Type                                   | Details                                                                                                                    |
+| ------------ | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| selectorTo   | string                                 | test ID of the element to which scroll is executed. For more context look at [Selector strategies](#selector-strategies)   |
+| direction    | either 'up', 'down', 'left' or 'right' | direction of the scroll                                                                                                    |
+| selectorFrom | string                                 | test ID of the element from which scroll is executed. For more context look at [Selector strategies](#selector-strategies) |
 
 ### clickById
 
@@ -250,15 +250,14 @@ Supported on: iOS, macOS, Android, Web.
 
 **Usage**
 
-
 ```javascript
-FlexnRunner.clickById(selector)
+FlexnRunner.clickById(selector);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                      |
+| -------- | ------ | -------------------------------------------------------------------------------------------- |
 | selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### clickByText
@@ -272,18 +271,18 @@ Supported on: iOS, macOS, Android, Web.
 **Usage**
 
 ```javascript
-FlexnRunner.clickByText(selector)
+FlexnRunner.clickByText(selector);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                           |
+| -------- | ------ | ------------------------------------------------------------------------------------------------- |
 | selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### pressButtonHome
 
-Presses native platform *Home* button.
+Presses native platform _Home_ button.
 
 **Platform support**
 
@@ -292,18 +291,18 @@ Supported on: iOS, tvOS, Android, AndroidTV.
 **Usage**
 
 ```javascript
-FlexnRunner.pressButtonHome(n)
+FlexnRunner.pressButtonHome(n);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
-| n | number | number of button presses |
+| Name | Type   | Details                  |
+| ---- | ------ | ------------------------ |
+| n    | number | number of button presses |
 
 ### pressButtonBack
 
-Presses native platform *Back* button.
+Presses native platform _Back_ button.
 
 **Platform support**
 
@@ -312,18 +311,18 @@ Supported on: iOS, tvOS, Android, AndroidTV.
 **Usage**
 
 ```javascript
-FlexnRunner.pressButtonBack(n)
+FlexnRunner.pressButtonBack(n);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
-| n | number | number of button presses |
+| Name | Type   | Details                  |
+| ---- | ------ | ------------------------ |
+| n    | number | number of button presses |
 
 ### pressButtonUp
 
-Presses native platform *Up* button.
+Presses native platform _Up_ button.
 
 **Platform support**
 
@@ -332,18 +331,18 @@ Supported on: tvOS, AndroidTV.
 **Usage**
 
 ```javascript
-FlexnRunner.pressButtonUp(n)
+FlexnRunner.pressButtonUp(n);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
-| n | number | number of button presses |
+| Name | Type   | Details                  |
+| ---- | ------ | ------------------------ |
+| n    | number | number of button presses |
 
 ### pressButtonDown
 
-Presses native platform *Down* button.
+Presses native platform _Down_ button.
 
 **Platform support**
 
@@ -352,18 +351,18 @@ Supported on: tvOS, AndroidTV.
 **Usage**
 
 ```javascript
-FlexnRunner.pressButtonDown(n)
+FlexnRunner.pressButtonDown(n);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
-| n | number | number of button presses |
+| Name | Type   | Details                  |
+| ---- | ------ | ------------------------ |
+| n    | number | number of button presses |
 
 ### pressButtonLeft
 
-Presses native platform *Left* button.
+Presses native platform _Left_ button.
 
 **Platform support**
 
@@ -372,18 +371,18 @@ Supported on: tvOS, AndroidTV.
 **Usage**
 
 ```javascript
-FlexnRunner.pressButtonLeft(n)
+FlexnRunner.pressButtonLeft(n);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
-| n | number | number of button presses |
+| Name | Type   | Details                  |
+| ---- | ------ | ------------------------ |
+| n    | number | number of button presses |
 
 ### pressButtonRight
 
-Presses native platform *Right* button.
+Presses native platform _Right_ button.
 
 **Platform support**
 
@@ -392,18 +391,18 @@ Supported on: tvOS, AndroidTV.
 **Usage**
 
 ```javascript
-FlexnRunner.pressButtonRight(n)
+FlexnRunner.pressButtonRight(n);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
-| n | number | number of button presses |
+| Name | Type   | Details                  |
+| ---- | ------ | ------------------------ |
+| n    | number | number of button presses |
 
 ### pressButtonSelect
 
-Presses native platform *Select* button.
+Presses native platform _Select_ button.
 
 **Platform support**
 
@@ -412,14 +411,14 @@ Supported on: tvOS, AndroidTV.
 **Usage**
 
 ```javascript
-FlexnRunner.pressButtonSelect(n)
+FlexnRunner.pressButtonSelect(n);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
-| n | number | number of button presses |
+| Name | Type   | Details                  |
+| ---- | ------ | ------------------------ |
+| n    | number | number of button presses |
 
 ### expectToMatchElementById
 
@@ -497,13 +496,13 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.expectToBeExistingById(selector)
+FlexnRunner.expectToBeExistingById(selector);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                      |
+| -------- | ------ | -------------------------------------------------------------------------------------------- |
 | selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### expectToBeExistingByText
@@ -517,13 +516,13 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.expectToBeExistingByText(selector)
+FlexnRunner.expectToBeExistingByText(selector);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                           |
+| -------- | ------ | ------------------------------------------------------------------------------------------------- |
 | selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### expectToBeDisplayedById
@@ -537,13 +536,13 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.expectToBeDisplayedById(selector)
+FlexnRunner.expectToBeDisplayedById(selector);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                      |
+| -------- | ------ | -------------------------------------------------------------------------------------------- |
 | selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### expectToBeDisplayedByText
@@ -557,13 +556,13 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.expectToBeDisplayedByText(selector)
+FlexnRunner.expectToBeDisplayedByText(selector);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                           |
+| -------- | ------ | ------------------------------------------------------------------------------------------------- |
 | selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### expectToBeClickableById
@@ -577,13 +576,13 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.expectToBeClickableById(selector)
+FlexnRunner.expectToBeClickableById(selector);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                      |
+| -------- | ------ | -------------------------------------------------------------------------------------------- |
 | selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### expectToBeClickableByText
@@ -597,13 +596,13 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.expectToBeClickableByText(selector)
+FlexnRunner.expectToBeClickableByText(selector);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                           |
+| -------- | ------ | ------------------------------------------------------------------------------------------------- |
 | selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### expectToHaveTextById
@@ -638,15 +637,15 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.waitForDisplayedById(selector, timeout)
+FlexnRunner.waitForDisplayedById(selector, timeout);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                      |
+| -------- | ------ | -------------------------------------------------------------------------------------------- |
 | selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
-| timeout | number | time in ms (default: 60000) for which waiting action is executed |
+| timeout  | number | time in ms (default: 60000) for which waiting action is executed                             |
 
 ### waitForDisplayedByText
 
@@ -659,15 +658,15 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.waitForDisplayedByText(selector, timeout)
+FlexnRunner.waitForDisplayedByText(selector, timeout);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                           |
+| -------- | ------ | ------------------------------------------------------------------------------------------------- |
 | selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
-| timeout | number | time in ms (default: 60000) for which waiting action is executed |
+| timeout  | number | time in ms (default: 60000) for which waiting action is executed                                  |
 
 ### waitForExistById
 
@@ -680,15 +679,15 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.waitForExistById(selector, timeout)
+FlexnRunner.waitForExistById(selector, timeout);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                      |
+| -------- | ------ | -------------------------------------------------------------------------------------------- |
 | selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
-| timeout | number | time in ms (default: 60000) for which waiting action is executed |
+| timeout  | number | time in ms (default: 60000) for which waiting action is executed                             |
 
 ### waitForExistByText
 
@@ -701,15 +700,15 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.waitForExistByText(selector, timeout)
+FlexnRunner.waitForExistByText(selector, timeout);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                           |
+| -------- | ------ | ------------------------------------------------------------------------------------------------- |
 | selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
-| timeout | number | time in ms (default: 60000) for which waiting action is executed |
+| timeout  | number | time in ms (default: 60000) for which waiting action is executed                                  |
 
 ### waitForClickableById
 
@@ -722,15 +721,15 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.waitForClickableById(selector, timeout)
+FlexnRunner.waitForClickableById(selector, timeout);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                      |
+| -------- | ------ | -------------------------------------------------------------------------------------------- |
 | selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
-| timeout | number | time in ms (default: 60000) for which waiting action is executed |
+| timeout  | number | time in ms (default: 60000) for which waiting action is executed                             |
 
 ### waitForClickableByText
 
@@ -743,15 +742,15 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.waitForClickableByText(selector, timeout)
+FlexnRunner.waitForClickableByText(selector, timeout);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                           |
+| -------- | ------ | ------------------------------------------------------------------------------------------------- |
 | selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
-| timeout | number | time in ms (default: 60000) for which waiting action is executed |
+| timeout  | number | time in ms (default: 60000) for which waiting action is executed                                  |
 
 ### setValueById
 
@@ -764,15 +763,15 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.setValueById(selector, value)
+FlexnRunner.setValueById(selector, value);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                      |
+| -------- | ------ | -------------------------------------------------------------------------------------------- |
 | selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
-| value | string | value to be added |
+| value    | string | value to be added                                                                            |
 
 ### clearValueById
 
@@ -785,18 +784,18 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.clearValueById(selector)
+FlexnRunner.clearValueById(selector);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name     | Type   | Details                                                                                      |
+| -------- | ------ | -------------------------------------------------------------------------------------------- |
 | selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 
 ### pause
 
-Pauses execution for a specific amount of time. It is recommended to not use this command to wait for an element to show up. In order to avoid flaky test results it is better to use commands like `waitForExistById` or other waitFor* commands.
+Pauses execution for a specific amount of time. It is recommended to not use this command to wait for an element to show up. In order to avoid flaky test results it is better to use commands like `waitForExistById` or other waitFor\* commands.
 
 **Platform support**
 
@@ -805,13 +804,13 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.pause(time)
+FlexnRunner.pause(time);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name | Type   | Details                                          |
+| ---- | ------ | ------------------------------------------------ |
 | time | number | time in ms for which execution of test is paused |
 
 ### GIVEN
@@ -821,13 +820,13 @@ Logs to cli `GIVEN:` with provided message.
 **Usage**
 
 ```javascript
-FlexnRunner.GIVEN(message)
+FlexnRunner.GIVEN(message);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name    | Type   | Details                                    |
+| ------- | ------ | ------------------------------------------ |
 | message | string | text to be logged to console with `GIVEN:` |
 
 ### WHEN
@@ -837,13 +836,13 @@ Logs to cli `WHEN:` with provided message.
 **Usage**
 
 ```javascript
-FlexnRunner.WHEN(message)
+FlexnRunner.WHEN(message);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name    | Type   | Details                                   |
+| ------- | ------ | ----------------------------------------- |
 | message | string | text to be logged to console with `WHEN:` |
 
 ### THEN
@@ -853,11 +852,11 @@ Logs to cli `THEN:` with provided message.
 **Usage**
 
 ```javascript
-FlexnRunner.THEN(message)
+FlexnRunner.THEN(message);
 ```
 
 **Arguments**
 
-| Name  | Type | Details |
-| --- | --- | --- |
+| Name    | Type   | Details                                   |
+| ------- | ------ | ----------------------------------------- |
 | message | string | text to be logged to console with `THEN:` |

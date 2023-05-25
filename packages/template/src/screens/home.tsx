@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { Text, View, ScrollView, TouchableOpacity, Image, ANIMATION_TYPES } from '@flexn/sdk';
+import { Text, View, ScrollView, TouchableOpacity, Image, ANIMATION_TYPES } from '@flexn/create';
 import { Api } from '@rnv/renative';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ROUTES, ICON_LOGO, ThemeContext } from '../config';
@@ -17,19 +17,30 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
 
     const focusAnimation = {
         type: ANIMATION_TYPES.BACKGROUND,
-        backgroundColorFocus: theme.static.colorBrand,
+        focus: {
+            backgroundColor: theme.static.colorBrand,
+        },
+        blur: {},
     };
 
     return (
-        <Screen style={theme.styles.screen} focusOptions={{ verticalWindowAlignment: 'both-edge' }}>
+        <Screen style={theme.styles.screen} focusOptions={{ verticalWindowAlignment: 'low-edge' }}>
             <ScrollView
                 style={{ backgroundColor: theme.static.colorBgPrimary }}
                 ref={swRef}
                 contentContainerStyle={theme.styles.container}
             >
-                <Image style={theme.styles.image} source={ICON_LOGO} {...testProps('template-home-screen-flexn-image')} />
-                <Text style={theme.styles.textH1} {...testProps('template-home-screen-welcome-message-text')} >{'Flexn SDK Example'} </Text>
-                <Text style={theme.styles.textH2} {...testProps('template-home-screen-version-number-text')} >v {packageJson.version} </Text>
+                <Image
+                    style={theme.styles.image}
+                    source={ICON_LOGO}
+                    {...testProps('template-home-screen-flexn-image')}
+                />
+                <Text style={theme.styles.textH1} {...testProps('template-home-screen-welcome-message-text')}>
+                    {'Flexn Create Example'}{' '}
+                </Text>
+                <Text style={theme.styles.textH2} {...testProps('template-home-screen-version-number-text')}>
+                    v {packageJson.version}{' '}
+                </Text>
                 <Text style={theme.styles.textH3}>{`platform: ${Api.platform}`}</Text>
                 <Text style={theme.styles.textH3}>{`factor: ${Api.formFactor}`}</Text>
                 <Text style={theme.styles.textH3}>{`engine: ${Api.engine}`}</Text>
@@ -62,7 +73,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                 <Text style={[theme.styles.textH3, { marginTop: 20 }]}>Explore more</Text>
                 <View style={{ marginTop: 10, flexDirection: 'row' }}>
                     <TouchableOpacity
-                        onPress={() => openURL('https://github.com/flexn-io/flexn')}
+                        onPress={() => openURL('https://github.com/flexn-io/create')}
                         style={theme.styles.icon}
                         focusOptions={{
                             forbiddenFocusDirections: ['left'],
@@ -72,7 +83,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                         <Icon name="github" size={theme.static.iconSize} color={theme.static.colorBrand} />
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => openURL('https://sdk.flexn.org')}
+                        onPress={() => openURL('https://create.flexn.org')}
                         style={theme.styles.icon}
                         {...testProps('template-home-screen-chrome-button')}
                     >
