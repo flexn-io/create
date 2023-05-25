@@ -27,7 +27,16 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                         navigation.navigate(ROUTES.DETAILS, { row: 1, index: index });
                     }
                 }}
-                // animatorOptions={{ type: 'scale_with_border', scale: 1.1 }}
+                animatorOptions={{
+                    type: 'border',
+                    focus: {
+                        borderColor: '#0A74E6',
+                        borderWidth: Ratio(8),
+                    },
+                    blur: {
+                        borderWidth: 0,
+                    },
+                }}
             >
                 <Image resizeMode={'cover'} source={{ uri: item.backgroundImage }} style={[styles.poster]} />
                 <Text style={styles.title} numberOfLines={1}>
@@ -45,7 +54,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                             data={list}
                             renderItem={renderItem}
                             type="row"
-                            estimatedItemSize={Ratio(200)}
+                            estimatedItemSize={Ratio(250)}
                             horizontal
                         />
                     </View>
@@ -63,16 +72,18 @@ const styles = {
         marginVertical: Ratio(20),
     },
     cardStyle: {
-        width: Ratio(300),
-        height: Ratio(200),
+        width: Ratio(250),
+        height: Ratio(250),
         borderWidth: isFactorMobile ? 0 : Ratio(5),
         borderRadius: Ratio(5),
-        borderColor: isFactorTv ? '#0A74E6' : 'transparent',
+        borderColor: 'transparent',
         fontSize: isFactorMobile ? 16 : Ratio(26),
+        marginHorizontal: isFactorTv ? 10 : 0,
+        marginVertical: isFactorTv ? 15 : 0,
     },
     poster: {
         width: '100%',
-        height: '100%',
+        height: isFactorTv ? '80%' : '100%',
     },
     title: {
         fontSize: Ratio(26),
