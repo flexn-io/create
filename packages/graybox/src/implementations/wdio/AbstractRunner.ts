@@ -30,18 +30,25 @@ abstract class AbstractRunner {
 
     abstract pressButtonSelect(n: number): void;
 
+    // visual regression testing
+    abstract expectToMatchElementById(selector: string, tag: string, acceptableMismatch: number): void;
+
+    abstract expectToMatchElementByText(selector: string, tag: string, acceptableMismatch: number): void;
+
+    abstract expectToMatchScreen(tag: string, acceptableMismatch: number): void;
+
     // expect toBeExisting
     expectToBeExistingById = async (selector: string) => {
         const element = await this.getElementById(selector);
         if (element) {
-            await expect(element).toBeExisting();
+            expect(element).toBeExisting();
         }
     };
 
     expectToBeExistingByText = async (selector: string) => {
         const element = await this.getElementByText(selector);
         if (element) {
-            await expect(element).toBeExisting();
+            expect(element).toBeExisting();
         }
     };
 
@@ -49,14 +56,14 @@ abstract class AbstractRunner {
     expectToBeDisplayedById = async (selector: string) => {
         const element = await this.getElementById(selector);
         if (element) {
-            await expect(element).toBeDisplayed();
+            expect(element).toBeDisplayed();
         }
     };
 
     expectToBeDisplayedByText = async (selector: string) => {
         const element = await this.getElementByText(selector);
         if (element) {
-            await expect(element).toBeDisplayed();
+            expect(element).toBeDisplayed();
         }
     };
 
@@ -64,14 +71,22 @@ abstract class AbstractRunner {
     expectToBeClickableById = async (selector: string) => {
         const element = await this.getElementById(selector);
         if (element) {
-            await expect(element).toBeClickable();
+            expect(element).toBeClickable();
         }
     };
 
     expectToBeClickableByText = async (selector: string) => {
         const element = await this.getElementByText(selector);
         if (element) {
-            await expect(element).toBeClickable();
+            expect(element).toBeClickable();
+        }
+    };
+
+    // expect toHaveText
+    expectToHaveTextById = async (selector: string, text: string) => {
+        const element = await this.getElementById(selector);
+        if (element) {
+            expect(element).toHaveText(text);
         }
     };
 

@@ -3,6 +3,12 @@
     "compilerOptions": {
         "outDir": "./lib",
         "rootDir": "./src",
-        "types": ["node", "webdriverio/async", "@wdio/mocha-framework"]
+        "types": [
+            "node",
+            "webdriverio/async",
+            "@wdio/mocha-framework",
+            "wdio-image-comparison-service",
+            "wdio-native-app-compare-service"
+        ]
     }
 }

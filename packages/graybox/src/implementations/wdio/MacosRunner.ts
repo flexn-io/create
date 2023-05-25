@@ -16,11 +16,21 @@ class MacosRunner extends AbstractRunner {
     scrollById = async (selectorTo: string, direction: string, selectorFrom: string) => {
         const elementFrom = await this.getElementById(selectorFrom);
         const elementTo = await this.getElementById(selectorTo);
-        const frameFrom = await elementFrom.getAttribute('frame') as unknown as {x: number, y: number, width: number, height: number};
-        const frameTo = await elementTo.getAttribute('frame') as unknown as {x: number, y: number, width: number, height: number};
-        const scrollX = frameFrom.x - frameTo.x;    
+        const frameFrom = (await elementFrom.getAttribute('frame')) as unknown as {
+            x: number;
+            y: number;
+            width: number;
+            height: number;
+        };
+        const frameTo = (await elementTo.getAttribute('frame')) as unknown as {
+            x: number;
+            y: number;
+            width: number;
+            height: number;
+        };
+        const scrollX = frameFrom.x - frameTo.x;
         const scrollY = frameFrom.y - frameTo.y;
-        await browser.execute('macos: scroll', { elementId: elementFrom, deltaX: scrollX, deltaY: scrollY });        
+        await browser.execute('macos: scroll', { elementId: elementFrom, deltaX: scrollX, deltaY: scrollY });
     };
 
     clickById = async (selector: string) => {
@@ -57,6 +67,24 @@ class MacosRunner extends AbstractRunner {
 
     pressButtonSelect = () => {
         // do nothing
+    };
+
+    expectToMatchElementById = async (selector: string, tag: string, acceptableMismatch = 5) => {
+        const element = await this.getElementById(selector);
+        await element.waitForDisplayed({ timeout: 60000 });
+        expect((await driver.compareElement(element, tag)).misMatchPercentage).toBeLessThanOrEqual(acceptableMismatch);
+    };
+
+    expectToMatchElementByText = async (selector: string, tag: string, acceptableMismatch = 5) => {
+        const element = await this.getElementByText(selector);
+        await element.waitForDisplayed({ timeout: 60000 });
+        expect((await driver.compareElement(element, tag)).misMatchPercentage).toBeLessThanOrEqual(acceptableMismatch);
+    };
+
+    expectToMatchScreen = async (tag: string, acceptableMismatch = 5) => {
+        const element = await this.getElementById('SceneWindow');
+        await element.waitForDisplayed({ timeout: 60000 });
+        expect((await driver.compareElement(element, tag)).misMatchPercentage).toBeLessThanOrEqual(acceptableMismatch);
     };
 }
 

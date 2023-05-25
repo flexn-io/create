@@ -81,6 +81,26 @@ class MacosElectronRunner extends AbstractRunner {
     pressButtonSelect = () => {
         // do nothing
     };
+
+    expectToMatchElementById = async (selector: string, tag: string, acceptableMismatch = 5) => {
+        const element = await this.getElementById(selector);
+        if (element) {
+            await element.waitForDisplayed({ timeout: 60000 });
+            expect(await browser.checkElement(element, tag)).toBeLessThanOrEqual(acceptableMismatch);
+        }
+    };
+
+    expectToMatchElementByText = async (selector: string, tag: string, acceptableMismatch = 5) => {
+        const element = await this.getElementByText(selector);
+        if (element) {
+            await element.waitForDisplayed({ timeout: 60000 });
+            expect(await browser.checkElement(element, tag)).toBeLessThanOrEqual(acceptableMismatch);
+        }
+    };
+
+    expectToMatchScreen = async (tag: string, acceptableMismatch = 5) => {
+        expect(await browser.checkScreen(tag)).toBeLessThanOrEqual(acceptableMismatch);
+    };
 }
 
 export default MacosElectronRunner;

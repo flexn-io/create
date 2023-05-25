@@ -13,6 +13,19 @@ describe('Test template', () => {
         await FlexnRunner.expectToBeDisplayedById('template-home-screen-now-try-me-button');
     });
 
+    it('--> check if dark theme is displayed when "Try Me!" is selected', async () => {
+        await FlexnRunner.pause(5000);
+        await FlexnRunner.expectToMatchScreen('home-light');
+        await FlexnRunner.clickById('template-home-screen-try-me-button');
+        await FlexnRunner.pressButtonSelect(1);
+        await FlexnRunner.pause(3000);
+        await FlexnRunner.expectToMatchScreen('home-dark');
+        await FlexnRunner.clickById('template-home-screen-try-me-button');
+        await FlexnRunner.pressButtonSelect(1);
+        await FlexnRunner.pause(3000);
+        await FlexnRunner.expectToMatchScreen('home-light');
+    });
+
     it('--> check if Carousels Page opens when "Carousels" button is selected', async () => {
         await FlexnRunner.waitForDisplayedById('template-home-screen-flexn-image');
         if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
@@ -42,7 +55,7 @@ describe('Test template', () => {
         await FlexnRunner.pressButtonLeft(1);
         await FlexnRunner.pressButtonDown(2);
         await FlexnRunner.pressButtonSelect(1);
-        await FlexnRunner.expectToBeDisplayedByText('This is my Modal!');
+        await FlexnRunner.expectToBeDisplayedById('template-modal-screen-container');
         await FlexnRunner.clickById('template-modal-screen-close-button');
         if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
             await FlexnRunner.waitForDisplayedById('template-menu-home-button');
@@ -57,8 +70,7 @@ describe('Test template', () => {
         await FlexnRunner.clickById('template-home-screen-now-try-me-button');
         await FlexnRunner.pressButtonDown(1);
         await FlexnRunner.pressButtonSelect(1);
-        // https://github.com/flexn-io/flexn/issues/50
-        // await FlexnRunner.expectToBeDisplayedById('template-carousels-screen-container');
+        await FlexnRunner.expectToBeDisplayedById('template-carousels-screen-container');
         if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
             await FlexnRunner.clickById('template-menu-drawer-button');
         }

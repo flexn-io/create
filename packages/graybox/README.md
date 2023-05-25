@@ -2,7 +2,7 @@
 
 ## Overview
 
-Testing package using WebdriverIO. iOS, tvOS, Android, AndroidTV, macOS use Appium Server and Web uses Selenium Standalone Server. Reporting is done using Allure Reporter.
+Testing package using WebdriverIO. iOS, tvOS, Android, AndroidTV, macOS use [Appium Service](https://webdriver.io/docs/appium-service) and [wdio-native-app-compare](https://github.com/wswebcreation/wdio-native-app-compare). Web uses [Selenium Standalone Service](https://webdriver.io/docs/selenium-standalone-service) and [wdio-image-comparison-service](https://github.com/wswebcreation/wdio-image-comparison-service). Reporting is done using [Allure Reporter](https://webdriver.io/docs/allure-reporter).
 
 ## Package import
 
@@ -17,7 +17,7 @@ const FlexnRunner = require('@flexn/graybox').default;
 1. Create wdio.capabilities.js file in testable project's root folder.
 2. Copy capabilities object from testable project's wdio.conf.js to wdio.capabilities.js.
 3. In wdio.capabilities.js remove `...customCapabilities,` and after object add `module.exports = { capabilities };`.
-4. In wdio.capabilities.js file change `deviceName` and `platformVersion` for iOS, tvOS and change `avd` and `platformVersion` for Android, AndroidTV. Example of wdio.capabilities.js file can be seen below.
+4. In wdio.capabilities.js file change `deviceName` and `platformVersion` for iOS, tvOS and change `avd`, `deviceName` and `platformVersion` for Android, AndroidTV. Example of wdio.capabilities.js file can be seen below.
 
 ```javascript
 const capabilities = {
@@ -45,6 +45,7 @@ const capabilities = {
         {
             platformName: 'Android',
             avd: 'Pixel_4_API_29',
+            deviceName: 'Pixel_4_API_29',
             platformVersion: '10',
             automationName: 'UiAutomator2',
             appPackage: 'my.appPackage',
@@ -56,6 +57,7 @@ const capabilities = {
         {
             platformName: 'Android',
             avd: 'Android_TV_1080p_API_29',
+            deviceName: 'Android_TV_1080p_API_29',
             platformVersion: '10',
             automationName: 'UiAutomator2',
             appPackage: 'my.appPackage',
@@ -419,6 +421,71 @@ FlexnRunner.pressButtonSelect(n)
 | --- | --- | --- |
 | n | number | number of button presses |
 
+### expectToMatchElementById
+
+Validates whether actual screenshot of element by provided test ID matches baseline screenshot.
+
+**Platform support**
+
+Supported on all platforms.
+
+**Usage**
+
+```javascript
+FlexnRunner.expectToMatchElementById(selector, tag, acceptableMismatch)
+```
+
+**Arguments**
+
+| Name  | Type | Details |
+| --- | --- | --- |
+| selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
+| tag | string | tag used in screenshot name |
+| acceptableMismatch | number | acceptable percentage (default: 5) of actual screenshot differences from baseline screenshot |
+
+### expectToMatchElementByText
+
+Validates whether actual screenshot of element by provided text matches baseline screenshot.
+
+**Platform support**
+
+Supported on all platforms.
+
+**Usage**
+
+```javascript
+FlexnRunner.expectToMatchElementByText(selector, tag, acceptableMismatch)
+```
+
+**Arguments**
+
+| Name  | Type | Details |
+| --- | --- | --- |
+| selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
+| tag | string | tag used in screenshot name |
+| acceptableMismatch | number | acceptable percentage (default: 5) of actual screenshot differences from baseline screenshot |
+
+### expectToMatchScreen
+
+Validates whether actual screenshot of screen matches baseline screenshot.
+
+**Platform support**
+
+Supported on all platforms.
+
+**Usage**
+
+```javascript
+FlexnRunner.expectToMatchScreen(tag, acceptableMismatch)
+```
+
+**Arguments**
+
+| Name  | Type | Details |
+| --- | --- | --- |
+| tag | string | tag used in screenshot name |
+| acceptableMismatch | number | acceptable percentage (default: 5) of actual screenshot differences from baseline screenshot |
+
 ### expectToBeExistingById
 
 Validates whether element is existing by provided test ID.
@@ -538,6 +605,27 @@ FlexnRunner.expectToBeClickableByText(selector)
 | Name  | Type | Details |
 | --- | --- | --- |
 | selector | string | visible text on the element. For more context look at [Selector strategies](#selector-strategies) |
+
+### expectToHaveTextById
+
+Validates whether element has specific text by provided test ID.
+
+**Platform support**
+
+Supported on all platforms.
+
+**Usage**
+
+```javascript
+FlexnRunner.expectToHaveTextById(selector, text)
+```
+
+**Arguments**
+
+| Name  | Type | Details |
+| --- | --- | --- |
+| selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
+| text | string | expected text in the element |
 
 ### waitForDisplayedById
 

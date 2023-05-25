@@ -16,7 +16,7 @@ const capabilities = {
             platformVersion: '15.5',
             automationName: 'XCUITest',
             bundleId: 'io.flexn.template.test',
-            app: 'platformBuilds/template_ios/build/RNVApp/Build/Products/Debug-iphonesimulator/RNVApp.app'
+            app: 'platformBuilds/template_ios/build/RNVApp/Build/Products/Debug-iphonesimulator/RNVApp.app',
         },
     ],
     tvos: [
@@ -26,34 +26,37 @@ const capabilities = {
             platformVersion: '15.4',
             automationName: 'XCUITest',
             bundleId: 'io.flexn.template.test',
-            app: 'platformBuilds/template_tvos/build/RNVAppTVOS/Build/Products/Debug-appletvsimulator/RNVAppTVOS.app'
+            app: 'platformBuilds/template_tvos/build/RNVAppTVOS/Build/Products/Debug-appletvsimulator/RNVAppTVOS.app',
         },
     ],
     android: [
         {
             platformName: 'Android',
             avd: 'Pixel_4_API_29',
+            deviceName: 'Pixel_4_API_29',
             platformVersion: '10',
             automationName: 'UiAutomator2',
             appPackage: 'io.flexn.template.test',
             appActivity: 'io.flexn.template.test.MainActivity',
-            app: 'platformBuilds/template_android/app/build/outputs/apk/debug/app-debug.apk'
+            app: 'platformBuilds/template_android/app/build/outputs/apk/debug/app-debug.apk',
         },
     ],
     androidtv: [
         {
             platformName: 'Android',
             avd: 'Android_TV_1080p_API_29',
+            deviceName: 'Android_TV_1080p_API_29',
             platformVersion: '10',
             automationName: 'UiAutomator2',
             appPackage: 'io.flexn.template.test',
             appActivity: 'io.flexn.template.test.MainActivity',
-            app: 'platformBuilds/template_androidtv/app/build/outputs/apk/debug/app-debug.apk'
+            app: 'platformBuilds/template_androidtv/app/build/outputs/apk/debug/app-debug.apk',
         },
     ],
     macos: [
         {
             platformName: 'Mac',
+            deviceName: 'macOS',
             automationName: 'Mac2',
             bundleId: 'io.flexn.template.test',
         },
@@ -173,8 +176,24 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
+
     ...(process.env.PLATFORM === 'web' && {
-        services: ['selenium-standalone'],
+        services: [
+            'selenium-standalone',
+            [
+                'image-comparison',
+                {
+                    baselineFolder: './test/baselineImages',
+                    formatImageName: '{tag}',
+                    screenshotPath: '.tmp/actualImages',
+                    savePerInstance: true,
+                    autoSaveBaseline: true,
+                    blockOutStatusBar: true,
+                    blockOutToolBar: true,
+                    blockOutSideBar: true,
+                },
+            ],
+        ],
     }),
     ...((process.env.PLATFORM === 'ios' ||
         process.env.PLATFORM === 'tvos' ||
@@ -202,6 +221,19 @@ exports.config = {
                             port: 3005,
                         }),
                     },
+                },
+            ],
+            [
+                'native-app-compare',
+                {
+                    baselineFolder: './test/baselineImages',
+                    imageNameFormat: '{tag}',
+                    screenshotPath: '.tmp/actualImages',
+                    savePerDevice: true,
+                    autoSaveBaseline: true,
+                    blockOutStatusBar: true,
+                    blockOutNavigationBar: true,
+                    blockOutIphoneHomeBar: true,
                 },
             ],
         ],
