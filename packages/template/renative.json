@@ -233,11 +233,11 @@
             }
         },
         "tizen": {
-            "engine": "engine-rn-web",
+            "engine": "engine-lightning",
             "target": "es5"
         },
         "webos": {
-            "engine": "engine-rn-web"
+            "engine": "engine-lightning"
         },
         "tvos": {
             "engine": "engine-rn-tvos"
