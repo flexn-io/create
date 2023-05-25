@@ -1,6 +1,5 @@
-import 'react-native';
-
 declare module 'react-native' {
+    import 'react-native';
     class TVEventHandler {
         enable: any;
     }
@@ -37,11 +36,4 @@ declare module 'react-native' {
         disableTVMenuKey(): void;
     };
 }
-
-declare global {
-    const perfomance: any;
-    //eslint-disable-next-line no-var
-    var nativePerformanceNow: any;
-}
-
 export default {};
