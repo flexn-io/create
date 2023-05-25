@@ -6,6 +6,7 @@
         "watch": "npx lerna run --parallel --concurrency 1 watch",
         "build:all:clean": "npx lerna run build:clean",
         "build": "lerna run build",
+        "compile": "npx lerna run compile",
         "lint": "yarn lint:js",
         "lint:js": "eslint packages/** --ext .js,.jsx,.ts,.tsx --max-warnings=30",
         "lint:markdown": "prettier --check \"docs/**/*.md\"",
@@ -17,6 +18,7 @@
         "bootstrap-link": "(rnv unlink || true) && npx lerna bootstrap && (rnv link || true)",
         "bootstrap-clean": "rm -rf ./node_modules; npx lerna clean --yes && yarn bootstrap",
         "lerna:link": "npx lerna link",
+        "sanity": "yarn compile && yarn lint && yarn test",
         "tsc": "tsc --build",
         "lerna:clean": "npx lerna clean",
         "test": "jest --coverage",
@@ -90,7 +92,7 @@
     "devDependencies": {
         "@flexn/eslint-config": "0.1.5",
         "@flexn/prettier-config": "0.1.4",
-        "@flexn/typescript": "0.2.4",
+        "@flexn/typescript": "0.3.0",
         "@types/jest": "~27.0.2",
         "@types/lodash-es": "~4.17.5",
         "@types/lodash.debounce": "~4.0.6",
@@ -99,6 +101,7 @@
         "@types/react-native": "~0.67.2",
         "@types/chromecast-caf-receiver": "~6.0.6",
         "@types/react-native-snap-carousel": "~3.8.5",
+        "@types/react-native-vector-icons": "6.4.13",
         "google-drive-connect": "^1.1.2",
         "googleapis": "39",
         "husky": "4.2.5",
@@ -123,13 +126,14 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "yarn build && yarn lint && yarn test"
+            "pre-commit": "yarn sanity"
         }
     },
     "lint-staged": {
-        "*.ts": [
+        "*.js": [
             "eslint"
-        ]
+        ],
+        "**/*.ts": "tsc-files --noEmit"
     },
     "workspaces": {
         "packages": [

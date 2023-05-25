@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { Lightning, Router } from '@lightningjs/sdk';
 import { List } from '@flexn/create';
-import { getRandomData, getHexColor, interval } from '../utils';
+import { getHexColor, interval, generateRandomItemsRow } from '../utils';
 import { LAYOUT, THEME_LIGHT } from '../config';
 import { ROUTES } from '../config.lng';
 export default class Carousels extends Lightning.Component {
@@ -21,7 +21,7 @@ export default class Carousels extends Lightning.Component {
         const data = [...Array(10).keys()].map((rowNumber) => {
             const itemsInViewport = interval(3, 6);
             return {
-                items: getRandomData(rowNumber, 0, itemsInViewport),
+                items: generateRandomItemsRow(rowNumber, itemsInViewport),
                 itemsInViewport,
             };
         });

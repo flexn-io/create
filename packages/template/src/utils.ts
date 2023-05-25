@@ -118,24 +118,20 @@ export function interval(min = 0, max = kittyNames.length - 1) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-const data = {};
-type DataItem = {
+const data: Array<Array<DataItem>> = [[]];
+export type DataItem = {
     index: number;
     backgroundImage: string;
     title: string;
     rowNumber: number;
 };
-export function getRandomData(row, idx, itemsInViewport = 6, height = 250, items = 50) {
+export function generateRandomItemsRow(row: number, itemsInViewport = 6, height = 250, items = 50) {
     const width = Math.floor(getWidth() / itemsInViewport);
 
-    if (data[row] && idx !== undefined) {
-        return data[row][idx];
-    }
-
-    const temp: Array<DataItem> = [];
+    const itemsRow: Array<DataItem> = [];
     let hIndex = 1;
     for (let index = 0; index < items; index++) {
-        temp.push({
+        itemsRow.push({
             index,
             backgroundImage: `https://placekitten.com/${width}/${height + hIndex}`,
             title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
@@ -149,12 +145,19 @@ export function getRandomData(row, idx, itemsInViewport = 6, height = 250, items
         }
     }
 
-    data[row] = temp;
+    data[row] = itemsRow;
 
-    return temp;
+    return itemsRow;
 }
 
-export function getHexColor(hex, alpha = 100) {
+export function getRandomItem(row: number, idx: number) {
+    if (data[row] && idx !== undefined) {
+        const item = data[row][idx];
+        return item;
+    }
+}
+
+export function getHexColor(hex: string, alpha = 100) {
     if (!hex) {
         return 0x00;
     }
@@ -165,6 +168,5 @@ export function getHexColor(hex, alpha = 100) {
 
     const hexAlpha = Math.round((alpha / 100) * 255).toString(16);
     const str = `0x${hexAlpha}${hex}`;
-    //@ts-ignore
-    return parseInt(Number(str), 10);
+    return parseInt(str, 10);
 }

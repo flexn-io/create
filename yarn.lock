@@ -1830,10 +1830,10 @@
     "@flexn/recyclerlistview" "4.2.4"
     tslib "2.4.0"
 
-"@flexn/typescript@0.2.4":
-  version "0.2.4"
-  resolved "https://registry.npmjs.org/@flexn/typescript/-/typescript-0.2.4.tgz#3c6b8c5f01b5c294848d708e487ab303a1cd875a"
-  integrity sha512-vtkKUtI4uR6mtGaBmohJTYq/51qQnyQm8uLaYQTm6vagQWq7wwxhciZ/4GoMU3/Pyh3m0niA/92NpgD5tdRRzg==
+"@flexn/typescript@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.npmjs.org/@flexn/typescript/-/typescript-0.3.0.tgz#733c02bdd9d799145737b5d0c7c6a73fba873ec7"
+  integrity sha512-kN6TxCLHaYJBXQBCj7B62UAx7PcO3VrMqI9NF31RGNMlTz2DkLtuNfvNBl6tiXN+rJOKLgm60EvoEQkdwe4sGw==
 
 "@gar/promisify@^1.0.1":
   version "1.1.3"
@@ -5688,12 +5688,27 @@
     "@types/react" "*"
     "@types/react-native" "*"
 
+"@types/react-native-vector-icons@6.4.13":
+  version "6.4.13"
+  resolved "https://registry.npmjs.org/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.13.tgz#28b34d15094e040718beefb67cb3eff0c4994cb6"
+  integrity sha512-1PqFoKuXTSzMHwGMAr+REdYJBQAbe9xrww3ecZR0FsHcD1K+vGS/rxuAriL4rsI6+p69sZQjDzpEVAbDQcjSwA==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "^0.70"
+
 "@types/react-native@*":
   version "0.72.0"
   resolved "https://registry.npmjs.org/@types/react-native/-/react-native-0.72.0.tgz#d19f0115936129caca770618af82b16e15ea8bec"
   integrity sha512-g1PJXUQ0SnYTimfTeN9dRqj8VfzvgJjt/eakEH7+tlm/ZiEPiL9xCool4iKmqalthwtM0/BkGhjwrKnJyg1JDA==
   dependencies:
     "@react-native/virtualized-lists" "^0.72.4"
+    "@types/react" "*"
+
+"@types/react-native@^0.70":
+  version "0.70.13"
+  resolved "https://registry.npmjs.org/@types/react-native/-/react-native-0.70.13.tgz#a38a1378e68dc25fe5911b09c49b8afffe191316"
+  integrity sha512-VnC/ny8Eynk3fvY4cnNKXpo/0zUhA2gO64RX51yzVofblOP6TR6jciga0kIjI4c+2eUyWNGrahmiolNm+QU6Cw==
+  dependencies:
     "@types/react" "*"
 
 "@types/react-native@~0.67.2":

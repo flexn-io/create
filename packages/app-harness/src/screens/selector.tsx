@@ -6,7 +6,7 @@ import { getScaledValue } from '@rnv/renative';
 import Screen from './screen';
 import { Button } from '../components/Button';
 
-const Selector = ({ navigation }) => {
+const Selector = ({ navigation }: any) => {
     return (
         <Screen style={{ backgroundColor: '#222222', flex: 1 }}>
             <ScrollView contentContainerStyle={{ flex: 1 }}>

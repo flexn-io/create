@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { Lightning, Router } from '@lightningjs/sdk';
 import { LAYOUT, ROUTES, THEME_DARK, THEME } from '../config';
-import { getRandomData, getHexColor } from '../utils';
+import { getHexColor, getRandomItem } from '../utils';
 import Button from '../components/button.lng';
 
 export default class Details extends Lightning.Component {
@@ -44,7 +44,7 @@ export default class Details extends Lightning.Component {
     }
 
     set params(params) {
-        const { backgroundImage, title } = getRandomData(params.row, params.index);
+        const { backgroundImage, title } = getRandomItem(params.row, params.index);
         this.patch({
             src: backgroundImage,
             Text: { text: { text: title } },

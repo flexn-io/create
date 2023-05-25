@@ -31,4 +31,17 @@ declare module 'react-native' {
             commandArgs?: Array<any>
         ) => void;
     }
+
+    export const TVMenuControl: {
+        enableTVMenuKey(): void;
+        disableTVMenuKey(): void;
+    };
 }
+
+declare global {
+    const perfomance: any;
+    //eslint-disable-next-line no-var
+    var nativePerformanceNow: any;
+}
+
+export default {};
