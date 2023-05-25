@@ -68,6 +68,7 @@ const capabilities = {
     macos: [
         {
             platformName: 'Mac',
+            deviceName: 'macOS',
             automationName: 'Mac2',
             bundleId: 'my.bundleId',
         },
@@ -431,7 +432,7 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.expectToMatchElementById(selector, tag, acceptableMismatch)
+FlexnRunner.expectToMatchElementById(selector, tag, acceptableMismatch);
 ```
 
 **Arguments**
@@ -453,7 +454,7 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.expectToMatchElementByText(selector, tag, acceptableMismatch)
+FlexnRunner.expectToMatchElementByText(selector, tag, acceptableMismatch);
 ```
 
 **Arguments**
@@ -475,7 +476,7 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.expectToMatchScreen(tag, acceptableMismatch)
+FlexnRunner.expectToMatchScreen(tag, acceptableMismatch);
 ```
 
 **Arguments**
@@ -616,7 +617,7 @@ Supported on all platforms.
 **Usage**
 
 ```javascript
-FlexnRunner.expectToHaveTextById(selector, text)
+FlexnRunner.expectToHaveTextById(selector, text);
 ```
 
 **Arguments**
