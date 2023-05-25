@@ -26,6 +26,7 @@
         "type": "git",
         "url": "git+https://github.com/flexn-io/create.git"
     },
+    "main": "index",
     "scripts": {
         "bootstrap": "cd ../.. && yarn bootstrap",
         "build": "tsc --noEmit",
@@ -127,6 +128,7 @@
     "dependencies:doNotUseInTemplate": {},
     "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc",
     "dependencies": {
-        "require": "^2.4.20"
+        "require": "^2.4.20",
+        "@lightningjs/sdk": "5.2.0"
     }
 }

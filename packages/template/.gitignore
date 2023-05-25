@@ -54,3 +54,6 @@ platformBuilds/template_webos
 platformBuilds/template_webos
 
 .rollup.cache
+
+platformBuilds/app_tizen
+platformBuilds/app_tizen
