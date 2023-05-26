@@ -22,6 +22,7 @@ const EVENT_TYPE_RIGHT = 'right';
 const EVENT_TYPE_LEFT = 'left';
 const EVENT_TYPE_DOWN = 'down';
 const EVENT_TYPE_UP = 'up';
+const EVENT_TYPE_D = 'd';
 
 const IS_ANDROID_BASED = isPlatformAndroidtv || isPlatformFiretv;
 
@@ -117,8 +118,7 @@ class KeyHandler {
     private onKeyDown(eventType: string) {
         // console.log('direction', eventType)
 
-        // if (eventType === 'playPause' || eventType === 'select') {
-        if (eventType === 'playPause') {
+        if (eventType === 'playPause' || eventType === EVENT_TYPE_D) {
             Logger.getInstance().debug(CoreManager);
             CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
         }
