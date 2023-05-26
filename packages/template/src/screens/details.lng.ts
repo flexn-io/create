@@ -6,12 +6,19 @@ import Button from '../components/button.lng';
 
 interface DetailsTemplateSpec extends Lightning.Component.TemplateSpec {
     Text: { text: { textColor: number } };
-    Button1: { text: { textColor: number } };
-    Button2: { text: { textColor: number } };
+    Button1: typeof Button;
+    Button2: typeof Button;
 }
 
-export default class Details extends Lightning.Component<DetailsTemplateSpec> {
-    static override _template() {
+export interface DetailsTypeConfig extends Lightning.Component.TypeConfig {
+    IsPage: true;
+}
+
+export default class Details
+    extends Lightning.Component<DetailsTemplateSpec, DetailsTypeConfig>
+    implements Lightning.Component.ImplementTemplateSpec<DetailsTemplateSpec>
+{
+    static override _template(): Lightning.Component.Template<DetailsTemplateSpec> {
         return {
             rect: true,
             color: getHexColor('#FFFFFF'),
@@ -49,8 +56,8 @@ export default class Details extends Lightning.Component<DetailsTemplateSpec> {
         };
     }
 
-    set params(params: { row: any; index: number }) {
-        const { backgroundImage, title } = getRandomItem(params.row, params.index)!;
+    override set params(params: { row: any; index: string }) {
+        const { backgroundImage, title } = getRandomItem(params.row, parseInt(params.index))!;
         this.patch({
             src: backgroundImage,
             Text: { text: { text: title } },
@@ -95,7 +102,7 @@ export default class Details extends Lightning.Component<DetailsTemplateSpec> {
         }
     }
 
-    _getFocused() {
+    override _getFocused() {
         return this.focusIndex === 0 ? this.tag('Button1') : this.tag('Button2');
     }
 }

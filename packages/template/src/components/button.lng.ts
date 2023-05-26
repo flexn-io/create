@@ -2,8 +2,22 @@ import { Lightning } from '@lightningjs/sdk';
 import { THEME } from '../config';
 import { getHexColor } from '../utils';
 
-class Button extends Lightning.Component {
-    static _template() {
+interface ButtonTemplateSpec extends Lightning.Component.TemplateSpec {
+    Button: {
+        Ok: object;
+    };
+    Text: object;
+    title: string;
+}
+
+class Button
+    extends Lightning.Component<ButtonTemplateSpec>
+    implements Lightning.Component.ImplementTemplateSpec<ButtonTemplateSpec>
+{
+    Button = this.getByRef('Button')!;
+    Text = this.getByRef('Text')!;
+
+    static _template(): Lightning.Component.ImplementTemplateSpec<ButtonTemplateSpec> {
         return {
             rect: true,
             w: (w: number) => w * 0.8,
