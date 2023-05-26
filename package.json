@@ -138,12 +138,6 @@
     "workspaces": {
         "packages": [
             "packages/*"
-        ],
-        "nohoist": [
-            "**/@lightningjs/sdk",
-            "**/@lightningjs/sdk/**",
-            "**/@lightningjs/cli",
-            "**/@lightningjs/cli/**"
         ]
     },
     "resolutions": {
