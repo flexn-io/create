@@ -1,7 +1,18 @@
+import { Dimensions } from 'react-native';
 import FocusModel from '../model/FocusModel';
-import { DIRECTION_UP, DIRECTION_LEFT, DIRECTION_RIGHT, DEFAULT_VIEWPORT_OFFSET, DIRECTION_DOWN } from '../constants';
+import {
+    DIRECTION_UP,
+    DIRECTION_LEFT,
+    DIRECTION_RIGHT,
+    DEFAULT_VIEWPORT_OFFSET,
+    DIRECTION_DOWN,
+    DIRECTION_HORIZONTAL,
+    DIRECTION_VERTICAL,
+} from '../constants';
 import ScrollView from '../model/scrollview';
 import Recycler from '../model/recycler';
+
+const { width: screenWidth } = Dimensions.get('screen');
 
 class Scroller {
     public calculateAndScrollToTarget(direction: string, contextParameters: any) {
@@ -35,8 +46,6 @@ class Scroller {
 
             if (scrollTarget) {
                 if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
-                    // console.log(p.node);
-
                     p.node.current.scrollTo(scrollTarget);
                 }
             }
@@ -70,11 +79,14 @@ class Scroller {
     private calculateScrollViewTarget(direction: string, scrollView: ScrollView, contextParameters: any) {
         const { currentFocus }: { currentFocus: FocusModel } = contextParameters;
         const currentLayout = currentFocus.getLayout();
-        const scrollTarget = { x: scrollView.getScrollOffsetX(), y: scrollView.getScrollOffsetY() };
-
         const horizontalViewportOffset =
             currentFocus.getScreen()?.getHorizontalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
         const verticalViewportOffset = currentFocus.getScreen()?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
+
+        const scrollTarget = {
+            x: scrollView.getScrollOffsetX(),
+            y: scrollView.getScrollOffsetY(),
+        };
 
         switch (true) {
             case DIRECTION_RIGHT.includes(direction):
@@ -93,7 +105,6 @@ class Scroller {
                 {
                     if (!scrollView.isHorizontal() && currentLayout.yMin < scrollView.getScrollOffsetY()) {
                         scrollTarget.y = currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin;
-                        // console.log(scrollTarget, { direction });
                     }
 
                     scrollTarget.x = Math.min(
@@ -108,6 +119,12 @@ class Scroller {
                         currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin,
                         scrollView.getScrollOffsetY()
                     );
+
+                    const mathFunc = currentFocus.getLayout().absolute.xMax >= screenWidth ? Math.max : Math.min;
+                    scrollTarget.x = mathFunc(
+                        currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset,
+                        scrollView.getScrollOffsetX()
+                    );
                 }
                 break;
             case DIRECTION_DOWN.includes(direction):
@@ -115,6 +132,12 @@ class Scroller {
                     scrollTarget.y = Math.max(
                         currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin,
                         scrollView.getScrollOffsetY()
+                    );
+
+                    const mathFunc = currentFocus.getLayout().absolute.xMax >= screenWidth ? Math.max : Math.min;
+                    scrollTarget.x = mathFunc(
+                        currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset,
+                        scrollView.getScrollOffsetX()
                     );
                 }
                 break;
@@ -124,6 +147,26 @@ class Scroller {
 
         if (scrollTarget.x < 0) scrollTarget.x = 0;
         if (scrollTarget.y < 0) scrollTarget.y = 0;
+
+        // If scroll direction is being changed from vertical to horizontal and it's still
+        // does not finished scroll action, we wait for vertical scrolling to be completed
+        if (scrollView.isScrollingVertically() && DIRECTION_HORIZONTAL.includes(direction)) {
+            return null;
+        }
+
+        // If scroll target does match new requested scroll target we skip
+        // new scroll action and wait for current scroll target to be executed
+        if (
+            scrollView.getLayout()['scrollTargetY'] === scrollTarget.y &&
+            scrollView.getLayout()['scrollTargetX'] === scrollTarget.x &&
+            DIRECTION_VERTICAL.includes(direction)
+        ) {
+            return null;
+        }
+
+        scrollView
+            .updateLayoutProperty('scrollTargetY', scrollTarget.y)
+            .updateLayoutProperty('scrollTargetX', scrollTarget.x);
 
         return scrollTarget;
     }

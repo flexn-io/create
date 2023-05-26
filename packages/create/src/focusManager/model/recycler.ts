@@ -177,6 +177,14 @@ class RecyclerView extends AbstractFocusModel {
     public scrollToInitialRenderIndex(): void {
         //TODO: implement
     }
+
+    public isScrollingVertically(): boolean {
+        return false;
+    }
+
+    public isScrollingHorizontally(): boolean {
+        return false;
+    }
 }
 
 export default RecyclerView;
