@@ -4,12 +4,12 @@ export const getWidth = () => {
     return Dimensions.get('window').width * (isPlatformAndroidtv ? 2 : 1);
 };
 
-export {
-    isPlatformIos,
-    isPlatformMacos,
-    isPlatformTvos,
-    isPlatformWeb,
-    isFactorMobile,
-    isPlatformTizen,
-    isPlatformWebos,
-} from '@rnv/renative';
+// export {
+//     isPlatformIos,
+//     isPlatformMacos,
+//     isPlatformTvos,
+//     isPlatformWeb,
+//     isFactorMobile,
+//     isPlatformTizen,
+//     isPlatformWebos,
+// } from '@rnv/renative';

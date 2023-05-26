@@ -1,10 +1,10 @@
 import { Router, Utils } from '@lightningjs/sdk';
 import { ROUTES } from '../config';
 
-import HomeScreen from '../screens/home';
-import DetailScreen from '../screens/details';
-import ModalScreen from '../screens/modal';
-import CarouselsScreen from '../screens/carousels';
+import HomeScreen from '../screens/home.lng';
+import DetailScreen from '../screens/details.lng';
+import ModalScreen from '../screens/modal.lng';
+import CarouselsScreen from '../screens/carousels.lng';
 import SideMenu from '../components/menu';
 
 export default class App extends Router.App {
@@ -22,17 +22,17 @@ export default class App extends Router.App {
                 {
                     path: ROUTES.HOME,
                     component: HomeScreen,
-                    widgets: ['SideMenu'],
+                    widgets: ['side-menu'],
                 },
                 {
                     path: ROUTES.DETAILS,
                     component: DetailScreen,
-                    widgets: ['SideMenu'],
+                    widgets: ['side-menu'],
                 },
                 {
                     path: ROUTES.CAROUSELS,
                     component: CarouselsScreen,
-                    widgets: ['SideMenu'],
+                    widgets: ['side-menu'],
                 },
                 {
                     path: ROUTES.MODAL,

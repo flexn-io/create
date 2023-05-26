@@ -12,12 +12,11 @@ export const getWidth = () => {
     return LAYOUT.w;
 };
 
-export {
-    isPlatformIos,
-    isPlatformMacos,
-    isPlatformTvos,
-    isPlatformWeb,
-    isFactorMobile,
-    isPlatformTizen,
-    isPlatformWebos,
-};
+export // isPlatformIos,
+// isPlatformMacos,
+// isPlatformTvos,
+// isPlatformWeb,
+// isFactorMobile,
+// isPlatformTizen,
+// isPlatformWebos,
+ {};

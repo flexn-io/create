@@ -109,6 +109,8 @@ class SideMenu extends Lightning.Component {
         };
     }
 
+    private focusIndex = 0;
+
     _init() {
         this.focusIndex = 0;
     }
@@ -134,7 +136,7 @@ class SideMenu extends Lightning.Component {
         ];
     }
 
-    onThemeChanged(theme) {
+    onThemeChanged(theme: string) {
         this._setState(theme === THEME_LIGHT ? 'LightTheme' : 'DarkTheme');
     }
 
@@ -171,7 +173,7 @@ class SideMenu extends Lightning.Component {
         Router.navigate(routes[this.focusIndex]);
     }
 
-    _animate(shouldOpen) {
+    _animate(shouldOpen: boolean) {
         this.tag('Container').children.forEach((ch) => {
             ch.patch({ visible: shouldOpen });
         });

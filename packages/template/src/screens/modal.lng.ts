@@ -13,7 +13,7 @@ export default class Modal extends Lightning.Component {
             Close: {
                 w: 40,
                 h: 40,
-                x: (x) => x - 90,
+                x: (x: number) => x - 90,
                 y: 50,
                 src: Utils.asset('close-90.png'),
             },
@@ -36,8 +36,12 @@ export default class Modal extends Lightning.Component {
         this.patch({ color, Text: { text: { textColor } } });
     }
 
-    _getFocused() {
-        this.tag('Close');
+    override _getFocused() {
+        if (!this.child) {
+            this._notifyOnItemCreation = true;
+        } else {
+            return this.child;
+        }
     }
 
     _focus() {

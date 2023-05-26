@@ -1,11 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 import { Lightning, Router } from '@lightningjs/sdk';
 import { List } from '@flexn/create';
-import { getHexColor, interval, generateRandomItemsRow } from '../utils';
+import { getHexColor, interval, generateRandomItemsRow, DataItem } from '../utils';
 import { LAYOUT, THEME_LIGHT } from '../config';
 import { ROUTES } from '../config.lng';
+
 export default class Carousels extends Lightning.Component {
-    static _template() {
+    static override _template() {
         return {
             rect: true,
             color: getHexColor('#FFFFFF'),
@@ -69,7 +70,7 @@ export default class Carousels extends Lightning.Component {
         this.patch({ color });
     }
 
-    _onPress(data) {
+    _onPress(data: DataItem) {
         Router.navigate(ROUTES.DETAILS, { row: data.rowNumber, index: data.index });
     }
 
