@@ -6,12 +6,12 @@ import { recalculateLayout } from '../layoutManager';
 import Scroller from './scroller';
 import Screen from '../model/screen';
 import View from '../model/view';
-import RecyclerView from '../model/recycler';
 
 import Logger from './logger';
-import FocusModel, { TYPE_RECYCLER } from '../model/FocusModel';
+import FocusModel, { TYPE_ROW } from '../model/FocusModel';
 import { DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP } from '../constants';
 import { ClosestNodeOutput, ForbiddenFocusDirections } from '../types';
+import Row from '../model/row';
 class CoreManager {
     public _focusAwareElements: Record<string, FocusModel>;
     public _views: Record<string, View>;
@@ -262,10 +262,9 @@ class CoreManager {
                 currentFocus.getParent()?.onBlur();
                 closestView.getParent()?.onFocus();
 
-                if (closestView.getParent()?.getType() === TYPE_RECYCLER) {
-                    const parent = closestView.getParent() as RecyclerView;
-
-                    closestView = parent.getFocusedView() ?? closestView;
+                if (closestView.getParent()?.getType() === TYPE_ROW) {
+                    const parent = closestView.getParent() as Row;
+                    closestView = parent.getLastFocused() ?? closestView;
                 }
             }
 
