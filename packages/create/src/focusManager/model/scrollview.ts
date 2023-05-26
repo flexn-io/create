@@ -7,6 +7,8 @@ class ScrollView extends AbstractFocusModel {
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
     private _isHorizontal: boolean;
+    private _isScrollingHorizontally: boolean;
+    private _isScrollingVertically: boolean;
 
     constructor(params: any) {
         super(params);
@@ -20,6 +22,8 @@ class ScrollView extends AbstractFocusModel {
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;
         this._isScrollable = true;
+        this._isScrollingHorizontally = false;
+        this._isScrollingVertically = false;
 
         this._onMount = this._onMount.bind(this);
         this._onUnmount = this._onUnmount.bind(this);
@@ -71,6 +75,26 @@ class ScrollView extends AbstractFocusModel {
 
     public isHorizontal(): boolean {
         return this._isHorizontal;
+    }
+
+    public setIsScrollingHorizontally(value: boolean): this {
+        this._isScrollingHorizontally = value;
+
+        return this;
+    }
+
+    public setIsScrollingVertically(value: boolean): this {
+        this._isScrollingVertically = value;
+
+        return this;
+    }
+
+    public isScrollingVertically(): boolean {
+        return this._isScrollingVertically;
+    }
+
+    public isScrollingHorizontally(): boolean {
+        return this._isScrollingHorizontally;
     }
 }
 

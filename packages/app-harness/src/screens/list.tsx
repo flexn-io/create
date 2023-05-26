@@ -1,8 +1,20 @@
-//@ts-nocheck
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { ScrollView, View, FlashList, Pressable, Image } from '@flexn/create';
+import { View, FlashList, Pressable, Image, ScrollView, CreateListRenderItemInfo } from '@flexn/create';
 import Screen from './screen';
+import { Ratio } from '../utils';
+
+const border = {
+    type: 'border',
+    focus: {
+        borderWidth: Ratio(8),
+        borderColor: 'blue',
+    },
+    blur: {
+        borderWidth: Ratio(4),
+        borderColor: '#FFFFFF',
+    },
+};
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -23,100 +35,54 @@ function generateData(width, height, items = 30) {
     return temp;
 }
 
-const List = ({ estimatedRowHeight, data, rowRenderer, parentContext }) => {
-    const initialRenderIndex = 5;
-    const [renderStack, setRenderStack] = useState([]);
-    const [renderedBoundaries, setRenderedBoundaries] = useState([0, 5]);
-
-    useEffect(() => {
-        const initialData = data.slice(0, initialRenderIndex);
-        const stack = [];
-        initialData.forEach((d) => {
-            stack.push(rowRenderer(d));
-        });
-        setRenderStack(stack);
-    }, []);
-
-    useEffect(() => {
-        if (renderedBoundaries[1] === 5) return;
-
-        const renderData = data.slice(renderedBoundaries[1], renderedBoundaries[1] + 1);
-        const stack = renderStack;
-        renderData.forEach((d) => {
-            stack.push(rowRenderer(d));
-        });
-        setRenderStack(stack);
-    }, [renderedBoundaries]);
-
-    const onScroll = () => {
-        setRenderedBoundaries([renderedBoundaries[1] + 1 - initialRenderIndex, renderedBoundaries[1] + 1]);
-    };
-
-    // console.log({ renderStack });
-    return (
-        <ScrollView
-            parentContext={parentContext}
-            onScroll={onScroll}
-            contentContainerStyle={{ height: estimatedRowHeight * data.length }}
-        >
-            {renderStack}
-        </ScrollView>
-    );
-};
-
 const Row = () => {
-    const [data] = useState([
-        generateData(200, 200, 100),
-        generateData(200, 200, 100),
-        generateData(200, 200, 100),
-        generateData(200, 200, 100),
-        generateData(200, 200, 100),
-        generateData(200, 200, 100),
-        generateData(200, 200, 100),
-        generateData(200, 200, 100),
-        generateData(200, 200, 100),
-        generateData(200, 200, 100),
-        generateData(200, 200, 100),
-    ]);
-    // const [data2] = useState(generateData(200, 200, 100));
+    const [list] = useState(Array(12).fill(generateData(Ratio(200), Ratio(200), 15)));
 
-    const rowRenderer = ({ item }, contextInfo) => {
+    const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
         return (
-            <Pressable style={styles.packshot} focusRepeatContext={contextInfo}>
+            <Pressable
+                style={styles.packshot}
+                focusRepeatContext={focusRepeatContext}
+                focusOptions={{ animatorOptions: border }}
+            >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>
         );
     };
 
-    const listRowRenderer = (data) => {
-        return (
-            <View style={styles.view}>
-                <FlashList data={data} rowRenderer={rowRenderer} horizontal />
-            </View>
-        );
-    };
-
     return (
         <Screen style={{ backgroundColor: '#222222' }}>
-            <List data={data} renderItem={listRowRenderer} estimatedRowHeight={200} />
+            <ScrollView>
+                <View style={{ top: 20, flex: 1, paddingBottom: 20 }}>
+                    {list.map((listData, index) => (
+                        <FlashList
+                            key={index}
+                            data={listData}
+                            renderItem={rowRenderer}
+                            horizontal
+                            type="row"
+                            estimatedItemSize={Ratio(200)}
+                            style={{ flex: 1, marginVertical: Ratio(10) }}
+                        />
+                    ))}
+                </View>
+            </ScrollView>
         </Screen>
     );
 };
 
 const styles = StyleSheet.create({
     packshot: {
-        width: 200,
-        height: 200,
+        width: Ratio(200),
+        height: Ratio(200),
         // borderColor: 'red',
         // borderWidth: 1,
-        margin: 5,
+        margin: Ratio(5),
+        // borderWidth: 2,
     },
     image: {
         width: '100%',
         height: '100%',
-    },
-    view: {
-        marginVertical: 10,
     },
 });
 
