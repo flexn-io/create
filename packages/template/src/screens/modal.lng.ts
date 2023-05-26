@@ -3,8 +3,22 @@ import { Lightning, Utils, Router } from '@lightningjs/sdk';
 import { LAYOUT, THEME_LIGHT, THEME } from '../config';
 import { getHexColor } from '../utils';
 
-export default class Modal extends Lightning.Component {
-    static _template() {
+interface ModalTemplateSpec extends Lightning.Component.TemplateSpec {
+    color: number;
+    Text: object;
+    Close: object;
+}
+
+export interface ModelTypeConfig extends Lightning.Component.TypeConfig {
+    IsPage: true;
+}
+export default class Modal
+    extends Lightning.Component<ModalTemplateSpec, ModelTypeConfig>
+    implements Lightning.Component.ImplementTemplateSpec<ModalTemplateSpec>
+{
+    Close = this.getByRef('Close')!;
+
+    static _template(): Lightning.Component.Template<ModalTemplateSpec> {
         return {
             rect: true,
             w: LAYOUT.w,
@@ -47,7 +61,7 @@ export default class Modal extends Lightning.Component {
     }
 
     _focus() {
-        this.tag('Close').patch({ smooth: { scale: 1.2 } });
+        this.Close.patch({ smooth: { scale: 1.2 } });
     }
 
     _handleEnter() {

@@ -11,7 +11,12 @@ interface HomeTemplateSpec extends Lightning.Component.TemplateSpec {
     color: number;
     widgets: object;
     Button0: typeof Button;
-    Button1: object;
+    Button1: typeof Button;
+    Icons: Array<object>;
+}
+
+export interface HomeTypeConfig extends Lightning.Component.TypeConfig {
+    IsPage: true;
 }
 
 class Icon extends Lightning.Component {
@@ -32,7 +37,10 @@ class Icon extends Lightning.Component {
         this.smooth = { scale: 1 };
     }
 }
-export default class Home extends Lightning.Component<HomeTemplateSpec> {
+export default class Home
+    extends Lightning.Component<HomeTemplateSpec, HomeTypeConfig>
+    implements Lightning.Component.ImplementTemplateSpec<HomeTemplateSpec>
+{
     static _template() {
         return {
             rect: true,
@@ -186,7 +194,7 @@ export default class Home extends Lightning.Component<HomeTemplateSpec> {
     }
 
     _getFocused() {
-        if (this.focusIndex <= 1) {
+        if (this.focusIndex === 0 || this.focusIndex === 1) {
             return this.tag(`Button${this.focusIndex}`);
         }
 

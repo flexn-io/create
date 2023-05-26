@@ -8,6 +8,8 @@ interface ButtonTemplateSpec extends Lightning.Component.TemplateSpec {
     };
     Text: object;
     title: string;
+    opacity: number;
+    textColor: number;
 }
 
 class Button
