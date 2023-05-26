@@ -9,7 +9,8 @@ window.theme = THEME_LIGHT;
 
 interface HomeTemplateSpec extends Lightning.Component.TemplateSpec {
     color: number;
-    Button0: { textColor: number; opacity: number };
+    widgets: object;
+    Button0: typeof Button;
     Button1: object;
 }
 
@@ -101,7 +102,7 @@ export default class Home extends Lightning.Component<HomeTemplateSpec> {
     }
 
     private focusIndex = 0;
-    private widgets?: object;
+    // private widgets?: object;
 
     _construct() {
         this.focusIndex = 0;

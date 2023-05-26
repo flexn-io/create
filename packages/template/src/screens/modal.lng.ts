@@ -36,6 +36,8 @@ export default class Modal extends Lightning.Component {
         this.patch({ color, Text: { text: { textColor } } });
     }
 
+    private _notifyOnItemCreation = false;
+
     override _getFocused() {
         if (!this.child) {
             this._notifyOnItemCreation = true;

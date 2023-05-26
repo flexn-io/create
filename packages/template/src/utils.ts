@@ -1,4 +1,5 @@
-import { isPlatformIos, isPlatformMacos, isPlatformTvos, isPlatformWeb, getWidth } from './imports';
+import { isPlatformIos, isPlatformMacos, isPlatformTvos, isPlatformWeb } from '@rnv/renative';
+import { getWidth } from './config';
 
 export function testProps(testId: string | undefined) {
     if (!testId) {

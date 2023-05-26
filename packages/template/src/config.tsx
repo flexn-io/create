@@ -19,7 +19,7 @@ import {
     isEngineRnWindows,
 } from '@rnv/renative';
 import '../platformAssets/runtime/fontManager';
-import { StaticTheme, Theme } from './configTypes';
+import { StaticTheme, Theme } from './types';
 //@ts-ignore
 import ICON_LOGO from '../platformAssets/runtime/logo.png';
 
@@ -370,3 +370,7 @@ export const THEME_DARK = 'dark';
 export { ICON_LOGO };
 
 export default staticThemes.dark;
+
+export const getWidth = () => {
+    return Dimensions.get('window').width * (isPlatformAndroidtv ? 2 : 1);
+};
