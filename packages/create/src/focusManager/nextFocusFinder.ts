@@ -205,11 +205,11 @@ export const distCalc = (currentClosestNodeOutput: ClosestNodeOutput, direction:
 
     const output: ClosestNodeOutput = { ...currentClosestNodeOutput };
 
-    console.log({
-        priority,
-        dist,
-        next: next.getId(),
-    });
+    // console.log({
+    //     priority,
+    //     dist,
+    //     next: next.getId(),
+    // });
 
     switch (priority) {
         case 'p1':
