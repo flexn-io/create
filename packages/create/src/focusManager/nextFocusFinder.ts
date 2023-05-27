@@ -4,15 +4,17 @@ import View from './model/view';
 import { ClosestNodeOutput } from './types';
 
 const OVERLAP_THRESHOLD_PERCENTAGE = 20;
-const OVERLAP_NEXT_VALUE = 10;
+const OVERLAP_NEXT_VALUE = 30;
+export const INTERSECTION_MARGIN_VERTICAL = 200;
+export const INTERSECTION_MARGIN_HORIZONTAL = 50;
 
 const nextOverlapValue = (currentSize: number): number => {
     return (currentSize * OVERLAP_NEXT_VALUE) / 100;
 };
 
-const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: number, endOfNext: number) => {
-    const a1 = guideLine - sizeOfCurrent * 0.5;
-    const a2 = guideLine + sizeOfCurrent * 0.5;
+const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: number, endOfNext: number, intersectionMargin = 0, overlapThreshold = OVERLAP_THRESHOLD_PERCENTAGE) => {
+    const a1 = (guideLine - sizeOfCurrent * 0.5) - intersectionMargin;
+    const a2 = (guideLine + sizeOfCurrent * 0.5) + intersectionMargin;
 
     const c1 = a1 >= startOfNext && a1 <= endOfNext;
     const c2 = a2 >= startOfNext && a2 <= endOfNext;
@@ -20,12 +22,12 @@ const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: numbe
 
     if (c1) {
         const ixValue = ((endOfNext - a1) * 100) / sizeOfCurrent;
-        return ixValue >= OVERLAP_THRESHOLD_PERCENTAGE;
+        return ixValue >= overlapThreshold;
     }
 
     if (c2) {
         const ixValue = ((a2 - startOfNext) * 100) / sizeOfCurrent;
-        return ixValue >= OVERLAP_THRESHOLD_PERCENTAGE;
+        return ixValue >= overlapThreshold;
     }
 
     if (c3) return true;
@@ -94,7 +96,18 @@ const closestDist = (current: View, next: View, direction: string): [string, num
                     return ['p1', euclideanDistance(current, next, 'up')];
                 }
 
-                return ['p2', euclideanDistance(current, next, 'up')];
+                const isIntersectsWithMargins = intersects(
+                    currentLayout.xCenter,
+                    current.getLayout().width,
+                    nextLayout.xMin,
+                    nextLayout.xMax,
+                    INTERSECTION_MARGIN_VERTICAL,
+                    0
+                );
+
+                if (isIntersectsWithMargins) {
+                    return ['p2', euclideanDistance(current, next, 'up')];
+                }
             }
 
             break;
@@ -111,7 +124,18 @@ const closestDist = (current: View, next: View, direction: string): [string, num
                     return ['p1', euclideanDistance(current, next, 'down')];
                 }
 
-                return ['p2', euclideanDistance(current, next, 'down')];
+                const isIntersectsWithMargins = intersects(
+                    currentLayout.xCenter,
+                    current.getLayout().width,
+                    nextLayout.xMin,
+                    nextLayout.xMax,
+                    INTERSECTION_MARGIN_VERTICAL,
+                    0
+                );
+
+                if (isIntersectsWithMargins) {
+                    return ['p2', euclideanDistance(current, next, 'down')];
+                }
             }
             break;
         }
@@ -127,7 +151,18 @@ const closestDist = (current: View, next: View, direction: string): [string, num
                     return ['p1', euclideanDistance(current, next, 'left')];
                 }
 
-                return ['p2', euclideanDistance(current, next, 'left')];
+                const isIntersectsWithMargins = intersects(
+                    currentLayout.yCenter,
+                    current.getLayout().height,
+                    nextLayout.yMin,
+                    nextLayout.yMax,
+                    INTERSECTION_MARGIN_HORIZONTAL,
+                    0
+                );
+
+                if (isIntersectsWithMargins) {
+                    return ['p2', euclideanDistance(current, next, 'left')];
+                }
             }
             break;
         }
@@ -143,7 +178,18 @@ const closestDist = (current: View, next: View, direction: string): [string, num
                     return ['p1', euclideanDistance(current, next, 'right')];
                 }
 
-                return ['p2', euclideanDistance(current, next, 'right')];
+                const isIntersectsWithMargins = intersects(
+                    currentLayout.yCenter,
+                    current.getLayout().height,
+                    nextLayout.yMin,
+                    nextLayout.yMax,
+                    INTERSECTION_MARGIN_HORIZONTAL,
+                    0
+                );
+
+                if (isIntersectsWithMargins) {
+                    return ['p2', euclideanDistance(current, next, 'right')];
+                }
             }
             break;
         }
@@ -159,11 +205,11 @@ export const distCalc = (currentClosestNodeOutput: ClosestNodeOutput, direction:
 
     const output: ClosestNodeOutput = { ...currentClosestNodeOutput };
 
-    // console.log({
-    //     priority,
-    //     dist,
-    //     next: next.getId(),
-    // });
+    console.log({
+        priority,
+        dist,
+        next: next.getId(),
+    });
 
     switch (priority) {
         case 'p1':

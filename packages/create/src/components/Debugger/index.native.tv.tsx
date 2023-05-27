@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, Dimensions, View as RNView } from 'react-native';
 import CoreManager from '../../focusManager/service/core';
+import { INTERSECTION_MARGIN_HORIZONTAL, INTERSECTION_MARGIN_VERTICAL } from '../../focusManager/nextFocusFinder';
 import AbstractFocusModel from '../../focusManager/model/FocusModel';
 import View from '../../focusManager/model/view';
 
@@ -81,6 +82,52 @@ export default function FocusDebugger() {
                             }}
                         />
                     );
+
+                    if (CoreManager.getCurrentFocus()?.getId() === ctx.getId()) {
+                        const a1 = (ctx.getLayout().absolute.xCenter - ctx.getLayout().width * 0.5) - INTERSECTION_MARGIN_VERTICAL;
+                        const a2 = (ctx.getLayout().absolute.xCenter + ctx.getLayout().width * 0.5) + INTERSECTION_MARGIN_VERTICAL;
+                        const a3 = (ctx.getLayout().absolute.yCenter - ctx.getLayout().height * 0.5) - INTERSECTION_MARGIN_HORIZONTAL;
+                        const a4 = (ctx.getLayout().absolute.yCenter + ctx.getLayout().height * 0.5) + INTERSECTION_MARGIN_HORIZONTAL;
+
+                        contexts.push(
+                            <RNView
+                                style={{
+                                    width: '100%',
+                                    height: 1,
+                                    backgroundColor: 'yellow',
+                                    top: a3,
+                                    position: 'absolute',
+                                }}
+                            />,
+                            <RNView
+                                style={{
+                                    width: '100%',
+                                    height: 1,
+                                    backgroundColor: 'yellow',
+                                    top: a4,
+                                    position: 'absolute',
+                                }}
+                            />,
+                            <RNView
+                                style={{
+                                    width: 1,
+                                    height: '100%',
+                                    backgroundColor: 'green',
+                                    left: a1,
+                                    position: 'absolute',
+                                }}
+                            />,
+                            <RNView
+                                style={{
+                                    width: 1,
+                                    height: '100%',
+                                    backgroundColor: 'green',
+                                    left: a2,
+                                    position: 'absolute',
+                                }}
+                            />
+                        )
+                    }
                 }
             });
 
