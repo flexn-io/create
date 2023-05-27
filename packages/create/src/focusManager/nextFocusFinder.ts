@@ -1,12 +1,13 @@
 // import { Dimensions } from 'react-native';
 // import Logger from './model/logger';
+import { Ratio } from '../helpers';
 import View from './model/view';
 import { ClosestNodeOutput } from './types';
 
 const OVERLAP_THRESHOLD_PERCENTAGE = 20;
 const OVERLAP_NEXT_VALUE = 30;
-export const INTERSECTION_MARGIN_VERTICAL = 200;
-export const INTERSECTION_MARGIN_HORIZONTAL = 50;
+export const INTERSECTION_MARGIN_VERTICAL = Ratio(200);
+export const INTERSECTION_MARGIN_HORIZONTAL = Ratio(50);
 
 const nextOverlapValue = (currentSize: number): number => {
     return (currentSize * OVERLAP_NEXT_VALUE) / 100;
