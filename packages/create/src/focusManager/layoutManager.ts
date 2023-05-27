@@ -93,7 +93,7 @@ const measure = ({
                         if (parentRecycler) {
                             const rLayout = parentRecycler.getLayouts()[repeatContext.index || 0];
                             pgX = parentRecycler.getLayout().xMin + rLayout.x;
-                            pgY = parentRecycler.getLayout().yMin + rLayout.y;
+                            pgY = parentRecycler.getLayout().yMin + model.verticalContentContainerGap() + rLayout.y;
                         }
                     }
                 } else {

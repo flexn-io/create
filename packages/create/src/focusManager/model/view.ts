@@ -13,6 +13,7 @@ class View extends FocusModel {
     private _isFocused: boolean;
     private _focusKey: string;
     private _hasPreferredFocus: boolean;
+    private _verticalContentContainerGap: number;
     private _repeatContext:
         | {
             focusContext: FocusModel;
@@ -34,6 +35,7 @@ class View extends FocusModel {
             onPress,
             focusKey,
             hasPreferredFocus,
+            verticalContentContainerGap = 0
         } = params;
 
         const id = CoreManager.generateID(8);
@@ -46,6 +48,7 @@ class View extends FocusModel {
         this._focusKey = focusKey;
         this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._hasPreferredFocus = hasPreferredFocus;
+        this._verticalContentContainerGap = verticalContentContainerGap;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
@@ -184,6 +187,10 @@ class View extends FocusModel {
 
     public getParentScrollView(): ScrollView | undefined {
         return this._parentScrollView;
+    }
+
+    public verticalContentContainerGap(): number {
+        return this._verticalContentContainerGap;
     }
 }
 
