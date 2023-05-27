@@ -1,6 +1,6 @@
 {
     "name": "app-harness",
-    "version": "0.21.1-alpha.5",
+    "version": "0.21.1-alpha.6",
     "scripts": {
         "bootstrap": "yarn prepare-assets && cd ../.. && yarn bootstrap",
         "build": "tsc --noEmit",
@@ -38,7 +38,7 @@
         "web:release": "npx rnv build -p web -c harness -s release && vercel ./platformBuilds/harness_web/project"
     },
     "dependencies": {
-        "@flexn/create": "0.21.1-alpha.5",
+        "@flexn/create": "0.21.1-alpha.6",
         "@flexn/recyclerlistview": "4.2.4",
         "@flexn/shopify-flash-list": "1.4.5",
         "@lightningjs/cli": "2.7.2",
@@ -85,9 +85,9 @@
         "react-native-windows": "0.67.3"
     },
     "devDependencies": {
-        "@flexn/graybox": "0.21.1-alpha.5",
+        "@flexn/graybox": "0.21.1-alpha.6",
         "@flexn/plugins": "1.0.3",
-        "@flexn/template": "0.21.1-alpha.5",
+        "@flexn/template": "0.21.1-alpha.6",
         "@rnv/engine-lightning": "0.37.0-canary.7",
         "@rnv/engine-rn": "0.37.0-canary.7",
         "@rnv/engine-rn-electron": "0.37.0-canary.7",

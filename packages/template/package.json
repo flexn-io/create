@@ -1,6 +1,6 @@
 {
     "name": "@flexn/template",
-    "version": "0.21.1-alpha.5",
+    "version": "0.21.1-alpha.6",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/create#readme",
@@ -57,8 +57,8 @@
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
     "devDependencies": {
-        "@flexn/create": "0.21.1-alpha.5",
-        "@flexn/graybox": "0.21.1-alpha.5",
+        "@flexn/create": "0.21.1-alpha.6",
+        "@flexn/graybox": "0.21.1-alpha.6",
         "@flexn/plugins": "1.0.3",
         "@flexn/recyclerlistview": "4.2.4",
         "@flexn/shopify-flash-list": "1.4.5",
