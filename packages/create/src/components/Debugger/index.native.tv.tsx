@@ -22,7 +22,7 @@ export default function FocusDebugger() {
         _setEnabled(value);
     };
 
-    const [nextFocus, setNextFocus] = useState({
+    const [nextFocus] = useState({
         right: '',
         left: '',
         up: '',
@@ -66,32 +66,32 @@ export default function FocusDebugger() {
         });
     }, []);
 
-    useEffect(() => {
-        if (enabledRef.current) {
-            const nextRight = getNextFocus('right');
-            const nextLeft = getNextFocus('left');
-            const nextUp = getNextFocus('up');
-            const nextDown = getNextFocus('down');
+    // useEffect(() => {
+    //     if (enabledRef.current) {
+    //         const nextRight = getNextFocus('right');
+    //         const nextLeft = getNextFocus('left');
+    //         const nextUp = getNextFocus('up');
+    //         const nextDown = getNextFocus('down');
 
-            setNextFocus({
-                right: nextRight?.nodeId?.toString() || '',
-                left: nextLeft?.nodeId?.toString() || '',
-                up: nextUp?.nodeId?.toString() || '',
-                down: nextDown?.nodeId?.toString() || '',
-            });
-        }
-    }, [CoreManager._currentFocus?.getId(), enabledRef.current]);
+    //         setNextFocus({
+    //             right: nextRight?.nodeId?.toString() || '',
+    //             left: nextLeft?.nodeId?.toString() || '',
+    //             up: nextUp?.nodeId?.toString() || '',
+    //             down: nextDown?.nodeId?.toString() || '',
+    //         });
+    //     }
+    // }, [CoreManager._currentFocus?.getId(), enabledRef.current]);
 
-    const getNextFocus = (direction: string) => {
-        if (CoreManager._currentFocus) {
-            if (CoreManager._currentFocus.getFocusTaskExecutor(direction)) {
-                const focusExecutor = CoreManager._currentFocus.getFocusTaskExecutor(direction);
-                return focusExecutor?.getNextFocusable(direction);
-            }
+    // const getNextFocus = (direction: string) => {
+    //     if (CoreManager._currentFocus) {
+    //         if (CoreManager._currentFocus.getFocusTaskExecutor(direction)) {
+    //             const focusExecutor = CoreManager._currentFocus.getFocusTaskExecutor(direction);
+    //             return focusExecutor?.getNextFocusable(direction);
+    //         }
 
-            return CoreManager.getNextFocusableContext(direction);
-        }
-    };
+    //         return CoreManager.getNextFocusableContext(direction);
+    //     }
+    // };
 
     const grid = [];
     for (let i = 0; i < 10; i++) {
