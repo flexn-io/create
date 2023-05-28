@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         // borderColor: 'red',
         // borderWidth: 1,
         marginHorizontal: 5,
-        marginVertical: Ratio(50),
+        // marginVertical: Ratio(50),
         // borderWidth: 2,
         // top: 100,
     },

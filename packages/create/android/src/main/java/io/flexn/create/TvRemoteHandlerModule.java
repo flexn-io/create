@@ -27,7 +27,7 @@ public class TvRemoteHandlerModule extends ReactContextBaseJavaModule {
         MapBuilder.<Integer, String>builder()
             .put(KeyEvent.KEYCODE_DPAD_CENTER, "select")
             .put(KeyEvent.KEYCODE_ENTER, "select")
-            .put(KeyEvent.KEYCODE_SPACE, "select")
+            .put(KeyEvent.KEYCODE_SPACE, "space")
             .put(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, "playPause")
             .put(KeyEvent.KEYCODE_MEDIA_REWIND, "rewind")
             .put(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD, "fastForward")
@@ -36,6 +36,16 @@ public class TvRemoteHandlerModule extends ReactContextBaseJavaModule {
             .put(KeyEvent.KEYCODE_DPAD_DOWN, "down")
             .put(KeyEvent.KEYCODE_DPAD_LEFT, "left")
             .put(KeyEvent.KEYCODE_D, "d")
+            .put(KeyEvent.KEYCODE_0, "0")
+            .put(KeyEvent.KEYCODE_1, "1")
+            .put(KeyEvent.KEYCODE_2, "2")
+            .put(KeyEvent.KEYCODE_3, "3")
+            .put(KeyEvent.KEYCODE_4, "4")
+            .put(KeyEvent.KEYCODE_5, "5")
+            .put(KeyEvent.KEYCODE_6, "6")
+            .put(KeyEvent.KEYCODE_7, "7")
+            .put(KeyEvent.KEYCODE_8, "8")
+            .put(KeyEvent.KEYCODE_9, "9")
             .build();
 
     public TvRemoteHandlerModule(ReactApplicationContext reactContext) {

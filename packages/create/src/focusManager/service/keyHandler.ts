@@ -82,17 +82,23 @@ class KeyHandler {
 
     private enableSelectHandler() {
         this.selectHandler.enable(null, (_: any, evt: any) => {
-            const direction = evt.eventType;
-            if (isPlatformTvos) {
-                if (direction === 'select') {
-                    // This can happen if we opened new screen which doesn't have any focusable
-                    // then last screen in context map still keeping focus
-                    const currentFocus = CoreManager.getCurrentFocus();
-                    if (currentFocus && currentFocus?.getScreen()?.isInForeground()) {
-                        currentFocus.onPress();
-                    }
-                }
-            }
+            console.log({ evt })
+            // const direction = evt.eventType;
+            // if (isPlatformTvos) {
+            //     if (direction === 'playPause') {
+            //         Logger.getInstance().debug(CoreManager);
+            //         CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
+            //     }
+
+            //     if (direction === 'select') {
+            //         // This can happen if we opened new screen which doesn't have any focusable
+            //         // then last screen in context map still keeping focus
+            //         const currentFocus = CoreManager.getCurrentFocus();
+            //         if (currentFocus && currentFocus?.getScreen()?.isInForeground()) {
+            //             currentFocus.onPress();
+            //         }
+            //     }
+            // }
         });
     }
 
@@ -111,7 +117,7 @@ class KeyHandler {
 
     private onKeyDown(eventType: string) {
         if (!this._stopKeyDownEvents) {
-            if (IS_ANDROID_BASED && eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
+            if (eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
                 CoreManager.getCurrentFocus()?.onPress();
             }
 
