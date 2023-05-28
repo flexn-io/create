@@ -60,10 +60,20 @@ const View = React.forwardRef<any, ViewProps>(
             if (!focus) {
                 return parent;
             } else {
+                const flattenStyle = StyleSheet.flatten(style);
+
                 return new ViewClass({
                     focus,
                     focusRepeatContext,
                     parent,
+                    verticalContentContainerGap:
+                        flattenStyle.marginVertical ||
+                        flattenStyle.paddingVertical ||
+                        flattenStyle.marginTop ||
+                        flattenStyle.paddingTop ||
+                        flattenStyle.margin ||
+                        flattenStyle.padding ||
+                        flattenStyle.top,
                     ...focusOptions,
                 });
             }
