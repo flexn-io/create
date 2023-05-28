@@ -5,6 +5,7 @@ import ScrollView from './scrollview';
 import Event, { EVENT_TYPES } from '../events';
 import { measureAsync } from '../layoutManager';
 import Row from './row';
+import ViewGroup from './viewGroup';
 
 class View extends FocusModel {
     private _parentRecyclerView?: Recycler;
@@ -192,6 +193,22 @@ class View extends FocusModel {
     public verticalContentContainerGap(): number {
         return this._verticalContentContainerGap;
     }
+
+    public getGroup(): string | undefined {
+        let parent: FocusModel | undefined | null = this.getParent();
+        let group;
+
+        while (parent) {
+            if (parent instanceof ViewGroup) {
+                group = parent.getGroup();
+                parent = null;
+            } else {
+                parent = parent?.getParent();
+            }
+        }
+
+        return group || this.getScreen()?.getGroup();
+    };
 }
 
 export default View;

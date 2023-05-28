@@ -227,13 +227,13 @@ class CoreManager {
         const candidates =
             ownCandidates ??
             Object.values(views).filter(
-                (c) =>
-                    c.isInForeground() &&
-                    c.getId() !== currentFocus.getId() &&
-                    c.getOrder() === this.getCurrentMaxOrder() &&
-                    (this.getCurrentFocus()?.getScreen()?.getGroup()
-                        ? c.getScreen()?.getGroup() === this.getCurrentFocus()?.getScreen()?.getGroup()
-                        : true)
+                (c) => {
+                    const group = this.getCurrentFocus()?.getGroup();
+                    return c.isInForeground() &&
+                        c.getId() !== currentFocus.getId() &&
+                        c.getOrder() === this.getCurrentMaxOrder() &&
+                        (group ? c?.getGroup() === group : true)
+                }
             );
 
         for (let i = 0; i < candidates.length; i++) {
