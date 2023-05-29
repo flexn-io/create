@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { View } from '@flexn/create';
-import { TVMenuControl, StyleSheet } from 'react-native';
+import { disableTVMenuKey, enableTVMenuKey, View } from '@flexn/create';
+import { StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
     NavigationContainer,
@@ -8,7 +8,6 @@ import {
     createNavigatorFactory,
     StackRouter,
 } from '@react-navigation/native';
-import { isPlatformTvos } from '@rnv/renative';
 import ScreenHome from '../screens/home';
 import ScreenCarousels from '../screens/carousels';
 import ScreenDetails from '../screens/details';
@@ -19,7 +18,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const createTVSideNavigator = createNavigatorFactory(Navigator);
 
-function Navigator({ initialRouteName, children, screenOptions, drawerContent, ...rest }) {
+function Navigator({ initialRouteName, children, screenOptions, drawerContent, ...rest }: any) {
     const { state, navigation, descriptors, NavigationContent } = useNavigationBuilder(StackRouter, {
         children,
         screenOptions,
@@ -27,11 +26,9 @@ function Navigator({ initialRouteName, children, screenOptions, drawerContent, .
     });
 
     useEffect(() => {
-        if (isPlatformTvos) {
-            TVMenuControl.enableTVMenuKey();
-            if (state.index === 0) {
-                TVMenuControl.disableTVMenuKey();
-            }
+        enableTVMenuKey();
+        if (state.index === 0) {
+            disableTVMenuKey();
         }
     }, [navigation, state.index]);
 

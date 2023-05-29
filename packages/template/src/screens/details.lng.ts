@@ -1,18 +1,31 @@
 /* eslint-disable no-underscore-dangle */
 import { Lightning, Router } from '@lightningjs/sdk';
 import { LAYOUT, ROUTES, THEME_DARK, THEME } from '../config';
-import { getRandomData, getHexColor } from '../utils';
+import { getHexColor, getRandomItem } from '../utils';
 import Button from '../components/button.lng';
 
-export default class Details extends Lightning.Component {
-    static _template() {
+interface DetailsTemplateSpec extends Lightning.Component.TemplateSpec {
+    Text: { text: { textColor: number } };
+    Button1: typeof Button;
+    Button2: typeof Button;
+}
+
+export interface DetailsTypeConfig extends Lightning.Component.TypeConfig {
+    IsPage: true;
+}
+
+export default class Details
+    extends Lightning.Component<DetailsTemplateSpec, DetailsTypeConfig>
+    implements Lightning.Component.ImplementTemplateSpec<DetailsTemplateSpec>
+{
+    static override _template(): Lightning.Component.Template<DetailsTemplateSpec> {
         return {
             rect: true,
             color: getHexColor('#FFFFFF'),
             w: LAYOUT.w,
             h: LAYOUT.h,
             src: '',
-            flex: { justifyContent: 'center', direction: 'column', alignItems: 'center' },
+            flex: { justifyContent: 'center', direction: 'column', alignItems: 'center' } as const,
             Text: {
                 text: {
                     fontFace: THEME.light.primaryFontFamily,
@@ -43,24 +56,27 @@ export default class Details extends Lightning.Component {
         };
     }
 
-    set params(params) {
-        const { backgroundImage, title } = getRandomData(params.row, params.index);
+    override set params(params: { row: any; index: string }) {
+        const { backgroundImage, title } = getRandomItem(params.row, parseInt(params.index))!;
         this.patch({
             src: backgroundImage,
             Text: { text: { text: title } },
         });
     }
 
+    private focusIndex = 0;
+
     _construct() {
         this.focusIndex = 0;
     }
 
-    _init() {
+    override _init() {
         if (window.theme === THEME_DARK) {
             const white = getHexColor('#FFFFFF');
+
             this.patch({
-                Button1: { textColor: white },
-                Button2: { textColor: white },
+                Button1: { text: { textColor: white } },
+                Button2: { text: { textColor: white } },
                 Text: { text: { textColor: white } },
             });
         }
@@ -86,7 +102,7 @@ export default class Details extends Lightning.Component {
         }
     }
 
-    _getFocused() {
+    override _getFocused() {
         return this.focusIndex === 0 ? this.tag('Button1') : this.tag('Button2');
     }
 }

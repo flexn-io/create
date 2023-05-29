@@ -26,7 +26,7 @@ const CarouselsStack = () => (
     </Stack.Navigator>
 );
 
-const DrawerNavigator = ({ navigation }) => {
+const DrawerNavigator = ({ navigation }: any) => {
     const { theme } = useContext(ThemeContext);
 
     return (

@@ -7,6 +7,22 @@ import packageJson from '../../package.json';
 
 window.theme = THEME_LIGHT;
 
+interface HomeTemplateSpec extends Lightning.Component.TemplateSpec {
+    color: number;
+    widgets: object;
+    Button0: typeof Button;
+    Button1: typeof Button;
+    Icons: {
+        Icon2: typeof Icon;
+        Icon3: typeof Icon;
+        Icon4: typeof Icon;
+    };
+}
+
+export interface HomeTypeConfig extends Lightning.Component.TypeConfig {
+    IsPage: true;
+}
+
 class Icon extends Lightning.Component {
     static _template() {
         return {
@@ -17,7 +33,7 @@ class Icon extends Lightning.Component {
         };
     }
 
-    _focus() {
+    override _focus() {
         this.smooth = { scale: 1.2 };
     }
 
@@ -25,14 +41,17 @@ class Icon extends Lightning.Component {
         this.smooth = { scale: 1 };
     }
 }
-export default class Home extends Lightning.Component {
+export default class Home
+    extends Lightning.Component<HomeTemplateSpec, HomeTypeConfig>
+    implements Lightning.Component.ImplementTemplateSpec<HomeTemplateSpec>
+{
     static _template() {
         return {
             rect: true,
             w: LAYOUT.w,
             h: LAYOUT.h,
             color: getHexColor('#FFFFFF'),
-            flex: { justifyContent: 'center', direction: 'column', alignItems: 'center' },
+            flex: { justifyContent: 'center', direction: 'column', alignItems: 'center' } as const,
             Logo: {
                 w: 200,
                 h: 200,
@@ -83,7 +102,7 @@ export default class Home extends Lightning.Component {
         };
     }
 
-    static _renderText(text, size) {
+    static _renderText(text: string, size: number) {
         return {
             text: {
                 text: text,
@@ -93,6 +112,9 @@ export default class Home extends Lightning.Component {
             },
         };
     }
+
+    private focusIndex = 0;
+    // private widgets?: object;
 
     _construct() {
         this.focusIndex = 0;
@@ -115,6 +137,7 @@ export default class Home extends Lightning.Component {
                         this.patch({ [key]: { text: { textColor: getHexColor('#000000') } } });
                     });
                     window.theme = THEME_LIGHT;
+
                     this.widgets.sidemenu.onThemeChanged(THEME_LIGHT);
                 }
             },
@@ -122,8 +145,8 @@ export default class Home extends Lightning.Component {
                 $enter() {
                     this.patch({
                         color: getHexColor('#000000'),
-                        Button0: { textColor: getHexColor('#FFFFFF'), opacity: 0 },
-                        Button1: { textColor: getHexColor('#FFFFFF'), opacity: 0 },
+                        Button0: { text: { textColor: getHexColor('#FFFFFF') }, opacity: 0 },
+                        Button1: { text: { textColor: getHexColor('#FFFFFF') }, opacity: 0 },
                     });
                     ['Text1', 'Text2', 'Text3', 'Text4', 'Text5', 'Text6'].forEach((key) => {
                         this.patch({ [key]: { text: { textColor: getHexColor('#FFFFFF') } } });
@@ -176,10 +199,12 @@ export default class Home extends Lightning.Component {
     }
 
     _getFocused() {
-        if (this.focusIndex <= 1) {
+        if (this.focusIndex === 0 || this.focusIndex === 1) {
             return this.tag(`Button${this.focusIndex}`);
         }
 
-        return this.tag('Icons').tag(`Icon${this.focusIndex}`);
+        if (this.focusIndex === 2 || this.focusIndex === 3 || this.focusIndex === 4) {
+            return this.tag(`Icons.Icon${this.focusIndex}`);
+        }
     }
 }

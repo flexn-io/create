@@ -2,17 +2,17 @@ import { FlashList, View, Pressable, Image, ScrollView, Text } from '@flexn/crea
 import React, { useContext } from 'react';
 import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv/renative';
 import { ThemeContext, ROUTES, Ratio } from '../config';
-import { getRandomData, interval, testProps } from '../utils';
+import { generateRandomItemsRow, interval, testProps } from '../utils';
 import Screen from './screen';
-import { useNavigate } from '../hooks/navigation/index.web';
+import { useNavigate } from '../hooks/navigation';
 
 const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const { theme } = useContext(ThemeContext);
-    const navigate = useNavigate();
+    const navigate = useNavigate({ navigation });
 
     const data = [...Array(10).keys()].map((rowNumber) => {
         const itemsInViewport = interval(isFactorMobile ? 1 : 3, isFactorMobile ? 3 : 5);
-        return getRandomData(rowNumber, undefined, itemsInViewport);
+        return generateRandomItemsRow(rowNumber, itemsInViewport);
     });
 
     const renderItem = ({ item, focusRepeatContext, index }: any) => {

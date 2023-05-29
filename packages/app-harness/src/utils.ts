@@ -8,7 +8,7 @@ export function interval(min = 0, max = kittyNames.length - 1) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export function generateData(width, height, items = 30) {
+export function generateData(width: number, height: number, items = 30) {
     const temp: any = [];
     for (let index = 0; index < items; index++) {
         temp.push({

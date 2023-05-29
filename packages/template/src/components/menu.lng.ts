@@ -2,7 +2,20 @@ import { Lightning, Router, Utils } from '@lightningjs/sdk';
 import { THEME, LAYOUT, ROUTES, THEME_LIGHT } from '../config';
 import { getHexColor } from '../utils';
 
-class MenuItem extends Lightning.Component {
+type Item = { text: string; style: { flexItem: Lightning.Element.FlexItem } };
+interface MenuItemTemplateSpec extends Lightning.Component.TemplateSpec {
+    isVisible: boolean;
+    itemColor: number;
+    Text: object;
+    item: Item;
+}
+
+class MenuItem
+    extends Lightning.Component<MenuItemTemplateSpec>
+    implements Lightning.Component.ImplementTemplateSpec<MenuItemTemplateSpec>
+{
+    private _item: Item | undefined;
+
     static _template() {
         return {
             rect: true,
@@ -25,13 +38,13 @@ class MenuItem extends Lightning.Component {
         this.patch({
             Text: {
                 text: {
-                    text: this.item.text,
+                    text: this._item?.text,
                 },
             },
         });
         if (this.item.style?.flexItem) {
             this.patch({
-                flexItem: this.item.style.flexItem,
+                flexItem: this._item?.style.flexItem,
             });
         }
     }
@@ -44,7 +57,11 @@ class MenuItem extends Lightning.Component {
         this.smooth = { scale: 1 };
     }
 
-    set visible(val) {
+    set item(item: Item) {
+        this._item = item;
+    }
+
+    set isVisible(val: boolean) {
         this.patch({
             Text: {
                 smooth: { x: val ? 90 : -220 },
@@ -52,13 +69,22 @@ class MenuItem extends Lightning.Component {
         });
     }
 
-    set color(val) {
+    set itemColor(val: number) {
         this.patch({ Text: { text: { textColor: val } } });
     }
 }
 
-class SideMenu extends Lightning.Component {
-    static _template() {
+interface SideMenuTemplateSpec extends Lightning.Component.TemplateSpec {
+    Container: object;
+}
+
+class SideMenu
+    extends Lightning.Component<SideMenuTemplateSpec>
+    implements Lightning.Component.ImplementTemplateSpec<SideMenuTemplateSpec>
+{
+    Container = this.getByRef('Container')!;
+
+    static _template(): Lightning.Component.ImplementTemplateSpec<SideMenuTemplateSpec> {
         return {
             rect: true,
             w: 100,
@@ -109,6 +135,8 @@ class SideMenu extends Lightning.Component {
         };
     }
 
+    private focusIndex = 0;
+
     _init() {
         this.focusIndex = 0;
     }
@@ -118,7 +146,7 @@ class SideMenu extends Lightning.Component {
             class LightTheme extends this {
                 $enter() {
                     this.patch({ color: getHexColor('#FFFFFF') });
-                    this.tag('Container').children.forEach((ch) => {
+                    this.Container.children.forEach((ch) => {
                         ch.patch({ color: getHexColor('#000000') });
                     });
                 }
@@ -126,7 +154,7 @@ class SideMenu extends Lightning.Component {
             class DarkTheme extends this {
                 $enter() {
                     this.patch({ color: getHexColor('#000000') });
-                    this.tag('Container').children.forEach((ch) => {
+                    this.Container.children.forEach((ch) => {
                         ch.patch({ color: getHexColor('#FFFFFF') });
                     });
                 }
@@ -134,46 +162,46 @@ class SideMenu extends Lightning.Component {
         ];
     }
 
-    onThemeChanged(theme) {
+    onThemeChanged(theme: string) {
         this._setState(theme === THEME_LIGHT ? 'LightTheme' : 'DarkTheme');
     }
 
-    _getFocused() {
-        return this.tag('Container').children[this.focusIndex];
+    override _getFocused() {
+        return this.Container.children[this.focusIndex] as MenuItem;
     }
 
-    _handleDown() {
-        if (this.focusIndex !== this.tag('Container').children.length - 1) {
+    override _handleDown() {
+        if (this.focusIndex !== this.Container.children.length - 1) {
             this.focusIndex++;
         }
     }
 
-    _handleLeft() {
+    override _handleLeft() {
         return;
     }
 
-    _handleUp() {
+    override _handleUp() {
         if (this.focusIndex !== 0) {
             this.focusIndex--;
         }
     }
 
-    _focus() {
+    override _focus() {
         this._animate(true);
     }
 
-    _unfocus() {
+    override _unfocus() {
         this._animate(false);
     }
 
-    _handleEnter() {
+    override _handleEnter() {
         const routes = [ROUTES.HOME, ROUTES.CAROUSELS, ROUTES.MODAL];
         Router.navigate(routes[this.focusIndex]);
     }
 
-    _animate(shouldOpen) {
-        this.tag('Container').children.forEach((ch) => {
-            ch.patch({ visible: shouldOpen });
+    _animate(shouldOpen: boolean) {
+        this.Container.children.forEach((ch) => {
+            ch.patch({ isVisible: shouldOpen });
         });
 
         this.patch({

@@ -11,19 +11,19 @@ import React, { useContext, useState, useEffect } from 'react';
 import { getScaledValue, isPlatformWeb } from '@rnv/renative';
 import { ThemeContext, ROUTES } from '../config';
 import { usePop, useReplace } from '../hooks';
-import { getRandomData } from '../utils';
+import { DataItem, getRandomItem } from '../utils';
 import Screen from './screen';
 
 const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router?: any; route?: any }) => {
     const replace = useReplace({ navigation });
     const pop = usePop({ navigation });
-    const [item, setItem] = useState<{ backgroundImage: string; title: string }>();
+    const [item, setItem] = useState<DataItem>();
     const { theme } = useContext(ThemeContext);
 
     useEffect(() => {
         const params = isPlatformWeb ? router.query : route?.params;
         if (params) {
-            setItem(getRandomData(params.row, params.index));
+            setItem(getRandomItem(params.row, params.index));
         }
     }, []);
 

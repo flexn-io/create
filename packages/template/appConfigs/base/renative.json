@@ -372,6 +372,9 @@
             }
         },
         "tizen": {
+            "target": "es6",
+            "package": "samsungdev",
+            "id": "samsungdev.flexntemplate",
             "appName": "TestHarness",
             "entryFile": "index",
             "certificateProfile": "RNVanillaCert",
