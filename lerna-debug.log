@@ -1,0 +1,20 @@
+0 silly argv {
+0 silly argv   _: [ 'run' ],
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': '/Users/aurimasmi/projects/flexn/flexn/node_modules/.bin/lerna',
+0 silly argv   script: 'compile'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath /Users/aurimasmi/projects/flexn/flexn
+3 error JSONError: Unexpected token "<" (0x3C) in JSON at position 2 while parsing near "{\n<<<<<<< HEAD\n    \"na..." in packages/app-harness/package.json
+3 error
+3 error [0m [90m 1 |[39m {[0m
+3 error [0m[31m[1m>[22m[39m[90m 2 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m[0m
+3 error [0m [90m   |[39m [31m[1m^[22m[39m[0m
+3 error [0m [90m 3 |[39m     [32m"name"[39m[33m:[39m [32m"@flexn/app-harness"[39m[33m,[39m[0m
+3 error [0m [90m 4 |[39m     [32m"version"[39m[33m:[39m [32m"0.21.1-alpha.7"[39m[33m,[39m[0m
+3 error [0m [90m 5 |[39m [33m===[39m[33m===[39m[33m=[39m[0m
+3 error
+3 error     at parseJson (/Users/aurimasmi/projects/flexn/flexn/node_modules/parse-json/index.js:29:21)
+3 error     at parse (/Users/aurimasmi/projects/flexn/flexn/node_modules/load-json-file/index.js:15:9)
+3 error     at module.exports (/Users/aurimasmi/projects/flexn/flexn/node_modules/load-json-file/index.js:18:47)

@@ -1,6 +1,6 @@
 {
     "name": "@flexn/app-harness",
-    "version": "0.21.1-alpha.7",
+    "version": "0.21.1-alpha.8",
     "scripts": {
         "bootstrap": "yarn prepare-assets && cd ../.. && yarn bootstrap",
         "build": "tsc --noEmit",
@@ -38,7 +38,7 @@
         "web:release": "npx rnv build -p web -c harness -s release && vercel ./platformBuilds/harness_web/project"
     },
     "dependencies": {
-        "@flexn/create": "0.21.1-alpha.7",
+        "@flexn/create": "0.21.1-alpha.8",
         "@flexn/recyclerlistview": "4.2.4",
         "@flexn/shopify-flash-list": "1.4.5",
         "@lightningjs/cli": "2.11.0",
@@ -86,16 +86,16 @@
         "react-native-windows": "0.67.3"
     },
     "devDependencies": {
-        "@flexn/graybox": "0.21.1-alpha.7",
+        "@flexn/graybox": "0.21.1-alpha.8",
         "@flexn/plugins": "1.0.5",
-        "@flexn/template": "0.21.1-alpha.7",
-        "@rnv/engine-lightning": "0.37.0-canary.9",
-        "@rnv/engine-rn": "0.37.0-canary.9",
-        "@rnv/engine-rn-electron": "0.37.0-canary.9",
-        "@rnv/engine-rn-next": "0.37.0-canary.9",
-        "@rnv/engine-rn-tvos": "0.37.0-canary.9",
-        "@rnv/engine-rn-web": "0.37.0-canary.9",
-        "@rnv/engine-rn-windows": "0.37.0-canary.9",
+        "@flexn/template": "0.21.1-alpha.8",
+        "@rnv/engine-lightning": "0.37.0-canary.7",
+        "@rnv/engine-rn": "0.37.0-canary.7",
+        "@rnv/engine-rn-electron": "0.37.0-canary.7",
+        "@rnv/engine-rn-next": "0.37.0-canary.7",
+        "@rnv/engine-rn-tvos": "0.37.0-canary.7",
+        "@rnv/engine-rn-web": "0.37.0-canary.7",
+        "@rnv/engine-rn-windows": "0.37.0-canary.7",
         "@rollup/plugin-typescript": "^8.3.2",
         "@types/react": "18.2.6",
         "jest": "27.1.0",
