@@ -1,13 +1,22 @@
-import { Router, Utils } from '@lightningjs/sdk';
+import { Lightning, Router, Utils } from '@lightningjs/sdk';
 import { ROUTES } from '../config';
 
 import HomeScreen from '../screens/home.lng';
 import DetailScreen from '../screens/details.lng';
 import ModalScreen from '../screens/modal.lng';
 import CarouselsScreen from '../screens/carousels.lng';
-import SideMenu from '../components/menu';
+import SideMenu from '../components/menu.lng';
 
-export default class App extends Router.App {
+export interface AppTemplateSpec extends Router.App.TemplateSpec {
+    Widgets: {
+        SideMenu: typeof SideMenu;
+    };
+}
+
+export default class App
+    extends Router.App<AppTemplateSpec>
+    implements Lightning.Component.ImplementTemplateSpec<AppTemplateSpec>
+{
     static getFonts() {
         return [{ family: 'Inter-Light', url: Utils.asset('fonts/Inter-Light.ttf') }];
     }
@@ -22,17 +31,17 @@ export default class App extends Router.App {
                 {
                     path: ROUTES.HOME,
                     component: HomeScreen,
-                    widgets: ['side-menu'],
+                    widgets: ['sidemenu'],
                 },
                 {
                     path: ROUTES.DETAILS,
                     component: DetailScreen,
-                    widgets: ['side-menu'],
+                    widgets: ['sidemenu'],
                 },
                 {
                     path: ROUTES.CAROUSELS,
                     component: CarouselsScreen,
-                    widgets: ['side-menu'],
+                    widgets: ['sidemenu'],
                 },
                 {
                     path: ROUTES.MODAL,
@@ -42,7 +51,7 @@ export default class App extends Router.App {
         });
     }
 
-    static _template() {
+    static _template(): Lightning.Component.Template<AppTemplateSpec> {
         return {
             Pages: {
                 forceZIndexContext: true,

@@ -2,16 +2,20 @@ import { Lightning, Router, Utils } from '@lightningjs/sdk';
 import { THEME, LAYOUT, ROUTES, THEME_LIGHT } from '../config';
 import { getHexColor } from '../utils';
 
+type Item = { text: string; style: { flexItem: Lightning.Element.FlexItem } };
 interface MenuItemTemplateSpec extends Lightning.Component.TemplateSpec {
     isVisible: boolean;
     itemColor: number;
     Text: object;
+    item: Item;
 }
 
 class MenuItem
     extends Lightning.Component<MenuItemTemplateSpec>
     implements Lightning.Component.ImplementTemplateSpec<MenuItemTemplateSpec>
 {
+    private _item: Item | undefined;
+
     static _template() {
         return {
             rect: true,
@@ -34,13 +38,13 @@ class MenuItem
         this.patch({
             Text: {
                 text: {
-                    text: this.item.text,
+                    text: this._item?.text,
                 },
             },
         });
         if (this.item.style?.flexItem) {
             this.patch({
-                flexItem: this.item.style.flexItem,
+                flexItem: this._item?.style.flexItem,
             });
         }
     }
@@ -51,6 +55,10 @@ class MenuItem
 
     _unfocus() {
         this.smooth = { scale: 1 };
+    }
+
+    set item(item: Item) {
+        this._item = item;
     }
 
     set isVisible(val: boolean) {

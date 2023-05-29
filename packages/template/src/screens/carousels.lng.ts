@@ -1,12 +1,27 @@
 /* eslint-disable no-underscore-dangle */
 import { Lightning, Router } from '@lightningjs/sdk';
-import { List } from '@flexn/create';
 import { getHexColor, interval, generateRandomItemsRow, DataItem } from '../utils';
 import { LAYOUT, THEME_LIGHT } from '../config';
 import { ROUTES } from '../config.lng';
 
-export default class Carousels extends Lightning.Component {
-    static override _template() {
+interface Cards extends Lightning.Component.TemplateSpec {
+    List: typeof List;
+}
+interface CarouselsTemplateSpec extends Lightning.Component.TemplateSpec {
+    Wrapper: {
+        Cards: Cards;
+    };
+}
+
+export interface CarouselsTypeConfig extends Lightning.Component.TypeConfig {
+    IsPage: true;
+}
+
+export default class Carousels
+    extends Lightning.Component<CarouselsTemplateSpec, CarouselsTypeConfig>
+    implements Lightning.Component.ImplementTemplateSpec<CarouselsTemplateSpec>
+{
+    static override _template(): Lightning.Component.Template<CarouselsTemplateSpec> {
         return {
             rect: true,
             color: getHexColor('#FFFFFF'),
@@ -18,7 +33,7 @@ export default class Carousels extends Lightning.Component {
         };
     }
 
-    static _populateData() {
+    static _populateData(): Lightning.Component.Template<CarouselsTemplateSpec['Wrapper']['Cards']> {
         const data = [...Array(10).keys()].map((rowNumber) => {
             const itemsInViewport = interval(3, 6);
             return {
@@ -75,6 +90,65 @@ export default class Carousels extends Lightning.Component {
     }
 
     _getFocused() {
-        return this.tag('Wrapper').tag('List');
+        return this.tag('Wrapper.Cards.List');
+    }
+}
+
+interface ListTemplateSpec extends Lightning.Component.TemplateSpec {
+    data: any;
+    itemSpacing: number;
+    card: {
+        w: number;
+        h: number;
+    };
+    row: {
+        h: number;
+        title: {
+            containerStyle: object;
+            textStyle: object;
+        };
+    };
+    focusOptions: object;
+}
+
+export interface ListTypeConfig extends Lightning.Component.TypeConfig {
+    IsPage: true;
+}
+
+class List
+    extends Lightning.Component<ListTemplateSpec, ListTypeConfig>
+    implements Lightning.Component.ImplementTemplateSpec<ListTemplateSpec>
+{
+    static override _template(): Lightning.Component.Template<ListTemplateSpec> {
+        return {};
+    }
+
+    get data() {
+        return null;
+    }
+
+    get itemSpacing() {
+        return 0;
+    }
+
+    get card() {
+        return {
+            w: 0,
+            h: 0,
+        };
+    }
+
+    get row() {
+        return {
+            h: 0,
+            title: {
+                containerStyle: {},
+                textStyle: {},
+            },
+        };
+    }
+
+    get focusOptions() {
+        return {};
     }
 }

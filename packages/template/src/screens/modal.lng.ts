@@ -50,14 +50,8 @@ export default class Modal
         this.patch({ color, Text: { text: { textColor } } });
     }
 
-    private _notifyOnItemCreation = false;
-
     override _getFocused() {
-        if (!this.child) {
-            this._notifyOnItemCreation = true;
-        } else {
-            return this.child;
-        }
+        return this.tag('Close') as Lightning.Component;
     }
 
     _focus() {

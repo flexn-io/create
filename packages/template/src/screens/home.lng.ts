@@ -12,7 +12,11 @@ interface HomeTemplateSpec extends Lightning.Component.TemplateSpec {
     widgets: object;
     Button0: typeof Button;
     Button1: typeof Button;
-    Icons: Array<object>;
+    Icons: {
+        Icon2: typeof Icon;
+        Icon3: typeof Icon;
+        Icon4: typeof Icon;
+    };
 }
 
 export interface HomeTypeConfig extends Lightning.Component.TypeConfig {
@@ -133,6 +137,7 @@ export default class Home
                         this.patch({ [key]: { text: { textColor: getHexColor('#000000') } } });
                     });
                     window.theme = THEME_LIGHT;
+
                     this.widgets.sidemenu.onThemeChanged(THEME_LIGHT);
                 }
             },
@@ -198,6 +203,8 @@ export default class Home
             return this.tag(`Button${this.focusIndex}`);
         }
 
-        return this.tag('Icons')?.tag(`Icon${this.focusIndex}`);
+        if (this.focusIndex === 2 || this.focusIndex === 3 || this.focusIndex === 4) {
+            return this.tag(`Icons.Icon${this.focusIndex}`);
+        }
     }
 }

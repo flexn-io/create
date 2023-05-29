@@ -19,7 +19,7 @@ class Button
     Button = this.getByRef('Button')!;
     Text = this.getByRef('Text')!;
 
-    static _template(): Lightning.Component.ImplementTemplateSpec<ButtonTemplateSpec> {
+    static _template(): Lightning.Component.Template<ButtonTemplateSpec> {
         return {
             rect: true,
             w: (w: number) => w * 0.8,
