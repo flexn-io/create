@@ -57,11 +57,8 @@
         "run-all": "ttab rnv run -p web -e engine-rn-web --ci && ttab rnv run -p web --ci && ttab rnv run -p ios -t 'iPhone 8' --ci && ttab rnv run -p android -t Pixel_2_API_28 --ci && ttab rnv run -p androidtv -t Android_TV_1080p_API_28 --ci && ttab rnv run -p tvos -t \"Apple TV\" --ci && ttab rnv run -p macos --ci && ttab rnv run -p tizen -t T-samsung-5.5-x86 --ci && ttab rnv run -p webos --ci && ttab rnv run -p androidwear -t Android_Wear_Round_API_28 --ci && ttab rnv run -p tizenwatch -t W-5.5-circle-x86 --ci && ttab rnv run -p tizenmobile -t M-5.5-x86 --ci",
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
-    "dependencies": {
-        "@lightningjs/sdk": "5.2.0",
-        "require": "^2.4.20"
-    },
     "devDependencies": {
+        "require": "^2.4.20",
         "@flexn/create": "0.21.1-alpha.9",
         "@flexn/graybox": "0.21.1-alpha.9",
         "@flexn/plugins": "1.0.5",
@@ -128,7 +125,5 @@
     },
     "browserslist": [
         "> 2%"
-    ],
-    "dependencies:doNotUseInTemplate": {},
-    "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc"
+    ]
 }

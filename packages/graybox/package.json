@@ -37,6 +37,5 @@
         "appium": "1.22.3",
         "chromedriver": "87.0.7",
         "wdio-chromedriver-service": "7.2.2"
-    },
-    "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc"
+    }
 }
