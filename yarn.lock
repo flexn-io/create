@@ -4482,6 +4482,17 @@
     history "^4.7.2"
     query-string "^6.2.0"
 
+"@rnv/engine-lightning@0.37.0-canary.7":
+  version "0.37.0-canary.7"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-lightning/-/engine-lightning-0.37.0-canary.7.tgz#957afb333c9b287c66f163ae991b5a656a77a797"
+  integrity sha512-SIl3fWOn2ZIBfYeIyCiH5A4tVtOsZUpLhMKnNZGpSQ28X6MJLxmIqXqBC+iM7gpZuDLMiWURBRRtwq0CZzJGhQ==
+  dependencies:
+    "@lightningjs/cli" "2.8.0"
+    "@lightningjs/sdk" "4.8.3"
+    babel-loader "8.0.5"
+    html-webpack-harddisk-plugin "1.0.2"
+    html-webpack-plugin "5.5.0"
+
 "@rnv/engine-lightning@0.37.0-canary.9":
   version "0.37.0-canary.9"
   resolved "https://registry.npmjs.org/@rnv/engine-lightning/-/engine-lightning-0.37.0-canary.9.tgz#076af50b5fcc17368b2aefcd6908622b298562dc"
@@ -4492,6 +4503,23 @@
     babel-loader "8.0.5"
     html-webpack-harddisk-plugin "1.0.2"
     html-webpack-plugin "5.5.0"
+
+"@rnv/engine-rn-electron@0.37.0-canary.7":
+  version "0.37.0-canary.7"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-electron/-/engine-rn-electron-0.37.0-canary.7.tgz#c511d627e3384f9b954022c5d8b3ea999f06f589"
+  integrity sha512-xPuC2yiJTijYwMmGCAD0OaQHjUG7k3nssGasvso3FRD0diF5idO61Teh7tcTjGgfTlUOpuN5VpEP9CXJb88mlw==
+  dependencies:
+    "@babel/preset-react" "7.16.0"
+    "@rnv/sdk-webpack" "0.37.0-canary.7"
+    babel-loader "8.0.5"
+    babel-preset-expo "9.0.2"
+    better-opn "1.0.0"
+    electron "19.0.4"
+    electron-builder "23.0.3"
+    electron-notarize "1.0.0"
+    html-webpack-harddisk-plugin "1.0.2"
+    html-webpack-plugin "4.5.1"
+    webpack-bundle-analyzer "3.5.1"
 
 "@rnv/engine-rn-electron@0.37.0-canary.9":
   version "0.37.0-canary.9"
@@ -4510,6 +4538,19 @@
     html-webpack-plugin "4.5.1"
     webpack-bundle-analyzer "3.5.1"
 
+"@rnv/engine-rn-next@0.37.0-canary.7":
+  version "0.37.0-canary.7"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-next/-/engine-rn-next-0.37.0-canary.7.tgz#e95e8aa484d30a7560e6082b66d3885c933fd8e9"
+  integrity sha512-1AqSBUVYaP0OBdMd/DIZI2trJjLJ9k3zkHx/e+1gWwOPMGdW87KJBPi9kP+GhMeF+I8OdMTKbosdJMPG+KX5vw==
+  dependencies:
+    "@expo/next-adapter" "3.1.12"
+    ally.js "1.4.1"
+    better-opn "1.0.0"
+    next-fonts "1.5.1"
+    next-images "1.8.4"
+    next-transpile-modules "9.0.0"
+    webpack "5.65.0"
+
 "@rnv/engine-rn-next@0.37.0-canary.9":
   version "0.37.0-canary.9"
   resolved "https://registry.npmjs.org/@rnv/engine-rn-next/-/engine-rn-next-0.37.0-canary.9.tgz#7f80109cd393327bfab5ef0ece113cf36242ca30"
@@ -4523,6 +4564,14 @@
     next-transpile-modules "9.0.0"
     webpack "5.65.0"
 
+"@rnv/engine-rn-tvos@0.37.0-canary.7":
+  version "0.37.0-canary.7"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-tvos/-/engine-rn-tvos-0.37.0-canary.7.tgz#70a11b6bd3fe173c7fd1df7c81adbdbb2eca0f55"
+  integrity sha512-ct2VxFM/VpMHNVodppxefbESvhuxMpVVsSQ2g7JxLFXHYmW9El9J2F0bIv2W+MX0hpURGtgg55Of1trVzAcn2g==
+  dependencies:
+    "@rnv/sdk-android" "0.37.0-canary.7"
+    "@rnv/sdk-apple" "0.37.0-canary.7"
+
 "@rnv/engine-rn-tvos@0.37.0-canary.9":
   version "0.37.0-canary.9"
   resolved "https://registry.npmjs.org/@rnv/engine-rn-tvos/-/engine-rn-tvos-0.37.0-canary.9.tgz#7954952783cc6cb28931bb6943a6cd1fb931cdf3"
@@ -4530,6 +4579,21 @@
   dependencies:
     "@rnv/sdk-android" "0.37.0-canary.9"
     "@rnv/sdk-apple" "0.37.0-canary.9"
+
+"@rnv/engine-rn-web@0.37.0-canary.7":
+  version "0.37.0-canary.7"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-web/-/engine-rn-web-0.37.0-canary.7.tgz#9513e3d97f54c2e0391a7ad0b2e68a506e976ba1"
+  integrity sha512-KNPxI6An6USYg5Kzc7FNi2Y01+hfPLS3Bs0UKJ4MH/+l4Q236Vz1QLFfOq6sgQXBFdaqYqgXM7FmDacckjA1Rw==
+  dependencies:
+    "@babel/preset-react" "7.16.0"
+    "@rnv/sdk-webpack" "0.37.0-canary.7"
+    babel-loader "8.0.5"
+    babel-preset-expo "9.0.2"
+    better-opn "1.0.0"
+    html-webpack-harddisk-plugin "1.0.2"
+    html-webpack-plugin "4.5.1"
+    mini-css-extract-plugin "0.8.0"
+    webpack-bundle-analyzer "3.5.1"
 
 "@rnv/engine-rn-web@0.37.0-canary.9":
   version "0.37.0-canary.9"
@@ -4546,6 +4610,14 @@
     mini-css-extract-plugin "0.8.0"
     webpack-bundle-analyzer "3.5.1"
 
+"@rnv/engine-rn-windows@0.37.0-canary.7":
+  version "0.37.0-canary.7"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-windows/-/engine-rn-windows-0.37.0-canary.7.tgz#90ef4d2553f3f1951cad697c52ded14d335693ec"
+  integrity sha512-UONBiDAL/D1R3ipJapUatnTFv/sZlh78nWQBnVhVoYp5WfSSGJWHcebCYog5M4H25wiBXHvWPWAbCzWuO+G1IQ==
+  dependencies:
+    "@xmldom/xmldom" "0.7.0"
+    react-native-windows "0.69.4"
+
 "@rnv/engine-rn-windows@0.37.0-canary.9":
   version "0.37.0-canary.9"
   resolved "https://registry.npmjs.org/@rnv/engine-rn-windows/-/engine-rn-windows-0.37.0-canary.9.tgz#df75ecc15f43b3706209fb6fdf61f628f89e6d26"
@@ -4553,6 +4625,14 @@
   dependencies:
     "@xmldom/xmldom" "0.7.0"
     react-native-windows "0.69.4"
+
+"@rnv/engine-rn@0.37.0-canary.7":
+  version "0.37.0-canary.7"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn/-/engine-rn-0.37.0-canary.7.tgz#0054646ce150e0268b40cbf08b292ddbe4679786"
+  integrity sha512-VZKJ6ZfVAmvA+w9lIFBNx+8bPFY+XElGq2xbQMMTsocRGdS4coJ94Tg5KFiippiJt0BvW/B0j03vk7IVuxPOaw==
+  dependencies:
+    "@rnv/sdk-android" "0.37.0-canary.7"
+    "@rnv/sdk-apple" "0.37.0-canary.7"
 
 "@rnv/engine-rn@0.37.0-canary.9":
   version "0.37.0-canary.9"
@@ -4567,6 +4647,15 @@
   resolved "https://registry.npmjs.org/@rnv/renative/-/renative-0.37.0-canary.9.tgz#a3248035e2a1e8f22556fb9599c1b0c8c5d0f48f"
   integrity sha512-Vd35X04WvLuCq7sCFGo3oPjeiZU73Zk246iHEdrdeMdvedvDt/ArS5Z251m5nv8XuVLFFMfHAXCAeRtZaqCojw==
 
+"@rnv/sdk-android@0.37.0-canary.7":
+  version "0.37.0-canary.7"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-android/-/sdk-android-0.37.0-canary.7.tgz#d1c358b22360a5fbf50199733c83fcbdbc2caa52"
+  integrity sha512-8SY2tKTEF8rs35imyLWnaORgc1U5G0GcTY7QtkUxfsiKNQDUVcFjpnlWB7BRSFSzvImH/aSdYh5GgcWLMLwR8g==
+  dependencies:
+    execa "5.1.1"
+    inquirer "8.2.0"
+    shelljs "0.8.5"
+
 "@rnv/sdk-android@0.37.0-canary.9":
   version "0.37.0-canary.9"
   resolved "https://registry.npmjs.org/@rnv/sdk-android/-/sdk-android-0.37.0-canary.9.tgz#2d18c1e790c3f9f5cc14192917beb559a68f7343"
@@ -4574,6 +4663,16 @@
   dependencies:
     execa "5.1.1"
     inquirer "8.2.0"
+    shelljs "0.8.5"
+
+"@rnv/sdk-apple@0.37.0-canary.7":
+  version "0.37.0-canary.7"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-apple/-/sdk-apple-0.37.0-canary.7.tgz#7e5233f57051f24924e45a53967980e58c4c3427"
+  integrity sha512-6Ri3600WGlud1zLOTvyjVij4+z0SN1eT/S4Xm0+Dz2XkXn7krXrLlDOaNQeunkU8+6hleAqCw8al2kpg2LijDQ==
+  dependencies:
+    compare-versions "3.6.0"
+    inquirer "8.2.0"
+    ios-mobileprovision-finder "1.0.11"
     shelljs "0.8.5"
 
 "@rnv/sdk-apple@0.37.0-canary.9":
@@ -4585,6 +4684,63 @@
     inquirer "8.2.0"
     ios-mobileprovision-finder "1.0.11"
     shelljs "0.8.5"
+
+"@rnv/sdk-webpack@0.37.0-canary.7":
+  version "0.37.0-canary.7"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-webpack/-/sdk-webpack-0.37.0-canary.7.tgz#e9b87601a54a865043d1e59b5eefbccf91b76040"
+  integrity sha512-vFViMCNKwHmpy3i0RPfQVtcLKnOfcgyPB70M+fZjlpDiBlMUXjOgLK2mJbEzUtEgm707ByUm2M4q9uxluJknbw==
+  dependencies:
+    "@pmmmwh/react-refresh-webpack-plugin" "^0.5.3"
+    "@svgr/webpack" "6.3.1"
+    axios "0.21.2"
+    babel-jest "^27.4.2"
+    babel-loader "^8.2.3"
+    babel-plugin-named-asset-import "^0.3.8"
+    babel-preset-react-app "^10.0.1"
+    better-opn "1.0.0"
+    bfj "^7.0.2"
+    browserslist "^4.18.1"
+    camelcase "^6.2.1"
+    case-sensitive-paths-webpack-plugin "^2.4.0"
+    command-exists "1.2.9"
+    cross-env "5.2.0"
+    css-loader "^6.5.1"
+    css-minimizer-webpack-plugin "^3.2.0"
+    dotenv "^10.0.0"
+    dotenv-expand "^5.1.0"
+    eslint-config-react-app "^7.0.0"
+    eslint-webpack-plugin "^3.1.1"
+    file-loader "^6.2.0"
+    fs-extra "^10.0.0"
+    html-webpack-plugin "^5.5.0"
+    identity-obj-proxy "^3.0.0"
+    ip "1.1.5"
+    mini-css-extract-plugin "^2.4.5"
+    postcss "^8.4.4"
+    postcss-flexbugs-fixes "^5.0.2"
+    postcss-loader "^6.2.1"
+    postcss-normalize "^10.0.1"
+    postcss-preset-env "^7.0.1"
+    prompts "^2.4.2"
+    react "^17.0.2"
+    react-app-polyfill "^3.0.0"
+    react-dev-utils "^12.0.0"
+    react-dom "^17.0.2"
+    react-refresh "^0.11.0"
+    resolve "^1.20.0"
+    resolve-url-loader "^4.0.0"
+    sass-loader "^12.3.0"
+    semver "^7.3.5"
+    source-map-loader "4.0.0"
+    style-loader "^3.3.1"
+    tailwindcss "^3.0.2"
+    terser-webpack-plugin "^5.2.5"
+    web-vitals "^2.1.4"
+    webpack "^5.64.4"
+    webpack-cli "4.9.2"
+    webpack-dev-server "^4.7.4"
+    webpack-manifest-plugin "^4.0.2"
+    workbox-webpack-plugin "6.5.4"
 
 "@rnv/sdk-webpack@0.37.0-canary.9":
   version "0.37.0-canary.9"
