@@ -3,7 +3,6 @@ import { isPlatformAndroidtv, isPlatformTvos, isPlatformFiretv } from '@rnv/rena
 import throttle from 'lodash.throttle';
 import CoreManager from './core';
 import { DIRECTION } from '../constants';
-import Logger from './logger';
 import Grid from '../model/grid';
 import View from '../model/view';
 import RecyclerView from '../model/recycler';
@@ -22,6 +21,7 @@ const EVENT_TYPE_RIGHT = 'right';
 const EVENT_TYPE_LEFT = 'left';
 const EVENT_TYPE_DOWN = 'down';
 const EVENT_TYPE_UP = 'up';
+export const EVENT_TYPE_D = 'd';
 
 const IS_ANDROID_BASED = isPlatformAndroidtv || isPlatformFiretv;
 
@@ -84,11 +84,6 @@ class KeyHandler {
         this.selectHandler.enable(null, (_: any, evt: any) => {
             const direction = evt.eventType;
             if (isPlatformTvos) {
-                if (direction === 'playPause') {
-                    Logger.getInstance().debug(CoreManager);
-                    CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
-                }
-
                 if (direction === 'select') {
                     // This can happen if we opened new screen which doesn't have any focusable
                     // then last screen in context map still keeping focus
@@ -115,14 +110,6 @@ class KeyHandler {
     }
 
     private onKeyDown(eventType: string) {
-        // console.log('direction', eventType)
-
-        // if (eventType === 'playPause' || eventType === 'select') {
-        if (eventType === 'playPause') {
-            Logger.getInstance().debug(CoreManager);
-            CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
-        }
-
         if (!this._stopKeyDownEvents) {
             if (IS_ANDROID_BASED && eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
                 CoreManager.getCurrentFocus()?.onPress();

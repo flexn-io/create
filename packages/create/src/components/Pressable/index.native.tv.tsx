@@ -60,10 +60,20 @@ const View = React.forwardRef<any, ViewProps>(
             if (!focus) {
                 return parent;
             } else {
+                const flattenStyle = StyleSheet.flatten(style);
+
                 return new ViewClass({
                     focus,
                     focusRepeatContext,
                     parent,
+                    verticalContentContainerGap:
+                        flattenStyle.marginVertical ||
+                        flattenStyle.paddingVertical ||
+                        flattenStyle.marginTop ||
+                        flattenStyle.paddingTop ||
+                        flattenStyle.margin ||
+                        flattenStyle.padding ||
+                        flattenStyle.top,
                     ...focusOptions,
                 });
             }
@@ -144,6 +154,9 @@ const View = React.forwardRef<any, ViewProps>(
 
             if (animatorOptions.blur?.borderWidth !== undefined) {
                 flattenedStyle.borderWidth = animatorOptions.blur?.borderWidth;
+            }
+            if (animatorOptions.blur?.borderColor !== undefined) {
+                flattenedStyle.borderColor = animatorOptions.blur?.borderColor;
             }
             if (animatorOptions.blur?.backgroundColor !== undefined) {
                 flattenedStyle.backgroundColor = animatorOptions.blur?.backgroundColor;

@@ -56,6 +56,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                             type="row"
                             estimatedItemSize={Ratio(250)}
                             horizontal
+                            showsHorizontalScrollIndicator={false}
                         />
                     </View>
                 ))}
@@ -70,6 +71,7 @@ const styles = {
     },
     listSeparator: {
         marginVertical: Ratio(20),
+        paddingRight: Ratio(100),
     },
     cardStyle: {
         width: Ratio(250),
@@ -78,8 +80,8 @@ const styles = {
         borderRadius: Ratio(5),
         borderColor: 'transparent',
         fontSize: isFactorMobile ? 16 : Ratio(26),
-        marginHorizontal: isFactorTv ? 10 : 0,
-        marginVertical: isFactorTv ? 15 : 0,
+        marginHorizontal: isFactorTv ? Ratio(5) : 0,
+        marginVertical: isFactorTv ? Ratio(15) : 0,
     },
     poster: {
         width: '100%',

@@ -35,6 +35,7 @@ public class TvRemoteHandlerModule extends ReactContextBaseJavaModule {
             .put(KeyEvent.KEYCODE_DPAD_RIGHT, "right")
             .put(KeyEvent.KEYCODE_DPAD_DOWN, "down")
             .put(KeyEvent.KEYCODE_DPAD_LEFT, "left")
+            .put(KeyEvent.KEYCODE_D, "d")
             .build();
 
     public TvRemoteHandlerModule(ReactApplicationContext reactContext) {
@@ -67,7 +68,6 @@ public class TvRemoteHandlerModule extends ReactContextBaseJavaModule {
 
     private WritableMap getJsEventParams(KeyEvent keyEvent, String type) {
         WritableMap params = new WritableNativeMap();
-        int action = keyEvent.getAction();
         int eventKeyCode = keyEvent.getKeyCode();
         String eventType = KEY_EVENTS_ACTIONS.containsKey(eventKeyCode) ? KEY_EVENTS_ACTIONS.get(eventKeyCode) : "";
 

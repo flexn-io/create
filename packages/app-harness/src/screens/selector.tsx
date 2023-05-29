@@ -1,28 +1,27 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { ScrollView, View } from '@flexn/create';
-import { getScaledValue } from '@rnv/renative';
-
+import { getScaledValue, platform } from '@rnv/renative';
 import Screen from './screen';
 import { Button } from '../components/Button';
+import testsList from '../testsList';
 
 const Selector = ({ navigation }: any) => {
     return (
         <Screen style={{ backgroundColor: '#222222', flex: 1 }}>
-            <ScrollView contentContainerStyle={{ flex: 1 }}>
-                <View style={{ top: 200, alignItems: 'center', flex: 1 }}>
-                    <Button
-                        title="Row"
-                        style={styles.button}
-                        textStyle={styles.buttonTextStyle}
-                        onPress={() => navigation.navigate('Row')}
-                    />
-                    <Button
-                        title="Dynamic State"
-                        style={styles.button}
-                        textStyle={styles.buttonTextStyle}
-                        onPress={() => navigation.navigate('DynamicState')}
-                    />
+            <ScrollView>
+                <View style={{ alignItems: 'center', flex: 1, paddingBottom: 20 }}>
+                    {testsList
+                        .filter((test) => test.platform.includes(platform))
+                        .map((test) => (
+                            <Button
+                                key={test.route}
+                                title={test.title}
+                                style={styles.button}
+                                textStyle={styles.buttonTextStyle}
+                                onPress={() => navigation.navigate(test.route)}
+                            />
+                        ))}
                 </View>
             </ScrollView>
         </Screen>

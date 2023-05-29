@@ -2,16 +2,24 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
 import Screen from './screen';
+import { Ratio } from '../utils';
 
-const border = {
-    type: 'border',
+// const border = {
+//     type: 'border',
+//     focus: {
+//         borderWidth: 5,
+//         borderColor: 'yellow',
+//     },
+//     blur: {
+//         borderWidth: 4,
+//         borderColor: '#FFFFFF',
+//     },
+// };
+
+const scale = {
+    type: 'scale',
     focus: {
-        borderWidth: 5,
-        borderColor: 'yellow',
-    },
-    blur: {
-        borderWidth: 4,
-        borderColor: '#FFFFFF',
+        scale: 1.4,
     },
 };
 
@@ -42,7 +50,7 @@ const Row = () => {
             <Pressable
                 style={styles.packshot}
                 focusRepeatContext={focusRepeatContext}
-                focusOptions={{ animatorOptions: border }}
+                focusOptions={{ animatorOptions: scale }}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>
@@ -52,15 +60,8 @@ const Row = () => {
     return (
         <Screen style={{ backgroundColor: '#222222' }}>
             {/* <ScrollView> */}
-            <View style={{ top: 200, flex: 1 }}>
-                <FlashList
-                    data={data}
-                    renderItem={rowRenderer}
-                    horizontal
-                    type="row"
-                    estimatedItemSize={200}
-                    style={{ flex: 1 }}
-                />
+            <View style={{ top: Ratio(200), flex: 1 }}>
+                <FlashList data={data} renderItem={rowRenderer} horizontal type="row" estimatedItemSize={Ratio(200)} />
             </View>
             {/* </ScrollView> */}
         </Screen>
@@ -69,12 +70,14 @@ const Row = () => {
 
 const styles = StyleSheet.create({
     packshot: {
-        width: 200,
-        height: 200,
+        width: Ratio(200),
+        height: Ratio(200),
         // borderColor: 'red',
         // borderWidth: 1,
-        margin: 5,
+        marginHorizontal: 5,
+        marginVertical: Ratio(50),
         // borderWidth: 2,
+        // top: 100,
     },
     image: {
         width: '100%',

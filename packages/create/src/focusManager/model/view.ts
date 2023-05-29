@@ -4,6 +4,7 @@ import Recycler from './recycler';
 import ScrollView from './scrollview';
 import Event, { EVENT_TYPES } from '../events';
 import { measureAsync } from '../layoutManager';
+import Row from './row';
 
 class View extends FocusModel {
     private _parentRecyclerView?: Recycler;
@@ -12,11 +13,12 @@ class View extends FocusModel {
     private _isFocused: boolean;
     private _focusKey: string;
     private _hasPreferredFocus: boolean;
+    private _verticalContentContainerGap: number;
     private _repeatContext:
         | {
-              focusContext: FocusModel;
-              index: number;
-          }
+            focusContext: FocusModel;
+            index: number;
+        }
         | undefined;
 
     private _onPress?: () => void;
@@ -33,6 +35,7 @@ class View extends FocusModel {
             onPress,
             focusKey,
             hasPreferredFocus,
+            verticalContentContainerGap = 0
         } = params;
 
         const id = CoreManager.generateID(8);
@@ -45,6 +48,7 @@ class View extends FocusModel {
         this._focusKey = focusKey;
         this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._hasPreferredFocus = hasPreferredFocus;
+        this._verticalContentContainerGap = verticalContentContainerGap;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
@@ -96,6 +100,17 @@ class View extends FocusModel {
     }
 
     // END EVENTS
+
+    public onFocus(): void {
+        const parent = this.getParent();
+
+        if (this._onFocus) {
+            this._onFocus();
+        }
+        if (parent instanceof Row) {
+            parent.setFocusedView(this);
+        }
+    }
 
     public isFocusable(): boolean {
         return true;
@@ -172,6 +187,10 @@ class View extends FocusModel {
 
     public getParentScrollView(): ScrollView | undefined {
         return this._parentScrollView;
+    }
+
+    public verticalContentContainerGap(): number {
+        return this._verticalContentContainerGap;
     }
 }
 
