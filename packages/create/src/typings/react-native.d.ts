@@ -1,6 +1,5 @@
-import 'react-native';
-
 declare module 'react-native' {
+    import 'react-native';
     class TVEventHandler {
         enable: any;
     }
@@ -31,4 +30,10 @@ declare module 'react-native' {
             commandArgs?: Array<any>
         ) => void;
     }
+
+    export const TVMenuControl: {
+        enableTVMenuKey(): void;
+        disableTVMenuKey(): void;
+    };
 }
+export default {};

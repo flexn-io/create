@@ -13,7 +13,7 @@ import { ThemeContext, ROUTES } from '../config';
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
 
-const StackNavigator = ({ navigation }) => {
+const StackNavigator = ({ navigation }: any) => {
     const { theme } = useContext(ThemeContext);
 
     return (

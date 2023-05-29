@@ -6,7 +6,7 @@ import Screen from './screen';
 import { Button } from '../components/Button';
 import testsList from '../testsList';
 
-const Selector = ({ navigation }) => {
+const Selector = ({ navigation }: any) => {
     return (
         <Screen style={{ backgroundColor: '#222222', flex: 1 }}>
             <ScrollView>

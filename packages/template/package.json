@@ -1,6 +1,6 @@
 {
     "name": "@flexn/template",
-    "version": "0.21.1-alpha.7",
+    "version": "0.21.1-alpha.8",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/create#readme",
@@ -26,6 +26,7 @@
         "type": "git",
         "url": "git+https://github.com/flexn-io/create.git"
     },
+    "main": "index",
     "scripts": {
         "bootstrap": "cd ../.. && yarn bootstrap",
         "build": "tsc --noEmit",
@@ -57,15 +58,16 @@
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
     "devDependencies": {
-        "@flexn/create": "0.21.1-alpha.7",
-        "@flexn/graybox": "0.21.1-alpha.7",
-        "@flexn/plugins": "1.0.3",
+        "@flexn/create": "0.21.1-alpha.8",
+        "@flexn/graybox": "0.21.1-alpha.8",
+        "@flexn/plugins": "1.0.5",
         "@flexn/recyclerlistview": "4.2.4",
         "@flexn/shopify-flash-list": "1.4.5",
-        "@lightningjs/cli": "2.7.1",
-        "@lightningjs/core": "^2.6.0",
-        "@lightningjs/sdk": "4.3.3",
-        "@lightningjs/ui-components": "^1.2.1",
+        "@lightningjs/cli": "2.11.0",
+        "@lightningjs/core": "2.8.0",
+        "@lightningjs/sdk": "5.2.0",
+        "@lightningjs/ui": "1.3.1",
+        "@lightningjs/ui-components": "1.3.1",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/masked-view": "0.1.11",
         "@react-native-masked-view/masked-view": "0.2.9",
@@ -81,14 +83,14 @@
         "@react-navigation/routers": "5.1.0",
         "@react-navigation/stack": "6.0.11",
         "@react-navigation/web": "1.0.0-alpha.9",
-        "@rnv/engine-lightning": "0.37.0-canary.7",
-        "@rnv/engine-rn": "0.37.0-canary.7",
-        "@rnv/engine-rn-electron": "0.37.0-canary.7",
-        "@rnv/engine-rn-next": "0.37.0-canary.7",
-        "@rnv/engine-rn-tvos": "0.37.0-canary.7",
-        "@rnv/engine-rn-web": "0.37.0-canary.7",
-        "@rnv/engine-rn-windows": "0.37.0-canary.7",
-        "@rnv/renative": "0.37.0-canary.7",
+        "@rnv/engine-lightning": "0.37.0-canary.9",
+        "@rnv/engine-rn": "0.37.0-canary.9",
+        "@rnv/engine-rn-electron": "0.37.0-canary.9",
+        "@rnv/engine-rn-next": "0.37.0-canary.9",
+        "@rnv/engine-rn-tvos": "0.37.0-canary.9",
+        "@rnv/engine-rn-web": "0.37.0-canary.9",
+        "@rnv/engine-rn-windows": "0.37.0-canary.9",
+        "@rnv/renative": "0.37.0-canary.9",
         "@rollup/plugin-typescript": "^8.3.2",
         "@types/react": "18.2.6",
         "http-server": "^14.1.0",
@@ -109,7 +111,7 @@
         "react-native-vector-icons": "9.2.0",
         "react-native-web": "0.18.9",
         "react-native-windows": "0.67.3",
-        "rnv": "0.37.0-canary.7",
+        "rnv": "0.37.0-canary.9",
         "rollup": "^2.70.2",
         "rollup-plugin-license": "2.7.0",
         "xcode": "2.1.0"
@@ -124,5 +126,9 @@
         "> 2%"
     ],
     "dependencies:doNotUseInTemplate": {},
-    "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc"
+    "gitHead": "589bf39903ec751b50788e579e452e7a292e89cc",
+    "dependencies": {
+        "require": "^2.4.20",
+        "@lightningjs/sdk": "5.2.0"
+    }
 }

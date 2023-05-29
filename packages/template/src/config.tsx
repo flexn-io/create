@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, ReactNode, useState } from 'react';
 import { Dimensions, PixelRatio, StatusBarStyle } from 'react-native';
 import StyleSheet from 'react-native-media-query';
 import {
@@ -19,7 +19,7 @@ import {
     isEngineRnWindows,
 } from '@rnv/renative';
 import '../platformAssets/runtime/fontManager';
-import { StaticTheme, Theme } from './configTypes';
+import { StaticTheme, Theme } from './types';
 //@ts-ignore
 import ICON_LOGO from '../platformAssets/runtime/logo.png';
 
@@ -346,7 +346,7 @@ type ThemeContextType = {
 
 export const ThemeContext = createContext<ThemeContextType>({ theme: themes.dark, dark: true });
 
-export function ThemeProvider({ children }) {
+export function ThemeProvider({ children }: { children: ReactNode }) {
     const [dark, setDark] = useState<ThemeContextType['dark']>(false);
 
     const toggle = () => {
@@ -370,3 +370,7 @@ export const THEME_DARK = 'dark';
 export { ICON_LOGO };
 
 export default staticThemes.dark;
+
+export const getWidth = () => {
+    return Dimensions.get('window').width * (isPlatformAndroidtv ? 2 : 1);
+};

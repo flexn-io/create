@@ -1,3 +1,4 @@
+import viewGroup from './screens/viewGroup';
 import animations from './screens/animations';
 import directionalFocus from './screens/directionalFocus';
 import dynamicState from './screens/dynamicState';
@@ -11,6 +12,12 @@ import pressableAnimations from './screens/pressableAnimations';
 import verticalScroll from './screens/verticalScroll';
 
 const testsList = [
+    {
+        component: viewGroup,
+        title: 'View Group',
+        route: 'ViewGroup',
+        platform: ['androidtv', 'firetv', 'tvos'],
+    },
     {
         component: list,
         title: 'List',
