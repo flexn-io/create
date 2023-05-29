@@ -31,10 +31,9 @@
     "dependencies": {
         "lodash-es": "4.17.21",
         "ts-object-utils": "0.0.5",
-        "isomorphic-unfetch": "^3.1.0"
-    },
-    "peerDependencies": {
-        "react": "^18.2.0",
-        "react-native": "0.67.2"
+        "isomorphic-unfetch": "^3.1.0",
+        "googleapis": "39",
+        "simple-git": "2.48.0",
+        "rnv": "0.37.0-canary.10"
     }
 }
