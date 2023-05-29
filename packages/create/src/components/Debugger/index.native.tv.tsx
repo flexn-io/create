@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, Dimensions, View as RNView, TVEventHandler } from 'react-native';
+import { Text, Dimensions, View as RNView } from 'react-native';
 import { isPlatformTvos } from '@rnv/renative';
 import CoreManager from '../../focusManager/service/core';
 import { INTERSECTION_MARGIN_HORIZONTAL, INTERSECTION_MARGIN_VERTICAL } from '../../focusManager/nextFocusFinder';
@@ -43,28 +43,19 @@ export default function FocusDebugger() {
     }, [enabledRef.current]);
 
     useTVRemoteHandler(({ eventType, eventKeyAction }: any) => {
-        if (!isPlatformTvos) {
+        if (isPlatformTvos) {
+            if (eventKeyAction === 'down' && eventType === 'playPause') {
+                Logger.getInstance().debug(CoreManager);
+                CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
+                setEnabled(!enabledRef.current);
+            }
+        } else {
             if (eventKeyAction === 'down' && eventType === 'd') {
                 CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
                 setEnabled(!enabledRef.current);
             }
         }
     });
-
-    useEffect(() => {
-        const selectHandler = new TVEventHandler();
-
-        selectHandler.enable(null, (_: any, evt: any) => {
-            const direction = evt.eventType;
-            if (isPlatformTvos) {
-                if (direction === 'playPause') {
-                    Logger.getInstance().debug(CoreManager);
-                    CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
-                    setEnabled(!enabledRef.current);
-                }
-            }
-        });
-    }, []);
 
     // useEffect(() => {
     //     if (enabledRef.current) {
