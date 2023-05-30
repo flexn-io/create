@@ -80,6 +80,7 @@
         "@flexn/eslint-config": "0.1.5",
         "@flexn/prettier-config": "0.1.4",
         "@flexn/typescript": "0.3.0",
+        "@flexn/build-hooks": "0.30.0",
         "@types/jest": "~27.0.2",
         "@types/lodash-es": "~4.17.5",
         "@types/lodash.debounce": "~4.0.6",
