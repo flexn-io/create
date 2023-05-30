@@ -4,15 +4,12 @@ import CoreManager from './focusManager/service/core';
 export * from './recyclerListView';
 export * from './rootRenderer';
 export * from './tvMenuControl';
-// global.CoreManager = CoreManager;
 
 export { CoreManager };
 
 export function focusElementByFocusKey(focusKey: string) {
     CoreManager.focusElementByFocusKey(focusKey);
 }
-
-// window.CoreManager = CoreManager;
 
 // Primitive components
 export { default as ActivityIndicator } from './components/ActivityIndicator';
