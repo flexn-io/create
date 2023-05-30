@@ -34,6 +34,6 @@
         "isomorphic-unfetch": "^3.1.0",
         "googleapis": "39",
         "simple-git": "2.48.0",
-        "rnv": "0.37.0-canary.10"
+        "rnv": "0.37.0-canary.11"
     }
 }

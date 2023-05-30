@@ -60,7 +60,7 @@
         },
         "@rnv/renative": {
             "source": "flexn",
-            "version": "0.37.0-canary.10"
+            "version": "0.37.0-canary.11"
         },
         "react-native": "source:flexn",
         "react-native-web": "source:flexn",

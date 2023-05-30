@@ -1808,10 +1808,10 @@
   resolved "https://registry.npmjs.org/@flexn/eslint-config/-/eslint-config-0.1.5.tgz#620d312018a0de1e61ac023c6dc2013d987b79e6"
   integrity sha512-l49bXcYNs9CPNfTRgJQWXS+5FSeW+yYuWOLnM5nuGcs0aD7WGhIaV27H0xnaiCU90jZY9uC613Gd45035gFd0w==
 
-"@flexn/plugins@1.0.5":
-  version "1.0.5"
-  resolved "https://registry.npmjs.org/@flexn/plugins/-/plugins-1.0.5.tgz#ad76d370ce87470a1cf8dd8047f412441f25d571"
-  integrity sha512-7TCFCrFTUHf/ax0aqBzw2sTWn7YzDLxpQXOgJJlC0GQCxHtFuTInn6+B/lzquWBOIxl4jjB0/Oa2nv8KzRkVJA==
+"@flexn/plugins@1.0.6":
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/@flexn/plugins/-/plugins-1.0.6.tgz#1da85c6307f68f48c48c600d0c0c656901c73c5e"
+  integrity sha512-PUUbvO1rDlo7MCSFcD6Q1bWV7Rxignc9M1l6ZfroOQJQtjR0kh7XQtt2AHiPF98hp2u1lnHKiivFe1xcVpp6/A==
 
 "@flexn/prettier-config@0.1.4":
   version "0.1.4"
@@ -4145,10 +4145,10 @@
     history "^4.7.2"
     query-string "^6.2.0"
 
-"@rnv/engine-lightning@0.37.0-canary.10":
-  version "0.37.0-canary.10"
-  resolved "https://registry.npmjs.org/@rnv/engine-lightning/-/engine-lightning-0.37.0-canary.10.tgz#07e53daceaf50abe7362d4e1d22950d31faeaed2"
-  integrity sha512-UdqhllGC2l9nJMjnJi35wELs60ulNH937S87SPrFx3IZUm8k6YSRhaFAYeyjqvACRd8Lh2uw8tyyROlwE6prCw==
+"@rnv/engine-lightning@0.37.0-canary.11":
+  version "0.37.0-canary.11"
+  resolved "https://registry.npmjs.org/@rnv/engine-lightning/-/engine-lightning-0.37.0-canary.11.tgz#0c3d688612a8a7cf384d37c3c53559900dbee4de"
+  integrity sha512-2i8lc1j8yy4v6d+jXUfkeml3BscIcaWYNtbxtgr7r/nFAJaXE1oR0R7Jnn2uCR8QrWe+MlUPpp8e7xdjzNuREQ==
   dependencies:
     "@lightningjs/cli" "2.8.0"
     "@lightningjs/sdk" "4.8.3"
@@ -4156,13 +4156,13 @@
     html-webpack-harddisk-plugin "1.0.2"
     html-webpack-plugin "5.5.0"
 
-"@rnv/engine-rn-electron@0.37.0-canary.10":
-  version "0.37.0-canary.10"
-  resolved "https://registry.npmjs.org/@rnv/engine-rn-electron/-/engine-rn-electron-0.37.0-canary.10.tgz#2685a1db1d88dac2dbf44a61d092f7db88fb644c"
-  integrity sha512-JbQBUR1EKxe5wRHo+miQoG9YCa/4IjDkkgKktfTXHydJxVf+90drUgWyZ9Ah6amQiOndxLYLY446Xz+PXGqf0A==
+"@rnv/engine-rn-electron@0.37.0-canary.11":
+  version "0.37.0-canary.11"
+  resolved "https://registry.npmjs.org/@rnv/engine-rn-electron/-/engine-rn-electron-0.37.0-canary.11.tgz#9dd97efa976da4f6f4206001ab3f36aea37d7621"
+  integrity sha512-e9RSnb9Tlu5vJZ/Jkby2MHGt6gLwzqELa5wVQnbl65Fqi9gJKKbID/tBq1UE46JUu+BVqdEP3sezwqtje90mhQ==
   dependencies:
     "@babel/preset-react" "7.16.0"
-    "@rnv/sdk-webpack" "0.37.0-canary.10"
+    "@rnv/sdk-webpack" "0.37.0-canary.11"
     babel-loader "8.0.5"
     babel-preset-expo "9.0.2"
     better-opn "1.0.0"
@@ -4173,10 +4173,10 @@
     html-webpack-plugin "4.5.1"
     webpack-bundle-analyzer "3.5.1"
 
-"@rnv/engine-rn-next@0.37.0-canary.10":
-  version "0.37.0-canary.10"
-  resolved "https://registry.npmjs.org/@rnv/engine-rn-next/-/engine-rn-next-0.37.0-canary.10.tgz#77cdedff7f8f09e0308416ef4bb00d8d96228e9f"
-  integrity sha512-B+yah9c9xmIN4Gy+UfVMFXK/jS6ANeVI+LU6AxwitShPZLQgY9iexPe02qCXUHXuJw6XoyBHIMp9DcOOe5yONw==
+"@rnv/engine-rn-next@0.37.0-canary.11":
+  version "0.37.0-canary.11"
+  resolved "https://registry.npmjs.org/@rnv/engine-rn-next/-/engine-rn-next-0.37.0-canary.11.tgz#307bf3dd69bbaef16b662c92376db00df659b366"
+  integrity sha512-XCj40MLDqGAINLdD6Twn/NOdfXYVkGyEOPDi61xCKlOeJV/FfNMxJL0MgyDagX3hXjE6fMBo8wHzVATU4QqL1Q==
   dependencies:
     "@expo/next-adapter" "3.1.12"
     ally.js "1.4.1"
@@ -4186,21 +4186,21 @@
     next-transpile-modules "9.0.0"
     webpack "5.65.0"
 
-"@rnv/engine-rn-tvos@0.37.0-canary.10":
-  version "0.37.0-canary.10"
-  resolved "https://registry.npmjs.org/@rnv/engine-rn-tvos/-/engine-rn-tvos-0.37.0-canary.10.tgz#28373f794a79a56d894c86260bc2dc71d218dca3"
-  integrity sha512-7qHK+JGOuRTsXLPPiXsVyiAVrXhXm11zC5HQpJhu4ErgZExfobQBKTnN8LrP/qRjIiwFZ2aaokaWve+t9gZT/g==
+"@rnv/engine-rn-tvos@0.37.0-canary.11":
+  version "0.37.0-canary.11"
+  resolved "https://registry.npmjs.org/@rnv/engine-rn-tvos/-/engine-rn-tvos-0.37.0-canary.11.tgz#6d8c055c57537d8f0bc951dc75bcd5503a890894"
+  integrity sha512-1Pd30vsipMA2LEBFdzr2RG0+VAA2y3nrbIO8lyI+OZ+hQEDlQRMJSglT+c98rZNQxNkAItbY9Mkeg/waU7bsbQ==
   dependencies:
-    "@rnv/sdk-android" "0.37.0-canary.10"
-    "@rnv/sdk-apple" "0.37.0-canary.10"
+    "@rnv/sdk-android" "0.37.0-canary.11"
+    "@rnv/sdk-apple" "0.37.0-canary.11"
 
-"@rnv/engine-rn-web@0.37.0-canary.10":
-  version "0.37.0-canary.10"
-  resolved "https://registry.npmjs.org/@rnv/engine-rn-web/-/engine-rn-web-0.37.0-canary.10.tgz#80fc562a9626b1cabec05a4d034097a650dfa89d"
-  integrity sha512-S6Ptggzjj3UMkwqME/+MRoa8yur/zJpyQvJSPC5UT9VVP9IG2G7vQp1HTfTTNTg8Pxj1OhWhAEQjF/IxguaV8w==
+"@rnv/engine-rn-web@0.37.0-canary.11":
+  version "0.37.0-canary.11"
+  resolved "https://registry.npmjs.org/@rnv/engine-rn-web/-/engine-rn-web-0.37.0-canary.11.tgz#3c1dab94ccaeafd8c463f734b6b64853d584b8d5"
+  integrity sha512-XQ+ux1EsVvmSocNR9pXF2De4nQMYl9yPKJd9CKBTchkXyyXqMhGmOIuowiBuWHYNnTi70imqLZwOB0nWClyDEQ==
   dependencies:
     "@babel/preset-react" "7.16.0"
-    "@rnv/sdk-webpack" "0.37.0-canary.10"
+    "@rnv/sdk-webpack" "0.37.0-canary.11"
     babel-loader "8.0.5"
     babel-preset-expo "9.0.2"
     better-opn "1.0.0"
@@ -4209,50 +4209,50 @@
     mini-css-extract-plugin "0.8.0"
     webpack-bundle-analyzer "3.5.1"
 
-"@rnv/engine-rn-windows@0.37.0-canary.10":
-  version "0.37.0-canary.10"
-  resolved "https://registry.npmjs.org/@rnv/engine-rn-windows/-/engine-rn-windows-0.37.0-canary.10.tgz#26d6169712ec161f5af6a35f504c8172a7a4dcb3"
-  integrity sha512-l9wO1XLNB/1VTZ78QOrdehQUOvorEX8JGseD/ySEiNq8CgrKKaB+zfg3xTE4nS7fUx2ctUSVMZRsmYHbTJIq7g==
+"@rnv/engine-rn-windows@0.37.0-canary.11":
+  version "0.37.0-canary.11"
+  resolved "https://registry.npmjs.org/@rnv/engine-rn-windows/-/engine-rn-windows-0.37.0-canary.11.tgz#c602edb85c459428900d7cf5801c9bdcc51bd863"
+  integrity sha512-pFtT3qqMrg3wdlFgaZKveZ8vpmk4ZInB8K80lBA5kzTJcJCKunCqtX2dEzNFS8VtAgsvf0puteNLFPMTdNgKRQ==
   dependencies:
     "@xmldom/xmldom" "0.7.0"
     react-native-windows "0.69.4"
 
-"@rnv/engine-rn@0.37.0-canary.10":
-  version "0.37.0-canary.10"
-  resolved "https://registry.npmjs.org/@rnv/engine-rn/-/engine-rn-0.37.0-canary.10.tgz#9f699a5f66ee2b829faed64c6ebf076ae1552361"
-  integrity sha512-EhihdjqxWZ4l7E8KQYGAQwtlGxUsQKgIa/BPFTkvV4gUB/gpNZ0AFi/ttHLka5b8duX2cOs1oB8emPiGnThGEA==
+"@rnv/engine-rn@0.37.0-canary.11":
+  version "0.37.0-canary.11"
+  resolved "https://registry.npmjs.org/@rnv/engine-rn/-/engine-rn-0.37.0-canary.11.tgz#5a4a35243bb98ec6bd215068ac4102f93458cc64"
+  integrity sha512-s6WHHANA64HiLIHZlbC3RzWKkMKw7iaQ1bDG4DUAXpmr8mQwIiemHMjQ2zhwOp3aOr7TIHAoW1yDoOeefTb02g==
   dependencies:
-    "@rnv/sdk-android" "0.37.0-canary.10"
-    "@rnv/sdk-apple" "0.37.0-canary.10"
+    "@rnv/sdk-android" "0.37.0-canary.11"
+    "@rnv/sdk-apple" "0.37.0-canary.11"
 
-"@rnv/renative@0.37.0-canary.10":
-  version "0.37.0-canary.10"
-  resolved "https://registry.npmjs.org/@rnv/renative/-/renative-0.37.0-canary.10.tgz#e483068df91d5fddb3be9b40ad1913f3c64bfeea"
-  integrity sha512-x7YJS5B+2eTdLtC9RWp8vyTG43OW49R5uGYNGczMfAydVPrG+S8gHiAPvJbr2QkuzbfOrhZREtoGpDrobIoWsA==
+"@rnv/renative@0.37.0-canary.11":
+  version "0.37.0-canary.11"
+  resolved "https://registry.npmjs.org/@rnv/renative/-/renative-0.37.0-canary.11.tgz#7ff95431cc076b68ffe312ea4e4a7ec8a69c5044"
+  integrity sha512-PTXTaY0tytjx9rTLz8FT3ShtDi2k3AHS9bOTt8i3+ALF9bC19fwvbTr2yAazA36GRMHvCljM4ti88gWs78P7RA==
 
-"@rnv/sdk-android@0.37.0-canary.10":
-  version "0.37.0-canary.10"
-  resolved "https://registry.npmjs.org/@rnv/sdk-android/-/sdk-android-0.37.0-canary.10.tgz#826a37b22ec9d31b3adae19249be1a3d73437640"
-  integrity sha512-W6L/qICKc6V8VfyRXGFgwDcJekZKpfUcQ0zzgY8/BFnif7OVB1cYPD891CgfZ87n6T086Ho80WZRNU4MyGP08Q==
+"@rnv/sdk-android@0.37.0-canary.11":
+  version "0.37.0-canary.11"
+  resolved "https://registry.npmjs.org/@rnv/sdk-android/-/sdk-android-0.37.0-canary.11.tgz#a7659b553771610b68df91ba00f88783d7947baa"
+  integrity sha512-f2qEEo8GIH9HWLXzlq0Tvuq1+V+WiSkMZ8DWJrExE96awEwVavM1OORqTb7LP0oN/cB9ZOlTWpssF01HjK+roQ==
   dependencies:
     execa "5.1.1"
     inquirer "8.2.0"
     shelljs "0.8.5"
 
-"@rnv/sdk-apple@0.37.0-canary.10":
-  version "0.37.0-canary.10"
-  resolved "https://registry.npmjs.org/@rnv/sdk-apple/-/sdk-apple-0.37.0-canary.10.tgz#e1326b28352058f26251d647b7841f161a479c89"
-  integrity sha512-pZfsUWR1gKIKGcI+Af83pQgtCABgzq9vb8TeXeyum9IOc0FGZQYmVWiXFR9fodNIEcP7ftxPVoB+I+KlOAt/sQ==
+"@rnv/sdk-apple@0.37.0-canary.11":
+  version "0.37.0-canary.11"
+  resolved "https://registry.npmjs.org/@rnv/sdk-apple/-/sdk-apple-0.37.0-canary.11.tgz#d631b87950751de6b17fcb737bb99b5d4e24648f"
+  integrity sha512-Z+sJjZlfTI6+hgO2UOxspsNbqgF6FYZAydlh11nz9+73GiMzSWZR0QqDrCVWbKlITAgEZHq/ksZ1cu4cJsguGw==
   dependencies:
     compare-versions "3.6.0"
     inquirer "8.2.0"
     ios-mobileprovision-finder "1.0.11"
     shelljs "0.8.5"
 
-"@rnv/sdk-webpack@0.37.0-canary.10":
-  version "0.37.0-canary.10"
-  resolved "https://registry.npmjs.org/@rnv/sdk-webpack/-/sdk-webpack-0.37.0-canary.10.tgz#aafc920d0a8fbf020a99622b45ce7c9bbf11b342"
-  integrity sha512-ohbR/TqZd78NU9oqa5mt4unGpBl6Wixug3EQKiGnEqI1diC9n0gW7mem9RM0DvOlIZ2OHkmxGUkxEGTtOxXpYg==
+"@rnv/sdk-webpack@0.37.0-canary.11":
+  version "0.37.0-canary.11"
+  resolved "https://registry.npmjs.org/@rnv/sdk-webpack/-/sdk-webpack-0.37.0-canary.11.tgz#853a070c04c0fa1829735edbc4580e634cf4139d"
+  integrity sha512-esDUbD5kJY3blcwEbWdF9gmaS/f7eFNdybPIdPnVNJZxpxvKQCLUBkcqr8B8vLlXZHeQR/yHdpoxuajUGOYHxA==
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin" "^0.5.3"
     "@svgr/webpack" "6.3.1"
@@ -22680,10 +22680,10 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rnv@0.37.0-canary.10:
-  version "0.37.0-canary.10"
-  resolved "https://registry.npmjs.org/rnv/-/rnv-0.37.0-canary.10.tgz#dacfdef106a99818da554365c23d8b37b7476fda"
-  integrity sha512-gmHaXEJBEws56nw1FMp5aBiBSZ+1I4BfWBFRNZMjYtM6qX1Jwvyw1blP7kzqqDimSSSaDfJTpPiKTqggAJ+23Q==
+rnv@0.37.0-canary.11:
+  version "0.37.0-canary.11"
+  resolved "https://registry.npmjs.org/rnv/-/rnv-0.37.0-canary.11.tgz#657a7c0892fd6b22e8ebb46ac5be3a2ae0fe94a0"
+  integrity sha512-q6eQ0MaIzGP4oOE0O/SQjqen36UfReNl+xOrfcGd1rPv6QgDKdfneT5hgkzCayzI4iW/pMEiLjYZ40EKsbMQDg==
   dependencies:
     "@babel/cli" "7.17.6"
     "@babel/core" "7.8.3"
