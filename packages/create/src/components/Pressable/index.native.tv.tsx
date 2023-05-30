@@ -67,13 +67,13 @@ const View = React.forwardRef<any, ViewProps>(
                     focusRepeatContext,
                     parent,
                     verticalContentContainerGap:
-                        flattenStyle.marginVertical ||
-                        flattenStyle.paddingVertical ||
-                        flattenStyle.marginTop ||
-                        flattenStyle.paddingTop ||
-                        flattenStyle.margin ||
-                        flattenStyle.padding ||
-                        flattenStyle.top,
+                        flattenStyle?.marginVertical ||
+                        flattenStyle?.paddingVertical ||
+                        flattenStyle?.marginTop ||
+                        flattenStyle?.paddingTop ||
+                        flattenStyle?.margin ||
+                        flattenStyle?.padding ||
+                        flattenStyle?.top,
                     ...focusOptions,
                 });
             }
