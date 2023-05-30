@@ -1,8 +1,8 @@
-export function Ratio(_pixels) {
+export function Ratio(_pixels: number) {
     return 0;
 }
 
-export function getHexColor(hex, alpha = 100) {
+export function getHexColor(hex: string, alpha = 100) {
     if (!hex) {
         return 0x00;
     }

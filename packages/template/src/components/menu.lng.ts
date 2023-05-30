@@ -146,16 +146,16 @@ class SideMenu
             class LightTheme extends this {
                 $enter() {
                     this.patch({ color: getHexColor('#FFFFFF') });
-                    this.Container.children.forEach((ch) => {
-                        ch.patch({ color: getHexColor('#000000') });
+                    this.Container.children.forEach((_ch) => {
+                        // ch.patch({ color: getHexColor('#000000') });
                     });
                 }
             },
             class DarkTheme extends this {
                 $enter() {
                     this.patch({ color: getHexColor('#000000') });
-                    this.Container.children.forEach((ch) => {
-                        ch.patch({ color: getHexColor('#FFFFFF') });
+                    this.Container.children.forEach((_ch) => {
+                        // ch.patch({ color: getHexColor('#FFFFFF') });
                     });
                 }
             },
