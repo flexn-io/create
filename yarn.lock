@@ -2918,17 +2918,23 @@
     url-polyfill "^1.1.10"
     whatwg-fetch "^3.0.0"
 
-"@lightningjs/ui-components@1.3.1":
-  version "1.3.1"
-  resolved "https://registry.npmjs.org/@lightningjs/ui-components/-/ui-components-1.3.1.tgz#043cebe51c3e7ab7a942396fb5fcf86928ee364a"
-  integrity sha512-MoHgrj2kDh0nUUpiM0TuSFSeIY+NKxFg2tWEpqEq/w6wy30UmAmBNJPv155j6o+NW7wWQB/ksf6ZnH61DrWhsA==
+"@lightningjs/ui-components-theme-base@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@lightningjs/ui-components-theme-base/-/ui-components-theme-base-1.0.1.tgz#690ec4934cdb799677f7111f9484f6e564a1eeb6"
+  integrity sha512-2ZFyjNxraCzj1qGcIBicgUHUT9+inkjLeaibW/s/Fon8L9xjCGSN1BSnPm0Fw71pi7KUDvjNJWhKposhW1MF5A==
+
+"@lightningjs/ui-components@2.2.4":
+  version "2.2.4"
+  resolved "https://registry.npmjs.org/@lightningjs/ui-components/-/ui-components-2.2.4.tgz#74eb1ffdd861da84a8c1e6d884ab20c96dc09fb9"
+  integrity sha512-jH8f5p4Aer9ABgy/VwMK4R9ccqVgKkeWofmZndfJQFFs0RtpQfEslXGBy7d7+aNVJwiPn5HXzP0YCSyLdL4mJw==
   dependencies:
+    "@lightningjs/ui-components-theme-base" "^1.0.1"
     debounce "^1.2.1"
 
-"@lightningjs/ui@1.3.1":
-  version "1.3.1"
-  resolved "https://registry.npmjs.org/@lightningjs/ui/-/ui-1.3.1.tgz#e3549a306850cebe80d3e7f6c412088148e0f853"
-  integrity sha512-kXXgAfphJPu0v1uMyR8sPR2TbjRcldXNilQonjSdnKjQF+tKM9lyAZTbVEIGT9kCNWATny5aWgmRS3p+IGR7hA==
+"@lightningjs/ui@1.3.9":
+  version "1.3.9"
+  resolved "https://registry.npmjs.org/@lightningjs/ui/-/ui-1.3.9.tgz#df27b2f8ba3c58fc510be9fbbd7a9a0b6c87f1f4"
+  integrity sha512-9w/TtJstuX6Z4Zxn8lXxVU9mGlFNEbcRAVQoE3e2YuCdzsjlGPDu7ttT4XxvuhdOJWW2uo5rv/ni9BCD15kFUA==
   dependencies:
     "@lightningjs/core" "^2.3.0"
 

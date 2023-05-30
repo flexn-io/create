@@ -33,13 +33,6 @@ export { default as ImageBackground } from './components/ImageBackground';
 export { default as Modal } from './components/Modal';
 export { default as FlashList } from './components/FlashList';
 
-// Complex components
-export { PosterCard } from './complexComponents/Card';
-export { default as Grid } from './complexComponents/Grid';
-export { default as Keyboard } from './complexComponents/Keyboard';
-export { default as List } from './complexComponents/List';
-export { default as Row } from './complexComponents/Row';
-
 // APIs
 export { default as StyleSheet } from './apis/StyleSheet';
 export { default as Animated } from './apis/Animated';

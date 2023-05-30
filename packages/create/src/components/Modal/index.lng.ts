@@ -11,6 +11,6 @@ export default class Modal extends Lightning.Component {
     }
 
     _handleBack() {
-        this.signal('onClose');
+        // this.signal('onClose');
     }
 }
