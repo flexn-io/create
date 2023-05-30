@@ -2,8 +2,11 @@
     "name": "@flexn/app-harness",
     "version": "0.21.1-alpha.9",
     "scripts": {
-        "bootstrap": "yarn prepare-assets && cd ../.. && yarn bootstrap",
-        "build": "tsc --noEmit",
+        "bootstrap": "cd ../.. && yarn bootstrap",
+        "build": "yarn clean && yarn compile",
+        "clean": "rm -rf ./lib && rm -rf tsconfig.tsbuildinfo",
+        "compile": "tsc --noEmit",
+        "watch": "tsc --watch --preserveWatchOutput --noEmit",
         "deploy:android-alpha": "npx rnv deploy -p android -s canary --only --hooks",
         "deploy:android-prod": "npx rnv deploy -p android -s production --only --hooks",
         "deploy:androidtv-alpha": "npx rnv deploy -p androidtv -s canary --only --hooks",
@@ -34,7 +37,6 @@
         "report:open": "npx allure open reporting/allure-report",
         "run-all": "ttab rnv run -p web --ci && ttab rnv run -p ios -t 'iPhone 8' --ci && ttab rnv run -p android -t Pixel_2_API_28 --ci && ttab rnv run -p androidtv -t Android_TV_1080p_API_28 --ci && ttab rnv run -p tvos -t \"Apple TV\" --ci && ttab rnv run -p macos --ci && ttab rnv run -p tizen -t T-samsung-5.5-x86 --ci && ttab rnv run -p webos --ci && ttab rnv run -p androidwear -t Android_Wear_Round_API_28 --ci && ttab rnv run -p tizenwatch -t W-5.5-circle-x86 --ci && ttab rnv run -p tizenmobile -t M-5.5-x86 --ci",
         "tvos:adhoc": "npx rnv export -p tvos -c harness -s adhoc --xcodebuildArchiveArgs \"-UseModernBuildSystem=NO\"",
-        "watch": "tsc --watch --preserveWatchOutput --noEmit",
         "web:release": "npx rnv build -p web -c harness -s release && vercel ./platformBuilds/harness_web/project"
     },
     "dependencies": {
