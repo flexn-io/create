@@ -147,7 +147,7 @@ class SideMenu
                 $enter() {
                     this.patch({ color: getHexColor('#FFFFFF') });
                     this.Container.children.forEach((ch) => {
-                        ch.patch({ color: getHexColor('#000000') });
+                        // ch.patch({ color: getHexColor('#000000') });
                     });
                 }
             },
@@ -155,7 +155,7 @@ class SideMenu
                 $enter() {
                     this.patch({ color: getHexColor('#000000') });
                     this.Container.children.forEach((ch) => {
-                        ch.patch({ color: getHexColor('#FFFFFF') });
+                        // ch.patch({ color: getHexColor('#FFFFFF') });
                     });
                 }
             },
