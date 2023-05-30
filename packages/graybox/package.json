@@ -4,7 +4,9 @@
     "description": "Flexn Graybox Tester",
     "main": "lib/index.js",
     "scripts": {
-        "build": "npx tsc --outDir lib",
+        "build": "yarn clean && yarn compile",
+        "clean": "rm -rf ./lib && rm -rf tsconfig.tsbuildinfo",
+        "compile": "tsc -b tsconfig.json",
         "watch": "tsc --watch --preserveWatchOutput"
     },
     "files": [

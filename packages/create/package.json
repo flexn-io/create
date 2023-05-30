@@ -5,11 +5,10 @@
     "main": "lib/index",
     "types": "lib/index",
     "scripts": {
-        "watch": "tsc --watch --preserveWatchOutput",
         "build": "yarn clean && yarn compile",
         "clean": "rm -rf ./lib && rm -rf tsconfig.tsbuildinfo",
         "compile": "tsc -b tsconfig.json",
-        "compile:prod": "tsc -b tsconfig.prod.json"
+        "watch": "tsc --watch --preserveWatchOutput"
     },
     "files": [
         "lib",
