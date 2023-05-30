@@ -42,7 +42,7 @@ class MenuItem
                 },
             },
         });
-        if (this.item.style?.flexItem) {
+        if (this._item?.style?.flexItem) {
             this.patch({
                 flexItem: this._item?.style.flexItem,
             });
