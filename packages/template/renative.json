@@ -267,6 +267,7 @@
         }
     },
     "crypto": {
+        "optional": true,
         "encrypt": {
             "dest": "PROJECT_HOME/secrets/privateConfigs.enc"
         },
