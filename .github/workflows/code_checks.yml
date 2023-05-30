@@ -20,7 +20,7 @@ jobs:
             - name: Linter
               run: yarn lint
             - name: Unit Tests
-              run: yarn test-ci
+              run: yarn test
             - name: Extract branch name
               shell: bash
               run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
