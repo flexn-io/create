@@ -87,7 +87,6 @@ const FlashList = ({
     };
 
     const ItemContainer = React.forwardRef((props: CellContainerProps, ref: any) => {
-        const { style, children } = props;
         const target = useCombinedRefs<RNView>({ refs: [ref], model: null });
 
         useEffect(() => {
@@ -108,11 +107,7 @@ const FlashList = ({
             };
         }, [props.index]);
 
-        return (
-            <CellContainer ref={target} {...props} style={[style]}>
-                {children}
-            </CellContainer>
-        );
+        return <CellContainer ref={target} {...props} />;
     });
 
     return (
