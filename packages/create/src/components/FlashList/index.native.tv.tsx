@@ -91,13 +91,13 @@ const FlashList = ({
         const target = useCombinedRefs<RNView>({ refs: [ref], model: null });
 
         useEffect(() => {
-            const eventFocus = Event.subscribe(model, EVENT_TYPES.ON_CELL_CONTAINER_FOCUS, (idx) => {
-                if (idx === props.index) {
+            const eventFocus = Event.subscribe(model, EVENT_TYPES.ON_CELL_CONTAINER_FOCUS, (index) => {
+                if (index === props.index) {
                     target.current?.setNativeProps({ zIndex: 1 });
                 }
             });
-            const eventBlur = Event.subscribe(model, EVENT_TYPES.ON_CELL_CONTAINER_BLUR, (idx) => {
-                if (idx === props.index) {
+            const eventBlur = Event.subscribe(model, EVENT_TYPES.ON_CELL_CONTAINER_BLUR, (index) => {
+                if (index === props.index) {
                     target.current?.setNativeProps({ zIndex: 0 });
                 }
             });
