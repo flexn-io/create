@@ -2,16 +2,14 @@
 import CoreManager from './focusManager/service/core';
 
 export * from './recyclerListView';
-
-// global.CoreManager = CoreManager;
+export * from './rootRenderer';
+export * from './tvMenuControl';
 
 export { CoreManager };
 
 export function focusElementByFocusKey(focusKey: string) {
     CoreManager.focusElementByFocusKey(focusKey);
 }
-
-// window.CoreManager = CoreManager;
 
 // Primitive components
 export { default as ActivityIndicator } from './components/ActivityIndicator';
@@ -31,13 +29,6 @@ export { default as View } from './components/View';
 export { default as ImageBackground } from './components/ImageBackground';
 export { default as Modal } from './components/Modal';
 export { default as FlashList } from './components/FlashList';
-
-// Complex components
-export { PosterCard } from './complexComponents/Card';
-export { default as Grid } from './complexComponents/Grid';
-export { default as Keyboard } from './complexComponents/Keyboard';
-export { default as List } from './complexComponents/List';
-export { default as Row } from './complexComponents/Row';
 
 // APIs
 export { default as StyleSheet } from './apis/StyleSheet';

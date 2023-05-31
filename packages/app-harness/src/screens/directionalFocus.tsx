@@ -1,17 +1,63 @@
-//@ts-nocheck
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { ScrollView, View } from '@flexn/create';
+import { StyleSheet, Dimensions } from 'react-native';
+import { ScrollView, View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
 import { getScaledValue } from '@rnv/renative';
 import Screen from './screen';
 import { Button } from '../components/Button';
 import { Ratio } from '../utils';
 
+const border = {
+    type: 'border',
+    focus: {
+        borderWidth: 5,
+        borderColor: 'yellow',
+    },
+    blur: {
+        borderWidth: 4,
+        borderColor: '#FFFFFF',
+    },
+};
+
+const { height } = Dimensions.get('screen');
+
+const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
+
+function interval(min = 0, max = kittyNames.length - 1) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function generateData(width: number, height: number, items = 30) {
+    const temp: any = [];
+    for (let index = 0; index < items; index++) {
+        temp.push({
+            index,
+            backgroundImage: `https://placekitten.com/${width + index}/${height}`,
+            title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
+        });
+    }
+
+    return temp;
+}
+
 const DirectionalFocus = () => {
+    const [data] = React.useState(generateData(200, 200, 200));
+
+    const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
+        return (
+            <Pressable
+                style={styles.packshot}
+                focusRepeatContext={focusRepeatContext}
+                focusOptions={{ animatorOptions: border }}
+            >
+                <Image source={{ uri: item.backgroundImage }} style={styles.image} />
+            </Pressable>
+        );
+    };
+
     return (
         <Screen style={{ backgroundColor: '#222222' }}>
             <ScrollView>
-                <View style={{ top: Ratio(20) }}>
+                <View style={{ top: Ratio(20), height }}>
                     <Button
                         style={{ ...styles.button, ...styles.button1 }}
                         title="Button1: -> Button2"
@@ -32,11 +78,19 @@ const DirectionalFocus = () => {
                         title="Button4: -> Button5"
                         textStyle={styles.buttonTextStyle}
                     />
-                    <Button
+                    <FlashList
+                        data={data}
+                        renderItem={rowRenderer}
+                        horizontal
+                        type="row"
+                        estimatedItemSize={Ratio(150)}
+                        style={{ flex: 1, top: Ratio(200) }}
+                    />
+                    {/* <Button
                         style={{ ...styles.button, ...styles.button5 }}
                         title="Button5: -> Button6"
                         textStyle={styles.buttonTextStyle}
-                    />
+                    /> */}
                 </View>
             </ScrollView>
         </Screen>
@@ -53,24 +107,36 @@ const styles = StyleSheet.create({
         width: Ratio(500),
         marginTop: getScaledValue(20),
     },
+    packshot: {
+        width: Ratio(150),
+        height: Ratio(150),
+        // borderColor: 'red',
+        // borderWidth: 1,
+        margin: 5,
+        // borderWidth: 2,
+    },
+    image: {
+        width: '100%',
+        height: '100%',
+    },
     buttonTextStyle: {
         color: '#ffffff',
         fontSize: Ratio(20),
     },
     button1: {},
     button2: {
-        left: 400,
+        left: Ratio(400),
     },
     button3: {
-        left: 1000,
+        left: Ratio(1000),
     },
     button4: {
-        top: 100,
-        left: 250,
+        top: Ratio(100),
+        left: Ratio(250),
     },
     button5: {
-        top: 300,
-        left: 500,
+        top: Ratio(300),
+        left: Ratio(500),
     },
     button6: {},
     button7: {},

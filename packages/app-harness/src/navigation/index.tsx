@@ -13,6 +13,7 @@ import HorizontalScroll from '../screens/horizontalScroll';
 import NestedScroll from '../screens/nestedScroll';
 import Overflow from '../screens/overflow';
 import PressableAnimations from '../screens/pressableAnimations';
+import ViewGroup from '../screens/viewGroup';
 
 const RootStack = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ const Navigation = () => {
                 <RootStack.Screen name="NestedScroll" component={NestedScroll} />
                 <RootStack.Screen name="Overflow" component={Overflow} />
                 <RootStack.Screen name="PressableAnimations" component={PressableAnimations} />
+                <RootStack.Screen name="ViewGroup" component={ViewGroup} />
             </RootStack.Navigator>
         </NavigationContainer>
     );

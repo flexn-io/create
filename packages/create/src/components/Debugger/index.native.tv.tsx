@@ -1,21 +1,88 @@
 import React, { useEffect, useState } from 'react';
 import { Text, Dimensions, View as RNView } from 'react-native';
+import { isPlatformTvos } from '@rnv/renative';
 import CoreManager from '../../focusManager/service/core';
+import { INTERSECTION_MARGIN_HORIZONTAL, INTERSECTION_MARGIN_VERTICAL } from '../../focusManager/nextFocusFinder';
 import AbstractFocusModel from '../../focusManager/model/FocusModel';
 import View from '../../focusManager/model/view';
+import { Ratio } from '../../helpers';
+import { useTVRemoteHandler } from '../../remoteHandler';
+import Logger from '../../focusManager/service/logger';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function FocusDebugger() {
-    const [seconds, setSeconds] = useState(0);
-    useEffect(() => {
-        let interval: any = null;
-        interval = setInterval(() => {
-            setSeconds((s) => s + 1);
-        }, 500);
-        return () => clearInterval(interval);
+    const [_, setSeconds] = useState(0); // eslint-disable-line
+    const [enabled, _setEnabled] = useState(false);
+    const enabledRef = React.useRef(enabled);
+    const interval: any = React.useRef();
+    const setEnabled = (value: boolean) => {
+        enabledRef.current = value;
+        _setEnabled(value);
+    };
+
+    const [nextFocus] = useState({
+        right: '',
+        left: '',
+        up: '',
+        down: '',
     });
+
+    useEffect(() => {
+        if (enabledRef.current) {
+            interval.current = setInterval(() => {
+                setSeconds((s) => s + 1);
+            }, 500);
+        }
+        return () => {
+            if (!enabledRef.current) {
+                clearInterval(interval.current);
+            }
+        };
+    }, [enabledRef.current]);
+
+    useTVRemoteHandler(({ eventType, eventKeyAction }: any) => {
+        if (isPlatformTvos) {
+            if (eventKeyAction === 'down' && eventType === 'playPause') {
+                Logger.getInstance().debug(CoreManager);
+                CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
+                setEnabled(!enabledRef.current);
+            }
+        } else {
+            if (eventKeyAction === 'down' && eventType === 'd') {
+                CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
+                setEnabled(!enabledRef.current);
+            }
+        }
+    });
+
+    // useEffect(() => {
+    //     if (enabledRef.current) {
+    //         const nextRight = getNextFocus('right');
+    //         const nextLeft = getNextFocus('left');
+    //         const nextUp = getNextFocus('up');
+    //         const nextDown = getNextFocus('down');
+
+    //         setNextFocus({
+    //             right: nextRight?.nodeId?.toString() || '',
+    //             left: nextLeft?.nodeId?.toString() || '',
+    //             up: nextUp?.nodeId?.toString() || '',
+    //             down: nextDown?.nodeId?.toString() || '',
+    //         });
+    //     }
+    // }, [CoreManager._currentFocus?.getId(), enabledRef.current]);
+
+    // const getNextFocus = (direction: string) => {
+    //     if (CoreManager._currentFocus) {
+    //         if (CoreManager._currentFocus.getFocusTaskExecutor(direction)) {
+    //             const focusExecutor = CoreManager._currentFocus.getFocusTaskExecutor(direction);
+    //             return focusExecutor?.getNextFocusable(direction);
+    //         }
+
+    //         return CoreManager.getNextFocusableContext(direction);
+    //     }
+    // };
 
     const grid = [];
     for (let i = 0; i < 10; i++) {
@@ -40,7 +107,7 @@ export default function FocusDebugger() {
         scrollView: 'purple',
     };
 
-    if (CoreManager.isDebuggerEnabled) {
+    if (enabledRef.current) {
         const contexts: any = [];
         const contextMap = CoreManager.getFocusMap(); // eslint-disable-line prefer-destructuring
         Object.values(contextMap)
@@ -62,7 +129,18 @@ export default function FocusDebugger() {
                                 left: isNaN(ctx.getLayout().absolute.xMin) ? 0 : ctx.getLayout().absolute.xMin,
                             }}
                         >
-                            <Text style={{ color: borderColor }}>{ctx.getId().substr(ctx.getId().length - 5)}</Text>
+                            <RNView style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', width: Ratio(50) }}>
+                                <Text
+                                    style={{
+                                        color: borderColor,
+                                        fontWeight: '900',
+                                        fontSize: Ratio(16),
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    {ctx.nodeId}
+                                </Text>
+                            </RNView>
                         </RNView>,
                         <RNView
                             key={ctx.getId()}
@@ -81,6 +159,64 @@ export default function FocusDebugger() {
                             }}
                         />
                     );
+
+                    if (CoreManager.getCurrentFocus()?.getId() === ctx.getId()) {
+                        const a1 =
+                            ctx.getLayout().absolute.xCenter -
+                            ctx.getLayout().width * 0.5 -
+                            INTERSECTION_MARGIN_VERTICAL;
+                        const a2 =
+                            ctx.getLayout().absolute.xCenter +
+                            ctx.getLayout().width * 0.5 +
+                            INTERSECTION_MARGIN_VERTICAL;
+                        const a3 =
+                            ctx.getLayout().absolute.yCenter -
+                            ctx.getLayout().height * 0.5 -
+                            INTERSECTION_MARGIN_HORIZONTAL;
+                        const a4 =
+                            ctx.getLayout().absolute.yCenter +
+                            ctx.getLayout().height * 0.5 +
+                            INTERSECTION_MARGIN_HORIZONTAL;
+
+                        contexts.push(
+                            <RNView
+                                style={{
+                                    width: '100%',
+                                    height: 2,
+                                    backgroundColor: 'yellow',
+                                    top: a3,
+                                    position: 'absolute',
+                                }}
+                            />,
+                            <RNView
+                                style={{
+                                    width: '100%',
+                                    height: 2,
+                                    backgroundColor: 'yellow',
+                                    top: a4,
+                                    position: 'absolute',
+                                }}
+                            />,
+                            <RNView
+                                style={{
+                                    width: 2,
+                                    height: '100%',
+                                    backgroundColor: 'green',
+                                    left: a1,
+                                    position: 'absolute',
+                                }}
+                            />,
+                            <RNView
+                                style={{
+                                    width: 2,
+                                    height: '100%',
+                                    backgroundColor: 'green',
+                                    left: a2,
+                                    position: 'absolute',
+                                }}
+                            />
+                        );
+                    }
                 }
             });
 
@@ -98,7 +234,7 @@ export default function FocusDebugger() {
                 <RNView
                     style={{
                         width: '100%',
-                        height: 1,
+                        height: 2,
                         backgroundColor: 'red',
                         top: isNaN(CoreManager._currentFocus?.getLayout()?.absolute?.yCenter)
                             ? 0
@@ -109,7 +245,7 @@ export default function FocusDebugger() {
                 <RNView
                     style={{
                         height: '100%',
-                        width: 1,
+                        width: 2,
                         backgroundColor: 'red',
                         left: isNaN(CoreManager._currentFocus?.getLayout()?.absolute?.xCenter)
                             ? 0
@@ -117,7 +253,22 @@ export default function FocusDebugger() {
                         position: 'absolute',
                     }}
                 />
-                <Text>{seconds}</Text>
+                <RNView
+                    style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 10,
+                        width: Ratio(250),
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Text
+                        style={{ color: 'white', fontSize: Ratio(16) }}
+                    >{`Right: ${nextFocus.right} Left: ${nextFocus.left}`}</Text>
+                    <Text
+                        style={{ color: 'white', fontSize: Ratio(16) }}
+                    >{`Up: ${nextFocus.up} Down: ${nextFocus.down}`}</Text>
+                </RNView>
             </RNView>
         );
     }

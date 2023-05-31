@@ -1,9 +1,8 @@
-import { TVEventHandler, NativeModules, NativeEventEmitter, DeviceEventEmitter } from 'react-native';
+import { NativeModules, NativeEventEmitter, DeviceEventEmitter } from 'react-native';
 import { isPlatformAndroidtv, isPlatformTvos, isPlatformFiretv } from '@rnv/renative';
 import throttle from 'lodash.throttle';
 import CoreManager from './core';
 import { DIRECTION } from '../constants';
-import Logger from './logger';
 import Grid from '../model/grid';
 import View from '../model/view';
 import RecyclerView from '../model/recycler';
@@ -22,17 +21,16 @@ const EVENT_TYPE_RIGHT = 'right';
 const EVENT_TYPE_LEFT = 'left';
 const EVENT_TYPE_DOWN = 'down';
 const EVENT_TYPE_UP = 'up';
+export const EVENT_TYPE_D = 'd';
 
 const IS_ANDROID_BASED = isPlatformAndroidtv || isPlatformFiretv;
 
 class KeyHandler {
-    private selectHandler: any;
     private eventEmitter: any;
 
     private _longPressInterval: any;
     private _stopKeyDownEvents: boolean;
 
-    private _currentScrollTarget: any;
     private _currentIndex: number;
     private _maxIndex: number;
 
@@ -41,7 +39,6 @@ class KeyHandler {
         this._longPressInterval = 0;
         this._currentIndex = 0;
         this._maxIndex = 0;
-        this._currentScrollTarget = {};
 
         const { TvRemoteHandler } = NativeModules;
 
@@ -51,8 +48,6 @@ class KeyHandler {
             this.eventEmitter = DeviceEventEmitter;
         }
 
-        this.selectHandler = new TVEventHandler();
-
         this.onKeyDown = throttle(this.onKeyDown.bind(this), 100);
         this.onKeyLongPress = this.onKeyLongPress.bind(this);
         this.onKeyUp = this.onKeyUp.bind(this);
@@ -60,7 +55,6 @@ class KeyHandler {
         this.enableKeyHandler = this.enableKeyHandler.bind(this);
 
         this.enableKeyHandler();
-        this.enableSelectHandler();
     }
 
     public removeListeners() {
@@ -80,27 +74,6 @@ class KeyHandler {
         }
     }
 
-    private enableSelectHandler() {
-        this.selectHandler.enable(null, (_: any, evt: any) => {
-            const direction = evt.eventType;
-            if (isPlatformTvos) {
-                if (direction === 'playPause') {
-                    Logger.getInstance().debug(CoreManager);
-                    CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
-                }
-
-                if (direction === 'select') {
-                    // This can happen if we opened new screen which doesn't have any focusable
-                    // then last screen in context map still keeping focus
-                    const currentFocus = CoreManager.getCurrentFocus();
-                    if (currentFocus && currentFocus?.getScreen()?.isInForeground()) {
-                        currentFocus.onPress();
-                    }
-                }
-            }
-        });
-    }
-
     private handleKeyEvent({ eventKeyAction, eventType }: { eventKeyAction: string; eventType: string }) {
         switch (eventKeyAction) {
             case EVENT_KEY_ACTION_UP:
@@ -115,16 +88,12 @@ class KeyHandler {
     }
 
     private onKeyDown(eventType: string) {
-        // console.log('direction', eventType)
-
-        // if (eventType === 'playPause' || eventType === 'select') {
-        if (eventType === 'playPause') {
-            Logger.getInstance().debug(CoreManager);
-            CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
-        }
-
         if (!this._stopKeyDownEvents) {
-            if (IS_ANDROID_BASED && eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
+            if (
+                eventType === EVENT_TYPE_SELECT &&
+                CoreManager.getCurrentFocus() &&
+                CoreManager.getCurrentFocus()?.getScreen()?.isInForeground()
+            ) {
                 CoreManager.getCurrentFocus()?.onPress();
             }
 
@@ -173,7 +142,7 @@ class KeyHandler {
                     if (selectedIndex > this.getMaxIndex(true)) selectedIndex = this.getMaxIndex(true);
                 }
                 this._currentIndex = selectedIndex;
-                this._currentScrollTarget = CoreManager.executeInlineFocus(selectedIndex, eventType);
+                CoreManager.executeInlineFocus(selectedIndex, eventType);
 
                 if (selectedIndex === 0 || selectedIndex === this.getMaxIndex(EVENT_TYPE_DOWN === eventType)) {
                     clearInterval(this._longPressInterval);

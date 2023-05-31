@@ -1,7 +1,7 @@
 import UIKit
 
 @objc(TvRemoteHandler)
-class TvRemoteHandler: RCTEventEmitter {
+class TvRemoteHandler: RCTEventEmitter, UIGestureRecognizerDelegate {
     var timer: Timer?
     var hasListener: Bool = false
     var rootViewController: UIViewController?;
@@ -17,7 +17,7 @@ class TvRemoteHandler: RCTEventEmitter {
     
     override init() {
         super.init()
-        rootViewController = getViewController()
+        rootViewController = getViewController()        
         addGestures()        
     }
     
@@ -30,65 +30,68 @@ class TvRemoteHandler: RCTEventEmitter {
     }
     
     func getViewController() -> UIViewController? {
-        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-        if var topController = keyWindow?.rootViewController {
-            while let presentedViewController = topController.presentedViewController {
-                topController = presentedViewController
-            }
-            
-            return topController
-        }
-                
-        return keyWindow?.rootViewController ?? nil
+       let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+       if var topController = keyWindow?.rootViewController {
+           while let presentedViewController = topController.presentedViewController {
+               topController = presentedViewController
+           }
+
+           return topController
+       }
+
+       return keyWindow?.rootViewController ?? nil
     }
     
     func addGestures() {
+        // SWIPE
+        let recognizerSwipe = UIPanGestureRecognizer(target: self, action: #selector(swipeGestureAction))
+        rootViewController?.view.addGestureRecognizer(recognizerSwipe)
+        
         // TAP LEFT
-        let recognizerLeft = UILongPressGestureRecognizer(target: self, action: #selector(tapGestureAction))
+        let recognizerLeft = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureAction))
         recognizerLeft.minimumPressDuration = 0
         recognizerLeft.allowedPressTypes = [UIPress.PressType.leftArrow.rawValue as NSNumber]
         rootViewController?.view.addGestureRecognizer(recognizerLeft)
-        
+
         // TAP RIGHT
-        let recognizerRight = UILongPressGestureRecognizer(target: self, action: #selector(tapGestureAction))
+        let recognizerRight = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureAction))
         recognizerRight.minimumPressDuration = 0
         recognizerRight.allowedPressTypes = [UIPress.PressType.rightArrow.rawValue as NSNumber]
         rootViewController?.view.addGestureRecognizer(recognizerRight)
 
         // TAP UP
-        let recognizerUp = UILongPressGestureRecognizer(target: self, action: #selector(tapGestureAction))
+        let recognizerUp = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureAction))
         recognizerUp.minimumPressDuration = 0
         recognizerUp.allowedPressTypes = [UIPress.PressType.upArrow.rawValue as NSNumber]
         rootViewController?.view.addGestureRecognizer(recognizerUp)
 
         // TAP DOWN
-        let recognizerDown = UILongPressGestureRecognizer(target: self, action: #selector(tapGestureAction))
+        let recognizerDown = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureAction))
         recognizerDown.minimumPressDuration = 0
         recognizerDown.allowedPressTypes = [UIPress.PressType.downArrow.rawValue as NSNumber]
         rootViewController?.view.addGestureRecognizer(recognizerDown)
-
-//        // TAP SELECT
-//        let recognizerSelect = UILongPressGestureRecognizer(target: self, action: #selector(tapGestureAction))
-//        recognizerSelect.minimumPressDuration = 0
-//        recognizerSelect.delegate = rootViewController?.view as? UIGestureRecognizerDelegate
-//        recognizerSelect.allowedPressTypes = [UIPress.PressType.select.rawValue as NSNumber]
-//        rootViewController?.view.addGestureRecognizer(recognizerSelect)
-//
-//        // TAP MENU
-//        let recognizerMenu = UILongPressGestureRecognizer(target: self, action: #selector(tapGestureAction))
-//        recognizerMenu.minimumPressDuration = 0
-//        recognizerMenu.allowedPressTypes = [UIPress.PressType.menu.rawValue as NSNumber]
-//        rootViewController?.view.addGestureRecognizer(recognizerMenu)
-//
-//        // TAP Play/Pause
-//        let recognizerPlayPause = UILongPressGestureRecognizer(target: self, action: #selector(tapGestureAction))
-//        recognizerPlayPause.minimumPressDuration = 0
-//        recognizerPlayPause.allowedPressTypes = [UIPress.PressType.playPause.rawValue as NSNumber]
-//        rootViewController?.view.addGestureRecognizer(recognizerPlayPause)
         
-        // SWIPE
-        let recognizerSwipe = UIPanGestureRecognizer(target: self, action: #selector(swipeGestureAction))
-        rootViewController?.view.addGestureRecognizer(recognizerSwipe)
+        // TAP SELECT
+        let recognizerSelect = UITapGestureRecognizer(target: self, action: #selector(tapGestureAction))
+        recognizerSelect.delegate = self
+        recognizerSelect.allowedPressTypes = [UIPress.PressType.select.rawValue as NSNumber]
+        rootViewController?.view.addGestureRecognizer(recognizerSelect)
+
+        // TAP MENU
+         let recognizerMenu = UITapGestureRecognizer(target: self, action: #selector(tapGestureAction))
+        recognizerMenu.delegate = self
+        recognizerMenu.allowedPressTypes = [UIPress.PressType.menu.rawValue as NSNumber]
+        rootViewController?.view.addGestureRecognizer(recognizerMenu)
+
+       // TAP Play/Pause
+        let recognizerPlayPause = UITapGestureRecognizer(target: self, action: #selector(tapGestureAction))
+        recognizerPlayPause.delegate = self
+        recognizerPlayPause.allowedPressTypes = [UIPress.PressType.playPause.rawValue as NSNumber]
+        rootViewController?.view.addGestureRecognizer(recognizerPlayPause)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 
     @objc func swipeGestureAction(gesture: UIPanGestureRecognizer) {
@@ -118,6 +121,12 @@ class TvRemoteHandler: RCTEventEmitter {
     
     @objc func tapGestureAction(gesture: UITapGestureRecognizer) {
         let direction = gesturesMap[gesture.allowedPressTypes[0]]
+        
+        sendAppleTVEvent(eventType: direction!, eventKeyAction: "down", velocity: 0.0)
+    }
+        
+    @objc func longPressGestureAction(gesture: UITapGestureRecognizer) {
+        let direction = gesturesMap[gesture.allowedPressTypes[0]]
         if gesture.state == .began {
             timer?.invalidate()
             sendAppleTVEvent(eventType: direction!, eventKeyAction: "down", velocity: 0.0)
@@ -129,7 +138,7 @@ class TvRemoteHandler: RCTEventEmitter {
                 self.sendAppleTVEvent(eventType: direction!, eventKeyAction: "down", velocity: 0.0)
             }
             
-        } else if gesture.state == .ended {
+        } else if gesture.state == .ended || gesture.state == .cancelled {
             timer?.invalidate()
             sendAppleTVEvent(eventType: direction!, eventKeyAction: "up", velocity: 0.0)
         }

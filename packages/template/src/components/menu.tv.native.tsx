@@ -10,7 +10,7 @@ const AnimatedText = Animated.createAnimatedComponent(Text);
 
 const TRANSLATE_VAL_HIDDEN = Ratio(-300);
 
-const Menu = ({ navigation }) => {
+const Menu = ({ navigation }: { navigation?: any }) => {
     const navigate = useNavigate({ navigation });
     const { theme } = useContext(ThemeContext);
 

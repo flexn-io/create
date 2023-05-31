@@ -41,6 +41,7 @@ interface ButtonProps {
     accessibilityLabel?: string;
     onPress?: any;
     focusContext?: FocusContext;
+    focusOptions?: any;
 }
 
 const Button = ({
@@ -57,6 +58,7 @@ const Button = ({
     onPress,
     activeOpacity,
     focusContext,
+    focusOptions,
 }: ButtonProps) => (
     <Pressable
         style={[styles.button, style]}
@@ -66,6 +68,7 @@ const Button = ({
         accessible={accessible}
         accessibilityLabel={accessibilityLabel}
         focusContext={focusContext}
+        focusOptions={focusOptions}
     >
         {iconName ? (
             <Icon

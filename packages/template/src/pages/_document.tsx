@@ -2,6 +2,7 @@ import type { DocumentContext, DocumentInitialProps } from 'next/document';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 import React from 'react';
 import { flush } from 'react-native-media-query';
+//@ts-expect-error - react-native-web does not pick up types.d.ts
 import { AppRegistry } from 'react-native-web';
 class MyDocument extends Document {
     static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {

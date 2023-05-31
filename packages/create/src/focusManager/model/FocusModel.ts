@@ -11,6 +11,7 @@ import View from './view';
 export const TYPE_SCREEN = 'screen';
 export const TYPE_VIEW = 'view';
 export const TYPE_RECYCLER = 'recycler';
+export const TYPE_ROW = 'row';
 export const TYPE_SCROLL_VIEW = 'scrollview';
 
 export const STATE_BACKGROUND: ScreenStates = 'background';
