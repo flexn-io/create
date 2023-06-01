@@ -20,7 +20,6 @@ import {
 } from '@rnv/renative';
 import '../platformAssets/runtime/fontManager';
 import { StaticTheme, Theme } from './types';
-//@ts-ignore
 import ICON_LOGO from '../platformAssets/runtime/logo.png';
 
 export const hasMobileWebUI = isFactorMobile && isEngineRnNext;
