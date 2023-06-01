@@ -1,4 +1,4 @@
-import { useEffect, MutableRefObject, ForwardedRef, LegacyRef } from 'react';
+import { useEffect, MutableRefObject, ForwardedRef } from 'react';
 import FocusModel from '../focusManager/model/FocusModel';
 import useOnRefChange from './useOnRefChange';
 
@@ -8,10 +8,8 @@ export function useCombinedRefs<T = undefined>({
 }: {
     refs: MutableRefObject<T>[] | ForwardedRef<T>[];
     model: FocusModel | null;
-}): MutableRefObject<T> | LegacyRef<T> {
-    // const targetRef = useRef<MutableRefObject<T>>();
+}): MutableRefObject<T> {
     const { targetRef } = useOnRefChange(model);
-    // const targetRef = useRef<MutableRefObject<any>>();
 
     useEffect(() => {
         refs.forEach((ref: any) => {

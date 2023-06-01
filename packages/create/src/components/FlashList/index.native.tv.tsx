@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
-import { FlashList as FlashListComp, ListRenderItemInfo } from '@flexn/shopify-flash-list';
-
+import { FlashList as FlashListComp, ListRenderItemInfo, CellContainer } from '@flexn/shopify-flash-list';
+import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 import Grid from '../../focusManager/model/grid';
 import List from '../../focusManager/model/list';
 import Row from '../../focusManager/model/row';
-import { FlashListProps } from '../../focusManager/types';
+import { FlashListProps, CellContainerProps } from '../../focusManager/types';
 import useOnLayout from '../../hooks/useOnLayout';
 import useOnRefChange from '../../hooks/useOnRefChange';
+import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import useFocusAwareComponentRegister from '../../hooks/useOnComponentLifeCycle';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
 
@@ -85,6 +86,30 @@ const FlashList = ({
         });
     };
 
+    const ItemContainer = React.forwardRef((props: CellContainerProps, ref: any) => {
+        const target = useCombinedRefs<RNView>({ refs: [ref], model: null });
+
+        useEffect(() => {
+            const eventFocus = Event.subscribe(model, EVENT_TYPES.ON_CELL_CONTAINER_FOCUS, (index) => {
+                if (index === props.index) {
+                    target.current?.setNativeProps({ zIndex: 1 });
+                }
+            });
+            const eventBlur = Event.subscribe(model, EVENT_TYPES.ON_CELL_CONTAINER_BLUR, (index) => {
+                if (index === props.index) {
+                    target.current?.setNativeProps({ zIndex: 0 });
+                }
+            });
+
+            return () => {
+                eventFocus();
+                eventBlur();
+            };
+        }, [props.index]);
+
+        return <CellContainer ref={target} {...props} />;
+    });
+
     return (
         <RNView ref={onRefChange} onLayout={onLayout} style={style}>
             {measured && (
@@ -103,6 +128,7 @@ const FlashList = ({
                     data={data}
                     renderItem={rowRendererWithProps}
                     horizontal={horizontal}
+                    CellRendererComponent={isPlatformAndroidtv || isPlatformFiretv ? ItemContainer : undefined}
                     {...props}
                     overrideProps={{
                         ...scrollViewProps,
