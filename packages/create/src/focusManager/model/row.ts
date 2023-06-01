@@ -1,7 +1,6 @@
 import Recycler from './recycler';
 import View from './view';
 import Core from '../service/core';
-import Scroller from '../service/scroller';
 import { DIRECTION_VERTICAL } from '../constants';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';

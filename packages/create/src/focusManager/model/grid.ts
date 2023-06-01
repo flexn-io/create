@@ -1,6 +1,5 @@
 import Recycler from './recycler';
 import Core from '../service/core';
-import Scroller from '../service/scroller';
 import View from './view';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
@@ -121,7 +120,9 @@ class Grid extends Recycler {
         return this._itemsInRow;
     }
 
-    public scrollToInitialRenderIndex(): void {}
+    public scrollToInitialRenderIndex(): void {
+        // empty
+    }
 
     public getFocusTaskExecutor(_direction: string): Grid {
         return this;
