@@ -7,6 +7,8 @@ export const EVENT_TYPES = {
     ON_UNMOUNT: 'onUnMount',
     ON_LAYOUT: 'onLayout',
     ON_LAYOUT_MEASURE_COMPLETED: 'onLayoutMeasureCompleted',
+    ON_CELL_CONTAINER_FOCUS: 'onCellContainerFocus',
+    ON_CELL_CONTAINER_BLUR: 'onCellContainerBlur',
 };
 
 const events: { [key: string]: { [key: string]: { [key: string]: { [key: string]: (...args: any) => void } } } } = {};

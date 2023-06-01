@@ -6,6 +6,8 @@ import Event, { EVENT_TYPES } from '../events';
 import { measureAsync } from '../layoutManager';
 import Row from './row';
 import ViewGroup from './viewGroup';
+import Grid from './grid';
+import List from './list';
 
 class View extends FocusModel {
     private _parentRecyclerView?: Recycler;
@@ -17,9 +19,9 @@ class View extends FocusModel {
     private _verticalContentContainerGap: number;
     private _repeatContext:
         | {
-            focusContext: FocusModel;
-            index: number;
-        }
+              focusContext: FocusModel;
+              index: number;
+          }
         | undefined;
 
     private _onPress?: () => void;
@@ -36,7 +38,7 @@ class View extends FocusModel {
             onPress,
             focusKey,
             hasPreferredFocus,
-            verticalContentContainerGap = 0
+            verticalContentContainerGap = 0,
         } = params;
 
         const id = CoreManager.generateID(8);
@@ -102,6 +104,18 @@ class View extends FocusModel {
 
     // END EVENTS
 
+    public onBlur(): void {
+        const parent = this.getParent();
+
+        if (this._onBlur) {
+            this._onBlur();
+        }
+
+        if (parent instanceof Row || parent instanceof Grid || parent instanceof List) {
+            Event.emit(parent, EVENT_TYPES.ON_CELL_CONTAINER_BLUR, this.getRepeatContext()?.index);
+        }
+    }
+
     public onFocus(): void {
         const parent = this.getParent();
 
@@ -110,6 +124,10 @@ class View extends FocusModel {
         }
         if (parent instanceof Row) {
             parent.setFocusedView(this);
+        }
+
+        if (parent instanceof Row || parent instanceof Grid || parent instanceof List) {
+            Event.emit(parent, EVENT_TYPES.ON_CELL_CONTAINER_FOCUS, this.getRepeatContext()?.index);
         }
     }
 
@@ -208,7 +226,7 @@ class View extends FocusModel {
         }
 
         return group || this.getScreen()?.getGroup();
-    };
+    }
 }
 
 export default View;
