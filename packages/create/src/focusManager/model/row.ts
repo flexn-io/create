@@ -98,17 +98,6 @@ class Row extends Recycler {
     }
 
     public scrollToInitialRenderIndex(): void {
-        const layout: any = this.getLayouts()[this.getInitialRenderIndex()] ?? { x: 0, y: 0 };
-        const horizontalOffset = this.getScreen()?.getHorizontalViewportOffset() ?? 0;
-        const verticalOffset = this.getScreen()?.getVerticalViewportOffset() ?? 0;
-        const target = this.isHorizontal()
-            ? { x: layout.x - horizontalOffset, y: 0 }
-            : { y: layout.y - verticalOffset, x: 0 };
-
-        setTimeout(() => {
-            Scroller.scrollRecycler(target, this);
-        }, 0);
-
         const interval = setInterval(() => {
             const currentChildren = this.getChildren().find(
                 (ch) => ch instanceof View && ch.getRepeatContext()?.index === this.getInitialRenderIndex()

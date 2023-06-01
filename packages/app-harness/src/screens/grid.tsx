@@ -42,7 +42,7 @@ function generateData(width: number, height: number, items = 30) {
     return temp;
 }
 
-const Row = () => {
+const Grid = () => {
     const [data] = useState(generateData(200, 200, 200));
 
     const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
@@ -60,8 +60,16 @@ const Row = () => {
     return (
         <Screen style={{ backgroundColor: '#222222' }}>
             {/* <ScrollView> */}
-            <View style={{ top: Ratio(200), flex: 1 }}>
-                <FlashList data={data} renderItem={rowRenderer} horizontal type="row" estimatedItemSize={Ratio(200)} />
+            <View style={{ top: Ratio(20), flex: 1 }}>
+                <FlashList
+                    data={data}
+                    renderItem={rowRenderer}
+                    horizontal={false}
+                    numColumns={5}
+                    type="grid"
+                    estimatedItemSize={Ratio(200)}
+                    style={{ flex: 1 }}
+                />
             </View>
             {/* </ScrollView> */}
         </Screen>
@@ -85,4 +93,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Row;
+export default Grid;

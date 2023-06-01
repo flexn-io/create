@@ -6,15 +6,16 @@ import { DIRECTION } from '../constants';
 import Grid from '../model/grid';
 import View from '../model/view';
 import RecyclerView from '../model/recycler';
+import Row from '../model/row';
+import List from '../model/list';
 
 const EVENT_KEY_ACTION_UP = 'up';
 const EVENT_KEY_ACTION_DOWN = 'down';
 const EVENT_KEY_ACTION_LONG_PRESS = 'longPress';
 
 const INTERVAL_TIME_MS = 100;
-const SCROLL_INDEX_INTERVAL_ROW = 3;
+const SCROLL_INDEX_INTERVAL_ROW = 1;
 const SCROLL_INDEX_INTERVAL_GRID = 5;
-const SCROLL_INDEX_INTERVAL_LIST = 1;
 
 const EVENT_TYPE_SELECT = 'select';
 const EVENT_TYPE_RIGHT = 'right';
@@ -108,18 +109,6 @@ class KeyHandler {
 
     private onKeyLongPress(eventType: string) {
         if (this.isInRecycler()) {
-            if (!this.isNested()) {
-                if (this.isHorizontal() && [EVENT_TYPE_DOWN, EVENT_TYPE_UP].includes(eventType)) {
-                    this._stopKeyDownEvents = false;
-                    return;
-                }
-
-                if (!this.isHorizontal() && [EVENT_TYPE_LEFT, EVENT_TYPE_RIGHT].includes(eventType)) {
-                    this._stopKeyDownEvents = false;
-                    return;
-                }
-            }
-
             this._stopKeyDownEvents = true;
             let selectedIndex = this.getSelectedIndex();
             this._longPressInterval = setInterval(() => {
@@ -133,18 +122,20 @@ class KeyHandler {
                 }
 
                 if (EVENT_TYPE_UP === eventType) {
-                    selectedIndex -= this.isNested() ? SCROLL_INDEX_INTERVAL_LIST : this.getGridScrollInterval();
+                    // selectedIndex -= 5;
                     if (selectedIndex < 0) selectedIndex = 0;
                 }
 
                 if (EVENT_TYPE_DOWN === eventType) {
-                    selectedIndex += this.isNested() ? SCROLL_INDEX_INTERVAL_LIST : this.getGridScrollInterval();
-                    if (selectedIndex > this.getMaxIndex(true)) selectedIndex = this.getMaxIndex(true);
+                    // selectedIndex += 5;
+                    if (selectedIndex > this.getMaxIndex()) selectedIndex = this.getMaxIndex();
                 }
+
                 this._currentIndex = selectedIndex;
+
                 CoreManager.executeInlineFocus(selectedIndex, eventType);
 
-                if (selectedIndex === 0 || selectedIndex === this.getMaxIndex(EVENT_TYPE_DOWN === eventType)) {
+                if (selectedIndex === 0 || selectedIndex === this.getMaxIndex()) {
                     clearInterval(this._longPressInterval);
                     this.onEnd(selectedIndex, eventType);
                 }
@@ -200,12 +191,12 @@ class KeyHandler {
         return 0;
     }
 
-    private getMaxIndex(vertical = false): number {
-        let parent = CoreManager.getCurrentFocus()?.getParent();
-        if (this.isNested() && vertical) {
-            parent = parent?.getParent();
-        }
-        if (parent && parent instanceof RecyclerView) {
+    private getMaxIndex(): number {
+        const parent = CoreManager.getCurrentFocus()?.getParent();
+        const isRecyclable =
+            parent instanceof RecyclerView || parent instanceof Row || parent instanceof Grid || parent instanceof List;
+
+        if (parent && isRecyclable) {
             this._maxIndex = parent.getLayouts().length;
             return this._maxIndex;
         }
@@ -216,19 +207,12 @@ class KeyHandler {
     private isInRecycler(): boolean {
         const parent = CoreManager.getCurrentFocus()?.getParent();
 
-        return parent instanceof RecyclerView ? true : false;
-    }
-
-    private isHorizontal(): boolean {
-        const parent = CoreManager.getCurrentFocus()?.getParent();
-
-        return parent instanceof RecyclerView && parent?.isHorizontal() ? true : false;
-    }
-
-    private isNested(): boolean {
-        const parent = CoreManager.getCurrentFocus()?.getParent();
-
-        return parent instanceof RecyclerView && parent?.isNested() ? true : false;
+        return parent instanceof RecyclerView ||
+            parent instanceof Row ||
+            parent instanceof Grid ||
+            parent instanceof List
+            ? true
+            : false;
     }
 
     private getGridScrollInterval(): number {

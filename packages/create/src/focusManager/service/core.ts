@@ -135,32 +135,11 @@ class CoreManager {
 
     public executeInlineFocus(_nextIndex = 0, _direction: string) {
         // let target: any;
-        // const parent = this._currentFocus?.getParent();
-        // if (parent?.isRecyclable() && this._currentFocus) {
-        //     if (['up', 'down'].includes(direction)) {
-        //         const layouts = parent?.isNested() ? parent.getParent()?.getLayouts() : parent?.getLayouts();
-        //         const nextLayout = layouts[nextIndex];
-        //         if (nextLayout) {
-        //             target = {
-        //                 x: 0,
-        //                 y: nextLayout.y,
-        //             };
-        //         }
-        //     } else if (['left', 'right'].includes(direction)) {
-        //         const layouts = parent?.getLayouts();
-        //         const nextLayout = layouts[nextIndex];
-        //         if (nextLayout) {
-        //             target = {
-        //                 x: nextLayout.x,
-        //                 y: nextLayout.y,
-        //             };
-        //         }
-        //     }
-        //     if (target) {
-        //         Scroller.scrollToTarget(this._currentFocus, target, direction);
-        //         return target;
-        //     }
-        // }
+        const parent = this._currentFocus?.getParent();
+
+        console.log('INLINE', _nextIndex);
+        // @ts-expect-error
+        parent?.scrollToIndex.scrollToIndex({ animated: true, index: _nextIndex });
     }
 
     public executeScroll(direction = '') {
@@ -226,15 +205,15 @@ class CoreManager {
 
         const candidates =
             ownCandidates ??
-            Object.values(views).filter(
-                (c) => {
-                    const group = this.getCurrentFocus()?.getGroup();
-                    return c.isInForeground() &&
-                        c.getId() !== currentFocus.getId() &&
-                        c.getOrder() === this.getCurrentMaxOrder() &&
-                        (group ? c?.getGroup() === group : true)
-                }
-            );
+            Object.values(views).filter((c) => {
+                const group = this.getCurrentFocus()?.getGroup();
+                return (
+                    c.isInForeground() &&
+                    c.getId() !== currentFocus.getId() &&
+                    c.getOrder() === this.getCurrentMaxOrder() &&
+                    (group ? c?.getGroup() === group : true)
+                );
+            });
 
         for (let i = 0; i < candidates.length; i++) {
             const cls = candidates[i];

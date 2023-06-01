@@ -89,7 +89,17 @@ const FlashList = ({
         <RNView ref={onRefChange} onLayout={onLayout} style={style}>
             {measured && (
                 <FlashListComp
-                    ref={rlvRef}
+                    ref={(ref) => {
+                        if (ref) {
+                            // @ts-expect-error
+                            rlvRef.current = ref;
+                            model.scrollToIndex = ref;
+                            if (ref.recyclerlistview_unsafe) {
+                                // @ts-expect-error
+                                ref.recyclerlistview_unsafe._scrollComponent = scrollViewRef.current;
+                            }
+                        }
+                    }}
                     data={data}
                     renderItem={rowRendererWithProps}
                     horizontal={horizontal}
@@ -98,7 +108,7 @@ const FlashList = ({
                         ...scrollViewProps,
                         ref: (ref: any) => {
                             // eslint-disable-next-line no-underscore-dangle
-                            scrollViewRef.current = ref?._scrollViewRef; // `scrollTo()` is not working otherwise
+                            scrollViewRef.current = ref; // `scrollTo()` is not working otherwise
                             if (model.getNode().current) {
                                 //@ts-ignore
                                 model.getNode().current.scrollTo = ref?._scrollViewRef.scrollTo;

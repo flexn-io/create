@@ -22,6 +22,8 @@ class RecyclerView extends AbstractFocusModel {
           }
         | undefined;
 
+    public scrollToIndex?: any;
+
     constructor(params: any) {
         super(params);
 
