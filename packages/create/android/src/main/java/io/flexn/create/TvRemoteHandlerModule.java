@@ -28,6 +28,7 @@ public class TvRemoteHandlerModule extends ReactContextBaseJavaModule {
             .put(KeyEvent.KEYCODE_DPAD_CENTER, "select")
             .put(KeyEvent.KEYCODE_ENTER, "select")
             .put(KeyEvent.KEYCODE_SPACE, "space")
+            .put(KeyEvent.KEYCODE_BACK, "back")
             .put(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, "playPause")
             .put(KeyEvent.KEYCODE_MEDIA_REWIND, "rewind")
             .put(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD, "fastForward")
