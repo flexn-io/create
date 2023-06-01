@@ -133,7 +133,10 @@ class KeyHandler {
 
                 this._currentIndex = selectedIndex;
 
-                CoreManager.executeInlineFocus(selectedIndex, eventType);
+                CoreManager.executeDirectionalFocus(eventType);
+                CoreManager.executeScroll(eventType);
+
+                // CoreManager.executeInlineFocus(selectedIndex, eventType);
 
                 if (selectedIndex === 0 || selectedIndex === this.getMaxIndex()) {
                     clearInterval(this._longPressInterval);

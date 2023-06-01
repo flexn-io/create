@@ -21,7 +21,7 @@ const RootStack = createNativeStackNavigator();
 const Navigation = () => {
     return (
         <NavigationContainer>
-            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Selector">
+            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Grid">
                 <RootStack.Screen name="Selector" component={Selector} />
                 <RootStack.Screen name="Row" component={Row} />
                 <RootStack.Screen name="Grid" component={Grid} />
