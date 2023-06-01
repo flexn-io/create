@@ -13,6 +13,7 @@ const EVENT_KEY_ACTION_DOWN = 'down';
 const EVENT_KEY_ACTION_LONG_PRESS = 'longPress';
 
 const INTERVAL_TIME_MS = 100;
+const INTERVAL_TIME_MS_GRID = 200;
 
 const EVENT_TYPE_SELECT = 'select';
 export const EVENT_TYPE_D = 'd';
@@ -98,16 +99,19 @@ class KeyHandler {
     private onKeyLongPress(eventType: string) {
         if (this.isInRecycler() && DIRECTION.includes(eventType)) {
             this._stopKeyDownEvents = true;
-            this._longPressInterval = setInterval(() => {
-                const selectedIndex = this.getSelectedIndex();
+            this._longPressInterval = setInterval(
+                () => {
+                    const selectedIndex = this.getSelectedIndex();
 
-                CoreManager.executeDirectionalFocus(eventType);
-                CoreManager.executeScroll(eventType);
+                    CoreManager.executeDirectionalFocus(eventType);
+                    CoreManager.executeScroll(eventType);
 
-                if (selectedIndex === 0 || selectedIndex === this.getMaxIndex()) {
-                    this.onKeyUp();
-                }
-            }, INTERVAL_TIME_MS);
+                    if (selectedIndex === 0 || selectedIndex === this.getMaxIndex()) {
+                        this.onKeyUp();
+                    }
+                },
+                CoreManager.getCurrentFocus()?.getParent() instanceof Grid ? INTERVAL_TIME_MS_GRID : INTERVAL_TIME_MS
+            );
         }
     }
 
