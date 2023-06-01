@@ -43,7 +43,7 @@ function generateData(width: number, height: number, items = 30) {
 }
 
 const Row = () => {
-    const [data] = useState(generateData(200, 200, 10));
+    const [data] = useState(generateData(200, 200, 100));
 
     const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
         return (

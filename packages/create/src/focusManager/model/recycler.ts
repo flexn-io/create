@@ -22,7 +22,7 @@ class RecyclerView extends AbstractFocusModel {
           }
         | undefined;
 
-    public scrollToIndex?: any;
+    private _scrollerNode?: any;
 
     constructor(params: any) {
         super(params);
@@ -190,6 +190,10 @@ class RecyclerView extends AbstractFocusModel {
 
     public verticalContentContainerGap(): number {
         return 0;
+    }
+
+    public setScrollerNode(node: any) {
+        this._scrollerNode = node;
     }
 }
 

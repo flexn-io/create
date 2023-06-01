@@ -4,7 +4,6 @@ import throttle from 'lodash.throttle';
 import CoreManager from './core';
 import { DIRECTION } from '../constants';
 import Grid from '../model/grid';
-import View from '../model/view';
 import RecyclerView from '../model/recycler';
 import Row from '../model/row';
 import List from '../model/list';
@@ -14,14 +13,8 @@ const EVENT_KEY_ACTION_DOWN = 'down';
 const EVENT_KEY_ACTION_LONG_PRESS = 'longPress';
 
 const INTERVAL_TIME_MS = 100;
-const SCROLL_INDEX_INTERVAL_ROW = 1;
-const SCROLL_INDEX_INTERVAL_GRID = 5;
 
 const EVENT_TYPE_SELECT = 'select';
-const EVENT_TYPE_RIGHT = 'right';
-const EVENT_TYPE_LEFT = 'left';
-const EVENT_TYPE_DOWN = 'down';
-const EVENT_TYPE_UP = 'up';
 export const EVENT_TYPE_D = 'd';
 
 const IS_ANDROID_BASED = isPlatformAndroidtv || isPlatformFiretv;
@@ -32,14 +25,9 @@ class KeyHandler {
     private _longPressInterval: any;
     private _stopKeyDownEvents: boolean;
 
-    private _currentIndex: number;
-    private _maxIndex: number;
-
     constructor() {
         this._stopKeyDownEvents = false;
         this._longPressInterval = 0;
-        this._currentIndex = 0;
-        this._maxIndex = 0;
 
         const { TvRemoteHandler } = NativeModules;
 
@@ -78,7 +66,7 @@ class KeyHandler {
     private handleKeyEvent({ eventKeyAction, eventType }: { eventKeyAction: string; eventType: string }) {
         switch (eventKeyAction) {
             case EVENT_KEY_ACTION_UP:
-                return this.onKeyUp(eventType);
+                return this.onKeyUp();
             case EVENT_KEY_ACTION_DOWN:
                 return this.onKeyDown(eventType);
             case EVENT_KEY_ACTION_LONG_PRESS:
@@ -108,79 +96,25 @@ class KeyHandler {
     }
 
     private onKeyLongPress(eventType: string) {
-        if (this.isInRecycler()) {
+        if (this.isInRecycler() && DIRECTION.includes(eventType)) {
             this._stopKeyDownEvents = true;
-            let selectedIndex = this.getSelectedIndex();
             this._longPressInterval = setInterval(() => {
-                if (EVENT_TYPE_RIGHT === eventType) {
-                    selectedIndex += SCROLL_INDEX_INTERVAL_ROW;
-                    if (selectedIndex > this.getMaxIndex()) selectedIndex = this.getMaxIndex();
-                }
-                if (EVENT_TYPE_LEFT === eventType) {
-                    selectedIndex -= SCROLL_INDEX_INTERVAL_ROW;
-                    if (selectedIndex < 0) selectedIndex = 0;
-                }
-
-                if (EVENT_TYPE_UP === eventType) {
-                    // selectedIndex -= 5;
-                    if (selectedIndex < 0) selectedIndex = 0;
-                }
-
-                if (EVENT_TYPE_DOWN === eventType) {
-                    // selectedIndex += 5;
-                    if (selectedIndex > this.getMaxIndex()) selectedIndex = this.getMaxIndex();
-                }
-
-                this._currentIndex = selectedIndex;
+                const selectedIndex = this.getSelectedIndex();
 
                 CoreManager.executeDirectionalFocus(eventType);
                 CoreManager.executeScroll(eventType);
 
-                // CoreManager.executeInlineFocus(selectedIndex, eventType);
-
                 if (selectedIndex === 0 || selectedIndex === this.getMaxIndex()) {
-                    clearInterval(this._longPressInterval);
-                    this.onEnd(selectedIndex, eventType);
+                    this.onKeyUp();
                 }
             }, INTERVAL_TIME_MS);
         }
     }
 
-    private onEnd(selectedIndex: number, eventType: string) {
-        setTimeout(() => {
-            const currentFocus = CoreManager.getCurrentFocus();
-            const index = selectedIndex === 0 ? selectedIndex : selectedIndex - 1;
-            const closestByIndex = currentFocus
-                ?.getParent()
-                ?.getChildren()
-                .find((ch) => ch instanceof View && ch.getRepeatContext()?.index === index);
-
-            if (closestByIndex && closestByIndex instanceof View) {
-                CoreManager.executeFocus(closestByIndex);
-                CoreManager.executeScroll(eventType);
-            }
-        }, 300);
-    }
-
-    private onKeyUp(eventType: string) {
+    private onKeyUp() {
         if (this._longPressInterval) {
             clearInterval(this._longPressInterval);
-            this._longPressInterval = 0;
-            setTimeout(() => {
-                this._stopKeyDownEvents = false;
-
-                const currentFocus = CoreManager.getCurrentFocus();
-
-                const closestByIndex = currentFocus
-                    ?.getParent()
-                    ?.getChildren()
-                    .find((ch) => ch instanceof View && ch.getRepeatContext()?.index === this._currentIndex);
-
-                if (closestByIndex && closestByIndex instanceof View) {
-                    CoreManager.executeFocus(closestByIndex);
-                    CoreManager.executeScroll(eventType);
-                }
-            }, 200);
+            this._stopKeyDownEvents = false;
         }
     }
 
@@ -200,8 +134,7 @@ class KeyHandler {
             parent instanceof RecyclerView || parent instanceof Row || parent instanceof Grid || parent instanceof List;
 
         if (parent && isRecyclable) {
-            this._maxIndex = parent.getLayouts().length;
-            return this._maxIndex;
+            return parent.getLayouts().length;
         }
 
         return 0;
@@ -216,17 +149,6 @@ class KeyHandler {
             parent instanceof List
             ? true
             : false;
-    }
-
-    private getGridScrollInterval(): number {
-        const currentFocus = CoreManager.getCurrentFocus();
-        if (currentFocus) {
-            if (currentFocus.getParent()?.getType() === 'grid') {
-                return (currentFocus.getParent() as Grid).getItemsInRow();
-            }
-        }
-
-        return SCROLL_INDEX_INTERVAL_GRID;
     }
 }
 

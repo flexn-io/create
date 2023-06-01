@@ -118,7 +118,7 @@ const FlashList = ({
                         if (ref) {
                             // @ts-expect-error
                             rlvRef.current = ref;
-                            model.scrollToIndex = ref;
+                            model.setScrollerNode(ref);
                             if (ref.recyclerlistview_unsafe) {
                                 // @ts-expect-error
                                 ref.recyclerlistview_unsafe._scrollComponent = scrollViewRef.current;

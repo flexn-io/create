@@ -133,15 +133,6 @@ class CoreManager {
         }
     }
 
-    public executeInlineFocus(_nextIndex = 0, _direction: string) {
-        // let target: any;
-        const parent = this._currentFocus?.getParent();
-
-        console.log('INLINE', _nextIndex);
-        // @ts-expect-error
-        parent?.scrollToIndex.scrollToIndex({ animated: true, index: _nextIndex });
-    }
-
     public executeScroll(direction = '') {
         const contextParameters = {
             currentFocus: this._currentFocus,
