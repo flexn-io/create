@@ -1,7 +1,9 @@
+import { ScrollView as RNScrollView } from 'react-native';
 import AbstractFocusModel from './FocusModel';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
+import { MutableRefObject } from 'react';
 
 class ScrollView extends AbstractFocusModel {
     private _scrollOffsetX: number;
@@ -95,6 +97,10 @@ class ScrollView extends AbstractFocusModel {
 
     public isScrollingHorizontally(): boolean {
         return this._isScrollingHorizontally;
+    }
+
+    public getNode(): MutableRefObject<RNScrollView> {
+        return this.node;
     }
 }
 

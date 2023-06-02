@@ -53,7 +53,6 @@ class CoreManager {
         }
 
         if (model.getNode()) {
-            // @ts-ignore
             const nodeId = findNodeHandle(model.getNode().current);
             model.nodeId = nodeId;
         }
@@ -99,8 +98,7 @@ class CoreManager {
 
         if (this._currentFocus) {
             if (this._currentFocus.node.current && !isPlatformTizen && !isPlatformWebos) {
-                // @ts-ignore
-                UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId, 'cmdBlur', null);
+                UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId as number, 'cmdBlur', undefined);
             }
             this._currentFocus.onBlur();
             this._currentFocus.setIsFocused(false);
@@ -109,8 +107,7 @@ class CoreManager {
         this._currentFocus = model;
 
         if (model.node.current && !isPlatformTizen && !isPlatformWebos) {
-            // @ts-ignore
-            UIManager.dispatchViewManagerCommand(model.nodeId, 'cmdFocus', null);
+            UIManager.dispatchViewManagerCommand(model.nodeId as number, 'cmdFocus', undefined);
         }
         model.onFocus();
         model.setIsFocused(true);

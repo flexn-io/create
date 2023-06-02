@@ -1,3 +1,4 @@
+import { View as RNView } from 'react-native';
 import CoreManager from '../service/core';
 import FocusModel, { TYPE_RECYCLER } from './FocusModel';
 import Recycler from './recycler';
@@ -8,6 +9,7 @@ import Row from './row';
 import ViewGroup from './viewGroup';
 import Grid from './grid';
 import List from './list';
+import { MutableRefObject } from 'react';
 
 class View extends FocusModel {
     private _parentRecyclerView?: Recycler;
@@ -226,6 +228,10 @@ class View extends FocusModel {
         }
 
         return group || this.getScreen()?.getGroup();
+    }
+
+    public getNode(): MutableRefObject<RNView> {
+        return this.node;
     }
 }
 

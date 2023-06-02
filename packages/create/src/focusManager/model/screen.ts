@@ -1,3 +1,4 @@
+import { View as RNView } from 'react-native';
 import { ForbiddenFocusDirections, ScreenStates } from '../types';
 import CoreManager from '../service/core';
 import Logger from '../service/logger';
@@ -7,6 +8,7 @@ import { findLowestRelativeCoordinates, measureSync } from '../layoutManager';
 import { DEFAULT_VIEWPORT_OFFSET } from '../constants';
 import Recycler from './recycler';
 import Event, { EVENT_TYPES } from '../events';
+import { MutableRefObject } from 'react';
 
 const DELAY_TIME_IN_MS = 100;
 
@@ -353,6 +355,10 @@ class Screen extends FocusModel {
 
     public getGroup() {
         return this._group;
+    }
+
+    public getNode(): MutableRefObject<RNView> {
+        return this.node;
     }
 }
 

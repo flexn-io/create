@@ -65,9 +65,9 @@
     "devDependencies": {
         "@flexn/create": "0.21.2-alpha.8",
         "@flexn/graybox": "0.21.2-alpha.8",
-        "@flexn/plugins": "1.0.6",
-        "@flexn/recyclerlistview": "4.2.4",
-        "@flexn/shopify-flash-list": "1.4.5",
+        "@flexn/plugins": "1.0.7",
+        "@flexn/recyclerlistview": "4.2.6",
+        "@flexn/shopify-flash-list": "1.4.7",
         "@lightningjs/cli": "2.11.0",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/cli-platform-ios": "^6.0.0",

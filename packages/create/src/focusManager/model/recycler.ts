@@ -1,9 +1,11 @@
+import { ScrollView } from 'react-native';
 import AbstractFocusModel from './FocusModel';
 import { ForbiddenFocusDirections } from '../types';
 import View from './view';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
+import { MutableRefObject } from 'react';
 
 class RecyclerView extends AbstractFocusModel {
     private _layouts: { x: number; y: number }[];
@@ -194,6 +196,10 @@ class RecyclerView extends AbstractFocusModel {
 
     public setScrollerNode(node: any) {
         this._scrollerNode = node;
+    }
+
+    public getNode(): MutableRefObject<ScrollView> {
+        return this.node;
     }
 }
 
