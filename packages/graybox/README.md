@@ -2,7 +2,7 @@
 
 ## Overview
 
-Testing package using WebdriverIO. iOS, tvOS, Android, AndroidTV, macOS use [Appium Service](https://webdriver.io/docs/appium-service) and [wdio-native-app-compare](https://github.com/wswebcreation/wdio-native-app-compare). Web uses [Selenium Standalone Service](https://webdriver.io/docs/selenium-standalone-service) and [wdio-image-comparison-service](https://github.com/wswebcreation/wdio-image-comparison-service). Reporting is done using [Allure Reporter](https://webdriver.io/docs/allure-reporter).
+Testing package using WebdriverIO. Native apps use [Appium Service](https://webdriver.io/docs/appium-service) and [wdio-native-app-compare](https://github.com/wswebcreation/wdio-native-app-compare). Web uses [Selenium Standalone Service](https://webdriver.io/docs/selenium-standalone-service) and [wdio-image-comparison-service](https://github.com/wswebcreation/wdio-image-comparison-service). Reporting is done using [Allure Reporter](https://webdriver.io/docs/allure-reporter).
 
 ## Package import
 
