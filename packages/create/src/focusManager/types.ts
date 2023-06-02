@@ -10,6 +10,7 @@ import type {
 import type { FlashListProps as FLProps, ListRenderItemInfo } from '@flexn/shopify-flash-list';
 import FocusModel from './model/FocusModel';
 import View from './model/view';
+import Screen from './model/screen';
 
 export type ClosestNodeOutput = {
     match1: number;
@@ -149,3 +150,5 @@ export interface CellContainerProps extends ViewProps {
 }
 
 export type FocusContext = FocusModel;
+export type ScreenType = Screen;
+export type ViewType = View;

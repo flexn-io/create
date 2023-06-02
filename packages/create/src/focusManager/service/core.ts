@@ -2,22 +2,18 @@ import { findNodeHandle, UIManager } from 'react-native';
 import { isPlatformTizen, isPlatformWebos } from '@rnv/renative';
 import { distCalc } from '../nextFocusFinder';
 import { recalculateLayout } from '../layoutManager';
-
 import Scroller from './scroller';
-import Screen from '../model/screen';
-import View from '../model/view';
-
 import Logger from './logger';
 import FocusModel, { TYPE_ROW } from '../model/FocusModel';
-import { DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP } from '../constants';
-import { ClosestNodeOutput, ForbiddenFocusDirections } from '../types';
+import { DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP, MODEL_TYPES } from '../constants';
+import { ClosestNodeOutput, ForbiddenFocusDirections, ScreenType, ViewType } from '../types';
 import Row from '../model/row';
 class CoreManager {
     public _focusAwareElements: Record<string, FocusModel>;
-    public _views: Record<string, View>;
-    public _screens: Record<string, Screen>;
+    public _views: Record<string, ViewType>;
+    public _screens: Record<string, ScreenType>;
 
-    public _currentFocus: View | null;
+    public _currentFocus: ViewType | null;
 
     private _debuggerEnabled: boolean;
 
@@ -59,10 +55,10 @@ class CoreManager {
 
         this._focusAwareElements[model.getId()] = model;
 
-        if (model instanceof Screen) {
-            this._screens[model.getId()] = model as Screen;
-        } else if (model instanceof View) {
-            this._views[model.getId()] = model as View;
+        if (model.getType() === MODEL_TYPES.SCREEN) {
+            this._screens[model.getId()] = model as ScreenType;
+        } else if (model.getType() === MODEL_TYPES.VIEW) {
+            this._views[model.getId()] = model as ViewType;
         }
 
         Object.keys(this._focusAwareElements).forEach((k) => {
@@ -91,7 +87,7 @@ class CoreManager {
         }
     }
 
-    public executeFocus(model: View) {
+    public executeFocus(model: ViewType) {
         if (model.getId() === this._currentFocus?.getId()) {
             return;
         }
@@ -158,9 +154,9 @@ class CoreManager {
 
     public getNextFocusableContext = (
         direction: string,
-        ownCandidates?: View[],
+        ownCandidates?: ViewType[],
         findFocusInParent = true
-    ): View | undefined | null => {
+    ): ViewType | undefined | null => {
         const currentFocus = this._currentFocus;
         const views = this._views;
 
@@ -184,7 +180,7 @@ class CoreManager {
             return currentFocus;
         }
 
-        let closestView: View | undefined | null;
+        let closestView: ViewType | undefined | null;
         let closestNodeOutput: ClosestNodeOutput = {
             match1: 9999999,
             match2: 9999999,
@@ -322,7 +318,7 @@ class CoreManager {
         );
     }
 
-    public findClosestNode = (model: View, direction: string, output: any): ClosestNodeOutput | null => {
+    public findClosestNode = (model: ViewType, direction: string, output: any): ClosestNodeOutput | null => {
         recalculateLayout(model);
         const nextLayout = model.getLayout();
         const currentLayout = this._currentFocus?.getLayout();
@@ -391,7 +387,7 @@ class CoreManager {
         this._debuggerEnabled = enabled;
     }
 
-    public getCurrentFocus(): View | null {
+    public getCurrentFocus(): ViewType | null {
         return this._currentFocus;
     }
 
@@ -399,7 +395,7 @@ class CoreManager {
         return this._focusAwareElements;
     }
 
-    public getViews(): Record<string, View> {
+    public getViews(): Record<string, ViewType> {
         return this._views;
     }
 }

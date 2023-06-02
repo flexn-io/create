@@ -1,11 +1,11 @@
 import Recycler from './recycler';
-import View from './view';
 import Core from '../service/core';
-import { DIRECTION_VERTICAL } from '../constants';
+import { DIRECTION_VERTICAL, MODEL_TYPES } from '../constants';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import RecyclerView from './recycler';
+import { ViewType } from '../types';
 
 class Row extends Recycler {
     constructor(params: any) {
@@ -45,7 +45,7 @@ class Row extends Recycler {
         return this._type;
     }
 
-    public getLastFocused(): View | undefined {
+    public getLastFocused(): ViewType | undefined {
         return this?.getFocusedView() ?? this.getFirstFocusableChildren();
     }
 
@@ -53,7 +53,7 @@ class Row extends Recycler {
         return Core.getCurrentFocus()?.getRepeatContext()?.index || 0;
     }
 
-    public getNextFocusable(direction: string): View | undefined | null {
+    public getNextFocusable(direction: string): ViewType | undefined | null {
         if (this._isInBounds(direction) && ['right', 'left'].includes(direction)) {
             const candidates = Object.values(Core.getViews()).filter(
                 (c) =>
@@ -99,10 +99,12 @@ class Row extends Recycler {
     public scrollToInitialRenderIndex(): void {
         const interval = setInterval(() => {
             const currentChildren = this.getChildren().find(
-                (ch) => ch instanceof View && ch.getRepeatContext()?.index === this.getInitialRenderIndex()
+                (ch) =>
+                    ch.getType() === MODEL_TYPES.VIEW &&
+                    (ch as ViewType).getRepeatContext()?.index === this.getInitialRenderIndex()
             );
             if (currentChildren) {
-                this.setFocusedView(currentChildren as View);
+                this.setFocusedView(currentChildren as ViewType);
                 clearInterval(interval);
             }
         }, 100);
