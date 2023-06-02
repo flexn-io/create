@@ -86,7 +86,7 @@ class MacosElectronRunner extends AbstractRunner {
         const element = await this.getElementById(selector);
         if (element) {
             await element.waitForDisplayed({ timeout: 60000 });
-            expect(await browser.checkElement(element, tag)).toBeLessThanOrEqual(acceptableMismatch);
+            await expect(await browser.checkElement(element, tag)).toBeLessThanOrEqual(acceptableMismatch);
         }
     };
 
@@ -94,12 +94,12 @@ class MacosElectronRunner extends AbstractRunner {
         const element = await this.getElementByText(selector);
         if (element) {
             await element.waitForDisplayed({ timeout: 60000 });
-            expect(await browser.checkElement(element, tag)).toBeLessThanOrEqual(acceptableMismatch);
+            await expect(await browser.checkElement(element, tag)).toBeLessThanOrEqual(acceptableMismatch);
         }
     };
 
     expectToMatchScreen = async (tag: string, acceptableMismatch = 5) => {
-        expect(await browser.checkScreen(tag)).toBeLessThanOrEqual(acceptableMismatch);
+        await expect(await browser.checkScreen(tag)).toBeLessThanOrEqual(acceptableMismatch);
     };
 }
 

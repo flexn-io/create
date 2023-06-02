@@ -41,14 +41,14 @@ abstract class AbstractRunner {
     expectToBeExistingById = async (selector: string) => {
         const element = await this.getElementById(selector);
         if (element) {
-            expect(element).toBeExisting();
+            await expect(element).toBeExisting();
         }
     };
 
     expectToBeExistingByText = async (selector: string) => {
         const element = await this.getElementByText(selector);
         if (element) {
-            expect(element).toBeExisting();
+            await expect(element).toBeExisting();
         }
     };
 
@@ -56,14 +56,14 @@ abstract class AbstractRunner {
     expectToBeDisplayedById = async (selector: string) => {
         const element = await this.getElementById(selector);
         if (element) {
-            expect(element).toBeDisplayed();
+            await expect(element).toBeDisplayed();
         }
     };
 
     expectToBeDisplayedByText = async (selector: string) => {
         const element = await this.getElementByText(selector);
         if (element) {
-            expect(element).toBeDisplayed();
+            await expect(element).toBeDisplayed();
         }
     };
 
@@ -71,14 +71,14 @@ abstract class AbstractRunner {
     expectToBeClickableById = async (selector: string) => {
         const element = await this.getElementById(selector);
         if (element) {
-            expect(element).toBeClickable();
+            await expect(element).toBeClickable();
         }
     };
 
     expectToBeClickableByText = async (selector: string) => {
         const element = await this.getElementByText(selector);
         if (element) {
-            expect(element).toBeClickable();
+            await expect(element).toBeClickable();
         }
     };
 
@@ -86,7 +86,7 @@ abstract class AbstractRunner {
     expectToHaveTextById = async (selector: string, text: string) => {
         const element = await this.getElementById(selector);
         if (element) {
-            expect(element).toHaveText(text);
+            await expect(element).toHaveText(text);
         }
     };
 

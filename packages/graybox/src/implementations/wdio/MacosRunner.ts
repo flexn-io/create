@@ -72,19 +72,25 @@ class MacosRunner extends AbstractRunner {
     expectToMatchElementById = async (selector: string, tag: string, acceptableMismatch = 5) => {
         const element = await this.getElementById(selector);
         await element.waitForDisplayed({ timeout: 60000 });
-        expect((await driver.compareElement(element, tag)).misMatchPercentage).toBeLessThanOrEqual(acceptableMismatch);
+        await expect((await driver.compareElement(element, tag)).misMatchPercentage).toBeLessThanOrEqual(
+            acceptableMismatch
+        );
     };
 
     expectToMatchElementByText = async (selector: string, tag: string, acceptableMismatch = 5) => {
         const element = await this.getElementByText(selector);
         await element.waitForDisplayed({ timeout: 60000 });
-        expect((await driver.compareElement(element, tag)).misMatchPercentage).toBeLessThanOrEqual(acceptableMismatch);
+        await expect((await driver.compareElement(element, tag)).misMatchPercentage).toBeLessThanOrEqual(
+            acceptableMismatch
+        );
     };
 
     expectToMatchScreen = async (tag: string, acceptableMismatch = 5) => {
         const element = await this.getElementById('SceneWindow');
         await element.waitForDisplayed({ timeout: 60000 });
-        expect((await driver.compareElement(element, tag)).misMatchPercentage).toBeLessThanOrEqual(acceptableMismatch);
+        await expect((await driver.compareElement(element, tag)).misMatchPercentage).toBeLessThanOrEqual(
+            acceptableMismatch
+        );
     };
 }
 
