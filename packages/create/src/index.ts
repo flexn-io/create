@@ -1,7 +1,6 @@
 // Functions
 import CoreManager from './focusManager/service/core';
 
-export * from './recyclerListView';
 export * from './rootRenderer';
 export * from './tvMenuControl';
 
