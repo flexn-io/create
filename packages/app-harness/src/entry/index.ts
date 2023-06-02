@@ -1,8 +1,10 @@
-//@ts-nocheck
 import 'react-native/Libraries/Core/InitializeCore';
 import { AppRegistry, LogBox } from 'react-native';
 import { enableScreens } from 'react-native-screens';
+
+//@ts-expect-error - this is not typed by @types/react-native
 import immediateShim from 'react-native/Libraries/Core/Timers/immediateShim';
+//@ts-expect-error - this is not typed by @types/react-native
 import queueMicrotask from 'react-native/Libraries/Core/Timers/queueMicrotask';
 import App from '../index';
 

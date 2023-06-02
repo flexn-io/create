@@ -13,6 +13,6 @@ export function getHexColor(hex: string, alpha = 100) {
 
     const hexAlpha = Math.round((alpha / 100) * 255).toString(16);
     const str = `0x${hexAlpha}${hex}`;
-    //@ts-ignore
-    return parseInt(Number(str), 10);
+
+    return parseInt(str, 10);
 }

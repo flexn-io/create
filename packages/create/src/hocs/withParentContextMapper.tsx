@@ -7,8 +7,7 @@ export function withParentContextMapper(WrappedComponent: any) {
 
             const childrenWithProps = React.Children.map(this.props.children, (child) => {
                 if (React.isValidElement(child)) {
-                    //@ts-ignore
-                    return React.cloneElement(child, { focusContext });
+                    return React.cloneElement(child as React.ReactElement<any>, { focusContext });
                 }
                 return child;
             });
