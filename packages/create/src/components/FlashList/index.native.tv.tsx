@@ -131,8 +131,8 @@ const FlashList = ({
                     data={data}
                     renderItem={rowRendererWithProps}
                     horizontal={horizontal}
-                    CellRendererComponent={isPlatformAndroidtv || isPlatformFiretv ? ItemContainer : undefined}
                     {...props}
+                    CellRendererComponent={isPlatformAndroidtv || isPlatformFiretv ? ItemContainer : undefined}
                     overrideProps={{
                         ...scrollViewProps,
                         ref: (ref: BaseScrollComponent) => {
@@ -146,7 +146,7 @@ const FlashList = ({
                         scrollEnabled: false,
                         scrollEventThrottle: 320,
                     }}
-                    onScroll={(event: any) => {
+                    onScroll={(event) => {
                         const { height } = event.nativeEvent.contentSize;
                         const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
                         const { y, x } = event.nativeEvent.contentOffset;
