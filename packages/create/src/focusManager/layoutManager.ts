@@ -91,7 +91,7 @@ const measure = ({
                     if (repeatContext) {
                         const parentRecycler = repeatContext.focusContext as RecyclerView | undefined;
                         if (parentRecycler) {
-                            const rLayout = parentRecycler.getLayouts()[repeatContext.index || 0];
+                            const rLayout = parentRecycler.getLayouts()[repeatContext.index || 0] || { x: 0, y: 0 };
                             pgX = parentRecycler.getLayout().xMin + rLayout.x;
                             pgY = parentRecycler.getLayout().yMin + model.verticalContentContainerGap() + rLayout.y;
                         }
