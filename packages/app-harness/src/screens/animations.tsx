@@ -12,7 +12,6 @@ const DynamicState = () => {
     const moveAnimation = useRef(new Animated.Value(0)).current;
 
     const onButton1Press = () => {
-        console.log('press');
         Animated.timing(moveAnimation, {
             toValue: 400,
             duration: 1000,
