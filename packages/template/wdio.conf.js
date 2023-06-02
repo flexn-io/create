@@ -55,10 +55,11 @@ const capabilities = {
     ],
     macos: [
         {
-            platformName: 'Mac',
-            deviceName: 'macOS',
-            automationName: 'Mac2',
-            bundleId: 'io.flexn.template.test',
+            browserName: 'chrome',
+            'goog:chromeOptions': {
+                binary: '../../node_modules/electron/dist/Electron.app/Contents/MacOS/Electron',
+                args: ['app=./platformBuilds/template_macos/build'],
+            },
         },
     ],
     web: [
@@ -195,11 +196,28 @@ exports.config = {
             ],
         ],
     }),
+    ...(process.env.PLATFORM === 'macos' && {
+        services: [
+            'chromedriver',
+            [
+                'image-comparison',
+                {
+                    baselineFolder: './test/baselineImages',
+                    formatImageName: '{tag}',
+                    screenshotPath: '.tmp/actualImages',
+                    savePerInstance: true,
+                    autoSaveBaseline: true,
+                    blockOutStatusBar: true,
+                    blockOutToolBar: true,
+                    blockOutSideBar: true,
+                },
+            ],
+        ],
+    }),
     ...((process.env.PLATFORM === 'ios' ||
         process.env.PLATFORM === 'tvos' ||
         process.env.PLATFORM === 'android' ||
-        process.env.PLATFORM === 'androidtv' ||
-        process.env.PLATFORM === 'macos') && {
+        process.env.PLATFORM === 'androidtv') && {
         services: [
             [
                 'appium',
