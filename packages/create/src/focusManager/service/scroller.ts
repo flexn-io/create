@@ -10,7 +10,6 @@ import {
     DIRECTION_VERTICAL,
 } from '../constants';
 import ScrollView from '../model/scrollview';
-import Recycler from '../model/recycler';
 
 const { width: screenWidth } = Dimensions.get('screen');
 
@@ -50,30 +49,6 @@ class Scroller {
                 }
             }
         });
-    }
-
-    public scrollToTarget(_cls: FocusModel, _scrollTarget: { x: number; y: number }, _direction: string) {
-        // let parentSW = cls.getParent() as ScrollView;
-        // if (['up', 'down'].includes(direction) && parentSW.isNested()) {
-        //     parentSW = cls.getParent()?.getParent() as ScrollView;
-        // }
-        // if (scrollTarget) {
-        //     if (parentSW.getScrollOffsetX() !== scrollTarget.x || parentSW.getScrollOffsetY() !== scrollTarget.y) {
-        //         parentSW.node.current.scrollTo(scrollTarget);
-        //         parentSW.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);
-        //         recalculateLayout(cls);
-        //     }
-        // }
-    }
-
-    public scrollRecycler(_scrollTarget: { x: number; y: number }, _scroller: Recycler) {
-        // if (scrollTarget) {
-        //     if (scroller.getScrollOffsetX() !== scrollTarget.x || scroller.getScrollOffsetY() !== scrollTarget.y) {
-        //         scroller.node.current.scrollTo(scrollTarget);
-        //         scroller.setScrollOffsetX(scrollTarget.x).setScrollOffsetY(scrollTarget.y);
-        //         recalculateLayout(scroller);
-        //     }
-        // }
     }
 
     private calculateScrollViewTarget(direction: string, scrollView: ScrollView, contextParameters: any) {

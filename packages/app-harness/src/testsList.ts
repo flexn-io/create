@@ -10,6 +10,7 @@ import nestedScroll from './screens/nestedScroll';
 import overflow from './screens/overflow';
 import pressableAnimations from './screens/pressableAnimations';
 import verticalScroll from './screens/verticalScroll';
+import grid from './screens/grid';
 
 const testsList = [
     {
@@ -28,6 +29,12 @@ const testsList = [
         component: row,
         title: 'Row',
         route: 'Row',
+        platform: ['androidtv', 'firetv', 'tvos'],
+    },
+    {
+        component: grid,
+        title: 'Grid',
+        route: 'Grid',
         platform: ['androidtv', 'firetv', 'tvos'],
     },
     {

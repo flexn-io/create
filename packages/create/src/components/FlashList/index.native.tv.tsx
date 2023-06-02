@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
 import { FlashList as FlashListComp, ListRenderItemInfo, CellContainer } from '@flexn/shopify-flash-list';
+import BaseScrollComponent from '@flexn/recyclerlistview/dist/reactnative/core/scrollcomponent/BaseScrollComponent';
 import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 import Grid from '../../focusManager/model/grid';
 import List from '../../focusManager/model/list';
@@ -33,8 +34,10 @@ const FlashList = ({
 }: FlashListProps<any>) => {
     const [measured, setMeasured] = useState(false);
 
-    const scrollViewRef = useRef<HTMLDivElement | null>();
-    const rlvRef = useRef<FlashListComp<any>>(null);
+    const scrollViewRef = useRef<BaseScrollComponent | null>();
+
+    // `any` is the type of data. Since we don't know data type here we're using any
+    const rlvRef = useRef<FlashListComp<any> | null>(null);
 
     const [model] = useState<List | Grid | Row>(() => {
         const params = {
@@ -114,26 +117,36 @@ const FlashList = ({
         <RNView ref={onRefChange} onLayout={onLayout} style={style}>
             {measured && (
                 <FlashListComp
-                    ref={rlvRef}
+                    ref={(ref) => {
+                        if (ref) {
+                            rlvRef.current = ref;
+                            model.setScrollerNode(ref);
+                            if (ref.recyclerlistview_unsafe) {
+                                ref.recyclerlistview_unsafe.setScrollComponent(
+                                    scrollViewRef.current as BaseScrollComponent
+                                );
+                            }
+                        }
+                    }}
                     data={data}
                     renderItem={rowRendererWithProps}
                     horizontal={horizontal}
-                    CellRendererComponent={isPlatformAndroidtv || isPlatformFiretv ? ItemContainer : undefined}
                     {...props}
+                    CellRendererComponent={isPlatformAndroidtv || isPlatformFiretv ? ItemContainer : undefined}
                     overrideProps={{
                         ...scrollViewProps,
-                        ref: (ref: any) => {
-                            // eslint-disable-next-line no-underscore-dangle
-                            scrollViewRef.current = ref?._scrollViewRef; // `scrollTo()` is not working otherwise
-                            if (model.getNode().current) {
-                                //@ts-ignore
-                                model.getNode().current.scrollTo = ref?._scrollViewRef.scrollTo;
+                        ref: (ref: BaseScrollComponent) => {
+                            scrollViewRef.current = ref;
+
+                            if (model.getNode()?.current) {
+                                //@ts-expect-error mystery which needs to be resolved from recyclerlistview perspective
+                                model.getNode()!.current.scrollTo = ref?._scrollViewRef?.scrollTo;
                             }
                         },
                         scrollEnabled: false,
                         scrollEventThrottle: 320,
                     }}
-                    onScroll={(event: any) => {
+                    onScroll={(event) => {
                         const { height } = event.nativeEvent.contentSize;
                         const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
                         const { y, x } = event.nativeEvent.contentOffset;

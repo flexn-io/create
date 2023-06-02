@@ -1,7 +1,9 @@
+import { View } from 'react-native';
 import AbstractFocusModel from './FocusModel';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import FocusModel from './FocusModel';
+import { MutableRefObject } from 'react';
 
 type ViewGroupModelParams = {
     focusKey?: string;
@@ -59,6 +61,10 @@ class ViewGroup extends AbstractFocusModel {
 
     public getFocusKey() {
         return this._focusKey;
+    }
+
+    public getNode(): MutableRefObject<View> {
+        return this.node;
     }
 }
 

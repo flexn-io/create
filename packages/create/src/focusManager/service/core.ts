@@ -53,7 +53,6 @@ class CoreManager {
         }
 
         if (model.getNode()) {
-            // @ts-ignore
             const nodeId = findNodeHandle(model.getNode().current);
             model.nodeId = nodeId;
         }
@@ -99,8 +98,7 @@ class CoreManager {
 
         if (this._currentFocus) {
             if (this._currentFocus.node.current && !isPlatformTizen && !isPlatformWebos) {
-                // @ts-ignore
-                UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId, 'cmdBlur', null);
+                UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId as number, 'cmdBlur', undefined);
             }
             this._currentFocus.onBlur();
             this._currentFocus.setIsFocused(false);
@@ -109,8 +107,7 @@ class CoreManager {
         this._currentFocus = model;
 
         if (model.node.current && !isPlatformTizen && !isPlatformWebos) {
-            // @ts-ignore
-            UIManager.dispatchViewManagerCommand(model.nodeId, 'cmdFocus', null);
+            UIManager.dispatchViewManagerCommand(model.nodeId as number, 'cmdFocus', undefined);
         }
         model.onFocus();
         model.setIsFocused(true);
@@ -131,36 +128,6 @@ class CoreManager {
             const next = this.getNextFocusableContext(direction);
             if (next) this.executeFocus(next);
         }
-    }
-
-    public executeInlineFocus(_nextIndex = 0, _direction: string) {
-        // let target: any;
-        // const parent = this._currentFocus?.getParent();
-        // if (parent?.isRecyclable() && this._currentFocus) {
-        //     if (['up', 'down'].includes(direction)) {
-        //         const layouts = parent?.isNested() ? parent.getParent()?.getLayouts() : parent?.getLayouts();
-        //         const nextLayout = layouts[nextIndex];
-        //         if (nextLayout) {
-        //             target = {
-        //                 x: 0,
-        //                 y: nextLayout.y,
-        //             };
-        //         }
-        //     } else if (['left', 'right'].includes(direction)) {
-        //         const layouts = parent?.getLayouts();
-        //         const nextLayout = layouts[nextIndex];
-        //         if (nextLayout) {
-        //             target = {
-        //                 x: nextLayout.x,
-        //                 y: nextLayout.y,
-        //             };
-        //         }
-        //     }
-        //     if (target) {
-        //         Scroller.scrollToTarget(this._currentFocus, target, direction);
-        //         return target;
-        //     }
-        // }
     }
 
     public executeScroll(direction = '') {
@@ -226,15 +193,15 @@ class CoreManager {
 
         const candidates =
             ownCandidates ??
-            Object.values(views).filter(
-                (c) => {
-                    const group = this.getCurrentFocus()?.getGroup();
-                    return c.isInForeground() &&
-                        c.getId() !== currentFocus.getId() &&
-                        c.getOrder() === this.getCurrentMaxOrder() &&
-                        (group ? c?.getGroup() === group : true)
-                }
-            );
+            Object.values(views).filter((c) => {
+                const group = this.getCurrentFocus()?.getGroup();
+                return (
+                    c.isInForeground() &&
+                    c.getId() !== currentFocus.getId() &&
+                    c.getOrder() === this.getCurrentMaxOrder() &&
+                    (group ? c?.getGroup() === group : true)
+                );
+            });
 
         for (let i = 0; i < candidates.length; i++) {
             const cls = candidates[i];

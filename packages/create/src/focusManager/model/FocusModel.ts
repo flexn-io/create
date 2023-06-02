@@ -276,7 +276,7 @@ export default abstract class FocusModel {
         return this;
     }
 
-    public getNode(): { current: MutableRefObject<any> | null } {
+    public getNode(): MutableRefObject<any> {
         return this.node;
     }
 }
