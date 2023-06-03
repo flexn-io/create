@@ -24,6 +24,7 @@ const FlashList = ({
     type,
     initialRenderIndex,
     data,
+    estimatedItemSize,
     onFocus = () => {
         return null;
     },
@@ -131,6 +132,7 @@ const FlashList = ({
                     data={data}
                     renderItem={rowRendererWithProps}
                     horizontal={horizontal}
+                    estimatedItemSize={estimatedItemSize ? Math.round(estimatedItemSize) : undefined}
                     {...props}
                     CellRendererComponent={isPlatformAndroidtv || isPlatformFiretv ? ItemContainer : undefined}
                     overrideProps={{
