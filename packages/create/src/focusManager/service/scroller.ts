@@ -11,7 +11,7 @@ import {
 } from '../constants';
 import ScrollView from '../model/scrollview';
 
-const { width: screenWidth } = Dimensions.get('screen');
+const { width: screenWidth, height: screenHeight } = Dimensions.get('screen');
 
 class Scroller {
     public calculateAndScrollToTarget(direction: string, contextParameters: any) {
@@ -98,7 +98,7 @@ class Scroller {
                     scrollTarget.y = Math.min(
                         targetY,
                         scrollView.getScrollOffsetY(),
-                        targetY < lowestFocusableYMin ? 0 : targetY
+                        targetY < lowestFocusableYMin && currentLayout.yMax < screenHeight ? 0 : targetY
                     );
 
                     const mathFunc = currentFocus.getLayout().absolute.xMax >= screenWidth ? Math.max : Math.min;
