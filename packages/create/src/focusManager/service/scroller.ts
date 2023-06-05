@@ -90,9 +90,15 @@ class Scroller {
                 break;
             case DIRECTION_UP.includes(direction):
                 {
+                    // If element is on the top and there is no more elements above which is higher than verticalViewportOffset
+                    // then we move whole viewport to the 0 position
+                    const lowestFocusableYMin = currentFocus.getScreen()?.getPrecalculatedFocus()?.getLayout()?.yMin;
+                    const targetY = currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin;
+
                     scrollTarget.y = Math.min(
-                        currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin,
-                        scrollView.getScrollOffsetY()
+                        targetY,
+                        scrollView.getScrollOffsetY(),
+                        targetY < lowestFocusableYMin ? 0 : targetY
                     );
 
                     const mathFunc = currentFocus.getLayout().absolute.xMax >= screenWidth ? Math.max : Math.min;
