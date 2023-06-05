@@ -130,11 +130,12 @@ const measure = ({
 
                 model.setLayout(layout);
 
+                // Order matters first recalculate layout then find lowest possible relative coordinates
+                recalculateLayout(model, remeasure);
+
                 if (model.getType() === TYPE_VIEW) {
                     findLowestRelativeCoordinates(model as View);
                 }
-
-                recalculateLayout(model, remeasure);
 
                 if (callback) callback();
                 if (resolve) resolve();
