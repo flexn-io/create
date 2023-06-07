@@ -11,8 +11,15 @@ import overflow from './screens/overflow';
 import pressableAnimations from './screens/pressableAnimations';
 import verticalScroll from './screens/verticalScroll';
 import grid from './screens/grid';
+import scrollToTop from './screens/scrollToTop';
 
 const testsList = [
+    {
+        component: scrollToTop,
+        title: 'Scroll To Top',
+        route: 'ScrollToTop',
+        platform: ['androidtv', 'firetv', 'tvos'],
+    },
     {
         component: viewGroup,
         title: 'View Group',
