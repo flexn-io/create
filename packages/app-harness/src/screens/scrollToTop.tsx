@@ -91,7 +91,7 @@ const ScrollToTop = () => {
                             style={{ ...styles.button, ...styles.button5 }}
                             title="Button5"
                             textStyle={styles.buttonTextStyle}
-                            focusOptions={{ animatorOptions: border }}
+                            focusOptions={{ animatorOptions: border, forbiddenFocusDirections: ['down'] }}
                         />
                     </View>
                     <View>
@@ -117,6 +117,7 @@ const ScrollToTop = () => {
                             type="row"
                             estimatedItemSize={Ratio(150)}
                             style={{ flex: 1 }}
+                            focusOptions={{ forbiddenFocusDirections: ['down'] }}
                         />
                     </View>
                 </View>

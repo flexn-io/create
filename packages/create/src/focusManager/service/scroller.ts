@@ -63,63 +63,50 @@ class Scroller {
             y: scrollView.getScrollOffsetY(),
         };
 
+        const x = [
+            currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset,
+            scrollView.getScrollOffsetX(),
+        ];
+
+        const y = [
+            currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset,
+            scrollView.getScrollOffsetY(),
+        ];
+
         switch (true) {
             case DIRECTION_RIGHT.includes(direction):
                 {
-                    if (!scrollView.isHorizontal() && currentLayout.yMin < scrollView.getScrollOffsetY()) {
-                        scrollTarget.y = currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin;
-                    }
-
-                    scrollTarget.x = Math.max(
-                        currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset,
-                        scrollView.getScrollOffsetX()
-                    );
+                    const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.min;
+                    scrollTarget.x = Math.max(...x);
+                    scrollTarget.y = mathFunc(...y);
                 }
                 break;
             case DIRECTION_LEFT.includes(direction):
                 {
-                    if (!scrollView.isHorizontal() && currentLayout.yMin < scrollView.getScrollOffsetY()) {
-                        scrollTarget.y = currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin;
-                    }
-
-                    scrollTarget.x = Math.min(
-                        currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset,
-                        scrollView.getScrollOffsetX()
-                    );
+                    const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.min;
+                    scrollTarget.x = Math.min(...x);
+                    scrollTarget.y = mathFunc(...y);
                 }
                 break;
             case DIRECTION_UP.includes(direction):
                 {
+                    const mathFunc = currentFocus.getLayout().absolute.xMax >= screenWidth ? Math.max : Math.min;
                     // If element is on the top and there is no more elements above which is higher than verticalViewportOffset
                     // then we move whole viewport to the 0 position
                     const lowestFocusableYMin = currentFocus.getScreen()?.getPrecalculatedFocus()?.getLayout()?.yMin;
-                    const targetY = currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin;
 
                     scrollTarget.y = Math.min(
-                        targetY,
-                        scrollView.getScrollOffsetY(),
-                        targetY < lowestFocusableYMin && currentLayout.yMax < screenHeight ? 0 : targetY
+                        y[0] < lowestFocusableYMin && currentLayout.yMax < screenHeight ? 0 : y[0],
+                        y[1]
                     );
-
-                    const mathFunc = currentFocus.getLayout().absolute.xMax >= screenWidth ? Math.max : Math.min;
-                    scrollTarget.x = mathFunc(
-                        currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset,
-                        scrollView.getScrollOffsetX()
-                    );
+                    scrollTarget.x = mathFunc(...x);
                 }
                 break;
             case DIRECTION_DOWN.includes(direction):
                 {
-                    scrollTarget.y = Math.max(
-                        currentLayout.yMin - verticalViewportOffset - scrollView.getLayout().yMin,
-                        scrollView.getScrollOffsetY()
-                    );
-
                     const mathFunc = currentFocus.getLayout().absolute.xMax >= screenWidth ? Math.max : Math.min;
-                    scrollTarget.x = mathFunc(
-                        currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset,
-                        scrollView.getScrollOffsetX()
-                    );
+                    scrollTarget.y = Math.max(...y);
+                    scrollTarget.x = mathFunc(...x);
                 }
                 break;
             default:
