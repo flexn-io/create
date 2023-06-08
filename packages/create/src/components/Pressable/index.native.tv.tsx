@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View as RNView, StyleSheet } from 'react-native';
-import type { ViewProps } from '../../focusManager/types';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import { View as RNView, StyleSheet, Insets } from 'react-native';
+import type { Animator, PressableProps, ViewProps } from '../../focusManager/types';
 import { measureSync } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
@@ -36,7 +36,7 @@ type FocusAnimation = {
     };
 };
 
-const View = React.forwardRef<any, ViewProps>(
+const View = React.forwardRef<any, PressableProps>(
     (
         {
             children,
@@ -136,7 +136,7 @@ const View = React.forwardRef<any, ViewProps>(
             measureSync({ model });
         }
 
-        const childrenWithProps = React.Children.map(children, (child) => {
+        const childrenWithProps = React.Children.map(children as React.ReactElement[], (child) => {
             if (React.isValidElement(child)) {
                 return React.cloneElement(child as React.ReactElement<any>, {
                     focusContext: model,
@@ -147,7 +147,7 @@ const View = React.forwardRef<any, ViewProps>(
         });
 
         if (focus) {
-            const animatorOptions: FocusAnimation = focusOptions.animatorOptions || defaultAnimation;
+            const animatorOptions = focusOptions.animator || defaultAnimation;
             const flattenedStyle = { ...StyleSheet.flatten(style) };
 
             if (animatorOptions.blur?.borderWidth !== undefined) {
@@ -175,7 +175,13 @@ const View = React.forwardRef<any, ViewProps>(
         }
 
         return (
-            <RNView style={style} {...props} ref={ref} onLayout={onLayoutNonPressable}>
+            <RNView
+                style={style}
+                {...props}
+                ref={ref}
+                onLayout={onLayoutNonPressable}
+                hitSlop={props.hitSlop as Insets}
+            >
                 {childrenWithProps}
             </RNView>
         );

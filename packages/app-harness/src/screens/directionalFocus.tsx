@@ -47,7 +47,15 @@ const DirectionalFocus = () => {
             <Pressable
                 style={styles.packshot}
                 focusRepeatContext={focusRepeatContext}
-                focusOptions={{ animatorOptions: border }}
+                focusOptions={{
+                    animator: {
+                        type: 'border',
+                        focus: {
+                            borderWidth: 5,
+                            borderColor: 'yellow',
+                        },
+                    },
+                }}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>

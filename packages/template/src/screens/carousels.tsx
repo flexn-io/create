@@ -27,14 +27,16 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                         navigation.navigate(ROUTES.DETAILS, { row: 1, index: index });
                     }
                 }}
-                animatorOptions={{
-                    type: 'border',
-                    focus: {
-                        borderColor: '#0A74E6',
-                        borderWidth: Ratio(8),
-                    },
-                    blur: {
-                        borderWidth: 0,
+                focusOptions={{
+                    animator: {
+                        type: 'border',
+                        focus: {
+                            borderColor: '#0A74E6',
+                            borderWidth: Ratio(8),
+                        },
+                        // blur: {
+                        //     borderWidth: 0,
+                        // },
                     },
                 }}
             >

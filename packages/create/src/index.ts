@@ -39,6 +39,10 @@ export {
     FocusContext,
     CreateListRenderItem,
     CreateListRenderItemInfo,
+    AnimatorBackground,
+    AnimatorBorder,
+    AnimatorScale,
+    AnimatorScaleWithBorder,
 } from './focusManager/types';
 
 // Constants

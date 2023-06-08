@@ -46,7 +46,15 @@ const ScrollToTop = () => {
             <Pressable
                 style={styles.packshot}
                 focusRepeatContext={focusRepeatContext}
-                focusOptions={{ animatorOptions: border }}
+                focusOptions={{
+                    animator: {
+                        type: 'border',
+                        focus: {
+                            borderColor: 'red',
+                            borderWidth: 2,
+                        },
+                    },
+                }}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>

@@ -50,7 +50,14 @@ const Row = () => {
             <Pressable
                 style={styles.packshot}
                 focusRepeatContext={focusRepeatContext}
-                focusOptions={{ animatorOptions: scale }}
+                focusOptions={{
+                    animator: {
+                        type: 'scale',
+                        focus: {
+                            scale: 1.4,
+                        },
+                    },
+                }}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>
