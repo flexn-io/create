@@ -1,6 +1,6 @@
 import Recycler from './recycler';
 import Core from '../service/core';
-import { DIRECTION_VERTICAL, MODEL_TYPES } from '../constants';
+import { MODEL_TYPES } from '../constants';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
@@ -110,11 +110,7 @@ class Row extends Recycler {
         }, 100);
     }
 
-    public getFocusTaskExecutor(direction: string): Row | undefined {
-        if (this.isNested() && DIRECTION_VERTICAL.includes(direction)) {
-            return this.getParent() as Row;
-        }
-
+    public getFocusTaskExecutor(_direction: string): Row | undefined {
         return this;
     }
 }

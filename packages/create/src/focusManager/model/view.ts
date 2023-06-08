@@ -8,7 +8,6 @@ import { measureAsync } from '../layoutManager';
 import Row from './row';
 import ViewGroup from './viewGroup';
 import Grid from './grid';
-import List from './list';
 import { MutableRefObject } from 'react';
 
 class View extends FocusModel {
@@ -113,7 +112,7 @@ class View extends FocusModel {
             this._onBlur();
         }
 
-        if (parent instanceof Row || parent instanceof Grid || parent instanceof List) {
+        if (parent instanceof Row || parent instanceof Grid) {
             Event.emit(parent, EVENT_TYPES.ON_CELL_CONTAINER_BLUR, this.getRepeatContext()?.index);
         }
     }
@@ -128,7 +127,7 @@ class View extends FocusModel {
             parent.setFocusedView(this);
         }
 
-        if (parent instanceof Row || parent instanceof Grid || parent instanceof List) {
+        if (parent instanceof Row || parent instanceof Grid) {
             Event.emit(parent, EVENT_TYPES.ON_CELL_CONTAINER_FOCUS, this.getRepeatContext()?.index);
         }
     }

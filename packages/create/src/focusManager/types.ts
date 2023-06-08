@@ -132,7 +132,6 @@ export type CreateListRenderItem<Item> = (info: CreateListRenderItemInfo<Item>) 
 
 export interface FlashListProps<Item> extends FLProps<Item> {
     focusContext?: FocusModel;
-    focusRepeatContext?: CreateListRenderItemInfo<Item>;
     horizontal?: boolean;
     scrollViewProps?: any;
     children?: React.ReactNode;

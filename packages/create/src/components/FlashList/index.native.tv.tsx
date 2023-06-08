@@ -4,7 +4,6 @@ import { FlashList as FlashListComp, ListRenderItemInfo, CellContainer } from '@
 import BaseScrollComponent from '@flexn/recyclerlistview/dist/reactnative/core/scrollcomponent/BaseScrollComponent';
 import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 import Grid from '../../focusManager/model/grid';
-import List from '../../focusManager/model/list';
 import Row from '../../focusManager/model/row';
 import { FlashListProps, CellContainerProps } from '../../focusManager/types';
 import useOnLayout from '../../hooks/useOnLayout';
@@ -19,7 +18,6 @@ const FlashList = ({
     focusContext,
     horizontal = true,
     renderItem,
-    focusRepeatContext,
     focusOptions = {},
     type,
     initialRenderIndex,
@@ -40,13 +38,10 @@ const FlashList = ({
     // `any` is the type of data. Since we don't know data type here we're using any
     const rlvRef = useRef<FlashListComp<any> | null>(null);
 
-    const [model] = useState<List | Grid | Row>(() => {
+    const [model] = useState<Grid | Row>(() => {
         const params = {
             isHorizontal: horizontal,
-            isNested: !!focusRepeatContext,
-            //@ts-ignore
-            parent: focusRepeatContext?.focusContext || focusContext,
-            focusRepeatContext,
+            parent: focusContext,
             initialRenderIndex,
             onFocus,
             onBlur,
@@ -55,10 +50,8 @@ const FlashList = ({
 
         if (type === 'grid') {
             return new Grid(params);
-        } else if (type === 'row') {
-            return new Row(params);
         } else {
-            return new List(params);
+            return new Row(params);
         }
     });
 

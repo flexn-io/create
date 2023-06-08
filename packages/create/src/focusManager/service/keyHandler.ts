@@ -6,7 +6,6 @@ import { DIRECTION } from '../constants';
 import Grid from '../model/grid';
 import RecyclerView from '../model/recycler';
 import Row from '../model/row';
-import List from '../model/list';
 
 const EVENT_KEY_ACTION_UP = 'up';
 const EVENT_KEY_ACTION_DOWN = 'down';
@@ -134,8 +133,7 @@ class KeyHandler {
 
     private getMaxIndex(): number {
         const parent = CoreManager.getCurrentFocus()?.getParent();
-        const isRecyclable =
-            parent instanceof RecyclerView || parent instanceof Row || parent instanceof Grid || parent instanceof List;
+        const isRecyclable = parent instanceof RecyclerView || parent instanceof Row || parent instanceof Grid;
 
         if (parent && isRecyclable) {
             return parent.getLayouts().length;
@@ -147,12 +145,7 @@ class KeyHandler {
     private isInRecycler(): boolean {
         const parent = CoreManager.getCurrentFocus()?.getParent();
 
-        return parent instanceof RecyclerView ||
-            parent instanceof Row ||
-            parent instanceof Grid ||
-            parent instanceof List
-            ? true
-            : false;
+        return parent instanceof RecyclerView || parent instanceof Row || parent instanceof Grid ? true : false;
     }
 }
 

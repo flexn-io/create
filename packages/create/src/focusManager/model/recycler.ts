@@ -12,7 +12,6 @@ class RecyclerView extends AbstractFocusModel {
     private _layoutsReady: boolean;
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
-    private _isNested: boolean;
     private _isHorizontal: boolean;
     private _focusedIndex: number;
     private _initialRenderIndex: number;
@@ -31,7 +30,6 @@ class RecyclerView extends AbstractFocusModel {
 
         const {
             isHorizontal,
-            isNested,
             parent,
             repeatContext,
             forbiddenFocusDirections,
@@ -47,7 +45,6 @@ class RecyclerView extends AbstractFocusModel {
         this._isScrollable = true;
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;
-        this._isNested = isNested;
         this._isHorizontal = isHorizontal;
         this._parent = parent;
         this._repeatContext = repeatContext;
@@ -110,10 +107,6 @@ class RecyclerView extends AbstractFocusModel {
         }
 
         return this;
-    }
-
-    public isNested(): boolean {
-        return this._isNested;
     }
 
     public isHorizontal(): boolean {

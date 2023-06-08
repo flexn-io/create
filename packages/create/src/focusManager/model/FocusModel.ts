@@ -2,7 +2,6 @@ import { MutableRefObject } from 'react';
 import { measureSync, recalculateLayout } from '../layoutManager';
 import { ForbiddenFocusDirections, ScreenStates } from '../types';
 import Grid from './grid';
-import List from './list';
 import RecyclerView from './recycler';
 import Row from './row';
 import Screen from './screen';
@@ -264,7 +263,7 @@ export default abstract class FocusModel {
         return this.getScreen()?.getOrder() || 0;
     }
 
-    public getFocusTaskExecutor(direction: string): Grid | Row | List | undefined {
+    public getFocusTaskExecutor(direction: string): Grid | Row | undefined {
         if (this.getParent()?.getFocusTaskExecutor(direction)) {
             return this.getParent()?.getFocusTaskExecutor(direction);
         }
