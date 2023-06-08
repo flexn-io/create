@@ -120,21 +120,16 @@ const measure = ({
                     scrollContentHeight: 0,
                     xCenter: pgX + Math.floor(width / 2),
                     yCenter: pgY + Math.floor(height / 2),
-                    innerView: {
-                        yMin: 0,
-                        yMax: 0,
-                        xMin: 0,
-                        xMax: 0,
-                    },
                 };
 
                 model.setLayout(layout);
 
+                // Order matters first recalculate layout then find lowest possible relative coordinates
+                recalculateLayout(model, remeasure);
+
                 if (model.getType() === TYPE_VIEW) {
                     findLowestRelativeCoordinates(model as View);
                 }
-
-                recalculateLayout(model, remeasure);
 
                 if (callback) callback();
                 if (resolve) resolve();
