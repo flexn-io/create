@@ -10,7 +10,7 @@ import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import { usePrevious } from '../../hooks/usePrevious';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
 
-const View = React.forwardRef<any, PressableProps>(
+const View = React.forwardRef<RNView | undefined, PressableProps>(
     (
         {
             children,

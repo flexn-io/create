@@ -42,7 +42,7 @@ export default function FocusDebugger() {
         };
     }, [enabledRef.current]);
 
-    useTVRemoteHandler(({ eventType, eventKeyAction }: any) => {
+    useTVRemoteHandler(({ eventType, eventKeyAction }) => {
         if (isPlatformTvos) {
             if (eventKeyAction === 'down' && eventType === 'playPause') {
                 Logger.getInstance().debug(CoreManager);

@@ -7,7 +7,7 @@ import useOnLayout from '../../hooks/useOnLayout';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
 import useOnComponentLifeCycle from '../../hooks/useOnComponentLifeCycle';
 
-const Screen = React.forwardRef<RNView, ScreenProps>(
+const Screen = React.forwardRef<RNView | undefined, ScreenProps>(
     ({ children, style, focusOptions = {}, onFocus, onBlur, ...props }, refOuter) => {
         const refInner = useRef(null);
         const [model] = useState<ScreenClass>(
@@ -39,7 +39,6 @@ const Screen = React.forwardRef<RNView, ScreenProps>(
             });
         }, [focusOptions.screenOrder]);
 
-        //TODO: is it ok to render childern as function ...when it comes to performance opts?
         const chRendered = typeof children === 'function' ? (children as any)(model) : children;
 
         const childrenWithProps = React.Children.map(chRendered, (child) => {

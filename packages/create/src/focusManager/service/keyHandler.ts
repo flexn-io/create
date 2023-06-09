@@ -1,6 +1,11 @@
 import { NativeModules, NativeEventEmitter, DeviceEventEmitter } from 'react-native';
 import { isPlatformAndroidtv, isPlatformTvos, isPlatformFiretv } from '@rnv/renative';
 import throttle from 'lodash.throttle';
+import {
+    RemoteHandlerEventTypesAppleTV,
+    RemoteHandlerEventTypesAndroid,
+    RemoteHandlerEventKeyActions,
+} from '../../remoteHandler';
 import CoreManager from './core';
 import { DIRECTION } from '../constants';
 import Grid from '../model/grid';
@@ -63,7 +68,13 @@ class KeyHandler {
         }
     }
 
-    private handleKeyEvent({ eventKeyAction, eventType }: { eventKeyAction: string; eventType: string }) {
+    private handleKeyEvent({
+        eventKeyAction,
+        eventType,
+    }: {
+        eventKeyAction: RemoteHandlerEventKeyActions;
+        eventType: RemoteHandlerEventTypesAppleTV | RemoteHandlerEventTypesAndroid;
+    }) {
         switch (eventKeyAction) {
             case EVENT_KEY_ACTION_UP:
                 return this.onKeyUp();
@@ -76,7 +87,7 @@ class KeyHandler {
         }
     }
 
-    private onKeyDown(eventType: string) {
+    private onKeyDown(eventType: RemoteHandlerEventTypesAppleTV | RemoteHandlerEventTypesAndroid) {
         if (!this._stopKeyDownEvents) {
             if (
                 eventType === EVENT_TYPE_SELECT &&
@@ -95,7 +106,7 @@ class KeyHandler {
         }
     }
 
-    private onKeyLongPress(eventType: string) {
+    private onKeyLongPress(eventType: RemoteHandlerEventTypesAppleTV | RemoteHandlerEventTypesAndroid) {
         if (this.isInRecycler() && DIRECTION.includes(eventType)) {
             this._stopKeyDownEvents = true;
             this._longPressInterval = setInterval(
