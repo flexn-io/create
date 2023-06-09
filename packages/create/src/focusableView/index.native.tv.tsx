@@ -1,8 +1,11 @@
-import { requireNativeComponent, ViewProps, HostComponent } from 'react-native';
+import { requireNativeComponent, ViewProps, HostComponent, ViewStyle } from 'react-native';
 import { AnimatorBackground, AnimatorBorder, AnimatorScale, AnimatorScaleWithBorder } from '..';
 
 interface TVFocusableView extends ViewProps {
-    animatorOptions?: AnimatorBackground | AnimatorBorder | AnimatorScale | AnimatorScaleWithBorder;
+    animatorOptions?: {
+        animator: AnimatorBackground | AnimatorBorder | AnimatorScale | AnimatorScaleWithBorder;
+        style: ViewStyle;
+    };
 }
 
 const TvFocusableViewManager: HostComponent<TVFocusableView> = requireNativeComponent('TvFocusableView');

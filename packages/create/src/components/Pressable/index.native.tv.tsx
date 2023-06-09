@@ -123,24 +123,22 @@ const View = React.forwardRef<any, PressableProps>(
 
         if (focus) {
             const animatorOptions = focusOptions.animator || { type: 'scale', focus: { scale: 1.1 } };
-            // const flattenedStyle = { ...StyleSheet.flatten(style) };
-
-            // if (animatorOptions.blur?.borderWidth !== undefined) {
-            //     flattenedStyle.borderWidth = animatorOptions.blur?.borderWidth;
-            // }
-            // if (animatorOptions.blur?.borderColor !== undefined) {
-            //     flattenedStyle.borderColor = animatorOptions.blur?.borderColor;
-            // }
-            // if (animatorOptions.blur?.backgroundColor !== undefined) {
-            //     flattenedStyle.backgroundColor = animatorOptions.blur?.backgroundColor;
-            // }
+            const { borderWidth, borderColor, borderRadius, backgroundColor } = { ...StyleSheet.flatten(style) } || {};
 
             return (
                 <TvFocusableViewManager
                     isTVSelectable={true}
                     style={style}
                     onLayout={onLayout}
-                    animatorOptions={animatorOptions}
+                    animatorOptions={{
+                        ...animatorOptions,
+                        blur: {
+                            borderWidth,
+                            borderColor,
+                            borderRadius,
+                            backgroundColor,
+                        },
+                    }}
                     {...props}
                     ref={ref}
                 >
