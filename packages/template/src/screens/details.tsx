@@ -37,10 +37,10 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
 
     return (
         <Screen style={[theme.styles.screen]}>
-            <ImageBackground source={{ uri: item.backgroundImage }} style={{ flex: 1 }} resizeMode="cover">
-                <ScrollView contentContainerStyle={theme.styles.center} {...testProps('template-details-screen-container')}>
+            <ImageBackground source={{ uri: item.backgroundImage }} style={{ flex: 1 }} resizeMode="cover" {...testProps('template-details-screen-cat-image')}>
+                <ScrollView contentContainerStyle={theme.styles.center}>
                     <View style={theme.styles.detailsInfoContainer}>
-                        <Text style={theme.styles.detailsTitle}>{item.title}</Text>
+                        <Text style={theme.styles.detailsTitle } {...testProps('template-details-screen-cat-name-text')}>{item.title}</Text>
                     </View>
                     <TouchableOpacity
                         {...testProps('template-details-screen-go-back-button')}

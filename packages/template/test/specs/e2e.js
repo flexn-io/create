@@ -86,7 +86,8 @@ describe('Test @flexn/template', () => {
         await FlexnRunner.waitForDisplayedById('template-carousels-screen-0-packshot');
         await FlexnRunner.clickById('template-carousels-screen-0-packshot');
         await FlexnRunner.pressButtonSelect(1);
-        await FlexnRunner.expectToBeDisplayedById('template-details-screen-container');
+        await FlexnRunner.expectToBeDisplayedById('template-details-screen-cat-image');
+        await FlexnRunner.expectToBeDisplayedById('template-details-screen-cat-name-text');
     });
 
     it('--> check if Carousels Page opens when "Go back" button is selected', async () => {
@@ -100,7 +101,8 @@ describe('Test @flexn/template', () => {
         await FlexnRunner.waitForDisplayedById('template-carousels-screen-0-packshot');
         await FlexnRunner.clickById('template-carousels-screen-0-packshot');
         await FlexnRunner.pressButtonSelect(1);
-        await FlexnRunner.expectToBeDisplayedById('template-details-screen-container');
+        await FlexnRunner.expectToBeDisplayedById('template-details-screen-cat-image');
+        await FlexnRunner.expectToBeDisplayedById('template-details-screen-cat-name-text');
     });
 
     it('--> check if Home Page opens when "Go to home" button is selected', async () => {
