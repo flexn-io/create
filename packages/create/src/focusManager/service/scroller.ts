@@ -105,7 +105,8 @@ class Scroller {
                     const mathFunc = currentFocus.getLayout().absolute.xMax >= screenWidth ? Math.max : Math.min;
                     // If element is on the top and there is no more elements above which is higher than verticalViewportOffset
                     // then we move whole viewport to the 0 position
-                    const lowestFocusableYMin = currentFocus.getScreen()?.getPrecalculatedFocus()?.getLayout()?.yMin;
+                    const lowestFocusableYMin =
+                        currentFocus.getScreen()?.getPrecalculatedFocus()?.getLayout()?.yMin || 0;
 
                     scrollTarget.y = Math.min(
                         y[0] < lowestFocusableYMin && currentLayout.yMax < screenHeight ? 0 : y[0],
@@ -137,16 +138,14 @@ class Scroller {
         // If scroll target does match new requested scroll target we skip
         // new scroll action and wait for current scroll target to be executed
         if (
-            scrollView.getLayout()['scrollTargetY'] === scrollTarget.y &&
-            scrollView.getLayout()['scrollTargetX'] === scrollTarget.x &&
+            scrollView.getScrollTargetY() === scrollTarget.y &&
+            scrollView.getScrollTargetX() === scrollTarget.x &&
             DIRECTION_VERTICAL.includes(direction)
         ) {
             return null;
         }
 
-        scrollView
-            .updateLayoutProperty('scrollTargetY', scrollTarget.y)
-            .updateLayoutProperty('scrollTargetX', scrollTarget.x);
+        scrollView.setScrollTargetY(scrollTarget.y).setScrollTargetX(scrollTarget.x);
 
         return scrollTarget;
     }

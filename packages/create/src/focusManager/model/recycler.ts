@@ -12,6 +12,8 @@ class RecyclerView extends AbstractFocusModel {
     private _layoutsReady: boolean;
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
+    private _scrollTargetY?: number;
+    private _scrollTargetX?: number;
     private _isHorizontal: boolean;
     private _focusedIndex: number;
     private _initialRenderIndex: number;
@@ -133,7 +135,27 @@ class RecyclerView extends AbstractFocusModel {
         return this._scrollOffsetY;
     }
 
-    public setRepeatContext(value: any): this {
+    public setScrollTargetX(value: number): this {
+        this._scrollTargetX = value;
+
+        return this;
+    }
+
+    public setScrollTargetY(value: number): this {
+        this._scrollTargetY = value;
+
+        return this;
+    }
+
+    public getScrollTargetY(): number | undefined {
+        return this._scrollTargetY;
+    }
+
+    public getScrollTargetX(): number | undefined {
+        return this._scrollTargetX;
+    }
+
+    public setRepeatContext(value: { focusContext: AbstractFocusModel; index: number }): this {
         this._repeatContext = value;
 
         return this;

@@ -57,8 +57,8 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
                     const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
                     const endY = scrollContentHeight + y >= height;
 
-                    if (model.getLayout()) {
-                        if (model.getLayout()['scrollTargetY'] === y || endY) {
+                    if (model.isLayoutMeasured()) {
+                        if (model.getScrollTargetY() === y || endY) {
                             model.setIsScrollingVertically(false);
                         } else {
                             model.setIsScrollingVertically(true);

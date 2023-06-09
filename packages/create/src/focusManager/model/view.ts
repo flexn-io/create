@@ -136,7 +136,7 @@ class View extends FocusModel {
         return true;
     }
 
-    public updateEvents({ onPress, onFocus, onBlur }: any) {
+    public updateEvents({ onPress, onFocus, onBlur }: { onPress?(): void; onFocus?(): void; onBlur?(): void }) {
         this._onPress = onPress;
         this._onFocus = onFocus;
         this._onBlur = onBlur;
@@ -171,7 +171,7 @@ class View extends FocusModel {
         return this._isFocused;
     }
 
-    public setRepeatContext(value: any): this {
+    public setRepeatContext(value: { focusContext: FocusModel; index: number }): this {
         this._repeatContext = value;
 
         return this;

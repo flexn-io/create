@@ -17,7 +17,7 @@ class CoreManager {
 
     private _debuggerEnabled: boolean;
 
-    private _pendingLayoutMeasurements: any;
+    private _pendingLayoutMeasurements: Record<string, NodeJS.Timeout | number>;
 
     constructor() {
         this._focusAwareElements = {};
@@ -29,7 +29,7 @@ class CoreManager {
         this._pendingLayoutMeasurements = {};
     }
 
-    public setPendingLayoutMeasurement(model: FocusModel, callback?: any) {
+    public setPendingLayoutMeasurement(model: FocusModel, callback: () => void) {
         if (this._pendingLayoutMeasurements[model.getId()]) {
             clearTimeout(this._pendingLayoutMeasurements[model.getId()]);
         } else {
@@ -314,14 +314,18 @@ class CoreManager {
 
     public getCurrentMaxOrder(): number {
         return Math.max(
-            ...Object.values(this._focusAwareElements).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
+            ...Object.values(this._focusAwareElements).map((o) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
         );
     }
 
-    public findClosestNode = (model: ViewType, direction: string, output: any): ClosestNodeOutput | null => {
+    public findClosestNode = (
+        model: ViewType,
+        direction: string,
+        output: ClosestNodeOutput
+    ): ClosestNodeOutput | null => {
         recalculateLayout(model);
-        const nextLayout = model.getLayout();
-        const currentLayout = this._currentFocus?.getLayout();
+        const nextLayout = model.isLayoutMeasured();
+        const currentLayout = this._currentFocus?.isLayoutMeasured();
 
         if (!nextLayout || !currentLayout) {
             Logger.getInstance().warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');

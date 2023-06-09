@@ -8,6 +8,8 @@ import { MutableRefObject } from 'react';
 class ScrollView extends AbstractFocusModel {
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
+    private _scrollTargetY?: number;
+    private _scrollTargetX?: number;
     private _isHorizontal: boolean;
     private _isScrollingHorizontally: boolean;
     private _isScrollingVertically: boolean;
@@ -73,6 +75,26 @@ class ScrollView extends AbstractFocusModel {
 
     public getScrollOffsetY(): number {
         return this._scrollOffsetY;
+    }
+
+    public setScrollTargetX(value: number): this {
+        this._scrollTargetX = value;
+
+        return this;
+    }
+
+    public setScrollTargetY(value: number): this {
+        this._scrollTargetY = value;
+
+        return this;
+    }
+
+    public getScrollTargetY(): number | undefined {
+        return this._scrollTargetY;
+    }
+
+    public getScrollTargetX(): number | undefined {
+        return this._scrollTargetX;
     }
 
     public isHorizontal(): boolean {

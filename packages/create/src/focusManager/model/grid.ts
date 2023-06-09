@@ -110,8 +110,8 @@ class Grid extends Recycler {
             return this._itemsInRow;
         }
 
-        const groups: any = [];
-        this.getLayouts().forEach((layout: any) => {
+        const groups: Record<number, { x: number; y: number }> = [];
+        this.getLayouts().forEach((layout) => {
             groups[layout.x] = layout;
         });
 

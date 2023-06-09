@@ -121,16 +121,16 @@ class Screen extends FocusModel {
         measureSync({ model: this });
     }
 
-    private _onPropertyChanged({ property, newValue }: { property: string; newValue: any }) {
+    private _onPropertyChanged({ property, newValue }: { property: string; newValue: ScreenStates | number }) {
         switch (property) {
             case 'state':
-                this.setPrevState(this.getState()).setState(newValue);
+                this.setPrevState(this.getState()).setState(newValue as ScreenStates);
                 if (this.isPrevStateBackground() && this.isInForeground()) {
                     this.setFocus(this.getFirstFocusableOnScreen());
                 }
                 break;
             case 'order':
-                this.setOrder(newValue);
+                this.setOrder(newValue as number);
                 break;
             default:
                 break;

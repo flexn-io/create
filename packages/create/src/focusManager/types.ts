@@ -140,6 +140,7 @@ export interface PressableProps extends RNPressableProps {
     focusContext?: FocusContext;
     focusRepeatContext?: CreateListRenderItemInfo<any>['focusRepeatContext'];
     onBlur?: () => void;
+    onPress?: () => void;
     onFocus?: () => void;
     className?: string;
     style?: ViewProps['style'];
@@ -197,3 +198,27 @@ export type CreateListRenderItem<Item> = (info: CreateListRenderItemInfo<Item>) 
 
 export type ScreenType = Screen;
 export type ViewType = View;
+
+export type Layout = {
+    xMin: number;
+    xMax: number;
+    yMin: number;
+    yMax: number;
+    xCenter: number;
+    yCenter: number;
+    width: number;
+    height: number;
+    yOffset: number;
+    xOffset: number;
+    xMaxScroll: number;
+    yMaxScroll: number;
+    scrollContentHeight: number;
+    absolute: {
+        xMin: number;
+        xMax: number;
+        yMin: number;
+        yMax: number;
+        xCenter: number;
+        yCenter: number;
+    };
+};

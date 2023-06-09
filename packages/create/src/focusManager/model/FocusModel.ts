@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
 import { measureSync, recalculateLayout } from '../layoutManager';
-import { ForbiddenFocusDirections, ScreenStates } from '../types';
+import { ForbiddenFocusDirections, Layout, ScreenStates } from '../types';
 import Grid from './grid';
 import RecyclerView from './recycler';
 import Row from './row';
@@ -15,7 +15,9 @@ export const TYPE_SCROLL_VIEW = 'scrollview';
 
 export const STATE_BACKGROUND: ScreenStates = 'background';
 export default abstract class FocusModel {
-    protected _layout: any;
+    protected _layout: Layout;
+    protected _isLayoutMeasured: boolean;
+
     protected _id: string;
     protected _type: string;
     protected _parent: FocusModel | undefined;
@@ -50,6 +52,31 @@ export default abstract class FocusModel {
         this._nextFocusLeft = nextFocusLeft;
         this._nextFocusUp = nextFocusUp;
         this._nextFocusDown = nextFocusDown;
+        this._isLayoutMeasured = false;
+
+        this._layout = {
+            xMin: 0,
+            xMax: 0,
+            yMin: 0,
+            yMax: 0,
+            xCenter: 0,
+            yCenter: 0,
+            width: 0,
+            height: 0,
+            yOffset: 0,
+            xOffset: 0,
+            xMaxScroll: 0,
+            yMaxScroll: 0,
+            scrollContentHeight: 0,
+            absolute: {
+                xMin: 0,
+                xMax: 0,
+                yMin: 0,
+                yMax: 0,
+                xCenter: 0,
+                yCenter: 0,
+            },
+        };
     }
 
     public nodeId?: number | null;
@@ -71,19 +98,22 @@ export default abstract class FocusModel {
         return this._id;
     }
 
-    public setLayout(layout: any): this {
+    public setLayout(layout: Layout): this {
         this._layout = layout;
 
         return this;
     }
 
-    public updateLayoutProperty(prop: string, value: any): this {
-        this._layout[prop] = value;
+    public updateLayoutProperty<C extends keyof Layout>(
+        prop: C,
+        value: C extends 'absolute' ? Layout['absolute'] : number
+    ): this {
+        this._layout[prop] = value as never;
 
         return this;
     }
 
-    public getLayout(): any {
+    public getLayout(): Layout {
         return this._layout;
     }
 
@@ -277,5 +307,15 @@ export default abstract class FocusModel {
 
     public getNode(): MutableRefObject<any> {
         return this.node;
+    }
+
+    public setIsLayoutMeasured(value: boolean): this {
+        this._isLayoutMeasured = value;
+
+        return this;
+    }
+
+    public isLayoutMeasured(): boolean {
+        return this._isLayoutMeasured;
     }
 }
