@@ -128,7 +128,7 @@ class CoreManager {
 
     public executeScroll(direction = '') {
         const contextParameters = {
-            currentFocus: this._currentFocus,
+            currentFocus: this._currentFocus as ViewType,
             focusMap: this._focusAwareElements,
             isDebuggerEnabled: this._debuggerEnabled,
         };

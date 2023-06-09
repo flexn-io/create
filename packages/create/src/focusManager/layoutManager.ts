@@ -36,7 +36,6 @@ const recalculateLayout = (model: FocusModel, remeasure?: boolean) => {
         return;
     }
 
-    // This is needed because ScrollView offsets
     let offsetX = 0;
     let offsetY = 0;
     let parent = model.getParent();
@@ -65,8 +64,6 @@ const recalculateLayout = (model: FocusModel, remeasure?: boolean) => {
     recalculateAbsolutes(model);
 };
 
-// let measureTimes = 0;
-
 const measure = ({
     model,
     callback,
@@ -79,8 +76,6 @@ const measure = ({
     remeasure?: boolean;
 }) => {
     if (model.node.current) {
-        // measureTimes++;
-        // console.log({ measureTimes }, model.getId());
         model.node.current.measure(
             (_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
                 let pgX;

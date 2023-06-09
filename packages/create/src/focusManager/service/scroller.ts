@@ -10,16 +10,20 @@ import {
     DIRECTION_VERTICAL,
 } from '../constants';
 import ScrollView from '../model/scrollview';
+import View from '../model/view';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('screen');
 
 class Scroller {
-    public calculateAndScrollToTarget(direction: string, contextParameters: any) {
-        const {
-            currentFocus,
-        }: {
-            currentFocus: FocusModel;
-        } = contextParameters;
+    public calculateAndScrollToTarget(
+        direction: string,
+        contextParameters: {
+            currentFocus: View;
+            focusMap: Record<string, FocusModel>;
+            isDebuggerEnabled: boolean;
+        }
+    ) {
+        const { currentFocus } = contextParameters;
 
         if (!currentFocus?.getLayout()) {
             //eslint-disable-next-line
@@ -31,7 +35,7 @@ class Scroller {
         let parent = currentFocus?.getParent();
 
         // We can only scroll 2 ScrollView at max. one Horizontally and Vertically
-        const directionsFilled: any[] = [];
+        const directionsFilled: boolean[] = [];
         while (parent) {
             if (parent.isScrollable() && !directionsFilled.includes((parent as ScrollView).isHorizontal())) {
                 directionsFilled.push((parent as ScrollView).isHorizontal());
@@ -51,8 +55,16 @@ class Scroller {
         });
     }
 
-    private calculateScrollViewTarget(direction: string, scrollView: ScrollView, contextParameters: any) {
-        const { currentFocus }: { currentFocus: FocusModel } = contextParameters;
+    private calculateScrollViewTarget(
+        direction: string,
+        scrollView: ScrollView,
+        contextParameters: {
+            currentFocus: View;
+            focusMap: Record<string, FocusModel>;
+            isDebuggerEnabled: boolean;
+        }
+    ) {
+        const { currentFocus } = contextParameters;
         const currentLayout = currentFocus.getLayout();
         const horizontalViewportOffset =
             currentFocus.getScreen()?.getHorizontalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;

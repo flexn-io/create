@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function withParentContextMapper(WrappedComponent: any) {
+export function withParentContextMapper(WrappedComponent: React.ComponentType<any>) {
     return class extends React.Component<any, any> {
         render() {
             const { focusContext } = this.props;
