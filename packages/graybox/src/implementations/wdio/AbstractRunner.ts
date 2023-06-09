@@ -90,6 +90,14 @@ abstract class AbstractRunner {
         }
     };
 
+    // expect toHaveValue
+    expectToHaveValueById = async (selector: string, value: string) => {
+        const element = await this.getElementById(selector);
+        if (element) {
+            await expect(element).toHaveValue(value);
+        }
+    };
+
     // waitForDisplayed
     waitForDisplayedById = async (selector: string, timeout = 60000) => {
         const element = await this.getElementById(selector);

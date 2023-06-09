@@ -627,6 +627,27 @@ FlexnRunner.expectToHaveTextById(selector, text);
 | selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
 | text | string | expected text in the element |
 
+### expectToHaveValueById
+
+Validates whether element has specific value by provided test ID.
+
+**Platform support**
+
+Supported on all platforms.
+
+**Usage**
+
+```javascript
+FlexnRunner.expectToHaveValueById(selector, value);
+```
+
+**Arguments**
+
+| Name  | Type | Details |
+| --- | --- | --- |
+| selector | string | test ID of the element. For more context look at [Selector strategies](#selector-strategies) |
+| value | string | expected value in the element |
+
 ### waitForDisplayedById
 
 Waits for an element for the provided amount of milliseconds to be displayed by provided test ID.
