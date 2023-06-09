@@ -39,8 +39,13 @@ export type FocusContext = FocusModel;
 
 const ALIGNMENT_LOW_EDGE = 'low-edge';
 
+type AnimatorTypeScale = 'scale';
+type AnimatorTypeScaleWithBorder = 'scale_with_border';
+type AnimatorTypeAnimatorBorder = 'border';
+type AnimatorTypeAnimatorBackground = 'background';
+
 export type AnimatorScale = {
-    type: 'scale';
+    type: AnimatorTypeScale;
     focus: {
         scale?: number;
         duration?: number;
@@ -48,7 +53,7 @@ export type AnimatorScale = {
 };
 
 export type AnimatorScaleWithBorder = {
-    type: 'scale_with_border';
+    type: AnimatorTypeScaleWithBorder;
     focus: {
         scale?: number;
         duration?: number;
@@ -59,7 +64,7 @@ export type AnimatorScaleWithBorder = {
 };
 
 export type AnimatorBorder = {
-    type: 'border';
+    type: AnimatorTypeAnimatorBorder;
     focus: {
         borderWidth: number;
         borderColor: string;
@@ -69,7 +74,7 @@ export type AnimatorBorder = {
 };
 
 export type AnimatorBackground = {
-    type: 'background';
+    type: AnimatorTypeAnimatorBackground;
     focus: {
         backgroundColor: ColorValue;
         duration?: number;
