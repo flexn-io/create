@@ -1839,10 +1839,10 @@
     wdio-image-comparison-service "5.0.3"
     wdio-native-app-compare-service "2.1.0"
 
-"@flexn/plugins@1.0.6":
-  version "1.0.6"
-  resolved "https://registry.npmjs.org/@flexn/plugins/-/plugins-1.0.6.tgz#1da85c6307f68f48c48c600d0c0c656901c73c5e"
-  integrity sha512-PUUbvO1rDlo7MCSFcD6Q1bWV7Rxignc9M1l6ZfroOQJQtjR0kh7XQtt2AHiPF98hp2u1lnHKiivFe1xcVpp6/A==
+"@flexn/plugins@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@flexn/plugins/-/plugins-1.0.7.tgz#b1018a549328b5dd6d6fc43e863d15fa51196aaf"
+  integrity sha512-LqFfaH9ojYsuoYCWoqGxKp8CIYgvfo9xd2I3iWPPXAVBKKUusD6MyfGMwlfyiOCzTSUwZiu8OQGhDhAQ4VloBQ==
 
 "@flexn/prettier-config@0.1.4":
   version "0.1.4"
