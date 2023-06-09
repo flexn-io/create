@@ -1,6 +1,5 @@
 import Recycler from './recycler';
 import Core from '../service/core';
-import Scroller from '../service/scroller';
 import View from './view';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
@@ -122,12 +121,7 @@ class Grid extends Recycler {
     }
 
     public scrollToInitialRenderIndex(): void {
-        const layout: any = this.getLayouts()[this.getInitialRenderIndex()] ?? { x: 0, y: 0 };
-        const verticalOffset = this.getScreen()?.getVerticalViewportOffset() ?? 0;
-        const target = { x: 0, y: layout.y - verticalOffset };
-        setTimeout(() => {
-            Scroller.scrollRecycler(target, this);
-        }, 0);
+        // empty
     }
 
     public getFocusTaskExecutor(_direction: string): Grid {

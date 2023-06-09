@@ -44,7 +44,7 @@ export type PressableFocusOptions = {
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
-    group?: string
+    group?: string;
 };
 
 export type ScreenFocusOptions = {
@@ -142,6 +142,10 @@ export interface FlashListProps<Item> extends FLProps<Item> {
     type: 'list' | 'grid' | 'row';
     onBlur?: () => void;
     onFocus?: () => void;
+}
+
+export interface CellContainerProps extends ViewProps {
+    index: number;
 }
 
 export type FocusContext = FocusModel;

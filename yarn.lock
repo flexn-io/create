@@ -1849,21 +1849,21 @@
   resolved "https://registry.npmjs.org/@flexn/prettier-config/-/prettier-config-0.1.4.tgz#3af0d5d2b4c9767214b7fdbe9e683615ba7dfac3"
   integrity sha512-2lTwjEu34Ex3SUNEDSJ7ctLm3yU1pK+Ej/yj7+DLgdWdkoiFf7Q1A4q/VeY5eYmHl6QfNzPnc+D6P3FkqzpCBw==
 
-"@flexn/recyclerlistview@4.2.4":
-  version "4.2.4"
-  resolved "https://registry.npmjs.org/@flexn/recyclerlistview/-/recyclerlistview-4.2.4.tgz#c98a6c043b55600831312a0412345147e3c0fdc5"
-  integrity sha512-T2Udaccq8UVVcQfkTMRJhnCZZ1qIqcfBhixkEzczY6Fe0F96Yr7fT8RSSpawr2xey/K9XLy22R6rAQkt+0KVOg==
+"@flexn/recyclerlistview@4.2.6":
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/@flexn/recyclerlistview/-/recyclerlistview-4.2.6.tgz#b5288b4643fd728fca38c130706e4fe6192e3ab4"
+  integrity sha512-zLMmk9ZbDt1mwYpyHAkg3S/TN3oHYT02uUEqtXvOXaabK+N6OWIe0RWSLyLFN7JETMREQxCC9VGZ0yhCLx63YQ==
   dependencies:
     lodash.debounce "4.0.8"
     prop-types "15.8.1"
     ts-object-utils "0.0.5"
 
-"@flexn/shopify-flash-list@1.4.5":
-  version "1.4.5"
-  resolved "https://registry.yarnpkg.com/@flexn/shopify-flash-list/-/shopify-flash-list-1.4.5.tgz#522dac20a82edb47d37186c60c6624540016b6f5"
-  integrity sha512-7YM70xWHwHw/VG8RVh0UtGH+EVyvzsp21viO9Ea0vrM7wUnUP7o0Seytwbb/v+9HsFfVtCcxfEuioEGCvBrdNQ==
+"@flexn/shopify-flash-list@1.4.7":
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/@flexn/shopify-flash-list/-/shopify-flash-list-1.4.7.tgz#c00bafe3f36f08599ddce2a882830d5b0310c465"
+  integrity sha512-yi8PENZgOHEP4Eqo/fPZ7iMkM1dUPG14kPr893jbD1ENi7m6/Fj72i0yLWQL1/EcgFkl0RD39K1o7IG+44OkXg==
   dependencies:
-    "@flexn/recyclerlistview" "4.2.4"
+    "@flexn/recyclerlistview" "4.2.6"
     tslib "2.4.0"
 
 "@flexn/typescript@0.3.0":
