@@ -1,6 +1,6 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView, StyleSheet, Insets } from 'react-native';
-import type { Animator, PressableProps, ViewProps } from '../../focusManager/types';
+import type { PressableProps } from '../../focusManager/types';
 import { measureSync } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
@@ -9,32 +9,6 @@ import useOnLayout from '../../hooks/useOnLayout';
 import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import { usePrevious } from '../../hooks/usePrevious';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
-
-const defaultAnimation = {
-    type: 'scale',
-    focus: {
-        scale: 1.1,
-    },
-    blur: {
-        scale: 1,
-    },
-    // duration: 150,
-};
-
-type FocusAnimation = {
-    focus?: {
-        borderWidth?: number;
-        borderColor?: string;
-        backgroundColor?: string;
-        scale?: number;
-    };
-    blur?: {
-        borderWidth?: number;
-        borderColor?: string;
-        backgroundColor?: string;
-        scale?: number;
-    };
-};
 
 const View = React.forwardRef<any, PressableProps>(
     (
@@ -48,6 +22,7 @@ const View = React.forwardRef<any, PressableProps>(
             onPress,
             onFocus,
             onBlur,
+            hitSlop,
             ...props
         },
         refOuter
@@ -147,23 +122,23 @@ const View = React.forwardRef<any, PressableProps>(
         });
 
         if (focus) {
-            const animatorOptions = focusOptions.animator || defaultAnimation;
-            const flattenedStyle = { ...StyleSheet.flatten(style) };
+            const animatorOptions = focusOptions.animator || { type: 'scale', focus: { scale: 1.1 } };
+            // const flattenedStyle = { ...StyleSheet.flatten(style) };
 
-            if (animatorOptions.blur?.borderWidth !== undefined) {
-                flattenedStyle.borderWidth = animatorOptions.blur?.borderWidth;
-            }
-            if (animatorOptions.blur?.borderColor !== undefined) {
-                flattenedStyle.borderColor = animatorOptions.blur?.borderColor;
-            }
-            if (animatorOptions.blur?.backgroundColor !== undefined) {
-                flattenedStyle.backgroundColor = animatorOptions.blur?.backgroundColor;
-            }
+            // if (animatorOptions.blur?.borderWidth !== undefined) {
+            //     flattenedStyle.borderWidth = animatorOptions.blur?.borderWidth;
+            // }
+            // if (animatorOptions.blur?.borderColor !== undefined) {
+            //     flattenedStyle.borderColor = animatorOptions.blur?.borderColor;
+            // }
+            // if (animatorOptions.blur?.backgroundColor !== undefined) {
+            //     flattenedStyle.backgroundColor = animatorOptions.blur?.backgroundColor;
+            // }
 
             return (
                 <TvFocusableViewManager
                     isTVSelectable={true}
-                    style={flattenedStyle}
+                    style={style}
                     onLayout={onLayout}
                     animatorOptions={animatorOptions}
                     {...props}
@@ -175,13 +150,7 @@ const View = React.forwardRef<any, PressableProps>(
         }
 
         return (
-            <RNView
-                style={style}
-                {...props}
-                ref={ref}
-                onLayout={onLayoutNonPressable}
-                hitSlop={props.hitSlop as Insets}
-            >
+            <RNView style={style} {...props} ref={ref} onLayout={onLayoutNonPressable} hitSlop={hitSlop as Insets}>
                 {childrenWithProps}
             </RNView>
         );

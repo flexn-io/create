@@ -6,18 +6,6 @@ import Screen from './screen';
 import { Button } from '../components/Button';
 import { Ratio } from '../utils';
 
-const border = {
-    type: 'border',
-    focus: {
-        borderWidth: 5,
-        borderColor: 'yellow',
-    },
-    blur: {
-        borderWidth: 4,
-        borderColor: '#FFFFFF',
-    },
-};
-
 const { height } = Dimensions.get('screen');
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];

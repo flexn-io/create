@@ -4,25 +4,6 @@ import { View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@fl
 import Screen from './screen';
 import { Ratio } from '../utils';
 
-// const border = {
-//     type: 'border',
-//     focus: {
-//         borderWidth: 5,
-//         borderColor: 'yellow',
-//     },
-//     blur: {
-//         borderWidth: 4,
-//         borderColor: '#FFFFFF',
-//     },
-// };
-
-const scale = {
-    type: 'scale',
-    focus: {
-        scale: 1.4,
-    },
-};
-
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
 function interval(min = 0, max = kittyNames.length - 1) {

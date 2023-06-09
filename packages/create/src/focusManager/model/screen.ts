@@ -20,16 +20,15 @@ const ALIGNMENT_LOW_EDGE = 'low-edge';
 type ScreenModelParams = {
     focusKey?: string;
     group?: string;
-    order?: number;
-    state: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
-    prevState: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
+    screenOrder?: number;
+    screenState?: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
     verticalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
     horizontalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
     horizontalViewportOffset?: number;
     verticalViewportOffset?: number;
     forbiddenFocusDirections?: ForbiddenFocusDirections[];
     zOrder?: number;
-    stealFocus: boolean;
+    stealFocus?: boolean;
     onFocus?(): void;
     onBlur?(): void;
 };
@@ -58,9 +57,8 @@ class Screen extends FocusModel {
         super(params);
 
         const {
-            state = STATE_FOREGROUND,
-            prevState = STATE_FOREGROUND,
-            order = 0,
+            screenState = STATE_FOREGROUND,
+            screenOrder = 0,
             stealFocus = true,
             focusKey = '',
             group,
@@ -76,9 +74,9 @@ class Screen extends FocusModel {
         this._id = `screen-${CoreManager.generateID(8)}`;
         this._type = 'screen';
         this._group = group;
-        this._state = state;
-        this._prevState = prevState;
-        this._order = order;
+        this._state = screenState;
+        this._prevState = screenState;
+        this._order = screenOrder;
         this._focusKey = focusKey;
         this._verticalWindowAlignment = verticalWindowAlignment;
         this._horizontalWindowAlignment = horizontalWindowAlignment;

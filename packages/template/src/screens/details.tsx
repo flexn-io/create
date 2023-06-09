@@ -1,12 +1,4 @@
-import {
-    TouchableOpacity,
-    ImageBackground,
-    View,
-    Text,
-    ScrollView,
-    ActivityIndicator,
-    ANIMATION_TYPES,
-} from '@flexn/create';
+import { TouchableOpacity, ImageBackground, View, Text, ScrollView, ActivityIndicator } from '@flexn/create';
 import React, { useContext, useState, useEffect } from 'react';
 import { getScaledValue, isPlatformWeb } from '@rnv/renative';
 import { ThemeContext, ROUTES } from '../config';
