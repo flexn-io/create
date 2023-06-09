@@ -17,6 +17,7 @@ describe('Test @flexn/template', () => {
         await FlexnRunner.waitForDisplayedById('template-home-screen-try-me-button');
         await FlexnRunner.clickById('template-home-screen-try-me-button');
         await FlexnRunner.pressButtonSelect(1);
+        await FlexnRunner.pause(1000);
         await FlexnRunner.expectToMatchScreen('home-dark');
     });
 
@@ -24,6 +25,7 @@ describe('Test @flexn/template', () => {
         await FlexnRunner.waitForDisplayedById('template-home-screen-try-me-button');
         await FlexnRunner.clickById('template-home-screen-try-me-button');
         await FlexnRunner.pressButtonSelect(1);
+        await FlexnRunner.pause(1000);
         await FlexnRunner.expectToMatchScreen('home-light');
     });
 
