@@ -18,6 +18,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const renderItem = ({ item, focusRepeatContext, index }: any) => {
         return (
             <Pressable
+                {...testProps(`template-carousels-screen-${index}-packshot`)}
                 style={styles.cardStyle}
                 focusRepeatContext={focusRepeatContext}
                 onPress={() => {

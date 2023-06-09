@@ -21,10 +21,7 @@ const ScreenModal = ({ navigation }: { navigation?: any }) => {
                     <Icon name="close" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 </TouchableOpacity>
             </View>
-            <ScrollView
-                contentContainerStyle={[theme.styles.container, { flex: 1 }]}
-                {...testProps('template-modal-screen-container')}
-            >
+            <ScrollView contentContainerStyle={[theme.styles.container, { flex: 1 }]}>
                 <Text style={theme.styles.textH2}>This is my Modal!</Text>
             </ScrollView>
         </Screen>

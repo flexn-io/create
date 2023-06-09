@@ -1,6 +1,6 @@
 const FlexnRunner = require('@flexn/graybox').default;
 
-describe('Test template', () => {
+describe('Test @flexn/template', () => {
     before(() => {
         FlexnRunner.launchApp();
     });
@@ -13,22 +13,23 @@ describe('Test template', () => {
         await FlexnRunner.expectToBeDisplayedById('template-home-screen-now-try-me-button');
     });
 
-    it('--> check if dark theme is displayed when "Try Me!" is selected', async () => {
-        await FlexnRunner.pause(5000);
-        await FlexnRunner.expectToMatchScreen('home-light');
+    it('--> check if dark theme is displayed when "Try Me!" button is selected', async () => {
+        await FlexnRunner.waitForDisplayedById('template-home-screen-try-me-button');
         await FlexnRunner.clickById('template-home-screen-try-me-button');
         await FlexnRunner.pressButtonSelect(1);
-        await FlexnRunner.pause(3000);
         await FlexnRunner.expectToMatchScreen('home-dark');
+    });
+
+    it('--> check if light theme is displayed when "Try Me!" button is selected', async () => {
+        await FlexnRunner.waitForDisplayedById('template-home-screen-try-me-button');
         await FlexnRunner.clickById('template-home-screen-try-me-button');
         await FlexnRunner.pressButtonSelect(1);
-        await FlexnRunner.pause(3000);
         await FlexnRunner.expectToMatchScreen('home-light');
     });
 
     it('--> check if Carousels Page opens when "Carousels" button is selected', async () => {
-        await FlexnRunner.waitForDisplayedById('template-home-screen-flexn-image');
         if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
+            await FlexnRunner.waitForDisplayedById('template-menu-drawer-button');
             await FlexnRunner.clickById('template-menu-drawer-button');
         }
         await FlexnRunner.clickById('template-menu-carousels-button');
@@ -36,7 +37,11 @@ describe('Test template', () => {
         await FlexnRunner.pressButtonDown(1);
         await FlexnRunner.pressButtonSelect(1);
         await FlexnRunner.expectToBeDisplayedById('template-carousels-screen-container');
+    });
+
+    it('--> check if Home Page opens when "Home" button is selected', async () => {
         if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
+            await FlexnRunner.waitForDisplayedById('template-menu-drawer-button');
             await FlexnRunner.clickById('template-menu-drawer-button');
         }
         await FlexnRunner.clickById('template-menu-home-button');
@@ -47,15 +52,19 @@ describe('Test template', () => {
     });
 
     it('--> check if My Modal opens when "My Modal" button is selected', async () => {
-        await FlexnRunner.waitForDisplayedById('template-home-screen-flexn-image');
         if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
+            await FlexnRunner.waitForDisplayedById('template-menu-drawer-button');
             await FlexnRunner.clickById('template-menu-drawer-button');
         }
         await FlexnRunner.clickById('template-menu-my-modal-button');
         await FlexnRunner.pressButtonLeft(1);
         await FlexnRunner.pressButtonDown(2);
         await FlexnRunner.pressButtonSelect(1);
-        await FlexnRunner.expectToBeDisplayedById('template-modal-screen-container');
+        await FlexnRunner.expectToBeDisplayedByText('This is my Modal!');
+    });
+
+    it('--> check if My Modal closes when close button is selected', async () => {
+        await FlexnRunner.waitForDisplayedById('template-modal-screen-close-button');
         await FlexnRunner.clickById('template-modal-screen-close-button');
         if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
             await FlexnRunner.waitForDisplayedById('template-menu-home-button');
@@ -66,17 +75,38 @@ describe('Test template', () => {
     });
 
     it('--> check if Carousels Page opens when "Now Try Me!" button is selected', async () => {
-        await FlexnRunner.waitForDisplayedById('template-home-screen-flexn-image');
+        await FlexnRunner.waitForDisplayedById('template-home-screen-now-try-me-button');
         await FlexnRunner.clickById('template-home-screen-now-try-me-button');
         await FlexnRunner.pressButtonDown(1);
         await FlexnRunner.pressButtonSelect(1);
         await FlexnRunner.expectToBeDisplayedById('template-carousels-screen-container');
-        if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
-            await FlexnRunner.clickById('template-menu-drawer-button');
-        }
-        await FlexnRunner.clickById('template-menu-home-button');
-        await FlexnRunner.pressButtonLeft(1);
-        await FlexnRunner.pressButtonUp(2);
+    });
+
+    it('--> check if Details Page opens when packshot is selected', async () => {
+        await FlexnRunner.waitForDisplayedById('template-carousels-screen-0-packshot');
+        await FlexnRunner.clickById('template-carousels-screen-0-packshot');
+        await FlexnRunner.pressButtonSelect(1);
+        await FlexnRunner.expectToBeDisplayedById('template-details-screen-container');
+    });
+
+    it('--> check if Carousels Page opens when "Go back" button is selected', async () => {
+        await FlexnRunner.waitForDisplayedById('template-details-screen-go-back-button');
+        await FlexnRunner.clickById('template-details-screen-go-back-button');
+        await FlexnRunner.pressButtonSelect(1);
+        await FlexnRunner.expectToBeDisplayedById('template-carousels-screen-container');
+    });
+
+    it('--> check if Details Page opens when packshot is selected', async () => {
+        await FlexnRunner.waitForDisplayedById('template-carousels-screen-0-packshot');
+        await FlexnRunner.clickById('template-carousels-screen-0-packshot');
+        await FlexnRunner.pressButtonSelect(1);
+        await FlexnRunner.expectToBeDisplayedById('template-details-screen-container');
+    });
+
+    it('--> check if Home Page opens when "Go to home" button is selected', async () => {
+        await FlexnRunner.waitForDisplayedById('template-details-screen-go-to-home-button');
+        await FlexnRunner.clickById('template-details-screen-go-to-home-button');
+        await FlexnRunner.pressButtonDown(1);
         await FlexnRunner.pressButtonSelect(1);
         await FlexnRunner.expectToBeDisplayedById('template-home-screen-flexn-image');
     });
