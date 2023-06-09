@@ -135,7 +135,7 @@ const FlashList = ({
 
                             if (model.getNode()?.current) {
                                 //@ts-expect-error mystery which needs to be resolved from recyclerlistview perspective
-                                model.getNode()!.current.scrollTo = ref?._scrollViewRef?.scrollTo;
+                                model.getNode().current.scrollTo = ref?._scrollViewRef?.scrollTo;
                             }
                         },
                         scrollEnabled: false,

@@ -57,7 +57,7 @@ export default class Details
     }
 
     override set params(params: { row: any; index: string }) {
-        const { backgroundImage, title } = getRandomItem(params.row, parseInt(params.index))!;
+        const { backgroundImage, title } = getRandomItem(params.row, parseInt(params.index)) || {};
         this.patch({
             src: backgroundImage,
             Text: { text: { text: title } },

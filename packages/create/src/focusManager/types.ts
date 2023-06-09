@@ -134,6 +134,19 @@ export interface ViewProps extends RNViewProps {
     ref?: React.ForwardedRef<RNView> | React.MutableRefObject<RNView>;
 }
 
+export interface ViewGroupProps extends RNViewProps {
+    focusOptions: {
+        group: string;
+        focusKey?: string;
+        nextFocusLeft?: string | string[];
+        nextFocusRight?: string | string[];
+        nextFocusUp?: string | string[];
+        nextFocusDown?: string | string[];
+    };
+    focusContext?: FocusContext;
+    ref?: React.ForwardedRef<RNView> | React.MutableRefObject<RNView>;
+}
+
 export interface PressableProps extends RNPressableProps {
     focus?: boolean;
     focusOptions?: PressableFocusOptions;

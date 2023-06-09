@@ -82,7 +82,7 @@ class SideMenu
     extends Lightning.Component<SideMenuTemplateSpec>
     implements Lightning.Component.ImplementTemplateSpec<SideMenuTemplateSpec>
 {
-    Container = this.getByRef('Container')!;
+    Container = this.getByRef('Container');
 
     static _template(): Lightning.Component.ImplementTemplateSpec<SideMenuTemplateSpec> {
         return {
@@ -146,17 +146,17 @@ class SideMenu
             class LightTheme extends this {
                 $enter() {
                     this.patch({ color: getHexColor('#FFFFFF') });
-                    this.Container.children.forEach((_ch) => {
-                        // ch.patch({ color: getHexColor('#000000') });
-                    });
+                    // this.Container.children.forEach((_ch) => {
+                    //     // ch.patch({ color: getHexColor('#000000') });
+                    // });
                 }
             },
             class DarkTheme extends this {
                 $enter() {
                     this.patch({ color: getHexColor('#000000') });
-                    this.Container.children.forEach((_ch) => {
-                        // ch.patch({ color: getHexColor('#FFFFFF') });
-                    });
+                    // this.Container.children.forEach((_ch) => {
+                    //     // ch.patch({ color: getHexColor('#FFFFFF') });
+                    // });
                 }
             },
         ];
@@ -167,11 +167,13 @@ class SideMenu
     }
 
     override _getFocused() {
-        return this.Container.children[this.focusIndex] as MenuItem;
+        if (this.Container) {
+            return this.Container.children[this.focusIndex] as MenuItem;
+        }
     }
 
     override _handleDown() {
-        if (this.focusIndex !== this.Container.children.length - 1) {
+        if (this.Container && this.focusIndex !== this.Container.children.length - 1) {
             this.focusIndex++;
         }
     }
@@ -200,15 +202,17 @@ class SideMenu
     }
 
     _animate(shouldOpen: boolean) {
-        this.Container.children.forEach((ch) => {
-            ch.patch({ isVisible: shouldOpen });
-        });
+        if (this.Container) {
+            this.Container.children.forEach((ch) => {
+                ch.patch({ isVisible: shouldOpen });
+            });
 
-        this.patch({
-            smooth: {
-                w: shouldOpen ? 390 : 100,
-            },
-        });
+            this.patch({
+                smooth: {
+                    w: shouldOpen ? 390 : 100,
+                },
+            });
+        }
     }
 }
 
