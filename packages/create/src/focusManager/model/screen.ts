@@ -30,9 +30,9 @@ class Screen extends FocusModel {
     private _initialLoadInProgress: boolean;
     private _componentsPendingLayoutMap: { [key: string]: boolean };
     private _unmountingComponents: number;
-    private _preferredFocus?: View;
-    private _currentFocus?: View;
-    private _precalculatedFocus?: View;
+    private _preferredFocus: View | null = null;
+    private _currentFocus: View | null = null;
+    private _precalculatedFocus: View | null = null;
     private _stealFocus: boolean;
     private _isFocused: boolean;
     private _group?: string;
@@ -154,7 +154,7 @@ class Screen extends FocusModel {
         }
     }
 
-    public setFocus(model?: View) {
+    public setFocus(model: View | null) {
         if (model) {
             CoreManager.getCurrentFocus()?.getScreen()?.onBlur?.();
             CoreManager.executeFocus(model);
@@ -173,13 +173,13 @@ class Screen extends FocusModel {
         setTimeout(() => {
             this._unmountingComponents--;
             if (model.getId() === this._currentFocus?.getId()) {
-                delete this._currentFocus;
+                this._currentFocus = null;
             }
             if (model.getId() === this._preferredFocus?.getId()) {
-                delete this._preferredFocus;
+                this._preferredFocus = null;
             }
             if (model.getId() === this._precalculatedFocus?.getId()) {
-                delete this._precalculatedFocus;
+                this._precalculatedFocus = null;
             }
             if (this._unmountingComponents <= 0 && !this._currentFocus) {
                 this.setFocus(this.getFirstFocusableOnScreen());
@@ -187,7 +187,7 @@ class Screen extends FocusModel {
         }, DELAY_TIME_IN_MS);
     }
 
-    public getFirstFocusableOnScreen = (): View | undefined => {
+    public getFirstFocusableOnScreen = (): View | null => {
         if (this.isInForeground()) {
             if (this._currentFocus) return this._currentFocus;
             if (this._preferredFocus) return this._preferredFocus;
@@ -203,6 +203,8 @@ class Screen extends FocusModel {
 
             return this._precalculatedFocus;
         }
+
+        return null;
     };
 
     private precalculateFocus(model: FocusModel) {
@@ -291,33 +293,33 @@ class Screen extends FocusModel {
         return this._children;
     }
 
-    public setPreferredFocus(model: View): this {
+    public setPreferredFocus(model: View | null): this {
         this._preferredFocus = model;
 
         return this;
     }
 
-    public getPreferredFocus(): View | undefined {
+    public getPreferredFocus(): View | null {
         return this._preferredFocus;
     }
 
-    public setPrecalculatedFocus(model: View): this {
+    public setPrecalculatedFocus(model: View | null): this {
         this._precalculatedFocus = model;
 
         return this;
     }
 
-    public setCurrentFocus(model: View): this {
+    public setCurrentFocus(model: View | null): this {
         this._currentFocus = model;
 
         return this;
     }
 
-    public getCurrentFocus(): View | undefined {
+    public getCurrentFocus(): View | null {
         return this._currentFocus;
     }
 
-    public getPrecalculatedFocus(): View | undefined {
+    public getPrecalculatedFocus(): View | null {
         return this._precalculatedFocus;
     }
 

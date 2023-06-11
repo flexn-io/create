@@ -13,7 +13,7 @@ class CoreManager {
     public _views: Record<string, ViewType>;
     public _screens: Record<string, ScreenType>;
 
-    public _currentFocus: ViewType | null;
+    public _currentFocus: ViewType | null = null;
 
     private _debuggerEnabled: boolean;
 
@@ -23,7 +23,6 @@ class CoreManager {
         this._focusAwareElements = {};
         this._views = {};
         this._screens = {};
-        this._currentFocus = null;
         this._debuggerEnabled = false;
 
         this._pendingLayoutMeasurements = {};
@@ -156,7 +155,7 @@ class CoreManager {
         direction: string,
         ownCandidates?: ViewType[],
         findFocusInParent = true
-    ): ViewType | undefined | null => {
+    ): ViewType | null => {
         const currentFocus = this._currentFocus;
         const views = this._views;
 
@@ -167,7 +166,8 @@ class CoreManager {
         const nextForcedFocusKey = this.getNextForcedFocusKey(currentFocus, direction);
         if (nextForcedFocusKey) {
             this.focusElementByFocusKey(nextForcedFocusKey);
-            return;
+
+            return null;
         }
 
         if (currentFocus.containsForbiddenDirection(direction)) {
@@ -180,11 +180,12 @@ class CoreManager {
             return currentFocus;
         }
 
-        let closestView: ViewType | undefined | null;
+        let closestView: ViewType | null;
         let closestNodeOutput: ClosestNodeOutput = {
             match1: 9999999,
+            match1Model: null,
             match2: 9999999,
-            match3: 9999999,
+            match2Model: null,
         };
 
         const candidates =
@@ -206,7 +207,7 @@ class CoreManager {
             if (nextOutput) closestNodeOutput = nextOutput;
         }
 
-        closestView = closestNodeOutput.match1Model || closestNodeOutput.match2Model || closestNodeOutput.match3Model;
+        closestView = closestNodeOutput.match1Model || closestNodeOutput.match2Model;
 
         if (closestView) {
             if (closestView.getParent()?.getId() !== currentFocus.getParent()?.getId()) {
@@ -215,7 +216,7 @@ class CoreManager {
                 const nextForcedFocusKey = this.getNextForcedFocusKey(parent, direction);
                 if (nextForcedFocusKey) {
                     this.focusElementByFocusKey(nextForcedFocusKey);
-                    return;
+                    return null;
                 }
 
                 if (parent.containsForbiddenDirection(direction)) {
@@ -236,7 +237,7 @@ class CoreManager {
                 closestView.getScreen()?.onFocus?.();
 
                 if (closestView.getScreen()?.getCurrentFocus()) {
-                    return closestView.getScreen()?.getCurrentFocus();
+                    return closestView.getScreen()!.getCurrentFocus();
                 }
             }
 
@@ -258,7 +259,7 @@ class CoreManager {
                 const _nextForcedFocusKey = this.getNextForcedFocusKey(p, direction);
                 if (_nextForcedFocusKey) {
                     this.focusElementByFocusKey(_nextForcedFocusKey);
-                    return;
+                    return null;
                 }
             }
 

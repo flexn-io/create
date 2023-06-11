@@ -172,7 +172,7 @@ export default abstract class FocusModel {
             if (this.getParent()?.getType() === TYPE_RECYCLER) {
                 const recycler = this.getParent() as RecyclerView;
                 if (recycler.getFocusedView()?.getId() === this.getId()) {
-                    recycler.setFocusedView(undefined);
+                    recycler.setFocusedView(null);
                 }
             }
         } else {

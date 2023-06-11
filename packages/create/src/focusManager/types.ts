@@ -29,11 +29,9 @@ export type Animator = AnimatorScale | AnimatorBorder | AnimatorScaleWithBorder 
 
 export type ClosestNodeOutput = {
     match1: number;
-    match1Model?: View;
+    match1Model: View | null;
     match2: number;
-    match2Model?: View;
-    match3: number;
-    match3Model?: View;
+    match2Model: View | null;
 };
 export type ForbiddenFocusDirections =
     | 'down'

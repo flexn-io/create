@@ -17,7 +17,7 @@ class RecyclerView extends AbstractFocusModel {
     private _isHorizontal: boolean;
     private _focusedIndex: number;
     private _initialRenderIndex: number;
-    private _focusedView?: View;
+    private _focusedView: View | null = null;
 
     constructor(
         params: Omit<
@@ -164,7 +164,7 @@ class RecyclerView extends AbstractFocusModel {
         return this._focusedIndex;
     }
 
-    public setFocusedView(view?: View): this {
+    public setFocusedView(view: View | null): this {
         this._focusedView = view;
 
         return this;
@@ -174,7 +174,7 @@ class RecyclerView extends AbstractFocusModel {
         return this._initialRenderIndex;
     }
 
-    public getFocusedView(): View | undefined {
+    public getFocusedView(): View | null {
         return this._focusedView;
     }
 
