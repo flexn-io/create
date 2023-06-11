@@ -2,27 +2,21 @@ import { View } from 'react-native';
 import AbstractFocusModel from './FocusModel';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
-import FocusModel from './FocusModel';
 import { MutableRefObject } from 'react';
-
-type ViewGroupModelParams = {
-    focusKey?: string;
-    group: string;
-    parent: FocusModel;
-};
+import { ViewGroupProps } from '../types';
 
 class ViewGroup extends AbstractFocusModel {
     private _group: string;
     private _focusKey?: string;
 
-    constructor(params: ViewGroupModelParams) {
+    constructor(params: Omit<ViewGroupProps & ViewGroupProps['focusOptions'], 'ref' | 'focusOptions'>) {
         super(params);
 
-        const { parent, group, focusKey } = params;
+        const { focusContext, group, focusKey } = params;
 
         const id = CoreManager.generateID(8);
-        this._id = parent?.getId() ? `${parent.getId()}:viewGroup-${id}` : `viewGroup-${id}`;
-        this._parent = parent;
+        this._id = focusContext?.getId() ? `${focusContext.getId()}:viewGroup-${id}` : `viewGroup-${id}`;
+        this._parent = focusContext;
         this._type = 'viewGroup';
         this._group = group;
         this._focusKey = focusKey;

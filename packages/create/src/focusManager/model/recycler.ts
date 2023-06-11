@@ -1,11 +1,27 @@
 import { ScrollView } from 'react-native';
 import AbstractFocusModel from './FocusModel';
-import { ForbiddenFocusDirections } from '../types';
+import { FlashListProps, ForbiddenFocusDirections } from '../types';
 import View from './view';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import { MutableRefObject } from 'react';
+import FocusModel from './FocusModel';
+
+export interface RecyclerProps {
+    isHorizontal: boolean;
+    parent: FocusModel;
+    repeatContext:
+        | {
+              focusContext: AbstractFocusModel;
+              index: number;
+          }
+        | undefined;
+    forbiddenFocusDirections: ForbiddenFocusDirections[];
+    onFocus: () => void;
+    onBlur: () => void;
+    initialRenderIndex: number;
+}
 
 class RecyclerView extends AbstractFocusModel {
     private _layouts: { x: number; y: number }[];
@@ -25,14 +41,18 @@ class RecyclerView extends AbstractFocusModel {
           }
         | undefined;
 
-    private _scrollerNode?: any;
-
-    constructor(params: any) {
-        super(params);
+    constructor(
+        params: Omit<
+            FlashListProps<any> & FlashListProps<any>['focusOptions'],
+            'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
+        >
+    ) {
+        super();
 
         const {
-            isHorizontal,
-            parent,
+            horizontal = true,
+            focusContext,
+            //@ts-ignore to check if it's even in use
             repeatContext,
             forbiddenFocusDirections,
             onFocus,
@@ -47,8 +67,8 @@ class RecyclerView extends AbstractFocusModel {
         this._isScrollable = true;
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;
-        this._isHorizontal = isHorizontal;
-        this._parent = parent;
+        this._isHorizontal = horizontal;
+        this._parent = focusContext;
         this._repeatContext = repeatContext;
         this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._focusedIndex = 0;
@@ -207,10 +227,6 @@ class RecyclerView extends AbstractFocusModel {
 
     public verticalContentContainerGap(): number {
         return 0;
-    }
-
-    public setScrollerNode(node: any) {
-        this._scrollerNode = node;
     }
 
     public getNode(): MutableRefObject<ScrollView> {

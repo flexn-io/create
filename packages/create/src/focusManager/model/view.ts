@@ -9,6 +9,7 @@ import Row from './row';
 import ViewGroup from './viewGroup';
 import Grid from './grid';
 import { MutableRefObject } from 'react';
+import { PressableProps } from '../types';
 
 class View extends FocusModel {
     private _parentRecyclerView?: Recycler;
@@ -27,28 +28,32 @@ class View extends FocusModel {
 
     private _onPress?: () => void;
 
-    constructor(params: any) {
+    constructor(
+        params: Omit<PressableProps & PressableProps['focusOptions'], 'style' | 'focusOptions' | 'className'> & {
+            verticalContentContainerGap?: number;
+        }
+    ) {
         super(params);
 
         const {
-            repeatContext,
-            parent,
+            focusRepeatContext,
+            focusContext,
             forbiddenFocusDirections,
             onFocus,
             onBlur,
             onPress,
-            focusKey,
-            hasPreferredFocus,
+            focusKey = '',
+            hasPreferredFocus = false,
             verticalContentContainerGap = 0,
         } = params;
 
         const id = CoreManager.generateID(8);
-        this._id = parent?.getId() ? `${parent.getId()}:view-${id}` : `view-${id}`;
+        this._id = focusContext?.getId() ? `${focusContext.getId()}:view-${id}` : `view-${id}`;
         this._type = 'view';
-        this._parent = parent;
+        this._parent = focusContext;
         this._isFocused = false;
         this._isFocusable = true;
-        this._repeatContext = repeatContext;
+        this._repeatContext = focusRepeatContext;
         this._focusKey = focusKey;
         this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._hasPreferredFocus = hasPreferredFocus;

@@ -4,16 +4,13 @@ import type { ViewGroupProps } from '../../focusManager/types';
 import useOnLayout from '../../hooks/useOnLayout';
 import ViewGroupClass from '../../focusManager/model/viewGroup';
 import useOnComponentLifeCycle from '../../hooks/useOnComponentLifeCycle';
-import FocusModel from '../../focusManager/model/FocusModel';
 
 const ViewGroup = React.forwardRef<View, ViewGroupProps>(
     ({ children, focusContext, focusOptions, style, ...props }, ref) => {
-        const parent = focusContext;
-
         const [model] = useState<any>(
             () =>
                 new ViewGroupClass({
-                    parent: parent as FocusModel,
+                    focusContext,
                     ...focusOptions,
                 })
         );

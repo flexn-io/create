@@ -93,6 +93,7 @@ export type PressableFocusOptions = {
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
     group?: string;
+    hasPreferredFocus?: boolean;
 };
 
 export type ScreenFocusOptions = {
@@ -129,7 +130,7 @@ export interface ViewProps extends RNViewProps {
         nextFocusUp?: string | string[];
         nextFocusDown?: string | string[];
     };
-    focusContext?: FocusContext;
+    focusContext?: FocusModel;
     focusRepeatContext?: CreateListRenderItemInfo<any>['focusRepeatContext'];
     ref?: React.ForwardedRef<RNView> | React.MutableRefObject<RNView>;
 }

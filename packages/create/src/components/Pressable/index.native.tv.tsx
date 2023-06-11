@@ -37,18 +37,20 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
             } else {
                 const flattenStyle = StyleSheet.flatten(style);
 
+                const gap =
+                    flattenStyle?.marginVertical ||
+                    flattenStyle?.paddingVertical ||
+                    flattenStyle?.marginTop ||
+                    flattenStyle?.paddingTop ||
+                    flattenStyle?.margin ||
+                    flattenStyle?.padding ||
+                    flattenStyle?.top;
+
                 return new ViewClass({
                     focus,
                     focusRepeatContext,
-                    parent,
-                    verticalContentContainerGap:
-                        flattenStyle?.marginVertical ||
-                        flattenStyle?.paddingVertical ||
-                        flattenStyle?.marginTop ||
-                        flattenStyle?.paddingTop ||
-                        flattenStyle?.margin ||
-                        flattenStyle?.padding ||
-                        flattenStyle?.top,
+                    focusContext: parent,
+                    verticalContentContainerGap: typeof gap === 'string' ? 0 : gap,
                     ...focusOptions,
                 });
             }
@@ -77,7 +79,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                 const model = new ViewClass({
                     focus: true,
                     focusRepeatContext,
-                    parent,
+                    focusContext: parent,
                     forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
                 });
 

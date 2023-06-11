@@ -40,8 +40,8 @@ const FlashList = ({
 
     const [model] = useState<Grid | Row>(() => {
         const params = {
-            isHorizontal: horizontal,
-            parent: focusContext,
+            horizontal,
+            focusContext,
             initialRenderIndex,
             onFocus,
             onBlur,
@@ -114,7 +114,6 @@ const FlashList = ({
                     ref={(ref) => {
                         if (ref) {
                             rlvRef.current = ref;
-                            model.setScrollerNode(ref);
                             if (ref.recyclerlistview_unsafe) {
                                 ref.recyclerlistview_unsafe.setScrollComponent(
                                     scrollViewRef.current as BaseScrollComponent

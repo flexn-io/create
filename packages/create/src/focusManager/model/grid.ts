@@ -4,11 +4,16 @@ import View from './view';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
-
+import { FlashListProps } from '../types';
 class Grid extends Recycler {
     private _itemsInRow: number;
 
-    constructor(params: any) {
+    constructor(
+        params: Omit<
+            FlashListProps<any> & FlashListProps<any>['focusOptions'],
+            'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
+        >
+    ) {
         super(params);
 
         this._type = 'grid';

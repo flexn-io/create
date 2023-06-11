@@ -1,5 +1,5 @@
 import { View as RNView } from 'react-native';
-import { ForbiddenFocusDirections, ScreenStates } from '../types';
+import { ScreenProps, ScreenStates } from '../types';
 import CoreManager from '../service/core';
 import Logger from '../service/logger';
 import FocusModel, { TYPE_RECYCLER, TYPE_VIEW } from './FocusModel';
@@ -16,22 +16,6 @@ export const STATE_BACKGROUND: ScreenStates = 'background';
 export const STATE_FOREGROUND: ScreenStates = 'foreground';
 const ALIGNMENT_BOTH_EDGE = 'bot-edge';
 const ALIGNMENT_LOW_EDGE = 'low-edge';
-
-type ScreenModelParams = {
-    focusKey?: string;
-    group?: string;
-    screenOrder?: number;
-    screenState?: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
-    verticalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
-    horizontalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
-    horizontalViewportOffset?: number;
-    verticalViewportOffset?: number;
-    forbiddenFocusDirections?: ForbiddenFocusDirections[];
-    zOrder?: number;
-    stealFocus?: boolean;
-    onFocus?(): void;
-    onBlur?(): void;
-};
 
 class Screen extends FocusModel {
     public _type: string;
@@ -53,7 +37,7 @@ class Screen extends FocusModel {
     private _isFocused: boolean;
     private _group?: string;
 
-    constructor(params: ScreenModelParams) {
+    constructor(params: Omit<ScreenProps & ScreenProps['focusOptions'], 'style' | 'children' | 'focusOptions'>) {
         super(params);
 
         const {

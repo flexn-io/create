@@ -4,6 +4,7 @@ import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import { MutableRefObject } from 'react';
+import { ScrollViewProps } from '../types';
 
 class ScrollView extends AbstractFocusModel {
     private _scrollOffsetX: number;
@@ -14,14 +15,19 @@ class ScrollView extends AbstractFocusModel {
     private _isScrollingHorizontally: boolean;
     private _isScrollingVertically: boolean;
 
-    constructor(params: any) {
+    constructor(
+        params: Omit<
+            ScrollViewProps & ScrollViewProps['focusOptions'],
+            'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
+        >
+    ) {
         super(params);
 
-        const { horizontal, parent } = params;
+        const { horizontal = true, focusContext } = params;
 
         this._id = `scroll-${CoreManager.generateID(8)}`;
-        this._isHorizontal = horizontal;
-        this._parent = parent;
+        this._isHorizontal = horizontal as boolean;
+        this._parent = focusContext;
         this._type = 'scrollview';
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;

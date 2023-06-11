@@ -14,7 +14,7 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
             () =>
                 new ScrollViewClass({
                     horizontal,
-                    parent: focusContext,
+                    focusContext,
                     ...focusOptions,
                 })
         );

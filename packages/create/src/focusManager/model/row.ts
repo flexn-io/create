@@ -5,10 +5,15 @@ import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import RecyclerView from './recycler';
-import { ViewType } from '../types';
+import { FlashListProps, ViewType } from '../types';
 
 class Row extends Recycler {
-    constructor(params: any) {
+    constructor(
+        params: Omit<
+            FlashListProps<any> & FlashListProps<any>['focusOptions'],
+            'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
+        >
+    ) {
         super(params);
 
         this._type = 'row';

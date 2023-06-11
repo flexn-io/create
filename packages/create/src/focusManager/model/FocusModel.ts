@@ -14,6 +14,13 @@ export const TYPE_ROW = 'row';
 export const TYPE_SCROLL_VIEW = 'scrollview';
 
 export const STATE_BACKGROUND: ScreenStates = 'background';
+
+interface FocusModelProps {
+    nextFocusLeft?: string | string[];
+    nextFocusRight?: string | string[];
+    nextFocusUp?: string | string[];
+    nextFocusDown?: string | string[];
+}
 export default abstract class FocusModel {
     protected _layout: Layout;
     protected _isLayoutMeasured: boolean;
@@ -37,8 +44,8 @@ export default abstract class FocusModel {
 
     protected _events: { (): void }[];
 
-    constructor(params: any) {
-        const { nextFocusRight, nextFocusLeft, nextFocusUp, nextFocusDown } = params;
+    constructor(params?: FocusModelProps) {
+        const { nextFocusRight = '', nextFocusLeft = '', nextFocusUp = '', nextFocusDown = '' } = params || {};
 
         this._id = '';
         this._type = '';
