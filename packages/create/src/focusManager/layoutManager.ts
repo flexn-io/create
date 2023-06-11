@@ -82,8 +82,9 @@ const measure = ({
                 let pgX = pageX;
                 let pgY = pageY;
 
-                if ((model instanceof RecyclerView || model instanceof View) && model.getRepeatContext()) {
+                if (model instanceof View && model.getRepeatContext()) {
                     const repeatContext = model.getRepeatContext();
+
                     if (repeatContext) {
                         const parentRecycler = repeatContext.focusContext as RecyclerView | undefined;
                         if (parentRecycler) {

@@ -6,22 +6,6 @@ import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import { MutableRefObject } from 'react';
-import FocusModel from './FocusModel';
-
-export interface RecyclerProps {
-    isHorizontal: boolean;
-    parent: FocusModel;
-    repeatContext:
-        | {
-              focusContext: AbstractFocusModel;
-              index: number;
-          }
-        | undefined;
-    forbiddenFocusDirections: ForbiddenFocusDirections[];
-    onFocus: () => void;
-    onBlur: () => void;
-    initialRenderIndex: number;
-}
 
 class RecyclerView extends AbstractFocusModel {
     private _layouts: { x: number; y: number }[];
@@ -34,12 +18,6 @@ class RecyclerView extends AbstractFocusModel {
     private _focusedIndex: number;
     private _initialRenderIndex: number;
     private _focusedView?: View;
-    private _repeatContext:
-        | {
-              focusContext: AbstractFocusModel;
-              index: number;
-          }
-        | undefined;
 
     constructor(
         params: Omit<
@@ -52,8 +30,6 @@ class RecyclerView extends AbstractFocusModel {
         const {
             horizontal = true,
             focusContext,
-            //@ts-ignore to check if it's even in use
-            repeatContext,
             forbiddenFocusDirections,
             onFocus,
             onBlur,
@@ -69,7 +45,6 @@ class RecyclerView extends AbstractFocusModel {
         this._scrollOffsetY = 0;
         this._isHorizontal = horizontal;
         this._parent = focusContext;
-        this._repeatContext = repeatContext;
         this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
         this._focusedIndex = 0;
         this._initialRenderIndex = initialRenderIndex;
@@ -173,16 +148,6 @@ class RecyclerView extends AbstractFocusModel {
 
     public getScrollTargetX(): number | undefined {
         return this._scrollTargetX;
-    }
-
-    public setRepeatContext(value: { focusContext: AbstractFocusModel; index: number }): this {
-        this._repeatContext = value;
-
-        return this;
-    }
-
-    public getRepeatContext(): { focusContext: AbstractFocusModel; index: number } | undefined {
-        return this._repeatContext;
     }
 
     public getForbiddenFocusDirections(): ForbiddenFocusDirections[] {
