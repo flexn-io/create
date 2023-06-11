@@ -7,16 +7,13 @@ export const findLowestRelativeCoordinates = (model: View) => {
     const screen = model.getScreen();
 
     if (screen) {
-        const precalculatedFocus = screen.getPrecalculatedFocus();
-        if (precalculatedFocus) {
-            const layout = precalculatedFocus.getLayout();
-            const c1 = !screen.getPrecalculatedFocus();
-            const c2 = layout.yMin === model.getLayout().yMin && layout.xMin >= model.getLayout().xMin;
-            const c3 = layout.yMin > model.getLayout().yMin;
+        const layout = screen.getPrecalculatedFocus()?.getLayout();
+        const c1 = !screen.getPrecalculatedFocus();
+        const c2 = layout?.yMin === model.getLayout().yMin && layout.xMin >= model.getLayout().xMin;
+        const c3 = layout && layout.yMin > model.getLayout().yMin;
 
-            if (c1 || c2 || c3) {
-                model.getScreen()?.setPrecalculatedFocus(model);
-            }
+        if (c1 || c2 || c3) {
+            model.getScreen()?.setPrecalculatedFocus(model);
         }
     }
 };
