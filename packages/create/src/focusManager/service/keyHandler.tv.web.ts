@@ -1,6 +1,7 @@
 import CoreManager from './core';
-import { DIRECTION } from '../constants';
+import { DIRECTIONS } from '../constants';
 import Logger from './logger';
+import { FocusDirection } from '../types';
 
 const EVENT_TYPE_SELECT = 'select';
 const EVENT_TYPE_RIGHT = 'right';
@@ -53,10 +54,30 @@ class KeyHandler {
         }
 
         if (CoreManager.getCurrentFocus()) {
-            if (DIRECTION.includes(eventType)) {
-                CoreManager.executeDirectionalFocus(eventType);
-                CoreManager.executeScroll(eventType);
+            const direction = this.getDirectionName(eventType);
+            if (direction) {
+                CoreManager.executeDirectionalFocus(direction);
+                CoreManager.executeScroll(direction);
             }
+        }
+    }
+
+    public getDirectionName(direction: string): FocusDirection | null {
+        switch (direction) {
+            case 'swipeLeft':
+            case 'left':
+                return DIRECTIONS.LEFT;
+            case 'swipeRight':
+            case 'right':
+                return DIRECTIONS.RIGHT;
+            case 'swipeUp':
+            case 'up':
+                return DIRECTIONS.UP;
+            case 'swipeDown':
+            case 'down':
+                return DIRECTIONS.DOWN;
+            default:
+                return null;
         }
     }
 }

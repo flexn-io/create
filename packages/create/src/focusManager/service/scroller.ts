@@ -1,22 +1,16 @@
 import { Dimensions } from 'react-native';
 import FocusModel from '../model/FocusModel';
-import {
-    DIRECTION_UP,
-    DIRECTION_LEFT,
-    DIRECTION_RIGHT,
-    DEFAULT_VIEWPORT_OFFSET,
-    DIRECTION_DOWN,
-    DIRECTION_HORIZONTAL,
-    DIRECTION_VERTICAL,
-} from '../constants';
+import { DIRECTIONS } from '../constants';
 import ScrollView from '../model/scrollview';
 import View from '../model/view';
+import { DEFAULT_VIEWPORT_OFFSET } from '../model/screen';
+import { FocusDirection } from '../types';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('screen');
 
 class Scroller {
     public calculateAndScrollToTarget(
-        direction: string,
+        direction: FocusDirection,
         contextParameters: {
             currentFocus: View;
             focusMap: Record<string, FocusModel>;
@@ -56,7 +50,7 @@ class Scroller {
     }
 
     private calculateScrollViewTarget(
-        direction: string,
+        direction: FocusDirection,
         scrollView: ScrollView,
         contextParameters: {
             currentFocus: View;
@@ -85,22 +79,22 @@ class Scroller {
             scrollView.getScrollOffsetY(),
         ];
 
-        switch (true) {
-            case DIRECTION_RIGHT.includes(direction):
+        switch (direction) {
+            case DIRECTIONS.RIGHT:
                 {
                     const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.min;
                     scrollTarget.x = Math.max(...x);
                     scrollTarget.y = mathFunc(...y);
                 }
                 break;
-            case DIRECTION_LEFT.includes(direction):
+            case DIRECTIONS.LEFT:
                 {
                     const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.min;
                     scrollTarget.x = Math.min(...x);
                     scrollTarget.y = mathFunc(...y);
                 }
                 break;
-            case DIRECTION_UP.includes(direction):
+            case DIRECTIONS.UP:
                 {
                     const mathFunc = currentFocus.getLayout().absolute.xMax >= screenWidth ? Math.max : Math.min;
                     // If element is on the top and there is no more elements above which is higher than verticalViewportOffset
@@ -115,7 +109,7 @@ class Scroller {
                     scrollTarget.x = mathFunc(...x);
                 }
                 break;
-            case DIRECTION_DOWN.includes(direction):
+            case DIRECTIONS.DOWN:
                 {
                     const mathFunc = currentFocus.getLayout().absolute.xMax >= screenWidth ? Math.max : Math.min;
                     scrollTarget.y = Math.max(...y);
@@ -131,7 +125,7 @@ class Scroller {
 
         // If scroll direction is being changed from vertical to horizontal and it's still
         // does not finished scroll action, we wait for vertical scrolling to be completed
-        if (scrollView.isScrollingVertically() && DIRECTION_HORIZONTAL.includes(direction)) {
+        if (scrollView.isScrollingVertically() && (DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction)) {
             return null;
         }
 
@@ -140,7 +134,7 @@ class Scroller {
         if (
             scrollView.getScrollTargetY() === scrollTarget.y &&
             scrollView.getScrollTargetX() === scrollTarget.x &&
-            DIRECTION_VERTICAL.includes(direction)
+            (DIRECTIONS.UP === direction || DIRECTIONS.DOWN === direction)
         ) {
             return null;
         }

@@ -1,4 +1,4 @@
-import FocusModel, { TYPE_VIEW } from './model/FocusModel';
+import FocusModel from './model/FocusModel';
 import RecyclerView from './model/recycler';
 import ScrollView from './model/scrollview';
 import View from './model/view';
@@ -113,8 +113,8 @@ const measure = ({
                 // Order matters first recalculate layout then find lowest possible relative coordinates
                 recalculateLayout(model, remeasure);
 
-                if (model.getType() === TYPE_VIEW) {
-                    findLowestRelativeCoordinates(model as View);
+                if (model instanceof View) {
+                    findLowestRelativeCoordinates(model);
                 }
 
                 if (callback) callback();

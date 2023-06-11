@@ -4,7 +4,8 @@ import View from './view';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
-import { FlashListProps } from '../types';
+import { FlashListProps, FocusDirection } from '../types';
+import { DIRECTIONS } from '../constants';
 class Grid extends Recycler {
     private _itemsInRow: number;
 
@@ -63,7 +64,7 @@ class Grid extends Recycler {
         return Math.ceil(this.getLayouts().length / this._itemsInRow);
     }
 
-    public getNextFocusable(direction: string): View | undefined | null {
+    public getNextFocusable(direction: FocusDirection): View | null {
         this.getItemsInRow();
 
         if (this._isInBounds(direction)) {
@@ -77,33 +78,35 @@ class Grid extends Recycler {
             const next = Core.getNextFocusableContext(direction, candidates, false);
 
             if (
-                direction === 'down' &&
+                direction === DIRECTIONS.DOWN &&
                 next?.getId() === Core.getCurrentFocus()?.getId() &&
                 this.getCurrentRow() === this.getMaxRows() - 1
             ) {
                 const max = Math.max(...candidates.map((o) => o.getRepeatContext()?.index || 0));
-                return candidates.find((o) => o.getRepeatContext()?.index === max);
+                return candidates.find((o) => o.getRepeatContext()?.index === max) ?? null;
             }
 
             return next;
         } else if (!this._isInBounds(direction)) {
             return Core.getNextFocusableContext(direction);
         }
+
+        return null;
     }
 
-    private _isInBounds(direction: string): boolean {
+    private _isInBounds(direction: FocusDirection): boolean {
         const row = Math.ceil((this.getCurrentFocusIndex() + 1) / this._itemsInRow) || 1;
         const maxRows = Math.ceil(this.getLayouts().length / this._itemsInRow);
 
-        if (row === 1 && direction === 'up') {
+        if (row === 1 && direction === DIRECTIONS.UP) {
             return false;
         }
 
-        if (row === maxRows && direction === 'down') {
+        if (row === maxRows && direction === DIRECTIONS.DOWN) {
             return false;
         }
 
-        if (['left', 'right'].includes(direction)) {
+        if (direction === DIRECTIONS.LEFT || direction === DIRECTIONS.RIGHT) {
             return false;
         }
 

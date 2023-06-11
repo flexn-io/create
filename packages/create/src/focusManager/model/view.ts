@@ -1,6 +1,6 @@
 import { View as RNView } from 'react-native';
 import CoreManager from '../service/core';
-import FocusModel, { TYPE_RECYCLER } from './FocusModel';
+import FocusModel, { MODEL_TYPES } from './FocusModel';
 import Recycler from './recycler';
 import ScrollView from './scrollview';
 import Event, { EVENT_TYPES } from '../events';
@@ -10,6 +10,13 @@ import ViewGroup from './viewGroup';
 import Grid from './grid';
 import { MutableRefObject } from 'react';
 import { PressableProps } from '../types';
+
+export const ANIMATION_TYPES = {
+    BORDER: 'border',
+    SCALE: 'scale',
+    SCALE_BORDER: 'scale_with_border',
+    BACKGROUND: 'background',
+};
 
 class View extends FocusModel {
     private _parentRecyclerView?: Recycler;
@@ -38,7 +45,7 @@ class View extends FocusModel {
         const {
             focusRepeatContext,
             focusContext,
-            forbiddenFocusDirections,
+            forbiddenFocusDirections = [],
             onFocus,
             onBlur,
             onPress,
@@ -55,7 +62,7 @@ class View extends FocusModel {
         this._isFocusable = true;
         this._repeatContext = focusRepeatContext;
         this._focusKey = focusKey;
-        this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._forbiddenFocusDirections = forbiddenFocusDirections;
         this._hasPreferredFocus = hasPreferredFocus;
         this._verticalContentContainerGap = verticalContentContainerGap;
 
@@ -77,7 +84,7 @@ class View extends FocusModel {
     }
 
     private init() {
-        if (this.getParent()?.getType() === TYPE_RECYCLER) {
+        if (this.getParent()?.getType() === MODEL_TYPES.RECYCLER) {
             const parent = this.getParent() as Recycler;
             if (parent.getInitialRenderIndex() && parent.getInitialRenderIndex() === this.getRepeatContext()?.index) {
                 parent.setFocusedView(this);
@@ -162,7 +169,7 @@ class View extends FocusModel {
     public setIsFocused(value: boolean): this {
         this._isFocused = value;
 
-        if (value && this.getParent()?.getType() === TYPE_RECYCLER) {
+        if (value && this.getParent()?.getType() === MODEL_TYPES.RECYCLER) {
             const currentIndex = this.getRepeatContext()?.index;
             if (currentIndex !== undefined) {
                 (this.getParent() as Recycler).setFocusedIndex(currentIndex).setFocusedView(this);

@@ -46,7 +46,7 @@ export {
 } from './focusManager/types';
 
 // Constants
-export { ANIMATION_TYPES } from './focusManager/constants';
+export { ANIMATION_TYPES } from './focusManager/model/view';
 
 // Hooks & Hocs
 export { withParentContextMapper } from './hocs/withParentContextMapper';

@@ -30,7 +30,7 @@ class RecyclerView extends AbstractFocusModel {
         const {
             horizontal = true,
             focusContext,
-            forbiddenFocusDirections,
+            forbiddenFocusDirections = [],
             onFocus,
             onBlur,
             initialRenderIndex = 0,
@@ -45,7 +45,7 @@ class RecyclerView extends AbstractFocusModel {
         this._scrollOffsetY = 0;
         this._isHorizontal = horizontal;
         this._parent = focusContext;
-        this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._forbiddenFocusDirections = forbiddenFocusDirections;
         this._focusedIndex = 0;
         this._initialRenderIndex = initialRenderIndex;
 

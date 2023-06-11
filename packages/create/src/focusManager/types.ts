@@ -10,12 +10,14 @@ import type {
     View as RNView,
 } from 'react-native';
 import type { FlashListProps as FLProps, ListRenderItemInfo } from '@flexn/shopify-flash-list';
+
 import FocusModel from './model/FocusModel';
 import View from './model/view';
+import { SCREEN_STATES, VIEWPORT_ALIGNMENT } from './model/screen';
 import Screen from './model/screen';
+import { DIRECTIONS } from './constants';
 
-const ALIGNMENT_LOW_EDGE = 'low-edge';
-
+export type FocusDirection = typeof DIRECTIONS[keyof typeof DIRECTIONS];
 export type WindowAlignment = 'both-edge' | 'low-edge';
 export type ScreenStates = 'background' | 'foreground';
 export type FocusContext = FocusModel;
@@ -33,15 +35,7 @@ export type ClosestNodeOutput = {
     match2: number;
     match2Model: View | null;
 };
-export type ForbiddenFocusDirections =
-    | 'down'
-    | 'up'
-    | 'left'
-    | 'right'
-    | 'swipeDown'
-    | 'swipeUp'
-    | 'swipeLeft'
-    | 'swipeRight';
+export type ForbiddenFocusDirections = 'down' | 'up' | 'left' | 'right';
 
 export type AnimatorScale = {
     type: AnimatorTypeScale;
@@ -94,15 +88,15 @@ export type PressableFocusOptions = {
 export type ScreenFocusOptions = {
     forbiddenFocusDirections?: ForbiddenFocusDirections[];
     focusKey?: string;
-    verticalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
-    horizontalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
+    verticalWindowAlignment?: typeof VIEWPORT_ALIGNMENT[keyof typeof VIEWPORT_ALIGNMENT];
+    horizontalWindowAlignment?: typeof VIEWPORT_ALIGNMENT[keyof typeof VIEWPORT_ALIGNMENT];
     horizontalViewportOffset?: number;
     verticalViewportOffset?: number;
     nextFocusLeft?: string | string[];
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
-    screenState?: ScreenStates;
+    screenState?: typeof SCREEN_STATES[keyof typeof SCREEN_STATES];
     screenOrder?: number;
     stealFocus?: boolean;
     group?: string;

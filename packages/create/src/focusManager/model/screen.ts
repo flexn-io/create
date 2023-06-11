@@ -2,27 +2,33 @@ import { View as RNView } from 'react-native';
 import { ScreenProps, ScreenStates } from '../types';
 import CoreManager from '../service/core';
 import Logger from '../service/logger';
-import FocusModel, { TYPE_RECYCLER, TYPE_VIEW } from './FocusModel';
+import FocusModel, { MODEL_TYPES } from './FocusModel';
 import View from './view';
 import { findLowestRelativeCoordinates, measureSync } from '../layoutManager';
-import { DEFAULT_VIEWPORT_OFFSET } from '../constants';
 import Recycler from './recycler';
 import Event, { EVENT_TYPES } from '../events';
 import { MutableRefObject } from 'react';
+import { Ratio } from '../../helpers';
+
+export const SCREEN_STATES = {
+    BACKGROUND: 'background',
+    FOREGROUND: 'foreground',
+} as const;
+
+export const VIEWPORT_ALIGNMENT = {
+    BOTH_EDGE: 'bot-edge',
+    LOW_EDGE: 'low-edge',
+} as const;
 
 const DELAY_TIME_IN_MS = 100;
-
-export const STATE_BACKGROUND: ScreenStates = 'background';
-export const STATE_FOREGROUND: ScreenStates = 'foreground';
-const ALIGNMENT_BOTH_EDGE = 'bot-edge';
-const ALIGNMENT_LOW_EDGE = 'low-edge';
+export const DEFAULT_VIEWPORT_OFFSET = Ratio(70);
 
 class Screen extends FocusModel {
     public _type: string;
-    private _state: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
-    private _prevState: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
-    private _verticalWindowAlignment: typeof ALIGNMENT_LOW_EDGE;
-    private _horizontalWindowAlignment: typeof ALIGNMENT_LOW_EDGE;
+    private _state: typeof SCREEN_STATES[keyof typeof SCREEN_STATES];
+    private _prevState: typeof SCREEN_STATES[keyof typeof SCREEN_STATES];
+    private _verticalWindowAlignment: typeof VIEWPORT_ALIGNMENT[keyof typeof VIEWPORT_ALIGNMENT];
+    private _horizontalWindowAlignment: typeof VIEWPORT_ALIGNMENT[keyof typeof VIEWPORT_ALIGNMENT];
     private _order: number;
     private _focusKey: string;
     private _horizontalViewportOffset: number;
@@ -41,13 +47,13 @@ class Screen extends FocusModel {
         super(params);
 
         const {
-            screenState = STATE_FOREGROUND,
+            screenState = SCREEN_STATES.FOREGROUND,
             screenOrder = 0,
             stealFocus = true,
             focusKey = '',
             group,
-            verticalWindowAlignment = ALIGNMENT_LOW_EDGE,
-            horizontalWindowAlignment = ALIGNMENT_LOW_EDGE,
+            verticalWindowAlignment = VIEWPORT_ALIGNMENT.LOW_EDGE,
+            horizontalWindowAlignment = VIEWPORT_ALIGNMENT.LOW_EDGE,
             horizontalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
             verticalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
             forbiddenFocusDirections = [],
@@ -66,7 +72,7 @@ class Screen extends FocusModel {
         this._horizontalWindowAlignment = horizontalWindowAlignment;
         this._horizontalViewportOffset = horizontalViewportOffset;
         this._verticalViewportOffset = verticalViewportOffset;
-        this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._forbiddenFocusDirections = forbiddenFocusDirections;
         this._stealFocus = stealFocus;
         this._isFocused = false;
         this._unmountingComponents = 0;
@@ -192,7 +198,7 @@ class Screen extends FocusModel {
             if (this._currentFocus) return this._currentFocus;
             if (this._preferredFocus) return this._preferredFocus;
             if (this._precalculatedFocus) {
-                if (this._precalculatedFocus.getParent()?.getType() === TYPE_RECYCLER) {
+                if (this._precalculatedFocus.getParent()?.getType() === MODEL_TYPES.RECYCLER) {
                     const recycler = this._precalculatedFocus.getParent() as Recycler;
                     if (recycler.getFocusedView()) return recycler.getFocusedView();
                 }
@@ -212,7 +218,7 @@ class Screen extends FocusModel {
             this.precalculateFocus(ch);
         });
 
-        if (model.getType() === TYPE_VIEW) {
+        if (model.getType() === MODEL_TYPES.VIEW) {
             findLowestRelativeCoordinates(model as View);
         }
     }
@@ -221,39 +227,39 @@ class Screen extends FocusModel {
         return this._type;
     }
 
-    public getState(): typeof STATE_BACKGROUND | typeof STATE_FOREGROUND {
+    public getState() {
         return this._state;
     }
 
-    public setState(value: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND) {
+    public setState(value: typeof SCREEN_STATES[keyof typeof SCREEN_STATES]) {
         this._state = value;
 
         return this;
     }
 
     public isInBackground(): boolean {
-        return this._state === STATE_BACKGROUND;
+        return this._state === SCREEN_STATES.BACKGROUND;
     }
 
     public isInForeground(): boolean {
-        return this._state === STATE_FOREGROUND;
+        return this._state === SCREEN_STATES.FOREGROUND;
     }
 
-    public setPrevState(value: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND) {
+    public setPrevState(value: typeof SCREEN_STATES[keyof typeof SCREEN_STATES]) {
         this._prevState = value;
 
         return this;
     }
 
     public isPrevStateBackground(): boolean {
-        return this._prevState === STATE_BACKGROUND;
+        return this._prevState === SCREEN_STATES.BACKGROUND;
     }
 
-    public getVerticalWindowAlignment(): typeof ALIGNMENT_BOTH_EDGE | typeof ALIGNMENT_LOW_EDGE {
+    public getVerticalWindowAlignment() {
         return this._verticalWindowAlignment;
     }
 
-    public getHorizontalWindowAlignment(): typeof ALIGNMENT_BOTH_EDGE | typeof ALIGNMENT_LOW_EDGE {
+    public getHorizontalWindowAlignment() {
         return this._horizontalWindowAlignment;
     }
 

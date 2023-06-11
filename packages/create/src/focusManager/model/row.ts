@@ -1,11 +1,12 @@
 import Recycler from './recycler';
 import Core from '../service/core';
-import { MODEL_TYPES } from '../constants';
+import { MODEL_TYPES } from './FocusModel';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import RecyclerView from './recycler';
-import { FlashListProps, ViewType } from '../types';
+import { FlashListProps, FocusDirection, ViewType } from '../types';
+import { DIRECTIONS } from '../constants';
 
 class Row extends Recycler {
     constructor(
@@ -50,16 +51,18 @@ class Row extends Recycler {
         return this._type;
     }
 
-    public getLastFocused(): ViewType | undefined {
-        return this?.getFocusedView() ?? this.getFirstFocusableChildren();
+    public getLastFocused(): ViewType | null {
+        return this?.getFocusedView() ?? this.getFirstFocusableChildren() ?? null;
     }
 
     private getCurrentFocusIndex(): number {
         return Core.getCurrentFocus()?.getRepeatContext()?.index || 0;
     }
 
-    public getNextFocusable(direction: string): ViewType | undefined | null {
-        if (this._isInBounds(direction) && ['right', 'left'].includes(direction)) {
+    public getNextFocusable(direction: FocusDirection): ViewType | null {
+        const isHorizontal = DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction;
+        const isVertical = DIRECTIONS.UP === direction || DIRECTIONS.DOWN === direction;
+        if (this._isInBounds(direction) && isHorizontal) {
             const candidates = Object.values(Core.getViews()).filter(
                 (c) =>
                     c.isInForeground() &&
@@ -68,11 +71,11 @@ class Row extends Recycler {
             );
 
             return Core.getNextFocusableContext(direction, candidates, false);
-        } else if (!this._isInBounds(direction) || ['up', 'down'].includes(direction)) {
+        } else if (!this._isInBounds(direction) || isVertical) {
             const nextFocus = Core.getNextFocusableContext(direction);
 
             if (
-                ['right', 'left'].includes(direction) &&
+                isHorizontal &&
                 nextFocus?.getParent() instanceof RecyclerView &&
                 (nextFocus?.getParent() as RecyclerView)?.isHorizontal()
             ) {
@@ -81,20 +84,22 @@ class Row extends Recycler {
 
             return nextFocus;
         }
+
+        return null;
     }
 
     private _isInBounds(direction: string): boolean {
         const current = this.getCurrentFocusIndex();
 
-        if (!this.isHorizontal() && ['right', 'left'].includes(direction)) {
+        if (!this.isHorizontal() && (DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction)) {
             return false;
         }
 
-        if (direction === 'left' && current === 0) {
+        if (DIRECTIONS.LEFT === direction && current === 0) {
             return false;
         }
 
-        if (direction === 'right' && current === this.getLayouts().length - 1) {
+        if (DIRECTIONS.RIGHT === direction && current === this.getLayouts().length - 1) {
             return false;
         }
 
