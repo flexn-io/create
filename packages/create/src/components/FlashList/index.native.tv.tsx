@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ForwardedRef, useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
 import { FlashList as FlashListComp, ListRenderItemInfo, CellContainer } from '@flexn/shopify-flash-list';
 import BaseScrollComponent from '@flexn/recyclerlistview/dist/reactnative/core/scrollcomponent/BaseScrollComponent';
@@ -83,7 +83,7 @@ const FlashList = ({
         });
     };
 
-    const ItemContainer = React.forwardRef((props: CellContainerProps, ref: any) => {
+    const ItemContainer = React.forwardRef((props: CellContainerProps, ref: ForwardedRef<any>) => {
         const target = useCombinedRefs<RNView>({ refs: [ref], model: null });
 
         useEffect(() => {

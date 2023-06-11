@@ -13,9 +13,16 @@ const nextOverlapValue = (currentSize: number): number => {
     return (currentSize * OVERLAP_NEXT_VALUE) / 100;
 };
 
-const intersects = (guideLine: number, sizeOfCurrent: number, startOfNext: number, endOfNext: number, intersectionMargin = 0, overlapThreshold = OVERLAP_THRESHOLD_PERCENTAGE) => {
-    const a1 = (guideLine - sizeOfCurrent * 0.5) - intersectionMargin;
-    const a2 = (guideLine + sizeOfCurrent * 0.5) + intersectionMargin;
+const intersects = (
+    guideLine: number,
+    sizeOfCurrent: number,
+    startOfNext: number,
+    endOfNext: number,
+    intersectionMargin = 0,
+    overlapThreshold = OVERLAP_THRESHOLD_PERCENTAGE
+) => {
+    const a1 = guideLine - sizeOfCurrent * 0.5 - intersectionMargin;
+    const a2 = guideLine + sizeOfCurrent * 0.5 + intersectionMargin;
 
     const c1 = a1 >= startOfNext && a1 <= endOfNext;
     const c2 = a2 >= startOfNext && a2 <= endOfNext;
@@ -203,14 +210,7 @@ const closestDist = (current: View, next: View, direction: string): [string, num
 
 export const distCalc = (currentClosestNodeOutput: ClosestNodeOutput, direction: string, current: View, next: View) => {
     const [priority, dist] = closestDist(current, next, direction);
-
     const output: ClosestNodeOutput = { ...currentClosestNodeOutput };
-
-    // console.log({
-    //     priority,
-    //     dist,
-    //     next: next.getId(),
-    // });
 
     switch (priority) {
         case 'p1':
@@ -218,7 +218,6 @@ export const distCalc = (currentClosestNodeOutput: ClosestNodeOutput, direction:
                 if (dist !== undefined && currentClosestNodeOutput.match1 >= dist) {
                     output.match1 = dist;
                     output.match1Model = next;
-                    // console.log('FOUND', dist, priority, current.getId(), next.getId());
                 }
             }
             break;
@@ -227,7 +226,6 @@ export const distCalc = (currentClosestNodeOutput: ClosestNodeOutput, direction:
                 if (dist !== undefined && currentClosestNodeOutput.match2 >= dist) {
                     output.match2 = dist;
                     output.match2Model = next;
-                    // console.log('FOUND', dist, priority, current.getId(), next.getId());
                 }
             }
             break;

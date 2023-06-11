@@ -14,6 +14,19 @@ import FocusModel from './model/FocusModel';
 import View from './model/view';
 import Screen from './model/screen';
 
+const ALIGNMENT_LOW_EDGE = 'low-edge';
+
+export type WindowAlignment = 'both-edge' | 'low-edge';
+export type ScreenStates = 'background' | 'foreground';
+export type FocusContext = FocusModel;
+export type ScreenType = Screen;
+export type ViewType = View;
+type AnimatorTypeScale = 'scale';
+type AnimatorTypeScaleWithBorder = 'scale_with_border';
+type AnimatorTypeAnimatorBorder = 'border';
+type AnimatorTypeAnimatorBackground = 'background';
+export type Animator = AnimatorScale | AnimatorBorder | AnimatorScaleWithBorder | AnimatorBackground;
+
 export type ClosestNodeOutput = {
     match1: number;
     match1Model?: View;
@@ -22,7 +35,6 @@ export type ClosestNodeOutput = {
     match3: number;
     match3Model?: View;
 };
-
 export type ForbiddenFocusDirections =
     | 'down'
     | 'up'
@@ -32,17 +44,6 @@ export type ForbiddenFocusDirections =
     | 'swipeUp'
     | 'swipeLeft'
     | 'swipeRight';
-
-export type WindowAlignment = 'both-edge' | 'low-edge';
-export type ScreenStates = 'background' | 'foreground';
-export type FocusContext = FocusModel;
-
-const ALIGNMENT_LOW_EDGE = 'low-edge';
-
-type AnimatorTypeScale = 'scale';
-type AnimatorTypeScaleWithBorder = 'scale_with_border';
-type AnimatorTypeAnimatorBorder = 'border';
-type AnimatorTypeAnimatorBackground = 'background';
 
 export type AnimatorScale = {
     type: AnimatorTypeScale;
@@ -81,18 +82,14 @@ export type AnimatorBackground = {
     };
 };
 
-export type Animator = AnimatorScale | AnimatorBorder | AnimatorScaleWithBorder | AnimatorBackground;
-
 export type PressableFocusOptions = {
     forbiddenFocusDirections?: ForbiddenFocusDirections[];
     animator?: Animator;
     focusKey?: string;
-    hasInitialFocus?: boolean;
     nextFocusLeft?: string | string[];
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
-    group?: string;
     hasPreferredFocus?: boolean;
 };
 
@@ -209,9 +206,6 @@ export type CreateListRenderItemInfo<Item> = {
 } & ListRenderItemInfo<Item>;
 
 export type CreateListRenderItem<Item> = (info: CreateListRenderItemInfo<Item>) => React.ReactElement | null;
-
-export type ScreenType = Screen;
-export type ViewType = View;
 
 export type Layout = {
     xMin: number;
