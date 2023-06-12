@@ -2,7 +2,7 @@ import { Screen as FMScreen, ScreenProps, ScreenStates } from '@flexn/create';
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '../hooks';
 
-const Screen = ({ children, stealFocus, focusOptions, style, ...rest }: ScreenProps) => {
+const Screen = ({ children, focusOptions, style, ...rest }: ScreenProps) => {
     const [screenState, setScreenState] = useState<ScreenStates>('foreground');
 
     useFocusEffect(
@@ -16,7 +16,7 @@ const Screen = ({ children, stealFocus, focusOptions, style, ...rest }: ScreenPr
     );
 
     return (
-        <FMScreen screenState={screenState} stealFocus={stealFocus} focusOptions={focusOptions} style={style} {...rest}>
+        <FMScreen focusOptions={{ ...focusOptions, screenState }} style={style} {...rest}>
             {children}
         </FMScreen>
     );

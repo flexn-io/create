@@ -12,10 +12,6 @@ const border = {
         borderWidth: 5,
         borderColor: 'yellow',
     },
-    blur: {
-        borderWidth: 4,
-        borderColor: 'grey',
-    },
 };
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
@@ -46,7 +42,15 @@ const ScrollToTop = () => {
             <Pressable
                 style={styles.packshot}
                 focusRepeatContext={focusRepeatContext}
-                focusOptions={{ animatorOptions: border }}
+                focusOptions={{
+                    animator: {
+                        type: 'border',
+                        focus: {
+                            borderColor: '#FF0000',
+                            borderWidth: 2,
+                        },
+                    },
+                }}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>
@@ -142,6 +146,8 @@ const styles = StyleSheet.create({
         // borderColor: 'red',
         // borderWidth: 1,
         margin: 5,
+        borderWidth: 4,
+        borderColor: 'grey',
         // borderWidth: 2,
     },
     image: {

@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ForwardedRef, useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
 import { FlashList as FlashListComp, ListRenderItemInfo, CellContainer } from '@flexn/shopify-flash-list';
 import BaseScrollComponent from '@flexn/recyclerlistview/dist/reactnative/core/scrollcomponent/BaseScrollComponent';
 import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 import Grid from '../../focusManager/model/grid';
-import List from '../../focusManager/model/list';
 import Row from '../../focusManager/model/row';
 import { FlashListProps, CellContainerProps } from '../../focusManager/types';
 import useOnLayout from '../../hooks/useOnLayout';
@@ -19,7 +18,6 @@ const FlashList = ({
     focusContext,
     horizontal = true,
     renderItem,
-    focusRepeatContext,
     focusOptions = {},
     type,
     initialRenderIndex,
@@ -40,13 +38,10 @@ const FlashList = ({
     // `any` is the type of data. Since we don't know data type here we're using any
     const rlvRef = useRef<FlashListComp<any> | null>(null);
 
-    const [model] = useState<List | Grid | Row>(() => {
+    const [model] = useState<Grid | Row>(() => {
         const params = {
-            isHorizontal: horizontal,
-            isNested: !!focusRepeatContext,
-            //@ts-ignore
-            parent: focusRepeatContext?.focusContext || focusContext,
-            focusRepeatContext,
+            horizontal,
+            focusContext,
             initialRenderIndex,
             onFocus,
             onBlur,
@@ -55,10 +50,8 @@ const FlashList = ({
 
         if (type === 'grid') {
             return new Grid(params);
-        } else if (type === 'row') {
-            return new Row(params);
         } else {
-            return new List(params);
+            return new Row(params);
         }
     });
 
@@ -90,7 +83,7 @@ const FlashList = ({
         });
     };
 
-    const ItemContainer = React.forwardRef((props: CellContainerProps, ref: any) => {
+    const ItemContainer = React.forwardRef((props: CellContainerProps, ref: ForwardedRef<any>) => {
         const target = useCombinedRefs<RNView>({ refs: [ref], model: null });
 
         useEffect(() => {
@@ -121,7 +114,6 @@ const FlashList = ({
                     ref={(ref) => {
                         if (ref) {
                             rlvRef.current = ref;
-                            model.setScrollerNode(ref);
                             if (ref.recyclerlistview_unsafe) {
                                 ref.recyclerlistview_unsafe.setScrollComponent(
                                     scrollViewRef.current as BaseScrollComponent
@@ -142,7 +134,7 @@ const FlashList = ({
 
                             if (model.getNode()?.current) {
                                 //@ts-expect-error mystery which needs to be resolved from recyclerlistview perspective
-                                model.getNode()!.current.scrollTo = ref?._scrollViewRef?.scrollTo;
+                                model.getNode().current.scrollTo = ref?._scrollViewRef?.scrollTo;
                             }
                         },
                         scrollEnabled: false,

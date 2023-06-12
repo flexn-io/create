@@ -1,4 +1,4 @@
-import FocusModel, { TYPE_VIEW } from './model/FocusModel';
+import FocusModel from './model/abstractFocusModel';
 import RecyclerView from './model/recycler';
 import ScrollView from './model/scrollview';
 import View from './model/view';
@@ -9,8 +9,8 @@ export const findLowestRelativeCoordinates = (model: View) => {
     if (screen) {
         const layout = screen.getPrecalculatedFocus()?.getLayout();
         const c1 = !screen.getPrecalculatedFocus();
-        const c2 = layout?.yMin === model.getLayout()?.yMin && layout?.xMin >= model.getLayout()?.xMin;
-        const c3 = layout?.yMin > model.getLayout()?.yMin;
+        const c2 = layout?.yMin === model.getLayout().yMin && layout.xMin >= model.getLayout().xMin;
+        const c3 = layout && layout.yMin > model.getLayout().yMin;
 
         if (c1 || c2 || c3) {
             model.getScreen()?.setPrecalculatedFocus(model);
@@ -29,14 +29,14 @@ const recalculateAbsolutes = (model: FocusModel) => {
         xCenter: layout.xMin - layout.xOffset + Math.floor(layout.width / 2),
         yCenter: layout.yMin - layout.yOffset + Math.floor(layout.height / 2),
     });
+
+    // Settings that layout is fully measured for the first time
+    if (!model.isLayoutMeasured()) {
+        model.setIsLayoutMeasured(true);
+    }
 };
 
 const recalculateLayout = (model: FocusModel, remeasure?: boolean) => {
-    if (!model?.getLayout()) {
-        return;
-    }
-
-    // This is needed because ScrollView offsets
     let offsetX = 0;
     let offsetY = 0;
     let parent = model.getParent();
@@ -65,8 +65,6 @@ const recalculateLayout = (model: FocusModel, remeasure?: boolean) => {
     recalculateAbsolutes(model);
 };
 
-// let measureTimes = 0;
-
 const measure = ({
     model,
     callback,
@@ -79,15 +77,14 @@ const measure = ({
     remeasure?: boolean;
 }) => {
     if (model.node.current) {
-        // measureTimes++;
-        // console.log({ measureTimes }, model.getId());
         model.node.current.measure(
             (_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
-                let pgX;
-                let pgY;
+                let pgX = pageX;
+                let pgY = pageY;
 
-                if ((model instanceof RecyclerView || model instanceof View) && model.getRepeatContext()) {
+                if (model instanceof View && model.getRepeatContext()) {
                     const repeatContext = model.getRepeatContext();
+
                     if (repeatContext) {
                         const parentRecycler = repeatContext.focusContext as RecyclerView | undefined;
                         if (parentRecycler) {
@@ -96,9 +93,6 @@ const measure = ({
                             pgY = parentRecycler.getLayout().yMin + model.verticalContentContainerGap() + rLayout.y;
                         }
                     }
-                } else {
-                    pgY = pageY;
-                    pgX = pageX;
                 }
 
                 if (model.getLayout()?.width && model.getLayout().width !== width) {
@@ -106,29 +100,21 @@ const measure = ({
                     height = model.getLayout()?.height;
                 }
 
-                const layout = {
-                    xMin: pgX,
-                    xMax: pgX + width,
-                    yMin: pgY,
-                    yMax: pgY + height,
-                    width,
-                    height,
-                    yOffset: 0,
-                    xOffset: 0,
-                    xMaxScroll: 0,
-                    yMaxScroll: 0,
-                    scrollContentHeight: 0,
-                    xCenter: pgX + Math.floor(width / 2),
-                    yCenter: pgY + Math.floor(height / 2),
-                };
-
-                model.setLayout(layout);
+                model
+                    .updateLayoutProperty('xMin', pgX)
+                    .updateLayoutProperty('xMax', pgX + width)
+                    .updateLayoutProperty('yMin', pgY)
+                    .updateLayoutProperty('yMax', pgY + height)
+                    .updateLayoutProperty('width', width)
+                    .updateLayoutProperty('height', height)
+                    .updateLayoutProperty('xCenter', pgX + Math.floor(width / 2))
+                    .updateLayoutProperty('yCenter', pgY + Math.floor(height / 2));
 
                 // Order matters first recalculate layout then find lowest possible relative coordinates
                 recalculateLayout(model, remeasure);
 
-                if (model.getType() === TYPE_VIEW) {
-                    findLowestRelativeCoordinates(model as View);
+                if (model instanceof View) {
+                    findLowestRelativeCoordinates(model);
                 }
 
                 if (callback) callback();

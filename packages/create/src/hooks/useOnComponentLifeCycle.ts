@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import Event, { EVENT_TYPES } from '../focusManager/events';
-import FocusModel from '../focusManager/model/FocusModel';
+import FocusModel from '../focusManager/model/abstractFocusModel';
 
 export default function useOnComponentLifeCycle({ model, measured }: { model: FocusModel; measured?: boolean }) {
     useEffect(() => {

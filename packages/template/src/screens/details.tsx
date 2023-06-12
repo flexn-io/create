@@ -1,12 +1,4 @@
-import {
-    TouchableOpacity,
-    ImageBackground,
-    View,
-    Text,
-    ScrollView,
-    ActivityIndicator,
-    ANIMATION_TYPES,
-} from '@flexn/create';
+import { TouchableOpacity, ImageBackground, View, Text, ScrollView, ActivityIndicator } from '@flexn/create';
 import React, { useContext, useState, useEffect } from 'react';
 import { getScaledValue, isPlatformWeb } from '@rnv/renative';
 import { ThemeContext, ROUTES } from '../config';
@@ -47,10 +39,10 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
                         onPress={() => pop()}
                         focusOptions={{
                             forbiddenFocusDirections: ['up'],
-                            animatorOptions: {
-                                type: ANIMATION_TYPES.BORDER,
+                            animator: {
+                                type: 'border',
                                 focus: { borderColor: '#0A74E6', borderWidth: getScaledValue(2) },
-                                blur: { borderColor: '#FFFFFF', borderWidth: getScaledValue(2) },
+                                // blur: { borderColor: '#FFFFFF', borderWidth: getScaledValue(2) },
                             },
                         }}
                     >
@@ -61,10 +53,10 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
                         onPress={() => replace(ROUTES.HOME)}
                         focusOptions={{
                             forbiddenFocusDirections: ['down'],
-                            animatorOptions: {
-                                type: ANIMATION_TYPES.BORDER,
+                            animator: {
+                                type: 'border',
                                 focus: { borderColor: '#0A74E6', borderWidth: getScaledValue(2) },
-                                blur: { borderColor: '#FFFFFF', borderWidth: getScaledValue(2) },
+                                // blur: { borderColor: '#FFFFFF', borderWidth: getScaledValue(2) },
                             },
                         }}
                     >

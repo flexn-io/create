@@ -38,7 +38,7 @@ export const renderApp = (App: FC<any>, options?: { enableWarnings: boolean }) =
             rns.enableScreens();
         }
     } catch (e) {
+        // eslint-disable-next-line
         console.log('react-native-screens not installed. skipping enableScreens()');
-        //console.log(e)
     }
 };

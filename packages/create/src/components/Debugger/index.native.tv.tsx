@@ -3,7 +3,7 @@ import { Text, Dimensions, View as RNView } from 'react-native';
 import { isPlatformTvos } from '@rnv/renative';
 import CoreManager from '../../focusManager/service/core';
 import { INTERSECTION_MARGIN_HORIZONTAL, INTERSECTION_MARGIN_VERTICAL } from '../../focusManager/nextFocusFinder';
-import AbstractFocusModel from '../../focusManager/model/FocusModel';
+import AbstractFocusModel from '../../focusManager/model/abstractFocusModel';
 import View from '../../focusManager/model/view';
 import { Ratio } from '../../helpers';
 import { useTVRemoteHandler } from '../../remoteHandler';
@@ -42,16 +42,16 @@ export default function FocusDebugger() {
         };
     }, [enabledRef.current]);
 
-    useTVRemoteHandler(({ eventType, eventKeyAction }: any) => {
+    useTVRemoteHandler(({ eventType, eventKeyAction }) => {
         if (isPlatformTvos) {
             if (eventKeyAction === 'down' && eventType === 'playPause') {
-                Logger.getInstance().debug(CoreManager);
-                CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
+                CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
+                Logger.setIsDebuggerEnabled(CoreManager.isDebuggerEnabled()).debug(CoreManager);
                 setEnabled(!enabledRef.current);
             }
         } else {
             if (eventKeyAction === 'down' && eventType === 'd') {
-                CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
+                CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
                 setEnabled(!enabledRef.current);
             }
         }
@@ -236,9 +236,7 @@ export default function FocusDebugger() {
                         width: '100%',
                         height: 2,
                         backgroundColor: 'red',
-                        top: isNaN(CoreManager._currentFocus?.getLayout()?.absolute?.yCenter)
-                            ? 0
-                            : CoreManager._currentFocus?.getLayout().absolute.yCenter,
+                        top: CoreManager.getCurrentFocus()?.getLayout()?.absolute?.yCenter ?? 0,
                         position: 'absolute',
                     }}
                 />
@@ -247,9 +245,7 @@ export default function FocusDebugger() {
                         height: '100%',
                         width: 2,
                         backgroundColor: 'red',
-                        left: isNaN(CoreManager._currentFocus?.getLayout()?.absolute?.xCenter)
-                            ? 0
-                            : CoreManager._currentFocus?.getLayout().absolute.xCenter,
+                        left: CoreManager.getCurrentFocus()?.getLayout()?.absolute?.xCenter ?? 0,
                         position: 'absolute',
                     }}
                 />

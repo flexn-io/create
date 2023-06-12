@@ -1,11 +1,9 @@
 import React from 'react';
 import { TouchableOpacity as RNTouchableOpacity } from 'react-native';
-import type { ViewProps } from '../../focusManager/types';
+import type { TouchableOpacityProps } from '../../focusManager/types';
 
-const TouchableOpacity = React.forwardRef<RNTouchableOpacity, ViewProps>(({ children, ...props }, ref) => (
-    <RNTouchableOpacity {...props} ref={ref}>
-        {children}
-    </RNTouchableOpacity>
+const TouchableOpacity = React.forwardRef<RNTouchableOpacity, TouchableOpacityProps>((props, ref) => (
+    <RNTouchableOpacity {...props} ref={ref} />
 ));
 
 TouchableOpacity.displayName = 'TouchableOpacity';

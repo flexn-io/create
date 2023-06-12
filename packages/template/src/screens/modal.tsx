@@ -11,7 +11,12 @@ const ScreenModal = ({ navigation }: { navigation?: any }) => {
     const { theme } = useContext(ThemeContext);
 
     return (
-        <Screen style={theme.styles.screenModal} screenOrder={1}>
+        <Screen
+            style={theme.styles.screenModal}
+            focusOptions={{
+                screenOrder: 1,
+            }}
+        >
             <View style={theme.styles.modalHeader}>
                 <TouchableOpacity
                     onPress={() => pop()}

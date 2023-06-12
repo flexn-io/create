@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, ViewStyle, StyleProp, StyleSheet } from 'react-native';
 
 const fontAwesome = require('react-native-vector-icons/FontAwesome').default;
 const feather = require('react-native-vector-icons/Feather').default;
@@ -13,7 +13,7 @@ const octicons = require('react-native-vector-icons/Octicons').default;
 const simpleLineIcons = require('react-native-vector-icons/SimpleLineIcons').default;
 const zocial = require('react-native-vector-icons/Zocial').default;
 
-const IconMap: any = {
+const IconMap = {
     fontAwesome,
     feather,
     antDesign,
@@ -25,20 +25,46 @@ const IconMap: any = {
     octicons,
     simpleLineIcons,
     zocial,
-};
+} as const;
 
-const IconComponent = ({ iconFont, iconName, iconColor, onPress, style, testID, size }: any) => {
+const IconComponent = ({
+    iconFont,
+    iconName,
+    iconColor,
+    onPress,
+    style,
+    testID,
+    size,
+}: {
+    iconFont: keyof typeof IconMap;
+    iconName: string;
+    iconColor: string;
+    testID?: string;
+    size: number;
+    style?: StyleProp<ViewStyle>;
+    onPress?: () => void;
+}) => {
     const IC = IconMap[iconFont];
+    const flattenStyle = { ...StyleSheet.flatten(style) };
+
     if (onPress) {
         return (
             <TouchableOpacity style={style} onPress={onPress} testID={testID}>
-                <IC style={{ color: iconColor }} name={iconName} size={size || style.width || style.height} />
+                <IC
+                    style={{ color: iconColor }}
+                    name={iconName}
+                    size={size || flattenStyle?.width || flattenStyle?.height}
+                />
             </TouchableOpacity>
         );
     }
     return (
         <View style={style} testID={testID}>
-            <IC style={{ color: iconColor }} name={iconName} size={size || style.width || style.height} />
+            <IC
+                style={{ color: iconColor }}
+                name={iconName}
+                size={size || flattenStyle?.width || flattenStyle?.height}
+            />
         </View>
     );
 };

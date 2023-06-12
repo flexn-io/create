@@ -4,18 +4,6 @@ import { View, FlashList, Pressable, Image, ScrollView, CreateListRenderItemInfo
 import Screen from './screen';
 import { Ratio } from '../utils';
 
-const border = {
-    type: 'border',
-    focus: {
-        borderWidth: Ratio(8),
-        borderColor: 'blue',
-    },
-    blur: {
-        borderWidth: Ratio(4),
-        borderColor: '#FFFFFF',
-    },
-};
-
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
 function interval(min = 0, max = kittyNames.length - 1) {
@@ -43,7 +31,15 @@ const Row = () => {
             <Pressable
                 style={styles.packshot}
                 focusRepeatContext={focusRepeatContext}
-                focusOptions={{ animatorOptions: border }}
+                focusOptions={{
+                    animator: {
+                        type: 'border',
+                        focus: {
+                            borderWidth: Ratio(8),
+                            borderColor: 'blue',
+                        },
+                    },
+                }}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>

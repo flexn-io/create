@@ -63,8 +63,8 @@ const Menu = ({ navigation }: { navigation?: any }) => {
             style={theme.styles.menuContainer}
             onFocus={onFocus}
             onBlur={onBlur}
-            stealFocus={false}
             focusOptions={{
+                stealFocus: false,
                 focusKey: 'side-menu',
             }}
         >

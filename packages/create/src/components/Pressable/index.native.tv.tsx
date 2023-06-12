@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View as RNView, StyleSheet } from 'react-native';
-import type { ViewProps } from '../../focusManager/types';
+import { View as RNView, StyleSheet, Insets } from 'react-native';
+import type { PressableProps } from '../../focusManager/types';
 import { measureSync } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
 
@@ -10,33 +10,7 @@ import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import { usePrevious } from '../../hooks/usePrevious';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
 
-const defaultAnimation = {
-    type: 'scale',
-    focus: {
-        scale: 1.1,
-    },
-    blur: {
-        scale: 1,
-    },
-    // duration: 150,
-};
-
-type FocusAnimation = {
-    focus?: {
-        borderWidth?: number;
-        borderColor?: string;
-        backgroundColor?: string;
-        scale?: number;
-    };
-    blur?: {
-        borderWidth?: number;
-        borderColor?: string;
-        backgroundColor?: string;
-        scale?: number;
-    };
-};
-
-const View = React.forwardRef<any, ViewProps>(
+const View = React.forwardRef<RNView | undefined, PressableProps>(
     (
         {
             children,
@@ -48,6 +22,7 @@ const View = React.forwardRef<any, ViewProps>(
             onPress,
             onFocus,
             onBlur,
+            hitSlop,
             ...props
         },
         refOuter
@@ -62,18 +37,20 @@ const View = React.forwardRef<any, ViewProps>(
             } else {
                 const flattenStyle = StyleSheet.flatten(style);
 
+                const gap =
+                    flattenStyle?.marginVertical ||
+                    flattenStyle?.paddingVertical ||
+                    flattenStyle?.marginTop ||
+                    flattenStyle?.paddingTop ||
+                    flattenStyle?.margin ||
+                    flattenStyle?.padding ||
+                    flattenStyle?.top;
+
                 return new ViewClass({
                     focus,
                     focusRepeatContext,
-                    parent,
-                    verticalContentContainerGap:
-                        flattenStyle?.marginVertical ||
-                        flattenStyle?.paddingVertical ||
-                        flattenStyle?.marginTop ||
-                        flattenStyle?.paddingTop ||
-                        flattenStyle?.margin ||
-                        flattenStyle?.padding ||
-                        flattenStyle?.top,
+                    focusContext: parent,
+                    verticalContentContainerGap: typeof gap === 'string' ? 0 : gap,
                     ...focusOptions,
                 });
             }
@@ -102,7 +79,7 @@ const View = React.forwardRef<any, ViewProps>(
                 const model = new ViewClass({
                     focus: true,
                     focusRepeatContext,
-                    parent,
+                    focusContext: parent,
                     forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
                 });
 
@@ -136,7 +113,7 @@ const View = React.forwardRef<any, ViewProps>(
             measureSync({ model });
         }
 
-        const childrenWithProps = React.Children.map(children, (child) => {
+        const childrenWithProps = React.Children.map(children as React.ReactElement[], (child) => {
             if (React.isValidElement(child)) {
                 return React.cloneElement(child as React.ReactElement<any>, {
                     focusContext: model,
@@ -147,25 +124,23 @@ const View = React.forwardRef<any, ViewProps>(
         });
 
         if (focus) {
-            const animatorOptions: FocusAnimation = focusOptions.animatorOptions || defaultAnimation;
-            const flattenedStyle = { ...StyleSheet.flatten(style) };
-
-            if (animatorOptions.blur?.borderWidth !== undefined) {
-                flattenedStyle.borderWidth = animatorOptions.blur?.borderWidth;
-            }
-            if (animatorOptions.blur?.borderColor !== undefined) {
-                flattenedStyle.borderColor = animatorOptions.blur?.borderColor;
-            }
-            if (animatorOptions.blur?.backgroundColor !== undefined) {
-                flattenedStyle.backgroundColor = animatorOptions.blur?.backgroundColor;
-            }
+            const animatorOptions = focusOptions.animator || { type: 'scale', focus: { scale: 1.1 } };
+            const { borderWidth, borderColor, borderRadius, backgroundColor } = { ...StyleSheet.flatten(style) } || {};
 
             return (
                 <TvFocusableViewManager
                     isTVSelectable={true}
-                    style={flattenedStyle}
+                    style={style}
                     onLayout={onLayout}
-                    animatorOptions={animatorOptions}
+                    animatorOptions={{
+                        ...animatorOptions,
+                        blur: {
+                            borderWidth,
+                            borderColor,
+                            borderRadius,
+                            backgroundColor,
+                        },
+                    }}
                     {...props}
                     ref={ref}
                 >
@@ -175,7 +150,7 @@ const View = React.forwardRef<any, ViewProps>(
         }
 
         return (
-            <RNView style={style} {...props} ref={ref} onLayout={onLayoutNonPressable}>
+            <RNView style={style} {...props} ref={ref} onLayout={onLayoutNonPressable} hitSlop={hitSlop as Insets}>
                 {childrenWithProps}
             </RNView>
         );

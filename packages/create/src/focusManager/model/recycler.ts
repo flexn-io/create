@@ -1,40 +1,36 @@
 import { ScrollView } from 'react-native';
-import AbstractFocusModel from './FocusModel';
-import { ForbiddenFocusDirections } from '../types';
+import FocusModel from './abstractFocusModel';
+import { FlashListProps, ForbiddenFocusDirections } from '../types';
 import View from './view';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import { MutableRefObject } from 'react';
 
-class RecyclerView extends AbstractFocusModel {
+class RecyclerView extends FocusModel {
     private _layouts: { x: number; y: number }[];
     private _layoutsReady: boolean;
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
-    private _isNested: boolean;
+    private _scrollTargetY?: number;
+    private _scrollTargetX?: number;
     private _isHorizontal: boolean;
     private _focusedIndex: number;
     private _initialRenderIndex: number;
-    private _focusedView?: View;
-    private _repeatContext:
-        | {
-              focusContext: AbstractFocusModel;
-              index: number;
-          }
-        | undefined;
+    private _focusedView: View | null = null;
 
-    private _scrollerNode?: any;
-
-    constructor(params: any) {
-        super(params);
+    constructor(
+        params: Omit<
+            FlashListProps<any> & FlashListProps<any>['focusOptions'],
+            'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
+        >
+    ) {
+        super();
 
         const {
-            isHorizontal,
-            isNested,
-            parent,
-            repeatContext,
-            forbiddenFocusDirections,
+            horizontal = true,
+            focusContext,
+            forbiddenFocusDirections = [],
             onFocus,
             onBlur,
             initialRenderIndex = 0,
@@ -47,11 +43,9 @@ class RecyclerView extends AbstractFocusModel {
         this._isScrollable = true;
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;
-        this._isNested = isNested;
-        this._isHorizontal = isHorizontal;
-        this._parent = parent;
-        this._repeatContext = repeatContext;
-        this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._isHorizontal = horizontal;
+        this._parent = focusContext;
+        this._forbiddenFocusDirections = forbiddenFocusDirections;
         this._focusedIndex = 0;
         this._initialRenderIndex = initialRenderIndex;
 
@@ -112,10 +106,6 @@ class RecyclerView extends AbstractFocusModel {
         return this;
     }
 
-    public isNested(): boolean {
-        return this._isNested;
-    }
-
     public isHorizontal(): boolean {
         return this._isHorizontal;
     }
@@ -140,14 +130,24 @@ class RecyclerView extends AbstractFocusModel {
         return this._scrollOffsetY;
     }
 
-    public setRepeatContext(value: any): this {
-        this._repeatContext = value;
+    public setScrollTargetX(value: number): this {
+        this._scrollTargetX = value;
 
         return this;
     }
 
-    public getRepeatContext(): { focusContext: AbstractFocusModel; index: number } | undefined {
-        return this._repeatContext;
+    public setScrollTargetY(value: number): this {
+        this._scrollTargetY = value;
+
+        return this;
+    }
+
+    public getScrollTargetY(): number | undefined {
+        return this._scrollTargetY;
+    }
+
+    public getScrollTargetX(): number | undefined {
+        return this._scrollTargetX;
     }
 
     public getForbiddenFocusDirections(): ForbiddenFocusDirections[] {
@@ -164,7 +164,7 @@ class RecyclerView extends AbstractFocusModel {
         return this._focusedIndex;
     }
 
-    public setFocusedView(view?: View): this {
+    public setFocusedView(view: View | null): this {
         this._focusedView = view;
 
         return this;
@@ -174,7 +174,7 @@ class RecyclerView extends AbstractFocusModel {
         return this._initialRenderIndex;
     }
 
-    public getFocusedView(): View | undefined {
+    public getFocusedView(): View | null {
         return this._focusedView;
     }
 
@@ -192,10 +192,6 @@ class RecyclerView extends AbstractFocusModel {
 
     public verticalContentContainerGap(): number {
         return 0;
-    }
-
-    public setScrollerNode(node: any) {
-        this._scrollerNode = node;
     }
 
     public getNode(): MutableRefObject<ScrollView> {

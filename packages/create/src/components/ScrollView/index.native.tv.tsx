@@ -8,13 +8,17 @@ import useOnLayout from '../../hooks/useOnLayout';
 import useOnComponentLifeCycle from '../../hooks/useOnComponentLifeCycle';
 import useOnRefChange from '../../hooks/useOnRefChange';
 
-const ScrollView = React.forwardRef<any, ScrollViewProps>(
+export type ScrollViewHandle = {
+    scrollTo: ({ x, y }: { x?: number; y?: number }) => void;
+};
+
+const ScrollView = React.forwardRef<ScrollViewHandle, ScrollViewProps>(
     ({ children, style, focusContext, horizontal, focusOptions, ...props }: ScrollViewProps, refOuter) => {
         const [model] = useState<ScrollViewClass>(
             () =>
                 new ScrollViewClass({
                     horizontal,
-                    parent: focusContext,
+                    focusContext,
                     ...focusOptions,
                 })
         );
@@ -26,8 +30,9 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
                 if (targetRef.current) targetRef.current.scrollTo({ x, y });
                 if (x !== undefined) model.setScrollOffsetX(x);
                 if (y !== undefined) model.setScrollOffsetY(y);
-                if (CoreManager._currentFocus) {
-                    recalculateLayout(CoreManager._currentFocus);
+                const currentFocus = CoreManager.getCurrentFocus();
+                if (currentFocus) {
+                    recalculateLayout(currentFocus);
                 }
             },
         }));
@@ -57,8 +62,8 @@ const ScrollView = React.forwardRef<any, ScrollViewProps>(
                     const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
                     const endY = scrollContentHeight + y >= height;
 
-                    if (model.getLayout()) {
-                        if (model.getLayout()['scrollTargetY'] === y || endY) {
+                    if (model.isLayoutMeasured()) {
+                        if (model.getScrollTargetY() === y || endY) {
                             model.setIsScrollingVertically(false);
                         } else {
                             model.setIsScrollingVertically(true);

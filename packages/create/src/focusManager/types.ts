@@ -1,63 +1,105 @@
 import type {
-    GestureResponderEvent,
     ScrollViewProps as RNScrollViewProps,
     StyleProp,
     ViewProps as RNViewProps,
     PressableProps as RNPressableProps,
+    TouchableOpacityProps as RNTouchableOpacityProps,
     ViewStyle,
     ScrollView,
+    ColorValue,
+    View as RNView,
 } from 'react-native';
 import type { FlashListProps as FLProps, ListRenderItemInfo } from '@flexn/shopify-flash-list';
-import FocusModel from './model/FocusModel';
+
+import FocusModel from './model/abstractFocusModel';
 import View from './model/view';
+import { SCREEN_STATES, VIEWPORT_ALIGNMENT } from './model/screen';
+import Screen from './model/screen';
+import { DIRECTIONS } from './constants';
+
+export type FocusDirection = typeof DIRECTIONS[keyof typeof DIRECTIONS];
+export type WindowAlignment = 'both-edge' | 'low-edge';
+export type ScreenStates = 'background' | 'foreground';
+export type FocusContext = FocusModel;
+export type ScreenType = Screen;
+export type ViewType = View;
+type AnimatorTypeScale = 'scale';
+type AnimatorTypeScaleWithBorder = 'scale_with_border';
+type AnimatorTypeAnimatorBorder = 'border';
+type AnimatorTypeAnimatorBackground = 'background';
+export type Animator = AnimatorScale | AnimatorBorder | AnimatorScaleWithBorder | AnimatorBackground;
 
 export type ClosestNodeOutput = {
     match1: number;
-    match1Model?: View;
+    match1Model: View | null;
     match2: number;
-    match2Model?: View;
-    match3: number;
-    match3Model?: View;
+    match2Model: View | null;
+};
+export type ForbiddenFocusDirections = 'down' | 'up' | 'left' | 'right';
+
+export type AnimatorScale = {
+    type: AnimatorTypeScale;
+    focus: {
+        scale?: number;
+        duration?: number;
+    };
 };
 
-export type ForbiddenFocusDirections =
-    | 'down'
-    | 'up'
-    | 'left'
-    | 'right'
-    | 'swipeDown'
-    | 'swipeUp'
-    | 'swipeLeft'
-    | 'swipeRight';
+export type AnimatorScaleWithBorder = {
+    type: AnimatorTypeScaleWithBorder;
+    focus: {
+        scale?: number;
+        duration?: number;
+        borderWidth: number;
+        borderColor: ColorValue;
+        borderRadius?: number;
+    };
+};
 
-export type WindowAlignment = 'both-edge' | 'low-edge';
-export type ScreenStates = 'background' | 'foreground';
+export type AnimatorBorder = {
+    type: AnimatorTypeAnimatorBorder;
+    focus: {
+        borderWidth: number;
+        borderColor: string;
+        borderRadius?: number;
+        duration?: number;
+    };
+};
 
-const ALIGNMENT_LOW_EDGE = 'low-edge';
+export type AnimatorBackground = {
+    type: AnimatorTypeAnimatorBackground;
+    focus: {
+        backgroundColor: ColorValue;
+        duration?: number;
+    };
+};
 
 export type PressableFocusOptions = {
     forbiddenFocusDirections?: ForbiddenFocusDirections[];
-    animatorOptions?: any;
+    animator?: Animator;
     focusKey?: string;
-    hasInitialFocus?: boolean;
     nextFocusLeft?: string | string[];
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
-    group?: string;
+    hasPreferredFocus?: boolean;
 };
 
 export type ScreenFocusOptions = {
     forbiddenFocusDirections?: ForbiddenFocusDirections[];
     focusKey?: string;
-    verticalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
-    horizontalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
+    verticalWindowAlignment?: typeof VIEWPORT_ALIGNMENT[keyof typeof VIEWPORT_ALIGNMENT];
+    horizontalWindowAlignment?: typeof VIEWPORT_ALIGNMENT[keyof typeof VIEWPORT_ALIGNMENT];
     horizontalViewportOffset?: number;
     verticalViewportOffset?: number;
     nextFocusLeft?: string | string[];
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
+    screenState?: typeof SCREEN_STATES[keyof typeof SCREEN_STATES];
+    screenOrder?: number;
+    stealFocus?: boolean;
+    group?: string;
 };
 
 export type RecyclableListFocusOptions = {
@@ -69,55 +111,83 @@ export type RecyclableListFocusOptions = {
 };
 
 export interface ViewProps extends RNViewProps {
-    focus?: boolean;
-    focusOptions?: PressableFocusOptions;
-    focusContext?: any;
-    focusRepeatContext?: any;
-    onPress?: (e: GestureResponderEvent | any) => void;
-    onBlur?: (response?: any) => void;
-    onFocus?: any;
-    children?: React.ReactNode;
-    ref?: any;
-    activeOpacity?: any;
-    style?: StyleProp<ViewStyle>;
-    animatorOptions?: any;
-    className?: string;
-    dataSet?: any;
+    focusOptions?: {
+        group?: string;
+        focusKey?: string;
+        nextFocusLeft?: string | string[];
+        nextFocusRight?: string | string[];
+        nextFocusUp?: string | string[];
+        nextFocusDown?: string | string[];
+    };
+    focusContext?: FocusModel;
+    focusRepeatContext?: CreateListRenderItemInfo<any>['focusRepeatContext'];
+    ref?: React.ForwardedRef<RNView> | React.MutableRefObject<RNView>;
+}
+
+export interface ViewGroupProps extends RNViewProps {
+    focusOptions: {
+        group: string;
+        focusKey?: string;
+        nextFocusLeft?: string | string[];
+        nextFocusRight?: string | string[];
+        nextFocusUp?: string | string[];
+        nextFocusDown?: string | string[];
+    };
+    focusContext?: FocusContext;
+    ref?: React.ForwardedRef<RNView> | React.MutableRefObject<RNView>;
 }
 
 export interface PressableProps extends RNPressableProps {
     focus?: boolean;
     focusOptions?: PressableFocusOptions;
-    focusContext?: FocusModel;
-    focusRepeatContext?: any;
-    onPress?: (e: GestureResponderEvent | any) => void;
-    onBlur?: (response?: any) => void;
-    onFocus?: any;
-    children: React.ReactNode;
-    ref?: any;
-    activeOpacity?: any;
+    focusContext?: FocusContext;
+    focusRepeatContext?: CreateListRenderItemInfo<any>['focusRepeatContext'];
+    onBlur?: () => void;
+    onPress?: () => void;
+    onFocus?: () => void;
     className?: string;
-    animatorOptions?: any;
+    style?: ViewProps['style'];
+}
+
+export interface TouchableOpacityProps extends RNTouchableOpacityProps {
+    focusOptions?: PressableFocusOptions;
+    focusContext?: FocusContext;
+    focusRepeatContext?: CreateListRenderItemInfo<any>['focusRepeatContext'];
+    onBlur?: () => void;
+    onFocus?: () => void;
+    className?: string;
+    dataSet?: any;
 }
 
 export interface ScrollViewProps extends RNScrollViewProps {
-    focusContext?: any;
-    horizontal?: boolean;
-    children?: React.ReactNode;
     ref?: React.MutableRefObject<ScrollView>;
+    focusContext?: FocusContext;
     focusOptions?: RecyclableListFocusOptions;
 }
 
 export interface ScreenProps {
-    screenState?: ScreenStates;
-    screenOrder?: number;
-    stealFocus?: boolean;
-    children?: React.ReactNode;
+    children?: React.ReactNode | React.ReactNode[];
     style?: StyleProp<ViewStyle>;
     onBlur?: () => void;
     onFocus?: () => void;
-    group?: string;
     focusOptions?: ScreenFocusOptions;
+}
+
+export interface FlashListProps<Item> extends FLProps<Item> {
+    focusContext?: FocusModel;
+    horizontal?: boolean;
+    scrollViewProps?: RNScrollViewProps;
+    style?: StyleProp<ViewStyle>;
+    focusOptions?: RecyclableListFocusOptions;
+    initialRenderIndex?: number;
+    renderItem: CreateListRenderItem<Item>;
+    type: 'grid' | 'row';
+    onBlur?: () => void;
+    onFocus?: () => void;
+}
+
+export interface CellContainerProps extends ViewProps {
+    index: number;
 }
 
 export type CreateListRenderItemInfo<Item> = {
@@ -129,23 +199,26 @@ export type CreateListRenderItemInfo<Item> = {
 
 export type CreateListRenderItem<Item> = (info: CreateListRenderItemInfo<Item>) => React.ReactElement | null;
 
-export interface FlashListProps<Item> extends FLProps<Item> {
-    focusContext?: FocusModel;
-    focusRepeatContext?: CreateListRenderItemInfo<Item>;
-    horizontal?: boolean;
-    scrollViewProps?: any;
-    children?: React.ReactNode;
-    style?: StyleProp<ViewStyle>;
-    focusOptions?: RecyclableListFocusOptions;
-    initialRenderIndex?: number;
-    renderItem: CreateListRenderItem<Item>;
-    type: 'list' | 'grid' | 'row';
-    onBlur?: () => void;
-    onFocus?: () => void;
-}
-
-export interface CellContainerProps extends ViewProps {
-    index: number;
-}
-
-export type FocusContext = FocusModel;
+export type Layout = {
+    xMin: number;
+    xMax: number;
+    yMin: number;
+    yMax: number;
+    xCenter: number;
+    yCenter: number;
+    width: number;
+    height: number;
+    yOffset: number;
+    xOffset: number;
+    xMaxScroll: number;
+    yMaxScroll: number;
+    scrollContentHeight: number;
+    absolute: {
+        xMin: number;
+        xMax: number;
+        yMin: number;
+        yMax: number;
+        xCenter: number;
+        yCenter: number;
+    };
+};

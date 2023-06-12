@@ -4,16 +4,45 @@ import throttle from 'lodash.throttle';
 
 const EVENT_NAME = 'onTVRemoteKey';
 
+export type RemoteHandlerEventKeyActions = 'up' | 'down' | 'longPress';
+export type RemoteHandlerEventTypesAppleTV =
+    | 'swipeDown'
+    | 'swipeUp'
+    | 'swipeLeft'
+    | 'swipeRight'
+    | 'left'
+    | 'right'
+    | 'up'
+    | 'down'
+    | 'select'
+    | 'menu'
+    | 'playPause';
+
+export type RemoteHandlerCallbackAppleTV = (args: {
+    eventType: RemoteHandlerEventTypesAppleTV;
+    eventKeyAction: RemoteHandlerEventKeyActions;
+}) => void;
+
+export type ClassRemoteHandlerCallbackAppleTV = (
+    comp: React.Component,
+    args: { eventType: RemoteHandlerEventTypesAppleTV; eventKeyAction: RemoteHandlerEventKeyActions; velocity: number }
+) => void;
+
 class TVRemoteHandler {
     __listener: any;
     __eventEmitter = new NativeEventEmitter(NativeModules.TvRemoteHandler);
 
-    enable(component: any, callback: any): void {
-        this.__listener = this.__eventEmitter.addListener(EVENT_NAME, (eventData: any) => {
-            if (eventData.eventKeyAction === 'down') {
+    enable(component: any, callback: ClassRemoteHandlerCallbackAppleTV): void {
+        this.__listener = this.__eventEmitter.addListener(
+            EVENT_NAME,
+            (eventData: {
+                eventType: RemoteHandlerEventTypesAppleTV;
+                eventKeyAction: RemoteHandlerEventKeyActions;
+                velocity: number;
+            }) => {
                 callback(component, eventData);
             }
-        });
+        );
     }
 
     disable(): void {
@@ -21,17 +50,22 @@ class TVRemoteHandler {
     }
 }
 
-const useTVRemoteHandler = (callback: any) => {
+const useTVRemoteHandler = (callback: RemoteHandlerCallbackAppleTV) => {
     const cb = useCallback(throttle(callback, 100), []);
 
     useEffect(() => {
         const { TvRemoteHandler } = NativeModules;
         const eventEmitter = new NativeEventEmitter(TvRemoteHandler);
-        const listener: EmitterSubscription = eventEmitter.addListener(EVENT_NAME, (eventData: any) => {
-            if (eventData.eventKeyAction === 'down') {
+        const listener: EmitterSubscription = eventEmitter.addListener(
+            EVENT_NAME,
+            (eventData: {
+                eventType: RemoteHandlerEventTypesAppleTV;
+                eventKeyAction: RemoteHandlerEventKeyActions;
+                velocity: number;
+            }) => {
                 cb(eventData);
             }
-        });
+        );
 
         return () => {
             if (listener) {

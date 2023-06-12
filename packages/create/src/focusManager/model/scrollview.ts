@@ -1,25 +1,33 @@
 import { ScrollView as RNScrollView } from 'react-native';
-import AbstractFocusModel from './FocusModel';
+import FocusModel from './abstractFocusModel';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import { MutableRefObject } from 'react';
+import { ScrollViewProps } from '../types';
 
-class ScrollView extends AbstractFocusModel {
+class ScrollView extends FocusModel {
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
+    private _scrollTargetY?: number;
+    private _scrollTargetX?: number;
     private _isHorizontal: boolean;
     private _isScrollingHorizontally: boolean;
     private _isScrollingVertically: boolean;
 
-    constructor(params: any) {
+    constructor(
+        params: Omit<
+            ScrollViewProps & ScrollViewProps['focusOptions'],
+            'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
+        >
+    ) {
         super(params);
 
-        const { horizontal, parent } = params;
+        const { horizontal = true, focusContext } = params;
 
         this._id = `scroll-${CoreManager.generateID(8)}`;
-        this._isHorizontal = horizontal;
-        this._parent = parent;
+        this._isHorizontal = horizontal as boolean;
+        this._parent = focusContext;
         this._type = 'scrollview';
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;
@@ -73,6 +81,26 @@ class ScrollView extends AbstractFocusModel {
 
     public getScrollOffsetY(): number {
         return this._scrollOffsetY;
+    }
+
+    public setScrollTargetX(value: number): this {
+        this._scrollTargetX = value;
+
+        return this;
+    }
+
+    public setScrollTargetY(value: number): this {
+        this._scrollTargetY = value;
+
+        return this;
+    }
+
+    public getScrollTargetY(): number | undefined {
+        return this._scrollTargetY;
+    }
+
+    public getScrollTargetX(): number | undefined {
+        return this._scrollTargetX;
     }
 
     public isHorizontal(): boolean {
