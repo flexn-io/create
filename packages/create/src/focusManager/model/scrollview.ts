@@ -1,12 +1,12 @@
 import { ScrollView as RNScrollView } from 'react-native';
-import AbstractFocusModel from './FocusModel';
+import FocusModel from './abstractFocusModel';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import { MutableRefObject } from 'react';
 import { ScrollViewProps } from '../types';
 
-class ScrollView extends AbstractFocusModel {
+class ScrollView extends FocusModel {
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
     private _scrollTargetY?: number;

@@ -2,7 +2,7 @@ import { View as RNView } from 'react-native';
 import { ScreenProps, ScreenStates } from '../types';
 import CoreManager from '../service/core';
 import Logger from '../service/logger';
-import FocusModel, { MODEL_TYPES } from './FocusModel';
+import FocusModel, { MODEL_TYPES } from './abstractFocusModel';
 import View from './view';
 import { findLowestRelativeCoordinates, measureSync } from '../layoutManager';
 import Recycler from './recycler';

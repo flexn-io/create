@@ -1,5 +1,5 @@
 import { ScrollView } from 'react-native';
-import AbstractFocusModel from './FocusModel';
+import FocusModel from './abstractFocusModel';
 import { FlashListProps, ForbiddenFocusDirections } from '../types';
 import View from './view';
 import Event, { EVENT_TYPES } from '../events';
@@ -7,7 +7,7 @@ import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import { MutableRefObject } from 'react';
 
-class RecyclerView extends AbstractFocusModel {
+class RecyclerView extends FocusModel {
     private _layouts: { x: number; y: number }[];
     private _layoutsReady: boolean;
     private _scrollOffsetX: number;

@@ -1,4 +1,4 @@
-import FocusModel from './model/FocusModel';
+import FocusModel from './model/abstractFocusModel';
 import RecyclerView from './model/recycler';
 import ScrollView from './model/scrollview';
 import View from './model/view';

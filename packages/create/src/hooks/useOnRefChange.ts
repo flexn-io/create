@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, MutableRefObject } from 'react';
-import FocusModel from '../focusManager/model/FocusModel';
+import FocusModel from '../focusManager/model/abstractFocusModel';
 
 export default function useOnRefChange(model: FocusModel | null): {
     targetRef: MutableRefObject<any>;

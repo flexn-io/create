@@ -11,7 +11,7 @@ import type {
 } from 'react-native';
 import type { FlashListProps as FLProps, ListRenderItemInfo } from '@flexn/shopify-flash-list';
 
-import FocusModel from './model/FocusModel';
+import FocusModel from './model/abstractFocusModel';
 import View from './model/view';
 import { SCREEN_STATES, VIEWPORT_ALIGNMENT } from './model/screen';
 import Screen from './model/screen';

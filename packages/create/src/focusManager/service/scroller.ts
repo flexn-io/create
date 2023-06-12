@@ -1,5 +1,5 @@
 import { Dimensions } from 'react-native';
-import FocusModel from '../model/FocusModel';
+import FocusModel from '../model/abstractFocusModel';
 import { DIRECTIONS } from '../constants';
 import ScrollView from '../model/scrollview';
 import View from '../model/view';

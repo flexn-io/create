@@ -1,11 +1,11 @@
 import { View } from 'react-native';
-import AbstractFocusModel from './FocusModel';
+import FocusModel from './abstractFocusModel';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { MutableRefObject } from 'react';
 import { ViewGroupProps } from '../types';
 
-class ViewGroup extends AbstractFocusModel {
+class ViewGroup extends FocusModel {
     private _group: string;
     private _focusKey?: string;
 

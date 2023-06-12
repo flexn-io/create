@@ -1,5 +1,5 @@
 import { useEffect, MutableRefObject, ForwardedRef } from 'react';
-import FocusModel from '../focusManager/model/FocusModel';
+import FocusModel from '../focusManager/model/abstractFocusModel';
 import useOnRefChange from './useOnRefChange';
 
 export function useCombinedRefs<T = undefined>({

@@ -1,4 +1,4 @@
-import FocusModel from './model/FocusModel';
+import FocusModel from './model/abstractFocusModel';
 
 export const EVENT_TYPES = {
     ON_PROPERTY_CHANGED: 'onPropertyChanged',

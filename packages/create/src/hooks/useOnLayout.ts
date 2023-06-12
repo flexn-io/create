@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { InteractionManager } from 'react-native';
 import Event, { EVENT_TYPES } from '../focusManager/events';
-import FocusModel from '../focusManager/model/FocusModel';
+import FocusModel from '../focusManager/model/abstractFocusModel';
 
 import { CoreManager } from '..';
 

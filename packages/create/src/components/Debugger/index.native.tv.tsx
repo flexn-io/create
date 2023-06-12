@@ -3,7 +3,7 @@ import { Text, Dimensions, View as RNView } from 'react-native';
 import { isPlatformTvos } from '@rnv/renative';
 import CoreManager from '../../focusManager/service/core';
 import { INTERSECTION_MARGIN_HORIZONTAL, INTERSECTION_MARGIN_VERTICAL } from '../../focusManager/nextFocusFinder';
-import AbstractFocusModel from '../../focusManager/model/FocusModel';
+import AbstractFocusModel from '../../focusManager/model/abstractFocusModel';
 import View from '../../focusManager/model/view';
 import { Ratio } from '../../helpers';
 import { useTVRemoteHandler } from '../../remoteHandler';

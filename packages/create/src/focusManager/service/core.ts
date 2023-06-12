@@ -4,7 +4,7 @@ import { distCalc } from '../nextFocusFinder';
 import { recalculateLayout } from '../layoutManager';
 import Scroller from './scroller';
 import Logger from './logger';
-import FocusModel, { MODEL_TYPES } from '../model/FocusModel';
+import FocusModel, { MODEL_TYPES } from '../model/abstractFocusModel';
 import { DIRECTIONS } from '../constants';
 import { ClosestNodeOutput, FocusDirection, ScreenType, ViewType } from '../types';
 import Row from '../model/row';

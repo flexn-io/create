@@ -22,6 +22,7 @@ interface FocusModelProps {
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
 }
+
 export default abstract class FocusModel {
     protected _layout: Layout;
     protected _isLayoutMeasured: boolean;

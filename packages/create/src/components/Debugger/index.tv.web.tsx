@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, Dimensions, View as RNView } from 'react-native';
 import CoreManager from '../../focusManager/service/core';
-import AbstractFocusModel from '../../focusManager/model/FocusModel';
+import AbstractFocusModel from '../../focusManager/model/abstractFocusModel';
 import View from '../../focusManager/model/view';
 
 const windowWidth = Dimensions.get('window').width;

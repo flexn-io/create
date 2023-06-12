@@ -1,6 +1,6 @@
 import { View as RNView } from 'react-native';
 import CoreManager from '../service/core';
-import FocusModel, { MODEL_TYPES } from './FocusModel';
+import FocusModel, { MODEL_TYPES } from './abstractFocusModel';
 import Recycler from './recycler';
 import ScrollView from './scrollview';
 import Event, { EVENT_TYPES } from '../events';
