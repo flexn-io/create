@@ -1946,10 +1946,10 @@
   resolved "https://registry.yarnpkg.com/@flexn/eslint-config/-/eslint-config-0.1.5.tgz#620d312018a0de1e61ac023c6dc2013d987b79e6"
   integrity sha512-l49bXcYNs9CPNfTRgJQWXS+5FSeW+yYuWOLnM5nuGcs0aD7WGhIaV27H0xnaiCU90jZY9uC613Gd45035gFd0w==
 
-"@flexn/graybox@0.21.2-alpha.11":
-  version "0.21.2-alpha.11"
-  resolved "https://registry.yarnpkg.com/@flexn/graybox/-/graybox-0.21.2-alpha.11.tgz#e321bac93f8d693b3d9454e9d75b6089328216c4"
-  integrity sha512-AQwMktdCJcoUYiQft9GfUpTQ3ql884nThI1RfifeixbUbmAKj2Vj6+uCxu/7j7V8LAZMzo8iMkROKiKPFazt9Q==
+"@flexn/graybox@0.21.2-alpha.16":
+  version "0.21.2-alpha.16"
+  resolved "https://registry.yarnpkg.com/@flexn/graybox/-/graybox-0.21.2-alpha.16.tgz#46031fdee7b1042c2ce8f0837d848ea312ee4f3e"
+  integrity sha512-3KSAe9VEsmSOD5G8tB1Jv6fAQUJV92LI89/n9LMmg4j8xtmvbeeRL7oQaPPWSmgyNWpuYDwymdVBa2rLVLz+fQ==
   dependencies:
     "@wdio/allure-reporter" "7.19.5"
     "@wdio/appium-service" "7.19.5"

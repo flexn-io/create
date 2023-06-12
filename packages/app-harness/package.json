@@ -81,7 +81,7 @@
         "react-native-windows": "0.67.3"
     },
     "devDependencies": {
-        "@flexn/graybox": "0.21.2-alpha.11",
+        "@flexn/graybox": "0.21.2-alpha.16",
         "@flexn/plugins": "1.0.7",
         "@flexn/template": "0.21.2-alpha.15",
         "@lightningjs/cli": "2.11.0",
