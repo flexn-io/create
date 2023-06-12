@@ -12,10 +12,6 @@ const border = {
         borderWidth: 5,
         borderColor: 'yellow',
     },
-    blur: {
-        borderWidth: 4,
-        borderColor: 'grey',
-    },
 };
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
@@ -50,7 +46,7 @@ const ScrollToTop = () => {
                     animator: {
                         type: 'border',
                         focus: {
-                            borderColor: 'red',
+                            borderColor: '#FF0000',
                             borderWidth: 2,
                         },
                     },
@@ -150,6 +146,8 @@ const styles = StyleSheet.create({
         // borderColor: 'red',
         // borderWidth: 1,
         margin: 5,
+        borderWidth: 4,
+        borderColor: 'grey',
         // borderWidth: 2,
     },
     image: {

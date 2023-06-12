@@ -33,7 +33,7 @@ public class AnimatorProperty {
         if (args.hasKey("scale")) this.scale = (float) args.getDouble("scale");
         if (args.hasKey("duration")) this.duration = args.getInt("duration");
 
-        if (args.hasKey("animator")) {
+        if (args.hasKey("focus")) {
             if (args.getMap("focus").hasKey("borderWidth")) {
                 this.focusBorderWidth = parseNumber(args.getMap("focus").getInt("borderWidth"));
             }
