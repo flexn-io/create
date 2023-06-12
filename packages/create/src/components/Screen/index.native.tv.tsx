@@ -26,17 +26,21 @@ const Screen = React.forwardRef<RNView | undefined, ScreenProps>(
         useOnComponentLifeCycle({ model });
 
         useEffect(() => {
-            Event.emit(model, EVENT_TYPES.ON_PROPERTY_CHANGED, {
-                property: 'state',
-                newValue: focusOptions.screenState,
-            });
+            if (focusOptions.screenState) {
+                Event.emit(model, EVENT_TYPES.ON_PROPERTY_CHANGED, {
+                    property: 'state',
+                    newValue: focusOptions.screenState,
+                });
+            }
         }, [focusOptions.screenState]);
 
         useEffect(() => {
-            Event.emit(model, EVENT_TYPES.ON_PROPERTY_CHANGED, {
-                property: 'order',
-                newValue: focusOptions.screenOrder,
-            });
+            if (focusOptions.screenOrder !== undefined) {
+                Event.emit(model, EVENT_TYPES.ON_PROPERTY_CHANGED, {
+                    property: 'order',
+                    newValue: focusOptions.screenOrder,
+                });
+            }
         }, [focusOptions.screenOrder]);
 
         const chRendered = typeof children === 'function' ? (children as any)(model) : children;
