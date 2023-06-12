@@ -8,7 +8,11 @@ import useOnLayout from '../../hooks/useOnLayout';
 import useOnComponentLifeCycle from '../../hooks/useOnComponentLifeCycle';
 import useOnRefChange from '../../hooks/useOnRefChange';
 
-const ScrollView = React.forwardRef<RNScrollView, ScrollViewProps>(
+export type ScrollViewHandle = {
+    scrollTo: ({ x, y }: { x?: number; y?: number }) => void;
+};
+
+const ScrollView = React.forwardRef<ScrollViewHandle, ScrollViewProps>(
     ({ children, style, focusContext, horizontal, focusOptions, ...props }: ScrollViewProps, refOuter) => {
         const [model] = useState<ScrollViewClass>(
             () =>
@@ -21,7 +25,7 @@ const ScrollView = React.forwardRef<RNScrollView, ScrollViewProps>(
 
         const { onRefChange, targetRef } = useOnRefChange(model);
 
-        useImperativeHandle(refOuter, (): any => ({
+        useImperativeHandle(refOuter, () => ({
             scrollTo: ({ x, y }: { x?: number; y?: number }) => {
                 if (targetRef.current) targetRef.current.scrollTo({ x, y });
                 if (x !== undefined) model.setScrollOffsetX(x);

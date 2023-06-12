@@ -45,13 +45,13 @@ export default function FocusDebugger() {
     useTVRemoteHandler(({ eventType, eventKeyAction }) => {
         if (isPlatformTvos) {
             if (eventKeyAction === 'down' && eventType === 'playPause') {
-                Logger.getInstance().debug(CoreManager);
-                CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
+                CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
+                Logger.setIsDebuggerEnabled(CoreManager.isDebuggerEnabled()).debug(CoreManager);
                 setEnabled(!enabledRef.current);
             }
         } else {
             if (eventKeyAction === 'down' && eventType === 'd') {
-                CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
+                CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
                 setEnabled(!enabledRef.current);
             }
         }

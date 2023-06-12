@@ -318,7 +318,7 @@ class CoreManager {
         const currentLayout = this._currentFocus?.isLayoutMeasured();
 
         if (!nextLayout || !currentLayout) {
-            Logger.getInstance().warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
+            Logger.warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
             return null;
         }
 
@@ -339,11 +339,11 @@ class CoreManager {
         return result;
     }
 
-    public get isDebuggerEnabled(): boolean {
+    public isDebuggerEnabled() {
         return this._debuggerEnabled;
     }
 
-    public set debuggerEnabled(enabled: boolean) {
+    public setDebuggerEnabled(enabled: boolean) {
         this._debuggerEnabled = enabled;
     }
 
@@ -360,8 +360,4 @@ class CoreManager {
     }
 }
 
-const CoreManagerInstance = new CoreManager();
-
-Logger.getInstance(CoreManagerInstance);
-
-export default CoreManagerInstance;
+export default new CoreManager();

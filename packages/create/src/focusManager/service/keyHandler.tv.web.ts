@@ -45,8 +45,8 @@ class KeyHandler {
 
     private onKeyDown(eventType: string) {
         if (eventType === 'playPause') {
-            Logger.getInstance().debug(CoreManager);
-            CoreManager.debuggerEnabled = !CoreManager.isDebuggerEnabled;
+            CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
+            Logger.setIsDebuggerEnabled(CoreManager.isDebuggerEnabled()).debug(CoreManager);
         }
 
         if (eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {

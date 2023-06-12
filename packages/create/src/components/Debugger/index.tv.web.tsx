@@ -40,7 +40,7 @@ export default function FocusDebugger() {
         scrollView: 'purple',
     };
 
-    if (CoreManager.isDebuggerEnabled) {
+    if (CoreManager.isDebuggerEnabled()) {
         const contexts: any = [];
         const contextMap = CoreManager.getFocusMap(); // eslint-disable-line prefer-destructuring
         Object.values(contextMap)

@@ -169,7 +169,7 @@ class Screen extends FocusModel {
                 model.getParent()?.onFocus();
             }
         } else {
-            Logger.getInstance().log('Focusable not found');
+            Logger.log('Focusable not found');
         }
     }
 
