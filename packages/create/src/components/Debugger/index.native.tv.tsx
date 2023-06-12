@@ -236,7 +236,7 @@ export default function FocusDebugger() {
                         width: '100%',
                         height: 2,
                         backgroundColor: 'red',
-                        top: CoreManager._currentFocus?.getLayout()?.absolute?.yCenter ?? 0,
+                        top: CoreManager.getCurrentFocus()?.getLayout()?.absolute?.yCenter ?? 0,
                         position: 'absolute',
                     }}
                 />
@@ -245,7 +245,7 @@ export default function FocusDebugger() {
                         height: '100%',
                         width: 2,
                         backgroundColor: 'red',
-                        left: CoreManager._currentFocus?.getLayout()?.absolute?.xCenter ?? 0,
+                        left: CoreManager.getCurrentFocus()?.getLayout()?.absolute?.xCenter ?? 0,
                         position: 'absolute',
                     }}
                 />

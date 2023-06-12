@@ -30,8 +30,9 @@ const ScrollView = React.forwardRef<ScrollViewHandle, ScrollViewProps>(
                 if (targetRef.current) targetRef.current.scrollTo({ x, y });
                 if (x !== undefined) model.setScrollOffsetX(x);
                 if (y !== undefined) model.setScrollOffsetY(y);
-                if (CoreManager._currentFocus) {
-                    recalculateLayout(CoreManager._currentFocus);
+                const currentFocus = CoreManager.getCurrentFocus();
+                if (currentFocus) {
+                    recalculateLayout(currentFocus);
                 }
             },
         }));

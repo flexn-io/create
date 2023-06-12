@@ -130,7 +130,7 @@ class Screen extends FocusModel {
     // END EVENTS
 
     public onScreenRemoved() {
-        const screens = Object.values(CoreManager._screens).filter(
+        const screens = Object.values(CoreManager.getScreens()).filter(
             (c) => c.isInForeground() && c.getOrder() === CoreManager.getCurrentMaxOrder()
         );
 

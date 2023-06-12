@@ -10,10 +10,10 @@ import { ClosestNodeOutput, FocusDirection, ScreenType, ViewType } from '../type
 import Row from '../model/row';
 
 class CoreManager {
-    public _focusAwareElements: Record<string, FocusModel> = {};
-    public _views: Record<string, ViewType> = {};
-    public _screens: Record<string, ScreenType> = {};
-    public _currentFocus: ViewType | null = null;
+    private _focusAwareElements: Record<string, FocusModel> = {};
+    private _views: Record<string, ViewType> = {};
+    private _screens: Record<string, ScreenType> = {};
+    private _currentFocus: ViewType | null = null;
     private _debuggerEnabled = false;
     private _pendingLayoutMeasurements: Record<string, NodeJS.Timeout | number> = {};
 
@@ -357,6 +357,10 @@ class CoreManager {
 
     public getViews(): Record<string, ViewType> {
         return this._views;
+    }
+
+    public getScreens(): Record<string, ScreenType> {
+        return this._screens;
     }
 }
 
