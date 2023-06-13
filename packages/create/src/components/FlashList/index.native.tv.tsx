@@ -144,6 +144,13 @@ const FlashList = ({
                         const { height } = event.nativeEvent.contentSize;
                         const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
                         const { y, x } = event.nativeEvent.contentOffset;
+                        const endY = scrollContentHeight + y >= height;
+
+                        if (model.getScrollTargetY() === y || endY) {
+                            model.setIsScrollingVertically(false);
+                        } else {
+                            model.setIsScrollingVertically(true);
+                        }
 
                         model
                             .setScrollOffsetY(y)
@@ -151,7 +158,7 @@ const FlashList = ({
                             .updateLayoutProperty('yMaxScroll', height)
                             .updateLayoutProperty('scrollContentHeight', scrollContentHeight);
 
-                        model.recalculateChildrenLayouts(model);
+                        model.recalculateChildrenAbsoluteLayouts(model);
                     }}
                 />
             )}

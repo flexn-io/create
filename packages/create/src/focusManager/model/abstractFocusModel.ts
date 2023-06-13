@@ -1,5 +1,5 @@
 import { MutableRefObject } from 'react';
-import { measureSync, recalculateLayout } from '../layoutManager';
+import { measureSync, recalculateAbsolutes } from '../layoutManager';
 import { ForbiddenFocusDirections, Layout } from '../types';
 import Grid from './grid';
 import RecyclerView from './recycler';
@@ -214,19 +214,19 @@ export default abstract class FocusModel {
         })[this.getChildren().length - 1];
     }
 
-    public recalculateChildrenLayouts(ch: FocusModel) {
+    public recalculateChildrenAbsoluteLayouts(ch: FocusModel) {
         ch.getChildren().forEach((a: FocusModel) => {
-            this.recalculateChildrenLayouts(a);
+            this.recalculateChildrenAbsoluteLayouts(a);
         });
 
         if (ch.isInForeground()) {
-            recalculateLayout(ch);
+            recalculateAbsolutes(ch);
         }
     }
 
     public remeasureChildrenLayouts(model: FocusModel) {
         if (model.isInForeground()) {
-            measureSync({ model, remeasure: true });
+            measureSync({ model });
         }
 
         model.getChildren().forEach((a: FocusModel) => {

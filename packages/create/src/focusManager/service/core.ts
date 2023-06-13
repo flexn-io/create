@@ -1,7 +1,7 @@
 import { findNodeHandle, UIManager } from 'react-native';
 import { isPlatformTizen, isPlatformWebos } from '@rnv/renative';
 import { distCalc } from '../nextFocusFinder';
-import { recalculateLayout } from '../layoutManager';
+import { recalculateAbsolutes } from '../layoutManager';
 import Scroller from './scroller';
 import Logger from './logger';
 import FocusModel, { MODEL_TYPES } from '../model/abstractFocusModel';
@@ -22,12 +22,13 @@ class CoreManager {
             clearTimeout(this._pendingLayoutMeasurements[model.getId()]);
         } else {
             callback();
-            this._pendingLayoutMeasurements[model.getId()] = 1;
+            delete this._pendingLayoutMeasurements[model.getId()];
             return;
         }
 
         this._pendingLayoutMeasurements[model.getId()] = setTimeout(() => {
             callback();
+            delete this._pendingLayoutMeasurements[model.getId()];
         }, 100);
     }
 
@@ -313,7 +314,8 @@ class CoreManager {
         direction: FocusDirection,
         output: ClosestNodeOutput
     ): ClosestNodeOutput | null => {
-        recalculateLayout(model);
+        // TODO: is this necessary?
+        recalculateAbsolutes(model);
         const nextLayout = model.isLayoutMeasured();
         const currentLayout = this._currentFocus?.isLayoutMeasured();
 

@@ -12,8 +12,15 @@ import pressableAnimations from './screens/pressableAnimations';
 import verticalScroll from './screens/verticalScroll';
 import grid from './screens/grid';
 import scrollToTop from './screens/scrollToTop';
+import complexTabs from './screens/complexTabs';
 
 const testsList = [
+    {
+        component: complexTabs,
+        title: 'Complex Tabs',
+        route: 'ComplexTabs',
+        platform: ['androidtv', 'firetv', 'tvos'],
+    },
     {
         component: scrollToTop,
         title: 'Scroll To Top',

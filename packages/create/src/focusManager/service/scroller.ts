@@ -38,6 +38,7 @@ class Scroller {
             parent = parent?.getParent();
         }
 
+        console.log({ scrollContextParents });
         scrollContextParents.forEach((p: ScrollView) => {
             const scrollTarget = this.calculateScrollViewTarget(direction, p, contextParameters);
 
@@ -120,8 +121,12 @@ class Scroller {
                 break;
         }
 
+        console.log({ scrollTarget: currentLayout, sw: scrollView });
+
         if (scrollTarget.x < 0) scrollTarget.x = 0;
         if (scrollTarget.y < 0) scrollTarget.y = 0;
+
+        console.log('MOVING_VERTICALLY', scrollView.isScrollingVertically());
 
         // If scroll direction is being changed from vertical to horizontal and it's still
         // does not finished scroll action, we wait for vertical scrolling to be completed

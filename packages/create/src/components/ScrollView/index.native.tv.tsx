@@ -2,7 +2,7 @@ import React, { useState, useImperativeHandle } from 'react';
 import { ScrollView as RNScrollView } from 'react-native';
 import type { ScrollViewProps } from '../../focusManager/types';
 import CoreManager from '../../focusManager/service/core';
-import { recalculateLayout } from '../../focusManager/layoutManager';
+import { recalculateAbsolutes } from '../../focusManager/layoutManager';
 import ScrollViewClass from '../../focusManager/model/scrollview';
 import useOnLayout from '../../hooks/useOnLayout';
 import useOnComponentLifeCycle from '../../hooks/useOnComponentLifeCycle';
@@ -32,7 +32,7 @@ const ScrollView = React.forwardRef<ScrollViewHandle, ScrollViewProps>(
                 if (y !== undefined) model.setScrollOffsetY(y);
                 const currentFocus = CoreManager.getCurrentFocus();
                 if (currentFocus) {
-                    recalculateLayout(currentFocus);
+                    recalculateAbsolutes(currentFocus);
                 }
             },
         }));
@@ -62,22 +62,20 @@ const ScrollView = React.forwardRef<ScrollViewHandle, ScrollViewProps>(
                     const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
                     const endY = scrollContentHeight + y >= height;
 
-                    if (model.isLayoutMeasured()) {
-                        if (model.getScrollTargetY() === y || endY) {
-                            model.setIsScrollingVertically(false);
-                        } else {
-                            model.setIsScrollingVertically(true);
-                        }
-
-                        model
-                            .setScrollOffsetY(y)
-                            .setScrollOffsetX(x)
-                            .updateLayoutProperty('yMaxScroll', height)
-                            .updateLayoutProperty('xMaxScroll', width)
-                            .updateLayoutProperty('scrollContentHeight', scrollContentHeight);
-
-                        model.recalculateChildrenLayouts(model);
+                    if (model.getScrollTargetY() === y || endY) {
+                        model.setIsScrollingVertically(false);
+                    } else {
+                        model.setIsScrollingVertically(true);
                     }
+
+                    model
+                        .setScrollOffsetY(y)
+                        .setScrollOffsetX(x)
+                        .updateLayoutProperty('yMaxScroll', height)
+                        .updateLayoutProperty('xMaxScroll', width)
+                        .updateLayoutProperty('scrollContentHeight', scrollContentHeight);
+
+                    model.recalculateChildrenAbsoluteLayouts(model);
                 }}
                 {...props}
             >

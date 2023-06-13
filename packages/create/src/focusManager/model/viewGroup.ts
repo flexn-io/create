@@ -43,7 +43,6 @@ class ViewGroup extends FocusModel {
     }
 
     private async _onLayout() {
-        // await measureAsync({ model: this });
         this.remeasureChildrenLayouts(this);
     }
 

@@ -3,7 +3,24 @@ import RecyclerView from './model/recycler';
 import ScrollView from './model/scrollview';
 import View from './model/view';
 
-export const findLowestRelativeCoordinates = (model: View) => {
+const getScrollOffsets = (model: FocusModel) => {
+    let offsetX = 0;
+    let offsetY = 0;
+    let parent = model.getParent();
+    while (parent) {
+        if (parent.isScrollable()) {
+            if (parent instanceof ScrollView || parent instanceof RecyclerView) {
+                offsetX += parent.getScrollOffsetX();
+                offsetY += parent.getScrollOffsetY();
+            }
+        }
+        parent = parent?.getParent();
+    }
+
+    return { x: offsetX, y: offsetY };
+};
+
+const findLowestRelativeCoordinates = (model: View) => {
     const screen = model.getScreen();
 
     if (screen) {
@@ -19,6 +36,10 @@ export const findLowestRelativeCoordinates = (model: View) => {
 };
 
 const recalculateAbsolutes = (model: FocusModel) => {
+    const { x: offsetX, y: offsetY } = getScrollOffsets(model);
+
+    model.updateLayoutProperty('xOffset', offsetX).updateLayoutProperty('yOffset', offsetY);
+
     const layout = model.getLayout();
 
     model.updateLayoutProperty('absolute', {
@@ -30,57 +51,28 @@ const recalculateAbsolutes = (model: FocusModel) => {
         yCenter: layout.yMin - layout.yOffset + Math.floor(layout.height / 2),
     });
 
-    // Settings that layout is fully measured for the first time
+    // Setting that layout is fully measured for the first time
     if (!model.isLayoutMeasured()) {
         model.setIsLayoutMeasured(true);
     }
-};
-
-const recalculateLayout = (model: FocusModel, remeasure?: boolean) => {
-    let offsetX = 0;
-    let offsetY = 0;
-    let parent = model.getParent();
-    while (parent) {
-        if (parent.isScrollable()) {
-            if (parent instanceof ScrollView || parent instanceof RecyclerView) {
-                offsetX += parent.getScrollOffsetX();
-                offsetY += parent.getScrollOffsetY();
-            }
-        }
-        parent = parent?.getParent();
-    }
-
-    // If layout is being remeasured from parent to children calculating positions
-    // we should take into account scroll view offset and add it
-    if (remeasure) {
-        model
-            .updateLayoutProperty('xMin', model.getLayout().xMin + offsetX)
-            .updateLayoutProperty('xMax', model.getLayout().xMax + offsetX)
-            .updateLayoutProperty('yMin', model.getLayout().yMin + offsetY)
-            .updateLayoutProperty('yMax', model.getLayout().yMax + offsetY);
-    }
-
-    model.updateLayoutProperty('xOffset', offsetX).updateLayoutProperty('yOffset', offsetY);
-
-    recalculateAbsolutes(model);
 };
 
 const measure = ({
     model,
     callback,
     resolve,
-    remeasure,
 }: {
     model: FocusModel;
     callback?(): void;
     resolve?: (value?: void | PromiseLike<void>) => void;
-    remeasure?: boolean;
 }) => {
     if (model.node.current) {
         model.node.current.measure(
             (_: number, __: number, width: number, height: number, pageX: number, pageY: number) => {
-                let pgX = pageX;
-                let pgY = pageY;
+                const { x: offsetX, y: offsetY } = getScrollOffsets(model);
+
+                let pgX = pageX + offsetX;
+                let pgY = pageY + offsetY;
 
                 if (model instanceof View && model.getRepeatContext()) {
                     const repeatContext = model.getRepeatContext();
@@ -111,7 +103,7 @@ const measure = ({
                     .updateLayoutProperty('yCenter', pgY + Math.floor(height / 2));
 
                 // Order matters first recalculate layout then find lowest possible relative coordinates
-                recalculateLayout(model, remeasure);
+                recalculateAbsolutes(model);
 
                 if (model instanceof View) {
                     findLowestRelativeCoordinates(model);
@@ -126,17 +118,10 @@ const measure = ({
     }
 };
 
-const measureAsync = ({ model, remeasure }: { model: FocusModel; remeasure?: boolean }): Promise<void> =>
-    new Promise((resolve) => measure({ model, remeasure, resolve }));
+const measureAsync = ({ model }: { model: FocusModel }): Promise<void> =>
+    new Promise((resolve) => measure({ model, resolve }));
 
-const measureSync = ({
-    model,
-    callback,
-    remeasure,
-}: {
-    model: FocusModel;
-    callback?(): void;
-    remeasure?: boolean;
-}): void => measure({ model, callback, remeasure });
+const measureSync = ({ model, callback }: { model: FocusModel; callback?(): void }): void =>
+    measure({ model, callback });
 
-export { measureAsync, measureSync, recalculateLayout };
+export { measureAsync, measureSync, recalculateAbsolutes, findLowestRelativeCoordinates };

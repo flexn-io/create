@@ -23,7 +23,7 @@ class ScrollView extends FocusModel {
     ) {
         super(params);
 
-        const { horizontal = true, focusContext } = params;
+        const { horizontal = false, focusContext } = params;
 
         this._id = `scroll-${CoreManager.generateID(8)}`;
         this._isHorizontal = horizontal as boolean;

@@ -18,6 +18,8 @@ class RecyclerView extends FocusModel {
     private _focusedIndex: number;
     private _initialRenderIndex: number;
     private _focusedView: View | null = null;
+    private _isScrollingHorizontally: boolean;
+    private _isScrollingVertically: boolean;
 
     constructor(
         params: Omit<
@@ -48,6 +50,8 @@ class RecyclerView extends FocusModel {
         this._forbiddenFocusDirections = forbiddenFocusDirections;
         this._focusedIndex = 0;
         this._initialRenderIndex = initialRenderIndex;
+        this._isScrollingHorizontally = false;
+        this._isScrollingVertically = false;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
@@ -182,12 +186,24 @@ class RecyclerView extends FocusModel {
         //TODO: implement
     }
 
+    public setIsScrollingHorizontally(value: boolean): this {
+        this._isScrollingHorizontally = value;
+
+        return this;
+    }
+
+    public setIsScrollingVertically(value: boolean): this {
+        this._isScrollingVertically = value;
+
+        return this;
+    }
+
     public isScrollingVertically(): boolean {
-        return false;
+        return this._isScrollingVertically;
     }
 
     public isScrollingHorizontally(): boolean {
-        return false;
+        return this._isScrollingHorizontally;
     }
 
     public verticalContentContainerGap(): number {

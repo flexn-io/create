@@ -16,6 +16,7 @@ import PressableAnimations from '../screens/pressableAnimations';
 import ViewGroup from '../screens/viewGroup';
 import Grid from '../screens/grid';
 import ScrollToTop from '../screens/scrollToTop';
+import ComplexTabs from '../screens/complexTabs';
 
 const RootStack = createNativeStackNavigator();
 
@@ -38,6 +39,7 @@ const Navigation = () => {
                 <RootStack.Screen name="PressableAnimations" component={PressableAnimations} />
                 <RootStack.Screen name="ViewGroup" component={ViewGroup} />
                 <RootStack.Screen name="ScrollToTop" component={ScrollToTop} />
+                <RootStack.Screen name="ComplexTabs" component={ComplexTabs} />
             </RootStack.Navigator>
         </NavigationContainer>
     );
