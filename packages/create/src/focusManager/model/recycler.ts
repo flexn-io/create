@@ -8,7 +8,7 @@ import { measureAsync } from '../layoutManager';
 import { MutableRefObject } from 'react';
 
 class RecyclerView extends FocusModel {
-    private _layouts: { x: number; y: number }[];
+    private _layouts: { x: number; y: number; width: number; height: number }[];
     private _layoutsReady: boolean;
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
@@ -79,16 +79,17 @@ class RecyclerView extends FocusModel {
 
     protected async _onLayout() {
         await measureAsync({ model: this });
+        this.remeasureChildrenLayouts(this);
         Event.emit(this, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
     }
 
     // END EVENTS
 
-    public getLayouts(): { x: number; y: number }[] {
+    public getLayouts(): { x: number; y: number; width: number; height: number }[] {
         return this._layouts;
     }
 
-    public updateLayouts(layouts: { x: number; y: number }[] | undefined) {
+    public updateLayouts(layouts: { x: number; y: number; width: number; height: number }[] | undefined) {
         if (layouts && this._layouts.length !== layouts.length) {
             this._layouts = layouts;
 

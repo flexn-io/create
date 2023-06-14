@@ -71,7 +71,7 @@ const FlashList = ({
 
     const rowRendererWithProps = ({ item, index, target }: ListRenderItemInfo<any>) => {
         const lm = rlvRef.current?.state?.layoutProvider.getLayoutManager();
-        const layouts: { x: number; y: number }[] | undefined = lm?.getLayouts();
+        const layouts: { x: number; y: number; width: number; height: number }[] | undefined = lm?.getLayouts();
 
         model.updateLayouts(layouts);
 

@@ -225,12 +225,22 @@ export default abstract class FocusModel {
     }
 
     public remeasureChildrenLayouts(model: FocusModel) {
+        model.getChildren().forEach((a: FocusModel) => {
+            this.remeasureChildrenLayouts(a);
+        });
+
+        if (model.isInForeground()) {
+            measureSync({ model });
+        }
+    }
+
+    public remeasureSelfAndChildrenLayouts(model: FocusModel) {
         if (model.isInForeground()) {
             measureSync({ model });
         }
 
         model.getChildren().forEach((a: FocusModel) => {
-            this.remeasureChildrenLayouts(a);
+            this.remeasureSelfAndChildrenLayouts(a);
         });
     }
 

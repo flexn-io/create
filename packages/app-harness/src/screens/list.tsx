@@ -24,7 +24,7 @@ function generateData(width: number, height: number, items = 30) {
 }
 
 const Row = () => {
-    const [list] = useState(Array(12).fill(generateData(Ratio(200), Ratio(200), 15)));
+    const [list] = useState(Array(50).fill(generateData(Ratio(200), Ratio(200), 10)));
 
     const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
         return (

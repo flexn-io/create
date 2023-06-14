@@ -22,14 +22,16 @@ class CoreManager {
             clearTimeout(this._pendingLayoutMeasurements[model.getId()]);
         } else {
             callback();
-            delete this._pendingLayoutMeasurements[model.getId()];
+            this._pendingLayoutMeasurements[model.getId()] = setTimeout(() => {
+                delete this._pendingLayoutMeasurements[model.getId()];
+            }, 50);
             return;
         }
 
         this._pendingLayoutMeasurements[model.getId()] = setTimeout(() => {
             callback();
             delete this._pendingLayoutMeasurements[model.getId()];
-        }, 100);
+        }, 50);
     }
 
     public registerFocusAwareComponent(model: FocusModel) {

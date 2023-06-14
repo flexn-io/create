@@ -42,6 +42,7 @@ class Row extends Recycler {
 
     protected async _onLayout() {
         await measureAsync({ model: this });
+        this.remeasureChildrenLayouts(this);
         Event.emit(this, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
     }
 

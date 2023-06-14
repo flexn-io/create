@@ -43,7 +43,7 @@ class ViewGroup extends FocusModel {
     }
 
     private async _onLayout() {
-        this.remeasureChildrenLayouts(this);
+        this.remeasureSelfAndChildrenLayouts(this);
     }
 
     // END EVENTS

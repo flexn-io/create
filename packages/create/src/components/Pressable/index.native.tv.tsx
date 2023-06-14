@@ -63,7 +63,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         const { onLayout: onLayoutNonPressable } = useOnLayout(
             model,
             () => {
-                model?.remeasureChildrenLayouts?.(model);
+                model?.remeasureSelfAndChildrenLayouts?.(model);
             },
             true
         );
