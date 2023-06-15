@@ -48,7 +48,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
         );
     };
     return (
-        <Screen style={[theme.styles.screen, styles.screen]}>
+        <Screen style={[theme.styles.screen, styles.screen]} focusOptions={{ nextFocusLeft: 'side-menu' }}>
             <ScrollView {...testProps('template-carousels-screen-container')}>
                 {data.map((list, index) => (
                     <View style={styles.listSeparator} key={index}>
@@ -78,7 +78,7 @@ const styles = {
     cardStyle: {
         width: Ratio(250),
         height: Ratio(250),
-        borderWidth: isFactorMobile ? 0 : Ratio(5),
+        borderWidth: 0,
         borderRadius: Ratio(5),
         borderColor: 'transparent',
         fontSize: isFactorMobile ? 16 : Ratio(26),
