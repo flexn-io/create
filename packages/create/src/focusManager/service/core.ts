@@ -18,20 +18,22 @@ class CoreManager {
     private _pendingLayoutMeasurements: Record<string, NodeJS.Timeout | number> = {};
 
     public setPendingLayoutMeasurement(model: FocusModel, callback: () => void) {
-        if (this._pendingLayoutMeasurements[model.getId()]) {
-            clearTimeout(this._pendingLayoutMeasurements[model.getId()]);
-        } else {
-            callback();
-            this._pendingLayoutMeasurements[model.getId()] = setTimeout(() => {
-                delete this._pendingLayoutMeasurements[model.getId()];
-            }, 50);
-            return;
-        }
+        callback();
 
-        this._pendingLayoutMeasurements[model.getId()] = setTimeout(() => {
-            callback();
-            delete this._pendingLayoutMeasurements[model.getId()];
-        }, 50);
+        // if (this._pendingLayoutMeasurements[model.getId()]) {
+        //     clearTimeout(this._pendingLayoutMeasurements[model.getId()]);
+        // } else {
+        //     callback();
+        //     this._pendingLayoutMeasurements[model.getId()] = setTimeout(() => {
+        //         delete this._pendingLayoutMeasurements[model.getId()];
+        //     }, 50);
+        //     return;
+        // }
+
+        // this._pendingLayoutMeasurements[model.getId()] = setTimeout(() => {
+        //     callback();
+        //     delete this._pendingLayoutMeasurements[model.getId()];
+        // }, 50);
     }
 
     public registerFocusAwareComponent(model: FocusModel) {

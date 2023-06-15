@@ -6,6 +6,7 @@ import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import { MutableRefObject } from 'react';
+import { Ratio } from '../../helpers';
 
 class RecyclerView extends FocusModel {
     private _layouts: { x: number; y: number; width: number; height: number }[];
@@ -20,6 +21,8 @@ class RecyclerView extends FocusModel {
     private _focusedView: View | null = null;
     private _isScrollingHorizontally: boolean;
     private _isScrollingVertically: boolean;
+    private _autoLayoutScaleAnimation = false;
+    private _itemDimensions?: { width: number; height: number };
 
     constructor(
         params: Omit<
@@ -36,6 +39,7 @@ class RecyclerView extends FocusModel {
             onFocus,
             onBlur,
             initialRenderIndex = 0,
+            autoLayoutScaleAnimation = false,
         } = params;
 
         this._layoutsReady = false;
@@ -52,6 +56,7 @@ class RecyclerView extends FocusModel {
         this._initialRenderIndex = initialRenderIndex;
         this._isScrollingHorizontally = false;
         this._isScrollingVertically = false;
+        this._autoLayoutScaleAnimation = autoLayoutScaleAnimation;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
@@ -209,6 +214,28 @@ class RecyclerView extends FocusModel {
 
     public verticalContentContainerGap(): number {
         return 0;
+    }
+
+    public isAutoLayoutScaleAnimationEnabled(): boolean {
+        return this._autoLayoutScaleAnimation;
+    }
+
+    public getAutoLayoutSize(): number {
+        if (this._autoLayoutScaleAnimation) {
+            return Ratio(50);
+        }
+
+        return 0;
+    }
+
+    public setItemDimensions(dimensions: { width: number; height: number }): this {
+        this._itemDimensions = dimensions;
+
+        return this;
+    }
+
+    public getItemDimensions(): { width: number; height: number } | undefined {
+        return this._itemDimensions;
     }
 
     public getNode(): MutableRefObject<ScrollView> {

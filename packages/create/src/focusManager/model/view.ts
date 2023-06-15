@@ -25,7 +25,8 @@ class View extends FocusModel {
     private _isFocused: boolean;
     private _focusKey: string;
     private _hasPreferredFocus: boolean;
-    private _verticalContentContainerGap: number;
+    private _verticalContentContainerGap = 0;
+    private _horizontalContentContainerGap = 0;
     private _repeatContext:
         | {
               focusContext: FocusModel;
@@ -38,6 +39,7 @@ class View extends FocusModel {
     constructor(
         params: Omit<PressableProps & PressableProps['focusOptions'], 'style' | 'focusOptions' | 'className'> & {
             verticalContentContainerGap?: number;
+            horizontalContentContainerGap?: number;
         }
     ) {
         super(params);
@@ -52,6 +54,7 @@ class View extends FocusModel {
             focusKey = '',
             hasPreferredFocus = false,
             verticalContentContainerGap = 0,
+            horizontalContentContainerGap = 0,
         } = params;
 
         const id = CoreManager.generateID(8);
@@ -65,6 +68,7 @@ class View extends FocusModel {
         this._forbiddenFocusDirections = forbiddenFocusDirections;
         this._hasPreferredFocus = hasPreferredFocus;
         this._verticalContentContainerGap = verticalContentContainerGap;
+        this._horizontalContentContainerGap = horizontalContentContainerGap;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
@@ -223,6 +227,10 @@ class View extends FocusModel {
 
     public verticalContentContainerGap(): number {
         return this._verticalContentContainerGap;
+    }
+
+    public horizontalContentContainerGap(): number {
+        return this._horizontalContentContainerGap;
     }
 
     public getGroup(): string | undefined {

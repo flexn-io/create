@@ -2,7 +2,6 @@ import React, { ForwardedRef, useEffect, useRef, useState } from 'react';
 import { View as RNView } from 'react-native';
 import { FlashList as FlashListComp, ListRenderItemInfo, CellContainer } from '@flexn/shopify-flash-list';
 import BaseScrollComponent from '@flexn/recyclerlistview/dist/reactnative/core/scrollcomponent/BaseScrollComponent';
-import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 import Grid from '../../focusManager/model/grid';
 import Row from '../../focusManager/model/row';
 import { FlashListProps, CellContainerProps } from '../../focusManager/types';
@@ -11,6 +10,8 @@ import useOnRefChange from '../../hooks/useOnRefChange';
 import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import useFocusAwareComponentRegister from '../../hooks/useOnComponentLifeCycle';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
+import { Ratio } from '../../helpers';
+import View from '../../focusManager/model/view';
 
 const FlashList = ({
     style,
@@ -126,7 +127,24 @@ const FlashList = ({
                     horizontal={horizontal}
                     estimatedItemSize={estimatedItemSize ? Math.round(estimatedItemSize) : undefined}
                     {...props}
-                    CellRendererComponent={isPlatformAndroidtv || isPlatformFiretv ? ItemContainer : undefined}
+                    contentContainerStyle={{
+                        ...props.contentContainerStyle,
+                        ...(focusOptions.autoLayoutScaleAnimation && {
+                            paddingHorizontal: Ratio(50),
+                            paddingVertical: Ratio(50),
+                        }),
+                    }}
+                    onItemLayout={(index) => {
+                        // Initial layout can change we need to ensure that every change is instantly remeasured
+                        const children = model
+                            .getChildren()
+                            .find((ch) => ch instanceof View && ch.getRepeatContext()?.index === index);
+
+                        if (children) {
+                            model.remeasureSelfAndChildrenLayouts(children);
+                        }
+                    }}
+                    CellRendererComponent={ItemContainer}
                     overrideProps={{
                         ...scrollViewProps,
                         ref: (ref: BaseScrollComponent) => {

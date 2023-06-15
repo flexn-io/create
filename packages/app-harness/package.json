@@ -42,7 +42,7 @@
     "dependencies": {
         "@flexn/create": "0.21.2-alpha.17",
         "@flexn/recyclerlistview": "4.2.6",
-        "@flexn/shopify-flash-list": "1.4.7",
+        "@flexn/shopify-flash-list": "1.4.8",
         "@lightningjs/core": "2.8.0",
         "@lightningjs/sdk": "5.2.0",
         "@react-native-community/masked-view": "0.1.11",

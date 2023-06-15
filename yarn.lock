@@ -1856,10 +1856,10 @@
     prop-types "15.8.1"
     ts-object-utils "0.0.5"
 
-"@flexn/shopify-flash-list@1.4.7":
-  version "1.4.7"
-  resolved "https://registry.yarnpkg.com/@flexn/shopify-flash-list/-/shopify-flash-list-1.4.7.tgz#c00bafe3f36f08599ddce2a882830d5b0310c465"
-  integrity sha512-yi8PENZgOHEP4Eqo/fPZ7iMkM1dUPG14kPr893jbD1ENi7m6/Fj72i0yLWQL1/EcgFkl0RD39K1o7IG+44OkXg==
+"@flexn/shopify-flash-list@1.4.8":
+  version "1.4.8"
+  resolved "https://registry.yarnpkg.com/@flexn/shopify-flash-list/-/shopify-flash-list-1.4.8.tgz#2449f615d877ad6db23b48b659d48ace71aefbc6"
+  integrity sha512-4azBiKBvk+KmLUwaQsANwybksft36C/TJxF9qiV/ZnoHVxTAQxvMfGsXtvyjKbNKPYHQjHvq/lLZpWQ0kSpAqw==
   dependencies:
     "@flexn/recyclerlistview" "4.2.6"
     tslib "2.4.0"

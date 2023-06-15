@@ -38,7 +38,11 @@
         "@sentry/tracing": "source:flexn",
         "react-native-carplay": "source:flexn",
         "react-native-google-cast": "source:flexn",
-        "react-native-snap-carousel": "source:flexn"
+        "react-native-snap-carousel": "source:flexn",
+        "@flexn/shopify-flash-list": {
+            "source": "flexn",
+            "version": "1.4.8"
+        }
     },
     "projectName": "app-harness",
     "templates": {
