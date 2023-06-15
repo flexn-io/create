@@ -15,12 +15,24 @@ export { default as TextInput } from './components/TextInput';
 export { default as View } from './components/View';
 export { default as ImageBackground } from './components/ImageBackground';
 export { default as Modal } from './components/Modal';
+export { default as FlashList } from './components/FlashList';
 
 // APIs
 export { default as StyleSheet } from './apis/StyleSheet';
 export { default as Animated } from './apis/Animated';
 export { default as Appearance } from './apis/Appearance';
-export { ScreenProps, ScreenStates } from './focusManager/types';
+
+export {
+    ScreenProps,
+    ScreenStates,
+    FocusContext,
+    CreateListRenderItem,
+    CreateListRenderItemInfo,
+    AnimatorBackground,
+    AnimatorBorder,
+    AnimatorScale,
+    AnimatorScaleWithBorder,
+} from './focusManager/types';
 
 export * from './rootRenderer';
 
