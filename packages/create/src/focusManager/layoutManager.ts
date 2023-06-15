@@ -27,7 +27,7 @@ const findLowestRelativeCoordinates = (model: FocusModel) => {
         const c3 = layout && layout.yMin > model.getLayout().yMin;
 
         if (c1 || c2 || c3) {
-            model.getScreen()?.setPrecalculatedFocus(model);
+            model.getScreen()?.setPrecalculatedFocus(model as never);
         }
     }
 };
