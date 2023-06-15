@@ -1,247 +1,268 @@
-// import React, { useEffect, useRef, useState } from 'react';
-// import { View as RNView, Animated } from 'react-native';
-// import { useCombinedRefs, usePrevious, flattenStyle } from '../../focusManager/helpers';
-// import type { ViewProps } from '../../focusManager/types';
-// import CoreManager from '../../focusManager/service/core';
-// import { measure } from '../../focusManager/layoutManager';
+import React, { useEffect, useRef, useState } from 'react';
+import { View as RNView, StyleSheet, Animated, Insets } from 'react-native';
+import type { PressableProps } from '../../focusManager/types';
+import { measureSync } from '../../focusManager/layoutManager';
+import ViewClass from '../../focusManager/model/view';
+import useOnLayout from '../../hooks/useOnLayout';
+import { useCombinedRefs } from '../../hooks/useCombinedRef';
+import { usePrevious } from '../../hooks/usePrevious';
+import Event, { EVENT_TYPES } from '../../focusManager/events';
 
-// import ViewClass from '../../focusManager/model/view';
-// import Screen from '../../focusManager/model/screen';
-// import { ANIMATION_TYPES } from '../..';
+import { ANIMATION_TYPES, AnimatorBackground, AnimatorScale, AnimatorScaleWithBorder } from '../..';
 
-// export const defaultAnimation = {
-//     type: 'scale',
-//     scale: 1.1,
-// };
+const View = React.forwardRef<RNView | undefined, PressableProps>(
+    (
+        {
+            children,
+            hitSlop,
+            style,
+            focus = true,
+            focusOptions = {},
+            focusContext,
+            focusRepeatContext,
+            onPress = () => {
+                return null;
+            },
+            onFocus = () => {
+                return null;
+            },
+            onBlur = () => {
+                return null;
+            },
+            ...props
+        },
+        refOuter
+    ) => {
+        const scaleAnim = useRef(new Animated.Value(1)).current;
+        const refInner = useRef<RNView>();
 
-// const View = React.forwardRef<any, ViewProps>(
-//     (
-//         {
-//             children,
-//             style,
-//             focus = true,
-//             focusOptions = {},
-//             focusContext,
-//             focusRepeatContext,
-//             onPress = () => {
-//                 return null;
-//             },
-//             onFocus = () => {
-//                 return null;
-//             },
-//             onBlur = () => {
-//                 return null;
-//             },
-//             ...props
-//         },
-//         refOuter
-//     ) => {
-//         const scaleAnim = useRef(new Animated.Value(1)).current;
-//         const refInner = useRef(null);
-//         const ref = useCombinedRefs(refOuter, refInner);
-//         const prevFocus = usePrevious(focus);
-//         const pctx = focusRepeatContext?.focusContext || focusContext;
-//         const animatorOptions = focusOptions.animatorOptions || defaultAnimation;
-//         const flattenedStyle = flattenStyle(style);
+        const prevFocus = usePrevious(focus);
+        const parent = focusRepeatContext?.focusContext || focusContext;
+        const animatorOptions = focusOptions.animator || { type: 'scale', focus: { scale: 1.1 } };
+        const flattenStyle = StyleSheet.flatten(style);
 
-//         const [ViewInstance, setViewInstance] = useState(() => {
-//             if (!focus) {
-//                 return pctx;
-//             } else {
-//                 return new ViewClass({
-//                     focus,
-//                     repeatContext: focusRepeatContext,
-//                     parent: pctx,
-//                     ...focusOptions,
-//                     onFocus: onComponentFocus,
-//                     onBlur: onComponentBlur,
-//                 });
-//             }
-//         });
+        const [model, setModel] = useState(() => {
+            if (!focus) {
+                return parent;
+            } else {
+                const gapVertical =
+                    flattenStyle?.marginVertical ||
+                    flattenStyle?.paddingVertical ||
+                    flattenStyle?.marginTop ||
+                    flattenStyle?.paddingTop ||
+                    flattenStyle?.margin ||
+                    flattenStyle?.padding ||
+                    flattenStyle?.top;
 
-//         const onComponentFocus = () => {
-//             switch (animatorOptions.type) {
-//                 case ANIMATION_TYPES.SCALE:
-//                     Animated.timing(scaleAnim, {
-//                         toValue: animatorOptions.scale,
-//                         duration: 200,
-//                         useNativeDriver: true,
-//                     }).start();
-//                     break;
-//                 case ANIMATION_TYPES.SCALE_BORDER:
-//                     Animated.timing(scaleAnim, {
-//                         toValue: animatorOptions.scale,
-//                         duration: 200,
-//                         useNativeDriver: true,
-//                     }).start();
-//                     ref.current.setNativeProps({
-//                         borderColor: flattenedStyle.borderColor,
-//                         borderWidth: flattenedStyle.borderWidth,
-//                     });
-//                     break;
-//                 case ANIMATION_TYPES.BORDER:
-//                     ref.current.setNativeProps({
-//                         borderColor: flattenedStyle.borderColor,
-//                         borderWidth: flattenedStyle.borderWidth,
-//                     });
-//                     break;
-//                 case ANIMATION_TYPES.BACKGROUND:
-//                     ref.current.setNativeProps({
-//                         style: {
-//                             backgroundColor: animatorOptions.backgroundColorFocus,
-//                         },
-//                     });
-//                     break;
-//                 default:
-//                     break;
-//             }
+                //TODO: not very accurate
+                const gapHorizontal =
+                    flattenStyle?.marginHorizontal ||
+                    flattenStyle?.paddingHorizontal ||
+                    flattenStyle?.marginLeft ||
+                    flattenStyle?.marginRight ||
+                    flattenStyle?.paddingLeft ||
+                    flattenStyle?.paddingRight ||
+                    flattenStyle?.margin ||
+                    flattenStyle?.padding ||
+                    flattenStyle?.left;
 
-//             onFocus();
-//         };
+                return new ViewClass({
+                    focus,
+                    focusRepeatContext,
+                    focusContext: parent,
+                    verticalContentContainerGap: typeof gapVertical === 'string' ? 0 : gapVertical,
+                    horizontalContentContainerGap: typeof gapHorizontal === 'string' ? 0 : gapHorizontal,
+                    ...focusOptions,
+                    onFocus: onComponentFocus,
+                    onBlur: onComponentBlur,
+                });
+            }
+        });
 
-//         const onComponentBlur = () => {
-//             switch (animatorOptions.type) {
-//                 case ANIMATION_TYPES.SCALE:
-//                     Animated.timing(scaleAnim, {
-//                         toValue: 1,
-//                         duration: 200,
-//                         useNativeDriver: true,
-//                     }).start();
-//                     break;
-//                 case ANIMATION_TYPES.SCALE_BORDER:
-//                     Animated.timing(scaleAnim, {
-//                         toValue: 1,
-//                         duration: 200,
-//                         useNativeDriver: true,
-//                     }).start();
-//                     ref.current.setNativeProps({
-//                         borderWidth: 0,
-//                     });
-//                     break;
-//                 case ANIMATION_TYPES.BORDER:
-//                     ref.current.setNativeProps({
-//                         borderWidth: 0,
-//                     });
-//                     break;
-//                 case ANIMATION_TYPES.BACKGROUND:
-//                     ref.current.setNativeProps({
-//                         style: {
-//                             backgroundColor: flattenedStyle.backgroundColor,
-//                         },
-//                     });
-//                     break;
-//                 default:
-//                     break;
-//             }
+        const ref = useCombinedRefs<RNView>({ refs: [refOuter, refInner], model: focus ? model : null });
 
-//             onBlur();
-//         };
+        const onComponentFocus = () => {
+            switch (animatorOptions.type) {
+                case ANIMATION_TYPES.SCALE:
+                    Animated.timing(scaleAnim, {
+                        toValue: (animatorOptions as AnimatorScale).focus.scale as number,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
+                    break;
+                case ANIMATION_TYPES.SCALE_BORDER:
+                    Animated.timing(scaleAnim, {
+                        toValue: (animatorOptions as AnimatorScale).focus.scale as number,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
+                    ref.current.setNativeProps({
+                        borderColor: (animatorOptions as AnimatorScaleWithBorder).focus.borderColor,
+                        borderWidth: (animatorOptions as AnimatorScaleWithBorder).focus.borderWidth,
+                    });
+                    break;
+                case ANIMATION_TYPES.BORDER:
+                    ref.current.setNativeProps({
+                        borderColor: flattenStyle.borderColor,
+                        borderWidth: flattenStyle.borderWidth,
+                    });
+                    break;
+                case ANIMATION_TYPES.BACKGROUND:
+                    ref.current.setNativeProps({
+                        style: {
+                            backgroundColor: (animatorOptions as AnimatorBackground).focus.backgroundColor,
+                        },
+                    });
+                    break;
+                default:
+                    break;
+            }
 
-//         // We must re-assign repeat context as View instances are re-used in recycled
-//         if (focusRepeatContext) {
-//             ViewInstance.setRepeatContext(focusRepeatContext);
-//         }
+            onFocus();
+        };
 
-//         useEffect(() => {
-//             if (focus) {
-//                 scaleAnim.addListener(({ value }) => {
-//                     if (ref.current) {
-//                         ref.current.setNativeProps({
-//                             style: {
-//                                 transform: [{ scale: value }],
-//                             },
-//                         });
-//                     }
-//                 });
-//             }
+        const onComponentBlur = () => {
+            switch (animatorOptions.type) {
+                case ANIMATION_TYPES.SCALE:
+                    Animated.timing(scaleAnim, {
+                        toValue: 1,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
+                    break;
+                case ANIMATION_TYPES.SCALE_BORDER:
+                    Animated.timing(scaleAnim, {
+                        toValue: 1,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
+                    ref.current.setNativeProps({
+                        borderWidth: 0,
+                    });
+                    break;
+                case ANIMATION_TYPES.BORDER:
+                    ref.current.setNativeProps({
+                        borderWidth: 0,
+                    });
+                    break;
+                case ANIMATION_TYPES.BACKGROUND:
+                    ref.current.setNativeProps({
+                        style: {
+                            backgroundColor: flattenStyle.backgroundColor,
+                        },
+                    });
+                    break;
+                default:
+                    break;
+            }
 
-//             return () => {
-//                 scaleAnim.removeAllListeners();
-//             };
-//         }, [focus]);
+            onBlur();
+        };
 
-//         useEffect(() => {
-//             // If item initially was not focusable, but during the time it became focusable we capturing that here
-//             if (prevFocus === false && focus === true) {
-//                 const cls = new ViewClass({
-//                     focus: true,
-//                     repeatContext: focusRepeatContext,
-//                     parent: pctx,
-//                     forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
-//                 });
+        // We must re-assign repeat context as View instances are re-used in recycled
+        if (focusRepeatContext) {
+            model.setRepeatContext(focusRepeatContext);
+        }
 
-//                 setViewInstance(cls);
-//                 CoreManager.registerFocusable(cls, ref);
-//             }
-//         }, [focus]);
+        useEffect(() => {
+            if (focus) {
+                scaleAnim.addListener(({ value }) => {
+                    if (ref.current) {
+                        ref.current.setNativeProps({
+                            style: {
+                                transform: [{ scale: value }],
+                            },
+                        });
+                    }
+                });
+            }
 
-//         useEffect(() => {
-//             (ViewInstance as ViewClass)?.updateEvents?.({
-//                 onPress,
-//                 onFocus: onComponentFocus,
-//                 onBlur: onComponentBlur,
-//             });
-//         }, [onPress, onFocus, onBlur]);
+            return () => {
+                scaleAnim.removeAllListeners();
+            };
+        }, [focus]);
 
-//         useEffect(() => {
-//             if (focus) {
-//                 CoreManager.registerFocusable(ViewInstance, ref);
-//                 const screen = ViewInstance.getScreen() as Screen;
-//                 if (screen) {
-//                     screen.addComponentToPendingLayoutMap(ViewInstance.getId());
-//                     if (ViewInstance.hasPreferredFocus()) screen.setPreferredFocus(ViewInstance);
-//                 }
-//             }
+        const { onLayout } = useOnLayout(model);
 
-//             return () => {
-//                 if (focus) {
-//                     CoreManager.removeFocusable(ViewInstance);
-//                     ViewInstance.getScreen()?.onViewRemoved(ViewInstance);
-//                 }
-//             };
-//         }, []);
+        const { onLayout: onLayoutNonPressable } = useOnLayout(
+            model,
+            () => {
+                model?.remeasureSelfAndChildrenLayouts?.(model);
+            },
+            true
+        );
 
-//         const childrenWithProps = React.Children.map(children, (child) => {
-//             if (React.isValidElement(child)) {
-//                 return React.cloneElement(child, {
-//                     focusContext: ViewInstance,
-//                 });
-//             }
+        // We must re-assign repeat context as View instances are re-used in recycled
+        if (focusRepeatContext && model.setRepeatContext) {
+            model.setRepeatContext(focusRepeatContext);
+        }
 
-//             return child;
-//         });
+        useEffect(() => {
+            // If item initially was not focusable, but during the time it became focusable we capturing that here
+            if (prevFocus === false && focus === true) {
+                const model = new ViewClass({
+                    focus: true,
+                    focusRepeatContext,
+                    focusContext: parent,
+                    forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
+                });
 
-//         const onLayout = () => {
-//             measure(ViewInstance, ref, undefined, () => {
-//                 ViewInstance.getScreen()?.removeComponentFromPendingLayoutMap(ViewInstance.getId());
-//             });
-//         };
+                setModel(model);
 
-//         // In recycled mode we must re-measure on render
-//         if (focusRepeatContext && ref.current) {
-//             measure(ViewInstance, ref);
-//         }
+                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_MOUNT);
+            }
+        }, [focus]);
 
-//         if (focus) {
-//             return (
-//                 <RNView style={flattenedStyle} onLayout={onLayout} {...props} ref={ref}>
-//                     {childrenWithProps}
-//                 </RNView>
-//             );
-//         }
+        useEffect(() => {
+            if (focus) {
+                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_MOUNT);
+            }
+            return () => {
+                if (focus) {
+                    Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_UNMOUNT);
+                }
+            };
+        }, []);
 
-//         return (
-//             <RNView style={style} {...props} ref={ref}>
-//                 {childrenWithProps}
-//             </RNView>
-//         );
-//     }
-// );
+        useEffect(() => {
+            model?.updateEvents?.({
+                onPress,
+                onFocus,
+                onBlur,
+            });
+        }, [onPress, onFocus, onBlur]);
 
-// View.displayName = 'View';
+        // In recycled mode we must re-measure on render
+        if (focusRepeatContext && ref?.current) {
+            measureSync({ model });
+        }
 
-// export default View;
+        const childrenWithProps = React.Children.map(children as React.ReactElement[], (child) => {
+            if (React.isValidElement(child)) {
+                return React.cloneElement(child as React.ReactElement<any>, {
+                    focusContext: model,
+                });
+            }
 
-const EmptyComp = (_props: any) => null;
+            return child;
+        });
 
-export default EmptyComp;
+        if (focus) {
+            return (
+                <RNView style={flattenStyle} onLayout={onLayout} {...props} ref={ref}>
+                    {childrenWithProps}
+                </RNView>
+            );
+        }
+
+        return (
+            <RNView style={style} {...props} ref={ref} onLayout={onLayoutNonPressable} hitSlop={hitSlop as Insets}>
+                {childrenWithProps}
+            </RNView>
+        );
+    }
+);
+
+View.displayName = 'View';
+
+export default View;
