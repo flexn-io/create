@@ -61,7 +61,7 @@ const nodeMeasure = (
     if (model.getType() === 'view') {
         const repeatContext = model.getRepeatContext();
         if (repeatContext) {
-            const parentRecycler = repeatContext.focusContext as RecyclerView | undefined;
+            const parentRecycler = repeatContext.focusContext;
             if (parentRecycler) {
                 const { width, height } = parentRecycler.getLayouts()[repeatContext.index || 0] || { x: 0, y: 0 };
 

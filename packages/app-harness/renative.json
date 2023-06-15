@@ -44,7 +44,7 @@
     "projectName": "app-harness",
     "templates": {
         "@flexn/template": {
-            "version": "0.21.2-alpha.24"
+            "version": "0.21.2-alpha.25"
         }
     },
     "workspaceID": "flexn"
