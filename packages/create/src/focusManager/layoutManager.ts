@@ -6,10 +6,8 @@ const getScrollOffsets = (model: FocusModel) => {
     let parent = model.getParent();
     while (parent) {
         if (parent.isScrollable()) {
-            if (parent.getType() === 'scrollview' || parent.getType() === 'recycler') {
-                offsetX += parent.getScrollOffsetX();
-                offsetY += parent.getScrollOffsetY();
-            }
+            offsetX += parent.getScrollOffsetX();
+            offsetY += parent.getScrollOffsetY();
         }
         parent = parent?.getParent();
     }
@@ -58,7 +56,7 @@ const nodeMeasure = (
     model: FocusModel,
     callback: (_: number, __: number, width: number, height: number, pageX: number, pageY: number) => void
 ) => {
-    if (model.getType() === 'view') {
+    if (model.getType() === 'view' && model.getRepeatContext()) {
         const repeatContext = model.getRepeatContext();
         if (repeatContext) {
             const parentRecycler = repeatContext.focusContext;
@@ -92,12 +90,12 @@ const measure = ({
             let pgX = pageX + offsetX;
             let pgY = pageY + offsetY;
 
-            if (model.getType() === 'view') {
+            if (model.getType() === 'view' && model.getRepeatContext()) {
                 const repeatContext = model.getRepeatContext();
 
                 if (repeatContext) {
                     const parentRecycler = repeatContext.focusContext;
-                    if (parentRecycler.getType() === 'recycler') {
+                    if (parentRecycler) {
                         const rLayout = parentRecycler.getLayouts()[repeatContext.index || 0] || { x: 0, y: 0 };
 
                         pgX =
