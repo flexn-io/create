@@ -129,6 +129,7 @@ const FlashList = ({
                     {...props}
                     contentContainerStyle={{
                         ...props.contentContainerStyle,
+                        // TODO: Needs to be calculated
                         ...(focusOptions.autoLayoutScaleAnimation && {
                             paddingHorizontal: Ratio(50),
                             paddingVertical: Ratio(50),

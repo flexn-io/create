@@ -221,6 +221,7 @@ class RecyclerView extends FocusModel {
     }
 
     public getAutoLayoutSize(): number {
+        // TODO: Needs to be calculated
         if (this._autoLayoutScaleAnimation) {
             return Ratio(50);
         }

@@ -89,6 +89,7 @@ const ComplexTabs = () => {
     }, []);
 
     const TAB_HEIGHT = Ratio(600);
+
     return (
         <Screen style={{ backgroundColor: '#222222' }}>
             <ScrollView>
@@ -101,12 +102,7 @@ const ComplexTabs = () => {
                     >
                         <View
                             style={{
-                                // marginTop: -getRealHeight(deviceContext),
-                                // paddingTop: getRealHeight(deviceContext),
-                                // alignItems: 'center',
-                                // overflow: 'hidden',
                                 width: '100%',
-                                // height: TAB_HEIGHT,
                                 borderColor: 'yellow',
                                 borderWidth: 1,
                             }}

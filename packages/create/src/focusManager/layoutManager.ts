@@ -69,6 +69,7 @@ const nodeMeasure = (
             if (dimensions) {
                 callback(0, 0, dimensions?.width, dimensions?.height, 0, 0);
             } else {
+                // TODO: Still needs to be revised to reduce measures as much as possible
                 model.node.current.measure(
                     (
                         ...params: [x: number, y: number, width: number, height: number, pageX: number, pageY: number]
