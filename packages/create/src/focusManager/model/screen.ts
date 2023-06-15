@@ -24,7 +24,6 @@ const DELAY_TIME_IN_MS = 100;
 export const DEFAULT_VIEWPORT_OFFSET = Ratio(70);
 
 class Screen extends FocusModel {
-    public _type: string;
     private _state: typeof SCREEN_STATES[keyof typeof SCREEN_STATES];
     private _prevState: typeof SCREEN_STATES[keyof typeof SCREEN_STATES];
     private _verticalWindowAlignment: typeof VIEWPORT_ALIGNMENT[keyof typeof VIEWPORT_ALIGNMENT];
@@ -221,10 +220,6 @@ class Screen extends FocusModel {
         if (model.getType() === MODEL_TYPES.VIEW) {
             findLowestRelativeCoordinates(model as View);
         }
-    }
-
-    public getType(): string {
-        return this._type;
     }
 
     public getState() {

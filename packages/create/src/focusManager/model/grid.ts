@@ -49,10 +49,6 @@ class Grid extends Recycler {
 
     // END EVENTS
 
-    public getType(): string {
-        return this._type;
-    }
-
     private getCurrentFocusIndex(): number {
         return Core.getCurrentFocus()?.getRepeatContext()?.index || 0;
     }

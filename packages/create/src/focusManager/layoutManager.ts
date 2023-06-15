@@ -1,7 +1,4 @@
 import FocusModel from './model/abstractFocusModel';
-import RecyclerView from './model/recycler';
-import ScrollView from './model/scrollview';
-import View from './model/view';
 
 const getScrollOffsets = (model: FocusModel) => {
     let offsetX = 0;
@@ -9,7 +6,7 @@ const getScrollOffsets = (model: FocusModel) => {
     let parent = model.getParent();
     while (parent) {
         if (parent.isScrollable()) {
-            if (parent instanceof ScrollView || parent instanceof RecyclerView) {
+            if (parent.getType() === 'scrollview' || parent.getType() === 'recycler') {
                 offsetX += parent.getScrollOffsetX();
                 offsetY += parent.getScrollOffsetY();
             }
@@ -20,7 +17,7 @@ const getScrollOffsets = (model: FocusModel) => {
     return { x: offsetX, y: offsetY };
 };
 
-const findLowestRelativeCoordinates = (model: View) => {
+const findLowestRelativeCoordinates = (model: FocusModel) => {
     const screen = model.getScreen();
 
     if (screen) {
@@ -61,7 +58,7 @@ const nodeMeasure = (
     model: FocusModel,
     callback: (_: number, __: number, width: number, height: number, pageX: number, pageY: number) => void
 ) => {
-    if (model instanceof View && model.getRepeatContext()) {
+    if (model.getType() === 'view') {
         const repeatContext = model.getRepeatContext();
         if (repeatContext) {
             const parentRecycler = repeatContext.focusContext as RecyclerView | undefined;
@@ -95,12 +92,12 @@ const measure = ({
             let pgX = pageX + offsetX;
             let pgY = pageY + offsetY;
 
-            if (model instanceof View && model.getRepeatContext()) {
+            if (model.getType() === 'view') {
                 const repeatContext = model.getRepeatContext();
 
                 if (repeatContext) {
-                    const parentRecycler = repeatContext.focusContext as RecyclerView | undefined;
-                    if (parentRecycler) {
+                    const parentRecycler = repeatContext.focusContext;
+                    if (parentRecycler.getType() === 'recycler') {
                         const rLayout = parentRecycler.getLayouts()[repeatContext.index || 0] || { x: 0, y: 0 };
 
                         pgX =
@@ -130,7 +127,7 @@ const measure = ({
             // Order matters first recalculate layout then find lowest possible relative coordinates
             recalculateAbsolutes(model);
 
-            if (model instanceof View) {
+            if (model.getType() === 'view') {
                 findLowestRelativeCoordinates(model);
             }
 

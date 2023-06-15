@@ -48,10 +48,6 @@ class Row extends Recycler {
 
     // END EVENTS
 
-    public getType(): string {
-        return this._type;
-    }
-
     public getLastFocused(): ViewType | null {
         return this?.getFocusedView() ?? this.getFirstFocusableChildren() ?? null;
     }
