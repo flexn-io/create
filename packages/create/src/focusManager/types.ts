@@ -109,6 +109,7 @@ export type RecyclableListFocusOptions = {
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
     autoLayoutScaleAnimation?: boolean;
+    autoLayoutSize?: number;
 };
 
 export interface ViewProps extends RNViewProps {

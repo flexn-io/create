@@ -65,19 +65,10 @@ const nodeMeasure = (
         const repeatContext = model.getRepeatContext();
         if (repeatContext) {
             const parentRecycler = repeatContext.focusContext as RecyclerView | undefined;
-            const dimensions = parentRecycler?.getItemDimensions();
-            if (dimensions) {
-                callback(0, 0, dimensions?.width, dimensions?.height, 0, 0);
-            } else {
-                // TODO: Still needs to be revised to reduce measures as much as possible
-                model.node.current.measure(
-                    (
-                        ...params: [x: number, y: number, width: number, height: number, pageX: number, pageY: number]
-                    ) => {
-                        parentRecycler?.setItemDimensions({ width: params[2], height: params[3] });
-                        callback(params[0], params[1], params[2], params[3], params[4], params[5]);
-                    }
-                );
+            if (parentRecycler) {
+                const { width, height } = parentRecycler.getLayouts()[repeatContext.index || 0] || { x: 0, y: 0 };
+
+                callback(0, 0, width - model.horizontalContentContainerGap() * 2, height, 0, 0);
             }
         }
     } else {
@@ -124,11 +115,6 @@ const measure = ({
                             parentRecycler.getAutoLayoutSize();
                     }
                 }
-            }
-
-            if (model.getLayout()?.width && model.getLayout().width !== width) {
-                width = model.getLayout()?.width;
-                height = model.getLayout()?.height;
             }
 
             model

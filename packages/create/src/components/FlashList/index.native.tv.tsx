@@ -131,8 +131,8 @@ const FlashList = ({
                         ...props.contentContainerStyle,
                         // TODO: Needs to be calculated
                         ...(focusOptions.autoLayoutScaleAnimation && {
-                            paddingHorizontal: Ratio(50),
-                            paddingVertical: Ratio(50),
+                            paddingHorizontal: Ratio(focusOptions.autoLayoutSize || 0),
+                            paddingVertical: Ratio(focusOptions.autoLayoutSize || 0),
                         }),
                     }}
                     onItemLayout={(index) => {

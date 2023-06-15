@@ -46,11 +46,14 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                     flattenStyle?.padding ||
                     flattenStyle?.top;
 
+                //TODO: not very accurate
                 const gapHorizontal =
                     flattenStyle?.marginHorizontal ||
                     flattenStyle?.paddingHorizontal ||
                     flattenStyle?.marginLeft ||
+                    flattenStyle?.marginRight ||
                     flattenStyle?.paddingLeft ||
+                    flattenStyle?.paddingRight ||
                     flattenStyle?.margin ||
                     flattenStyle?.padding ||
                     flattenStyle?.left;

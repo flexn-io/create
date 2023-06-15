@@ -33,9 +33,10 @@ const Row = () => {
                 focusRepeatContext={focusRepeatContext}
                 focusOptions={{
                     animator: {
-                        type: 'scale',
+                        type: 'border',
                         focus: {
-                            scale: 1.2,
+                            borderColor: 'blue',
+                            borderWidth: 5,
                         },
                     },
                 }}
@@ -58,6 +59,7 @@ const Row = () => {
                     style={{ height: Ratio(300) }}
                     focusOptions={{
                         autoLayoutScaleAnimation: true,
+                        autoLayoutSize: 50,
                     }}
                 />
             </View>
@@ -72,7 +74,7 @@ const styles = StyleSheet.create({
         height: Ratio(200),
         // borderColor: 'red',
         // borderWidth: 1,
-        marginHorizontal: 15,
+        marginHorizontal: Ratio(15),
         // marginVertical: Ratio(50),
         // borderWidth: 2,
         // top: 100,
