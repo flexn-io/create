@@ -27,7 +27,7 @@ const Screen = React.forwardRef<RNView | undefined, ScreenProps>(
 
         useEffect(() => {
             if (focusOptions.screenState) {
-                Event.emit(model, EVENT_TYPES.ON_PROPERTY_CHANGED, {
+                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_PROPERTY_CHANGED, {
                     property: 'state',
                     newValue: focusOptions.screenState,
                 });
@@ -36,7 +36,7 @@ const Screen = React.forwardRef<RNView | undefined, ScreenProps>(
 
         useEffect(() => {
             if (focusOptions.screenOrder !== undefined) {
-                Event.emit(model, EVENT_TYPES.ON_PROPERTY_CHANGED, {
+                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_PROPERTY_CHANGED, {
                     property: 'order',
                     newValue: focusOptions.screenOrder,
                 });

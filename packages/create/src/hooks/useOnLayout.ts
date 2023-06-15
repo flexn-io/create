@@ -32,7 +32,7 @@ export default function useOnLayout(
                 if (model) {
                     CoreManager.setPendingLayoutMeasurement(model, () => {
                         if (!modelIsParent) {
-                            Event.emit(model, EVENT_TYPES.ON_LAYOUT);
+                            Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_LAYOUT);
                         }
                         callback?.();
                     });

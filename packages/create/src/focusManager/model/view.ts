@@ -79,9 +79,9 @@ class View extends FocusModel {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this, EVENT_TYPES.ON_MOUNT, this._onMount),
-            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT, this._onMount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
         ];
 
         this.init();
@@ -129,7 +129,12 @@ class View extends FocusModel {
         }
 
         if (parent instanceof Row || parent instanceof Grid) {
-            Event.emit(parent, EVENT_TYPES.ON_CELL_CONTAINER_BLUR, this.getRepeatContext()?.index);
+            Event.emit(
+                parent.getType(),
+                parent.getId(),
+                EVENT_TYPES.ON_CELL_CONTAINER_BLUR,
+                this.getRepeatContext()?.index
+            );
         }
     }
 
@@ -144,7 +149,12 @@ class View extends FocusModel {
         }
 
         if (parent instanceof Row || parent instanceof Grid) {
-            Event.emit(parent, EVENT_TYPES.ON_CELL_CONTAINER_FOCUS, this.getRepeatContext()?.index);
+            Event.emit(
+                parent.getType(),
+                parent.getId(),
+                EVENT_TYPES.ON_CELL_CONTAINER_FOCUS,
+                this.getRepeatContext()?.index
+            );
         }
     }
 

@@ -98,17 +98,17 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
 
                 setModel(model);
 
-                Event.emit(model, EVENT_TYPES.ON_MOUNT);
+                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_MOUNT);
             }
         }, [focus]);
 
         useEffect(() => {
             if (focus) {
-                Event.emit(model, EVENT_TYPES.ON_MOUNT);
+                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_MOUNT);
             }
             return () => {
                 if (focus) {
-                    Event.emit(model, EVENT_TYPES.ON_UNMOUNT);
+                    Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_UNMOUNT);
                 }
             };
         }, []);

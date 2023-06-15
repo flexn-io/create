@@ -25,9 +25,9 @@ class Grid extends Recycler {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this, EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
-            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
         ];
     }
 
@@ -44,7 +44,7 @@ class Grid extends Recycler {
     protected async _onLayout() {
         await measureAsync({ model: this });
         this.remeasureChildrenLayouts(this);
-        Event.emit(this, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
+        Event.emit(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
     }
 
     // END EVENTS

@@ -63,9 +63,14 @@ const FlashList = ({
     const { onLayout } = useOnLayout(model);
 
     useEffect(() => {
-        const unsubscribe = Event.subscribe(model, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED, () => {
-            setMeasured(true);
-        });
+        const unsubscribe = Event.subscribe(
+            model.getType(),
+            model.getId(),
+            EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED,
+            () => {
+                setMeasured(true);
+            }
+        );
 
         return () => unsubscribe();
     }, []);
@@ -88,16 +93,26 @@ const FlashList = ({
         const target = useCombinedRefs<RNView>({ refs: [ref], model: null });
 
         useEffect(() => {
-            const eventFocus = Event.subscribe(model, EVENT_TYPES.ON_CELL_CONTAINER_FOCUS, (index) => {
-                if (index === props.index) {
-                    target.current?.setNativeProps({ zIndex: 1 });
+            const eventFocus = Event.subscribe(
+                model.getType(),
+                model.getId(),
+                EVENT_TYPES.ON_CELL_CONTAINER_FOCUS,
+                (index) => {
+                    if (index === props.index) {
+                        target.current?.setNativeProps({ zIndex: 1 });
+                    }
                 }
-            });
-            const eventBlur = Event.subscribe(model, EVENT_TYPES.ON_CELL_CONTAINER_BLUR, (index) => {
-                if (index === props.index) {
-                    target.current?.setNativeProps({ zIndex: 0 });
+            );
+            const eventBlur = Event.subscribe(
+                model.getType(),
+                model.getId(),
+                EVENT_TYPES.ON_CELL_CONTAINER_BLUR,
+                (index) => {
+                    if (index === props.index) {
+                        target.current?.setNativeProps({ zIndex: 0 });
+                    }
                 }
-            });
+            );
 
             return () => {
                 eventFocus();
