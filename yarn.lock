@@ -1842,6 +1842,11 @@
   resolved "https://registry.yarnpkg.com/@flexn/plugins/-/plugins-1.0.7.tgz#b1018a549328b5dd6d6fc43e863d15fa51196aaf"
   integrity sha512-LqFfaH9ojYsuoYCWoqGxKp8CIYgvfo9xd2I3iWPPXAVBKKUusD6MyfGMwlfyiOCzTSUwZiu8OQGhDhAQ4VloBQ==
 
+"@flexn/plugins@1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@flexn/plugins/-/plugins-1.0.8.tgz#12b132156f7cae3fb4651b1d4c05a3dba955d2bf"
+  integrity sha512-PknR5ivQnV08jTALl5k7oEJDd8EuQSndz1dY7JY43QfXvM+QMhxPyaH1yLMqA/iYAc//2BpRIrFHlEgwwK7+QQ==
+
 "@flexn/prettier-config@0.1.4":
   version "0.1.4"
   resolved "https://registry.npmjs.org/@flexn/prettier-config/-/prettier-config-0.1.4.tgz#3af0d5d2b4c9767214b7fdbe9e683615ba7dfac3"
