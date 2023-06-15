@@ -28,11 +28,8 @@ class Scroller {
         const scrollContextParents: ScrollView[] = [];
         let parent = currentFocus?.getParent();
 
-        // We can only scroll 2 ScrollView at max. one Horizontally and Vertically
-        const directionsFilled: boolean[] = [];
         while (parent) {
-            if (parent.isScrollable() && !directionsFilled.includes((parent as ScrollView).isHorizontal())) {
-                directionsFilled.push((parent as ScrollView).isHorizontal());
+            if (parent.isScrollable()) {
                 scrollContextParents.push(parent as ScrollView);
             }
             parent = parent?.getParent();
