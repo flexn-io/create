@@ -30,3 +30,6 @@ export const ANIMATION_TYPES = {
     SCALE_BORDER: 'scale_with_border',
     BACKGROUND: 'background',
 };
+
+export { withParentContextMapper } from './hocs/withParentContextMapper';
+export { useTVRemoteHandler, TVRemoteHandler } from './remoteHandler';
