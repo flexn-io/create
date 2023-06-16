@@ -23,7 +23,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
     };
 
     return (
-        <Screen style={theme.styles.screen} focusOptions={{ verticalWindowAlignment: 'low-edge' }}>
+        <Screen style={theme.styles.screen} focusOptions={{ verticalWindowAlignment: 'low-edge', focusKey: 'page' }}>
             <ScrollView
                 style={{ backgroundColor: theme.static.colorBgPrimary }}
                 ref={swRef}

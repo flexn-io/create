@@ -109,7 +109,8 @@
         "react-native-web": "0.18.9",
         "react-native-windows": "0.67.3",
         "rnv": "0.37.0-canary.11",
-        "xcode": "2.1.0"
+        "xcode": "2.1.0",
+        "jetifier": "1.6.5"
     },
     "optionalDependencies": {
         "ios-deploy": "1.11.4"

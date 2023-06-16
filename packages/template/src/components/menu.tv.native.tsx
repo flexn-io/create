@@ -66,6 +66,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
             focusOptions={{
                 stealFocus: false,
                 focusKey: 'side-menu',
+                nextFocusRight: 'page',
             }}
         >
             <Animated.View

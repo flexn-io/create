@@ -49,7 +49,10 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     };
 
     return (
-        <Screen style={[theme.styles.screen, styles.screen]} focusOptions={{ nextFocusLeft: 'side-menu' }}>
+        <Screen
+            style={[theme.styles.screen, styles.screen]}
+            focusOptions={{ nextFocusLeft: 'side-menu', focusKey: 'page' }}
+        >
             <ScrollView {...testProps('template-carousels-screen-container')}>
                 {data.map((list, index) => (
                     <View style={styles.listSeparator} key={index}>

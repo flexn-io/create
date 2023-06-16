@@ -28,7 +28,7 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
     }
 
     return (
-        <Screen style={[theme.styles.screen]}>
+        <Screen style={[theme.styles.screen]} focusOptions={{ focusKey: 'page' }}>
             <ImageBackground source={{ uri: item.backgroundImage }} style={{ flex: 1 }} resizeMode="cover">
                 <ScrollView contentContainerStyle={theme.styles.center}>
                     <View style={theme.styles.detailsInfoContainer}>
