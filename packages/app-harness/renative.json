@@ -47,5 +47,10 @@
             "version": "0.21.2-alpha.28"
         }
     },
+    "platforms": {
+        "tizen": {
+            "engine": "engine-rn-web"
+        }
+    },
     "workspaceID": "flexn"
 }

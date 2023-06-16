@@ -1,6 +1,9 @@
 {
     "name": "@flexn/app-harness",
     "version": "0.21.2-alpha.28",
+    "browserslist": [
+        "> 1%"
+    ],
     "scripts": {
         "bootstrap": "cd ../.. && yarn bootstrap",
         "build": "yarn clean && yarn compile",
@@ -78,7 +81,8 @@
         "react-native-tvos": "0.66.3-1",
         "react-native-vector-icons": "9.2.0",
         "react-native-web": "0.18.9",
-        "react-native-windows": "0.67.3"
+        "react-native-windows": "0.67.3",
+        "raf": "3.4.1"
     },
     "devDependencies": {
         "@flexn/graybox": "0.21.2-alpha.15",

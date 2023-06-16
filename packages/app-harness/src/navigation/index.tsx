@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '../libs/@react-navigation';
 import Selector from '../screens/selector';
 import Row from '../screens/row';
 import DynamicState from '../screens/dynamicState';

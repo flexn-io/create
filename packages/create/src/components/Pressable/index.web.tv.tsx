@@ -8,7 +8,7 @@ import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import { usePrevious } from '../../hooks/usePrevious';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
 
-import { ANIMATION_TYPES, AnimatorBackground, AnimatorScale, AnimatorScaleWithBorder } from '../..';
+import { ANIMATION_TYPES, AnimatorBackground, AnimatorBorder, AnimatorScale, AnimatorScaleWithBorder } from '../..';
 
 const View = React.forwardRef<RNView | undefined, PressableProps>(
     (
@@ -97,14 +97,18 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                         useNativeDriver: true,
                     }).start();
                     ref.current.setNativeProps({
-                        borderColor: (animatorOptions as AnimatorScaleWithBorder).focus.borderColor,
-                        borderWidth: (animatorOptions as AnimatorScaleWithBorder).focus.borderWidth,
+                        style: {
+                            borderColor: (animatorOptions as AnimatorScaleWithBorder).focus.borderColor,
+                            borderWidth: (animatorOptions as AnimatorScaleWithBorder).focus.borderWidth,
+                        },
                     });
                     break;
                 case ANIMATION_TYPES.BORDER:
                     ref.current.setNativeProps({
-                        borderColor: flattenStyle.borderColor,
-                        borderWidth: flattenStyle.borderWidth,
+                        style: {
+                            borderColor: (animatorOptions as AnimatorBorder).focus.borderColor,
+                            borderWidth: (animatorOptions as AnimatorBorder).focus.borderWidth,
+                        },
                     });
                     break;
                 case ANIMATION_TYPES.BACKGROUND:
@@ -137,12 +141,16 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                         useNativeDriver: true,
                     }).start();
                     ref.current.setNativeProps({
-                        borderWidth: 0,
+                        style: {
+                            borderWidth: 0,
+                        },
                     });
                     break;
                 case ANIMATION_TYPES.BORDER:
                     ref.current.setNativeProps({
-                        borderWidth: 0,
+                        style: {
+                            borderWidth: 0,
+                        },
                     });
                     break;
                 case ANIMATION_TYPES.BACKGROUND:
@@ -227,8 +235,8 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         useEffect(() => {
             model?.updateEvents?.({
                 onPress,
-                onFocus,
-                onBlur,
+                onFocus: onComponentFocus,
+                onBlur: onComponentBlur,
             });
         }, [onPress, onFocus, onBlur]);
 
