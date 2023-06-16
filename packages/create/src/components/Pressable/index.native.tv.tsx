@@ -9,6 +9,7 @@ import useOnLayout from '../../hooks/useOnLayout';
 import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import { usePrevious } from '../../hooks/usePrevious';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
+import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 
 const View = React.forwardRef<RNView | undefined, PressableProps>(
     (
@@ -138,12 +139,19 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
 
         if (focus) {
             const animatorOptions = focusOptions.animator || { type: 'scale', focus: { scale: 1.1 } };
-            const { borderWidth, borderColor, borderRadius, backgroundColor } = { ...StyleSheet.flatten(style) } || {};
+            const flattenStyle = { ...StyleSheet.flatten(style) } || {};
+            const { borderWidth, borderColor, borderRadius, backgroundColor } = flattenStyle;
+
+            if (isPlatformAndroidtv || isPlatformFiretv) {
+                if (animatorOptions.type === 'border' || animatorOptions.type === 'scale_with_border') {
+                    flattenStyle.borderWidth = animatorOptions.focus.borderWidth;
+                }
+            }
 
             return (
                 <TvFocusableViewManager
                     isTVSelectable={true}
-                    style={style}
+                    style={flattenStyle}
                     onLayout={onLayout}
                     animatorOptions={{
                         ...animatorOptions,
