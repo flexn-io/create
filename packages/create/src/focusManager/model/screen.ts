@@ -21,6 +21,7 @@ export const VIEWPORT_ALIGNMENT = {
 } as const;
 
 const DELAY_TIME_IN_MS = 100;
+const INTERVAL_TIME_IN_MS = 100;
 export const DEFAULT_VIEWPORT_OFFSET = Ratio(70);
 
 class Screen extends FocusModel {
@@ -41,6 +42,7 @@ class Screen extends FocusModel {
     private _stealFocus: boolean;
     private _isFocused: boolean;
     private _group?: string;
+    private _interval?: NodeJS.Timer;
 
     constructor(params: Omit<ScreenProps & ScreenProps['focusOptions'], 'style' | 'children' | 'focusOptions'>) {
         super(params);
@@ -104,6 +106,7 @@ class Screen extends FocusModel {
         CoreManager.removeFocusAwareComponent(this);
         this.onScreenRemoved();
         this.unsubscribeEvents();
+        clearInterval(this._interval);
     }
 
     private _onLayout() {
@@ -187,7 +190,20 @@ class Screen extends FocusModel {
                 this._precalculatedFocus = null;
             }
             if (this._unmountingComponents <= 0 && !this._currentFocus) {
-                this.setFocus(this.getFirstFocusableOnScreen());
+                const view = this.getFirstFocusableOnScreen();
+
+                if (view) {
+                    this.setFocus(view);
+                } else {
+                    // If there is no elements wait while first appears
+                    this._interval = setInterval(() => {
+                        const view = this.getFirstFocusableOnScreen();
+                        if (view) {
+                            this.setFocus(view);
+                            clearInterval(this._interval);
+                        }
+                    }, INTERVAL_TIME_IN_MS);
+                }
             }
         }, DELAY_TIME_IN_MS);
     }
