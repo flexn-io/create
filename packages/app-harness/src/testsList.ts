@@ -13,8 +13,15 @@ import verticalScroll from './screens/verticalScroll';
 import grid from './screens/grid';
 import scrollToTop from './screens/scrollToTop';
 import complexTabs from './screens/complexTabs';
+import hideAllElements from './screens/hideAllElements';
 
 const testsList = [
+    {
+        component: hideAllElements,
+        title: 'Hide All Elements',
+        route: 'HideAllElements',
+        platform: ['androidtv', 'firetv', 'tvos', 'tizen', 'webos'],
+    },
     {
         component: complexTabs,
         title: 'Complex Tabs',

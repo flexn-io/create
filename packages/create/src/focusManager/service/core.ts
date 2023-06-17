@@ -126,7 +126,7 @@ class CoreManager {
         Scroller.calculateAndScrollToTarget(direction, contextParameters);
     }
 
-    public focusElementByFocusKey = (focusKey: string) => {
+    public setFocus = (focusKey: string) => {
         const view = Object.values(this._views).find(
             (model) => model.getFocusKey() === focusKey && model.isInForeground()
         );
@@ -157,7 +157,7 @@ class CoreManager {
 
         const nextForcedFocusKey = this.getNextForcedFocusKey(currentFocus, direction);
         if (nextForcedFocusKey) {
-            this.focusElementByFocusKey(nextForcedFocusKey);
+            this.setFocus(nextForcedFocusKey);
 
             return null;
         }
@@ -207,7 +207,7 @@ class CoreManager {
 
                 const nextForcedFocusKey = this.getNextForcedFocusKey(parent, direction);
                 if (nextForcedFocusKey) {
-                    this.focusElementByFocusKey(nextForcedFocusKey);
+                    this.setFocus(nextForcedFocusKey);
                     return null;
                 }
 
@@ -250,7 +250,7 @@ class CoreManager {
                 const p = parents[key];
                 const _nextForcedFocusKey = this.getNextForcedFocusKey(p, direction);
                 if (_nextForcedFocusKey) {
-                    this.focusElementByFocusKey(_nextForcedFocusKey);
+                    this.setFocus(_nextForcedFocusKey);
                     return null;
                 }
             }

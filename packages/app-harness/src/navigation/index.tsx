@@ -17,6 +17,7 @@ import ViewGroup from '../screens/viewGroup';
 import Grid from '../screens/grid';
 import ScrollToTop from '../screens/scrollToTop';
 import ComplexTabs from '../screens/complexTabs';
+import HideAllElements from '../screens/hideAllElements';
 
 const RootStack = createNativeStackNavigator();
 
@@ -40,6 +41,7 @@ const Navigation = () => {
                 <RootStack.Screen name="ViewGroup" component={ViewGroup} />
                 <RootStack.Screen name="ScrollToTop" component={ScrollToTop} />
                 <RootStack.Screen name="ComplexTabs" component={ComplexTabs} />
+                <RootStack.Screen name="HideAllElements" component={HideAllElements} />
             </RootStack.Navigator>
         </NavigationContainer>
     );
