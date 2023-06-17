@@ -120,8 +120,8 @@ export default function FocusDebugger() {
                         <RNView
                             key={`${ctx.getId()}${ctx.nodeId}`}
                             style={{
-                                width: ctx.getLayout().width,
-                                height: ctx.getLayout().height,
+                                width: isNaN(ctx.getLayout().width) ? 0 : ctx.getLayout().width,
+                                height: isNaN(ctx.getLayout().height) ? 0 : ctx.getLayout().height,
                                 borderColor,
                                 borderWidth: (ctx as View).getIsFocused() ? 5 : 1,
                                 position: 'absolute',
