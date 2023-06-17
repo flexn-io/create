@@ -41,7 +41,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         const animatorOptions = focusOptions.animator || { type: 'scale', focus: { scale: 1.1 } };
         const flattenStyle = StyleSheet.flatten(style);
 
-        const [model, setModel] = useState(() => {
+        const [model, setModel] = useState<ViewClass>(() => {
             if (!focus) {
                 return parent;
             } else {
@@ -168,7 +168,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         };
 
         // We must re-assign repeat context as View instances are re-used in recycled
-        if (focusRepeatContext) {
+        if (focusRepeatContext && typeof model.setRepeatContext === 'function') {
             model.setRepeatContext(focusRepeatContext);
         }
 
