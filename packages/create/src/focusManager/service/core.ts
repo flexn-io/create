@@ -15,6 +15,7 @@ class CoreManager {
     private _screens: Record<string, ScreenType> = {};
     private _currentFocus: ViewType | null = null;
     private _debuggerEnabled = false;
+    private _isEnabled = true;
     private _pendingLayoutMeasurements: Record<string, NodeJS.Timeout | number> = {};
 
     public setPendingLayoutMeasurement(model: FocusModel, callback: () => void) {
@@ -347,8 +348,16 @@ class CoreManager {
         return this._debuggerEnabled;
     }
 
+    public isFocusManagerEnabled() {
+        return this._isEnabled;
+    }
+
     public setDebuggerEnabled(enabled: boolean) {
         this._debuggerEnabled = enabled;
+    }
+
+    public setFocusManagerEnabled(enabled: boolean) {
+        this._isEnabled = enabled;
     }
 
     public getCurrentFocus(): ViewType | null {

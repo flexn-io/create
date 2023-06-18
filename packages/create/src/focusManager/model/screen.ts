@@ -209,7 +209,7 @@ class Screen extends FocusModel {
     }
 
     public getFirstFocusableOnScreen = (): View | null => {
-        if (this.isInForeground()) {
+        if (this.isInForeground() && CoreManager.isFocusManagerEnabled()) {
             if (this._currentFocus) return this._currentFocus;
             if (this._preferredFocus) return this._preferredFocus;
             if (this._precalculatedFocus) {

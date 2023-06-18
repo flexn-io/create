@@ -60,15 +60,17 @@ class KeyHandler {
         eventKeyAction: RemoteHandlerEventKeyActions;
         eventType: RemoteHandlerEventTypesAppleTV | RemoteHandlerEventTypesAndroid;
     }) {
-        switch (eventKeyAction) {
-            case EVENT_KEY_ACTION_UP:
-                return this.onKeyUp();
-            case EVENT_KEY_ACTION_DOWN:
-                return this.onKeyDown(eventType);
-            case EVENT_KEY_ACTION_LONG_PRESS:
-                return this.onKeyLongPress(eventType);
-            default:
-                break;
+        if (CoreManager.isFocusManagerEnabled()) {
+            switch (eventKeyAction) {
+                case EVENT_KEY_ACTION_UP:
+                    return this.onKeyUp();
+                case EVENT_KEY_ACTION_DOWN:
+                    return this.onKeyDown(eventType);
+                case EVENT_KEY_ACTION_LONG_PRESS:
+                    return this.onKeyLongPress(eventType);
+                default:
+                    break;
+            }
         }
     }
 
