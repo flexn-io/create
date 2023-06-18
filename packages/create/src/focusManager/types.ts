@@ -99,6 +99,7 @@ export type ScreenFocusOptions = {
     screenState?: typeof SCREEN_STATES[keyof typeof SCREEN_STATES];
     screenOrder?: number;
     stealFocus?: boolean;
+    autoFocusEnabled?: boolean;
     group?: string;
 };
 

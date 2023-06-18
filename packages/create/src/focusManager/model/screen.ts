@@ -42,6 +42,7 @@ class Screen extends FocusModel {
     private _stealFocus: boolean;
     private _isFocused: boolean;
     private _group?: string;
+    private _autoFocusEnabled = true;
     private _interval?: NodeJS.Timer;
 
     constructor(params: Omit<ScreenProps & ScreenProps['focusOptions'], 'style' | 'children' | 'focusOptions'>) {
@@ -58,6 +59,7 @@ class Screen extends FocusModel {
             horizontalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
             verticalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
             forbiddenFocusDirections = [],
+            autoFocusEnabled = true,
             onFocus,
             onBlur,
         } = params;
@@ -78,6 +80,7 @@ class Screen extends FocusModel {
         this._isFocused = false;
         this._unmountingComponents = 0;
         this._initialLoadInProgress = true;
+        this._autoFocusEnabled = autoFocusEnabled;
 
         this._componentsPendingLayoutMap = {};
 
@@ -133,11 +136,10 @@ class Screen extends FocusModel {
 
     public onScreenRemoved() {
         const screens = Object.values(CoreManager.getScreens()).filter(
-            (c) => c.isInForeground() && c.getOrder() === CoreManager.getCurrentMaxOrder()
+            (c) => c.isInForeground() && c.getOrder() === CoreManager.getCurrentMaxOrder() && c.isAutoFocusEnabled()
         );
 
         const nextScreen = screens.find((c) => c?.hasStealFocus()) ?? screens[0];
-
         if (nextScreen) {
             nextScreen.setFocus(nextScreen.getFirstFocusableOnScreen());
         }
@@ -352,6 +354,10 @@ class Screen extends FocusModel {
 
     public hasStealFocus(): boolean {
         return this._stealFocus;
+    }
+
+    public isAutoFocusEnabled(): boolean {
+        return this._autoFocusEnabled;
     }
 
     public getGroup() {
