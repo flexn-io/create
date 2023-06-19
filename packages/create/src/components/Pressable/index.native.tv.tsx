@@ -9,6 +9,7 @@ import useOnLayout from '../../hooks/useOnLayout';
 import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import { usePrevious } from '../../hooks/usePrevious';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
+import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 
 const View = React.forwardRef<RNView | undefined, PressableProps>(
     (
@@ -37,7 +38,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
             } else {
                 const flattenStyle = StyleSheet.flatten(style);
 
-                const gap =
+                const gapVertical =
                     flattenStyle?.marginVertical ||
                     flattenStyle?.paddingVertical ||
                     flattenStyle?.marginTop ||
@@ -46,11 +47,24 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                     flattenStyle?.padding ||
                     flattenStyle?.top;
 
+                //TODO: not very accurate
+                const gapHorizontal =
+                    flattenStyle?.marginHorizontal ||
+                    flattenStyle?.paddingHorizontal ||
+                    flattenStyle?.marginLeft ||
+                    flattenStyle?.marginRight ||
+                    flattenStyle?.paddingLeft ||
+                    flattenStyle?.paddingRight ||
+                    flattenStyle?.margin ||
+                    flattenStyle?.padding ||
+                    flattenStyle?.left;
+
                 return new ViewClass({
                     focus,
                     focusRepeatContext,
                     focusContext: parent,
-                    verticalContentContainerGap: typeof gap === 'string' ? 0 : gap,
+                    verticalContentContainerGap: typeof gapVertical === 'string' ? 0 : gapVertical,
+                    horizontalContentContainerGap: typeof gapHorizontal === 'string' ? 0 : gapHorizontal,
                     ...focusOptions,
                 });
             }
@@ -60,16 +74,12 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
 
         const { onLayout } = useOnLayout(model);
 
-        const { onLayout: onLayoutNonPressable } = useOnLayout(
-            model,
-            () => {
-                model?.remeasureChildrenLayouts?.(model);
-            },
-            true
-        );
+        const { onLayout: onLayoutNonPressable } = useOnLayout(model, () => {
+            model?.remeasureChildrenLayouts?.(model);
+        });
 
         // We must re-assign repeat context as View instances are re-used in recycled
-        if (focusRepeatContext) {
+        if (focusRepeatContext && typeof model.setRepeatContext === 'function') {
             model.setRepeatContext(focusRepeatContext);
         }
 
@@ -85,17 +95,17 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
 
                 setModel(model);
 
-                Event.emit(model, EVENT_TYPES.ON_MOUNT);
+                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_MOUNT);
             }
         }, [focus]);
 
         useEffect(() => {
             if (focus) {
-                Event.emit(model, EVENT_TYPES.ON_MOUNT);
+                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_MOUNT);
             }
             return () => {
                 if (focus) {
-                    Event.emit(model, EVENT_TYPES.ON_UNMOUNT);
+                    Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_UNMOUNT);
                 }
             };
         }, []);
@@ -125,12 +135,19 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
 
         if (focus) {
             const animatorOptions = focusOptions.animator || { type: 'scale', focus: { scale: 1.1 } };
-            const { borderWidth, borderColor, borderRadius, backgroundColor } = { ...StyleSheet.flatten(style) } || {};
+            const flattenStyle = { ...StyleSheet.flatten(style) } || {};
+            const { borderWidth, borderColor, borderRadius, backgroundColor } = flattenStyle;
+
+            if (isPlatformAndroidtv || isPlatformFiretv) {
+                if (animatorOptions.type === 'border' || animatorOptions.type === 'scale_with_border') {
+                    flattenStyle.borderWidth = animatorOptions.focus.borderWidth;
+                }
+            }
 
             return (
                 <TvFocusableViewManager
                     isTVSelectable={true}
-                    style={style}
+                    style={flattenStyle}
                     onLayout={onLayout}
                     animatorOptions={{
                         ...animatorOptions,

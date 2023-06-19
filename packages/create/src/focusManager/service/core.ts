@@ -1,7 +1,7 @@
 import { findNodeHandle, UIManager } from 'react-native';
 import { isPlatformTizen, isPlatformWebos } from '@rnv/renative';
 import { distCalc } from '../nextFocusFinder';
-import { recalculateLayout } from '../layoutManager';
+import { recalculateAbsolutes } from '../layoutManager';
 import Scroller from './scroller';
 import Logger from './logger';
 import FocusModel, { MODEL_TYPES } from '../model/abstractFocusModel';
@@ -15,6 +15,7 @@ class CoreManager {
     private _screens: Record<string, ScreenType> = {};
     private _currentFocus: ViewType | null = null;
     private _debuggerEnabled = false;
+    private _isEnabled = true;
     private _pendingLayoutMeasurements: Record<string, NodeJS.Timeout | number> = {};
 
     public setPendingLayoutMeasurement(model: FocusModel, callback: () => void) {
@@ -22,13 +23,16 @@ class CoreManager {
             clearTimeout(this._pendingLayoutMeasurements[model.getId()]);
         } else {
             callback();
-            this._pendingLayoutMeasurements[model.getId()] = 1;
+            this._pendingLayoutMeasurements[model.getId()] = setTimeout(() => {
+                delete this._pendingLayoutMeasurements[model.getId()];
+            }, 50);
             return;
         }
 
         this._pendingLayoutMeasurements[model.getId()] = setTimeout(() => {
             callback();
-        }, 100);
+            delete this._pendingLayoutMeasurements[model.getId()];
+        }, 50);
     }
 
     public registerFocusAwareComponent(model: FocusModel) {
@@ -123,7 +127,7 @@ class CoreManager {
         Scroller.calculateAndScrollToTarget(direction, contextParameters);
     }
 
-    public focusElementByFocusKey = (focusKey: string) => {
+    public setFocus = (focusKey: string) => {
         const view = Object.values(this._views).find(
             (model) => model.getFocusKey() === focusKey && model.isInForeground()
         );
@@ -154,7 +158,7 @@ class CoreManager {
 
         const nextForcedFocusKey = this.getNextForcedFocusKey(currentFocus, direction);
         if (nextForcedFocusKey) {
-            this.focusElementByFocusKey(nextForcedFocusKey);
+            this.setFocus(nextForcedFocusKey);
 
             return null;
         }
@@ -204,7 +208,7 @@ class CoreManager {
 
                 const nextForcedFocusKey = this.getNextForcedFocusKey(parent, direction);
                 if (nextForcedFocusKey) {
-                    this.focusElementByFocusKey(nextForcedFocusKey);
+                    this.setFocus(nextForcedFocusKey);
                     return null;
                 }
 
@@ -247,7 +251,7 @@ class CoreManager {
                 const p = parents[key];
                 const _nextForcedFocusKey = this.getNextForcedFocusKey(p, direction);
                 if (_nextForcedFocusKey) {
-                    this.focusElementByFocusKey(_nextForcedFocusKey);
+                    this.setFocus(_nextForcedFocusKey);
                     return null;
                 }
             }
@@ -313,7 +317,8 @@ class CoreManager {
         direction: FocusDirection,
         output: ClosestNodeOutput
     ): ClosestNodeOutput | null => {
-        recalculateLayout(model);
+        // TODO: is this necessary?
+        recalculateAbsolutes(model);
         const nextLayout = model.isLayoutMeasured();
         const currentLayout = this._currentFocus?.isLayoutMeasured();
 
@@ -343,8 +348,16 @@ class CoreManager {
         return this._debuggerEnabled;
     }
 
+    public isFocusManagerEnabled() {
+        return this._isEnabled;
+    }
+
     public setDebuggerEnabled(enabled: boolean) {
         this._debuggerEnabled = enabled;
+    }
+
+    public setFocusManagerEnabled(enabled: boolean) {
+        this._isEnabled = enabled;
     }
 
     public getCurrentFocus(): ViewType | null {

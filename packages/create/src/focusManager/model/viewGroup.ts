@@ -26,9 +26,9 @@ class ViewGroup extends FocusModel {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this, EVENT_TYPES.ON_MOUNT, this._onMount),
-            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT, this._onMount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
         ];
     }
 
@@ -43,8 +43,7 @@ class ViewGroup extends FocusModel {
     }
 
     private async _onLayout() {
-        // await measureAsync({ model: this });
-        this.remeasureChildrenLayouts(this);
+        this.remeasureSelfAndChildrenLayouts(this);
     }
 
     // END EVENTS

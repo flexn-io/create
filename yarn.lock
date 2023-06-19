@@ -1837,10 +1837,10 @@
     chromedriver "87.0.7"
     wdio-chromedriver-service "7.2.2"
 
-"@flexn/plugins@1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@flexn/plugins/-/plugins-1.0.7.tgz#b1018a549328b5dd6d6fc43e863d15fa51196aaf"
-  integrity sha512-LqFfaH9ojYsuoYCWoqGxKp8CIYgvfo9xd2I3iWPPXAVBKKUusD6MyfGMwlfyiOCzTSUwZiu8OQGhDhAQ4VloBQ==
+"@flexn/plugins@1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@flexn/plugins/-/plugins-1.0.8.tgz#12b132156f7cae3fb4651b1d4c05a3dba955d2bf"
+  integrity sha512-PknR5ivQnV08jTALl5k7oEJDd8EuQSndz1dY7JY43QfXvM+QMhxPyaH1yLMqA/iYAc//2BpRIrFHlEgwwK7+QQ==
 
 "@flexn/prettier-config@0.1.4":
   version "0.1.4"
@@ -1856,10 +1856,10 @@
     prop-types "15.8.1"
     ts-object-utils "0.0.5"
 
-"@flexn/shopify-flash-list@1.4.7":
-  version "1.4.7"
-  resolved "https://registry.yarnpkg.com/@flexn/shopify-flash-list/-/shopify-flash-list-1.4.7.tgz#c00bafe3f36f08599ddce2a882830d5b0310c465"
-  integrity sha512-yi8PENZgOHEP4Eqo/fPZ7iMkM1dUPG14kPr893jbD1ENi7m6/Fj72i0yLWQL1/EcgFkl0RD39K1o7IG+44OkXg==
+"@flexn/shopify-flash-list@1.4.8":
+  version "1.4.8"
+  resolved "https://registry.yarnpkg.com/@flexn/shopify-flash-list/-/shopify-flash-list-1.4.8.tgz#2449f615d877ad6db23b48b659d48ace71aefbc6"
+  integrity sha512-4azBiKBvk+KmLUwaQsANwybksft36C/TJxF9qiV/ZnoHVxTAQxvMfGsXtvyjKbNKPYHQjHvq/lLZpWQ0kSpAqw==
   dependencies:
     "@flexn/recyclerlistview" "4.2.6"
     tslib "2.4.0"
@@ -16023,6 +16023,11 @@ jest@27.3.1:
     import-local "^3.0.2"
     jest-cli "^27.3.1"
 
+jetifier@1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/jetifier/-/jetifier-1.6.5.tgz#ea87324a4230bef20a9651178ecab978ee54a8cb"
+  integrity sha512-T7yzBSu9PR+DqjYt+I0KVO1XTb1QhAfHnXV5Nd3xpbXM6Xg4e3vP60Q4qkNU8Fh6PHC2PivPUNN3rY7G2MxcDQ==
+
 jetifier@^1.6.2:
   version "1.6.8"
   resolved "https://registry.npmjs.org/jetifier/-/jetifier-1.6.8.tgz#e88068697875cbda98c32472902c4d3756247798"
@@ -21480,7 +21485,7 @@ quick-lru@^5.1.1:
   resolved "https://registry.npmjs.org/quick-lru/-/quick-lru-5.1.1.tgz#366493e6b3e42a3a6885e2e99d18f80fb7a8c932"
   integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
 
-raf@^3.4.1:
+raf@3.4.1, raf@^3.4.1:
   version "3.4.1"
   resolved "https://registry.npmjs.org/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
   integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==

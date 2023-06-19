@@ -25,7 +25,8 @@ class View extends FocusModel {
     private _isFocused: boolean;
     private _focusKey: string;
     private _hasPreferredFocus: boolean;
-    private _verticalContentContainerGap: number;
+    private _verticalContentContainerGap = 0;
+    private _horizontalContentContainerGap = 0;
     private _repeatContext:
         | {
               focusContext: FocusModel;
@@ -38,6 +39,7 @@ class View extends FocusModel {
     constructor(
         params: Omit<PressableProps & PressableProps['focusOptions'], 'style' | 'focusOptions' | 'className'> & {
             verticalContentContainerGap?: number;
+            horizontalContentContainerGap?: number;
         }
     ) {
         super(params);
@@ -52,6 +54,7 @@ class View extends FocusModel {
             focusKey = '',
             hasPreferredFocus = false,
             verticalContentContainerGap = 0,
+            horizontalContentContainerGap = 0,
         } = params;
 
         const id = CoreManager.generateID(8);
@@ -65,6 +68,7 @@ class View extends FocusModel {
         this._forbiddenFocusDirections = forbiddenFocusDirections;
         this._hasPreferredFocus = hasPreferredFocus;
         this._verticalContentContainerGap = verticalContentContainerGap;
+        this._horizontalContentContainerGap = horizontalContentContainerGap;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
@@ -75,9 +79,9 @@ class View extends FocusModel {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this, EVENT_TYPES.ON_MOUNT, this._onMount),
-            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT, this._onMount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
         ];
 
         this.init();
@@ -125,7 +129,12 @@ class View extends FocusModel {
         }
 
         if (parent instanceof Row || parent instanceof Grid) {
-            Event.emit(parent, EVENT_TYPES.ON_CELL_CONTAINER_BLUR, this.getRepeatContext()?.index);
+            Event.emit(
+                parent.getType(),
+                parent.getId(),
+                EVENT_TYPES.ON_CELL_CONTAINER_BLUR,
+                this.getRepeatContext()?.index
+            );
         }
     }
 
@@ -140,7 +149,12 @@ class View extends FocusModel {
         }
 
         if (parent instanceof Row || parent instanceof Grid) {
-            Event.emit(parent, EVENT_TYPES.ON_CELL_CONTAINER_FOCUS, this.getRepeatContext()?.index);
+            Event.emit(
+                parent.getType(),
+                parent.getId(),
+                EVENT_TYPES.ON_CELL_CONTAINER_FOCUS,
+                this.getRepeatContext()?.index
+            );
         }
     }
 
@@ -223,6 +237,10 @@ class View extends FocusModel {
 
     public verticalContentContainerGap(): number {
         return this._verticalContentContainerGap;
+    }
+
+    public horizontalContentContainerGap(): number {
+        return this._horizontalContentContainerGap;
     }
 
     public getGroup(): string | undefined {

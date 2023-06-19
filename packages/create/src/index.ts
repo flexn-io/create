@@ -6,8 +6,13 @@ export * from './tvMenuControl';
 
 export { CoreManager };
 
+// @deprecated
 export function focusElementByFocusKey(focusKey: string) {
-    CoreManager.focusElementByFocusKey(focusKey);
+    CoreManager.setFocus(focusKey);
+}
+
+export function setFocus(focusKey: string) {
+    CoreManager.setFocus(focusKey);
 }
 
 // Primitive components

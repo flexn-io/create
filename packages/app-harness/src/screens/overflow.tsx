@@ -15,7 +15,7 @@ const Overflow = () => {
         <View style={{ backgroundColor: '#222222', flex: 1 }}>
             <Screen
                 style={{ backgroundColor: '#222222', position: 'absolute' }}
-                focusOptions={{ nextFocusRight: ['layer2'], focusKey: 'layer1', group: 'layer1', stealFocus: false }}
+                focusOptions={{ nextFocusRight: ['layer2'], focusKey: 'layer1', group: 'layer1', stealFocus: true }}
             >
                 <View style={{ position: 'absolute' }}>
                     {layer1Buttons.map((_, i) => (

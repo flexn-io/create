@@ -44,20 +44,22 @@ class KeyHandler {
     }
 
     private onKeyDown(eventType: string) {
-        if (eventType === 'playPause') {
-            CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
-            Logger.setIsDebuggerEnabled(CoreManager.isDebuggerEnabled()).debug(CoreManager);
-        }
+        if (CoreManager.isFocusManagerEnabled()) {
+            if (eventType === 'playPause') {
+                CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
+                Logger.setIsDebuggerEnabled(CoreManager.isDebuggerEnabled()).debug(CoreManager);
+            }
 
-        if (eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
-            CoreManager.getCurrentFocus()?.onPress();
-        }
+            if (eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
+                CoreManager.getCurrentFocus()?.onPress();
+            }
 
-        if (CoreManager.getCurrentFocus()) {
-            const direction = this.getDirectionName(eventType);
-            if (direction) {
-                CoreManager.executeDirectionalFocus(direction);
-                CoreManager.executeScroll(direction);
+            if (CoreManager.getCurrentFocus()) {
+                const direction = this.getDirectionName(eventType);
+                if (direction) {
+                    CoreManager.executeDirectionalFocus(direction);
+                    CoreManager.executeScroll(direction);
+                }
             }
         }
     }

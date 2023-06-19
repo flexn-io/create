@@ -210,8 +210,7 @@
         },
         "tizen": {
             "package": "NkVRhWHJST",
-            "id": "NkVRhWHJST.TestHarness",
-            "entryFile": "src/entry/index.lng"
+            "engine": "engine-rn-web"
         },
         "tizenwatch": {
             "package": "cHIP2fIRQZ",

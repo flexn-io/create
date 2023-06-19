@@ -1,6 +1,6 @@
 {
     "name": "@flexn/template",
-    "version": "0.21.2-alpha.16",
+    "version": "0.21.2-alpha.36",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/create#readme",
@@ -63,11 +63,11 @@
         "@lightningjs/sdk": "5.2.0"
     },
     "devDependencies": {
-        "@flexn/create": "0.21.2-alpha.16",
+        "@flexn/create": "0.21.2-alpha.36",
         "@flexn/graybox": "0.21.2-alpha.15",
-        "@flexn/plugins": "1.0.7",
+        "@flexn/plugins": "1.0.8",
         "@flexn/recyclerlistview": "4.2.6",
-        "@flexn/shopify-flash-list": "1.4.7",
+        "@flexn/shopify-flash-list": "1.4.8",
         "@lightningjs/cli": "2.11.0",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/cli-platform-ios": "^6.0.0",
@@ -93,6 +93,7 @@
         "@rnv/engine-rn-web": "0.37.0-canary.11",
         "@rnv/engine-rn-windows": "0.37.0-canary.11",
         "@rnv/renative": "0.37.0-canary.11",
+        "jetifier": "1.6.5",
         "next": "12.1.6",
         "react": "18.2.0",
         "react-art": "18.2.0",

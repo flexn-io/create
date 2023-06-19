@@ -6,9 +6,10 @@ import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import { MutableRefObject } from 'react';
+import { Ratio } from '../../helpers';
 
 class RecyclerView extends FocusModel {
-    private _layouts: { x: number; y: number }[];
+    private _layouts: { x: number; y: number; width: number; height: number }[];
     private _layoutsReady: boolean;
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
@@ -18,6 +19,10 @@ class RecyclerView extends FocusModel {
     private _focusedIndex: number;
     private _initialRenderIndex: number;
     private _focusedView: View | null = null;
+    private _isScrollingHorizontally: boolean;
+    private _isScrollingVertically: boolean;
+    private _autoLayoutScaleAnimation = false;
+    private _autoLayoutSize = 0;
 
     constructor(
         params: Omit<
@@ -34,6 +39,8 @@ class RecyclerView extends FocusModel {
             onFocus,
             onBlur,
             initialRenderIndex = 0,
+            autoLayoutSize = 0,
+            autoLayoutScaleAnimation = false,
         } = params;
 
         this._layoutsReady = false;
@@ -48,6 +55,10 @@ class RecyclerView extends FocusModel {
         this._forbiddenFocusDirections = forbiddenFocusDirections;
         this._focusedIndex = 0;
         this._initialRenderIndex = initialRenderIndex;
+        this._isScrollingHorizontally = false;
+        this._isScrollingVertically = false;
+        this._autoLayoutScaleAnimation = autoLayoutScaleAnimation;
+        this._autoLayoutSize = autoLayoutSize;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
@@ -57,9 +68,9 @@ class RecyclerView extends FocusModel {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this, EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
-            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
         ];
     }
 
@@ -75,16 +86,17 @@ class RecyclerView extends FocusModel {
 
     protected async _onLayout() {
         await measureAsync({ model: this });
-        Event.emit(this, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
+        this.remeasureChildrenLayouts(this);
+        Event.emit(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
     }
 
     // END EVENTS
 
-    public getLayouts(): { x: number; y: number }[] {
+    public getLayouts(): { x: number; y: number; width: number; height: number }[] {
         return this._layouts;
     }
 
-    public updateLayouts(layouts: { x: number; y: number }[] | undefined) {
+    public updateLayouts(layouts: { x: number; y: number; width: number; height: number }[] | undefined) {
         if (layouts && this._layouts.length !== layouts.length) {
             this._layouts = layouts;
 
@@ -182,15 +194,40 @@ class RecyclerView extends FocusModel {
         //TODO: implement
     }
 
+    public setIsScrollingHorizontally(value: boolean): this {
+        this._isScrollingHorizontally = value;
+
+        return this;
+    }
+
+    public setIsScrollingVertically(value: boolean): this {
+        this._isScrollingVertically = value;
+
+        return this;
+    }
+
     public isScrollingVertically(): boolean {
-        return false;
+        return this._isScrollingVertically;
     }
 
     public isScrollingHorizontally(): boolean {
-        return false;
+        return this._isScrollingHorizontally;
     }
 
     public verticalContentContainerGap(): number {
+        return 0;
+    }
+
+    public isAutoLayoutScaleAnimationEnabled(): boolean {
+        return this._autoLayoutScaleAnimation;
+    }
+
+    public getAutoLayoutSize(): number {
+        // TODO: Needs to be calculated
+        if (this._autoLayoutScaleAnimation) {
+            return Ratio(this._autoLayoutSize);
+        }
+
         return 0;
     }
 

@@ -99,6 +99,7 @@ export type ScreenFocusOptions = {
     screenState?: typeof SCREEN_STATES[keyof typeof SCREEN_STATES];
     screenOrder?: number;
     stealFocus?: boolean;
+    autoFocusEnabled?: boolean;
     group?: string;
 };
 
@@ -108,6 +109,8 @@ export type RecyclableListFocusOptions = {
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
+    autoLayoutScaleAnimation?: boolean;
+    autoLayoutSize?: number;
 };
 
 export interface ViewProps extends RNViewProps {

@@ -1,5 +1,5 @@
 import { MutableRefObject } from 'react';
-import { measureSync, recalculateLayout } from '../layoutManager';
+import { measureSync, recalculateAbsolutes } from '../layoutManager';
 import { ForbiddenFocusDirections, Layout } from '../types';
 import Grid from './grid';
 import RecyclerView from './recycler';
@@ -14,7 +14,8 @@ export const MODEL_TYPES = {
     SCROLL_VIEW: 'scrollview',
     ROW: 'row',
     GRID: 'grid',
-};
+    VIEW_GROUP: 'viewGroup',
+} as const;
 
 interface FocusModelProps {
     nextFocusLeft?: string | string[];
@@ -28,7 +29,7 @@ export default abstract class FocusModel {
     protected _isLayoutMeasured: boolean;
 
     protected _id: string;
-    protected _type: string;
+    protected _type: typeof MODEL_TYPES[keyof typeof MODEL_TYPES] = 'view';
     protected _parent: FocusModel | undefined;
     protected _children: FocusModel[];
     protected _screen: Screen | undefined;
@@ -50,7 +51,6 @@ export default abstract class FocusModel {
         const { nextFocusRight = '', nextFocusLeft = '', nextFocusUp = '', nextFocusDown = '' } = params || {};
 
         this._id = '';
-        this._type = '';
         this._children = [];
         this._events = [];
         this.node = { current: undefined };
@@ -91,7 +91,7 @@ export default abstract class FocusModel {
     public nodeId?: number | null;
     public node: MutableRefObject<any>;
 
-    public getType(): string {
+    public getType(): typeof MODEL_TYPES[keyof typeof MODEL_TYPES] {
         return this._type;
     }
 
@@ -214,23 +214,33 @@ export default abstract class FocusModel {
         })[this.getChildren().length - 1];
     }
 
-    public recalculateChildrenLayouts(ch: FocusModel) {
+    public recalculateChildrenAbsoluteLayouts(ch: FocusModel) {
         ch.getChildren().forEach((a: FocusModel) => {
-            this.recalculateChildrenLayouts(a);
+            this.recalculateChildrenAbsoluteLayouts(a);
         });
 
         if (ch.isInForeground()) {
-            recalculateLayout(ch);
+            recalculateAbsolutes(ch);
         }
     }
 
     public remeasureChildrenLayouts(model: FocusModel) {
+        model.getChildren().forEach((a: FocusModel) => {
+            this.remeasureChildrenLayouts(a);
+        });
+
         if (model.isInForeground()) {
-            measureSync({ model, remeasure: true });
+            measureSync({ model });
+        }
+    }
+
+    public remeasureSelfAndChildrenLayouts(model: FocusModel) {
+        if (model.isInForeground()) {
+            measureSync({ model });
         }
 
         model.getChildren().forEach((a: FocusModel) => {
-            this.remeasureChildrenLayouts(a);
+            this.remeasureSelfAndChildrenLayouts(a);
         });
     }
 
@@ -326,5 +336,38 @@ export default abstract class FocusModel {
 
     public isLayoutMeasured(): boolean {
         return this._isLayoutMeasured;
+    }
+
+    public getRepeatContext():
+        | {
+              focusContext: FocusModel;
+              index: number;
+          }
+        | undefined {
+        throw new Error('Not implemented');
+    }
+
+    public horizontalContentContainerGap(): number {
+        throw new Error('Not implemented');
+    }
+
+    public verticalContentContainerGap(): number {
+        throw new Error('Not implemented');
+    }
+
+    public getScrollOffsetX(): number {
+        throw new Error('Not implemented');
+    }
+
+    public getScrollOffsetY(): number {
+        throw new Error('Not implemented');
+    }
+
+    public getAutoLayoutSize(): number {
+        throw new Error('Not implemented');
+    }
+
+    public getLayouts(): { x: number; y: number; width: number; height: number }[] {
+        throw new Error('Not implemented');
     }
 }

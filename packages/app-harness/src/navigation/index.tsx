@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '../libs/@react-navigation';
 import Selector from '../screens/selector';
 import Row from '../screens/row';
 import DynamicState from '../screens/dynamicState';
@@ -16,6 +16,8 @@ import PressableAnimations from '../screens/pressableAnimations';
 import ViewGroup from '../screens/viewGroup';
 import Grid from '../screens/grid';
 import ScrollToTop from '../screens/scrollToTop';
+import ComplexTabs from '../screens/complexTabs';
+import HideAllElements from '../screens/hideAllElements';
 
 const RootStack = createNativeStackNavigator();
 
@@ -38,6 +40,8 @@ const Navigation = () => {
                 <RootStack.Screen name="PressableAnimations" component={PressableAnimations} />
                 <RootStack.Screen name="ViewGroup" component={ViewGroup} />
                 <RootStack.Screen name="ScrollToTop" component={ScrollToTop} />
+                <RootStack.Screen name="ComplexTabs" component={ComplexTabs} />
+                <RootStack.Screen name="HideAllElements" component={HideAllElements} />
             </RootStack.Navigator>
         </NavigationContainer>
     );
