@@ -10,7 +10,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const { theme } = useContext(ThemeContext);
     const navigate = useNavigate({ navigation });
 
-    const data = [...Array(10).keys()].map((rowNumber) => {
+    const data = [...Array(5).keys()].map((rowNumber) => {
         const itemsInViewport = interval(isFactorMobile ? 1 : 3, isFactorMobile ? 3 : 5);
         return generateRandomItemsRow(rowNumber, itemsInViewport);
     });
@@ -28,14 +28,16 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                         navigation.navigate(ROUTES.DETAILS, { row: 1, index: index });
                     }
                 }}
-                animatorOptions={{
-                    type: 'border',
-                    focus: {
-                        borderColor: '#0A74E6',
-                        borderWidth: Ratio(8),
-                    },
-                    blur: {
-                        borderWidth: 0,
+                focusOptions={{
+                    animator: {
+                        type: 'border',
+                        focus: {
+                            borderColor: '#0A74E6',
+                            borderWidth: Ratio(8),
+                        },
+                        // blur: {
+                        //     borderWidth: 0,
+                        // },
                     },
                 }}
             >
@@ -46,18 +48,24 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
             </Pressable>
         );
     };
+
     return (
-        <Screen style={[theme.styles.screen, styles.screen]}>
+        <Screen
+            style={[theme.styles.screen, styles.screen]}
+            focusOptions={{ nextFocusLeft: 'side-menu', focusKey: 'page' }}
+        >
             <ScrollView {...testProps('template-carousels-screen-container')}>
                 {data.map((list, index) => (
                     <View style={styles.listSeparator} key={index}>
                         <FlashList
+                            key={index}
                             data={list}
                             renderItem={renderItem}
                             type="row"
                             estimatedItemSize={Ratio(250)}
                             horizontal
                             showsHorizontalScrollIndicator={false}
+                            style={{ flex: 1 }}
                         />
                     </View>
                 ))}
@@ -73,11 +81,12 @@ const styles = {
     listSeparator: {
         marginVertical: Ratio(20),
         paddingRight: Ratio(100),
+        flex: 1,
     },
     cardStyle: {
         width: Ratio(250),
         height: Ratio(250),
-        borderWidth: isFactorMobile ? 0 : Ratio(5),
+        borderWidth: 0,
         borderRadius: Ratio(5),
         borderColor: 'transparent',
         fontSize: isFactorMobile ? 16 : Ratio(26),

@@ -4,18 +4,6 @@ import { View, FlashList, Pressable, Image, ScrollView, CreateListRenderItemInfo
 import Screen from './screen';
 import { Ratio } from '../utils';
 
-const border = {
-    type: 'border',
-    focus: {
-        borderWidth: Ratio(8),
-        borderColor: 'blue',
-    },
-    blur: {
-        borderWidth: Ratio(4),
-        borderColor: '#FFFFFF',
-    },
-};
-
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
 function interval(min = 0, max = kittyNames.length - 1) {
@@ -36,14 +24,22 @@ function generateData(width: number, height: number, items = 30) {
 }
 
 const Row = () => {
-    const [list] = useState(Array(12).fill(generateData(Ratio(200), Ratio(200), 15)));
+    const [list] = useState(Array(10).fill(generateData(Ratio(200), Ratio(200), 10)));
 
     const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
         return (
             <Pressable
                 style={styles.packshot}
                 focusRepeatContext={focusRepeatContext}
-                focusOptions={{ animatorOptions: border }}
+                focusOptions={{
+                    animator: {
+                        type: 'border',
+                        focus: {
+                            borderWidth: Ratio(8),
+                            borderColor: 'blue',
+                        },
+                    },
+                }}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>

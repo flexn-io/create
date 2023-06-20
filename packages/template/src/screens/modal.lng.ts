@@ -16,7 +16,7 @@ export default class Modal
     extends Lightning.Component<ModalTemplateSpec, ModelTypeConfig>
     implements Lightning.Component.ImplementTemplateSpec<ModalTemplateSpec>
 {
-    Close = this.getByRef('Close')!;
+    Close = this.getByRef('Close');
 
     static _template(): Lightning.Component.Template<ModalTemplateSpec> {
         return {
@@ -55,7 +55,9 @@ export default class Modal
     }
 
     _focus() {
-        this.Close.patch({ smooth: { scale: 1.2 } });
+        if (this.Close) {
+            this.Close.patch({ smooth: { scale: 1.2 } });
+        }
     }
 
     _handleEnter() {

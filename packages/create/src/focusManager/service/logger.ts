@@ -1,14 +1,10 @@
 class Logger {
-    private _coreManager: any;
+    private _debuggerEnabled = false;
     private static _loggerInstance?: Logger;
 
-    constructor(CoreManagerInstance: any) {
-        this._coreManager = CoreManagerInstance;
-    }
-
-    public static getInstance(CoreManagerInstance?: any): Logger {
+    public static getInstance(): Logger {
         if (!Logger._loggerInstance) {
-            Logger._loggerInstance = new Logger(CoreManagerInstance);
+            Logger._loggerInstance = new Logger();
         }
 
         return Logger._loggerInstance;
@@ -27,10 +23,16 @@ class Logger {
     }
 
     public debug(...args: Array<any>) {
-        if (this._coreManager?.isDebuggerEnabled) {
+        if (this._debuggerEnabled) {
             console.debug(...args); // eslint-disable-line
         }
     }
+
+    public setIsDebuggerEnabled(isDebuggerEnabled: boolean): this {
+        this._debuggerEnabled = isDebuggerEnabled;
+
+        return this;
+    }
 }
 
-export default Logger;
+export default Logger.getInstance();

@@ -1,45 +1,34 @@
 import { View as RNView } from 'react-native';
-import { ForbiddenFocusDirections, ScreenStates } from '../types';
+import { ScreenProps, ScreenStates } from '../types';
 import CoreManager from '../service/core';
 import Logger from '../service/logger';
-import FocusModel, { TYPE_RECYCLER, TYPE_VIEW } from './FocusModel';
+import FocusModel, { MODEL_TYPES } from './abstractFocusModel';
 import View from './view';
 import { findLowestRelativeCoordinates, measureSync } from '../layoutManager';
-import { DEFAULT_VIEWPORT_OFFSET } from '../constants';
 import Recycler from './recycler';
 import Event, { EVENT_TYPES } from '../events';
 import { MutableRefObject } from 'react';
+import { Ratio } from '../../helpers';
+
+export const SCREEN_STATES = {
+    BACKGROUND: 'background',
+    FOREGROUND: 'foreground',
+} as const;
+
+export const VIEWPORT_ALIGNMENT = {
+    BOTH_EDGE: 'bot-edge',
+    LOW_EDGE: 'low-edge',
+} as const;
 
 const DELAY_TIME_IN_MS = 100;
-
-export const STATE_BACKGROUND: ScreenStates = 'background';
-export const STATE_FOREGROUND: ScreenStates = 'foreground';
-const ALIGNMENT_BOTH_EDGE = 'bot-edge';
-const ALIGNMENT_LOW_EDGE = 'low-edge';
-
-type ScreenModelParams = {
-    focusKey?: string;
-    group?: string;
-    order?: number;
-    state: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
-    prevState: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
-    verticalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
-    horizontalWindowAlignment?: typeof ALIGNMENT_LOW_EDGE;
-    horizontalViewportOffset?: number;
-    verticalViewportOffset?: number;
-    forbiddenFocusDirections?: ForbiddenFocusDirections[];
-    zOrder?: number;
-    stealFocus: boolean;
-    onFocus?(): void;
-    onBlur?(): void;
-};
+const INTERVAL_TIME_IN_MS = 100;
+export const DEFAULT_VIEWPORT_OFFSET = Ratio(70);
 
 class Screen extends FocusModel {
-    public _type: string;
-    private _state: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
-    private _prevState: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND;
-    private _verticalWindowAlignment: typeof ALIGNMENT_LOW_EDGE;
-    private _horizontalWindowAlignment: typeof ALIGNMENT_LOW_EDGE;
+    private _state: typeof SCREEN_STATES[keyof typeof SCREEN_STATES];
+    private _prevState: typeof SCREEN_STATES[keyof typeof SCREEN_STATES];
+    private _verticalWindowAlignment: typeof VIEWPORT_ALIGNMENT[keyof typeof VIEWPORT_ALIGNMENT];
+    private _horizontalWindowAlignment: typeof VIEWPORT_ALIGNMENT[keyof typeof VIEWPORT_ALIGNMENT];
     private _order: number;
     private _focusKey: string;
     private _horizontalViewportOffset: number;
@@ -47,28 +36,30 @@ class Screen extends FocusModel {
     private _initialLoadInProgress: boolean;
     private _componentsPendingLayoutMap: { [key: string]: boolean };
     private _unmountingComponents: number;
-    private _preferredFocus?: View;
-    private _currentFocus?: View;
-    private _precalculatedFocus?: View;
+    private _preferredFocus: View | null = null;
+    private _currentFocus: View | null = null;
+    private _precalculatedFocus: View | null = null;
     private _stealFocus: boolean;
     private _isFocused: boolean;
     private _group?: string;
+    private _autoFocusEnabled = true;
+    private _interval?: NodeJS.Timer;
 
-    constructor(params: ScreenModelParams) {
+    constructor(params: Omit<ScreenProps & ScreenProps['focusOptions'], 'style' | 'children' | 'focusOptions'>) {
         super(params);
 
         const {
-            state = STATE_FOREGROUND,
-            prevState = STATE_FOREGROUND,
-            order = 0,
+            screenState = SCREEN_STATES.FOREGROUND,
+            screenOrder = 0,
             stealFocus = true,
             focusKey = '',
             group,
-            verticalWindowAlignment = ALIGNMENT_LOW_EDGE,
-            horizontalWindowAlignment = ALIGNMENT_LOW_EDGE,
+            verticalWindowAlignment = VIEWPORT_ALIGNMENT.LOW_EDGE,
+            horizontalWindowAlignment = VIEWPORT_ALIGNMENT.LOW_EDGE,
             horizontalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
             verticalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
             forbiddenFocusDirections = [],
+            autoFocusEnabled = true,
             onFocus,
             onBlur,
         } = params;
@@ -76,19 +67,20 @@ class Screen extends FocusModel {
         this._id = `screen-${CoreManager.generateID(8)}`;
         this._type = 'screen';
         this._group = group;
-        this._state = state;
-        this._prevState = prevState;
-        this._order = order;
+        this._state = screenState;
+        this._prevState = screenState;
+        this._order = screenOrder;
         this._focusKey = focusKey;
         this._verticalWindowAlignment = verticalWindowAlignment;
         this._horizontalWindowAlignment = horizontalWindowAlignment;
         this._horizontalViewportOffset = horizontalViewportOffset;
         this._verticalViewportOffset = verticalViewportOffset;
-        this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._forbiddenFocusDirections = forbiddenFocusDirections;
         this._stealFocus = stealFocus;
         this._isFocused = false;
         this._unmountingComponents = 0;
         this._initialLoadInProgress = true;
+        this._autoFocusEnabled = autoFocusEnabled;
 
         this._componentsPendingLayoutMap = {};
 
@@ -101,10 +93,10 @@ class Screen extends FocusModel {
         this._onPropertyChanged = this._onPropertyChanged.bind(this);
 
         this._events = [
-            Event.subscribe(this, EVENT_TYPES.ON_MOUNT, this._onMount),
-            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
-            Event.subscribe(this, EVENT_TYPES.ON_PROPERTY_CHANGED, this._onPropertyChanged),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT, this._onMount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_PROPERTY_CHANGED, this._onPropertyChanged),
         ];
     }
 
@@ -117,22 +109,23 @@ class Screen extends FocusModel {
         CoreManager.removeFocusAwareComponent(this);
         this.onScreenRemoved();
         this.unsubscribeEvents();
+        clearInterval(this._interval);
     }
 
     private _onLayout() {
         measureSync({ model: this });
     }
 
-    private _onPropertyChanged({ property, newValue }: { property: string; newValue: any }) {
+    private _onPropertyChanged({ property, newValue }: { property: string; newValue: ScreenStates | number }) {
         switch (property) {
             case 'state':
-                this.setPrevState(this.getState()).setState(newValue);
+                this.setPrevState(this.getState()).setState(newValue as ScreenStates);
                 if (this.isPrevStateBackground() && this.isInForeground()) {
                     this.setFocus(this.getFirstFocusableOnScreen());
                 }
                 break;
             case 'order':
-                this.setOrder(newValue);
+                this.setOrder(newValue as number);
                 break;
             default:
                 break;
@@ -142,12 +135,11 @@ class Screen extends FocusModel {
     // END EVENTS
 
     public onScreenRemoved() {
-        const screens = Object.values(CoreManager._screens).filter(
-            (c) => c.isInForeground() && c.getOrder() === CoreManager.getCurrentMaxOrder()
+        const screens = Object.values(CoreManager.getScreens()).filter(
+            (c) => c.isInForeground() && c.getOrder() === CoreManager.getCurrentMaxOrder() && c.isAutoFocusEnabled()
         );
 
         const nextScreen = screens.find((c) => c?.hasStealFocus()) ?? screens[0];
-
         if (nextScreen) {
             nextScreen.setFocus(nextScreen.getFirstFocusableOnScreen());
         }
@@ -172,7 +164,7 @@ class Screen extends FocusModel {
         }
     }
 
-    public setFocus(model?: View) {
+    public setFocus(model: View | null) {
         if (model) {
             CoreManager.getCurrentFocus()?.getScreen()?.onBlur?.();
             CoreManager.executeFocus(model);
@@ -181,7 +173,7 @@ class Screen extends FocusModel {
                 model.getParent()?.onFocus();
             }
         } else {
-            Logger.getInstance().log('Focusable not found');
+            Logger.log('Focusable not found');
         }
     }
 
@@ -191,26 +183,39 @@ class Screen extends FocusModel {
         setTimeout(() => {
             this._unmountingComponents--;
             if (model.getId() === this._currentFocus?.getId()) {
-                delete this._currentFocus;
+                this._currentFocus = null;
             }
             if (model.getId() === this._preferredFocus?.getId()) {
-                delete this._preferredFocus;
+                this._preferredFocus = null;
             }
             if (model.getId() === this._precalculatedFocus?.getId()) {
-                delete this._precalculatedFocus;
+                this._precalculatedFocus = null;
             }
             if (this._unmountingComponents <= 0 && !this._currentFocus) {
-                this.setFocus(this.getFirstFocusableOnScreen());
+                const view = this.getFirstFocusableOnScreen();
+
+                if (view) {
+                    this.setFocus(view);
+                } else {
+                    // If there is no elements wait while first appears
+                    this._interval = setInterval(() => {
+                        const view = this.getFirstFocusableOnScreen();
+                        if (view) {
+                            this.setFocus(view);
+                            clearInterval(this._interval);
+                        }
+                    }, INTERVAL_TIME_IN_MS);
+                }
             }
         }, DELAY_TIME_IN_MS);
     }
 
-    public getFirstFocusableOnScreen = (): View | undefined => {
-        if (this.isInForeground()) {
+    public getFirstFocusableOnScreen = (): View | null => {
+        if (this.isInForeground() && CoreManager.isFocusManagerEnabled()) {
             if (this._currentFocus) return this._currentFocus;
             if (this._preferredFocus) return this._preferredFocus;
             if (this._precalculatedFocus) {
-                if (this._precalculatedFocus.getParent()?.getType() === TYPE_RECYCLER) {
+                if (this._precalculatedFocus.getParent()?.getType() === MODEL_TYPES.RECYCLER) {
                     const recycler = this._precalculatedFocus.getParent() as Recycler;
                     if (recycler.getFocusedView()) return recycler.getFocusedView();
                 }
@@ -221,6 +226,8 @@ class Screen extends FocusModel {
 
             return this._precalculatedFocus;
         }
+
+        return null;
     };
 
     private precalculateFocus(model: FocusModel) {
@@ -228,48 +235,44 @@ class Screen extends FocusModel {
             this.precalculateFocus(ch);
         });
 
-        if (model.getType() === TYPE_VIEW) {
+        if (model.getType() === MODEL_TYPES.VIEW) {
             findLowestRelativeCoordinates(model as View);
         }
     }
 
-    public getType(): string {
-        return this._type;
-    }
-
-    public getState(): typeof STATE_BACKGROUND | typeof STATE_FOREGROUND {
+    public getState() {
         return this._state;
     }
 
-    public setState(value: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND) {
+    public setState(value: typeof SCREEN_STATES[keyof typeof SCREEN_STATES]) {
         this._state = value;
 
         return this;
     }
 
     public isInBackground(): boolean {
-        return this._state === STATE_BACKGROUND;
+        return this._state === SCREEN_STATES.BACKGROUND;
     }
 
     public isInForeground(): boolean {
-        return this._state === STATE_FOREGROUND;
+        return this._state === SCREEN_STATES.FOREGROUND;
     }
 
-    public setPrevState(value: typeof STATE_BACKGROUND | typeof STATE_FOREGROUND) {
+    public setPrevState(value: typeof SCREEN_STATES[keyof typeof SCREEN_STATES]) {
         this._prevState = value;
 
         return this;
     }
 
     public isPrevStateBackground(): boolean {
-        return this._prevState === STATE_BACKGROUND;
+        return this._prevState === SCREEN_STATES.BACKGROUND;
     }
 
-    public getVerticalWindowAlignment(): typeof ALIGNMENT_BOTH_EDGE | typeof ALIGNMENT_LOW_EDGE {
+    public getVerticalWindowAlignment() {
         return this._verticalWindowAlignment;
     }
 
-    public getHorizontalWindowAlignment(): typeof ALIGNMENT_BOTH_EDGE | typeof ALIGNMENT_LOW_EDGE {
+    public getHorizontalWindowAlignment() {
         return this._horizontalWindowAlignment;
     }
 
@@ -309,33 +312,33 @@ class Screen extends FocusModel {
         return this._children;
     }
 
-    public setPreferredFocus(model: View): this {
+    public setPreferredFocus(model: View | null): this {
         this._preferredFocus = model;
 
         return this;
     }
 
-    public getPreferredFocus(): View | undefined {
+    public getPreferredFocus(): View | null {
         return this._preferredFocus;
     }
 
-    public setPrecalculatedFocus(model: View): this {
+    public setPrecalculatedFocus(model: View | null): this {
         this._precalculatedFocus = model;
 
         return this;
     }
 
-    public setCurrentFocus(model: View): this {
+    public setCurrentFocus(model: View | null): this {
         this._currentFocus = model;
 
         return this;
     }
 
-    public getCurrentFocus(): View | undefined {
+    public getCurrentFocus(): View | null {
         return this._currentFocus;
     }
 
-    public getPrecalculatedFocus(): View | undefined {
+    public getPrecalculatedFocus(): View | null {
         return this._precalculatedFocus;
     }
 
@@ -351,6 +354,10 @@ class Screen extends FocusModel {
 
     public hasStealFocus(): boolean {
         return this._stealFocus;
+    }
+
+    public isAutoFocusEnabled(): boolean {
+        return this._autoFocusEnabled;
     }
 
     public getGroup() {

@@ -2,7 +2,7 @@ import { Screen as FMScreen, ScreenProps, ScreenStates } from '@flexn/create';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useState } from 'react';
 
-const Screen = ({ children, stealFocus, focusOptions, style, ...props }: ScreenProps) => {
+const Screen = ({ children, focusOptions, style, ...props }: ScreenProps) => {
     const [screenState, setScreenState] = useState<ScreenStates>('foreground');
 
     useFocusEffect(
@@ -16,13 +16,7 @@ const Screen = ({ children, stealFocus, focusOptions, style, ...props }: ScreenP
     );
 
     return (
-        <FMScreen
-            screenState={screenState}
-            stealFocus={stealFocus}
-            focusOptions={focusOptions}
-            style={style}
-            {...props}
-        >
+        <FMScreen focusOptions={{ ...focusOptions, screenState }} style={style} {...props}>
             {children}
         </FMScreen>
     );

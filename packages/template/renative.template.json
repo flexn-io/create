@@ -4,7 +4,8 @@
         "packageTemplate": {
             "devDependencies": {
                 "typescript": "4.9.5",
-                "@types/react": "18.2.6"
+                "@types/react": "18.2.6",
+                "@flexn/plugins": "1.0.8"
             }
         }
     },

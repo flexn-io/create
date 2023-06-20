@@ -1,50 +1,38 @@
 import { findNodeHandle, UIManager } from 'react-native';
 import { isPlatformTizen, isPlatformWebos } from '@rnv/renative';
 import { distCalc } from '../nextFocusFinder';
-import { recalculateLayout } from '../layoutManager';
-
+import { recalculateAbsolutes } from '../layoutManager';
 import Scroller from './scroller';
-import Screen from '../model/screen';
-import View from '../model/view';
-
 import Logger from './logger';
-import FocusModel, { TYPE_ROW } from '../model/FocusModel';
-import { DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP } from '../constants';
-import { ClosestNodeOutput, ForbiddenFocusDirections } from '../types';
+import FocusModel, { MODEL_TYPES } from '../model/abstractFocusModel';
+import { DIRECTIONS } from '../constants';
+import { ClosestNodeOutput, FocusDirection, ScreenType, ViewType } from '../types';
 import Row from '../model/row';
+
 class CoreManager {
-    public _focusAwareElements: Record<string, FocusModel>;
-    public _views: Record<string, View>;
-    public _screens: Record<string, Screen>;
+    private _focusAwareElements: Record<string, FocusModel> = {};
+    private _views: Record<string, ViewType> = {};
+    private _screens: Record<string, ScreenType> = {};
+    private _currentFocus: ViewType | null = null;
+    private _debuggerEnabled = false;
+    private _isEnabled = true;
+    private _pendingLayoutMeasurements: Record<string, NodeJS.Timeout | number> = {};
 
-    public _currentFocus: View | null;
-
-    private _debuggerEnabled: boolean;
-
-    private _pendingLayoutMeasurements: any;
-
-    constructor() {
-        this._focusAwareElements = {};
-        this._views = {};
-        this._screens = {};
-        this._currentFocus = null;
-        this._debuggerEnabled = false;
-
-        this._pendingLayoutMeasurements = {};
-    }
-
-    public setPendingLayoutMeasurement(model: FocusModel, callback?: any) {
+    public setPendingLayoutMeasurement(model: FocusModel, callback: () => void) {
         if (this._pendingLayoutMeasurements[model.getId()]) {
             clearTimeout(this._pendingLayoutMeasurements[model.getId()]);
         } else {
             callback();
-            this._pendingLayoutMeasurements[model.getId()] = 1;
+            this._pendingLayoutMeasurements[model.getId()] = setTimeout(() => {
+                delete this._pendingLayoutMeasurements[model.getId()];
+            }, 50);
             return;
         }
 
         this._pendingLayoutMeasurements[model.getId()] = setTimeout(() => {
             callback();
-        }, 100);
+            delete this._pendingLayoutMeasurements[model.getId()];
+        }, 50);
     }
 
     public registerFocusAwareComponent(model: FocusModel) {
@@ -59,10 +47,10 @@ class CoreManager {
 
         this._focusAwareElements[model.getId()] = model;
 
-        if (model instanceof Screen) {
-            this._screens[model.getId()] = model as Screen;
-        } else if (model instanceof View) {
-            this._views[model.getId()] = model as View;
+        if (model.getType() === MODEL_TYPES.SCREEN) {
+            this._screens[model.getId()] = model as ScreenType;
+        } else if (model.getType() === MODEL_TYPES.VIEW) {
+            this._views[model.getId()] = model as ViewType;
         }
 
         Object.keys(this._focusAwareElements).forEach((k) => {
@@ -91,7 +79,7 @@ class CoreManager {
         }
     }
 
-    public executeFocus(model: View) {
+    public executeFocus(model: ViewType) {
         if (model.getId() === this._currentFocus?.getId()) {
             return;
         }
@@ -117,7 +105,7 @@ class CoreManager {
         }
     }
 
-    public executeDirectionalFocus(direction: string) {
+    public executeDirectionalFocus(direction: FocusDirection) {
         if (this._currentFocus) {
             if (this._currentFocus.getFocusTaskExecutor(direction)) {
                 const focusExecutor = this._currentFocus.getFocusTaskExecutor(direction);
@@ -130,16 +118,16 @@ class CoreManager {
         }
     }
 
-    public executeScroll(direction = '') {
+    public executeScroll(direction: FocusDirection) {
         const contextParameters = {
-            currentFocus: this._currentFocus,
+            currentFocus: this._currentFocus as ViewType,
             focusMap: this._focusAwareElements,
             isDebuggerEnabled: this._debuggerEnabled,
         };
         Scroller.calculateAndScrollToTarget(direction, contextParameters);
     }
 
-    public focusElementByFocusKey = (focusKey: string) => {
+    public setFocus = (focusKey: string) => {
         const view = Object.values(this._views).find(
             (model) => model.getFocusKey() === focusKey && model.isInForeground()
         );
@@ -157,10 +145,10 @@ class CoreManager {
     };
 
     public getNextFocusableContext = (
-        direction: string,
-        ownCandidates?: View[],
+        direction: FocusDirection,
+        ownCandidates?: ViewType[],
         findFocusInParent = true
-    ): View | undefined | null => {
+    ): ViewType | null => {
         const currentFocus = this._currentFocus;
         const views = this._views;
 
@@ -170,8 +158,9 @@ class CoreManager {
 
         const nextForcedFocusKey = this.getNextForcedFocusKey(currentFocus, direction);
         if (nextForcedFocusKey) {
-            this.focusElementByFocusKey(nextForcedFocusKey);
-            return;
+            this.setFocus(nextForcedFocusKey);
+
+            return null;
         }
 
         if (currentFocus.containsForbiddenDirection(direction)) {
@@ -184,11 +173,12 @@ class CoreManager {
             return currentFocus;
         }
 
-        let closestView: View | undefined | null;
+        let closestView: ViewType | null;
         let closestNodeOutput: ClosestNodeOutput = {
             match1: 9999999,
+            match1Model: null,
             match2: 9999999,
-            match3: 9999999,
+            match2Model: null,
         };
 
         const candidates =
@@ -210,7 +200,7 @@ class CoreManager {
             if (nextOutput) closestNodeOutput = nextOutput;
         }
 
-        closestView = closestNodeOutput.match1Model || closestNodeOutput.match2Model || closestNodeOutput.match3Model;
+        closestView = closestNodeOutput.match1Model || closestNodeOutput.match2Model;
 
         if (closestView) {
             if (closestView.getParent()?.getId() !== currentFocus.getParent()?.getId()) {
@@ -218,8 +208,8 @@ class CoreManager {
 
                 const nextForcedFocusKey = this.getNextForcedFocusKey(parent, direction);
                 if (nextForcedFocusKey) {
-                    this.focusElementByFocusKey(nextForcedFocusKey);
-                    return;
+                    this.setFocus(nextForcedFocusKey);
+                    return null;
                 }
 
                 if (parent.containsForbiddenDirection(direction)) {
@@ -229,7 +219,7 @@ class CoreManager {
                 currentFocus.getParent()?.onBlur();
                 closestView.getParent()?.onFocus();
 
-                if (closestView.getParent()?.getType() === TYPE_ROW) {
+                if (closestView.getParent() instanceof Row) {
                     const parent = closestView.getParent() as Row;
                     closestView = parent.getLastFocused() ?? closestView;
                 }
@@ -240,7 +230,7 @@ class CoreManager {
                 closestView.getScreen()?.onFocus?.();
 
                 if (closestView.getScreen()?.getCurrentFocus()) {
-                    return closestView.getScreen()?.getCurrentFocus();
+                    return closestView.getScreen()!.getCurrentFocus();
                 }
             }
 
@@ -257,17 +247,17 @@ class CoreManager {
                 }
             }
 
-            for (const idx in parents) {
-                const p = parents[idx];
+            for (const key in parents) {
+                const p = parents[key];
                 const _nextForcedFocusKey = this.getNextForcedFocusKey(p, direction);
                 if (_nextForcedFocusKey) {
-                    this.focusElementByFocusKey(_nextForcedFocusKey);
-                    return;
+                    this.setFocus(_nextForcedFocusKey);
+                    return null;
                 }
             }
 
-            for (const idx in parents) {
-                const p = parents[idx];
+            for (const key in parents) {
+                const p = parents[key];
                 if (p.containsForbiddenDirection(direction)) {
                     return currentFocus;
                 }
@@ -277,19 +267,19 @@ class CoreManager {
         return this._currentFocus;
     };
 
-    public getNextForcedFocusKey(model: FocusModel, direction: string): string | null {
+    public getNextForcedFocusKey(model: FocusModel, direction: FocusDirection): string | null {
         let nextFocusDirection;
-        switch (true) {
-            case DIRECTION_LEFT.includes(direction):
+        switch (direction) {
+            case DIRECTIONS.LEFT:
                 nextFocusDirection = model.getNextFocusLeft();
                 break;
-            case DIRECTION_RIGHT.includes(direction):
+            case DIRECTIONS.RIGHT:
                 nextFocusDirection = model.getNextFocusRight();
                 break;
-            case DIRECTION_UP.includes(direction):
+            case DIRECTIONS.UP:
                 nextFocusDirection = model.getNextFocusUp();
                 break;
-            case DIRECTION_DOWN.includes(direction):
+            case DIRECTIONS.DOWN:
                 nextFocusDirection = model.getNextFocusDown();
                 break;
             default:
@@ -318,60 +308,31 @@ class CoreManager {
 
     public getCurrentMaxOrder(): number {
         return Math.max(
-            ...Object.values(this._focusAwareElements).map((o: any) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
+            ...Object.values(this._focusAwareElements).map((o) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
         );
     }
 
-    public findClosestNode = (model: View, direction: string, output: any): ClosestNodeOutput | null => {
-        recalculateLayout(model);
-        const nextLayout = model.getLayout();
-        const currentLayout = this._currentFocus?.getLayout();
+    public findClosestNode = (
+        model: ViewType,
+        direction: FocusDirection,
+        output: ClosestNodeOutput
+    ): ClosestNodeOutput | null => {
+        // TODO: is this necessary?
+        recalculateAbsolutes(model);
+        const nextLayout = model.isLayoutMeasured();
+        const currentLayout = this._currentFocus?.isLayoutMeasured();
 
         if (!nextLayout || !currentLayout) {
-            Logger.getInstance().warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
+            Logger.warn('LAYOUT OF FOCUSABLE IS NOT MEASURED YET');
             return null;
         }
 
         if (this._currentFocus) {
-            return distCalc(output, this.getDirectionName(direction), this._currentFocus, model);
+            return distCalc(output, direction, this._currentFocus, model);
         }
 
         return null;
     };
-
-    public getDirectionName(direction: string) {
-        switch (direction) {
-            case 'swipeLeft':
-            case 'left':
-                return 'left';
-            case 'swipeRight':
-            case 'right':
-                return 'right';
-            case 'swipeUp':
-            case 'up':
-                return 'up';
-            case 'swipeDown':
-            case 'down':
-                return 'down';
-            default:
-                return direction;
-        }
-    }
-
-    public alterForbiddenFocusDirections(
-        forbiddenFocusDirections: ForbiddenFocusDirections[] = []
-    ): ForbiddenFocusDirections[] {
-        const ffd: ForbiddenFocusDirections[] = [...forbiddenFocusDirections];
-
-        forbiddenFocusDirections.forEach((direction) => {
-            if (direction === 'down') ffd.push('swipeDown');
-            if (direction === 'up') ffd.push('swipeUp');
-            if (direction === 'left') ffd.push('swipeLeft');
-            if (direction === 'right') ffd.push('swipeRight');
-        });
-
-        return ffd;
-    }
 
     public generateID(length: number) {
         let result = '';
@@ -383,15 +344,23 @@ class CoreManager {
         return result;
     }
 
-    public get isDebuggerEnabled(): boolean {
+    public isDebuggerEnabled() {
         return this._debuggerEnabled;
     }
 
-    public set debuggerEnabled(enabled: boolean) {
+    public isFocusManagerEnabled() {
+        return this._isEnabled;
+    }
+
+    public setDebuggerEnabled(enabled: boolean) {
         this._debuggerEnabled = enabled;
     }
 
-    public getCurrentFocus(): View | null {
+    public setFocusManagerEnabled(enabled: boolean) {
+        this._isEnabled = enabled;
+    }
+
+    public getCurrentFocus(): ViewType | null {
         return this._currentFocus;
     }
 
@@ -399,13 +368,13 @@ class CoreManager {
         return this._focusAwareElements;
     }
 
-    public getViews(): Record<string, View> {
+    public getViews(): Record<string, ViewType> {
         return this._views;
+    }
+
+    public getScreens(): Record<string, ScreenType> {
+        return this._screens;
     }
 }
 
-const CoreManagerInstance = new CoreManager();
-
-Logger.getInstance(CoreManagerInstance);
-
-export default CoreManagerInstance;
+export default new CoreManager();

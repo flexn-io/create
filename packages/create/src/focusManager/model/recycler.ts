@@ -1,43 +1,46 @@
 import { ScrollView } from 'react-native';
-import AbstractFocusModel from './FocusModel';
-import { ForbiddenFocusDirections } from '../types';
+import FocusModel from './abstractFocusModel';
+import { FlashListProps, ForbiddenFocusDirections } from '../types';
 import View from './view';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import { MutableRefObject } from 'react';
+import { Ratio } from '../../helpers';
 
-class RecyclerView extends AbstractFocusModel {
-    private _layouts: { x: number; y: number }[];
+class RecyclerView extends FocusModel {
+    private _layouts: { x: number; y: number; width: number; height: number }[];
     private _layoutsReady: boolean;
     private _scrollOffsetX: number;
     private _scrollOffsetY: number;
-    private _isNested: boolean;
+    private _scrollTargetY?: number;
+    private _scrollTargetX?: number;
     private _isHorizontal: boolean;
     private _focusedIndex: number;
     private _initialRenderIndex: number;
-    private _focusedView?: View;
-    private _repeatContext:
-        | {
-              focusContext: AbstractFocusModel;
-              index: number;
-          }
-        | undefined;
+    private _focusedView: View | null = null;
+    private _isScrollingHorizontally: boolean;
+    private _isScrollingVertically: boolean;
+    private _autoLayoutScaleAnimation = false;
+    private _autoLayoutSize = 0;
 
-    private _scrollerNode?: any;
-
-    constructor(params: any) {
-        super(params);
+    constructor(
+        params: Omit<
+            FlashListProps<any> & FlashListProps<any>['focusOptions'],
+            'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
+        >
+    ) {
+        super();
 
         const {
-            isHorizontal,
-            isNested,
-            parent,
-            repeatContext,
-            forbiddenFocusDirections,
+            horizontal = true,
+            focusContext,
+            forbiddenFocusDirections = [],
             onFocus,
             onBlur,
             initialRenderIndex = 0,
+            autoLayoutSize = 0,
+            autoLayoutScaleAnimation = false,
         } = params;
 
         this._layoutsReady = false;
@@ -47,13 +50,15 @@ class RecyclerView extends AbstractFocusModel {
         this._isScrollable = true;
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;
-        this._isNested = isNested;
-        this._isHorizontal = isHorizontal;
-        this._parent = parent;
-        this._repeatContext = repeatContext;
-        this._forbiddenFocusDirections = CoreManager.alterForbiddenFocusDirections(forbiddenFocusDirections);
+        this._isHorizontal = horizontal;
+        this._parent = focusContext;
+        this._forbiddenFocusDirections = forbiddenFocusDirections;
         this._focusedIndex = 0;
         this._initialRenderIndex = initialRenderIndex;
+        this._isScrollingHorizontally = false;
+        this._isScrollingVertically = false;
+        this._autoLayoutScaleAnimation = autoLayoutScaleAnimation;
+        this._autoLayoutSize = autoLayoutSize;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
@@ -63,9 +68,9 @@ class RecyclerView extends AbstractFocusModel {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this, EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
-            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
         ];
     }
 
@@ -81,16 +86,17 @@ class RecyclerView extends AbstractFocusModel {
 
     protected async _onLayout() {
         await measureAsync({ model: this });
-        Event.emit(this, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
+        this.remeasureChildrenLayouts(this);
+        Event.emit(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
     }
 
     // END EVENTS
 
-    public getLayouts(): { x: number; y: number }[] {
+    public getLayouts(): { x: number; y: number; width: number; height: number }[] {
         return this._layouts;
     }
 
-    public updateLayouts(layouts: { x: number; y: number }[] | undefined) {
+    public updateLayouts(layouts: { x: number; y: number; width: number; height: number }[] | undefined) {
         if (layouts && this._layouts.length !== layouts.length) {
             this._layouts = layouts;
 
@@ -110,10 +116,6 @@ class RecyclerView extends AbstractFocusModel {
         }
 
         return this;
-    }
-
-    public isNested(): boolean {
-        return this._isNested;
     }
 
     public isHorizontal(): boolean {
@@ -140,14 +142,24 @@ class RecyclerView extends AbstractFocusModel {
         return this._scrollOffsetY;
     }
 
-    public setRepeatContext(value: any): this {
-        this._repeatContext = value;
+    public setScrollTargetX(value: number): this {
+        this._scrollTargetX = value;
 
         return this;
     }
 
-    public getRepeatContext(): { focusContext: AbstractFocusModel; index: number } | undefined {
-        return this._repeatContext;
+    public setScrollTargetY(value: number): this {
+        this._scrollTargetY = value;
+
+        return this;
+    }
+
+    public getScrollTargetY(): number | undefined {
+        return this._scrollTargetY;
+    }
+
+    public getScrollTargetX(): number | undefined {
+        return this._scrollTargetX;
     }
 
     public getForbiddenFocusDirections(): ForbiddenFocusDirections[] {
@@ -164,7 +176,7 @@ class RecyclerView extends AbstractFocusModel {
         return this._focusedIndex;
     }
 
-    public setFocusedView(view?: View): this {
+    public setFocusedView(view: View | null): this {
         this._focusedView = view;
 
         return this;
@@ -174,7 +186,7 @@ class RecyclerView extends AbstractFocusModel {
         return this._initialRenderIndex;
     }
 
-    public getFocusedView(): View | undefined {
+    public getFocusedView(): View | null {
         return this._focusedView;
     }
 
@@ -182,20 +194,41 @@ class RecyclerView extends AbstractFocusModel {
         //TODO: implement
     }
 
+    public setIsScrollingHorizontally(value: boolean): this {
+        this._isScrollingHorizontally = value;
+
+        return this;
+    }
+
+    public setIsScrollingVertically(value: boolean): this {
+        this._isScrollingVertically = value;
+
+        return this;
+    }
+
     public isScrollingVertically(): boolean {
-        return false;
+        return this._isScrollingVertically;
     }
 
     public isScrollingHorizontally(): boolean {
-        return false;
+        return this._isScrollingHorizontally;
     }
 
     public verticalContentContainerGap(): number {
         return 0;
     }
 
-    public setScrollerNode(node: any) {
-        this._scrollerNode = node;
+    public isAutoLayoutScaleAnimationEnabled(): boolean {
+        return this._autoLayoutScaleAnimation;
+    }
+
+    public getAutoLayoutSize(): number {
+        // TODO: Needs to be calculated
+        if (this._autoLayoutScaleAnimation) {
+            return Ratio(this._autoLayoutSize);
+        }
+
+        return 0;
     }
 
     public getNode(): MutableRefObject<ScrollView> {

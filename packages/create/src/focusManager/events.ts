@@ -1,5 +1,3 @@
-import FocusModel from './model/FocusModel';
-
 export const EVENT_TYPES = {
     ON_PROPERTY_CHANGED: 'onPropertyChanged',
     ON_MOUNT: 'onMount',
@@ -14,27 +12,27 @@ export const EVENT_TYPES = {
 const events: { [key: string]: { [key: string]: { [key: string]: { [key: string]: (...args: any) => void } } } } = {};
 
 class Event {
-    static subscribe(instance: FocusModel, eventName: string, cb: (...args: any) => void) {
+    static subscribe(callerType: string, callerId: string, eventName: string, cb: (...args: any) => void) {
         if (!eventName) throw 'Event name cannot be empty or null';
         if (!cb) throw 'A callback must be registered for subscription';
 
         const uuid = Event._generateGuid();
 
-        if (!events[instance.getType()]) {
-            events[instance.getType()] = {};
+        if (!events[callerType]) {
+            events[callerType] = {};
         }
 
-        if (!events[instance.getType()][instance.getId()]) {
-            events[instance.getType()][instance.getId()] = {};
+        if (!events[callerType][callerId]) {
+            events[callerType][callerId] = {};
         }
 
-        if (!events[instance.getType()][instance.getId()][eventName]) {
-            events[instance.getType()][instance.getId()][eventName] = {};
+        if (!events[callerType][callerId][eventName]) {
+            events[callerType][callerId][eventName] = {};
         }
 
-        events[instance.getType()][instance.getId()][eventName][uuid] = cb;
+        events[callerType][callerId][eventName][uuid] = cb;
 
-        return () => Event._unsubscribe(instance, eventName, uuid);
+        return () => Event._unsubscribe(callerType, callerId, eventName, uuid);
     }
 
     static _generateGuid() {
@@ -46,10 +44,10 @@ class Event {
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
 
-    static emit(instance: FocusModel, eventName: string, data = {}) {
+    static emit(callerType: string, callerId: string, eventName: string, data = {}) {
         if (!eventName) throw 'An event name is required for emission.';
         // The callbacks for eventName are registered listener Id keys under events[eventName]
-        const registeredListeners = events[instance.getType()]?.[instance.getId()]?.[eventName];
+        const registeredListeners = events[callerType]?.[callerId]?.[eventName];
 
         try {
             for (const uuid of Object.keys(registeredListeners)) {
@@ -62,12 +60,12 @@ class Event {
         return true;
     }
 
-    static _unsubscribe(instance: FocusModel, eventName: string, uuid: string) {
-        delete events[instance.getType()]?.[instance.getId()]?.[eventName]?.[uuid];
+    static _unsubscribe(callerType: string, callerId: string, eventName: string, uuid: string) {
+        delete events[callerType]?.[callerId]?.[eventName]?.[uuid];
     }
 
-    static destroy(instance: FocusModel) {
-        delete events[instance.getType()][instance.getId()];
+    static destroy(callerType: string, callerId: string) {
+        delete events[callerType][callerId];
     }
 }
 

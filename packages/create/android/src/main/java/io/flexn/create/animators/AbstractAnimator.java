@@ -17,7 +17,6 @@ public abstract class AbstractAnimator {
         this.mView = view;
         this.mArgs = args;
         this.AnimatorProperty2 = new AnimatorProperty(args);
-//        Log.d("HOW_MANY", "TIMESS_HERE");
     }
 
     public abstract void onFocus(boolean animated);

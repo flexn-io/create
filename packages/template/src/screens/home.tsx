@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { Text, View, ScrollView, TouchableOpacity, Image, ANIMATION_TYPES } from '@flexn/create';
+import { Text, View, ScrollView, TouchableOpacity, Image, ANIMATION_TYPES, AnimatorBackground } from '@flexn/create';
 import { Api } from '@rnv/renative';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ROUTES, ICON_LOGO, ThemeContext } from '../config';
@@ -15,16 +15,15 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
 
     const { theme, toggle } = useContext(ThemeContext);
 
-    const focusAnimation = {
-        type: ANIMATION_TYPES.BACKGROUND,
+    const focusAnimation: AnimatorBackground = {
+        type: ANIMATION_TYPES.BACKGROUND as AnimatorBackground['type'],
         focus: {
             backgroundColor: theme.static.colorBrand,
         },
-        blur: {},
     };
 
     return (
-        <Screen style={theme.styles.screen} focusOptions={{ verticalWindowAlignment: 'low-edge' }}>
+        <Screen style={theme.styles.screen} focusOptions={{ verticalWindowAlignment: 'low-edge', focusKey: 'page' }}>
             <ScrollView
                 style={{ backgroundColor: theme.static.colorBgPrimary }}
                 ref={swRef}
@@ -52,7 +51,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                     style={theme.styles.button}
                     focusOptions={{
                         nextFocusLeft: 'side-menu',
-                        animatorOptions: focusAnimation,
+                        animator: focusAnimation,
                         forbiddenFocusDirections: ['up'],
                     }}
                     {...testProps('template-home-screen-try-me-button')}
@@ -64,7 +63,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                     style={theme.styles.button}
                     focusOptions={{
                         nextFocusLeft: 'side-menu',
-                        animatorOptions: focusAnimation,
+                        animator: focusAnimation,
                     }}
                     {...testProps('template-home-screen-now-try-me-button')}
                 >

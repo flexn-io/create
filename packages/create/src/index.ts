@@ -6,8 +6,13 @@ export * from './tvMenuControl';
 
 export { CoreManager };
 
+// @deprecated
 export function focusElementByFocusKey(focusKey: string) {
-    CoreManager.focusElementByFocusKey(focusKey);
+    CoreManager.setFocus(focusKey);
+}
+
+export function setFocus(focusKey: string) {
+    CoreManager.setFocus(focusKey);
 }
 
 // Primitive components
@@ -39,10 +44,14 @@ export {
     FocusContext,
     CreateListRenderItem,
     CreateListRenderItemInfo,
+    AnimatorBackground,
+    AnimatorBorder,
+    AnimatorScale,
+    AnimatorScaleWithBorder,
 } from './focusManager/types';
 
 // Constants
-export { ANIMATION_TYPES } from './focusManager/constants';
+export { ANIMATION_TYPES } from './focusManager/model/view';
 
 // Hooks & Hocs
 export { withParentContextMapper } from './hocs/withParentContextMapper';

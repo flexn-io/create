@@ -1,28 +1,22 @@
 import { View } from 'react-native';
-import AbstractFocusModel from './FocusModel';
+import FocusModel from './abstractFocusModel';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
-import FocusModel from './FocusModel';
 import { MutableRefObject } from 'react';
+import { ViewGroupProps } from '../types';
 
-type ViewGroupModelParams = {
-    focusKey?: string;
-    group: string;
-    parent: FocusModel;
-};
-
-class ViewGroup extends AbstractFocusModel {
+class ViewGroup extends FocusModel {
     private _group: string;
     private _focusKey?: string;
 
-    constructor(params: ViewGroupModelParams) {
+    constructor(params: Omit<ViewGroupProps & ViewGroupProps['focusOptions'], 'ref' | 'focusOptions'>) {
         super(params);
 
-        const { parent, group, focusKey } = params;
+        const { focusContext, group, focusKey } = params;
 
         const id = CoreManager.generateID(8);
-        this._id = parent?.getId() ? `${parent.getId()}:viewGroup-${id}` : `viewGroup-${id}`;
-        this._parent = parent;
+        this._id = focusContext?.getId() ? `${focusContext.getId()}:viewGroup-${id}` : `viewGroup-${id}`;
+        this._parent = focusContext;
         this._type = 'viewGroup';
         this._group = group;
         this._focusKey = focusKey;
@@ -32,9 +26,9 @@ class ViewGroup extends AbstractFocusModel {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this, EVENT_TYPES.ON_MOUNT, this._onMount),
-            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT, this._onMount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
         ];
     }
 
@@ -49,8 +43,7 @@ class ViewGroup extends AbstractFocusModel {
     }
 
     private async _onLayout() {
-        // await measureAsync({ model: this });
-        this.remeasureChildrenLayouts(this);
+        this.remeasureSelfAndChildrenLayouts(this);
     }
 
     // END EVENTS

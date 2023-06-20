@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, Dimensions, View as RNView } from 'react-native';
 import CoreManager from '../../focusManager/service/core';
-import AbstractFocusModel from '../../focusManager/model/FocusModel';
+import AbstractFocusModel from '../../focusManager/model/abstractFocusModel';
 import View from '../../focusManager/model/view';
 
 const windowWidth = Dimensions.get('window').width;
@@ -40,7 +40,7 @@ export default function FocusDebugger() {
         scrollView: 'purple',
     };
 
-    if (CoreManager.isDebuggerEnabled) {
+    if (CoreManager.isDebuggerEnabled()) {
         const contexts: any = [];
         const contextMap = CoreManager.getFocusMap(); // eslint-disable-line prefer-destructuring
         Object.values(contextMap)
@@ -101,9 +101,7 @@ export default function FocusDebugger() {
                         width: '100%',
                         height: 1,
                         backgroundColor: 'red',
-                        top: isNaN(CoreManager._currentFocus?.getLayout()?.absolute?.yCenter)
-                            ? 0
-                            : CoreManager._currentFocus?.getLayout().absolute.yCenter,
+                        top: CoreManager.getCurrentFocus()?.getLayout()?.absolute?.yCenter ?? 0,
                         position: 'absolute',
                     }}
                 />
@@ -112,9 +110,7 @@ export default function FocusDebugger() {
                         height: '100%',
                         width: 1,
                         backgroundColor: 'red',
-                        left: isNaN(CoreManager._currentFocus?.getLayout()?.absolute?.xCenter)
-                            ? 0
-                            : CoreManager._currentFocus?.getLayout().absolute.xCenter,
+                        left: CoreManager.getCurrentFocus()?.getLayout()?.absolute?.xCenter ?? 0,
                         position: 'absolute',
                     }}
                 />

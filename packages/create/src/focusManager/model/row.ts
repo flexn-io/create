@@ -1,14 +1,20 @@
 import Recycler from './recycler';
-import View from './view';
 import Core from '../service/core';
-import { DIRECTION_VERTICAL } from '../constants';
+import { MODEL_TYPES } from './abstractFocusModel';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import RecyclerView from './recycler';
+import { FlashListProps, FocusDirection, ViewType } from '../types';
+import { DIRECTIONS } from '../constants';
 
 class Row extends Recycler {
-    constructor(params: any) {
+    constructor(
+        params: Omit<
+            FlashListProps<any> & FlashListProps<any>['focusOptions'],
+            'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
+        >
+    ) {
         super(params);
 
         this._type = 'row';
@@ -18,9 +24,9 @@ class Row extends Recycler {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this, EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
-            Event.subscribe(this, EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this, EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
         ];
     }
 
@@ -36,25 +42,24 @@ class Row extends Recycler {
 
     protected async _onLayout() {
         await measureAsync({ model: this });
-        Event.emit(this, EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
+        this.remeasureChildrenLayouts(this);
+        Event.emit(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
     }
 
     // END EVENTS
 
-    public getType(): string {
-        return this._type;
-    }
-
-    public getLastFocused(): View | undefined {
-        return this?.getFocusedView() ?? this.getFirstFocusableChildren();
+    public getLastFocused(): ViewType | null {
+        return this?.getFocusedView() ?? this.getFirstFocusableChildren() ?? null;
     }
 
     private getCurrentFocusIndex(): number {
         return Core.getCurrentFocus()?.getRepeatContext()?.index || 0;
     }
 
-    public getNextFocusable(direction: string): View | undefined | null {
-        if (this._isInBounds(direction) && ['right', 'left'].includes(direction)) {
+    public getNextFocusable(direction: FocusDirection): ViewType | null {
+        const isHorizontal = DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction;
+        const isVertical = DIRECTIONS.UP === direction || DIRECTIONS.DOWN === direction;
+        if (this._isInBounds(direction) && isHorizontal) {
             const candidates = Object.values(Core.getViews()).filter(
                 (c) =>
                     c.isInForeground() &&
@@ -63,11 +68,11 @@ class Row extends Recycler {
             );
 
             return Core.getNextFocusableContext(direction, candidates, false);
-        } else if (!this._isInBounds(direction) || ['up', 'down'].includes(direction)) {
+        } else if (!this._isInBounds(direction) || isVertical) {
             const nextFocus = Core.getNextFocusableContext(direction);
 
             if (
-                ['right', 'left'].includes(direction) &&
+                isHorizontal &&
                 nextFocus?.getParent() instanceof RecyclerView &&
                 (nextFocus?.getParent() as RecyclerView)?.isHorizontal()
             ) {
@@ -76,20 +81,22 @@ class Row extends Recycler {
 
             return nextFocus;
         }
+
+        return null;
     }
 
     private _isInBounds(direction: string): boolean {
         const current = this.getCurrentFocusIndex();
 
-        if (!this.isHorizontal() && ['right', 'left'].includes(direction)) {
+        if (!this.isHorizontal() && (DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction)) {
             return false;
         }
 
-        if (direction === 'left' && current === 0) {
+        if (DIRECTIONS.LEFT === direction && current === 0) {
             return false;
         }
 
-        if (direction === 'right' && current === this.getLayouts().length - 1) {
+        if (DIRECTIONS.RIGHT === direction && current === this.getLayouts().length - 1) {
             return false;
         }
 
@@ -99,20 +106,18 @@ class Row extends Recycler {
     public scrollToInitialRenderIndex(): void {
         const interval = setInterval(() => {
             const currentChildren = this.getChildren().find(
-                (ch) => ch instanceof View && ch.getRepeatContext()?.index === this.getInitialRenderIndex()
+                (ch) =>
+                    ch.getType() === MODEL_TYPES.VIEW &&
+                    (ch as ViewType).getRepeatContext()?.index === this.getInitialRenderIndex()
             );
             if (currentChildren) {
-                this.setFocusedView(currentChildren as View);
+                this.setFocusedView(currentChildren as ViewType);
                 clearInterval(interval);
             }
         }, 100);
     }
 
-    public getFocusTaskExecutor(direction: string): Row | undefined {
-        if (this.isNested() && DIRECTION_VERTICAL.includes(direction)) {
-            return this.getParent() as Row;
-        }
-
+    public getFocusTaskExecutor(_direction: string): Row | undefined {
         return this;
     }
 }

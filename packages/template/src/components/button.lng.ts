@@ -16,8 +16,8 @@ class Button
     extends Lightning.Component<ButtonTemplateSpec>
     implements Lightning.Component.ImplementTemplateSpec<ButtonTemplateSpec>
 {
-    Button = this.getByRef('Button')!;
-    Text = this.getByRef('Text')!;
+    Button = this.getByRef('Button');
+    Text = this.getByRef('Text');
 
     static _template(): Lightning.Component.Template<ButtonTemplateSpec> {
         return {

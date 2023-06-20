@@ -56,14 +56,12 @@ const Button = ({
     accessible,
     accessibilityLabel,
     onPress,
-    activeOpacity,
     focusContext,
     focusOptions,
 }: ButtonProps) => (
     <Pressable
         style={[styles.button, style]}
         onPress={onPress}
-        activeOpacity={activeOpacity ?? 0.2}
         testID={testID}
         accessible={accessible}
         accessibilityLabel={accessibilityLabel}

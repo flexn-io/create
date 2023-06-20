@@ -1,12 +1,12 @@
 import { useEffect, MutableRefObject, ForwardedRef } from 'react';
-import FocusModel from '../focusManager/model/FocusModel';
+import FocusModel from '../focusManager/model/abstractFocusModel';
 import useOnRefChange from './useOnRefChange';
 
 export function useCombinedRefs<T = undefined>({
     refs,
     model,
 }: {
-    refs: MutableRefObject<T>[] | ForwardedRef<T>[];
+    refs: MutableRefObject<T | undefined>[] | ForwardedRef<T | undefined>[];
     model: FocusModel | null;
 }): MutableRefObject<T> {
     const { targetRef } = useOnRefChange(model);
