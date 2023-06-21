@@ -4,6 +4,5 @@
         "outDir": "./lib",
         "rootDir": "."
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-    "exclude": ["wdio.conf.ts"]
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

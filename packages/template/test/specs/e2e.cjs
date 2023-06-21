@@ -1,4 +1,4 @@
-const FlexnRunner = require('@flexn/graybox');
+const FlexnRunner = require('@flexn/graybox').default;
 
 describe('Test @flexn/template', () => {
     before(() => {

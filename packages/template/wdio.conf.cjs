@@ -106,16 +106,6 @@ exports.config = {
     exclude: [
         // 'path/to/excluded/files'
     ],
-    // autoCompileOpts: {
-    //     autoCompile: true,
-    //     tsNodeOpts: {
-    //         transpileOnly: true,
-    //         project: './tsconfig.json',
-    //         moduleTypes: {
-    //             './**/*.ts': 'esm',
-    //         },
-    //     },
-    // },
     //
     // ============
     // Capabilities
