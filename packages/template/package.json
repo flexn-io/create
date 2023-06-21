@@ -110,7 +110,6 @@
         "react-native-web": "0.18.9",
         "react-native-windows": "0.67.3",
         "rnv": "0.37.0-canary.11",
-        "ts-node": "^10.9.1",
         "xcode": "2.1.0"
     },
     "optionalDependencies": {
