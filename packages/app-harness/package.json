@@ -82,9 +82,9 @@
         "react-native-windows": "0.67.3"
     },
     "devDependencies": {
+        "@flexn/create-template-starter": "0.21.2-alpha.36",
         "@flexn/graybox": "0.21.2-alpha.16",
         "@flexn/plugins": "1.0.8",
-        "@flexn/create-template-starter": "0.21.2-alpha.36",
         "@lightningjs/cli": "2.11.0",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/cli-platform-ios": "^6.0.0",
@@ -97,6 +97,7 @@
         "@rnv/engine-rn-web": "0.37.0-canary.11",
         "@rnv/engine-rn-windows": "0.37.0-canary.11",
         "rnv": "0.37.0-canary.11",
+        "ts-node": "^10.9.1",
         "xcode": "2.1.0"
     },
     "optionalDependencies": {
