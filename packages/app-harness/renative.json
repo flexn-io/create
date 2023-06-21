@@ -1,5 +1,5 @@
 {
-    "extendsTemplate": "@flexn/template/renative.json",
+    "extendsTemplate": "@flexn/create-template-starter/renative.json",
     "crypto": {
         "decrypt": {
             "source": "PROJECT_HOME/secrets/privateConfigs.enc"
@@ -8,7 +8,7 @@
             "dest": "PROJECT_HOME/secrets/privateConfigs.enc"
         }
     },
-    "currentTemplate": "@flexn/template",
+    "currentTemplate": "@flexn/create-template-starter",
     "defaults": {
         "id": "io.flexn.template.app",
         "supportedPlatforms": [
@@ -43,7 +43,7 @@
     },
     "projectName": "app-harness",
     "templates": {
-        "@flexn/template": {
+        "@flexn/create-template-starter": {
             "version": "0.21.2-alpha.36"
         }
     },

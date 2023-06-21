@@ -1,5 +1,5 @@
 {
-    "name": "@flexn/template",
+    "name": "@flexn/create-template-starter",
     "version": "0.21.2-alpha.36",
     "description": "Flexn Template",
     "keywords": [],
@@ -23,7 +23,7 @@
     ],
     "main": "index",
     "repository": {
-        "directory": "packages/template",
+        "directory": "packages/template-starter",
         "type": "git",
         "url": "git+https://github.com/flexn-io/create.git"
     },
