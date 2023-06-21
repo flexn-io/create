@@ -1,5 +1,4 @@
-import { findNodeHandle, UIManager } from 'react-native';
-import { isPlatformTizen, isPlatformWebos } from '@rnv/renative';
+import { findNodeHandle, UIManager, Platform } from 'react-native';
 import { distCalc } from '../nextFocusFinder';
 import { recalculateAbsolutes } from '../layoutManager';
 import Scroller from './scroller';
@@ -85,7 +84,7 @@ class CoreManager {
         }
 
         if (this._currentFocus) {
-            if (this._currentFocus.node.current && !isPlatformTizen && !isPlatformWebos) {
+            if (this._currentFocus.node.current && Platform.OS !== 'web') {
                 UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId as number, 'cmdBlur', undefined);
             }
             this._currentFocus.onBlur();
@@ -94,7 +93,7 @@ class CoreManager {
 
         this._currentFocus = model;
 
-        if (model.node.current && !isPlatformTizen && !isPlatformWebos) {
+        if (model.node.current && Platform.OS !== 'web') {
             UIManager.dispatchViewManagerCommand(model.nodeId as number, 'cmdFocus', undefined);
         }
         model.onFocus();

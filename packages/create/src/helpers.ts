@@ -1,8 +1,8 @@
-import { Dimensions, PixelRatio } from 'react-native';
-import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
+import { Dimensions, PixelRatio, Platform } from 'react-native';
 
 export function Ratio(pixels: number): number {
-    if (!(isPlatformAndroidtv || isPlatformFiretv)) return pixels;
+    if (!Platform.isTV) return pixels;
+    if (Platform.OS !== 'android') return pixels;
     const resolution = Dimensions.get('screen').height * PixelRatio.get();
 
     return Math.round(pixels / (resolution < 2160 ? 2 : 1));

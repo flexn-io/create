@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, Dimensions, View as RNView } from 'react-native';
-import { isPlatformTvos } from '@rnv/renative';
+import { Text, Dimensions, View as RNView, Platform } from 'react-native';
 import CoreManager from '../../focusManager/service/core';
 import { INTERSECTION_MARGIN_HORIZONTAL, INTERSECTION_MARGIN_VERTICAL } from '../../focusManager/nextFocusFinder';
 import AbstractFocusModel from '../../focusManager/model/abstractFocusModel';
@@ -43,7 +42,7 @@ export default function FocusDebugger() {
     }, [enabledRef.current]);
 
     useTVRemoteHandler(({ eventType, eventKeyAction }) => {
-        if (isPlatformTvos) {
+        if (Platform.isTV && Platform.OS === 'ios') {
             if (eventKeyAction === 'down' && eventType === 'playPause') {
                 CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
                 Logger.setIsDebuggerEnabled(CoreManager.isDebuggerEnabled()).debug(CoreManager);

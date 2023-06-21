@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View as RNView, StyleSheet, Insets } from 'react-native';
+import { View as RNView, StyleSheet, Insets, Platform } from 'react-native';
 import type { PressableProps } from '../../focusManager/types';
 import { measureSync } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
@@ -9,7 +9,6 @@ import useOnLayout from '../../hooks/useOnLayout';
 import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import { usePrevious } from '../../hooks/usePrevious';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
-import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 
 const View = React.forwardRef<RNView | undefined, PressableProps>(
     (
@@ -138,7 +137,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
             const flattenStyle = { ...StyleSheet.flatten(style) } || {};
             const { borderWidth, borderColor, borderRadius, backgroundColor } = flattenStyle;
 
-            if (isPlatformAndroidtv || isPlatformFiretv) {
+            if (Platform.isTV && Platform.OS === 'android') {
                 if (animatorOptions.type === 'border' || animatorOptions.type === 'scale_with_border') {
                     flattenStyle.borderWidth = animatorOptions.focus.borderWidth;
                 }
