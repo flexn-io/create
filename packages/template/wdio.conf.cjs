@@ -1,4 +1,3 @@
-// @ts-nocheck
 const fs = require('fs');
 const path = require('path');
 
@@ -102,11 +101,21 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: ['./test/specs/e2e.ts'],
+    specs: ['./test/specs/e2e.cjs'],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
     ],
+    // autoCompileOpts: {
+    //     autoCompile: true,
+    //     tsNodeOpts: {
+    //         transpileOnly: true,
+    //         project: './tsconfig.json',
+    //         moduleTypes: {
+    //             './**/*.ts': 'esm',
+    //         },
+    //     },
+    // },
     //
     // ============
     // Capabilities

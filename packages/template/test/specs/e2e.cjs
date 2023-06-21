@@ -1,4 +1,4 @@
-import FlexnRunner from '@flexn/graybox';
+const FlexnRunner = require('@flexn/graybox');
 
 describe('Test @flexn/template', () => {
     before(() => {
