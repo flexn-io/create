@@ -2,7 +2,7 @@
 // this file is only for internal test functionality testing
 const FlexnRunner = require('@flexn/graybox').default;
 
-describe('Test template', () => {
+describe('Test wdio features on @flexn/template', () => {
     before(() => {
         FlexnRunner.launchApp();
     });
