@@ -55,4 +55,9 @@ export { ANIMATION_TYPES } from './focusManager/model/view';
 
 // Hooks & Hocs
 export { withParentContextMapper } from './hocs/withParentContextMapper';
-export { useTVRemoteHandler, TVRemoteHandler } from './remoteHandler';
+export {
+    useTVRemoteHandler,
+    TVRemoteHandler,
+    RemoteHandlerCallback,
+    ClassRemoteHandlerCallback,
+} from './remoteHandler';
