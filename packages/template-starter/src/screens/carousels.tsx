@@ -40,13 +40,12 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                     },
                 }}
             >
-                <Image
-                    resizeMode={'cover'}
-                    source={{ uri: item.backgroundImage }}
-                    style={[styles.poster]}
+                <Image resizeMode={'cover'} source={{ uri: item.backgroundImage }} style={[styles.poster]} />
+                <Text
+                    style={styles.title}
+                    numberOfLines={1}
                     {...testProps(`template-carousels-screen-${index}-packshot`)}
-                />
-                <Text style={styles.title} numberOfLines={1}>
+                >
                     {item.title}
                 </Text>
             </Pressable>
