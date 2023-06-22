@@ -31,22 +31,16 @@
         "supportedPlatforms": [
             "android",
             "androidtv",
-            "androidwear",
-            "chromecast",
-            "firefoxos",
-            "firefoxtv",
             "ios",
-            "kaios",
-            "macos",
-            "tizen",
-            "tizenmobile",
-            "tizenwatch",
             "tvos",
             "web",
-            "webos",
-            "windows",
+            "macos",
+            "linux",
             "firetv",
-            "xbox"
+            "chromecast",
+            "androidwear",
+            "tizen",
+            "webos"
         ]
     },
     "isMonorepo": true,
@@ -93,7 +87,7 @@
             "buildToolsVersion": "30.0.0",
             "gradleBuildToolsVersion": "4.2.2",
             "gradleWrapperVersion": "6.7.1",
-            "kotlinVersion": "1.4.21",
+            "kotlinVersion": "1.7.10",
             "reactNativeEngine": "hermes",
             "enableAndroidX": true,
             "gradle.properties": {
@@ -140,7 +134,7 @@
             "buildToolsVersion": "30.0.0",
             "gradleBuildToolsVersion": "4.2.2",
             "gradleWrapperVersion": "6.7.1",
-            "kotlinVersion": "1.4.21",
+            "kotlinVersion": "1.7.10",
             "reactNativeEngine": "hermes",
             "enableAndroidX": true,
             "gradle.properties": {
@@ -187,7 +181,7 @@
             "buildToolsVersion": "30.0.0",
             "gradleBuildToolsVersion": "4.2.2",
             "gradleWrapperVersion": "6.7.1",
-            "kotlinVersion": "1.4.21",
+            "kotlinVersion": "1.7.10",
             "reactNativeEngine": "hermes",
             "enableAndroidX": true,
             "gradle.properties": {

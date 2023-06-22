@@ -1,5 +1,5 @@
 {
-    "extendsTemplate": "@flexn-io/create-template-starter/appConfigs/base/renative.json",
+    "extendsTemplate": "@flexn/create-template-starter/appConfigs/base/renative.json",
     "id": "harness",
     "common": {
         "id": "io.flexn.harness",
@@ -25,7 +25,7 @@
         },
         "firebaseGroups": "RS",
         "assetSources": [
-            "{{resolvePackage(@flexn-io/create-template-starter)}}/appConfigs/base/assets"
+            "{{resolvePackage(@flexn/create-template-starter)}}/appConfigs/base/assets"
         ]
     },
     "platforms": {

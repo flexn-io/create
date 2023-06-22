@@ -273,7 +273,6 @@
             ],
             "universalApk": true,
             "multipleAPKs": false,
-            "minSdkVersion": 21,
             "permissions": [
                 "*"
             ],
@@ -307,7 +306,6 @@
             ],
             "universalApk": true,
             "multipleAPKs": false,
-            "minSdkVersion": 21,
             "permissions": [
                 "*"
             ],
@@ -342,7 +340,6 @@
             ],
             "universalApk": true,
             "multipleAPKs": false,
-            "minSdkVersion": 23,
             "permissions": [
                 "*"
             ],

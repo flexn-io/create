@@ -10,20 +10,6 @@
     },
     "currentTemplate": "@flexn/create-template-starter",
     "defaults": {
-        "supportedPlatforms": [
-            "android",
-            "androidtv",
-            "ios",
-            "tvos",
-            "web",
-            "macos",
-            "linux",
-            "firetv",
-            "chromecast",
-            "androidwear",
-            "tizen",
-            "webos"
-        ],
         "portOffset": 200
     },
     "isMonorepo": true,
@@ -32,7 +18,6 @@
         "@sentry/react-native": "source:flexn",
         "@sentry/tracing": "source:flexn",
         "react-native-carplay": "source:flexn",
-        "react-native-google-cast": "source:flexn",
         "react-native-snap-carousel": "source:flexn"
     },
     "projectName": "app-harness",
