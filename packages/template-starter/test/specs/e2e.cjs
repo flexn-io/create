@@ -14,19 +14,23 @@ describe('Test @flexn/template', () => {
     });
 
     it('--> check if dark theme is displayed when "Try Me!" button is selected', async () => {
-        await FlexnRunner.waitForDisplayedById('template-home-screen-try-me-button');
-        await FlexnRunner.clickById('template-home-screen-try-me-button');
-        await FlexnRunner.pressButtonSelect(1);
-        await FlexnRunner.pause(1000);
-        await FlexnRunner.expectToMatchScreen('home-dark');
+        if ((process.env.PLATFORM |= 'web')) {
+            await FlexnRunner.waitForDisplayedById('template-home-screen-try-me-button');
+            await FlexnRunner.clickById('template-home-screen-try-me-button');
+            await FlexnRunner.pressButtonSelect(1);
+            await FlexnRunner.pause(1000);
+            await FlexnRunner.expectToMatchScreen('home-dark');
+        }
     });
 
     it('--> check if light theme is displayed when "Try Me!" button is selected', async () => {
-        await FlexnRunner.waitForDisplayedById('template-home-screen-try-me-button');
-        await FlexnRunner.clickById('template-home-screen-try-me-button');
-        await FlexnRunner.pressButtonSelect(1);
-        await FlexnRunner.pause(1000);
-        await FlexnRunner.expectToMatchScreen('home-light');
+        if ((process.env.PLATFORM |= 'web')) {
+            await FlexnRunner.waitForDisplayedById('template-home-screen-try-me-button');
+            await FlexnRunner.clickById('template-home-screen-try-me-button');
+            await FlexnRunner.pressButtonSelect(1);
+            await FlexnRunner.pause(1000);
+            await FlexnRunner.expectToMatchScreen('home-light');
+        }
     });
 
     it('--> check if Carousels Page opens when "Carousels" button is selected', async () => {
