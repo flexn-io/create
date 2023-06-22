@@ -45,12 +45,6 @@ class KeyHandler {
 
     private onKeyDown(eventType: string) {
         if (CoreManager.isFocusManagerEnabled()) {
-            console.log({ eventType });
-            if (eventType === 'playPause') {
-                CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
-                Logger.setIsDebuggerEnabled(CoreManager.isDebuggerEnabled()).debug(CoreManager);
-            }
-
             if (eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
                 CoreManager.getCurrentFocus()?.onPress();
             }

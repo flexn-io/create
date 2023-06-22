@@ -17,6 +17,16 @@ class CoreManager {
     private _isEnabled = true;
     private _pendingLayoutMeasurements: Record<string, NodeJS.Timeout | number> = {};
 
+    constructor() {
+        const isMobile = !Platform.isTV && (Platform.OS === 'ios' || Platform.OS === 'android');
+        const isWeb = Platform.OS === 'web';
+
+        // Disable Focus Manager by default on these platforms
+        if (isMobile || isWeb) {
+            this._isEnabled = false;
+        }
+    }
+
     public setPendingLayoutMeasurement(model: FocusModel, callback: () => void) {
         if (this._pendingLayoutMeasurements[model.getId()]) {
             clearTimeout(this._pendingLayoutMeasurements[model.getId()]);

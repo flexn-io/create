@@ -46,8 +46,7 @@ export default function FocusDebugger() {
     }, [enabledRef.current]);
 
     useTVRemoteHandler(({ eventType, eventKeyAction }) => {
-        console.log({ eventType, eventKeyAction });
-        if (Platform.isTV && Platform.OS === 'ios') {
+        if (Platform.OS === 'ios' || Platform.OS === 'web') {
             if (eventKeyAction === 'down' && eventType === 'playPause') {
                 CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
                 Logger.setIsDebuggerEnabled(CoreManager.isDebuggerEnabled()).debug(CoreManager);
