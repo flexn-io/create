@@ -83,7 +83,6 @@
     },
     "devDependencies": {
         "@flexn/create-template-starter": "0.21.2-alpha.36",
-        "@flexn/graybox": "0.21.2-alpha.16",
         "@flexn/plugins": "1.0.8",
         "@lightningjs/cli": "2.11.0",
         "@react-native-community/cli": "^6.0.0",
