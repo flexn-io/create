@@ -1,4 +1,5 @@
 import React, { useContext, useRef } from 'react';
+import { ScrollView as RNScrollView } from 'react-native';
 import { Text, View, ScrollView, TouchableOpacity, Image, ANIMATION_TYPES, AnimatorBackground } from '@flexn/create';
 import { Api } from '@rnv/renative';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -9,7 +10,7 @@ import Screen from './screen';
 import packageJson from '../../package.json';
 
 const ScreenHome = ({ navigation }: { navigation?: any }) => {
-    const swRef = useRef<ScrollView>() as React.MutableRefObject<ScrollView>;
+    const swRef = useRef<RNScrollView>() as React.MutableRefObject<RNScrollView>;
     const navigate = useNavigate({ navigation });
     const openURL = useOpenURL();
 

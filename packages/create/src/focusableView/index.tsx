@@ -1,10 +1,15 @@
-import { requireNativeComponent, ViewProps, ViewStyle, HostComponent } from 'react-native';
+import { requireNativeComponent, ViewProps, HostComponent, ColorValue } from 'react-native';
 import { AnimatorBackground, AnimatorBorder, AnimatorScale, AnimatorScaleWithBorder } from '..';
 
+type Animator = AnimatorBackground | AnimatorBorder | AnimatorScale | AnimatorScaleWithBorder;
 interface TVFocusableView extends ViewProps {
-    animatorOptions?: {
-        animator: AnimatorBackground | AnimatorBorder | AnimatorScale | AnimatorScaleWithBorder;
-        style: ViewStyle;
+    animatorOptions?: Animator & {
+        blur: {
+            borderWidth?: number;
+            borderRadius?: number;
+            borderColor?: ColorValue;
+            backgroundColor?: ColorValue;
+        };
     };
 }
 

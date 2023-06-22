@@ -5,7 +5,7 @@ import { CoreManager } from '../..';
 
 interface ImageBackgroundPropsExtended extends ImageBackgroundProps {
     children?: React.ReactNode;
-    focusContext: FocusContext;
+    focusContext?: FocusContext;
 }
 
 const ImageBackground = ({ children, focusContext, source, ...props }: ImageBackgroundPropsExtended) => {

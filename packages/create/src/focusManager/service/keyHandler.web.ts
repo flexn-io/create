@@ -1,6 +1,5 @@
 import CoreManager from './core';
 import { DIRECTIONS } from '../constants';
-import Logger from './logger';
 import { FocusDirection } from '../types';
 
 const EVENT_TYPE_SELECT = 'select';

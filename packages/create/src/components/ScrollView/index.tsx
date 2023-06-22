@@ -9,14 +9,14 @@ import useOnComponentLifeCycle from '../../hooks/useOnComponentLifeCycle';
 import useOnRefChange from '../../hooks/useOnRefChange';
 
 export type ScrollViewHandle = {
-    scrollTo: ({ x, y }: { x?: number; y?: number }) => void;
+    scrollTo({ x, y }: { x?: number; y?: number }): void;
 };
 
-const ScrollView = React.forwardRef<ScrollViewHandle, ScrollViewProps>(
+const ScrollView = React.forwardRef<RNScrollView, ScrollViewProps>(
     ({ children, style, focusContext, horizontal, focusOptions, ...props }: ScrollViewProps, refOuter) => {
         if (!CoreManager.isFocusManagerEnabled()) {
             return (
-                <RNScrollView style={style} horizontal={horizontal} {...props}>
+                <RNScrollView style={style} horizontal={horizontal} {...props} ref={refOuter}>
                     {children}
                 </RNScrollView>
             );
@@ -33,7 +33,7 @@ const ScrollView = React.forwardRef<ScrollViewHandle, ScrollViewProps>(
 
         const { onRefChange, targetRef } = useOnRefChange(model);
 
-        useImperativeHandle(refOuter, () => ({
+        useImperativeHandle<ScrollViewHandle, any>(refOuter, () => ({
             scrollTo: ({ x, y }: { x?: number; y?: number }) => {
                 if (targetRef.current) targetRef.current.scrollTo({ x, y });
                 if (x !== undefined) model.setScrollOffsetX(x);
