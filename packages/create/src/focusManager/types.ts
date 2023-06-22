@@ -157,6 +157,7 @@ export interface TouchableOpacityProps extends RNTouchableOpacityProps {
     focusContext?: FocusContext;
     focusRepeatContext?: CreateListRenderItemInfo<any>['focusRepeatContext'];
     onBlur?: () => void;
+    onPress?: () => void;
     onFocus?: () => void;
     className?: string;
     dataSet?: any;

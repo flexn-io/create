@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View as RNView, StyleSheet, Animated, Insets } from 'react-native';
+import { isSmartTV } from 'react-device-detect';
 import type { PressableProps } from '../../focusManager/types';
 import { measureSync } from '../../focusManager/layoutManager';
 import ViewClass from '../../focusManager/model/view';

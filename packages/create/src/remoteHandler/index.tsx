@@ -4,12 +4,12 @@ import type {
     ClassRemoteHandlerCallbackAndroid,
     RemoteHandlerEventTypesAndroid,
     RemoteHandlerEventKeyActions,
-} from './index.androidtv';
+} from './index.android';
 import type {
     RemoteHandlerCallbackAppleTV,
     ClassRemoteHandlerCallbackAppleTV,
     RemoteHandlerEventTypesAppleTV,
-} from './index.tvos';
+} from './index.ios';
 
 type RemoteHandlerCallback = RemoteHandlerCallbackAndroid & RemoteHandlerCallbackAppleTV;
 type ClassRemoteHandlerCallback = ClassRemoteHandlerCallbackAndroid & ClassRemoteHandlerCallbackAppleTV;
