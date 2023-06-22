@@ -28,8 +28,6 @@
         }
     },
     "defaults": {
-        "title": "Template App",
-        "id": "io.flexn.template.app",
         "supportedPlatforms": [
             "android",
             "androidtv",

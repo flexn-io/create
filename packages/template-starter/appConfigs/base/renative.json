@@ -36,7 +36,8 @@
             "welcomeMessage": "Flexn!"
         },
         "fontSources": [
-            "{{resolvePackage(react-native-vector-icons)}}/Fonts"
+            "{{resolvePackage(react-native-vector-icons)}}/Fonts",
+            "{{resolvePackage(@flexn/fonts)}}/fonts"
         ]
     },
     "platforms": {
@@ -87,7 +88,6 @@
             ],
             "buildSchemes": {
                 "debug": {
-                    "id": "io.flexn.template.debug",
                     "runScheme": "Debug",
                     "bundleAssets": false
                 },
@@ -152,7 +152,6 @@
             },
             "buildSchemes": {
                 "debug": {
-                    "id": "io.flexn.template.debug",
                     "runScheme": "Debug",
                     "bundleAssets": false
                 },
@@ -245,7 +244,6 @@
             ],
             "buildSchemes": {
                 "debug": {
-                    "id": "io.flexn.template.debug",
                     "signingConfig": "Debug",
                     "bundleAssets": false
                 },
@@ -281,7 +279,6 @@
             ],
             "buildSchemes": {
                 "debug": {
-                    "id": "io.flexn.template.debug",
                     "signingConfig": "Debug",
                     "bundleAssets": false
                 },

@@ -43,6 +43,7 @@
         "@flexn/create": "0.21.2-alpha.36",
         "@flexn/recyclerlistview": "4.2.6",
         "@flexn/shopify-flash-list": "1.4.8",
+        "@flexn/fonts": "1.0.0",
         "@lightningjs/core": "2.8.0",
         "@lightningjs/sdk": "5.2.0",
         "@react-native-community/masked-view": "0.1.11",
