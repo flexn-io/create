@@ -18,7 +18,6 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const renderItem = ({ item, focusRepeatContext, index }: any) => {
         return (
             <Pressable
-                {...testProps(`template-carousels-screen-${index}-packshot`)}
                 style={styles.cardStyle}
                 focusRepeatContext={focusRepeatContext}
                 onPress={() => {
@@ -41,7 +40,12 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                     },
                 }}
             >
-                <Image resizeMode={'cover'} source={{ uri: item.backgroundImage }} style={[styles.poster]} />
+                <Image
+                    resizeMode={'cover'}
+                    source={{ uri: item.backgroundImage }}
+                    style={[styles.poster]}
+                    {...testProps(`template-carousels-screen-${index}-packshot`)}
+                />
                 <Text style={styles.title} numberOfLines={1}>
                     {item.title}
                 </Text>
