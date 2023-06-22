@@ -12,7 +12,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function FocusDebugger() {
-    if (!CoreManager.isDebuggerEnabled()) {
+    if (!CoreManager.isFocusManagerEnabled()) {
         return <RNView />;
     }
 
@@ -46,7 +46,6 @@ export default function FocusDebugger() {
     }, [enabledRef.current]);
 
     useTVRemoteHandler(({ eventType, eventKeyAction }) => {
-        console.log('PLEAS ENEBALE ME');
         if (Platform.OS === 'ios' || Platform.OS === 'web') {
             if (eventKeyAction === 'down' && eventType === 'playPause') {
                 CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
@@ -142,7 +141,7 @@ export default function FocusDebugger() {
                                         textAlign: 'center',
                                     }}
                                 >
-                                    {ctx.nodeId}
+                                    {typeof ctx.nodeId === 'number' ? ctx.nodeId : ctx.getId()}
                                 </Text>
                             </RNView>
                         </RNView>,

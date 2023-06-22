@@ -9,6 +9,7 @@ import useOnLayout from '../../hooks/useOnLayout';
 import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import { usePrevious } from '../../hooks/usePrevious';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
+import { CoreManager } from '../..';
 
 const View = React.forwardRef<RNView | undefined, PressableProps>(
     (
@@ -27,7 +28,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         },
         refOuter
     ) => {
-        if (!Platform.isTV) {
+        if (!CoreManager.isFocusManagerEnabled()) {
             return (
                 <Pressable
                     style={style}

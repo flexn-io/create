@@ -1,8 +1,7 @@
 import React, { ForwardedRef, useEffect, useRef, useState } from 'react';
-import { Platform, View as RNView } from 'react-native';
+import { View as RNView } from 'react-native';
 import { FlashList as FlashListComp, ListRenderItemInfo, CellContainer } from '@flexn/shopify-flash-list';
 import BaseScrollComponent from '@flexn/recyclerlistview/dist/reactnative/core/scrollcomponent/BaseScrollComponent';
-import { isSmartTV } from 'react-device-detect';
 import Grid from '../../focusManager/model/grid';
 import Row from '../../focusManager/model/row';
 import { FlashListProps, CellContainerProps } from '../../focusManager/types';
@@ -13,12 +12,10 @@ import useFocusAwareComponentRegister from '../../hooks/useOnComponentLifeCycle'
 import Event, { EVENT_TYPES } from '../../focusManager/events';
 import { Ratio } from '../../helpers';
 import View from '../../focusManager/model/view';
+import { CoreManager } from '../..';
 
 const FlashList = (props: FlashListProps<any>) => {
-    const isNativeMobile = (Platform.OS === 'android' || Platform.OS === 'ios') && !Platform.isTV;
-    // const isWeb = Platform.OS === 'web' && !isSmartTV;
-
-    if (isNativeMobile) {
+    if (!CoreManager.isFocusManagerEnabled()) {
         return <FlashListComp {...props} />;
     }
 

@@ -7,12 +7,13 @@ import {
     ViewProps,
     Platform,
 } from 'react-native';
+import { CoreManager } from '../..';
 import KeyHandler from '../../focusManager/service/keyHandler';
 
 const isAndroidBased = Platform.isTV && Platform.OS === 'android';
 
 export default function App({ children, ...props }: ViewProps) {
-    if (!Platform.isTV) {
+    if (!CoreManager.isFocusManagerEnabled()) {
         return <RNView {...props}>{children}</RNView>;
     }
 

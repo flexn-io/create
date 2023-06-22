@@ -10,9 +10,16 @@ import type {
     ClassRemoteHandlerCallbackAppleTV,
     RemoteHandlerEventTypesAppleTV,
 } from './index.ios';
+import type {
+    RemoteHandlerCallbackWebTV,
+    ClassRemoteHandlerCallbackWebTV,
+    RemoteHandlerEventTypesWebTV,
+} from './index.web';
 
-type RemoteHandlerCallback = RemoteHandlerCallbackAndroid & RemoteHandlerCallbackAppleTV;
-type ClassRemoteHandlerCallback = ClassRemoteHandlerCallbackAndroid & ClassRemoteHandlerCallbackAppleTV;
+type RemoteHandlerCallback = RemoteHandlerCallbackAndroid & RemoteHandlerCallbackAppleTV & RemoteHandlerCallbackWebTV;
+type ClassRemoteHandlerCallback = ClassRemoteHandlerCallbackAndroid &
+    ClassRemoteHandlerCallbackAppleTV &
+    ClassRemoteHandlerCallbackWebTV;
 
 class TVRemoteHandler {
     enable(_component: React.Component, _callback: RemoteHandlerCallback) {
@@ -42,4 +49,7 @@ export {
     ClassRemoteHandlerCallbackAndroid,
     ClassRemoteHandlerCallbackAppleTV,
     RemoteHandlerEventKeyActions,
+    RemoteHandlerCallbackWebTV,
+    ClassRemoteHandlerCallbackWebTV,
+    RemoteHandlerEventTypesWebTV,
 };

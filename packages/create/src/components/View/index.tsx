@@ -1,21 +1,27 @@
 import React from 'react';
-import { Platform, View as RNView } from 'react-native';
+import { View as RNView } from 'react-native';
 import Pressable from '../Pressable';
 import type { ViewProps } from '../../focusManager/types';
 import ViewGroup from '../ViewGroup';
+import { CoreManager } from '../..';
 
 const View = React.forwardRef<RNView, ViewProps>(({ children, focusContext, focusOptions, ...props }, ref) => {
-    // if (!Platform.isTV) {
-    //     return (
-    //         <RNView {...props} ref={ref}>
-    //             {children}
-    //         </RNView>
-    //     );
-    // }
+    if (!CoreManager.isFocusManagerEnabled()) {
+        return (
+            <RNView {...props} ref={ref}>
+                {children}
+            </RNView>
+        );
+    }
 
     if (focusOptions?.group) {
         return (
-            <ViewGroup focusContext={focusContext} focusOptions={focusOptions} {...props} ref={ref}>
+            <ViewGroup
+                focusContext={focusContext}
+                focusOptions={{ ...focusOptions, group: focusOptions.group }}
+                {...props}
+                ref={ref}
+            >
                 {children}
             </ViewGroup>
         );

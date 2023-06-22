@@ -1,7 +1,7 @@
 import React from 'react';
-import { ImageBackground as RNImageBackground, ImageBackgroundProps, Platform } from 'react-native';
-import { isSmartTV } from 'react-device-detect';
+import { ImageBackground as RNImageBackground, ImageBackgroundProps } from 'react-native';
 import type { FocusContext } from '../../focusManager/types';
+import { CoreManager } from '../..';
 
 interface ImageBackgroundPropsExtended extends ImageBackgroundProps {
     children?: React.ReactNode;
@@ -9,10 +9,7 @@ interface ImageBackgroundPropsExtended extends ImageBackgroundProps {
 }
 
 const ImageBackground = ({ children, focusContext, source, ...props }: ImageBackgroundPropsExtended) => {
-    const isNativeMobile = (Platform.OS === 'android' || Platform.OS === 'ios') && !Platform.isTV;
-    // const isWeb = Platform.OS === 'web' && !isSmartTV;
-
-    if (isNativeMobile) {
+    if (!CoreManager.isFocusManagerEnabled()) {
         return (
             <RNImageBackground {...props} source={source}>
                 {children}

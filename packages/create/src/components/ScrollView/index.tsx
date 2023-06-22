@@ -1,5 +1,5 @@
 import React, { useState, useImperativeHandle } from 'react';
-import { Platform, ScrollView as RNScrollView } from 'react-native';
+import { ScrollView as RNScrollView } from 'react-native';
 import type { ScrollViewProps } from '../../focusManager/types';
 import CoreManager from '../../focusManager/service/core';
 import { recalculateAbsolutes } from '../../focusManager/layoutManager';
@@ -14,13 +14,13 @@ export type ScrollViewHandle = {
 
 const ScrollView = React.forwardRef<ScrollViewHandle, ScrollViewProps>(
     ({ children, style, focusContext, horizontal, focusOptions, ...props }: ScrollViewProps, refOuter) => {
-        // if (!Platform.isTV) {
-        //     return (
-        //         <RNScrollView style={style} horizontal={horizontal} {...props}>
-        //             {children}
-        //         </RNScrollView>
-        //     );
-        // }
+        if (!CoreManager.isFocusManagerEnabled()) {
+            return (
+                <RNScrollView style={style} horizontal={horizontal} {...props}>
+                    {children}
+                </RNScrollView>
+            );
+        }
 
         const [model] = useState<ScrollViewClass>(
             () =>
