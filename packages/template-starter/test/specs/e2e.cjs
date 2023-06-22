@@ -71,7 +71,7 @@ describe('Test @flexn/template', () => {
         await FlexnRunner.waitForDisplayedById('template-modal-screen-close-button');
         await FlexnRunner.clickById('template-modal-screen-close-button');
         if (process.env.PLATFORM === 'android' || process.env.PLATFORM === 'ios') {
-            await FlexnRunner.waitForDisplayedById('template-menu-home-button');
+            await FlexnRunner.pause(1000);
             await FlexnRunner.clickById('template-menu-home-button');
         }
         await FlexnRunner.pressButtonSelect(1);
