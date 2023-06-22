@@ -14,10 +14,6 @@ describe('Test @flexn/template', () => {
     });
 
     it('--> check if dark theme is displayed when "Try Me!" button is selected', async () => {
-        if (process.env.PLATFORM === 'web') {
-            // eslint-disable-next-line
-            await browser.setWindowSize(1280, 720);
-        }
         await FlexnRunner.waitForDisplayedById('template-home-screen-try-me-button');
         await FlexnRunner.clickById('template-home-screen-try-me-button');
         await FlexnRunner.pressButtonSelect(1);
