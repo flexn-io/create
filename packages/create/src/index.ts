@@ -15,6 +15,10 @@ export function setFocus(focusKey: string) {
     CoreManager.setFocus(focusKey);
 }
 
+export function setFocusManagerEnabled(isEnabled: boolean) {
+    CoreManager.setFocusManagerEnabled(isEnabled);
+}
+
 // Primitive components
 export { default as ActivityIndicator } from './components/ActivityIndicator';
 export { default as App } from './components/App';
