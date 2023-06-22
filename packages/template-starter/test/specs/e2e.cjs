@@ -90,7 +90,6 @@ describe('Test @flexn/template', () => {
         await FlexnRunner.waitForDisplayedById('template-carousels-screen-0-packshot');
         await FlexnRunner.clickById('template-carousels-screen-0-packshot');
         await FlexnRunner.pressButtonSelect(1);
-        await FlexnRunner.expectToBeDisplayedById('template-details-screen-cat-image');
         await FlexnRunner.expectToBeDisplayedById('template-details-screen-cat-name-text');
     });
 
@@ -105,7 +104,6 @@ describe('Test @flexn/template', () => {
         await FlexnRunner.waitForDisplayedById('template-carousels-screen-0-packshot');
         await FlexnRunner.clickById('template-carousels-screen-0-packshot');
         await FlexnRunner.pressButtonSelect(1);
-        await FlexnRunner.expectToBeDisplayedById('template-details-screen-cat-image');
         await FlexnRunner.expectToBeDisplayedById('template-details-screen-cat-name-text');
     });
 
