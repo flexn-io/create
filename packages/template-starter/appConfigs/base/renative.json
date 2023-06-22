@@ -44,7 +44,6 @@
         "ios": {
             "entryFile": "index",
             "scheme": "RNVApp",
-            "deploymentTarget": "12.0",
             "provisioningStyle": "Automatic",
             "allowProvisioningUpdates": true,
             "plist": {
@@ -132,7 +131,6 @@
         "tvos": {
             "scheme": "RNVAppTVOS",
             "entryFile": "index",
-            "deploymentTarget": "12.0",
             "provisioningStyle": "Automatic",
             "entitlements": {},
             "allowProvisioningUpdates": true,
