@@ -47,7 +47,6 @@ const useTVRemoteHandler = (callback: RemoteHandlerCallbackWebTV): void => {
     useEffect(() => {
         const keyUpEventListener = (event: KeyboardEvent) => {
             const eventType = DEFAULT_KEY_MAP[event.keyCode];
-            console.log('AHAHAHA');
 
             callback({ eventType, eventKeyAction: 'down', velocity: 0 });
         };
