@@ -48,6 +48,7 @@ describe('Test @flexn/template', () => {
             await FlexnRunner.waitForDisplayedById('template-menu-drawer-button');
             await FlexnRunner.clickById('template-menu-drawer-button');
         }
+        await FlexnRunner.pause(1000);
         await FlexnRunner.clickById('template-menu-home-button');
         await FlexnRunner.pressButtonLeft(1);
         await FlexnRunner.pressButtonUp(1);
