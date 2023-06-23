@@ -1,0 +1,116 @@
+import Badge from '@site/src/components/Badge';
+import Prop from '@site/src/components/Prop';
+
+# FlashList
+
+High performance list powered by [Shopify Flash List](https://github.com/Shopify/flash-list) designed to work with high amount of items.
+Flash List reusing views that are no longer visible to render items instead of creating new view object.
+
+## Usage
+
+```javascript
+import * as React from 'react';
+import { App, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
+
+const MyComponent = () => {
+    const [data] = React.useState(generateData());
+
+    const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
+        return (
+            <Pressable
+                style={styles.packshot}
+                focusRepeatContext={focusRepeatContext}
+                focusOptions={{
+                    animator: {
+                        type: 'border',
+                        focus: {
+                            borderColor: 'blue',
+                            borderWidth: 5,
+                        },
+                    },
+                }}
+            >
+                <Image source={{ uri: item.backgroundImage }} style={styles.image} />
+            </Pressable>
+        );
+    };
+
+    return (
+        <App>
+            <Screen style={styles.recyclerContainer}>
+                <FlashList data={data} renderItem={rowRenderer} horizontal type="row" />
+            </Screen>
+        </App>
+    );
+};
+
+export default MyComponent;
+```
+
+## Props
+
+It inherits all the properties from [Shopify Flash List](https://github.com/Shopify/flash-list). However this version
+is optimized to work with multi platform environment and our Focus Manager so it has some API changes which is described below.
+
+<Prop value="type" />
+<Badge value="Android TV, Fire TV, Apple TV, webOS, Tizen" platform />{' '}
+
+Type: _grid | row_
+
+Describes type of list either is grid or row. It helps focus manager to navigate.
+
+<Prop value="rowRenderer" />
+<Badge required />{' '}
+
+Type: _CreateListRenderItemInfo_
+
+Method which returns component to be rendered. It's important to note that `focusRepeatContext`(last parameter of the function) always must be passed down to
+Pressable or TouchableOpacity component in your return.
+
+```javascript
+<FlashList
+    rowRenderer={({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
+        return <TouchableOpacity repeatContext={repeatContext} />;
+    }}
+/>
+```
+
+<Prop value="focusOptions" />
+<Badge value="Android TV, Fire TV, Apple TV, webOS, Tizen" platform />{' '}
+
+Type: _RecyclerFocusOptions_
+
+Property which holds following related properties:
+
+<Prop value="forbiddenFocusDirections" subProperty />
+
+Type: _ForbiddenFocusDirections[]_
+
+Can contain one or more directions. When Flash List has focus and direction is set an example to `down` then Flash List will never lose focus despite the fact we're pressing
+down button on our remote.
+
+<Prop value="focusOptions.nextFocusUp" subProperty />
+
+Type: _string_ | _string[]_
+
+Forces next focus direction for component when user navigates up and end of up direction is reached in list. It accepts string with focus key or array with multiple focus keys. In that case first found is executed by focus engine.
+
+<Prop value="focusOptions.nextFocusDown" subProperty />
+
+Type: _string_ | _string[]_
+
+Forces next focus direction for component when user navigates down and end of down direction is reached in list.. It accepts string with focus key or array with multiple focus keys. In that case first found is executed by focus engine.
+
+<Prop value="focusOptions.nextFocusLeft" subProperty />
+
+Type: _string_ | _string[]_
+
+Forces next focus direction for component when user navigates left and end of left direction is reached in list.. It accepts string with focus key or array with multiple focus keys. In that case first found is executed by focus engine.
+
+<Prop value="focusOptions.nextFocusRight" subProperty />
+
+Type: _string_ | _string[]_
+
+Forces next focus direction for component when user navigates right and end of right direction is reached in list.. It accepts string with focus key or array with multiple focus keys. In that case first found is executed by focus engine.
+
+<Prop value="focusOptions.hasPreferredFocus" subProperty />

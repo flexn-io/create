@@ -39,7 +39,7 @@ const sidebars = {
                 'components/image',
                 'components/modal',
                 'components/pressable',
-                'components/recyclable-list',
+                'components/flash-list',
                 'components/screen',
                 'components/scrollview',
                 'components/switch',
