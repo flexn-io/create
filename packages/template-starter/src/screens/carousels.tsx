@@ -5,7 +5,6 @@ import { ThemeContext, ROUTES, Ratio } from '../config';
 import { generateRandomItemsRow, interval, testProps } from '../utils';
 import Screen from './screen';
 import { useNavigate } from '../hooks/navigation';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const { theme } = useContext(ThemeContext);
@@ -18,36 +17,35 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
 
     const renderItem = ({ item, focusRepeatContext, index }: any) => {
         return (
-            <TouchableOpacity {...testProps(`template-carousels-screen-${index}-packshot`)}>
-                <Pressable
-                    style={styles.cardStyle}
-                    focusRepeatContext={focusRepeatContext}
-                    onPress={() => {
-                        if (isPlatformWeb) {
-                            navigate(ROUTES.DETAILS, { row: 1, index: index });
-                        } else {
-                            navigation.navigate(ROUTES.DETAILS, { row: 1, index: index });
-                        }
-                    }}
-                    focusOptions={{
-                        animator: {
-                            type: 'border',
-                            focus: {
-                                borderColor: '#0A74E6',
-                                borderWidth: Ratio(8),
-                            },
-                            // blur: {
-                            //     borderWidth: 0,
-                            // },
+            <Pressable
+                {...testProps(`template-carousels-screen-${index}-packshot`)}
+                style={styles.cardStyle}
+                focusRepeatContext={focusRepeatContext}
+                onPress={() => {
+                    if (isPlatformWeb) {
+                        navigate(ROUTES.DETAILS, { row: 1, index: index });
+                    } else {
+                        navigation.navigate(ROUTES.DETAILS, { row: 1, index: index });
+                    }
+                }}
+                focusOptions={{
+                    animator: {
+                        type: 'border',
+                        focus: {
+                            borderColor: '#0A74E6',
+                            borderWidth: Ratio(8),
                         },
-                    }}
-                >
-                    <Image resizeMode={'cover'} source={{ uri: item.backgroundImage }} style={[styles.poster]} />
-                    <Text style={styles.title} numberOfLines={1}>
-                        {item.title}
-                    </Text>
-                </Pressable>
-            </TouchableOpacity>
+                        // blur: {
+                        //     borderWidth: 0,
+                        // },
+                    },
+                }}
+            >
+                <Image resizeMode={'cover'} source={{ uri: item.backgroundImage }} style={[styles.poster]} />
+                <Text style={styles.title} numberOfLines={1}>
+                    {item.title}
+                </Text>
+            </Pressable>
         );
     };
 
