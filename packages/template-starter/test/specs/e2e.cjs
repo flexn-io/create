@@ -61,6 +61,7 @@ describe('Test @flexn/template', () => {
             await FlexnRunner.waitForDisplayedById('template-menu-drawer-button');
             await FlexnRunner.clickById('template-menu-drawer-button');
         }
+        await FlexnRunner.pause(1000);
         await FlexnRunner.clickById('template-menu-my-modal-button');
         await FlexnRunner.pressButtonLeft(1);
         await FlexnRunner.pressButtonDown(2);
