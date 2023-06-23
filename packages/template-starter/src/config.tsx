@@ -136,6 +136,8 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             width: getScaledValue(40),
             height: getScaledValue(40),
             margin: getScaledValue(10),
+            justifyContent: 'center',
+            alignItems: 'center',
         },
         button: {
             marginHorizontal: getScaledValue(20),

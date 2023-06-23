@@ -9,6 +9,7 @@ const EVENT_TYPE_LEFT = 'left';
 const EVENT_TYPE_DOWN = 'down';
 const EVENT_TYPE_UP = 'up';
 const EVENT_TYPE_PLAY_PAUSE = 'playPause';
+const EVENT_TYPE_BACK = 'back';
 
 const DEFAULT_KEY_MAP: any = {
     37: EVENT_TYPE_LEFT,
@@ -17,6 +18,9 @@ const DEFAULT_KEY_MAP: any = {
     40: EVENT_TYPE_DOWN,
     13: EVENT_TYPE_SELECT,
     32: EVENT_TYPE_PLAY_PAUSE,
+    461: EVENT_TYPE_BACK, // webos
+    10009: EVENT_TYPE_BACK, // tizen
+    27: EVENT_TYPE_BACK, // ESC
 };
 
 class KeyHandler {
@@ -40,7 +44,9 @@ class KeyHandler {
     }
 
     public removeListeners() {
-        // to be implemented
+        if (this.keyUpEventListener) {
+            window.removeEventListener('keyup', this.keyUpEventListener);
+        }
     }
 
     private onKeyDown(eventType: string) {
