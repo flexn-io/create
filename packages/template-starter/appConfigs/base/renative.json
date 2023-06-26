@@ -266,6 +266,7 @@
         "androidtv": {
             "entryFile": "index",
             "reactNativeEngine": "hermes",
+            "assetFolderPlatform": "android",
             "includedPermissions": [
                 "INTERNET"
             ],
@@ -299,6 +300,7 @@
         "firetv": {
             "entryFile": "index",
             "reactNativeEngine": "hermes",
+            "assetFolderPlatform": "android",
             "includedPermissions": [
                 "INTERNET"
             ],
@@ -333,6 +335,7 @@
         "androidwear": {
             "entryFile": "index",
             "reactNativeEngine": "hermes",
+            "assetFolderPlatform": "android",
             "includedPermissions": [
                 "INTERNET"
             ],
