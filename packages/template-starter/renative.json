@@ -52,7 +52,7 @@
         },
         "@rnv/renative": {
             "source": "flexn",
-            "version": "0.37.0-rc.3"
+            "version": "0.37.0-rc.4"
         },
         "react-native": "source:flexn",
         "react-native-web": "source:flexn",
