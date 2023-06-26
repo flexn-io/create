@@ -4185,10 +4185,10 @@
     history "^4.7.2"
     query-string "^6.2.0"
 
-"@rnv/engine-lightning@0.37.0-rc.2":
-  version "0.37.0-rc.2"
-  resolved "https://registry.npmjs.org/@rnv/engine-lightning/-/engine-lightning-0.37.0-rc.2.tgz#829faf6a0a024059ac45150923812e8bf4df7cdd"
-  integrity sha512-YCKx8tAh4an3WWrfu7GDiK/XIMt3Zj4v2gqxpT+1EflJurJzjZSCoJpcthfwQZN+HUuXcFRfpNbVXLECDCuYTg==
+"@rnv/engine-lightning@0.37.0-rc.3":
+  version "0.37.0-rc.3"
+  resolved "https://registry.npmjs.org/@rnv/engine-lightning/-/engine-lightning-0.37.0-rc.3.tgz#b4e803b07897277b4772916017f0c3109f7056b4"
+  integrity sha512-8IwxtcSZy4yfjlWy4V9Us3D89CQVewkkVe2J+BglNMUEBANzRtCO2HjkKt4BxkoRaL40MHFXWUeltb5gajFmlg==
   dependencies:
     "@lightningjs/cli" "2.8.0"
     "@lightningjs/sdk" "4.8.3"
@@ -4196,13 +4196,13 @@
     html-webpack-harddisk-plugin "1.0.2"
     html-webpack-plugin "5.5.0"
 
-"@rnv/engine-rn-electron@0.37.0-rc.2":
-  version "0.37.0-rc.2"
-  resolved "https://registry.npmjs.org/@rnv/engine-rn-electron/-/engine-rn-electron-0.37.0-rc.2.tgz#4035b753aadb626edf213833c1f5810b8d2dce02"
-  integrity sha512-C74xhWNYBVbhuQ/MwT19wZAfg7eSY9nXlXWIw4M8WzShHzak/L49vJrjnBQBYgHBAV1QX8Irf8+dYxjG6YJwLA==
+"@rnv/engine-rn-electron@0.37.0-rc.3":
+  version "0.37.0-rc.3"
+  resolved "https://registry.npmjs.org/@rnv/engine-rn-electron/-/engine-rn-electron-0.37.0-rc.3.tgz#e838d095ff5a2357e4a83d27f67a09184c101fbd"
+  integrity sha512-wtAHZR2yoCLvAccjSqSRlORQMKMYhlo23yQl0LpQYKYuCJtV5jiNMoL4UXcQfVdw0ch1NgIBl4F2LCf8fLV/wQ==
   dependencies:
     "@babel/preset-react" "7.16.0"
-    "@rnv/sdk-webpack" "0.37.0-rc.2"
+    "@rnv/sdk-webpack" "0.37.0-rc.3"
     babel-loader "8.0.5"
     babel-preset-expo "9.0.2"
     better-opn "1.0.0"
@@ -4213,10 +4213,10 @@
     html-webpack-plugin "4.5.1"
     webpack-bundle-analyzer "3.5.1"
 
-"@rnv/engine-rn-next@0.37.0-rc.2":
-  version "0.37.0-rc.2"
-  resolved "https://registry.npmjs.org/@rnv/engine-rn-next/-/engine-rn-next-0.37.0-rc.2.tgz#441fd8735514f06f9cfe603c2e5a03fc3bfdd10e"
-  integrity sha512-7d6R6gcBEj3mxgE3tHGHpNuJCKdMUt154c0SV9ucwXUnWFe+Okmcmd3zds38JLWvxVu+NyenAA/Yq2CjYHVRFg==
+"@rnv/engine-rn-next@0.37.0-rc.3":
+  version "0.37.0-rc.3"
+  resolved "https://registry.npmjs.org/@rnv/engine-rn-next/-/engine-rn-next-0.37.0-rc.3.tgz#57c997fc8beb2b8e74633a81675f7b3ebe0de4ab"
+  integrity sha512-y1RN9yg2NnWyUf6l0rLXTTglt4aXiIt+Rtp/p1UsywdBHqVgdqOYkRYtePPqwYAuy3+AwfcJmGYE0AiNHlnllQ==
   dependencies:
     "@expo/next-adapter" "3.1.12"
     ally.js "1.4.1"
@@ -4226,21 +4226,21 @@
     next-transpile-modules "9.0.0"
     webpack "5.65.0"
 
-"@rnv/engine-rn-tvos@0.37.0-rc.2":
-  version "0.37.0-rc.2"
-  resolved "https://registry.npmjs.org/@rnv/engine-rn-tvos/-/engine-rn-tvos-0.37.0-rc.2.tgz#f210362188d55f0da43205aac104abc1d3daa1fb"
-  integrity sha512-zJ6zpff4pazHwYM9/AJbvJMcga7qFAY4Wrjm4tq/JTtt9bVWHHQlG7TeW/YSR0fq4kTIR4e00/dJx8O0plyBqQ==
+"@rnv/engine-rn-tvos@0.37.0-rc.3":
+  version "0.37.0-rc.3"
+  resolved "https://registry.npmjs.org/@rnv/engine-rn-tvos/-/engine-rn-tvos-0.37.0-rc.3.tgz#7e683c18b71671fd312d796a4c4a1e61bb0106f4"
+  integrity sha512-5OOE2gbexkYW/gII2I/1IwA7N4FpO3out4FhWwurBGelT4vShXTbwUVgPKceTIahhubwaKJq80Uv6M7VhBCIVw==
   dependencies:
-    "@rnv/sdk-android" "0.37.0-rc.2"
-    "@rnv/sdk-apple" "0.37.0-rc.2"
+    "@rnv/sdk-android" "0.37.0-rc.3"
+    "@rnv/sdk-apple" "0.37.0-rc.3"
 
-"@rnv/engine-rn-web@0.37.0-rc.2":
-  version "0.37.0-rc.2"
-  resolved "https://registry.npmjs.org/@rnv/engine-rn-web/-/engine-rn-web-0.37.0-rc.2.tgz#ffd0466252fcd9313626a047ead0e3bdd3091c73"
-  integrity sha512-fGDauFZTb7k2NP2ElPo1pl60nphAC1pI8Xt67JDHSXjIyJzGB8gW6um5t/Xy35vWpj7IAE6ySgJ7HtdWXhPYHg==
+"@rnv/engine-rn-web@0.37.0-rc.3":
+  version "0.37.0-rc.3"
+  resolved "https://registry.npmjs.org/@rnv/engine-rn-web/-/engine-rn-web-0.37.0-rc.3.tgz#090aed7fdab21f28726d76966882337999ae50af"
+  integrity sha512-pamASEq9YXGznTQMpVwoE8+ZYMbDpHxGPs0taKpVkDQuRG1gOOyDsge39zlY3DHSBuvyPoY4YEt75unrbo35nA==
   dependencies:
     "@babel/preset-react" "7.16.0"
-    "@rnv/sdk-webpack" "0.37.0-rc.2"
+    "@rnv/sdk-webpack" "0.37.0-rc.3"
     babel-loader "8.0.5"
     babel-preset-expo "9.0.2"
     better-opn "1.0.0"
@@ -4249,50 +4249,50 @@
     mini-css-extract-plugin "0.8.0"
     webpack-bundle-analyzer "3.5.1"
 
-"@rnv/engine-rn-windows@0.37.0-rc.2":
-  version "0.37.0-rc.2"
-  resolved "https://registry.npmjs.org/@rnv/engine-rn-windows/-/engine-rn-windows-0.37.0-rc.2.tgz#faa53820e2f9a6ba7d0dfb03f435e01f2033904d"
-  integrity sha512-1hYm6UeJ9bVPlSxqQ5ENeTxbPryj/UJ2qzsZ+N9KOcsOI1XfkrVtnoAEdoCCBVx7skHGwTO0+eRliXf1olju/A==
+"@rnv/engine-rn-windows@0.37.0-rc.3":
+  version "0.37.0-rc.3"
+  resolved "https://registry.npmjs.org/@rnv/engine-rn-windows/-/engine-rn-windows-0.37.0-rc.3.tgz#6ca041bf2118e04b2f6f9ce0d8774e7ac4c55b5c"
+  integrity sha512-n3juJrlOYIgFAyDuyCgfRWIfQrZR1UOaSpGE/d9d9aJmVm0VLFva7sdHWTPjzVUl+Ng+TliFMjj7kAi/9KrqBQ==
   dependencies:
     "@xmldom/xmldom" "0.7.0"
     react-native-windows "0.69.4"
 
-"@rnv/engine-rn@0.37.0-rc.2":
-  version "0.37.0-rc.2"
-  resolved "https://registry.npmjs.org/@rnv/engine-rn/-/engine-rn-0.37.0-rc.2.tgz#1d039b105e5a3f7f94d5b109debb782cc00f2fad"
-  integrity sha512-xVMPzWevjHqseWpqcYOJ+coKZIwlzQXiFf6g8Vk7d3tIF6uZlwU+84aKi6jwD+SvT7trVrnv5oFi4avDTjOF7g==
+"@rnv/engine-rn@0.37.0-rc.3":
+  version "0.37.0-rc.3"
+  resolved "https://registry.npmjs.org/@rnv/engine-rn/-/engine-rn-0.37.0-rc.3.tgz#076bdbcd8ce4c20c478ec9197f9a5b2e85fa8bf1"
+  integrity sha512-pjsUI+ScUANXvHCqewcL7H5SrhJPZ+NmPHKrSeX8Fcw1PI7o3m8i8lrTEILgL2wlltq51snkxavfHz9hu+9o0Q==
   dependencies:
-    "@rnv/sdk-android" "0.37.0-rc.2"
-    "@rnv/sdk-apple" "0.37.0-rc.2"
+    "@rnv/sdk-android" "0.37.0-rc.3"
+    "@rnv/sdk-apple" "0.37.0-rc.3"
 
-"@rnv/renative@0.37.0-rc.2":
-  version "0.37.0-rc.2"
-  resolved "https://registry.npmjs.org/@rnv/renative/-/renative-0.37.0-rc.2.tgz#ec0652dd309ca1d5e13a8b2779a4e3c9001c00fa"
-  integrity sha512-ncrO6TbsrVg4SH+UFgwLIwLSLknsaKnjx1/bbqPZRrgsnSNK3bYZejC2evruf5FTsj1trpjF85sYLHHkj6KfuQ==
+"@rnv/renative@0.37.0-rc.3":
+  version "0.37.0-rc.3"
+  resolved "https://registry.npmjs.org/@rnv/renative/-/renative-0.37.0-rc.3.tgz#214ca37e9dd9caa10696b135306a5fc0dd460d6b"
+  integrity sha512-mcVljjUamzR2BwH3QGf6l/GcvGw87V2YqZnBIPdqxjGRn+TOCqQQIJ4tdzRA2GoQhBwCOkH9+v2CFz+q06hVbw==
 
-"@rnv/sdk-android@0.37.0-rc.2":
-  version "0.37.0-rc.2"
-  resolved "https://registry.npmjs.org/@rnv/sdk-android/-/sdk-android-0.37.0-rc.2.tgz#073f0c250aa4d16e1ec5b20303091e49a5dcbfbd"
-  integrity sha512-U9yELbkfcQNC3jyRvEg6ulobpm0jg0HMRonzFTo4fOuQaXukAAwp61vN/jSD4TCY26VnzdpKRRFJefe6wGfU3A==
+"@rnv/sdk-android@0.37.0-rc.3":
+  version "0.37.0-rc.3"
+  resolved "https://registry.npmjs.org/@rnv/sdk-android/-/sdk-android-0.37.0-rc.3.tgz#25fd387e6721230a15b9cf6d0d619517e91055e4"
+  integrity sha512-UamlCPOSI1T3j+nqQjuHS+LScKdc6N0kdkolOcyn46S0sg7OnEutpprf/RVtqN8BFcZWf8X3Sm6Py5cQTtAzYg==
   dependencies:
     execa "5.1.1"
     inquirer "8.2.0"
     shelljs "0.8.5"
 
-"@rnv/sdk-apple@0.37.0-rc.2":
-  version "0.37.0-rc.2"
-  resolved "https://registry.npmjs.org/@rnv/sdk-apple/-/sdk-apple-0.37.0-rc.2.tgz#ad0174d043bb0eadd41e1029b5d38de775a0afbd"
-  integrity sha512-MKDWbp+7HsEK5xw/qiaoyE5obrT2oZiqGkocQqj13uqrUt7ikfTsx8u0zQiPfcZwoimxcwpntRCUMfQb6Zau4A==
+"@rnv/sdk-apple@0.37.0-rc.3":
+  version "0.37.0-rc.3"
+  resolved "https://registry.npmjs.org/@rnv/sdk-apple/-/sdk-apple-0.37.0-rc.3.tgz#2b2758b80f428d171ce9942767dc3eaaf0cc9df5"
+  integrity sha512-7lHT0yT1uw99oZointJKFNsnp2hwmMiO0+6UFcQIv8HbmsBHWhnv6VEsFvMJAHn+ZM1FeUpyv5C/bW0YgdtTbA==
   dependencies:
     compare-versions "3.6.0"
     inquirer "8.2.0"
     ios-mobileprovision-finder "1.0.11"
     shelljs "0.8.5"
 
-"@rnv/sdk-webpack@0.37.0-rc.2":
-  version "0.37.0-rc.2"
-  resolved "https://registry.npmjs.org/@rnv/sdk-webpack/-/sdk-webpack-0.37.0-rc.2.tgz#fad45234623738d3b6cc8beac5bf91c2d7c45a62"
-  integrity sha512-GG3jcy0jRWyqFr6PAlU9i0SFyLGw4hlM8DnU0SSsR8QE7QtCsELoUGjdMj1RBN+sncykuzy4cwRdNvl09PLlyQ==
+"@rnv/sdk-webpack@0.37.0-rc.3":
+  version "0.37.0-rc.3"
+  resolved "https://registry.npmjs.org/@rnv/sdk-webpack/-/sdk-webpack-0.37.0-rc.3.tgz#4c6f5b0887a3633ef025557788d2ecf446699d47"
+  integrity sha512-kBPlda8gjxvdP6BreBZzhM633PruPKS/y72TWeLqw/rnub+BNvnvqPSxjVA7nnkAmbRSl7U6aIWtxJ+gXn6Zpg==
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin" "^0.5.3"
     "@svgr/webpack" "6.3.1"
@@ -22782,10 +22782,10 @@ rnv@0.37.0-canary.10:
     tslib "2.3.1"
     xml2js "0.4.23"
 
-rnv@0.37.0-rc.2:
-  version "0.37.0-rc.2"
-  resolved "https://registry.npmjs.org/rnv/-/rnv-0.37.0-rc.2.tgz#0eae1ea349c01c531cf205dfc4d26740ae285102"
-  integrity sha512-JZ+KYIZx+kItt0MwA4LtTsiBK/sbtTBrIU/5xYz/vWQ7oUOU5cJQsiUKY7Rb1jXVj3RzeWx1mLOerURU3lFENw==
+rnv@0.37.0-rc.3:
+  version "0.37.0-rc.3"
+  resolved "https://registry.npmjs.org/rnv/-/rnv-0.37.0-rc.3.tgz#110f0b9d672a7af81b99fa64e4788730a249e5cb"
+  integrity sha512-kN1jbv5eBWOkkudHic6coe4gb8GHMA9rRj7fONdZwrda+5bK2aSpKJME4bXbA9u5wpdBZBXxQd0iC6ntpuZZvQ==
   dependencies:
     "@babel/cli" "7.17.6"
     "@babel/core" "7.8.3"

@@ -46,7 +46,7 @@
     },
     "peerDependencies": {
         "@flexn/shopify-flash-list": "~1.4.8",
-        "@rnv/renative": "~0.37.0-rc.2",
+        "@rnv/renative": "~0.37.0-rc.3",
         "react": "^18.2.0",
         "react-native": "0.67.2"
     }
