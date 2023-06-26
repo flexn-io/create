@@ -210,7 +210,8 @@
         },
         "ios": {
             "engine": "engine-rn",
-            "reactNativeEngine": "hermes"
+            "reactNativeEngine": "hermes",
+            "deploymentTarget": "14.0"
         },
         "web": {
             "engine": "engine-rn-next",
@@ -232,7 +233,9 @@
             "engine": "engine-lightning"
         },
         "tvos": {
-            "engine": "engine-rn-tvos"
+            "engine": "engine-rn-tvos",
+            "reactNativeEngine": "hermes",
+            "deploymentTarget": "14.0"
         },
         "macos": {
             "engine": "engine-rn-electron",
