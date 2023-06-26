@@ -4358,7 +4358,7 @@
   integrity sha512-e9RSnb9Tlu5vJZ/Jkby2MHGt6gLwzqELa5wVQnbl65Fqi9gJKKbID/tBq1UE46JUu+BVqdEP3sezwqtje90mhQ==
   dependencies:
     "@babel/preset-react" "7.16.0"
-    "@rnv/sdk-webpack" "0.37.0-canary.11"
+    "@rnv/sdk-webpack" "0.37.0-rc.4"
     babel-loader "8.0.5"
     babel-preset-expo "9.0.2"
     better-opn "1.0.0"
@@ -4387,8 +4387,8 @@
   resolved "https://registry.yarnpkg.com/@rnv/engine-rn-tvos/-/engine-rn-tvos-0.37.0-canary.11.tgz#6d8c055c57537d8f0bc951dc75bcd5503a890894"
   integrity sha512-1Pd30vsipMA2LEBFdzr2RG0+VAA2y3nrbIO8lyI+OZ+hQEDlQRMJSglT+c98rZNQxNkAItbY9Mkeg/waU7bsbQ==
   dependencies:
-    "@rnv/sdk-android" "0.37.0-canary.11"
-    "@rnv/sdk-apple" "0.37.0-canary.11"
+    "@rnv/sdk-android" "0.37.0-rc.4"
+    "@rnv/sdk-apple" "0.37.0-rc.4"
 
 "@rnv/engine-rn-web@0.37.0-canary.11":
   version "0.37.0-canary.11"
@@ -4396,7 +4396,7 @@
   integrity sha512-XQ+ux1EsVvmSocNR9pXF2De4nQMYl9yPKJd9CKBTchkXyyXqMhGmOIuowiBuWHYNnTi70imqLZwOB0nWClyDEQ==
   dependencies:
     "@babel/preset-react" "7.16.0"
-    "@rnv/sdk-webpack" "0.37.0-canary.11"
+    "@rnv/sdk-webpack" "0.37.0-rc.4"
     babel-loader "8.0.5"
     babel-preset-expo "9.0.2"
     better-opn "1.0.0"
@@ -4418,8 +4418,8 @@
   resolved "https://registry.yarnpkg.com/@rnv/engine-rn/-/engine-rn-0.37.0-canary.11.tgz#5a4a35243bb98ec6bd215068ac4102f93458cc64"
   integrity sha512-s6WHHANA64HiLIHZlbC3RzWKkMKw7iaQ1bDG4DUAXpmr8mQwIiemHMjQ2zhwOp3aOr7TIHAoW1yDoOeefTb02g==
   dependencies:
-    "@rnv/sdk-android" "0.37.0-canary.11"
-    "@rnv/sdk-apple" "0.37.0-canary.11"
+    "@rnv/sdk-android" "0.37.0-rc.4"
+    "@rnv/sdk-apple" "0.37.0-rc.4"
 
 "@rnv/renative@0.37.0-canary.11":
   version "0.37.0-canary.11"
