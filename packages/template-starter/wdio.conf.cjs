@@ -33,6 +33,7 @@ const capabilities = {
         {
             platformName: 'Android',
             avd: 'Pixel_4_API_29',
+            deviceName: 'Pixel_4_API_29',
             platformVersion: '10',
             automationName: 'UiAutomator2',
             appPackage: 'io.flexn.template.test',
@@ -44,6 +45,7 @@ const capabilities = {
         {
             platformName: 'Android',
             avd: 'Android_TV_1080p_API_29',
+            deviceName: 'Android_TV_1080p_API_29',
             platformVersion: '10',
             automationName: 'UiAutomator2',
             appPackage: 'io.flexn.template.test',
@@ -53,9 +55,11 @@ const capabilities = {
     ],
     macos: [
         {
-            platformName: 'Mac',
-            automationName: 'Mac2',
-            bundleId: 'io.flexn.template.test',
+            browserName: 'chrome',
+            'goog:chromeOptions': {
+                binary: '../../node_modules/electron/dist/Electron.app/Contents/MacOS/Electron',
+                args: ['app=./platformBuilds/template_macos/build'],
+            },
         },
     ],
     web: [
@@ -97,7 +101,7 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: ['./test/specs/e2e.js'],
+    specs: ['./test/specs/e2e.cjs'],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -174,13 +178,45 @@ exports.config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     ...(process.env.PLATFORM === 'web' && {
-        services: ['selenium-standalone'],
+        services: [
+            'selenium-standalone',
+            [
+                'image-comparison',
+                {
+                    baselineFolder: './test/baselineImages',
+                    formatImageName: '{tag}',
+                    screenshotPath: '.tmp/actualImages',
+                    savePerInstance: true,
+                    autoSaveBaseline: true,
+                    blockOutStatusBar: true,
+                    blockOutToolBar: true,
+                    blockOutSideBar: true,
+                },
+            ],
+        ],
+    }),
+    ...(process.env.PLATFORM === 'macos' && {
+        services: [
+            'chromedriver',
+            [
+                'image-comparison',
+                {
+                    baselineFolder: './test/baselineImages',
+                    formatImageName: '{tag}',
+                    screenshotPath: '.tmp/actualImages',
+                    savePerInstance: true,
+                    autoSaveBaseline: true,
+                    blockOutStatusBar: true,
+                    blockOutToolBar: true,
+                    blockOutSideBar: true,
+                },
+            ],
+        ],
     }),
     ...((process.env.PLATFORM === 'ios' ||
         process.env.PLATFORM === 'tvos' ||
         process.env.PLATFORM === 'android' ||
-        process.env.PLATFORM === 'androidtv' ||
-        process.env.PLATFORM === 'macos') && {
+        process.env.PLATFORM === 'androidtv') && {
         services: [
             [
                 'appium',
@@ -202,6 +238,19 @@ exports.config = {
                             port: 3005,
                         }),
                     },
+                },
+            ],
+            [
+                'native-app-compare',
+                {
+                    baselineFolder: './test/baselineImages',
+                    imageNameFormat: '{tag}',
+                    screenshotPath: '.tmp/actualImages',
+                    savePerDevice: true,
+                    autoSaveBaseline: true,
+                    blockOutStatusBar: true,
+                    blockOutNavigationBar: true,
+                    blockOutIphoneHomeBar: true,
                 },
             ],
         ],

@@ -167,7 +167,7 @@
         "tizen": {
             "package": "samsungdev",
             "id": "samsungdev.TestHarness",
-            "certificateProfile": "samsungdev"
+            "certificateProfile": "RNVanillaCert"
         },
         "tizenwatch": {
             "package": "cHIP2fIRQZ",

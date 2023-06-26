@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { getScaledValue, isPlatformWeb } from '@rnv/renative';
 import { ThemeContext, ROUTES } from '../config';
 import { usePop, useReplace } from '../hooks';
-import { DataItem, getRandomItem } from '../utils';
+import { DataItem, getRandomItem, testProps } from '../utils';
 import Screen from './screen';
 
 const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router?: any; route?: any }) => {
@@ -32,9 +32,12 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
             <ImageBackground source={{ uri: item.backgroundImage }} style={{ flex: 1 }} resizeMode="cover">
                 <ScrollView contentContainerStyle={theme.styles.center}>
                     <View style={theme.styles.detailsInfoContainer}>
-                        <Text style={theme.styles.detailsTitle}>{item.title}</Text>
+                        <Text style={theme.styles.detailsTitle} {...testProps('template-details-screen-cat-name-text')}>
+                            {item.title}
+                        </Text>
                     </View>
                     <TouchableOpacity
+                        {...testProps('template-details-screen-go-back-button')}
                         style={theme.styles.button}
                         onPress={() => pop()}
                         focusOptions={{
@@ -49,6 +52,7 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
                         <Text style={[theme.styles.buttonText, { color: '#FFFFFF' }]}>Go back</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
+                        {...testProps('template-details-screen-go-to-home-button')}
                         style={theme.styles.button}
                         onPress={() => replace(ROUTES.HOME)}
                         focusOptions={{
