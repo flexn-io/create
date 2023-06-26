@@ -36,14 +36,14 @@
             "welcomeMessage": "Flexn!"
         },
         "fontSources": [
-            "{{resolvePackage(react-native-vector-icons)}}/Fonts"
+            "{{resolvePackage(react-native-vector-icons)}}/Fonts",
+            "{{resolvePackage(@flexn/fonts)}}/fonts"
         ]
     },
     "platforms": {
         "ios": {
             "entryFile": "index",
             "scheme": "RNVApp",
-            "deploymentTarget": "12.0",
             "provisioningStyle": "Automatic",
             "allowProvisioningUpdates": true,
             "plist": {
@@ -87,7 +87,6 @@
             ],
             "buildSchemes": {
                 "debug": {
-                    "id": "io.flexn.template.debug",
                     "runScheme": "Debug",
                     "bundleAssets": false
                 },
@@ -132,7 +131,6 @@
         "tvos": {
             "scheme": "RNVAppTVOS",
             "entryFile": "index",
-            "deploymentTarget": "12.0",
             "provisioningStyle": "Automatic",
             "entitlements": {},
             "allowProvisioningUpdates": true,
@@ -152,7 +150,6 @@
             },
             "buildSchemes": {
                 "debug": {
-                    "id": "io.flexn.template.debug",
                     "runScheme": "Debug",
                     "bundleAssets": false
                 },
@@ -245,7 +242,6 @@
             ],
             "buildSchemes": {
                 "debug": {
-                    "id": "io.flexn.template.debug",
                     "signingConfig": "Debug",
                     "bundleAssets": false
                 },
@@ -270,18 +266,17 @@
         "androidtv": {
             "entryFile": "index",
             "reactNativeEngine": "hermes",
+            "assetFolderPlatform": "android",
             "includedPermissions": [
                 "INTERNET"
             ],
             "universalApk": true,
             "multipleAPKs": false,
-            "minSdkVersion": 21,
             "permissions": [
                 "*"
             ],
             "buildSchemes": {
                 "debug": {
-                    "id": "io.flexn.template.debug",
                     "signingConfig": "Debug",
                     "bundleAssets": false
                 },
@@ -305,12 +300,12 @@
         "firetv": {
             "entryFile": "index",
             "reactNativeEngine": "hermes",
+            "assetFolderPlatform": "android",
             "includedPermissions": [
                 "INTERNET"
             ],
             "universalApk": true,
             "multipleAPKs": false,
-            "minSdkVersion": 21,
             "permissions": [
                 "*"
             ],
@@ -340,12 +335,12 @@
         "androidwear": {
             "entryFile": "index",
             "reactNativeEngine": "hermes",
+            "assetFolderPlatform": "android",
             "includedPermissions": [
                 "INTERNET"
             ],
             "universalApk": true,
             "multipleAPKs": false,
-            "minSdkVersion": 23,
             "permissions": [
                 "*"
             ],

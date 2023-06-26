@@ -1,14 +1,12 @@
 {
   "images" : [
     {
-      "scale" : "1x",
-      "filename" : "TopShelfImage.png",
-      "idiom" : "tv"
+      "idiom" : "tv",
+      "scale" : "1x"
     },
     {
-      "scale" : "2x",
-      "filename" : "TopShelfImage@2x.png",
-      "idiom" : "tv"
+      "idiom" : "tv",
+      "scale" : "2x"
     }
   ],
   "info" : {

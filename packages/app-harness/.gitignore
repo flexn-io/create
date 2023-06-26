@@ -34,15 +34,13 @@ rnv-config.local.json
 metro.config.local.js
 
 .vercel
-platformBuilds/harness_tizen
 releases
 .tmp
-platformBuilds/harness_tizen
 
-platformBuilds/harness_webos
-platformBuilds/harness_webos
 
 dist
 build
 
 reporting
+
+.rollup.cache

@@ -5,16 +5,13 @@
   },
   "layers" : [
     {
-      "filename" : "Flexn-logo2 1 (1).imagestacklayer"
+      "filename" : "Front.imagestacklayer"
     },
     {
-      "filename" : "bg.imagestacklayer"
+      "filename" : "Middle.imagestacklayer"
+    },
+    {
+      "filename" : "Back.imagestacklayer"
     }
-  ],
-  "properties" : {
-    "canvasSize" : {
-      "height" : 240,
-      "width" : 400
-    }
-  }
+  ]
 }
