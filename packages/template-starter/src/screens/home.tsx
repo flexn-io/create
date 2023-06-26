@@ -63,6 +63,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                     style={theme.styles.button}
                     focusOptions={{
                         nextFocusLeft: 'side-menu',
+                        nextFocusDown: 'chrome-icon',
                         animator: focusAnimation,
                     }}
                     {...testProps('template-home-screen-now-try-me-button')}
@@ -84,6 +85,9 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                     <TouchableOpacity
                         onPress={() => openURL('https://create.flexn.org')}
                         style={theme.styles.icon}
+                        focusOptions={{
+                            focusKey: 'chrome-icon',
+                        }}
                         {...testProps('template-home-screen-chrome-button')}
                     >
                         <Icon name="chrome" size={theme.static.iconSize} color={theme.static.colorBrand} />
