@@ -1,7 +1,6 @@
 import React, { useContext, useRef } from 'react';
 import { Animated } from 'react-native';
 import { TouchableOpacity, Text, Screen } from '@flexn/create';
-import { testProps } from '../utils';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { useNavigate } from '../hooks';
@@ -78,7 +77,6 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                 focusOptions={{
                     forbiddenFocusDirections: ['up'],
                 }}
-                {...testProps('template-menu-home-button')}
             >
                 <Icon name="md-home" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <AnimatedText
@@ -94,11 +92,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                     Home
                 </AnimatedText>
             </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => navigate(ROUTES.CAROUSELS)}
-                style={theme.styles.menuButton}
-                {...testProps('template-menu-carousels-button')}
-            >
+            <TouchableOpacity onPress={() => navigate(ROUTES.CAROUSELS)} style={theme.styles.menuButton}>
                 <Icon name="md-rocket" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <AnimatedText
                     style={[
@@ -119,7 +113,6 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                 focusOptions={{
                     forbiddenFocusDirections: ['down'],
                 }}
-                {...testProps('template-menu-my-modal-button')}
             >
                 <Icon name="ios-albums" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <AnimatedText
