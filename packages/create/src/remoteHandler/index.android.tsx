@@ -1,4 +1,4 @@
-import { DeviceEventEmitter, EmitterSubscription } from 'react-native';
+import { DeviceEventEmitter, EmitterSubscription, Platform } from 'react-native';
 import { useEffect, useCallback } from 'react';
 import throttle from 'lodash.throttle';
 
@@ -60,16 +60,17 @@ function useTVRemoteHandler(callback: RemoteHandlerCallbackAndroid) {
     const handler = useCallback(throttle(callback, 100), []);
 
     useEffect(() => {
-        const listener: EmitterSubscription = DeviceEventEmitter.addListener(
-            EVENT_NAME,
-            ({ eventKeyAction, eventType }) => {
+        let listener: EmitterSubscription;
+
+        if (Platform.isTV) {
+            listener = DeviceEventEmitter.addListener(EVENT_NAME, ({ eventKeyAction, eventType }) => {
                 return handler({
                     eventType,
                     eventKeyAction,
                     velocity: 0,
                 });
-            }
-        );
+            });
+        }
 
         return () => {
             if (listener) listener.remove();

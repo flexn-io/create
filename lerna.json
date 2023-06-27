@@ -1,20 +1,14 @@
 {
-  "version": "0.21.2-alpha.40",
-  "packages": [
-    "packages/*"
-  ],
-  "npmClient": "yarn",
-  "useWorkspaces": true,
-  "command": {
-    "publish": {
-      "message": "chore(release): publish"
-    },
-    "bootstrap": {
-      "npmClientArgs": [
-        "--no-package-lock",
-        "--unsafe-perm=true",
-        "--no-optional"
-      ]
+    "version": "0.21.2",
+    "packages": ["packages/*"],
+    "npmClient": "yarn",
+    "useWorkspaces": true,
+    "command": {
+        "publish": {
+            "message": "chore(release): publish"
+        },
+        "bootstrap": {
+            "npmClientArgs": ["--no-package-lock", "--unsafe-perm=true", "--no-optional"]
+        }
     }
-  }
 }
