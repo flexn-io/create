@@ -1,5 +1,4 @@
-import { NativeModules, NativeEventEmitter, DeviceEventEmitter, EmitterSubscription } from 'react-native';
-import { isPlatformTvos } from '@rnv/renative';
+import { NativeModules, NativeEventEmitter, DeviceEventEmitter, EmitterSubscription, Platform } from 'react-native';
 import throttle from 'lodash.throttle';
 import {
     RemoteHandlerEventTypesAppleTV,
@@ -38,7 +37,7 @@ class KeyHandler {
         this.onKeyUp = this.onKeyUp.bind(this);
         this.handleKeyEvent = this.handleKeyEvent.bind(this);
 
-        if (isPlatformTvos) {
+        if (Platform.isTV && Platform.OS === 'ios') {
             const { TvRemoteHandler } = NativeModules;
             this.eventEmitter = new NativeEventEmitter(TvRemoteHandler).addListener(
                 'onTVRemoteKey',

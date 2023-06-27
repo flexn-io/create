@@ -1,6 +1,5 @@
 import CoreManager from './core';
 import { DIRECTIONS } from '../constants';
-import Logger from './logger';
 import { FocusDirection } from '../types';
 
 const EVENT_TYPE_SELECT = 'select';
@@ -51,11 +50,6 @@ class KeyHandler {
 
     private onKeyDown(eventType: string) {
         if (CoreManager.isFocusManagerEnabled()) {
-            if (eventType === 'playPause') {
-                CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
-                Logger.setIsDebuggerEnabled(CoreManager.isDebuggerEnabled()).debug(CoreManager);
-            }
-
             if (eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
                 CoreManager.getCurrentFocus()?.onPress();
             }

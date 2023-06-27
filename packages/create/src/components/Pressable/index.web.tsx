@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View as RNView, StyleSheet, Animated, Insets } from 'react-native';
+import { View as RNView, StyleSheet, Animated, Insets, Pressable } from 'react-native';
 import type { PressableProps } from '../../focusManager/types';
 import { measureSync } from '../../focusManager/layoutManager';
 import ViewClass from '../../focusManager/model/view';
@@ -8,7 +8,14 @@ import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import { usePrevious } from '../../hooks/usePrevious';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
 
-import { ANIMATION_TYPES, AnimatorBackground, AnimatorBorder, AnimatorScale, AnimatorScaleWithBorder } from '../..';
+import {
+    ANIMATION_TYPES,
+    AnimatorBackground,
+    AnimatorBorder,
+    AnimatorScale,
+    AnimatorScaleWithBorder,
+    CoreManager,
+} from '../..';
 
 const View = React.forwardRef<RNView | undefined, PressableProps>(
     (
@@ -33,6 +40,21 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         },
         refOuter
     ) => {
+        if (!CoreManager.isFocusManagerEnabled()) {
+            return (
+                <Pressable
+                    style={style}
+                    hitSlop={hitSlop}
+                    onPress={onPress}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    {...props}
+                >
+                    {children}
+                </Pressable>
+            );
+        }
+
         const scaleAnim = useRef(new Animated.Value(1)).current;
         const refInner = useRef<RNView>();
 

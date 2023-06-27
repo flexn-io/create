@@ -4,17 +4,17 @@ import type {
     ClassRemoteHandlerCallbackAndroid,
     RemoteHandlerEventTypesAndroid,
     RemoteHandlerEventKeyActions,
-} from './index.androidtv';
+} from './index.android';
 import type {
     RemoteHandlerCallbackAppleTV,
     ClassRemoteHandlerCallbackAppleTV,
     RemoteHandlerEventTypesAppleTV,
-} from './index.tvos';
+} from './index.ios';
 import type {
     RemoteHandlerCallbackWebTV,
     ClassRemoteHandlerCallbackWebTV,
     RemoteHandlerEventTypesWebTV,
-} from './index.web.tv';
+} from './index.web';
 
 type RemoteHandlerCallback = RemoteHandlerCallbackAndroid & RemoteHandlerCallbackAppleTV & RemoteHandlerCallbackWebTV;
 type ClassRemoteHandlerCallback = ClassRemoteHandlerCallbackAndroid &

@@ -1,5 +1,4 @@
-import { findNodeHandle, UIManager } from 'react-native';
-import { isPlatformTizen, isPlatformWebos } from '@rnv/renative';
+import { findNodeHandle, UIManager, Platform } from 'react-native';
 import { distCalc } from '../nextFocusFinder';
 import { recalculateAbsolutes } from '../layoutManager';
 import Scroller from './scroller';
@@ -17,6 +16,16 @@ class CoreManager {
     private _debuggerEnabled = false;
     private _isEnabled = true;
     private _pendingLayoutMeasurements: Record<string, NodeJS.Timeout | number> = {};
+
+    constructor() {
+        const isMobile = !Platform.isTV && (Platform.OS === 'ios' || Platform.OS === 'android');
+        const isWeb = Platform.OS === 'web';
+
+        // Disable Focus Manager by default on these platforms
+        if (isMobile || isWeb) {
+            this._isEnabled = false;
+        }
+    }
 
     public setPendingLayoutMeasurement(model: FocusModel, callback: () => void) {
         if (this._pendingLayoutMeasurements[model.getId()]) {
@@ -85,7 +94,7 @@ class CoreManager {
         }
 
         if (this._currentFocus) {
-            if (this._currentFocus.node.current && !isPlatformTizen && !isPlatformWebos) {
+            if (this._currentFocus.node.current && Platform.OS !== 'web') {
                 UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId as number, 'cmdBlur', undefined);
             }
             this._currentFocus.onBlur();
@@ -94,7 +103,7 @@ class CoreManager {
 
         this._currentFocus = model;
 
-        if (model.node.current && !isPlatformTizen && !isPlatformWebos) {
+        if (model.node.current && Platform.OS !== 'web') {
             UIManager.dispatchViewManagerCommand(model.nodeId as number, 'cmdFocus', undefined);
         }
         model.onFocus();

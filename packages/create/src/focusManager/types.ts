@@ -150,6 +150,8 @@ export interface PressableProps extends RNPressableProps {
     onFocus?: () => void;
     className?: string;
     style?: ViewProps['style'];
+    onHoverIn?: null | ((event: MouseEvent) => void) | undefined;
+    onHoverOut?: null | ((event: MouseEvent) => void) | undefined;
 }
 
 export interface TouchableOpacityProps extends RNTouchableOpacityProps {
@@ -157,6 +159,7 @@ export interface TouchableOpacityProps extends RNTouchableOpacityProps {
     focusContext?: FocusContext;
     focusRepeatContext?: CreateListRenderItemInfo<any>['focusRepeatContext'];
     onBlur?: () => void;
+    onPress?: () => void;
     onFocus?: () => void;
     className?: string;
     dataSet?: any;
