@@ -115,6 +115,18 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         }, [focus]);
 
         useEffect(() => {
+            if (focusOptions.nextFocusDown) model.setNextFocusDown(focusOptions.nextFocusDown);
+            if (focusOptions.nextFocusUp) model.setNextFocusUp(focusOptions.nextFocusUp);
+            if (focusOptions.nextFocusLeft) model.setNextFocusLeft(focusOptions.nextFocusLeft);
+            if (focusOptions.nextFocusRight) model.setNextFocusRight(focusOptions.nextFocusRight);
+        }, [
+            focusOptions.nextFocusDown,
+            focusOptions.nextFocusUp,
+            focusOptions.nextFocusLeft,
+            focusOptions.nextFocusRight,
+        ]);
+
+        useEffect(() => {
             if (focus) {
                 Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_MOUNT);
             }

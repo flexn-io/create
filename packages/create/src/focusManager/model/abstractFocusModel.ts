@@ -248,16 +248,40 @@ export default abstract class FocusModel {
         return this._nextFocusRight || '';
     }
 
+    public setNextFocusRight(focusKey: string | string[]) {
+        this._nextFocusRight = focusKey;
+
+        return this;
+    }
+
     public getNextFocusLeft(): string | string[] {
         return this._nextFocusLeft || '';
+    }
+
+    public setNextFocusLeft(focusKey: string | string[]) {
+        this._nextFocusLeft = focusKey;
+
+        return this;
     }
 
     public getNextFocusUp(): string | string[] {
         return this._nextFocusUp || '';
     }
 
+    public setNextFocusUp(focusKey: string | string[]) {
+        this._nextFocusUp = focusKey;
+
+        return this;
+    }
+
     public getNextFocusDown(): string | string[] {
         return this._nextFocusDown || '';
+    }
+
+    public setNextFocusDown(focusKey: string | string[]) {
+        this._nextFocusDown = focusKey;
+
+        return this;
     }
 
     public getForbiddenFocusDirections(): string[] {
