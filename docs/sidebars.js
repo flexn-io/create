@@ -34,7 +34,6 @@ const sidebars = {
             items: [
                 'components/activity-indicator',
                 'components/app',
-                'components/icon',
                 'components/image-background',
                 'components/image',
                 'components/modal',
