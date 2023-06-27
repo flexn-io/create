@@ -15,6 +15,7 @@ class CoreManager {
     private _currentFocus: ViewType | null = null;
     private _debuggerEnabled = false;
     private _isEnabled = true;
+    private _keyEventsEnabled = true;
     private _pendingLayoutMeasurements: Record<string, NodeJS.Timeout | number> = {};
 
     constructor() {
@@ -364,12 +365,20 @@ class CoreManager {
         return this._isEnabled;
     }
 
+    public isKeyEventsEnabled() {
+        return this._keyEventsEnabled;
+    }
+
     public setDebuggerEnabled(enabled: boolean) {
         this._debuggerEnabled = enabled;
     }
 
     public setFocusManagerEnabled(enabled: boolean) {
         this._isEnabled = enabled;
+    }
+
+    public setKeyEventsEnabled(enabled: boolean) {
+        this._keyEventsEnabled = enabled;
     }
 
     public getCurrentFocus(): ViewType | null {

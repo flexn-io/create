@@ -59,7 +59,7 @@ class KeyHandler {
         eventKeyAction: RemoteHandlerEventKeyActions;
         eventType: RemoteHandlerEventTypesAppleTV | RemoteHandlerEventTypesAndroid;
     }) {
-        if (CoreManager.isFocusManagerEnabled()) {
+        if (CoreManager.isFocusManagerEnabled() && CoreManager.isKeyEventsEnabled()) {
             switch (eventKeyAction) {
                 case EVENT_KEY_ACTION_UP:
                     return this.onKeyUp();

@@ -49,7 +49,7 @@ class KeyHandler {
     }
 
     private onKeyDown(eventType: string) {
-        if (CoreManager.isFocusManagerEnabled()) {
+        if (CoreManager.isFocusManagerEnabled() && CoreManager.isKeyEventsEnabled()) {
             if (eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
                 CoreManager.getCurrentFocus()?.onPress();
             }
