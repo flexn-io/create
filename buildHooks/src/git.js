@@ -27,9 +27,9 @@ export const gitTag = async (c) => {
     const rootPkgFile = readObjectSync(path.join(baseDir, 'lerna.json'));
     const { version } = rootPkgFile;
 
-    Logger.logHook(`gitTagAndPush v${version}`);
+    Logger.logHook(`gitTagAndPush ${version}`);
     const git = simpleGit({ baseDir });
-    await git.addTag(`v${version}`);
+    await git.addTag(`${version}`);
     await git.push();
     await git.pushTags();
     return true;
