@@ -142,6 +142,9 @@ class CoreManager {
         );
 
         if (view) {
+            if (view.getScreen()?.getId() !== this.getCurrentFocus()?.getScreen()?.getId()) {
+                this.getCurrentFocus()?.getScreen()?.onBlur();
+            }
             view.setFocus();
         } else {
             const screen = Object.values(this._screens).find(
