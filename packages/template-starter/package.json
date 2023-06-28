@@ -65,7 +65,7 @@
     "devDependencies": {
         "@flexn/create": "0.21.2",
         "@flexn/fonts": "1.0.0",
-        "@flexn/graybox": "0.21.2-feat.3",
+        "@flexn/graybox": "0.21.1",
         "@flexn/plugins": "1.0.8",
         "@flexn/recyclerlistview": "4.2.6",
         "@flexn/shopify-flash-list": "1.4.8",
