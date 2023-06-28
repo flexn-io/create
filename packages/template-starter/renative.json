@@ -4,9 +4,7 @@
         "@rnv/engine-rn": "source:rnv",
         "@rnv/engine-rn-electron": "source:rnv",
         "@rnv/engine-rn-next": "source:rnv",
-        "@rnv/engine-rn-tvos": "source:rnv",
-        "@rnv/engine-rn-web": "source:rnv",
-        "@rnv/engine-rn-windows": "source:rnv"
+        "@rnv/engine-rn-tvos": "source:rnv"
     },
     "projectName": "@flexn/create-template-starter",
     "workspaceID": "flexn",
@@ -52,7 +50,7 @@
         },
         "@rnv/renative": {
             "source": "flexn",
-            "version": "0.37.0-rc.4"
+            "version": "0.37.0-rc.5"
         },
         "react-native": "source:flexn",
         "react-native-web": "source:flexn",
@@ -216,17 +214,13 @@
         "web": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "chromecast": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "tizen": {
@@ -243,9 +237,7 @@
         },
         "macos": {
             "engine": "engine-rn-electron",
-            "excludedPlugins": [
-                "react-native-linear-gradient"
-            ]
+            "excludedPlugins": ["react-native-linear-gradient"]
         },
         "windows": {
             "engine": "engine-rn-windows"
