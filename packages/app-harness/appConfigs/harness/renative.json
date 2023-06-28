@@ -23,10 +23,7 @@
                 "title": "Harness Production"
             }
         },
-        "firebaseGroups": "RS",
-        "assetSources": [
-            "{{resolvePackage(@flexn/assets-create-outline)}}/assets"
-        ]
+        "firebaseGroups": "RS"
     },
     "platforms": {
         "android": {

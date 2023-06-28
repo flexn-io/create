@@ -38,6 +38,9 @@
         "fontSources": [
             "{{resolvePackage(react-native-vector-icons)}}/Fonts",
             "{{resolvePackage(@flexn/fonts)}}/fonts"
+        ],
+        "assetSources": [
+            "{{resolvePackage(@flexn/assets-create-outline)}}/assets"
         ]
     },
     "platforms": {
