@@ -55,7 +55,6 @@
         "react-native": "source:flexn",
         "react-native-web": "source:flexn",
         "react-native-tvos": "source:flexn",
-        "react-native-windows": "source:flexn",
         "react-native-vector-icons": "source:flexn",
         "@lightningjs/cli": "source:flexn",
         "@lightningjs/sdk": "source:flexn",
@@ -65,7 +64,6 @@
         "@react-native-community/cli-platform-ios": "source:flexn",
         "@react-native-community/cli": "source:flexn",
         "next": "source:flexn",
-        "@react-native-windows/cli": "source:flexn",
         "@react-navigation": "source:flexn",
         "@react-navigation/elements": "source:flexn",
         "react-native-screens": "source:flexn",
@@ -240,10 +238,7 @@
             "excludedPlugins": ["react-native-linear-gradient"]
         },
         "windows": {
-            "engine": "engine-rn-windows"
-        },
-        "xbox": {
-            "engine": "engine-rn-windows"
+            "engine": "engine-rn-electron"
         }
     },
     "permissions": {
