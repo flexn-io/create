@@ -34,6 +34,7 @@ export { default as Switch } from './components/Switch';
 export { default as Text } from './components/Text';
 export { default as TextInput } from './components/TextInput';
 export { default as View } from './components/View';
+export { default as ViewGroup } from './components/ViewGroup';
 export { default as ImageBackground } from './components/ImageBackground';
 export { default as Modal } from './components/Modal';
 export { default as FlashList } from './components/FlashList';

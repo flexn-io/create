@@ -6,7 +6,7 @@ import { MutableRefObject } from 'react';
 import { ViewGroupProps } from '../types';
 
 class ViewGroup extends FocusModel {
-    private _group: string;
+    private _group?: string;
     private _focusKey?: string;
 
     constructor(params: Omit<ViewGroupProps & ViewGroupProps['focusOptions'], 'ref' | 'focusOptions'>) {
@@ -50,6 +50,12 @@ class ViewGroup extends FocusModel {
 
     public getGroup() {
         return this._group;
+    }
+
+    public setGroup(value?: string): this {
+        this._group = value;
+
+        return this;
     }
 
     public getFocusKey() {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import type { ViewGroupProps } from '../../focusManager/types';
 import useOnLayout from '../../hooks/useOnLayout';
@@ -16,7 +16,7 @@ const ViewGroup = React.forwardRef<View, ViewGroupProps>(
             );
         }
 
-        const [model] = useState<any>(
+        const [model] = useState(
             () =>
                 new ViewGroupClass({
                     focusContext,
@@ -25,6 +25,10 @@ const ViewGroup = React.forwardRef<View, ViewGroupProps>(
         );
 
         useOnComponentLifeCycle({ model });
+
+        useEffect(() => {
+            model.setGroup(focusOptions.group);
+        }, [focusOptions.group]);
 
         const { onLayout } = useOnLayout(model);
 
