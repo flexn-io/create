@@ -1,6 +1,6 @@
 {
     "name": "@flexn/create-template-starter",
-    "version": "0.21.2",
+    "version": "0.21.3-rc.1",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/create#readme",
@@ -63,11 +63,11 @@
         "@lightningjs/sdk": "5.2.0"
     },
     "devDependencies": {
-        "@flexn/create": "0.21.2",
+        "@flexn/assets-create-outline": "0.2.0",
+        "@flexn/create": "0.21.3-rc.1",
         "@flexn/fonts": "1.0.0",
         "@flexn/graybox": "0.21.1",
         "@flexn/plugins": "1.0.8",
-        "@flexn/assets-create-outline": "0.2.0",
         "@flexn/recyclerlistview": "4.2.6",
         "@flexn/shopify-flash-list": "1.4.8",
         "@lightningjs/cli": "2.11.0",
