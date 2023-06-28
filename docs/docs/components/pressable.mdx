@@ -3,42 +3,43 @@ import Prop from '@site/src/components/Prop';
 
 # Pressable
 
-Pressable is one of [React Native core components](https://reactnative.dev/docs/pressable) but optimized to work on multiplatform environment. 
+Pressable is one of [React Native core components](https://reactnative.dev/docs/pressable) but optimized to work on multiplatform environment and has awareness of Focus Manager with set of optimized animations.
 
 ## Usage
+
 ```javascript
 import * as React from 'react';
 import { App, Screen, Text, Pressable, StyleSheet } from '@flexn/create';
 
 const MyComponent = () => {
-  return (
-    <App>
-      <Screen style={styles.container}>
-        <Pressable style={styles.button} onPress={() => console.log('Pressed')}>
-          <Text>Press me</Text>
-        </Pressable>
-      </Screen>
-    </App>
-  );
+    return (
+        <App>
+            <Screen style={styles.container}>
+                <Pressable style={styles.button} onPress={() => console.log('Pressed')}>
+                    <Text>Press me</Text>
+                </Pressable>
+            </Screen>
+        </App>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  button: {
-    marginHorizontal: 20,
-    borderWidth: 2,
-    borderRadius: 25,
-    borderColor: '#111111',
-    height: 50,
-    width: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+    },
+    button: {
+        marginHorizontal: 20,
+        borderWidth: 2,
+        borderRadius: 25,
+        borderColor: '#111111',
+        height: 50,
+        width: 200,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
 export default MyComponent;
@@ -46,189 +47,173 @@ export default MyComponent;
 
 ## Props
 
-<Prop value="focus" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+It inherits all the properties from [React Native Pressable](https://reactnative.dev/docs/pressable) and adds everything what's described below.
 
-Type: *boolean*
+<Prop value="focus" />
+<Badge value="Android TV, Fire TV, Apple TV" platform />{' '}
+
+Type: _boolean_
 
 Default value: `true`
 
 Property which tells Focus Manager if component should be included in focus engine finding next focusable element.
 
-------------------------------------------------------------
+---
 
-<Prop value="parentContext" /><Badge required /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
+<Prop value="focusContext" />
+<Badge required />
+<Badge value="Android TV, Fire TV, Apple TV, webOS, Tizen" platform />{' '}
 
-Type: *ParentContext*
+Type: _FocusContext_
 
 This property allows Focus Manager to understand what's the structure of the screen. Usually Focus Manager iterates all the components
-and passes down `parentContext` of the parent component to it's children. But if you have to created custom component you must pass it down by
+and passes down `focusContext` of the parent component to it's children. But if you have to created custom component you must pass it down by
 yourself.
 
 ```javascript
 import * as React from 'react';
-import { App, Screen, Text, Pressable, StyleSheet } from '@flexn/create';
+import { App, Screen, Text, Pressable, StyleSheet, FocusContext } from '@flexn/create';
 
-const MyCustomComponent = ({ parentContext }: { parentContext?: any }) => {
-  return (
-    <Pressable parentContext={parentContext} style={styles.button} onPress={() => console.log('Pressed')}>
-      <Text>Press me</Text>
-    </Pressable>
-  );
+const MyCustomComponent = ({ focusContext }: { focusContext?: FocusContext }) => {
+    return (
+        <Pressable focusContext={focusContext} style={styles.button} onPress={() => console.log('Pressed')}>
+            <Text>Press me</Text>
+        </Pressable>
+    );
 };
 
 const MyComponent = () => {
-  return (
-    <App>
-      <Screen style={styles.container}>
-        <MyCustomComponent />
-      </Screen>
-    </App>
-  );
+    return (
+        <App>
+            <Screen style={styles.container}>
+                <MyCustomComponent />
+            </Screen>
+        </App>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  button: {
-    marginHorizontal: 20,
-    borderWidth: 2,
-    borderRadius: 25,
-    borderColor: '#111111',
-    height: 50,
-    width: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+    },
+    button: {
+        marginHorizontal: 20,
+        borderWidth: 2,
+        borderRadius: 25,
+        borderColor: '#111111',
+        height: 50,
+        width: 200,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
 export default MyComponent;
 ```
 
-------------------------------------------------------------
+---
 
-<Prop value="onPress" />
+<Prop value="focusOptions" />
+<Badge value="Android TV, Fire TV, Apple TV, webOS, Tizen" platform />{' '}
 
-Type: *() => void*
-
-Event fired when Pressable was pressed.
-
-------------------------------------------------------------
-
-<Prop value="onFocus" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
-
-Type: *() => void*
-
-Event fired when Pressable gains focus.
-
-------------------------------------------------------------
-
-<Prop value="onBlur" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
-
-Type: *() => void*
-
-Event fired when Pressable loose focus.
-
-------------------------------------------------------------
-
-<Prop value="focusOptions" /><Badge value="Android TV, Fire TV, Apple TV" platform /> 
-
-Type: *ViewFocusOptions*
+Type: _PressableFocusOptions_
 
 Property which holds following related properties:
 
 <Prop value="focusOptions.forbiddenFocusDirections" subProperty />
 
-
-Type: *ForbiddenFocusDirections[]*
+Type: _ForbiddenFocusDirections[]_
 
 Can contain one or more directions. When component is focused and direction is set an example to `right` then pressing right button on your remote will do nothing just keep focus as it is.
 
 <Prop value="focusOptions.focusKey" subProperty />
 
-Type: *string*
+Type: _string_
 
 An unique string which can be used to force focus on specific element by `focusKey`.
 
-<Prop value="focusOptions.hasInitialFocus" subProperty />
+<Prop value="focusOptions.nextFocusUp" subProperty />
 
-Type: *boolean*
+Type: _string_ | _string[]_
+
+Forces next focus direction for component when user navigates up. It accepts string with focus key or array with multiple focus keys. In that case first found is executed by focus engine.
+
+<Prop value="focusOptions.nextFocusDown" subProperty />
+
+Type: _string_ | _string[]_
+
+Forces next focus direction for component when user navigates down. It accepts string with focus key or array with multiple focus keys. In that case first found is executed by focus engine.
+
+<Prop value="focusOptions.nextFocusLeft" subProperty />
+
+Type: _string_ | _string[]_
+
+Forces next focus direction for component when user navigates left. It accepts string with focus key or array with multiple focus keys. In that case first found is executed by focus engine.
+
+<Prop value="focusOptions.nextFocusRight" subProperty />
+
+Type: _string_ | _string[]_
+
+Forces next focus direction for component when user navigates right. It accepts string with focus key or array with multiple focus keys. In that case first found is executed by focus engine.
+
+<Prop value="focusOptions.hasPreferredFocus" subProperty />
+
+Type: _boolean_
 
 Forces element to gain focus once screen is loaded.
 
-<Prop value="focusOptions.animatorOptions" subProperty />
+<Prop value="focusOptions.animator" subProperty />
 
-Type: *any*
+Type: _Animator_
 
-Default value: `Scale`
+Default value: `Scale animator`
 
-Animator Options can define how your component will behave when it gains focus. It has multiple animation variations which can be controlled by following configurations:
+Animator can define how your component will behave when it gains focus. It has multiple animation variations which can be controlled by following configurations:
 
-- Scale
+Type: _AnimatorScale_
 
 ```javascript
-<Pressable
-  focusOptions={{
-    animatorOptions: {
-      type: 'scale',
-      scale: 1.1, // Optional. Any value from 1
-      duration: 150, // Optional. How long time border transition should take
-    }
-  }}
-/>
+type: 'scale;
+focus: {
+    scale?: number;
+    duration?: number;
+};
 ```
 
-- Scale with border
+Type: _AnimatorScaleWithBorder_
 
 ```javascript
-<Pressable
-  style={{
-    borderColor: '#0A74E6',
-    borderWidth: 1,
-  }}
-  focusOptions={{
-    animatorOptions: {
-      type: 'scale_with_border',
-      scale: 1.1, // Optional. Any value from 1
-      duration: 150, // Optional. How long time border transition should take
-    }
-  }}
-/>
-
-```
-- Border
-
-```javascript
-<Pressable
-  style={{
-    borderColor: '#0A74E6',
-    borderWidth: 1,
-  }}
-  focusOptions={{
-    animatorOptions: {
-      type: 'border',
-      duration: 150, // Optional. How long time border transition should take
-    }
-  }}
-/>
+type: 'scale_with_border';
+focus: {
+    scale?: number;
+    duration?: number;
+    borderWidth: number;
+    borderColor: ColorValue;
+    borderRadius?: number;
+};
 ```
 
-- Background
+Type: _AnimatorBorder_
 
 ```javascript
-<Pressable
-  style={{
-    backgroundColor: '#FFFFFF'
-  }}
-  focusOptions={{
-    animatorOptions: {
-      type: 'background',
-      backgroundColorFocus: '#0A74E6', // Required. Color which will be applied when element gains focus
-      duration: 150, // Optional. How long time border transition should take
-    }
-  }}
-/>
+type: 'border';
+focus: {
+    borderWidth: number;
+    borderColor: string;
+    borderRadius?: number;
+    duration?: number;
+};
+```
+
+Type: _AnimatorBackground_
+
+```javascript
+type: 'background';
+focus: {
+    backgroundColor: ColorValue;
+    duration?: number;
+};
 ```

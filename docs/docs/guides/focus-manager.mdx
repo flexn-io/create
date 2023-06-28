@@ -1,80 +1,5 @@
 # Flexn Focus Manager
 
-## Focus Manager in React Native
-
-Focus Manager is an algorithm for TV's which controls focus. Based on your application structure and remote controller actions decides what to focus next.
-React Native doesn't have any specific Focus Manager implementation it utilizing native focus manager and
-exports some API functions for React Native developers to help control some parts of it.
-
-## Why it doesn't work well
-
-First we need to understand that whole communication between Javascript and native code happening via React Native Bridge which is capable to connect these two worlds.
-Native Focus Manager works in a way that whole decision making about what to focus next, what's initial focus and so on happens on native side and we as javascript developers have to obey
-to those decisions. The problem is that those decisions are not always right because of various reasons like:
-
--   Each application has it own layout which sometimes can be very complex;
--   Sometimes our application have items which is not perfectly aligned;
--   We have different navigation paradigms in our apps;
--   and so on...
-
-Therefore if we have real world application(something way more complex than "Hello world") we're start hitting the problem when native focus manager proving us wrong
-decisions and focus start working not as we expecting...
-
-To have better control over focus manager Google added API which allows developers based on their applications force Focus Manager to do what it wants. In React Native that
-works in a way that focusable item needs to provide reference to another focusable item. An example:
-
-```javascript
-import * as React from 'react';
-import { findNodeHandle, View, TouchableOpacity } from 'react-native';
-
-const MyComponent = () => {
-    const ref1 = React.useRef();
-    const ref2 = React.useRef();
-    const ref3 = React.useRef();
-
-    React.useEffect(() => {
-        ref1.current.setNativeProps({
-            setNextFocusUp: findNodeHandle(ref2.current),
-        });
-        ref2.current.setNativeProps({
-            setNextFocusUp: findNodeHandle(ref3.current),
-        });
-        ref3.current.setNativeProps({
-            setNextFocusDown: findNodeHandle(ref2.current),
-        });
-    }, []);
-
-    return (
-        <View>
-            <TouchableOpacity ref={ref1} />
-            <TouchableOpacity ref={ref2} />
-            <TouchableOpacity ref={ref3} />
-        </View>
-    );
-};
-
-export default MyComponent;
-```
-
-So in this example for Native Focus Manager we're saying that once first TouchableOpacity has focus gained his next up direction
-will be second TouchableOpacity, second TouchableOpacity on up command will focus last one and last on once down button is pressed will move focus back to 2nd TouchableOpacity.
-Well it looks like we have some control, but it has some fundamental issues like:
-
--   We are communicating with native code and React Native bridge has delay, so usually these focus enforcements makes focus manager do 2 actions: first native default one and second
-    our which we wrote in javascript which eventually it can make very bad user experience;
--   Having complex apps which has a lot of different components and screens managing these references become tremendous work which also makes our code base very fragile;
--   This focus enforcement was working on Android TV only, before React Native cut down support for TV's at all and [this library](https://github.com/react-native-tvos/react-native-tvos) was
-    created which added support for tvOS also, but it works in slightly different way.
-
-## Flexn Focus Manager
-
-With Flexn Focus Manager we took different approach. After lot of discussions and investigation what we can do that javascript and native code communication regards to focus management
-could be reliable enough and solve fundamental problems described above we came to the solution that we should remove native part from equation and turn all decision making to Javascript
-where we have best control over our applications.
-
-We still utilizing the best of native and created components library which puts all heavy operations and requires best code performance
-like focus animations to native code. Having this combination in mind we managed to create Flexn Focus Manager which finally works!
-
 ## How to use it
 
 Nevertheless Flexn Focus Manager is simple enough it has some fundamental rules which we need to comply to use it right. All primitive components must be exported from `@flexn/create` since
@@ -102,7 +27,7 @@ Screen represents collection of the children's which belongs only for particular
 has to be like that. With Screen you can create things like modals which overlaps the context, side navigation which typically always visible for user whatever you navigate or anything
 else depends on your application structure. There are few important rules working with screens:
 
--   You can never wrap screen into another screen. That doesn't work;
+-   Don't wrap screen into another screen. That might cause side effects and break functionality;
 -   Screen must have states. More about those below;
 
 State of the screen tells focus manager whenever your screen is in foreground and visible for user or it's moved to background. Example bellow shows simple implementation with
@@ -129,7 +54,7 @@ const Screen1 = ({ navigation }) => {
     );
 
     return (
-        <Screen style={styles.container} screenState={screenState}>
+        <Screen style={styles.container} focusOptions={{ screenState }}>
             <Pressable style={styles.button} onPress={() => navigation.navigate('myScreen2')}>
                 <Text>Navigate to screen 2</Text>
             </Pressable>
@@ -153,7 +78,7 @@ const Screen2 = ({ navigation }) => {
     );
 
     return (
-        <Screen style={styles.container} screenState={screenState}>
+        <Screen style={styles.container} focusOptions={{ screenState }}>
             <Pressable style={styles.button} onPress={() => navigation.navigate('myScreen1')}>
                 <Text>Back to screen 1</Text>
             </Pressable>
@@ -226,7 +151,7 @@ const MyApp = () => {
     const renderModal = () => {
         if (modalOpen) {
             return (
-                <Screen style={styles.modal} screenOrder={1}>
+                <Screen style={styles.modal} focusOptions={{ screenOrder: 1 }}>
                     <Pressable style={styles.button}>
                         <Text>Hello from Flexn Create</Text>
                     </Pressable>
@@ -298,11 +223,11 @@ this needs to be done by manually(which is very easy):
 
 ```javascript
 import * as React from 'react';
-import { App, Screen, Text, Pressable, StyleSheet } from '@flexn/create';
+import { App, Screen, Text, Pressable, StyleSheet, FocusContext } from '@flexn/create';
 
-const MyCustomComponent = ({ parentContext }: { parentContext?: any }) => {
+const MyCustomComponent = ({ focusContext }: { focusContext?: FocusContext }) => {
     return (
-        <Pressable parentContext={parentContext} style={styles.focusableElement}>
+        <Pressable focusContext={focusContext} style={styles.focusableElement}>
             <Text>Hello from Flexn Create</Text>
         </Pressable>
     );
@@ -341,7 +266,7 @@ const styles = StyleSheet.create({
 export default MyApp;
 ```
 
-As you can see in this example we are creating our custom component called `MyCustomComponent` which by default inherits special property called `parentContext` which needs
+As you can see in this example we are creating our custom component called `MyCustomComponent` which by default inherits special property called `focusContext` which needs
 to be passed down to your parent component of return function. After doing that Flexn Focus Manager will take care of the rest.
 
-**IMPORTANT: do not create property for any of your custom component called `parentContext` it's reserved by Flexn Focus Manager.**
+**IMPORTANT: do not create property for any of your custom component called `focusContext` it's reserved by Flexn Focus Manager.**

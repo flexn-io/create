@@ -25,20 +25,8 @@ const sidebars = {
         },
         {
             type: 'doc',
-            label: 'Quickstart',
-            id: 'tutorials/basics/quickstart',
-        },
-        {
-            type: 'category',
-            label: 'Advanced Tutorial',
-            collapsed: false,
-            items: [
-                'tutorials/advanced/bootstrap',
-                'tutorials/advanced/app',
-                'tutorials/advanced/screens',
-                'tutorials/advanced/navigation',
-                'tutorials/advanced/ui',
-            ],
+            label: 'Example app',
+            id: 'tutorials/basics/example',
         },
         {
             label: 'Components',
@@ -46,12 +34,11 @@ const sidebars = {
             items: [
                 'components/activity-indicator',
                 'components/app',
-                'components/icon',
                 'components/image-background',
                 'components/image',
                 'components/modal',
                 'components/pressable',
-                'components/recyclable-list',
+                'components/flash-list',
                 'components/screen',
                 'components/scrollview',
                 'components/switch',

@@ -11,13 +11,6 @@ export default function HomepageFeatures(): JSX.Element {
         >
             <div>
                 <Module
-                    title="Bootstrap templates"
-                    subtitle="Ready to go template allows you to go from 0 to 100 
-                almost instantly."
-                    websiteUrl="https://create.flexn.org/docs/tutorials/advanced/bootstrap"
-                    containerClassName="firstModule"
-                />
-                <Module
                     title="Powered by ReNative"
                     subtitle="Flexn Create adds optimised multiplatform UI on top of ReNative ecosystem allowing you take advantage of full project control,
                 scalability features and deployment pipelines out of the box"
