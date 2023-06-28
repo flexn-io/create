@@ -25,7 +25,7 @@
         },
         "firebaseGroups": "RS",
         "assetSources": [
-            "{{resolvePackage(@flexn/create-template-starter)}}/appConfigs/base/assets"
+            "{{resolvePackage(@flexn/assets-create-outline)}}/assets"
         ]
     },
     "platforms": {
