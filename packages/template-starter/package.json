@@ -1,6 +1,6 @@
 {
     "name": "@flexn/create-template-starter",
-    "version": "0.21.2",
+    "version": "1.0.0-alpha.0",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/create#readme",
@@ -63,7 +63,7 @@
         "@lightningjs/sdk": "5.2.0"
     },
     "devDependencies": {
-        "@flexn/create": "0.21.2",
+        "@flexn/create": "1.0.0-alpha.0",
         "@flexn/fonts": "1.0.0",
         "@flexn/graybox": "0.21.2-feat.3",
         "@flexn/plugins": "1.0.8",
