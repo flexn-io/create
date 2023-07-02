@@ -48,7 +48,7 @@
     "plugins": {
         "@flexn/create": {
             "source": "flexn",
-            "version": "1.0.0-alpha.0"
+            "version": "1.0.0-feat-fmstart.0"
         },
         "@rnv/renative": {
             "source": "flexn",
