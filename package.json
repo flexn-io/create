@@ -79,7 +79,7 @@
     "devDependencies": {
         "@flexn/eslint-config": "0.1.7",
         "@flexn/prettier-config": "0.1.7",
-        "@flexn/typescript": "0.3.0",
+        "@flexn/typescript-config": "0.1.7",
         "@flexn/build-hooks": "0.30.0",
         "@types/jest": "~27.0.2",
         "@types/lodash-es": "~4.17.5",
