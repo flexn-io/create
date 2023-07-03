@@ -1948,15 +1948,15 @@
     simple-git "2.48.0"
     ts-object-utils "0.0.5"
 
-"@flexn/eslint-config@0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@flexn/eslint-config/-/eslint-config-0.1.5.tgz#620d312018a0de1e61ac023c6dc2013d987b79e6"
-  integrity sha512-l49bXcYNs9CPNfTRgJQWXS+5FSeW+yYuWOLnM5nuGcs0aD7WGhIaV27H0xnaiCU90jZY9uC613Gd45035gFd0w==
+"@flexn/eslint-config@0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@flexn/eslint-config/-/eslint-config-0.1.7.tgz#80e511c34641fe6d0cf7f0017887d7dd60daece6"
+  integrity sha512-BmcqN2HJTAfcw9M2EBqCbrA8ZmLKT2lB6zbb5bPA5MmtyRbVubPN6MdI1zmnvl7R3F2GJtP6LMF8IjIfYic6MA==
 
-"@flexn/fonts@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@flexn/fonts/-/fonts-1.0.0.tgz#f5b4c68229945fa7eaa73d139191533118b0618e"
-  integrity sha512-Jh5KjKk4+umNdHdIxMUPecVbtk0GxsYeV0F7tcKTXnSV4s9JI3eyiIr5lVXIAbALdZN/XJHP+nH4AJ00QBoyHg==
+"@flexn/fonts@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@flexn/fonts/-/fonts-1.0.1.tgz#f6be8315cd9c9cd3b2c4e111a9252018f0849bc3"
+  integrity sha512-psB8wfeY6Q77acI7vFlhzk12V5yMxE1oSn/H7mN+O3W+aY0B0Jjz2IxsSgBI3jqwQDJwBv/knGt2wLyXzFUdIg==
 
 "@flexn/graybox@0.21.2-feat.3":
   version "0.21.2-feat.3"
@@ -1977,15 +1977,15 @@
     wdio-image-comparison-service "5.0.3"
     wdio-native-app-compare-service "2.1.0"
 
-"@flexn/plugins@1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@flexn/plugins/-/plugins-1.0.8.tgz#12b132156f7cae3fb4651b1d4c05a3dba955d2bf"
-  integrity sha512-PknR5ivQnV08jTALl5k7oEJDd8EuQSndz1dY7JY43QfXvM+QMhxPyaH1yLMqA/iYAc//2BpRIrFHlEgwwK7+QQ==
+"@flexn/plugins@1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@flexn/plugins/-/plugins-1.0.9.tgz#34b0c24b58729cad3efdd2ce0952645c0f23fcb5"
+  integrity sha512-a0a7VCZBdcuyXxWSbA7cY0/ybmxaF6rqMt8p2SNJ1Trkkv2My4XB4sS2o0by1SiMLEs9axCNPOIFcdDsepRJxg==
 
-"@flexn/prettier-config@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@flexn/prettier-config/-/prettier-config-0.1.4.tgz#3af0d5d2b4c9767214b7fdbe9e683615ba7dfac3"
-  integrity sha512-2lTwjEu34Ex3SUNEDSJ7ctLm3yU1pK+Ej/yj7+DLgdWdkoiFf7Q1A4q/VeY5eYmHl6QfNzPnc+D6P3FkqzpCBw==
+"@flexn/prettier-config@0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@flexn/prettier-config/-/prettier-config-0.1.7.tgz#610c1d7872a51f499fec2a585a50c60a11ec85dd"
+  integrity sha512-ErG616JTbb1oTliPoxye0kOvhQRow6KI4FQIKdbiHBynlIYMFbPnBT8QSLglKkTapkjS/Z8zRfpfkORAgzcYDQ==
 
 "@flexn/recyclerlistview@4.2.6":
   version "4.2.6"
@@ -2004,10 +2004,10 @@
     "@flexn/recyclerlistview" "4.2.6"
     tslib "2.4.0"
 
-"@flexn/typescript@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@flexn/typescript/-/typescript-0.3.0.tgz#733c02bdd9d799145737b5d0c7c6a73fba873ec7"
-  integrity sha512-kN6TxCLHaYJBXQBCj7B62UAx7PcO3VrMqI9NF31RGNMlTz2DkLtuNfvNBl6tiXN+rJOKLgm60EvoEQkdwe4sGw==
+"@flexn/typescript-config@0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@flexn/typescript-config/-/typescript-config-0.1.7.tgz#399f8da70223dfa04ef6a4f685bbdbb905b43449"
+  integrity sha512-DFGmaYkA8AQ66E7yMGMGSLc7cc+PYl7xcSeWkCzF3IIIdxkV4enUEHXrb8JSkgUZk/LbSXlZUVPUqzzKsuFVsA==
 
 "@gar/promisify@^1.0.1", "@gar/promisify@^1.1.3":
   version "1.1.3"
