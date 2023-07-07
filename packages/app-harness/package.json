@@ -1,6 +1,6 @@
 {
     "name": "@flexn/app-harness",
-    "version": "1.0.0-alpha.0",
+    "version": "1.0.0-alpha.1",
     "scripts": {
         "bootstrap": "cd ../.. && yarn bootstrap",
         "build": "yarn clean && yarn compile",
@@ -40,9 +40,9 @@
         "web:release": "npx rnv build -p web -c harness -s release && vercel ./platformBuilds/harness_web/project"
     },
     "dependencies": {
-        "@flexn/create": "1.0.0-alpha.0",
+        "@flexn/create": "1.0.0-alpha.1",
         "@flexn/fonts": "1.0.1",
-        "@flexn/recyclerlistview": "4.2.6",
+        "@flexn/recyclerlistview": "4.2.7",
         "@flexn/shopify-flash-list": "1.4.8",
         "@lightningjs/core": "2.8.0",
         "@lightningjs/sdk": "5.2.0",
@@ -83,7 +83,7 @@
         "react-native-windows": "0.67.3"
     },
     "devDependencies": {
-        "@flexn/create-template-starter": "1.0.0-alpha.0",
+        "@flexn/create-template-starter": "1.0.0-alpha.1",
         "@flexn/plugins": "1.0.9",
         "@lightningjs/cli": "2.11.0",
         "@react-native-community/cli": "^6.0.0",
