@@ -14,8 +14,15 @@ import grid from './screens/grid';
 import scrollToTop from './screens/scrollToTop';
 import complexTabs from './screens/complexTabs';
 import hideAllElements from './screens/hideAllElements';
+import dynamicRows from './screens/dynamicRows';
 
 const testsList = [
+    {
+        component: dynamicRows,
+        title: 'Dynamic rows',
+        route: 'DynamicRows',
+        platform: ['androidtv', 'firetv', 'tvos', 'tizen', 'webos'],
+    },
     {
         component: hideAllElements,
         title: 'Hide All Elements',
