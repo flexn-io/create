@@ -111,6 +111,13 @@ class View extends FocusModel {
     private _onUnmount() {
         CoreManager.removeFocusAwareComponent(this);
         this.getScreen()?.onViewRemoved(this);
+        if (this.getParent() instanceof Row || this.getParent() instanceof Grid) {
+            const parent = this.getParent() as Recycler;
+            if (parent.getFocusedView()?.getId() === this.getId()) {
+                parent.setFocusedView(null);
+                parent.setFocusedIndex(-1);
+            }
+        }
         this.unsubscribeEvents();
     }
 

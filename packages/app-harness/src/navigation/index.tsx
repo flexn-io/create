@@ -18,6 +18,8 @@ import Grid from '../screens/grid';
 import ScrollToTop from '../screens/scrollToTop';
 import ComplexTabs from '../screens/complexTabs';
 import HideAllElements from '../screens/hideAllElements';
+import DynamicRows from '../screens/dynamicRows';
+import RemoteHandler from '../screens/remoteHandler';
 
 const RootStack = createNativeStackNavigator();
 
@@ -42,6 +44,8 @@ const Navigation = () => {
                 <RootStack.Screen name="ScrollToTop" component={ScrollToTop} />
                 <RootStack.Screen name="ComplexTabs" component={ComplexTabs} />
                 <RootStack.Screen name="HideAllElements" component={HideAllElements} />
+                <RootStack.Screen name="DynamicRows" component={DynamicRows} />
+                <RootStack.Screen name="RemoteHandler" component={RemoteHandler} />
             </RootStack.Navigator>
         </NavigationContainer>
     );

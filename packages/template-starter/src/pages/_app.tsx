@@ -1,10 +1,8 @@
 import React from 'react';
-import { Debugger, App, setFocusManagerEnabled } from '@flexn/create';
+import { Debugger, App } from '@flexn/create';
 import Menu from '../components/menu';
 import { themeStyles, ThemeProvider } from '../config';
 import { AppProps } from 'next/app';
-
-setFocusManagerEnabled(true);
 
 export default function MyApp({ Component, pageProps }: AppProps<any>) {
     return (
