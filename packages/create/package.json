@@ -1,6 +1,6 @@
 {
     "name": "@flexn/create",
-    "version": "1.0.0-featrnsupport.3",
+    "version": "1.0.0-featrnsupport.6",
     "description": "Flexn Create SDK",
     "main": "lib/index",
     "types": "lib/index",
