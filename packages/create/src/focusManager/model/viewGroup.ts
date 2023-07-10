@@ -43,7 +43,10 @@ class ViewGroup extends FocusModel {
     }
 
     private async _onLayout() {
-        this.remeasureSelfAndChildrenLayouts(this);
+        if (!this.isLayoutEqualsPreviousSnapshot()) {
+            this.remeasureSelfAndChildrenLayouts(this);
+            console.log('NOT_EQUAL_VIEW_GROUP');
+        }
     }
 
     // END EVENTS

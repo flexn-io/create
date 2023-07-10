@@ -42,7 +42,10 @@ class Row extends Recycler {
 
     protected async _onLayout() {
         await measureAsync({ model: this });
-        this.remeasureChildrenLayouts(this);
+        if (!this.isLayoutEqualsPreviousSnapshot()) {
+            this.remeasureChildrenLayouts(this);
+            console.log('NOT_EQUAL_ROW');
+        }
         Event.emit(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
     }
 

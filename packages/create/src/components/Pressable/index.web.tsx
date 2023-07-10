@@ -215,7 +215,10 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         const { onLayout } = useOnLayout(model);
 
         const { onLayout: onLayoutNonPressable } = useOnLayout(model, () => {
-            model?.remeasureSelfAndChildrenLayouts?.(model);
+            if (!model.isLayoutEqualsPreviousSnapshot()) {
+                model?.remeasureSelfAndChildrenLayouts?.(model);
+                console.log('NOT_EQUAL_VIEW');
+            }
         });
 
         // We must re-assign repeat context as View instances are re-used in recycled

@@ -86,6 +86,10 @@ const measure = ({
 }) => {
     if (model.node.current) {
         nodeMeasure(model, (_x: number, _y: number, width: number, height: number, pageX: number, pageY: number) => {
+            if (model.isLayoutMeasured()) {
+                model.setPrevLayoutSnapshot({ ...model.getLayout() });
+            }
+
             const { x: offsetX, y: offsetY } = getScrollOffsets(model);
             let pgX = pageX + offsetX;
             let pgY = pageY + offsetY;

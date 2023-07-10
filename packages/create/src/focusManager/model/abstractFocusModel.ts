@@ -26,6 +26,7 @@ interface FocusModelProps {
 
 export default abstract class FocusModel {
     protected _layout: Layout;
+    protected _prevLayoutSnapshot?: Layout;
     protected _isLayoutMeasured: boolean;
 
     protected _id: string;
@@ -124,6 +125,16 @@ export default abstract class FocusModel {
 
     public getLayout(): Layout {
         return this._layout;
+    }
+
+    public setPrevLayoutSnapshot(layout: Layout): this {
+        this._prevLayoutSnapshot = layout;
+
+        return this;
+    }
+
+    public getPrevLayoutSnapshot(): Layout | undefined {
+        return this._prevLayoutSnapshot;
     }
 
     public addChildren(cls: FocusModel): this {
@@ -369,6 +380,13 @@ export default abstract class FocusModel {
           }
         | undefined {
         throw new Error('Not implemented');
+    }
+
+    public isLayoutEqualsPreviousSnapshot(): boolean {
+        const prevLayoutSnapshot = JSON.stringify(this.getPrevLayoutSnapshot());
+        const layout = JSON.stringify(this.getLayout());
+
+        return prevLayoutSnapshot === layout;
     }
 
     public horizontalContentContainerGap(): number {

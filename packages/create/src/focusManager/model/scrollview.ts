@@ -58,7 +58,10 @@ class ScrollView extends FocusModel {
 
     private async _onLayout() {
         await measureAsync({ model: this });
-        this.remeasureChildrenLayouts(this);
+        if (!this.isLayoutEqualsPreviousSnapshot()) {
+            this.remeasureChildrenLayouts(this);
+            console.log('NOT_EQUAL_SCROLLVIEW');
+        }
     }
 
     // END EVENTS
