@@ -109,7 +109,8 @@
         "react-native-web": "0.18.9",
         "rnv": "0.37.0-rc.8",
         "ts-node": "^10.9.1",
-        "xcode": "2.1.0"
+        "xcode": "2.1.0",
+        "tslib": "2.5.2"
     },
     "optionalDependencies": {
         "ios-deploy": "1.11.4"
