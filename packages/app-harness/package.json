@@ -1,6 +1,6 @@
 {
     "name": "@flexn/app-harness",
-    "version": "1.0.0-alpha.1",
+    "version": "1.0.0-alpha.2",
     "scripts": {
         "bootstrap": "cd ../.. && yarn bootstrap",
         "build": "yarn clean && yarn compile",
@@ -40,10 +40,10 @@
         "web:release": "npx rnv build -p web -c harness -s release && vercel ./platformBuilds/harness_web/project"
     },
     "dependencies": {
-        "@flexn/create": "1.0.0-alpha.1",
+        "@flexn/create": "1.0.0-alpha.2",
         "@flexn/fonts": "1.0.1",
-        "@flexn/recyclerlistview": "4.2.7",
         "@flexn/graybox": "0.21.1",
+        "@flexn/recyclerlistview": "4.2.7",
         "@flexn/shopify-flash-list": "1.4.8",
         "@lightningjs/core": "2.8.0",
         "@lightningjs/sdk": "5.2.0",
@@ -85,7 +85,7 @@
         "tslib": "2.5.2"
     },
     "devDependencies": {
-        "@flexn/create-template-starter": "1.0.0-alpha.1",
+        "@flexn/create-template-starter": "1.0.0-alpha.2",
         "@flexn/plugins": "1.0.9",
         "@lightningjs/cli": "2.11.0",
         "@react-native-community/cli": "^6.0.0",
@@ -95,10 +95,10 @@
         "@rnv/engine-rn-electron": "0.37.0-rc.8",
         "@rnv/engine-rn-next": "0.37.0-rc.8",
         "@rnv/engine-rn-tvos": "0.37.0-rc.8",
+        "jetifier": "1.6.5",
         "rnv": "0.37.0-rc.8",
         "ts-node": "^10.9.1",
-        "xcode": "2.1.0",
-        "jetifier": "1.6.5"
+        "xcode": "2.1.0"
     },
     "optionalDependencies": {
         "ios-deploy": "1.10.0"
