@@ -60,6 +60,7 @@
         "@react-navigation/routers": "5.1.0",
         "@react-navigation/stack": "6.0.11",
         "@react-navigation/web": "1.0.0-alpha.9",
+        "@rnv/engine-rn-web": "0.37.0-rc.8",
         "@rnv/renative": "0.37.0-rc.8",
         "@sentry/react": "6.13.3",
         "@sentry/react-native": "3.1.1",
@@ -80,7 +81,8 @@
         "react-native-snap-carousel": "3.9.1",
         "react-native-tvos": "0.66.3-1",
         "react-native-vector-icons": "9.2.0",
-        "react-native-web": "0.18.9"
+        "react-native-web": "0.18.9",
+        "tslib": "2.5.2"
     },
     "devDependencies": {
         "@flexn/create-template-starter": "0.21.3-rc.1",
@@ -95,7 +97,8 @@
         "@rnv/engine-rn-tvos": "0.37.0-rc.8",
         "rnv": "0.37.0-rc.8",
         "ts-node": "^10.9.1",
-        "xcode": "2.1.0"
+        "xcode": "2.1.0",
+        "jetifier": "1.6.5"
     },
     "optionalDependencies": {
         "ios-deploy": "1.10.0"

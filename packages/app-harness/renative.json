@@ -29,6 +29,9 @@
     "platforms": {
         "tizen": {
             "engine": "engine-rn-web"
+        },
+        "webos": {
+            "engine": "engine-rn-web"
         }
     },
     "workspaceID": "flexn"
