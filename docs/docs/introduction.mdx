@@ -11,98 +11,211 @@ import TabItem from '@theme/TabItem';
 📺 Built-in focus control system allows for better **control** of your application behavior on the big
 screen.
 
-## Getting Started
-
-Welcome to the Flexn Create documentation!
-
-If you're new to Flexn we recommend starting with [the learning course](tutorials/advanced/bootstrap).
-
-The interactive course will guide you through everything you need to know to use Flexn Create.
-
 ### System requirements
 
 -   [Node.js 12.22.0](https://nodejs.org) or later
 -   [Xcode](https://apps.apple.com/us/app/xcode) on MacOS (not available for download on Windows or Linux) for running iOS and tvOS applications
 -   [Android Studio](https://developer.android.com/studio) for Android applications
 
-## Setup
+## Installation
 
-To begin with, it's recommended to first install [ReNative](https://renative.org/):
+Install Flexn Create package and it's peer dependencies
 
 <Tabs groupId="package-managers">
 <TabItem value="yarn" label="Yarn" default>
 
 ```shell
-yarn global add rnv
+yarn add @flexn/create
+yarn add @flexn/shopify-flash-list
 ```
 
 </TabItem>
 <TabItem value="npm" label="NPM">
 
 ```shell
-npm install rnv -g
+npm install @flexn/create
+npm install @flexn/shopify-flash-list
 ```
 
 </TabItem>
 </Tabs>
 
-Before you get into building complex applications, we suggest starting with a template as it already prepares some things for you. Based on your skill, requirements, you can choose one of the three:
+## Setup
 
--   Flexn template (you can build it yourself following the tutorial)
--   Hello World template from ReNative - a simple application with some basic navigation structure
--   Blank template from ReNative (recommended for first-timers)
+<Tabs groupId="package-managers">
+<TabItem value="react-native" label="React Native" default>
 
-During `rnv new` you will be given an option to choose between these templates (or you could type the name of your custom one, but we will not do that this time around).
+Add this snippet to your MainActivity.java or MainActivity.kt
 
-> For tutorial purposes starting off with the most basic - Blank template is recommended.
+<Tabs groupId="package-managers">
+<TabItem value="Java" label="Java" default>
 
-```shell
-rnv new
+```javascript
+import io.flexn.create.TvRemoteHandlerModule
+import android.view.KeyEvent
+
+@Override
+public boolean onKeyUp(int keyCode, KeyEvent event) {
+    TvRemoteHandlerModule.getInstance().onKeyEvent(event, "up");
+
+    return super.onKeyUp(keyCode, event);
+}
+
+@Override
+public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+    TvRemoteHandlerModule.getInstance().onKeyEvent(event, "longPress");
+
+    return super.onKeyLongPress(keyCode, event);
+}
+
+@Override
+public boolean onKeyDown(int keyCode, KeyEvent event) {
+    if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+        event.startTracking();
+        TvRemoteHandlerModule.getInstance().onKeyEvent(event, "down");
+
+        return true;
+    }
+
+    TvRemoteHandlerModule.getInstance().onKeyEvent(event, "down");
+
+    return super.onKeyDown(keyCode, event);
+}
 ```
 
-If you chose Hello World or Blank templates, you also need to install Flexn Create. Add the code below in `renative.json`, which is located in the root of the project folder, under plugins:
+</TabItem>
+<TabItem value="Kotlin" label="Kotlin" default>
 
-```json
-"plugins": {
+```javascript
+import io.flexn.create.TvRemoteHandlerModule
+import android.view.KeyEvent
+
+override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+    TvRemoteHandlerModule.getInstance().onKeyEvent(event, "up");
+
+    return super.onKeyUp(keyCode, event)
+}
+
+override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {
+    TvRemoteHandlerModule.getInstance().onKeyEvent(event,  "longPress");
+
+    return super.onKeyLongPress(keyCode, event)
+}
+
+override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+    if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+        event?.startTracking();
+        TvRemoteHandlerModule.getInstance().onKeyEvent(event,"down");
+
+        return true;
+    }
+
+    TvRemoteHandlerModule.getInstance().onKeyEvent(event, "down");
+
+    return super.onKeyDown(keyCode, event)
+}
+```
+
+</TabItem>
+</Tabs>
+
+</TabItem>
+<TabItem value="rnv" label="Renative">
+
+Add this snippet to your renative.json plugins section
+
+```shell
 "@flexn/create": {
-    "version": "0.11.0",
-    "webpack": {
-        "modulePaths": true,
-        "moduleAliases": true
+    "androidtv": {
+        "activityImports": [
+            "io.flexn.create.TvRemoteHandlerModule",
+            "android.view.KeyEvent;"
+        ],
+        "activityMethods": [
+            "override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {",
+            "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"up\");",
+            "return super.onKeyUp(keyCode, event)",
+            "}",
+            "override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {",
+            "   TvRemoteHandlerModule.getInstance().onKeyEvent(event,  \"longPress\");",
+            "    return super.onKeyLongPress(keyCode, event)",
+            "}",
+            "override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {",
+            "if(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {",
+            "event?.startTracking();",
+            "TvRemoteHandlerModule.getInstance().onKeyEvent(event,\"down\");",
+            "return true;",
+            "}",
+            "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"down\");",
+            "return super.onKeyDown(keyCode, event)",
+            "}"
+        ],
+        "package": "io.flexn.create.FlexnCreatePackage",
+        "projectName": "flexn-io-create"
+    },
+    "firetv": {
+        "activityImports": [
+            "io.flexn.create.TvRemoteHandlerModule",
+            "android.view.KeyEvent;"
+        ],
+        "activityMethods": [
+            "override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {",
+            "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"up\");",
+            "return super.onKeyUp(keyCode, event)",
+            "}",
+            "override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {",
+            "   TvRemoteHandlerModule.getInstance().onKeyEvent(event,  \"longPress\");",
+            "    return super.onKeyLongPress(keyCode, event)",
+            "}",
+            "override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {",
+            "if(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {",
+            "event?.startTracking();",
+            "TvRemoteHandlerModule.getInstance().onKeyEvent(event,\"down\");",
+            "return true;",
+            "}",
+            "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"down\");",
+            "return super.onKeyDown(keyCode, event)",
+            "}"
+        ],
+        "package": "io.flexn.create.FlexnCreatePackage",
+        "projectName": "flexn-io-create"
     },
     "tvos": {
         "podName": "FlexnCreate"
     },
+    "version": "0.21.0-alpha.0",
+    "webpack": {
+        "moduleAliases": true,
+        "modulePaths": true
+    }
+},
+"@flexn/shopify-flash-list": {
+    "android": {
+        "package": "com.shopify.reactnative.flash_list.ReactNativeFlashListPackage"
+    },
     "androidtv": {
-        "package": "io.flexn.create.FlexnCreatePackage",
-        "projectName": "flexn-io-create",
-        "activityImports": [
-            "io.flexn.create.TvRemoteHandlerModule",
-            "android.view.KeyEvent;"
-        ],
-        "activityMethods": [
-            "override fun dispatchKeyEvent(event: KeyEvent): Boolean {",
-            "   if (event.action == KeyEvent.ACTION_DOWN || event.action == KeyEvent.ACTION_UP) {",
-            "       TvRemoteHandlerModule.getInstance().onKeyEvent(event);",
-            "   }",
-            "   return super.dispatchKeyEvent(event);",
-            "}"
-        ]
+        "package": "com.shopify.reactnative.flash_list.ReactNativeFlashListPackage"
     },
     "firetv": {
-        "package": "io.flexn.create.FlexnCreatePackage",
-        "projectName": "flexn-io-create",
-        "activityImports": [
-            "io.flexn.create.TvRemoteHandlerModule",
-            "android.view.KeyEvent;"
-        ],
-        "activityMethods": [
-            "override fun dispatchKeyEvent(event: KeyEvent): Boolean {",
-            "   if (event.action == KeyEvent.ACTION_DOWN || event.action == KeyEvent.ACTION_UP) {",
-            "       TvRemoteHandlerModule.getInstance().onKeyEvent(event);",
-            "   }",
-            "   return super.dispatchKeyEvent(event);",
-            "}"
-        ]
-    }
+        "package": "com.shopify.reactnative.flash_list.ReactNativeFlashListPackage"
+    },
+    "ios": {
+        "podName": "RNFlashList"
+    },
+    "tvos": {
+        "podName": "RNFlashList"
+    },
+    "macos": {
+        "podName": "RNFlashList"
+    },
+    "webpack": {
+        "modulePaths": true,
+        "moduleAliases": true,
+        "nextTranspileModules": ["@flexn/shopify-flash-list"]
+    },
+    "version": "1.4.8"
+}
 ```
+
+</TabItem>
+</Tabs>

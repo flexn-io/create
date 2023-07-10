@@ -15,6 +15,7 @@ import scrollToTop from './screens/scrollToTop';
 import complexTabs from './screens/complexTabs';
 import hideAllElements from './screens/hideAllElements';
 import dynamicRows from './screens/dynamicRows';
+import remoteHandler from './screens/remoteHandler';
 
 const testsList = [
     {
@@ -27,6 +28,12 @@ const testsList = [
         component: hideAllElements,
         title: 'Hide All Elements',
         route: 'HideAllElements',
+        platform: ['androidtv', 'firetv', 'tvos', 'tizen', 'webos'],
+    },
+    {
+        component: remoteHandler,
+        title: 'Remote Handler',
+        route: 'RemoteHandler',
         platform: ['androidtv', 'firetv', 'tvos', 'tizen', 'webos'],
     },
     {

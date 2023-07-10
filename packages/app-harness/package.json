@@ -43,6 +43,7 @@
         "@flexn/create": "1.0.0-alpha.1",
         "@flexn/fonts": "1.0.1",
         "@flexn/recyclerlistview": "4.2.7",
+        "@flexn/graybox": "0.21.1",
         "@flexn/shopify-flash-list": "1.4.8",
         "@lightningjs/core": "2.8.0",
         "@lightningjs/sdk": "5.2.0",
@@ -59,7 +60,8 @@
         "@react-navigation/routers": "5.1.0",
         "@react-navigation/stack": "6.0.11",
         "@react-navigation/web": "1.0.0-alpha.9",
-        "@rnv/renative": "0.37.0-rc.4",
+        "@rnv/engine-rn-web": "0.37.0-rc.8",
+        "@rnv/renative": "0.37.0-rc.8",
         "@sentry/react": "6.13.3",
         "@sentry/react-native": "3.1.1",
         "@sentry/tracing": "6.13.3",
@@ -80,7 +82,7 @@
         "react-native-tvos": "0.66.3-1",
         "react-native-vector-icons": "9.2.0",
         "react-native-web": "0.18.9",
-        "react-native-windows": "0.67.3"
+        "tslib": "2.5.2"
     },
     "devDependencies": {
         "@flexn/create-template-starter": "1.0.0-alpha.1",
@@ -88,17 +90,15 @@
         "@lightningjs/cli": "2.11.0",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/cli-platform-ios": "^6.0.0",
-        "@react-native-windows/cli": "0.67.1",
-        "@rnv/engine-lightning": "0.37.0-rc.4",
-        "@rnv/engine-rn": "0.37.0-rc.4",
-        "@rnv/engine-rn-electron": "0.37.0-rc.4",
-        "@rnv/engine-rn-next": "0.37.0-rc.4",
-        "@rnv/engine-rn-tvos": "0.37.0-rc.4",
-        "@rnv/engine-rn-web": "0.37.0-rc.4",
-        "@rnv/engine-rn-windows": "0.37.0-rc.4",
-        "rnv": "0.37.0-rc.4",
+        "@rnv/engine-lightning": "0.37.0-rc.8",
+        "@rnv/engine-rn": "0.37.0-rc.8",
+        "@rnv/engine-rn-electron": "0.37.0-rc.8",
+        "@rnv/engine-rn-next": "0.37.0-rc.8",
+        "@rnv/engine-rn-tvos": "0.37.0-rc.8",
+        "rnv": "0.37.0-rc.8",
         "ts-node": "^10.9.1",
-        "xcode": "2.1.0"
+        "xcode": "2.1.0",
+        "jetifier": "1.6.5"
     },
     "optionalDependencies": {
         "ios-deploy": "1.10.0"
