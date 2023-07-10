@@ -11,7 +11,7 @@ export const gitCommit = async (c) => {
 
     const { version } = rootPkgFile;
 
-    Logger.logHook(`gitCommitAndTagVersion v${version}`);
+    Logger.logHook(`gitCommitAndTagVersion ${version}`);
     const git = simpleGit({ baseDir });
     Logger.logHook('adding files');
     await git.add(`${baseDir}/*`);

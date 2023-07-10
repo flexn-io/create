@@ -4,9 +4,7 @@
         "@rnv/engine-rn": "source:rnv",
         "@rnv/engine-rn-electron": "source:rnv",
         "@rnv/engine-rn-next": "source:rnv",
-        "@rnv/engine-rn-tvos": "source:rnv",
-        "@rnv/engine-rn-web": "source:rnv",
-        "@rnv/engine-rn-windows": "source:rnv"
+        "@rnv/engine-rn-tvos": "source:rnv"
     },
     "projectName": "@flexn/create-template-starter",
     "workspaceID": "flexn",
@@ -48,16 +46,15 @@
     "plugins": {
         "@flexn/create": {
             "source": "flexn",
-            "version": "1.0.0-alpha.0"
+            "version": "1.0.0-alpha.2"
         },
         "@rnv/renative": {
             "source": "flexn",
-            "version": "0.37.0-rc.4"
+            "version": "0.37.0-rc.8"
         },
         "react-native": "source:flexn",
         "react-native-web": "source:flexn",
         "react-native-tvos": "source:flexn",
-        "react-native-windows": "source:flexn",
         "react-native-vector-icons": "source:flexn",
         "@lightningjs/cli": "source:flexn",
         "@lightningjs/sdk": "source:flexn",
@@ -67,7 +64,6 @@
         "@react-native-community/cli-platform-ios": "source:flexn",
         "@react-native-community/cli": "source:flexn",
         "next": "source:flexn",
-        "@react-native-windows/cli": "source:flexn",
         "@react-navigation": "source:flexn",
         "@react-navigation/elements": "source:flexn",
         "react-native-screens": "source:flexn",
@@ -248,10 +244,7 @@
             ]
         },
         "windows": {
-            "engine": "engine-rn-windows"
-        },
-        "xbox": {
-            "engine": "engine-rn-windows"
+            "engine": "engine-rn-electron"
         }
     },
     "permissions": {

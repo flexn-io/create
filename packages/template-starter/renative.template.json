@@ -5,7 +5,8 @@
             "devDependencies": {
                 "typescript": "4.9.5",
                 "@types/react": "18.2.6",
-                "@flexn/plugins": "1.0.8"
+                "@flexn/plugins": "1.0.8",
+                "@flexn/assets-create-outline": "0.2.0"
             }
         }
     },
