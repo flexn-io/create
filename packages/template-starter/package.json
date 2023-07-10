@@ -1,6 +1,6 @@
 {
     "name": "@flexn/create-template-starter",
-    "version": "0.21.3-rc.1",
+    "version": "0.21.3-rc.2",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/create#readme",
@@ -64,7 +64,7 @@
     },
     "devDependencies": {
         "@flexn/assets-create-outline": "0.2.0",
-        "@flexn/create": "0.21.3-rc.1",
+        "@flexn/create": "0.21.3-rc.2",
         "@flexn/fonts": "1.0.0",
         "@flexn/graybox": "0.21.1",
         "@flexn/plugins": "1.0.8",
@@ -86,12 +86,12 @@
         "@react-navigation/routers": "5.1.0",
         "@react-navigation/stack": "6.0.11",
         "@react-navigation/web": "1.0.0-alpha.9",
-        "@rnv/engine-lightning": "0.37.0-rc.8",
-        "@rnv/engine-rn": "0.37.0-rc.8",
-        "@rnv/engine-rn-electron": "0.37.0-rc.8",
-        "@rnv/engine-rn-next": "0.37.0-rc.8",
-        "@rnv/engine-rn-tvos": "0.37.0-rc.8",
-        "@rnv/renative": "0.37.0-rc.8",
+        "@rnv/engine-lightning": "0.37.0-rc.10",
+        "@rnv/engine-rn": "0.37.0-rc.10",
+        "@rnv/engine-rn-electron": "0.37.0-rc.10",
+        "@rnv/engine-rn-next": "0.37.0-rc.10",
+        "@rnv/engine-rn-tvos": "0.37.0-rc.10",
+        "@rnv/renative": "0.37.0-rc.10",
         "jetifier": "1.6.5",
         "next": "12.1.6",
         "react": "18.2.0",
@@ -107,10 +107,10 @@
         "react-native-tvos": "0.66.3-1",
         "react-native-vector-icons": "9.2.0",
         "react-native-web": "0.18.9",
-        "rnv": "0.37.0-rc.8",
+        "rnv": "0.37.0-rc.10",
         "ts-node": "^10.9.1",
-        "xcode": "2.1.0",
-        "tslib": "2.5.2"
+        "tslib": "2.5.2",
+        "xcode": "2.1.0"
     },
     "optionalDependencies": {
         "ios-deploy": "1.11.4"

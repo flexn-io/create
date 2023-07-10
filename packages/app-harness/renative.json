@@ -23,7 +23,7 @@
     "projectName": "app-harness",
     "templates": {
         "@flexn/create-template-starter": {
-            "version": "0.21.3-rc.1"
+            "version": "0.21.3-rc.2"
         }
     },
     "platforms": {

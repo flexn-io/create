@@ -46,11 +46,11 @@
     "plugins": {
         "@flexn/create": {
             "source": "flexn",
-            "version": "0.21.3-rc.1"
+            "version": "0.21.3-rc.2"
         },
         "@rnv/renative": {
             "source": "flexn",
-            "version": "0.37.0-rc.8"
+            "version": "0.37.0-rc.10"
         },
         "react-native": "source:flexn",
         "react-native-web": "source:flexn",
