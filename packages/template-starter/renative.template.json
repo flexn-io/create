@@ -8,6 +8,9 @@
                 "@flexn/plugins": "1.0.8",
                 "@flexn/assets-create-outline": "0.2.0",
                 "@flexn/typescript": "0.1.6"
+            },
+            "resolutions": {
+                "@babel/traverse": "7.15.0"
             }
         }
     },
