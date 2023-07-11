@@ -1,6 +1,6 @@
 {
     "name": "@flexn/app-harness",
-    "version": "0.21.3-rc.3",
+    "version": "0.21.3-rc.4",
     "scripts": {
         "bootstrap": "cd ../.. && yarn bootstrap",
         "build": "yarn clean && yarn compile",
@@ -40,7 +40,7 @@
         "web:release": "npx rnv build -p web -c harness -s release && vercel ./platformBuilds/harness_web/project"
     },
     "dependencies": {
-        "@flexn/create": "0.21.3-rc.3",
+        "@flexn/create": "0.21.3-rc.4",
         "@flexn/fonts": "1.0.0",
         "@flexn/graybox": "0.21.1",
         "@flexn/recyclerlistview": "4.2.6",
@@ -85,7 +85,7 @@
         "tslib": "2.5.2"
     },
     "devDependencies": {
-        "@flexn/create-template-starter": "0.21.3-rc.3",
+        "@flexn/create-template-starter": "0.21.3-rc.4",
         "@flexn/plugins": "1.0.8",
         "@lightningjs/cli": "2.11.0",
         "@react-native-community/cli": "^6.0.0",
