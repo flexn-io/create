@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { InteractionManager } from 'react-native';
+import CoreManager from '../focusManager/service/core';
 import Event, { EVENT_TYPES } from '../focusManager/events';
 import FocusModel from '../focusManager/model/abstractFocusModel';
 
@@ -24,15 +25,10 @@ export default function useOnLayout(model: FocusModel | null, callback?: (() => 
         if (interactionPromise.current) {
             interactionPromise.current.then(() => {
                 if (model) {
-                    Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_LAYOUT);
-                    callback?.();
-
-                    // setPendingLayoutMeasurement is proven to be unreliable in some edge case
-                    // need to properly integrate it
-                    // CoreManager.setPendingLayoutMeasurement(model, () => {
-                    //     Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_LAYOUT);
-                    //     callback?.();
-                    // });
+                    CoreManager.setPendingLayoutMeasurement(model, () => {
+                        Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_LAYOUT);
+                        callback?.();
+                    });
                 } else {
                     callback?.();
                 }
