@@ -1,4 +1,4 @@
-import { Pressable, Text, Icon, FocusContext } from '@flexn/create';
+import { Pressable, Text, FocusContext } from '@flexn/create';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { getScaledValue } from '@rnv/renative';
@@ -19,21 +19,6 @@ interface ButtonProps {
     activeOpacity?: number;
     children?: React.ReactNode;
     title?: string;
-    iconFont?:
-        | 'fontAwesome'
-        | 'feather'
-        | 'antDesign'
-        | 'entypo'
-        | 'evilIcons'
-        | 'foundation'
-        | 'ionicons'
-        | 'materialIcons'
-        | 'octicons'
-        | 'simpleLineIcons'
-        | 'zocial';
-    iconName?: string;
-    iconColor?: string;
-    iconSize?: number;
     style?: any;
     textStyle?: any;
     testID?: string;
@@ -46,10 +31,6 @@ interface ButtonProps {
 
 const Button = ({
     title,
-    iconFont,
-    iconName,
-    iconColor,
-    iconSize,
     style,
     textStyle,
     testID,
@@ -68,22 +49,6 @@ const Button = ({
         focusContext={focusContext}
         focusOptions={focusOptions}
     >
-        {iconName ? (
-            <Icon
-                iconFont={iconFont || 'fontAwesome'}
-                iconName={iconName}
-                iconColor={iconColor || 'black'}
-                size={iconSize || 10}
-                style={[
-                    styles.icon,
-                    {
-                        width: iconSize,
-                        height: iconSize,
-                        marginRight: title ? getScaledValue(20) : 0,
-                    },
-                ]}
-            />
-        ) : null}
         {title ? (
             <Text style={textStyle} accessible={false}>
                 {title}
