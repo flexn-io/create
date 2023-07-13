@@ -12,6 +12,7 @@ import com.facebook.react.uimanager.FabricViewStateManager;
 import com.facebook.react.uimanager.PixelUtil;
 import com.facebook.react.uimanager.common.UIManagerType;
 import com.facebook.react.uimanager.common.ViewUtil;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.views.scroll.FpsListener;
 import com.facebook.react.views.scroll.ReactScrollViewHelper;
 import java.lang.reflect.Field;
@@ -38,11 +39,11 @@ public class ReactScrollView extends com.facebook.react.views.scroll.ReactScroll
   private int mLastStateUpdateScrollX = -1;
   private int mLastStateUpdateScrollY = -1;
 
-  public ReactScrollView(Context context) {
+  public ReactScrollView(ReactContext context) {
     super(context);
   }
 
-  public ReactScrollView(Context context, @Nullable FpsListener fpsListener) {
+  public ReactScrollView(ReactContext context, @Nullable FpsListener fpsListener) {
     super(context, fpsListener);
   }
 
