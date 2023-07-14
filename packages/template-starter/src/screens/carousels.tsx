@@ -1,5 +1,5 @@
 import { FlashList, View, Pressable, Image, ScrollView, Text } from '@flexn/create';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv/renative';
 import { ThemeContext, ROUTES, Ratio } from '../config';
@@ -30,11 +30,12 @@ const getCarouselSize = () => {
 const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const { theme, dark } = useContext(ThemeContext);
     const navigate = useNavigate({ navigation });
-
-    const data = [...Array(5).keys()].map((rowNumber) => {
-        const itemsInViewport = interval(isFactorMobile ? 1 : 3, isFactorMobile ? 3 : 5);
-        return generateRandomItemsRow(rowNumber, itemsInViewport);
-    });
+    const [data] = useState(() =>
+        [...Array(5).keys()].map((rowNumber) => {
+            const itemsInViewport = interval(isFactorMobile ? 1 : 3, isFactorMobile ? 3 : 5);
+            return generateRandomItemsRow(rowNumber, itemsInViewport);
+        })
+    );
 
     const renderItem = ({ item, focusRepeatContext, index }: any) => {
         return (
