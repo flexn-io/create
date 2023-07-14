@@ -191,7 +191,7 @@ class Screen extends FocusModel {
             if (model.getId() === this._precalculatedFocus?.getId()) {
                 this._precalculatedFocus = null;
             }
-            if (this._unmountingComponents <= 0 && !this._currentFocus) {
+            if (this._unmountingComponents <= 0 && !this._currentFocus && this.isInBackground()) {
                 const view = this.getFirstFocusableOnScreen();
 
                 if (view) {
@@ -215,7 +215,8 @@ class Screen extends FocusModel {
             if (this._currentFocus) return this._currentFocus;
             if (this._preferredFocus) return this._preferredFocus;
             if (this._precalculatedFocus) {
-                if (this._precalculatedFocus.getParent()?.getType() === MODEL_TYPES.RECYCLER) {
+                const parent = this._precalculatedFocus.getParent();
+                if (parent && [MODEL_TYPES.ROW, MODEL_TYPES.GRID].includes(parent.getType() as never)) {
                     const recycler = this._precalculatedFocus.getParent() as Recycler;
                     if (recycler.getFocusedView()) return recycler.getFocusedView();
                 }
