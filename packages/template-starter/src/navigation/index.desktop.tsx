@@ -14,7 +14,7 @@ const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
 
 const StackNavigator = ({ navigation }: any) => {
-    const { theme } = useContext(ThemeContext);
+    const { theme, dark } = useContext(ThemeContext);
 
     return (
         <View style={{ flexDirection: 'row', flex: 1 }}>
@@ -24,6 +24,7 @@ const StackNavigator = ({ navigation }: any) => {
                     headerTitleStyle: theme.styles.headerTitle,
                     headerStyle: theme.styles.header,
                     cardStyleInterpolator: CardStyleInterpolators.forScaleFromCenterAndroid,
+                    headerShadowVisible: dark ? false : true,
                 }}
             >
                 <Stack.Screen name={ROUTES.HOME} component={ScreenHome} />
@@ -42,7 +43,7 @@ const App = () => {
     }, []);
 
     return (
-        <View style={{ marginTop: 36, flex: 1 }}>
+        <View style={{ flex: 1 }}>
             <NavigationContainer>
                 <RootStack.Navigator
                     screenOptions={{
