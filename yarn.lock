@@ -3938,10 +3938,10 @@
     history "^4.7.2"
     query-string "^6.2.0"
 
-"@rnv/engine-lightning@0.37.0-rc.10":
-  version "0.37.0-rc.10"
-  resolved "https://registry.yarnpkg.com/@rnv/engine-lightning/-/engine-lightning-0.37.0-rc.10.tgz#741e7ff7f6d69e8fb4130cd8ce72d63683cdaf0b"
-  integrity sha512-kxQMCBGIGptM5YMJ66+L/QMmMZpDoJzyVnRdwlydCUR2assGOv1ZDdx+nkF7gbDv9j/wTdgMtZGNgb4zHsMMDg==
+"@rnv/engine-lightning@0.37.0":
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-lightning/-/engine-lightning-0.37.0.tgz#70266190384e0ef9b361c4b9fc60d79a40a242bb"
+  integrity sha512-C9Xx/0LUAobsNeBKMWzWJ/4Oouy+J9Te76xtDKO9bxVvl6kyEkbm/vCy5cpXDt4NldOxYnJiTLReLXL9lewF/Q==
   dependencies:
     "@lightningjs/cli" "2.8.0"
     "@lightningjs/sdk" "4.8.3"
@@ -3949,13 +3949,13 @@
     html-webpack-harddisk-plugin "1.0.2"
     html-webpack-plugin "5.5.0"
 
-"@rnv/engine-rn-electron@0.37.0-rc.10":
-  version "0.37.0-rc.10"
-  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-electron/-/engine-rn-electron-0.37.0-rc.10.tgz#e1f8e463cbe5422dd03da2a97b36c436c9b9c6f4"
-  integrity sha512-x4LIitOpf8kY1GHwWyap70qvNWCtxPSnf8D6bSr0bslT0GFPSb6KvBw0KgjJP0+pzrpwSirBi+yvS9SXBiwaHg==
+"@rnv/engine-rn-electron@0.37.0":
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-electron/-/engine-rn-electron-0.37.0.tgz#e037c7f8025b12bd1a15cd15f6c2f1413f9717ae"
+  integrity sha512-P/+cfXPuUBja3kTO5W/t8LXp2jDK4zOC0acmcBj0P3/+G5IcE1XhisDrqrQR+nFH8x4MKgNxalXPAzwS+1TCMw==
   dependencies:
     "@babel/preset-react" "7.16.0"
-    "@rnv/sdk-webpack" "0.37.0-rc.10"
+    "@rnv/sdk-webpack" "0.37.0"
     babel-loader "8.0.5"
     babel-preset-expo "9.0.2"
     better-opn "1.0.0"
@@ -3966,10 +3966,10 @@
     html-webpack-plugin "4.5.1"
     webpack-bundle-analyzer "3.5.1"
 
-"@rnv/engine-rn-next@0.37.0-rc.10":
-  version "0.37.0-rc.10"
-  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-next/-/engine-rn-next-0.37.0-rc.10.tgz#bb2b0398fb5cd4206b2d0e726a897d618b42c254"
-  integrity sha512-YmRXk4I3Wrp0o0xMdfWOQcRDb1DniBK0CgSUMc74J1Nt7te3Z/gf4Ft2xa8aDrsoaZriw4gApl88jXbBB0odDg==
+"@rnv/engine-rn-next@0.37.0":
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-next/-/engine-rn-next-0.37.0.tgz#eeed990821a4e737e367f179343bd803f95f046f"
+  integrity sha512-8FVDSHqkodXNUd+NoCunqajoJgS5GwfDjDiK9Yam1VnGKdrGa98RMCubIt9YsY27ZPRccKNB4G4zoqT5AJ3Z5Q==
   dependencies:
     "@expo/next-adapter" "3.1.12"
     ally.js "1.4.1"
@@ -3979,21 +3979,21 @@
     next-transpile-modules "9.0.0"
     webpack "5.76.0"
 
-"@rnv/engine-rn-tvos@0.37.0-rc.10":
-  version "0.37.0-rc.10"
-  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-tvos/-/engine-rn-tvos-0.37.0-rc.10.tgz#08636427ed651f300e37c116fb4c364cdf9e1bae"
-  integrity sha512-Fl49WoqO8Sej6JYDYEKPfKaP4tV1d4Ntr9ZRt7pHwgU34lEdYxTz0+sPVPHecSn9xy3pAHBnKkPIFXZjr7wy3Q==
+"@rnv/engine-rn-tvos@0.37.0":
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-tvos/-/engine-rn-tvos-0.37.0.tgz#799d3cd992b98427d83ce50fa90ade9946493bee"
+  integrity sha512-5V7P5ga6tPWwHHBhql1EDZiT+CabRkB8VPe3p1wSFNHhBReBvpttisPYzrI87zJ1m5MUj0OA+hFmU3JHXO2Fww==
   dependencies:
-    "@rnv/sdk-android" "0.37.0-rc.10"
-    "@rnv/sdk-apple" "0.37.0-rc.10"
+    "@rnv/sdk-android" "0.37.0"
+    "@rnv/sdk-apple" "0.37.0"
 
-"@rnv/engine-rn-web@0.37.0-rc.10":
-  version "0.37.0-rc.10"
-  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-web/-/engine-rn-web-0.37.0-rc.10.tgz#728613e8dfedffdc1bbb4beea797fcd91ab7fe55"
-  integrity sha512-DjHZRU1+S+BUXpCVwzvq33ovWBLS806u7g/MAs4Xzqdv7ZH3ff9EmAthvceMjXGmavLemSkSo9hxRyQVdeIVsA==
+"@rnv/engine-rn-web@0.37.0":
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-web/-/engine-rn-web-0.37.0.tgz#b1496db29b1e85d18d0311cab3cd4529748d0517"
+  integrity sha512-YtzX6DYFwLp55uVGHrO3koxXeVcWubP0y6UONwzpSoxMaP1nEQwvZTJ14AbvTDlpVfIDyf/qfOp6BbVmO1yyEA==
   dependencies:
     "@babel/preset-react" "7.16.0"
-    "@rnv/sdk-webpack" "0.37.0-rc.10"
+    "@rnv/sdk-webpack" "0.37.0"
     babel-loader "8.0.5"
     babel-preset-expo "9.0.2"
     better-opn "1.0.0"
@@ -4002,42 +4002,42 @@
     mini-css-extract-plugin "0.8.0"
     webpack-bundle-analyzer "3.5.1"
 
-"@rnv/engine-rn@0.37.0-rc.10":
-  version "0.37.0-rc.10"
-  resolved "https://registry.yarnpkg.com/@rnv/engine-rn/-/engine-rn-0.37.0-rc.10.tgz#99adcb583a675cef0d9d549b3a6ddddb33c0bc40"
-  integrity sha512-AfUFzjGVtNHQmDqPqHT3ebn4Qffhaqv9qhqfDNx053CK2ipE7BcsOUzQPDUDzibd4ocDOi2LmQbC2fa3zQicrg==
+"@rnv/engine-rn@0.37.0":
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn/-/engine-rn-0.37.0.tgz#0c6ab641ceb1b908e41b4142e9b3f94fce8ce48c"
+  integrity sha512-5PGMx3vReIHDwD7lDfMRDy6pO69nvWGqjSFQB2lcfWFitOXMr6ru5vqOLU4QmMdmCUz2tmTqumK+r6gdJQK9wg==
   dependencies:
-    "@rnv/sdk-android" "0.37.0-rc.10"
-    "@rnv/sdk-apple" "0.37.0-rc.10"
+    "@rnv/sdk-android" "0.37.0"
+    "@rnv/sdk-apple" "0.37.0"
 
-"@rnv/renative@0.37.0-rc.10":
-  version "0.37.0-rc.10"
-  resolved "https://registry.yarnpkg.com/@rnv/renative/-/renative-0.37.0-rc.10.tgz#27bd841a78458644e25d8a55a74a78dfa2ef9a54"
-  integrity sha512-xbR+NEPRPo3QPuYhlzvobucLtQ/3RuzRFU7cpa+1UmpxN7NF+2V7uExTrvSeapjXd6mogh+6fnEGhel7aaiXtw==
+"@rnv/renative@0.37.0":
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/@rnv/renative/-/renative-0.37.0.tgz#9c8310a30f165f2fbb2f2f677f5a63bba4ff9ffc"
+  integrity sha512-7jfQfK4gLlaLRSVq+OLw+DVM07PsPyqMCj/kEyy9vnxO32rwUOm8NJF52a9U7dSO5p9LbhiWOrOjdkaV+nHSHw==
 
-"@rnv/sdk-android@0.37.0-rc.10":
-  version "0.37.0-rc.10"
-  resolved "https://registry.yarnpkg.com/@rnv/sdk-android/-/sdk-android-0.37.0-rc.10.tgz#0b65ea22aa51a7bb1dc923151662337f172c7c63"
-  integrity sha512-Adi5n/VAir4k1bBLnwONLd+GPT6PtWId2PCCrrnmuN/69NzzyqEmcY1IEj1dWnwQtnNYQNe0a21QOE4qRcuJwg==
+"@rnv/sdk-android@0.37.0":
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-android/-/sdk-android-0.37.0.tgz#4a6ea62b6d8ff6e427af49b1aac16731606c4c91"
+  integrity sha512-fhnmMsVsoXfBAXe2Ft34EuEXThUrXmyVom9mGrHDC5S2viBUJpy5vHS9elYMFILatNwQ7ZOCMz5f/upF82RhGg==
   dependencies:
     execa "5.1.1"
     inquirer "8.2.0"
     shelljs "0.8.5"
 
-"@rnv/sdk-apple@0.37.0-rc.10":
-  version "0.37.0-rc.10"
-  resolved "https://registry.yarnpkg.com/@rnv/sdk-apple/-/sdk-apple-0.37.0-rc.10.tgz#8e5c43d0a09c251df9b35f55f74f1fb3c3d28911"
-  integrity sha512-MEArQtl2R0RXxR16eL1j9UQdp7+4LRaDSm8ANy5a1NqBv/8j4sKdU/zwe0u3Zs8oEsaPL1LnV1DZJsC57aMeVQ==
+"@rnv/sdk-apple@0.37.0":
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-apple/-/sdk-apple-0.37.0.tgz#b58e6734d43bce121ac5e104c0fde30a77a33e72"
+  integrity sha512-v4lwtpQRXwMmfCmJZVYwjNO+y55HhVmCc0qABlIvvLoc+shi58MTfS5yLBlAVJWqrBqp1+AXvStWLIhWaFhFEw==
   dependencies:
     compare-versions "3.6.0"
     inquirer "8.2.0"
     ios-mobileprovision-finder "1.0.11"
     shelljs "0.8.5"
 
-"@rnv/sdk-webpack@0.37.0-rc.10":
-  version "0.37.0-rc.10"
-  resolved "https://registry.yarnpkg.com/@rnv/sdk-webpack/-/sdk-webpack-0.37.0-rc.10.tgz#7cbbff8d15775b2e80da261046b63726c17edeeb"
-  integrity sha512-koKJ5tcn9yT5+wdNYCb/TVaj+0XENqNubVKN34Zn1xyVV0IjmkS+Cs4Ot+XfC1LKd3he8ib/kcLkl8OdqUqQUA==
+"@rnv/sdk-webpack@0.37.0":
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-webpack/-/sdk-webpack-0.37.0.tgz#f7a8a1dc6ab23217837dc84f78c3509d738b5655"
+  integrity sha512-wjAldYfokms1V0cEiNfvBYs32nORP/EnZ87ukB9b4xVGvh691r3VVgUqJ6QLRVnWc00P64Q4/Ktk9tv8FrvhrA==
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin" "^0.5.3"
     "@svgr/webpack" "6.3.1"
@@ -22065,6 +22065,64 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+rnv@0.37.0:
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/rnv/-/rnv-0.37.0.tgz#a38f26fad4e5277e1c630e9f703ae370940fe782"
+  integrity sha512-lix0UfoWwHHV8N7qlvJgNM6cS2zHsGEE/0QE/itlbNOvBv6UkLG7CUA4xA0hJ8ZZscYfKfewKZ+LXvD5wxKtdA==
+  dependencies:
+    "@babel/cli" "7.17.6"
+    "@babel/core" "7.8.3"
+    "@babel/helper-builder-react-jsx" "7.14.5"
+    "@babel/plugin-proposal-class-properties" "7.8.3"
+    "@babel/plugin-proposal-decorators" "7.8.3"
+    "@babel/plugin-proposal-nullish-coalescing-operator" "7.8.3"
+    "@babel/plugin-proposal-optional-chaining" "7.8.3"
+    "@babel/plugin-transform-runtime" "7.8.3"
+    "@babel/preset-env" "7.8.7"
+    "@babel/runtime" "7.8.3"
+    "@flexn/plugins" "1.0.9"
+    "@sentry/integrations" "7.57.0"
+    "@sentry/node" "7.57.0"
+    ajv "7.0.0-beta.0"
+    axios "0.21.2"
+    babel-loader "8.0.5"
+    babel-plugin-module-resolver "3.2.0"
+    babel-plugin-transform-decorators-legacy "1.3.4"
+    babel-plugin-transform-imports "1.4.1"
+    babel-plugin-transform-object-rest-spread "6.26.0"
+    babel-plugin-transform-runtime "6.23.0"
+    babel-polyfill "6.26.0"
+    chalk "4.1.0"
+    color-string "1.9.0"
+    commander "^6.2.0"
+    console-table-printer "1.1.10"
+    deepmerge "3.2.0"
+    detect-port "1.3.0"
+    esbuild "^0.12.1"
+    execa "5.1.1"
+    get-installed-path "4.0.8"
+    inquirer "8.2.0"
+    iocane "4.0.0"
+    ip "1.1.5"
+    kill-port "1.6.1"
+    lodash.get "4.4.2"
+    lodash.intersection "4.4.0"
+    lodash.set "4.3.2"
+    ncp "2.0.0"
+    netcat "1.4.0"
+    node-fetch "2.6.7"
+    node-machine-id "^1.1.12"
+    resolve "^1.0.0"
+    rimraf "2.6.2"
+    semver "^7.5.3"
+    shelljs "0.8.5"
+    source-map-loader "4.0.0"
+    source-map-support "0.5.13"
+    svg2js "0.0.4-alpha1"
+    tar "4.4.19"
+    tslib "2.3.1"
+    xml2js "0.5.0"
+
 rnv@0.37.0-canary.10:
   version "0.37.0-canary.10"
   resolved "https://registry.npmjs.org/rnv/-/rnv-0.37.0-canary.10.tgz#dacfdef106a99818da554365c23d8b37b7476fda"
@@ -22121,64 +22179,6 @@ rnv@0.37.0-canary.10:
     tar "4.4.19"
     tslib "2.3.1"
     xml2js "0.4.23"
-
-rnv@0.37.0-rc.10:
-  version "0.37.0-rc.10"
-  resolved "https://registry.yarnpkg.com/rnv/-/rnv-0.37.0-rc.10.tgz#7cb1086e83939ce021e83a1bd40ad1d0d9d15ae6"
-  integrity sha512-IkF9VEliluyAs7EstGpywDEuSE/BEayq/W8k20EqvibASeyAPoUkM8AzLs4hA5/1pkJpwwS+Mu5m+P0wbPiOZQ==
-  dependencies:
-    "@babel/cli" "7.17.6"
-    "@babel/core" "7.8.3"
-    "@babel/helper-builder-react-jsx" "7.14.5"
-    "@babel/plugin-proposal-class-properties" "7.8.3"
-    "@babel/plugin-proposal-decorators" "7.8.3"
-    "@babel/plugin-proposal-nullish-coalescing-operator" "7.8.3"
-    "@babel/plugin-proposal-optional-chaining" "7.8.3"
-    "@babel/plugin-transform-runtime" "7.8.3"
-    "@babel/preset-env" "7.8.7"
-    "@babel/runtime" "7.8.3"
-    "@flexn/plugins" "1.0.9"
-    "@sentry/integrations" "7.57.0"
-    "@sentry/node" "7.57.0"
-    ajv "7.0.0-beta.0"
-    axios "0.21.2"
-    babel-loader "8.0.5"
-    babel-plugin-module-resolver "3.2.0"
-    babel-plugin-transform-decorators-legacy "1.3.4"
-    babel-plugin-transform-imports "1.4.1"
-    babel-plugin-transform-object-rest-spread "6.26.0"
-    babel-plugin-transform-runtime "6.23.0"
-    babel-polyfill "6.26.0"
-    chalk "4.1.0"
-    color-string "1.9.0"
-    commander "^6.2.0"
-    console-table-printer "1.1.10"
-    deepmerge "3.2.0"
-    detect-port "1.3.0"
-    esbuild "^0.12.1"
-    execa "5.1.1"
-    get-installed-path "4.0.8"
-    inquirer "8.2.0"
-    iocane "4.0.0"
-    ip "1.1.5"
-    kill-port "1.6.1"
-    lodash.get "4.4.2"
-    lodash.intersection "4.4.0"
-    lodash.set "4.3.2"
-    ncp "2.0.0"
-    netcat "1.4.0"
-    node-fetch "2.6.7"
-    node-machine-id "^1.1.12"
-    resolve "^1.0.0"
-    rimraf "2.6.2"
-    semver "^7.5.3"
-    shelljs "0.8.5"
-    source-map-loader "4.0.0"
-    source-map-support "0.5.13"
-    svg2js "0.0.4-alpha1"
-    tar "4.4.19"
-    tslib "2.3.1"
-    xml2js "0.5.0"
 
 roarr@^2.15.3:
   version "2.15.4"
