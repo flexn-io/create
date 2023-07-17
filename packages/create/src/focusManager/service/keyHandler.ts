@@ -59,7 +59,13 @@ class KeyHandler {
         eventKeyAction: RemoteHandlerEventKeyActions;
         eventType: RemoteHandlerEventTypesAppleTV | RemoteHandlerEventTypesAndroid;
     }) {
-        if (CoreManager.isFocusManagerEnabled() && CoreManager.isKeyEventsEnabled()) {
+        const isFocusAndKeyEventsEnabled = CoreManager.isFocusManagerEnabled() && CoreManager.isKeyEventsEnabled();
+        const isFocusReady =
+            CoreManager.getCurrentFocus() &&
+            CoreManager.getCurrentFocus()?.getScreen()?.isInForeground() &&
+            !CoreManager.getCurrentFocus()?.getScreen()?.isInitialLoadInProgress();
+
+        if (isFocusAndKeyEventsEnabled && isFocusReady) {
             switch (eventKeyAction) {
                 case EVENT_KEY_ACTION_UP:
                     return this.onKeyUp();
@@ -75,20 +81,14 @@ class KeyHandler {
 
     private onKeyDown(eventType: RemoteHandlerEventTypesAppleTV | RemoteHandlerEventTypesAndroid) {
         if (!this._stopKeyDownEvents) {
-            if (
-                eventType === EVENT_TYPE_SELECT &&
-                CoreManager.getCurrentFocus() &&
-                CoreManager.getCurrentFocus()?.getScreen()?.isInForeground()
-            ) {
+            if (eventType === EVENT_TYPE_SELECT) {
                 CoreManager.getCurrentFocus()?.onPress();
             }
 
-            if (CoreManager.getCurrentFocus()) {
-                const direction = this.getDirectionName(eventType);
-                if (direction) {
-                    CoreManager.executeDirectionalFocus(direction);
-                    CoreManager.executeScroll(direction);
-                }
+            const direction = this.getDirectionName(eventType);
+            if (direction) {
+                CoreManager.executeDirectionalFocus(direction);
+                CoreManager.executeScroll(direction);
             }
         }
     }

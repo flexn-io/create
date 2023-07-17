@@ -1885,6 +1885,20 @@
     simple-git "2.48.0"
     ts-object-utils "0.0.5"
 
+"@flexn/create@1.0.0-alpha.0":
+  version "1.0.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@flexn/create/-/create-1.0.0-alpha.0.tgz#1608b2a0a71a9cafeba94520a6b25b34e66fb157"
+  integrity sha512-Pwhm4P1AzvZtz3ksaRv0x0UaUOkCNqZ6v+nBZ52qX6A2PaPiAXqUTRWDNraH1LjsOy+oQr66rocY///blhKiNA==
+  dependencies:
+    "@lightningjs/core" "2.8.0"
+    "@lightningjs/sdk" "5.2.0"
+    "@lightningjs/ui" "1.3.9"
+    "@lightningjs/ui-components" "2.2.4"
+    lodash-es "4.17.21"
+    lodash.debounce "4.0.8"
+    lodash.throttle "4.1.1"
+    ts-object-utils "0.0.5"
+
 "@flexn/eslint-config@0.1.7":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@flexn/eslint-config/-/eslint-config-0.1.7.tgz#80e511c34641fe6d0cf7f0017887d7dd60daece6"

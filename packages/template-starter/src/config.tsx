@@ -36,7 +36,7 @@ const staticTheme = {
     primaryFontFamily: 'Inter-Light',
     iconSize: getScaledValue(30),
     buttonSize: getScaledValue(30),
-    menuWidth: hasHorizontalMenu ? '100%' : getScaledValue(280),
+    menuWidth: hasHorizontalMenu ? '100%' : getScaledValue(200),
     menuHeight: hasHorizontalMenu ? getScaledValue(80) : '100%',
     colorBrand: '#0A74E6',
 };

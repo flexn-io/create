@@ -1,6 +1,6 @@
 {
     "name": "@flexn/create",
-    "version": "1.0.0-alpha.2",
+    "version": "1.0.0-alpha.5",
     "description": "Flexn Create SDK",
     "main": "lib/index",
     "types": "lib/index",
@@ -8,12 +8,14 @@
         "build": "yarn clean && yarn compile",
         "clean": "rm -rf ./lib && rm -rf tsconfig.tsbuildinfo",
         "compile": "tsc -b tsconfig.json",
-        "watch": "tsc --watch --preserveWatchOutput"
+        "watch": "tsc --watch --preserveWatchOutput",
+        "postinstall": "sh tools/overrideRNScrollView.sh"
     },
     "files": [
         "lib",
         "ios",
         "android",
+        "tools",
         "!android/build",
         "pluginTemplates",
         "FlexnCreate.podspec",

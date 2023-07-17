@@ -49,17 +49,21 @@ class KeyHandler {
     }
 
     private onKeyDown(eventType: string) {
-        if (CoreManager.isFocusManagerEnabled() && CoreManager.isKeyEventsEnabled()) {
-            if (eventType === EVENT_TYPE_SELECT && CoreManager.getCurrentFocus()) {
+        const isFocusAndKeyEventsEnabled = CoreManager.isFocusManagerEnabled() && CoreManager.isKeyEventsEnabled();
+        const isFocusReady =
+            CoreManager.getCurrentFocus() &&
+            CoreManager.getCurrentFocus()?.getScreen()?.isInForeground() &&
+            !CoreManager.getCurrentFocus()?.getScreen()?.isInitialLoadInProgress();
+
+        if (isFocusAndKeyEventsEnabled && isFocusReady) {
+            if (eventType === EVENT_TYPE_SELECT) {
                 CoreManager.getCurrentFocus()?.onPress();
             }
 
-            if (CoreManager.getCurrentFocus()) {
-                const direction = this.getDirectionName(eventType);
-                if (direction) {
-                    CoreManager.executeDirectionalFocus(direction);
-                    CoreManager.executeScroll(direction);
-                }
+            const direction = this.getDirectionName(eventType);
+            if (direction) {
+                CoreManager.executeDirectionalFocus(direction);
+                CoreManager.executeScroll(direction);
             }
         }
     }
