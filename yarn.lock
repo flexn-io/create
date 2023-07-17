@@ -1946,6 +1946,11 @@
     "@flexn/recyclerlistview" "4.2.6"
     tslib "2.4.0"
 
+"@flexn/typescript@0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@flexn/typescript/-/typescript-0.1.6.tgz#8a24c17793c8b166bd5ec8b2be57fa1124070372"
+  integrity sha512-Lphinxhcbr68lN+OpitzgMBtY3YLELfPuI6XnsI+qeLWqeUZEwr5luRZ+0FlCo93YwpN9rMubTE05aDuWE3fZw==
+
 "@flexn/typescript@0.3.0":
   version "0.3.0"
   resolved "https://registry.npmjs.org/@flexn/typescript/-/typescript-0.3.0.tgz#733c02bdd9d799145737b5d0c7c6a73fba873ec7"
