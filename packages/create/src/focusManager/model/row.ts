@@ -2,7 +2,7 @@ import Recycler from './recycler';
 import Core from '../service/core';
 import { MODEL_TYPES } from './abstractFocusModel';
 import Event, { EVENT_TYPES } from '../events';
-import { CoreManager } from '../..';
+import CoreManager from '../service/core';
 import { measureAsync } from '../layoutManager';
 import RecyclerView from './recycler';
 import { FlashListProps, FocusDirection, ViewType } from '../types';

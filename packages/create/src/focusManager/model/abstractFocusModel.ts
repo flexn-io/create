@@ -383,6 +383,10 @@ export default abstract class FocusModel {
         throw new Error('Not implemented');
     }
 
+    public getLastFocused(): View | null {
+        throw new Error('Not implemented');
+    }
+
     public getScrollOffsetY(): number {
         throw new Error('Not implemented');
     }
