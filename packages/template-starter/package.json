@@ -63,7 +63,7 @@
         "@lightningjs/sdk": "5.2.0"
     },
     "devDependencies": {
-        "@flexn/assets-create-outline": "0.2.0",
+        "@flexn/assets-create-outline": "0.3.3",
         "@flexn/create": "0.21.3-rc.5",
         "@flexn/fonts": "1.0.0",
         "@flexn/graybox": "0.21.1",

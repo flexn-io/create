@@ -1868,10 +1868,10 @@
     webpack "4.43.0"
     webpack-manifest-plugin "~2.2.0"
 
-"@flexn/assets-create-outline@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.npmjs.org/@flexn/assets-create-outline/-/assets-create-outline-0.2.0.tgz#304854b98ddcccc3b502c69d575008831fe57a24"
-  integrity sha512-7pJOdDnHoudCqLyj+XPgY60htl6eqsTyrTAFp+wIAQYNnk4s/qaC4iv1b+eQGWhByuWRThEqGJqyMqn62U6jzQ==
+"@flexn/assets-create-outline@0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@flexn/assets-create-outline/-/assets-create-outline-0.3.3.tgz#7c23ba8b94361bb5188c052d276630653d770327"
+  integrity sha512-qxsmBbjK1HvRSYjZRSqZMS6VYJespclAEBvzcwxJT93qqcn76HGBPey5RFPHRtvVqA62oixkFw0ho4yeqX3USQ==
 
 "@flexn/build-hooks@0.30.0":
   version "0.30.0"
