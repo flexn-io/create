@@ -3,6 +3,7 @@ import { useWindowDimensions } from 'react-native';
 import { View, Text, useTVRemoteHandler } from '@flexn/create';
 import { platform } from '@rnv/renative';
 import Screen from './../screen';
+import { NavigationProps } from '../../navigation';
 
 const supportedEvents = (): string[] => {
     switch (platform) {
@@ -53,7 +54,7 @@ const supportedEvents = (): string[] => {
     }
 };
 
-const RemoteHandler = () => {
+const RemoteHandler = ({ route }: NavigationProps) => {
     const [currentEvent, setCurrentEvent] = useState('');
     const dimensions = useWindowDimensions();
 
@@ -64,12 +65,11 @@ const RemoteHandler = () => {
     });
 
     return (
-        <Screen style={{ backgroundColor: '#222222' }}>
+        <Screen style={{ backgroundColor: '#222222' }} route={route}>
             <View
                 style={{
                     width: dimensions.width,
                     height: dimensions.height,
-                    justifyContent: 'center',
                     alignItems: 'center',
                 }}
             >
@@ -83,5 +83,12 @@ const RemoteHandler = () => {
         </Screen>
     );
 };
+
+RemoteHandler.id = 'RH1';
+RemoteHandler.platform = ['androidtv', 'firetv', 'tvos', 'tizen', 'webos'];
+RemoteHandler.route = 'RemoteHandler';
+RemoteHandler.title = 'Remote Handler';
+RemoteHandler.description =
+    'Remote Handler should show you all supported events for platform. When you press that key on your remote or keyboard there should be red text below indicating that.';
 
 export default RemoteHandler;

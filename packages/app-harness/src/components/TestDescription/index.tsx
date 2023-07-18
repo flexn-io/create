@@ -1,4 +1,4 @@
-import { View, Text, useTVRemoteHandler } from '@flexn/create';
+import { View, Text } from '@flexn/create';
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Ratio } from '../../utils';
@@ -11,10 +11,6 @@ type TestDescriptionProps = {
 
 const TestDescription = ({ id, title, description }: TestDescriptionProps) => {
     const [visible] = useState(true);
-
-    useTVRemoteHandler(({ eventType, eventKeyAction }) => {
-        console.log({ eventType, eventKeyAction });
-    });
 
     if (visible) {
         return (
