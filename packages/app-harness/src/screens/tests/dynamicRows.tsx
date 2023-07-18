@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     },
 });
 
-DynamicRows.id = '1';
+DynamicRows.id = 'DR1';
 DynamicRows.platform = ['androidtv', 'firetv', 'tvos', 'tizen', 'webos'];
 DynamicRows.route = 'DynamicRows';
 DynamicRows.title = 'Dynamic rows';

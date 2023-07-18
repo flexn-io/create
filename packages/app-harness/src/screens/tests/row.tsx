@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
 import Screen from './../screen';
 import { Ratio } from '../../utils';
+import { NavigationProps } from '../../navigation';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -23,7 +24,7 @@ function generateData(width: number, height: number, items = 30) {
     return temp;
 }
 
-const Row = () => {
+const Row = ({ route }: NavigationProps) => {
     const [data] = useState(generateData(200, 200, 20));
 
     const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
@@ -47,9 +48,8 @@ const Row = () => {
     };
 
     return (
-        <Screen style={{ backgroundColor: '#222222' }}>
-            {/* <ScrollView> */}
-            <View style={{ top: Ratio(200), width: '100%', left: 50 }}>
+        <Screen style={{ backgroundColor: '#222222' }} route={route}>
+            <View style={{ width: '100%', left: Ratio(20) }}>
                 <FlashList
                     data={data}
                     renderItem={rowRenderer}
@@ -63,7 +63,6 @@ const Row = () => {
                     }}
                 />
             </View>
-            {/* </ScrollView> */}
         </Screen>
     );
 };
@@ -72,17 +71,18 @@ const styles = StyleSheet.create({
     packshot: {
         width: Ratio(200),
         height: Ratio(200),
-        // borderColor: 'red',
-        // borderWidth: 1,
         marginHorizontal: Ratio(15),
-        // marginVertical: Ratio(50),
-        // borderWidth: 2,
-        // top: 100,
     },
     image: {
         width: '100%',
         height: '100%',
     },
 });
+
+Row.id = 'R1';
+Row.platform = ['androidtv', 'firetv', 'tvos', 'tizen', 'webos'];
+Row.route = 'Row';
+Row.title = 'Row';
+Row.description = 'Row component expected to scroll left and right with no focus looses and delays.';
 
 export default Row;
