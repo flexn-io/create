@@ -6,7 +6,6 @@ import Logger from './logger';
 import FocusModel, { MODEL_TYPES } from '../model/abstractFocusModel';
 import { DIRECTIONS } from '../constants';
 import { ClosestNodeOutput, FocusDirection, ScreenType, ViewType } from '../types';
-import Row from '../model/row';
 
 class CoreManager {
     private _focusAwareElements: Record<string, FocusModel> = {};
@@ -232,9 +231,9 @@ class CoreManager {
                 currentFocus.getParent()?.onBlur();
                 closestView.getParent()?.onFocus();
 
-                if (closestView.getParent() instanceof Row) {
-                    const parent = closestView.getParent() as Row;
-                    closestView = parent.getLastFocused() ?? closestView;
+                if (closestView.getParent()?.getType() === MODEL_TYPES.ROW) {
+                    const parent = closestView.getParent();
+                    closestView = parent?.getLastFocused() ?? closestView;
                 }
             }
 
