@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
+import type { NavigationProps } from '../../navigation';
 import Screen from './../screen';
 import { Ratio } from '../../utils';
 
@@ -23,7 +24,7 @@ function generateData(width: number, height: number, items = 30) {
     return temp;
 }
 
-const DynamicRows = ({ route }: any) => {
+const DynamicRows = ({ route }: NavigationProps) => {
     const [data] = useState(generateData(200, 200, 5));
     const [data2, setData2] = useState(generateData(200, 200, 5));
 

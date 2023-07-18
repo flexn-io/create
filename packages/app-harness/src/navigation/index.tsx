@@ -1,10 +1,17 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { createNativeStackNavigator } from '../libs/@react-navigation';
 import Selector from '../screens/selector';
 import testsList, { Test } from '../testsList';
 
-const RootStack = createNativeStackNavigator();
+export type RootStackParamList = {
+    List: { description: string; id: string } | undefined;
+};
+
+export type NavigationProps = StackScreenProps<RootStackParamList>;
+
+const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
     return (

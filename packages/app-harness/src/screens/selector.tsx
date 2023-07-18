@@ -2,11 +2,12 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { ScrollView, View, Text, FlashList, CreateListRenderItemInfo, Pressable } from '@flexn/create';
 import { getScaledValue, platform } from '@rnv/renative';
+import type { NavigationProps } from '../navigation';
 import Screen from './screen';
 import testsList, { Test } from '../testsList';
 import { Ratio } from '../utils';
 
-const Selector = ({ navigation }: any) => {
+const Selector = ({ navigation }: NavigationProps) => {
     const renderItem = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
         return (
             <Pressable

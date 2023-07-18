@@ -1,16 +1,11 @@
+import React, { useState } from 'react';
 import { Screen as FMScreen, ScreenProps, ScreenStates } from '@flexn/create';
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useState } from 'react';
+import type { NavigationProps } from '../navigation';
 import { TestDescription } from '../components/TestDescription';
 
-type Props = ScreenProps & {
-    route?: {
-        params: {
-            id?: string;
-            description?: string;
-        };
-    };
-};
+type Props = ScreenProps & { route?: NavigationProps['route'] };
+
 const Screen = ({ children, focusOptions, style, route, ...props }: Props) => {
     const { id, description } = route?.params || {};
     const [screenState, setScreenState] = useState<ScreenStates>('foreground');
