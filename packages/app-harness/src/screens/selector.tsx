@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { ScrollView, View, Text, FlashList, CreateListRenderItemInfo, Pressable } from '@flexn/create';
 import { getScaledValue, platform } from '@rnv/renative';
 import Screen from './screen';
-import testsList from '../testsList';
+import testsList, { Test } from '../testsList';
 import { Ratio } from '../utils';
 
 const Selector = ({ navigation }: any) => {
@@ -23,7 +23,7 @@ const Selector = ({ navigation }: any) => {
                     },
                 }}
             >
-                <Text style={styles.buttonTextStyle}>{item.title}</Text>
+                <Text style={styles.buttonTextStyle}>{`#${item.id} ${item.title}`}</Text>
             </Pressable>
         );
     };
@@ -33,7 +33,7 @@ const Selector = ({ navigation }: any) => {
             <ScrollView>
                 <View style={{ width: '100%', left: 5 }}>
                     <FlashList
-                        data={testsList.filter((test) => test.platform.includes(platform))}
+                        data={testsList().filter((test: Test) => test.platform.includes(platform))}
                         type="grid"
                         renderItem={renderItem}
                         numColumns={6}
@@ -53,6 +53,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'red',
         marginVertical: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     button: {
         marginHorizontal: getScaledValue(20),

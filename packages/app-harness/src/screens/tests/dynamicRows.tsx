@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import { View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
 import Screen from './../screen';
 import { Ratio } from '../../utils';
-import { TestDescription } from '../../components/TestDescription';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -24,7 +23,7 @@ function generateData(width: number, height: number, items = 30) {
     return temp;
 }
 
-const DynamicRows = () => {
+const DynamicRows = ({ route }: any) => {
     const [data] = useState(generateData(200, 200, 5));
     const [data2, setData2] = useState(generateData(200, 200, 5));
 
@@ -72,11 +71,7 @@ const DynamicRows = () => {
     };
 
     return (
-        <Screen style={{ backgroundColor: '#222222' }}>
-            <TestDescription
-                id="1"
-                description="Pressing on any of first row items should change data in second row and navigating to second row focus all the time should start from first item after data is changed."
-            />
+        <Screen style={{ backgroundColor: '#222222' }} route={route}>
             <View style={{ top: Ratio(50), width: '100%', left: 50 }}>
                 <FlashList
                     data={data}
@@ -120,5 +115,12 @@ const styles = StyleSheet.create({
         height: '100%',
     },
 });
+
+DynamicRows.id = '1';
+DynamicRows.platform = ['androidtv', 'firetv', 'tvos', 'tizen', 'webos'];
+DynamicRows.route = 'DynamicRows';
+DynamicRows.title = 'Dynamic rows';
+DynamicRows.description =
+    'Pressing on any of first row items should change data in second row and navigating to second row focus all the time should start from first item after data is changed.';
 
 export default DynamicRows;

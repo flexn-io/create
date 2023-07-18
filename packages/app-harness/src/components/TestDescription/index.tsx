@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     description: {
         marginTop: 10,
         color: '#FFFFFF',
-        fontSize: Ratio(16),
+        fontSize: Ratio(20),
         width: '70%',
         textAlign: 'center',
     },
