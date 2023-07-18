@@ -5,7 +5,7 @@ import { Ratio } from '../../utils';
 
 type TestDescriptionProps = {
     id: string;
-    title: string;
+    title?: string;
     description: string;
 };
 
@@ -19,7 +19,7 @@ const TestDescription = ({ id, title, description }: TestDescriptionProps) => {
     if (visible) {
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>{`[${id}] ${title}`}</Text>
+                <Text style={styles.title}>{`#${id} ${title ?? ''}`}</Text>
                 <Text style={styles.description}>{description}</Text>
             </View>
         );

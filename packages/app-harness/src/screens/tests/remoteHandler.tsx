@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useWindowDimensions } from 'react-native';
 import { View, Text, useTVRemoteHandler } from '@flexn/create';
 import { platform } from '@rnv/renative';
-import Screen from './screen';
+import Screen from './../screen';
 
 const supportedEvents = (): string[] => {
     switch (platform) {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
-import Screen from './screen';
-import { Ratio } from '../utils';
+import Screen from './../screen';
+import { Ratio } from '../../utils';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -23,8 +23,8 @@ function generateData(width: number, height: number, items = 30) {
     return temp;
 }
 
-const Row = () => {
-    const [data] = useState(generateData(200, 200, 20));
+const Grid = () => {
+    const [data] = useState(generateData(200, 200, 200));
 
     const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
         return (
@@ -33,10 +33,9 @@ const Row = () => {
                 focusRepeatContext={focusRepeatContext}
                 focusOptions={{
                     animator: {
-                        type: 'border',
+                        type: 'scale',
                         focus: {
-                            borderColor: 'blue',
-                            borderWidth: 5,
+                            scale: 1.4,
                         },
                     },
                 }}
@@ -49,18 +48,15 @@ const Row = () => {
     return (
         <Screen style={{ backgroundColor: '#222222' }}>
             {/* <ScrollView> */}
-            <View style={{ top: Ratio(200), width: '100%', left: 50 }}>
+            <View style={{ top: Ratio(20), flex: 1 }}>
                 <FlashList
                     data={data}
                     renderItem={rowRenderer}
-                    horizontal
-                    type="row"
+                    horizontal={false}
+                    numColumns={5}
+                    type="grid"
                     estimatedItemSize={Ratio(200)}
-                    style={{ height: Ratio(300) }}
-                    focusOptions={{
-                        autoLayoutScaleAnimation: true,
-                        autoLayoutSize: 50,
-                    }}
+                    style={{ flex: 1 }}
                 />
             </View>
             {/* </ScrollView> */}
@@ -74,7 +70,7 @@ const styles = StyleSheet.create({
         height: Ratio(200),
         // borderColor: 'red',
         // borderWidth: 1,
-        marginHorizontal: Ratio(15),
+        marginHorizontal: 5,
         // marginVertical: Ratio(50),
         // borderWidth: 2,
         // top: 100,
@@ -85,4 +81,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Row;
+export default Grid;

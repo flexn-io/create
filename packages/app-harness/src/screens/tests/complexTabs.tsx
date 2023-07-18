@@ -10,9 +10,9 @@ import {
     withParentContextMapper,
     Animated,
 } from '@flexn/create';
-import Screen from './screen';
-import { Ratio } from '../utils';
-import { Button } from '../components/Button';
+import Screen from './../screen';
+import { Ratio } from '../../utils';
+import { Button } from '../../components/Button';
 import { getScaledValue } from '@rnv/renative';
 
 // const border = {

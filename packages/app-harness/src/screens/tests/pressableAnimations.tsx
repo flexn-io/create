@@ -9,8 +9,8 @@ import {
     AnimatorScale,
     AnimatorScaleWithBorder,
 } from '@flexn/create';
-import Screen from './screen';
-import { Ratio } from '../utils';
+import Screen from './../screen';
+import { Ratio } from '../../utils';
 
 const scale: AnimatorScale = {
     type: 'scale',

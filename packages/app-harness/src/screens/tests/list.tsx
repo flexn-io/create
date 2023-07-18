@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { View, FlashList, Pressable, Image, ScrollView, CreateListRenderItemInfo } from '@flexn/create';
-import Screen from './screen';
-import { Ratio } from '../utils';
+import Screen from './../screen';
+import { Ratio } from '../../utils';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 

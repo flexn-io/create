@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { View } from '@flexn/create';
 import { getScaledValue } from '@rnv/renative';
-import Screen from './screen';
-import { Button } from '../components/Button';
-import { Ratio } from '../utils';
+import Screen from '../screen';
+import { Button } from '../../components/Button';
+import { Ratio } from '../../utils';
 
 const ViewGroup = () => {
     return (
