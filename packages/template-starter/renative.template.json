@@ -7,7 +7,7 @@
                 "@types/react": "18.2.6",
                 "@flexn/plugins": "1.0.8",
                 "@flexn/assets-create-outline": "0.3.3",
-                "@flexn/typescript": "0.1.6"
+                "@flexn/typescript-config": "1.0.0"
             },
             "resolutions": {
                 "@babel/traverse": "7.15.0"

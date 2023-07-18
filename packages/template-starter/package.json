@@ -1,6 +1,6 @@
 {
     "name": "@flexn/create-template-starter",
-    "version": "1.0.0-alpha.7",
+    "version": "1.0.0-alpha.8",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/create#readme",
@@ -64,13 +64,13 @@
     },
     "devDependencies": {
         "@flexn/assets-create-outline": "0.3.3",
-        "@flexn/create": "1.0.0-alpha.7",
+        "@flexn/create": "1.0.0-alpha.8",
         "@flexn/fonts": "1.0.1",
         "@flexn/graybox": "0.21.1",
         "@flexn/plugins": "1.0.9",
         "@flexn/recyclerlistview": "4.2.6",
         "@flexn/shopify-flash-list": "1.4.8",
-        "@flexn/typescript": "0.1.6",
+        "@flexn/typescript-config": "1.0.0",
         "@lightningjs/cli": "2.11.0",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/cli-platform-ios": "^6.0.0",
