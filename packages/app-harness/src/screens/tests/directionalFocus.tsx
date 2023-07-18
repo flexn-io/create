@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import { ScrollView, View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
 import { getScaledValue } from '@rnv/renative';
-import Screen from './screen';
-import { Button } from '../components/Button';
-import { Ratio } from '../utils';
+import Screen from './../screen';
+import { Button } from '../../components/Button';
+import { Ratio } from '../../utils';
 
 const { height } = Dimensions.get('screen');
 

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { ScrollView, View } from '@flexn/create';
 import { getScaledValue } from '@rnv/renative';
-import Screen from './screen';
-import { Button } from '../components/Button';
-import { interval, Ratio } from '../utils';
+import Screen from '../screen';
+import { Button } from '../../components/Button';
+import { interval, Ratio } from '../../utils';
 
 const DynamicState = () => {
     const [button1Visible] = useState(true);

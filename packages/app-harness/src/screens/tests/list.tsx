@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { View, FlashList, Pressable, Image, ScrollView, CreateListRenderItemInfo } from '@flexn/create';
-import Screen from './screen';
-import { Ratio } from '../utils';
+import type { NavigationProps } from '../../navigation';
+
+import Screen from './../screen';
+import { Ratio } from '../../utils';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -23,7 +25,7 @@ function generateData(width: number, height: number, items = 30) {
     return temp;
 }
 
-const Row = () => {
+const List = ({ route }: NavigationProps) => {
     const [list] = useState(Array(10).fill(generateData(Ratio(200), Ratio(200), 10)));
 
     const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
@@ -47,7 +49,7 @@ const Row = () => {
     };
 
     return (
-        <Screen style={{ backgroundColor: '#222222' }}>
+        <Screen style={{ backgroundColor: '#222222' }} route={route}>
             <ScrollView>
                 <View style={{ top: 20, flex: 1, paddingBottom: 20 }}>
                     {list.map((listData, index) => (
@@ -82,4 +84,11 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Row;
+List.id = 'L1';
+List.platform = ['androidtv', 'firetv', 'tvos', 'tizen', 'webos'];
+List.route = 'List';
+List.title = 'List';
+List.description =
+    "List component where focus should be predictable and every row has to remember it's position. Also any focused item should never be hidden.";
+
+export default List;

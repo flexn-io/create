@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { View, ScrollView, Pressable } from '@flexn/create';
 import { getScaledValue } from '@rnv/renative';
-import Screen from './screen';
-import { Ratio } from '../utils';
+import Screen from './../screen';
+import { Ratio } from '../../utils';
 
 const NestedScroll = () => {
     const [verticalItems] = useState(Array(12).fill(0));

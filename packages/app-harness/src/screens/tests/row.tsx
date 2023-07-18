@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
-import Screen from './screen';
-import { Ratio } from '../utils';
+import Screen from './../screen';
+import { Ratio } from '../../utils';
+import { NavigationProps } from '../../navigation';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -23,8 +24,8 @@ function generateData(width: number, height: number, items = 30) {
     return temp;
 }
 
-const Grid = () => {
-    const [data] = useState(generateData(200, 200, 200));
+const Row = ({ route }: NavigationProps) => {
+    const [data] = useState(generateData(200, 200, 20));
 
     const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
         return (
@@ -33,9 +34,10 @@ const Grid = () => {
                 focusRepeatContext={focusRepeatContext}
                 focusOptions={{
                     animator: {
-                        type: 'scale',
+                        type: 'border',
                         focus: {
-                            scale: 1.4,
+                            borderColor: 'blue',
+                            borderWidth: 5,
                         },
                     },
                 }}
@@ -46,20 +48,21 @@ const Grid = () => {
     };
 
     return (
-        <Screen style={{ backgroundColor: '#222222' }}>
-            {/* <ScrollView> */}
-            <View style={{ top: Ratio(20), flex: 1 }}>
+        <Screen style={{ backgroundColor: '#222222' }} route={route}>
+            <View style={{ width: '100%', left: Ratio(20) }}>
                 <FlashList
                     data={data}
                     renderItem={rowRenderer}
-                    horizontal={false}
-                    numColumns={5}
-                    type="grid"
+                    horizontal
+                    type="row"
                     estimatedItemSize={Ratio(200)}
-                    style={{ flex: 1 }}
+                    style={{ height: Ratio(300) }}
+                    focusOptions={{
+                        autoLayoutScaleAnimation: true,
+                        autoLayoutSize: 50,
+                    }}
                 />
             </View>
-            {/* </ScrollView> */}
         </Screen>
     );
 };
@@ -68,12 +71,7 @@ const styles = StyleSheet.create({
     packshot: {
         width: Ratio(200),
         height: Ratio(200),
-        // borderColor: 'red',
-        // borderWidth: 1,
-        marginHorizontal: 5,
-        // marginVertical: Ratio(50),
-        // borderWidth: 2,
-        // top: 100,
+        marginHorizontal: Ratio(15),
     },
     image: {
         width: '100%',
@@ -81,4 +79,10 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Grid;
+Row.id = 'R1';
+Row.platform = ['androidtv', 'firetv', 'tvos', 'tizen', 'webos'];
+Row.route = 'Row';
+Row.title = 'Row';
+Row.description = 'Row component expected to scroll left and right with no focus looses and delays.';
+
+export default Row;
