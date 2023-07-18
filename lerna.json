@@ -1,20 +1,14 @@
 {
-  "version": "1.0.0-alpha.8",
-  "packages": [
-    "packages/*"
-  ],
-  "npmClient": "yarn",
-  "useWorkspaces": true,
-  "command": {
-    "publish": {
-      "message": "chore(release): publish"
-    },
-    "bootstrap": {
-      "npmClientArgs": [
-        "--no-package-lock",
-        "--unsafe-perm=true",
-        "--no-optional"
-      ]
+    "version": "1.0.0-alpha.8",
+    "packages": ["packages/*"],
+    "npmClient": "yarn",
+    "useWorkspaces": true,
+    "command": {
+        "publish": {
+            "message": "chore(release): publish"
+        },
+        "bootstrap": {
+            "npmClientArgs": ["--no-package-lock", "--unsafe-perm=true", "--no-optional"]
+        }
     }
-  }
 }
