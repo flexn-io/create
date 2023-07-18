@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         top: Ratio(20),
-        marginBottom: Ratio(20),
+        marginBottom: isFactorTv ? Ratio(30) : 20,
     },
     listSeparator: {
         paddingRight: isFactorTv ? Ratio(100) : 0,
