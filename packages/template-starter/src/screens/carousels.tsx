@@ -81,6 +81,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                         <FlashList
                             key={index}
                             data={list}
+                            extraData={{ dark }}
                             renderItem={renderItem}
                             type="row"
                             estimatedItemSize={getCarouselSize().height}
@@ -101,10 +102,11 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         top: Ratio(20),
+        marginBottom: isFactorTv ? Ratio(30) : 20,
     },
     listSeparator: {
         paddingRight: isFactorTv ? Ratio(100) : 0,
-        paddingBottom: isPlatformMacos || isPlatformWeb ? 20 : 0,
+        paddingBottom: isPlatformMacos || isPlatformWeb ? Ratio(20) : 0,
         flex: 1,
     },
     cardStyle: {

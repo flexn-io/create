@@ -30,7 +30,7 @@ class RecyclerView extends FocusModel {
             'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
         >
     ) {
-        super();
+        super(params);
 
         const {
             horizontal = true,

@@ -20,7 +20,6 @@ const Screen = ({ children, focusOptions, style, route, ...props }: Props) => {
         }, [])
     );
 
-    console.log({ description });
     return (
         <FMScreen focusOptions={{ ...focusOptions, screenState }} style={style} {...props}>
             {id && description && <TestDescription id={id} description={description} />}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 import { ScrollView, View, Text, FlashList, CreateListRenderItemInfo, Pressable } from '@flexn/create';
 import { getScaledValue, platform } from '@rnv/renative';
 import type { NavigationProps } from '../navigation';
@@ -8,6 +8,9 @@ import testsList, { Test } from '../testsList';
 import { Ratio } from '../utils';
 
 const Selector = ({ navigation }: NavigationProps) => {
+    const { width, height } = useWindowDimensions();
+    const tests = testsList().filter((test: Test) => test.platform.includes(platform));
+
     const renderItem = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
         return (
             <Pressable
@@ -29,21 +32,29 @@ const Selector = ({ navigation }: NavigationProps) => {
         );
     };
 
+    if (tests.length > 0) {
+        return (
+            <Screen style={{ backgroundColor: '#222222', flex: 1 }}>
+                <ScrollView>
+                    <View style={{ width: '100%', left: 5 }}>
+                        <FlashList
+                            data={tests}
+                            type="grid"
+                            renderItem={renderItem}
+                            numColumns={6}
+                            horizontal={false}
+                            estimatedItemSize={Ratio(200)}
+                        />
+                    </View>
+                </ScrollView>
+            </Screen>
+        );
+    }
+
     return (
-        <Screen style={{ backgroundColor: '#222222', flex: 1 }}>
-            <ScrollView>
-                <View style={{ width: '100%', left: 5 }}>
-                    <FlashList
-                        data={testsList().filter((test: Test) => test.platform.includes(platform))}
-                        type="grid"
-                        renderItem={renderItem}
-                        numColumns={6}
-                        horizontal={false}
-                        estimatedItemSize={Ratio(200)}
-                    />
-                </View>
-            </ScrollView>
-        </Screen>
+        <View style={{ backgroundColor: '#222222', width, height, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ color: 'white' }}>No test cases found for {platform}</Text>
+        </View>
     );
 };
 
