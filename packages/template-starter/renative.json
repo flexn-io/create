@@ -46,7 +46,7 @@
     "plugins": {
         "@flexn/create": {
             "source": "flexn",
-            "version": "1.0.0-rc.0"
+            "version": "1.0.0"
         },
         "@rnv/renative": {
             "source": "flexn",

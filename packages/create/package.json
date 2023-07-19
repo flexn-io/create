@@ -1,6 +1,6 @@
 {
     "name": "@flexn/create",
-    "version": "1.0.0-rc.0",
+    "version": "1.0.0",
     "description": "Flexn Create SDK",
     "main": "lib/index",
     "types": "lib/index",
