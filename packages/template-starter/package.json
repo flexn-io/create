@@ -60,7 +60,8 @@
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
     "dependencies": {
-        "@lightningjs/sdk": "5.2.0"
+        "@lightningjs/sdk": "5.2.0",
+        "raf": "3.4.1"
     },
     "devDependencies": {
         "@flexn/assets-create-outline": "0.3.3",

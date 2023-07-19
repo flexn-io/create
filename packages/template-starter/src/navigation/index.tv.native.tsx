@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { disableTVMenuKey, enableTVMenuKey, View } from '@flexn/create';
+import { disableTVMenuKey, enableTVMenuKey, setFocusManagerEnabled, View } from '@flexn/create';
+import { isPlatformTizen, isPlatformWebos } from '@rnv/renative';
 import { enableScreens } from 'react-native-screens';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
     NavigationContainer,
@@ -18,6 +19,9 @@ import Menu from '../components/menu';
 import { ROUTES } from '../config';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+const { height } = Dimensions.get('window');
+
+setFocusManagerEnabled(true);
 enableScreens();
 
 const createTVSideNavigator = createNavigatorFactory(Navigator);
@@ -50,13 +54,13 @@ function Navigator({ initialRouteName, children, screenOptions, drawerContent, .
             <ScreenContainer style={styles.main}>
                 {state.routes.map((route, i) => {
                     const isFocused = state.index === i;
+                    const style =
+                        isPlatformTizen || isPlatformWebos
+                            ? { opacity: isFocused ? 1 : 0 }
+                            : [StyleSheet.absoluteFill, { opacity: isFocused ? 1 : 0 }];
 
                     return (
-                        <Screen
-                            key={route.key}
-                            style={[StyleSheet.absoluteFill, { opacity: isFocused ? 1 : 0 }]}
-                            active={isFocused ? 1 : 0}
-                        >
+                        <Screen key={route.key} style={style} active={isFocused ? 1 : 0}>
                             {descriptors[route.key].render()}
                         </Screen>
                     );
@@ -99,6 +103,7 @@ const styles = StyleSheet.create({
         zIndex: 2,
         opacity: 1,
         position: 'absolute',
+        ...((isPlatformTizen || isPlatformWebos) && { height: height }),
     },
     content: { flex: 1 },
     main: { flex: 1 },

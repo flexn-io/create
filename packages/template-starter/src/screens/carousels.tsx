@@ -1,7 +1,14 @@
 import { FlashList, View, Pressable, Image, ScrollView, Text } from '@flexn/create';
 import React, { useContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv/renative';
+import {
+    isFactorMobile,
+    isPlatformMacos,
+    isPlatformWeb,
+    isFactorTv,
+    isPlatformTizen,
+    isPlatformWebos,
+} from '@rnv/renative';
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { generateRandomItemsRow, interval, testProps } from '../utils';
 import Screen from './screen';
@@ -116,6 +123,7 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
         fontSize: isFactorMobile ? 16 : Ratio(26),
         marginHorizontal: isFactorTv ? Ratio(5) : 10,
+        ...((isPlatformTizen || isPlatformWebos) && { paddingHorizontal: 10 }),
     },
     poster: {
         width: '100%',
