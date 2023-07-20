@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         zIndex: 2,
         opacity: 1,
         position: 'absolute',
-        ...((isPlatformTizen || isPlatformWebos) && { height: height }),
+        ...((isPlatformTizen || isPlatformWebos) && { height }),
     },
     content: { flex: 1 },
     main: { flex: 1 },
