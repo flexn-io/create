@@ -212,25 +212,21 @@
         "web": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "chromecast": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "tizen": {
-            "engine": "engine-lightning",
+            "engine": "engine-rn-web",
             "target": "es5"
         },
         "webos": {
-            "engine": "engine-lightning"
+            "engine": "engine-rn-web"
         },
         "tvos": {
             "engine": "engine-rn-tvos",
@@ -239,9 +235,7 @@
         },
         "macos": {
             "engine": "engine-rn-electron",
-            "excludedPlugins": [
-                "react-native-linear-gradient"
-            ]
+            "excludedPlugins": ["react-native-linear-gradient"]
         },
         "windows": {
             "engine": "engine-rn-electron"

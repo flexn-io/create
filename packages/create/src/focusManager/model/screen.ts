@@ -178,6 +178,8 @@ class Screen extends FocusModel {
     }
 
     public onViewRemoved(model: View): void {
+        // If layout was not yet measured and view removed, we must also remove it from pending layout map
+        this.removeComponentFromPendingLayoutMap(model.getId());
         this._unmountingComponents++;
 
         setTimeout(() => {
@@ -191,12 +193,13 @@ class Screen extends FocusModel {
             if (model.getId() === this._precalculatedFocus?.getId()) {
                 this._precalculatedFocus = null;
             }
-            if (this._unmountingComponents <= 0 && !this._currentFocus && this.isInBackground()) {
+            if (this._unmountingComponents <= 0 && !this._currentFocus) {
                 const view = this.getFirstFocusableOnScreen();
 
                 if (view) {
                     this.setFocus(view);
-                } else {
+                } else if (CoreManager.getScreens()[this.getId()]) {
+                    // If there is no elements wait while first appears
                     // If there is no elements wait while first appears
                     this._interval = setInterval(() => {
                         const view = this.getFirstFocusableOnScreen();
