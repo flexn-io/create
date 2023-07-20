@@ -9,6 +9,7 @@ import type {
     ColorValue,
     View as RNView,
 } from 'react-native';
+import type { MouseEvent, PointerEvent } from 'react';
 import type { FlashListProps as FLProps, ListRenderItemInfo } from '@flexn/shopify-flash-list';
 
 import FocusModel from './model/abstractFocusModel';
@@ -113,7 +114,17 @@ export type RecyclableListFocusOptions = {
     autoLayoutSize?: number;
 };
 
-export interface ViewProps extends RNViewProps {
+type MouseEvents = {
+    onMouseDown?: (e: MouseEvent) => void;
+    onMouseEnter?: (e: MouseEvent) => void;
+    onMouseLeave?: (e: MouseEvent) => void;
+    onMouseMove?: (e: MouseEvent) => void;
+    onMouseOver?: (e: MouseEvent) => void;
+    onMouseOut?: (e: MouseEvent) => void;
+    onMouseUp?: (e: MouseEvent) => void;
+};
+
+export interface ViewProps extends RNViewProps, MouseEvents {
     focusOptions?: {
         group?: string;
         focusKey?: string;
@@ -140,7 +151,7 @@ export interface ViewGroupProps extends RNViewProps {
     ref?: React.ForwardedRef<RNView> | React.MutableRefObject<RNView>;
 }
 
-export interface PressableProps extends RNPressableProps {
+export interface PressableProps extends RNPressableProps, MouseEvents {
     focus?: boolean;
     focusOptions?: PressableFocusOptions;
     focusContext?: FocusContext;
@@ -150,8 +161,8 @@ export interface PressableProps extends RNPressableProps {
     onFocus?: () => void;
     className?: string;
     style?: ViewProps['style'];
-    onHoverIn?: null | ((event: MouseEvent) => void) | undefined;
-    onHoverOut?: null | ((event: MouseEvent) => void) | undefined;
+    onHoverIn?: (e: PointerEvent) => void;
+    onHoverOut?: (e: PointerEvent) => void;
 }
 
 export interface TouchableOpacityProps extends RNTouchableOpacityProps {
