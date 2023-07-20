@@ -1,5 +1,5 @@
 import React, { ForwardedRef, useEffect, useRef, useState } from 'react';
-import { View as RNView } from 'react-native';
+import { View as RNView, Platform } from 'react-native';
 import { FlashList as FlashListComp, ListRenderItemInfo, CellContainer } from '@flexn/shopify-flash-list';
 import BaseScrollComponent from '@flexn/recyclerlistview/dist/reactnative/core/scrollcomponent/BaseScrollComponent';
 import Grid from '../../focusManager/model/grid';
@@ -167,7 +167,7 @@ const FlashList = (props: FlashListProps<any>) => {
                             model.remeasureSelfAndChildrenLayouts(children);
                         }
                     }}
-                    CellRendererComponent={ItemContainer}
+                    CellRendererComponent={Platform.OS === 'web' ? undefined : ItemContainer}
                     overrideProps={{
                         ...scrollViewProps,
                         ref: (ref: BaseScrollComponent) => {

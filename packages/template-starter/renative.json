@@ -46,7 +46,7 @@
     "plugins": {
         "@flexn/create": {
             "source": "flexn",
-            "version": "1.0.0"
+            "version": "1.0.1"
         },
         "@rnv/renative": {
             "source": "flexn",
@@ -226,11 +226,11 @@
             }
         },
         "tizen": {
-            "engine": "engine-lightning",
+            "engine": "engine-rn-web",
             "target": "es5"
         },
         "webos": {
-            "engine": "engine-lightning"
+            "engine": "engine-rn-web"
         },
         "tvos": {
             "engine": "engine-rn-tvos",

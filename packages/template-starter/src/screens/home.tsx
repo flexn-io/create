@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { ScrollView as RNScrollView } from 'react-native';
+import { ScrollView as RNScrollView, useWindowDimensions } from 'react-native';
 import { Text, View, ScrollView, TouchableOpacity, Image, ANIMATION_TYPES, AnimatorBackground } from '@flexn/create';
 import { Api } from '@rnv/renative';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,6 +10,7 @@ import Screen from './screen';
 import packageJson from '../../package.json';
 
 const ScreenHome = ({ navigation }: { navigation?: any }) => {
+    const { height } = useWindowDimensions();
     const swRef = useRef<RNScrollView>() as React.MutableRefObject<RNScrollView>;
     const navigate = useNavigate({ navigation });
     const openURL = useOpenURL();
@@ -24,7 +25,10 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
     };
 
     return (
-        <Screen style={theme.styles.screen} focusOptions={{ verticalWindowAlignment: 'low-edge', focusKey: 'page' }}>
+        <Screen
+            style={[theme.styles.screen, { minHeight: height }]}
+            focusOptions={{ verticalWindowAlignment: 'low-edge', focusKey: 'page' }}
+        >
             <ScrollView
                 style={{ backgroundColor: theme.static.colorBgPrimary }}
                 ref={swRef}

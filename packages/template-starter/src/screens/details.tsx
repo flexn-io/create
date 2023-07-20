@@ -5,8 +5,10 @@ import { ThemeContext, ROUTES } from '../config';
 import { usePop, useReplace } from '../hooks';
 import { DataItem, getRandomItem, testProps } from '../utils';
 import Screen from './screen';
+import { useWindowDimensions } from 'react-native';
 
 const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router?: any; route?: any }) => {
+    const { height } = useWindowDimensions();
     const replace = useReplace({ navigation });
     const pop = usePop({ navigation });
     const [item, setItem] = useState<DataItem>();
@@ -28,7 +30,7 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
     }
 
     return (
-        <Screen style={[theme.styles.screen]} focusOptions={{ focusKey: 'page' }}>
+        <Screen style={[theme.styles.screen, { minHeight: height }]} focusOptions={{ focusKey: 'page' }}>
             <ImageBackground source={{ uri: item.backgroundImage }} style={{ flex: 1 }} resizeMode="cover">
                 <ScrollView contentContainerStyle={theme.styles.center}>
                     <View style={theme.styles.detailsInfoContainer}>
