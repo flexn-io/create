@@ -42,7 +42,6 @@
     "dependencies": {
         "@flexn/create": "1.0.1",
         "@flexn/fonts": "1.0.1",
-        "@flexn/graybox": "0.21.1",
         "@flexn/recyclerlistview": "4.2.7",
         "@flexn/shopify-flash-list": "1.4.8",
         "@lightningjs/core": "2.8.0",

@@ -115,6 +115,11 @@
     "workspaces": {
         "packages": [
             "packages/*"
+        ],
+        "nohoist": [
+            "**/appium-*",
+            "**/appium",
+            "**/*appium*"
         ]
     },
     "resolutions": {
