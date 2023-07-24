@@ -3,7 +3,6 @@ const path = require('path');
 
 let customCapabilities = {};
 if (fs.existsSync(path.join(__dirname, '../../../wdio.capabilities.template.js'))) {
-    // eslint-disable-next-line global-require
     const { capabilities } = require('../../../wdio.capabilities.template');
     customCapabilities = capabilities;
 }
@@ -233,9 +232,6 @@ exports.config = {
                         }),
                         ...(process.env.PLATFORM === 'androidtv' && {
                             port: 3004,
-                        }),
-                        ...(process.env.PLATFORM === 'macos' && {
-                            port: 3005,
                         }),
                     },
                 },
