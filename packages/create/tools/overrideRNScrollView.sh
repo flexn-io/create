@@ -7,8 +7,6 @@ RN_DIR="${CREATE_DIR}/../../../react-native"
 RN_SCROLLVIEW_DIR="${RN_DIR}/Libraries/Components/ScrollView"
 MIN_RN_VERSION="68"
 
-echo "${RN_DIR}/package.json"
-
 if [ -e "${RN_DIR}/package.json" ] ; then 
   PACKAGE_VERSION=$(cat "${RN_DIR}"/package.json \
     | grep version \
