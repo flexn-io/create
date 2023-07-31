@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -euo pipefail
 
@@ -10,13 +10,13 @@ MIN_RN_VERSION="68"
 echo "${RN_DIR}/package.json"
 
 if [ -e "${RN_DIR}/package.json" ] ; then 
-  PACKAGE_VERSION=$(cat ${RN_DIR}/package.json \
+  PACKAGE_VERSION=$(cat "${RN_DIR}"/package.json \
     | grep version \
     | head -1 \
     | awk -F: '{print $2 }' \
     | sed 's/[",]//g')
 
-  if [ -e $RN_SCROLLVIEW_DIR ] && [ "${PACKAGE_VERSION:3:2}" -ge "${MIN_RN_VERSION}" ] ; then
+  if [ -e "$RN_SCROLLVIEW_DIR" ] && [ "${PACKAGE_VERSION:3:2}" -ge "${MIN_RN_VERSION}" ] ; then
       sed -i '' "s|'RCTScrollView'|Platform.isTV \&\& Platform.OS === 'android' ? 'RCTScrollViewTV' : 'RCTScrollView'|" "${RN_SCROLLVIEW_DIR}/ScrollViewNativeComponent.js"
       echo "Overriding done."
   else
