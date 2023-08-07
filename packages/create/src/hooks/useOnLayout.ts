@@ -23,18 +23,23 @@ export default function useOnLayout(model: FocusModel | null, callback?: (() => 
 
     const onLayout = () => {
         if (interactionPromise.current) {
+            sendOnLayoutEvent();
             interactionPromise.current.then(() => {
-                if (model) {
-                    CoreManager.setPendingLayoutMeasurement(model, () => {
-                        Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_LAYOUT);
-                        callback?.();
-                    });
-                } else {
-                    callback?.();
-                }
+                sendOnLayoutEvent();
             });
         } else {
             if (callback) pendingCallbacks.push(callback);
+        }
+    };
+
+    const sendOnLayoutEvent = () => {
+        if (model) {
+            CoreManager.setPendingLayoutMeasurement(model, () => {
+                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_LAYOUT);
+                callback?.();
+            });
+        } else {
+            callback?.();
         }
     };
 
