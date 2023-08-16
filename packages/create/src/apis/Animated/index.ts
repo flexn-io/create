@@ -1,75 +1,21 @@
 import { Animated } from 'react-native';
-import { measureSync } from '../../focusManager/layoutManager';
 import FocusModel from '../../focusManager/model/abstractFocusModel';
-import CoreManager from '../../focusManager/service/core';
 
 type EndResult = { finished: boolean };
 type EndCallback = (result: EndResult) => void;
 
-const onAnimationEnds = () => {
-    Object.values(CoreManager.getViews()).forEach((model: FocusModel) => {
-        if (model.isInForeground()) {
-            measureSync({ model });
-        }
-    });
+const onAnimationEnds = (focusContext?: FocusModel) => {
+    if (focusContext) {
+        focusContext.remeasureChildrenLayouts(focusContext);
+    }
 };
 
-export const loop = (
-    animation: Animated.CompositeAnimation,
-    config: Animated.LoopAnimationConfig
-): Animated.CompositeAnimation => {
-    return {
-        start: (callback?: EndCallback) => {
-            Animated.loop(animation, config).start(({ finished }) => {
-                callback?.({ finished });
-                onAnimationEnds();
-            });
-        },
-        stop: Animated.loop(animation, config).stop,
-        reset: Animated.loop(animation, config).reset,
-    };
-};
+const getPropsFromAnimatableValue = (value: Animated.Value | Animated.ValueXY) => {
+    // @ts-ignore it's internal property not intended to be used outside, but now it's only why
+    // to determine which component we're animating
+    const focusContext = value._children?.[0]?._children?.[0]?._children?.[0]?._props?.focusContext;
 
-export const stagger = (time: number, animations: Array<Animated.CompositeAnimation>): Animated.CompositeAnimation => {
-    return {
-        start: (callback?: EndCallback) => {
-            Animated.stagger(time, animations).start(({ finished }) => {
-                callback?.({ finished });
-                onAnimationEnds();
-            });
-        },
-        stop: Animated.stagger(time, animations).stop,
-        reset: Animated.stagger(time, animations).reset,
-    };
-};
-
-export const parallel = (
-    animations: Array<Animated.CompositeAnimation>,
-    config: Animated.ParallelConfig
-): Animated.CompositeAnimation => {
-    return {
-        start: (callback?: EndCallback) => {
-            Animated.parallel(animations, config).start(({ finished }) => {
-                callback?.({ finished });
-                onAnimationEnds();
-            });
-        },
-        stop: Animated.parallel(animations, config).stop,
-        reset: Animated.parallel(animations, config).reset,
-    };
-};
-
-export const sequence = (animations: Array<Animated.CompositeAnimation>): Animated.CompositeAnimation => {
-    return {
-        start: (callback?: EndCallback) => {
-            Animated.sequence(animations).start(({ finished }) => {
-                callback?.({ finished });
-                onAnimationEnds();
-            });
-        },
-        stop: Animated.sequence(animations).stop,
-        reset: Animated.sequence(animations).reset,
-    };
+    return focusContext;
 };
 
 export const spring = (
@@ -80,7 +26,7 @@ export const spring = (
         start: (callback?: EndCallback) => {
             Animated.spring(value, config).start(({ finished }) => {
                 callback?.({ finished });
-                onAnimationEnds();
+                onAnimationEnds(getPropsFromAnimatableValue(value));
             });
         },
         stop: Animated.spring(value, config).stop,
@@ -96,7 +42,7 @@ export const decay = (
         start: (callback?: EndCallback) => {
             Animated.decay(value, config).start(({ finished }) => {
                 callback?.({ finished });
-                onAnimationEnds();
+                onAnimationEnds(getPropsFromAnimatableValue(value));
             });
         },
         stop: Animated.decay(value, config).stop,
@@ -112,7 +58,7 @@ export const timing = (
         start: (callback?: EndCallback) => {
             Animated.timing(value, config).start(({ finished }) => {
                 callback?.({ finished });
-                onAnimationEnds();
+                onAnimationEnds(getPropsFromAnimatableValue(value));
             });
         },
         stop: Animated.timing(value, config).stop,
@@ -123,4 +69,6 @@ export const timing = (
 export default {
     ...Animated,
     timing,
+    decay,
+    spring,
 };
