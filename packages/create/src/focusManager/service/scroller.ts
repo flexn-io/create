@@ -15,7 +15,8 @@ class Scroller {
             currentFocus: View;
             focusMap: Record<string, FocusModel>;
             isDebuggerEnabled: boolean;
-        }
+        },
+        longPress
     ) {
         const { currentFocus } = contextParameters;
 
@@ -36,7 +37,7 @@ class Scroller {
         }
 
         scrollContextParents.forEach((p: ScrollView) => {
-            const scrollTarget = this.calculateScrollViewTarget(direction, p, contextParameters);
+            const scrollTarget = this.calculateScrollViewTarget(direction, p, contextParameters, longPress);
 
             if (scrollTarget) {
                 if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
@@ -53,7 +54,8 @@ class Scroller {
             currentFocus: View;
             focusMap: Record<string, FocusModel>;
             isDebuggerEnabled: boolean;
-        }
+        },
+        longPress
     ) {
         const { currentFocus } = contextParameters;
         const currentLayout = currentFocus.getLayout();
@@ -86,9 +88,18 @@ class Scroller {
                 break;
             case DIRECTIONS.LEFT:
                 {
-                    const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.min;
-                    scrollTarget.x = Math.min(...x);
-                    scrollTarget.y = mathFunc(...y);
+                    // const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.min;
+                    // scrollTarget.x = Math.min(...x);
+                    // scrollTarget.y = mathFunc(...y);
+
+                    // console.log('AHAH', currentLayout.xMin, scrollView.getLayout().xMin - horizontalViewportOffset);
+
+                    if (longPress) {
+                        scrollTarget.x =
+                            currentLayout.xMin - screenWidth + currentLayout.width + horizontalViewportOffset;
+                    } else {
+                        scrollTarget.x = currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset;
+                    }
                 }
                 break;
             case DIRECTIONS.UP:
@@ -123,6 +134,7 @@ class Scroller {
         // If scroll direction is being changed from vertical to horizontal and it's still
         // does not finished scroll action, we wait for vertical scrolling to be completed
         if (scrollView.isScrollingVertically() && (DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction)) {
+            console.log('is it...');
             return null;
         }
 
