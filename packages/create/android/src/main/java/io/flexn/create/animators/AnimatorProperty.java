@@ -76,6 +76,11 @@ public class AnimatorProperty {
         float rgbComponent;
         float alphaComponent;
         try {
+            if (reactColor.length() == 9) {
+                String color = reactColor.substring(1, 7);
+                String alpha = reactColor.substring(7);
+                reactColor = '#' + alpha + color;
+            }
             int color = Color.parseColor(reactColor);
             rgbComponent =  (float) ((int) color & 0x00FFFFFF);
             alphaComponent = (float) ((int) color >>> 24);
@@ -89,6 +94,11 @@ public class AnimatorProperty {
 
     public int parseIntColor(String reactColor) {
         try {
+            if (reactColor.length() == 9) {
+                String color = reactColor.substring(1, 7);
+                String alpha = reactColor.substring(7);
+                reactColor = '#' + alpha + color;
+            }
             return Color.parseColor(reactColor);
         } catch (Exception e) {
             return Color.TRANSPARENT;

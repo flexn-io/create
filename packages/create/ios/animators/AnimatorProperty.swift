@@ -104,6 +104,22 @@ class AnimatorProperty {
     func hexToColor(from hexString : String) -> UIColor? {
         let hexString = hexString.replacingOccurrences(of: "#", with: "")
 
+        if hexString.count == 8 {
+            let scanner = Scanner(string: hexString)
+            var hexNumber: UInt64 = 0
+
+            if scanner.scanHexInt64(&hexNumber) {
+                let r, g, b, a: CGFloat
+                r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
+                g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
+                b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
+                a = CGFloat(hexNumber & 0x000000ff) / 255
+
+                return UIColor(red: r, green: g, blue: b, alpha: a)
+
+            }
+        }
+        
         if let rgbValue = UInt(hexString, radix: 16) {
             let red   =  CGFloat((rgbValue >> 16) & 0xff) / 255
             let green =  CGFloat((rgbValue >>  8) & 0xff) / 255
