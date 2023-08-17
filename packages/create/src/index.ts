@@ -65,3 +65,11 @@ export {
     RemoteHandlerCallback,
     ClassRemoteHandlerCallback,
 } from './remoteHandler';
+
+// Type declarations
+import 'react-native';
+declare module 'react-native' {
+    interface AccessibilityProps {
+        accessibilityLevel?: number;
+    }
+}

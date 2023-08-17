@@ -9,7 +9,7 @@
         "clean": "rm -rf ./lib && rm -rf tsconfig.tsbuildinfo",
         "compile": "tsc -b tsconfig.json",
         "watch": "tsc --watch --preserveWatchOutput",
-        "postinstall": "sh tools/overrideRNScrollView.sh"
+        "postinstall": "bash tools/overrideRNScrollView.sh"
     },
     "files": [
         "lib",
