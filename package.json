@@ -117,9 +117,8 @@
             "packages/*"
         ],
         "nohoist": [
-            "**/appium-*",
-            "**/appium",
-            "**/*appium*"
+            "**/@flexn/graybox",
+            "**/appium-*"
         ]
     },
     "resolutions": {
