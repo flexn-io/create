@@ -1,3 +1,4 @@
+import throttle from 'lodash.throttle';
 import CoreManager from './core';
 import { DIRECTIONS } from '../constants';
 import { FocusDirection } from '../types';
@@ -26,7 +27,7 @@ class KeyHandler {
     private keyUpEventListener?: (event: KeyboardEvent) => void;
 
     constructor() {
-        this.onKeyDown = this.onKeyDown.bind(this);
+        this.onKeyDown = throttle(this.onKeyDown.bind(this), 200);
         this.enableKeyHandler = this.enableKeyHandler.bind(this);
 
         this.enableKeyHandler();
@@ -39,12 +40,12 @@ class KeyHandler {
             this.onKeyDown(eventType);
         };
 
-        window.addEventListener('keyup', this.keyUpEventListener);
+        window.addEventListener('keydown', this.keyUpEventListener);
     }
 
     public removeListeners() {
         if (this.keyUpEventListener) {
-            window.removeEventListener('keyup', this.keyUpEventListener);
+            window.removeEventListener('keydown', this.keyUpEventListener);
         }
     }
 
