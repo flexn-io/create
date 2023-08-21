@@ -89,6 +89,7 @@ class Scroller {
             case DIRECTIONS.LEFT:
                 {
                     if (longPress) {
+                        // Keep viewport to right side to boost recycling
                         scrollTarget.x =
                             currentLayout.xMin - screenWidth + currentLayout.width + horizontalViewportOffset;
                     } else {
