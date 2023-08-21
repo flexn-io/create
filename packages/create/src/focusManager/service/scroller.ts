@@ -11,12 +11,12 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('screen');
 class Scroller {
     public calculateAndScrollToTarget(
         direction: FocusDirection,
+        longPress: boolean,
         contextParameters: {
             currentFocus: View;
             focusMap: Record<string, FocusModel>;
             isDebuggerEnabled: boolean;
-        },
-        longPress
+        }
     ) {
         const { currentFocus } = contextParameters;
 
@@ -37,7 +37,7 @@ class Scroller {
         }
 
         scrollContextParents.forEach((p: ScrollView) => {
-            const scrollTarget = this.calculateScrollViewTarget(direction, p, contextParameters, longPress);
+            const scrollTarget = this.calculateScrollViewTarget(direction, p, longPress, contextParameters);
 
             if (scrollTarget) {
                 if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
@@ -50,12 +50,12 @@ class Scroller {
     private calculateScrollViewTarget(
         direction: FocusDirection,
         scrollView: ScrollView,
+        longPress: boolean,
         contextParameters: {
             currentFocus: View;
             focusMap: Record<string, FocusModel>;
             isDebuggerEnabled: boolean;
-        },
-        longPress
+        }
     ) {
         const { currentFocus } = contextParameters;
         const currentLayout = currentFocus.getLayout();
@@ -88,17 +88,13 @@ class Scroller {
                 break;
             case DIRECTIONS.LEFT:
                 {
-                    // const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.min;
-                    // scrollTarget.x = Math.min(...x);
-                    // scrollTarget.y = mathFunc(...y);
-
-                    // console.log('AHAH', currentLayout.xMin, scrollView.getLayout().xMin - horizontalViewportOffset);
-
                     if (longPress) {
                         scrollTarget.x =
                             currentLayout.xMin - screenWidth + currentLayout.width + horizontalViewportOffset;
                     } else {
-                        scrollTarget.x = currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset;
+                        const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.min;
+                        scrollTarget.x = Math.min(...x);
+                        scrollTarget.y = mathFunc(...y);
                     }
                 }
                 break;

@@ -89,13 +89,7 @@ class KeyHandler {
             const direction = this.getDirectionName(eventType);
             if (direction) {
                 CoreManager.executeDirectionalFocus(direction);
-                CoreManager.executeScroll(direction, true);
-
-                clearTimeout(this._timeout);
-
-                this._timeout = setTimeout(() => {
-                    CoreManager.executeScroll(direction);
-                }, 1000);
+                CoreManager.executeScroll(direction);
             }
         }
     }

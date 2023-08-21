@@ -133,7 +133,7 @@ class CoreManager {
             focusMap: this._focusAwareElements,
             isDebuggerEnabled: this._debuggerEnabled,
         };
-        Scroller.calculateAndScrollToTarget(direction, contextParameters, longPress);
+        Scroller.calculateAndScrollToTarget(direction, longPress, contextParameters);
     }
 
     public setFocus = (focusKey: string) => {
