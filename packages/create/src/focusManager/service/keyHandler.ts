@@ -25,7 +25,6 @@ export const EVENT_TYPE_D = 'd';
 class KeyHandler {
     private eventEmitter: EmitterSubscription;
 
-    private _timeout: any;
     private _longPressInterval: any;
     private _stopKeyDownEvents: boolean;
 

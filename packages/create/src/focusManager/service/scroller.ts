@@ -130,7 +130,6 @@ class Scroller {
         // If scroll direction is being changed from vertical to horizontal and it's still
         // does not finished scroll action, we wait for vertical scrolling to be completed
         if (scrollView.isScrollingVertically() && (DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction)) {
-            console.log('is it...');
             return null;
         }
 
