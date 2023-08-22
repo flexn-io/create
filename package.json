@@ -118,7 +118,8 @@
         ],
         "nohoist": [
             "**/@flexn/graybox",
-            "**/appium-*"
+            "**/appium-*",
+            "**/@wdio/*"
         ]
     },
     "resolutions": {
