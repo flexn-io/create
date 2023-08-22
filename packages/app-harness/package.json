@@ -1,6 +1,6 @@
 {
     "name": "@flexn/app-harness",
-    "version": "1.0.1",
+    "version": "1.1.0-alpha.3",
     "scripts": {
         "bootstrap": "cd ../.. && yarn bootstrap",
         "build": "yarn clean && yarn compile",
@@ -40,7 +40,7 @@
         "web:release": "npx rnv build -p web -c harness -s release && vercel ./platformBuilds/harness_web/project"
     },
     "dependencies": {
-        "@flexn/create": "1.0.1",
+        "@flexn/create": "1.1.0-alpha.3",
         "@flexn/fonts": "1.0.1",
         "@flexn/graybox": "0.21.2-feat.6",
         "@flexn/recyclerlistview": "4.2.7",
@@ -60,8 +60,8 @@
         "@react-navigation/routers": "5.1.0",
         "@react-navigation/stack": "6.0.11",
         "@react-navigation/web": "1.0.0-alpha.9",
-        "@rnv/engine-rn-web": "0.37.0",
-        "@rnv/renative": "0.37.0",
+        "@rnv/engine-rn-web": "0.37.3",
+        "@rnv/renative": "0.37.3",
         "@sentry/react": "6.13.3",
         "@sentry/react-native": "3.1.1",
         "@sentry/tracing": "6.13.3",
@@ -85,18 +85,18 @@
         "tslib": "2.5.2"
     },
     "devDependencies": {
-        "@flexn/create-template-starter": "1.0.1",
+        "@flexn/create-template-starter": "1.1.0-alpha.3",
         "@flexn/plugins": "1.0.9",
         "@lightningjs/cli": "2.11.0",
         "@react-native-community/cli": "^6.0.0",
         "@react-native-community/cli-platform-ios": "^6.0.0",
-        "@rnv/engine-lightning": "0.37.0",
-        "@rnv/engine-rn": "0.37.0",
-        "@rnv/engine-rn-electron": "0.37.0",
-        "@rnv/engine-rn-next": "0.37.0",
-        "@rnv/engine-rn-tvos": "0.37.0",
+        "@rnv/engine-lightning": "0.37.3",
+        "@rnv/engine-rn": "0.37.3",
+        "@rnv/engine-rn-electron": "0.37.3",
+        "@rnv/engine-rn-next": "0.37.3",
+        "@rnv/engine-rn-tvos": "0.37.3",
         "jetifier": "1.6.5",
-        "rnv": "0.37.0",
+        "rnv": "0.37.3",
         "ts-node": "^10.9.1",
         "xcode": "2.1.0"
     },

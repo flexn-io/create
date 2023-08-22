@@ -16,6 +16,7 @@ import complexTabs from './complexTabs';
 import hideAllElements from './hideAllElements';
 import dynamicRows from './dynamicRows';
 import remoteHandler from './remoteHandler';
+import measureWithAnimations from './measureWithAnimations';
 
 export default {
     viewGroup,
@@ -36,4 +37,5 @@ export default {
     hideAllElements,
     dynamicRows,
     remoteHandler,
+    measureWithAnimations,
 };

@@ -319,9 +319,7 @@ class CoreManager {
     }
 
     public getCurrentMaxOrder(): number {
-        return Math.max(
-            ...Object.values(this._focusAwareElements).map((o) => (isNaN(o.getOrder()) ? 0 : o.getOrder()))
-        );
+        return Math.max(...Object.values(this._screens).map((o) => (isNaN(o.getOrder()) ? 0 : o.getOrder())));
     }
 
     public findClosestNode = (

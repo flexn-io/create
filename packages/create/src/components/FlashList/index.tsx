@@ -1,4 +1,4 @@
-import React, { ForwardedRef, useEffect, useRef, useState } from 'react';
+import React, { ForwardedRef, useEffect, useRef, useState, LegacyRef } from 'react';
 import { View as RNView, Platform } from 'react-native';
 import { FlashList as FlashListComp, ListRenderItemInfo, CellContainer } from '@flexn/shopify-flash-list';
 import BaseScrollComponent from '@flexn/recyclerlistview/dist/reactnative/core/scrollcomponent/BaseScrollComponent';
@@ -14,9 +14,9 @@ import { Ratio } from '../../helpers';
 import View from '../../focusManager/model/view';
 import { CoreManager } from '../..';
 
-const FlashList = (props: FlashListProps<any>) => {
+const FlashList = React.forwardRef((props: FlashListProps<any>, ref: LegacyRef<FlashListComp<any>>) => {
     if (!CoreManager.isFocusManagerEnabled()) {
-        return <FlashListComp {...props} />;
+        return <FlashListComp {...props} ref={ref} />;
     }
 
     const {
@@ -205,6 +205,6 @@ const FlashList = (props: FlashListProps<any>) => {
             )}
         </RNView>
     );
-};
+});
 
 export default FlashList;

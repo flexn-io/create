@@ -1,6 +1,6 @@
 {
     "name": "@flexn/create",
-    "version": "1.0.1",
+    "version": "1.1.0-alpha.3",
     "description": "Flexn Create SDK",
     "main": "lib/index",
     "types": "lib/index",
@@ -9,7 +9,7 @@
         "clean": "rm -rf ./lib && rm -rf tsconfig.tsbuildinfo",
         "compile": "tsc -b tsconfig.json",
         "watch": "tsc --watch --preserveWatchOutput",
-        "postinstall": "sh tools/overrideRNScrollView.sh"
+        "postinstall": "bash tools/overrideRNScrollView.sh"
     },
     "files": [
         "lib",
