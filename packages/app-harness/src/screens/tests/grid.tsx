@@ -81,4 +81,10 @@ const styles = StyleSheet.create({
     },
 });
 
+Grid.id = 'G1';
+Grid.platform = ['androidtv', 'firetv', 'tvos', 'tizen', 'webos'];
+Grid.route = 'Grid';
+Grid.title = 'Grid';
+Grid.description = 'Grid';
+
 export default Grid;

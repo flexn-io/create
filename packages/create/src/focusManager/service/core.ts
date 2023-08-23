@@ -127,13 +127,13 @@ class CoreManager {
         }
     }
 
-    public executeScroll(direction: FocusDirection) {
+    public executeScroll(direction: FocusDirection, longPress = false) {
         const contextParameters = {
             currentFocus: this._currentFocus as ViewType,
             focusMap: this._focusAwareElements,
             isDebuggerEnabled: this._debuggerEnabled,
         };
-        Scroller.calculateAndScrollToTarget(direction, contextParameters);
+        Scroller.calculateAndScrollToTarget(direction, longPress, contextParameters);
     }
 
     public setFocus = (focusKey: string) => {

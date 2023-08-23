@@ -68,7 +68,7 @@ class KeyHandler {
         if (isFocusAndKeyEventsEnabled && isFocusReady) {
             switch (eventKeyAction) {
                 case EVENT_KEY_ACTION_UP:
-                    return this.onKeyUp();
+                    return this.onKeyUp(eventType);
                 case EVENT_KEY_ACTION_DOWN:
                     return this.onKeyDown(eventType);
                 case EVENT_KEY_ACTION_LONG_PRESS:
@@ -102,10 +102,10 @@ class KeyHandler {
                     const selectedIndex = this.getSelectedIndex();
 
                     CoreManager.executeDirectionalFocus(direction);
-                    CoreManager.executeScroll(direction);
+                    CoreManager.executeScroll(direction, true);
 
                     if (selectedIndex === 0 || selectedIndex === this.getMaxIndex()) {
-                        this.onKeyUp();
+                        this.onKeyUp(direction);
                     }
                 },
                 CoreManager.getCurrentFocus()?.getParent() instanceof Grid
@@ -115,10 +115,13 @@ class KeyHandler {
         }
     }
 
-    private onKeyUp() {
+    private onKeyUp(eventType: RemoteHandlerEventTypesAppleTV | RemoteHandlerEventTypesAndroid) {
+        const direction = this.getDirectionName(eventType);
         if (this._longPressInterval) {
             clearInterval(this._longPressInterval);
+            this._longPressInterval = null;
             this._stopKeyDownEvents = false;
+            CoreManager.executeScroll(direction!);
         }
     }
 
