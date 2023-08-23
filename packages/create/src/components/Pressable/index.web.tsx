@@ -118,7 +118,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                         duration: 200,
                         useNativeDriver: true,
                     }).start();
-                    ref.current.setNativeProps({
+                    ref.current?.setNativeProps?.({
                         style: {
                             borderColor: (animatorOptions as AnimatorScaleWithBorder).focus.borderColor,
                             borderWidth: (animatorOptions as AnimatorScaleWithBorder).focus.borderWidth,
@@ -126,7 +126,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                     });
                     break;
                 case ANIMATION_TYPES.BORDER:
-                    ref.current.setNativeProps({
+                    ref.current?.setNativeProps?.({
                         style: {
                             borderColor: (animatorOptions as AnimatorBorder).focus.borderColor,
                             borderWidth: (animatorOptions as AnimatorBorder).focus.borderWidth,
@@ -134,7 +134,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                     });
                     break;
                 case ANIMATION_TYPES.BACKGROUND:
-                    ref.current.setNativeProps({
+                    ref.current?.setNativeProps?.({
                         style: {
                             backgroundColor: (animatorOptions as AnimatorBackground).focus.backgroundColor,
                         },
@@ -162,21 +162,21 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                         duration: 200,
                         useNativeDriver: true,
                     }).start();
-                    ref.current.setNativeProps({
+                    ref.current?.setNativeProps?.({
                         style: {
                             borderWidth: 0,
                         },
                     });
                     break;
                 case ANIMATION_TYPES.BORDER:
-                    ref.current.setNativeProps({
+                    ref.current?.setNativeProps?.({
                         style: {
                             borderWidth: 0,
                         },
                     });
                     break;
                 case ANIMATION_TYPES.BACKGROUND:
-                    ref.current.setNativeProps({
+                    ref.current?.setNativeProps?.({
                         style: {
                             backgroundColor: flattenStyle.backgroundColor,
                         },
