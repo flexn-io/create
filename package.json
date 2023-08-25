@@ -115,6 +115,11 @@
     "workspaces": {
         "packages": [
             "packages/*"
+        ],
+        "nohoist": [
+            "**/@flexn/graybox",
+            "**/appium-*",
+            "**/@wdio/*"
         ]
     },
     "resolutions": {
