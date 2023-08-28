@@ -83,6 +83,7 @@
         "@react-navigation/web": "1.0.0-alpha.9",
         "@rnv/engine-lightning": "0.37.3",
         "@rnv/engine-rn": "0.37.3",
+        "@rnv/engine-rn-web": "0.37.3",
         "@rnv/engine-rn-electron": "0.37.3",
         "@rnv/engine-rn-next": "0.37.3",
         "@rnv/engine-rn-tvos": "0.37.3",
@@ -108,5 +109,8 @@
     },
     "browserslist": [
         "> 2%"
-    ]
+    ],
+    "dependencies": {
+        "raf": "3.4.1"
+    }
 }

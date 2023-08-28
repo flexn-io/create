@@ -7,20 +7,36 @@
                 "@types/react": "18.2.6",
                 "@flexn/plugins": "1.0.8",
                 "@flexn/assets-create-outline": "0.3.3",
-                "@flexn/typescript-config": "1.0.0"
+                "@flexn/typescript-config": "1.0.0",
+                "@types/react-native-vector-icons": "6.4.13",
+                "@types/react-native": "~0.67.2",
+                "@types/react-dom": "~18.2.4"
             },
             "resolutions": {
-                "@babel/traverse": "7.15.0"
+                "@babel/traverse": "7.15.0",
+                "@types/react": "18.2.6"
             }
         }
     },
     "defaults": {
-        "supportedPlatforms": ["android", "androidtv", "firetv", "androidwear", "ios", "web", "macos", "tvos"]
+        "supportedPlatforms": [
+            "android",
+            "androidtv",
+            "firetv",
+            "androidwear",
+            "ios",
+            "web",
+            "macos",
+            "tvos",
+            "tizen",
+            "webos"
+        ]
     },
     "engines": {
         "@rnv/engine-lightning": "source:rnv",
         "@rnv/engine-rn-electron": "source:rnv",
         "@rnv/engine-rn": "source:rnv",
+        "@rnv/engine-rn-web": "source:rnv",
         "@rnv/engine-rn-next": "source:rnv",
         "@rnv/engine-rn-tvos": "source:rnv"
     },
