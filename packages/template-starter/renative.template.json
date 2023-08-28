@@ -15,7 +15,8 @@
             "resolutions": {
                 "@babel/traverse": "7.15.0",
                 "@types/react": "18.2.6"
-            }
+            },
+            "browserslist": ["> 2%"]
         }
     },
     "defaults": {
