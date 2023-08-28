@@ -1,6 +1,6 @@
 {
     "name": "@flexn/create-template-starter",
-    "version": "1.1.0-alpha.4",
+    "version": "1.1.0-alpha.5",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/create#readme",
@@ -59,9 +59,12 @@
         "run-all": "ttab rnv run -p web -e engine-rn-web --ci && ttab rnv run -p web --ci && ttab rnv run -p ios -t 'iPhone 8' --ci && ttab rnv run -p android -t Pixel_2_API_28 --ci && ttab rnv run -p androidtv -t Android_TV_1080p_API_28 --ci && ttab rnv run -p tvos -t \"Apple TV\" --ci && ttab rnv run -p macos --ci && ttab rnv run -p tizen -t T-samsung-5.5-x86 --ci && ttab rnv run -p webos --ci && ttab rnv run -p androidwear -t Android_Wear_Round_API_28 --ci && ttab rnv run -p tizenwatch -t W-5.5-circle-x86 --ci && ttab rnv run -p tizenmobile -t M-5.5-x86 --ci",
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
+    "dependencies": {
+        "raf": "3.4.1"
+    },
     "devDependencies": {
         "@flexn/assets-create-outline": "0.3.3",
-        "@flexn/create": "1.1.0-alpha.4",
+        "@flexn/create": "1.1.0-alpha.5",
         "@flexn/fonts": "1.0.1",
         "@flexn/graybox": "1.0.0",
         "@flexn/plugins": "1.0.9",
@@ -83,10 +86,10 @@
         "@react-navigation/web": "1.0.0-alpha.9",
         "@rnv/engine-lightning": "0.37.3",
         "@rnv/engine-rn": "0.37.3",
-        "@rnv/engine-rn-web": "0.37.3",
         "@rnv/engine-rn-electron": "0.37.3",
         "@rnv/engine-rn-next": "0.37.3",
         "@rnv/engine-rn-tvos": "0.37.3",
+        "@rnv/engine-rn-web": "0.37.3",
         "@rnv/renative": "0.37.3",
         "jetifier": "1.6.5",
         "react": "18.2.0",
@@ -109,8 +112,5 @@
     },
     "browserslist": [
         "> 2%"
-    ],
-    "dependencies": {
-        "raf": "3.4.1"
-    }
+    ]
 }
