@@ -1,6 +1,6 @@
 {
     "name": "@flexn/create-template-starter",
-    "version": "1.1.0-alpha.6",
+    "version": "1.1.0",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/create#readme",
@@ -64,7 +64,7 @@
     },
     "devDependencies": {
         "@flexn/assets-create-outline": "0.3.3",
-        "@flexn/create": "1.1.0-alpha.6",
+        "@flexn/create": "1.1.0",
         "@flexn/fonts": "1.0.1",
         "@flexn/graybox": "1.0.0",
         "@flexn/plugins": "1.0.9",
