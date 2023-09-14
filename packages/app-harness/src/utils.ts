@@ -1,5 +1,5 @@
 import { Dimensions, PixelRatio } from 'react-native';
-import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
+import { isPlatformAndroid, isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 const { height } = Dimensions.get('screen');
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
@@ -26,4 +26,14 @@ export function Ratio(pixels: number): number {
     const resolution = height * PixelRatio.get();
 
     return Math.round(pixels / (resolution < 2160 ? 2 : 1));
+}
+
+export function testProps(testID: string | undefined) {
+    if (!testID) {
+        return;
+    }
+    if (isPlatformAndroid || isPlatformAndroidtv) {
+        return { accessibilityLabel: testID, accessible: true };
+    }
+    return { testID };
 }

@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { View, Text } from '@flexn/create';
 import React from 'react';
 import { useDebugContext } from '../../context/debugContext';
-import { Ratio } from '../../utils';
+import { Ratio, testProps } from '../../utils';
 
 const FocusedElementSelector = () => {
     const { focusedElementId } = useDebugContext();
@@ -10,12 +10,7 @@ const FocusedElementSelector = () => {
     if (focusedElementId) {
         return (
             <View style={styles.container}>
-                <Text
-                    testID="focused-element-selector"
-                    accessibilityLabel="focused-element-selector"
-                    accessible={true}
-                    style={styles.title}
-                >
+                <Text {...testProps('focused-element-selector')} style={styles.title}>
                     {focusedElementId}
                 </Text>
             </View>
