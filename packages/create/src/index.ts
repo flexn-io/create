@@ -46,6 +46,12 @@ export { default as Animated } from './apis/Animated';
 export { default as Appearance } from './apis/Appearance';
 export {
     ScreenProps,
+    ViewProps,
+    ViewGroupProps,
+    PressableProps,
+    TouchableOpacityProps,
+    FlashListProps,
+    ScrollViewProps,
     ScreenStates,
     FocusContext,
     CreateListRenderItem,
@@ -54,6 +60,11 @@ export {
     AnimatorBorder,
     AnimatorScale,
     AnimatorScaleWithBorder,
+    Animator,
+    ForbiddenFocusDirections,
+    PressableFocusOptions,
+    ScreenFocusOptions,
+    RecyclableListFocusOptions,
 } from './focusManager/types';
 
 // Constants
