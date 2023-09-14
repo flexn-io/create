@@ -19,6 +19,7 @@ import remoteHandler from './remoteHandler';
 import measureWithAnimations from './measureWithAnimations';
 import setFocus from './setFocus';
 import nextFocus from './nextFocus';
+import preferredFocus from './preferredFocus';
 
 export default {
     viewGroup,
@@ -42,4 +43,5 @@ export default {
     measureWithAnimations,
     setFocus,
     nextFocus,
+    preferredFocus,
 };

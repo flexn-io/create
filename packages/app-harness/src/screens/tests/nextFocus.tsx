@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, setFocus, StyleSheet } from '@flexn/create';
+import { View, StyleSheet } from '@flexn/create';
 import Screen from './../screen';
 import { Ratio } from '../../utils';
 import { NavigationProps } from '../../navigation';
@@ -13,14 +13,12 @@ const NextFocus = ({ route }: NavigationProps) => {
                     testID="NF1-B1"
                     title="B1"
                     focusOptions={{ focusKey: 'b1', nextFocusDown: 'b4' }}
-                    onPress={() => setFocus('b3')}
                     style={styles.btn1}
                 />
                 <Button
                     testID="NF1-B2"
                     title="B2"
                     focusOptions={{ focusKey: 'b2', nextFocusLeft: 'b3' }}
-                    onPress={() => setFocus('b4')}
                     style={styles.btn2}
                 />
                 <Button

@@ -109,7 +109,7 @@ const ScrollToTop = () => {
                                 }}
                                 title={`Button${index + 1}`}
                                 textStyle={styles.buttonTextStyle}
-                                focusOptions={{ animatorOptions: border }}
+                                focusOptions={{ animator: border as never }}
                             />
                         ))}
                     </View>
