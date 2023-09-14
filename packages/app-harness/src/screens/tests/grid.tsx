@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
+import { View, FlashList, Image, CreateListRenderItemInfo } from '@flexn/create';
+import Pressable from '../../components/Pressable';
 import Screen from './../screen';
 import { Ratio } from '../../utils';
+import { NavigationProps } from '../../navigation';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -23,12 +25,13 @@ function generateData(width: number, height: number, items = 30) {
     return temp;
 }
 
-const Grid = () => {
+const Grid = ({ route }: NavigationProps) => {
     const [data] = useState(generateData(200, 200, 200));
 
-    const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
+    const rowRenderer = ({ item, focusRepeatContext, index }: CreateListRenderItemInfo<any>) => {
         return (
             <Pressable
+                testID={`G1-${index}`}
                 style={styles.packshot}
                 focusRepeatContext={focusRepeatContext}
                 focusOptions={{
@@ -46,8 +49,7 @@ const Grid = () => {
     };
 
     return (
-        <Screen style={{ backgroundColor: '#222222' }}>
-            {/* <ScrollView> */}
+        <Screen style={{ backgroundColor: '#222222' }} route={route}>
             <View style={{ top: Ratio(20), flex: 1 }}>
                 <FlashList
                     data={data}
@@ -59,7 +61,6 @@ const Grid = () => {
                     style={{ flex: 1 }}
                 />
             </View>
-            {/* </ScrollView> */}
         </Screen>
     );
 };
@@ -68,12 +69,7 @@ const styles = StyleSheet.create({
     packshot: {
         width: Ratio(200),
         height: Ratio(200),
-        // borderColor: 'red',
-        // borderWidth: 1,
         marginHorizontal: 5,
-        // marginVertical: Ratio(50),
-        // borderWidth: 2,
-        // top: 100,
     },
     image: {
         width: '100%',
