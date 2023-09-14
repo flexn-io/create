@@ -71,31 +71,31 @@ const ScrollToTop = () => {
                             style={{ ...styles.button, ...styles.button1 }}
                             title="Button1"
                             textStyle={styles.buttonTextStyle}
-                            focusOptions={{ animatorOptions: border }}
+                            focusOptions={{ animator: border as never }}
                         />
                         <Button
                             style={{ ...styles.button, ...styles.button2 }}
                             title="Button2"
                             textStyle={styles.buttonTextStyle}
-                            focusOptions={{ animatorOptions: border }}
+                            focusOptions={{ animator: border as never }}
                         />
                         <Button
                             style={{ ...styles.button, ...styles.button3 }}
                             title="Button3"
                             textStyle={styles.buttonTextStyle}
-                            focusOptions={{ animatorOptions: border }}
+                            focusOptions={{ animator: border as never }}
                         />
                         <Button
                             style={{ ...styles.button, ...styles.button4 }}
                             title="Button4"
                             textStyle={styles.buttonTextStyle}
-                            focusOptions={{ animatorOptions: border }}
+                            focusOptions={{ animator: border as never }}
                         />
                         <Button
                             style={{ ...styles.button, ...styles.button5 }}
                             title="Button5"
                             textStyle={styles.buttonTextStyle}
-                            focusOptions={{ animatorOptions: border, forbiddenFocusDirections: ['down'] as never }}
+                            focusOptions={{ animator: border as never, forbiddenFocusDirections: ['down'] as never }}
                         />
                     </View>
                     <View>

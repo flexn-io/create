@@ -35,11 +35,8 @@ interface ButtonProps {
     style?: any;
     textStyle?: any;
     testID?: string;
-    accessible?: boolean;
-    accessibilityLabel?: string;
     onPress?: any;
     focusContext?: FocusContext;
-    focusOptions?: any;
 }
 
 const Button = ({
