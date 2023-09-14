@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { View, FlashList, Pressable, Image, ScrollView, CreateListRenderItemInfo } from '@flexn/create';
+import { View, FlashList, Image, ScrollView, CreateListRenderItemInfo } from '@flexn/create';
 import type { NavigationProps } from '../../navigation';
-
 import Screen from './../screen';
 import { Ratio } from '../../utils';
+import Pressable from '../../components/Pressable';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -28,7 +28,12 @@ function generateData(width: number, height: number, items = 30) {
 const List = ({ route }: NavigationProps) => {
     const [list] = useState(Array(10).fill(generateData(Ratio(200), Ratio(200), 10)));
 
-    const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
+    const rowRenderer = ({
+        item,
+        focusRepeatContext,
+        index,
+        listIndex,
+    }: CreateListRenderItemInfo<any> & { listIndex: number }) => {
         return (
             <Pressable
                 style={styles.packshot}
@@ -42,6 +47,7 @@ const List = ({ route }: NavigationProps) => {
                         },
                     },
                 }}
+                testID={`L1-${listIndex}-${index}`}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>
@@ -56,7 +62,9 @@ const List = ({ route }: NavigationProps) => {
                         <FlashList
                             key={index}
                             data={listData}
-                            renderItem={rowRenderer}
+                            renderItem={(props) => {
+                                return rowRenderer({ ...props, listIndex: index });
+                            }}
                             horizontal
                             type="row"
                             estimatedItemSize={Ratio(200)}

@@ -3,6 +3,7 @@ import { Screen as FMScreen, ScreenProps, ScreenStates } from '@flexn/create';
 import { useFocusEffect } from '@react-navigation/native';
 import type { NavigationProps } from '../navigation';
 import { TestDescription } from '../components/TestDescription';
+import { FocusedElementSelector } from '../components/FocusedElementSelector';
 
 type Props = ScreenProps & { route?: NavigationProps['route'] };
 
@@ -23,6 +24,7 @@ const Screen = ({ children, focusOptions, style, route, ...props }: Props) => {
     return (
         <FMScreen focusOptions={{ ...focusOptions, screenState }} style={style} {...props}>
             {id && description && <TestDescription id={id} description={description} />}
+            <FocusedElementSelector />
             {children}
         </FMScreen>
     );

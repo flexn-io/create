@@ -54,6 +54,7 @@ export {
     AnimatorBorder,
     AnimatorScale,
     AnimatorScaleWithBorder,
+    PressableProps,
 } from './focusManager/types';
 
 // Constants

@@ -98,7 +98,8 @@
         "jetifier": "1.6.5",
         "rnv": "0.37.3",
         "ts-node": "^10.9.1",
-        "xcode": "2.1.0"
+        "xcode": "2.1.0",
+        "@rnv/engine-rn-web": "0.37.3"
     },
     "optionalDependencies": {
         "ios-deploy": "1.10.0"
