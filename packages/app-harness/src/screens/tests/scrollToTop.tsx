@@ -95,7 +95,7 @@ const ScrollToTop = () => {
                             style={{ ...styles.button, ...styles.button5 }}
                             title="Button5"
                             textStyle={styles.buttonTextStyle}
-                            focusOptions={{ animatorOptions: border, forbiddenFocusDirections: ['down'] }}
+                            focusOptions={{ animatorOptions: border, forbiddenFocusDirections: ['down'] as never }}
                         />
                     </View>
                     <View>
