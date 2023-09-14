@@ -4,7 +4,6 @@ import type { ScreenProps } from '../../focusManager/types';
 import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import ScreenClass from '../../focusManager/model/screen';
 import useOnLayout from '../../hooks/useOnLayout';
-import Event, { EVENT_TYPES } from '../../focusManager/events';
 import useOnComponentLifeCycle from '../../hooks/useOnComponentLifeCycle';
 import { CoreManager } from '../..';
 
@@ -35,20 +34,21 @@ const Screen = React.forwardRef<RNView | undefined, ScreenProps>(
         useOnComponentLifeCycle({ model });
 
         useEffect(() => {
+            model.setFocusKey(focusOptions.focusKey);
+        }, [focusOptions.focusKey]);
+
+        useEffect(() => {
             if (focusOptions.screenState) {
-                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_PROPERTY_CHANGED, {
-                    property: 'state',
-                    newValue: focusOptions.screenState,
-                });
+                model.setPrevState(model.getState()).setState(focusOptions.screenState);
+                if (model.isPrevStateBackground() && model.isInForeground()) {
+                    model.setFocus(model.getFirstFocusableOnScreen());
+                }
             }
         }, [focusOptions.screenState]);
 
         useEffect(() => {
             if (focusOptions.screenOrder !== undefined) {
-                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_PROPERTY_CHANGED, {
-                    property: 'order',
-                    newValue: focusOptions.screenOrder,
-                });
+                model.setOrder(focusOptions.screenOrder);
             }
         }, [focusOptions.screenOrder]);
 

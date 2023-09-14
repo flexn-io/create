@@ -127,6 +127,10 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         ]);
 
         useEffect(() => {
+            model.setFocusKey(focusOptions.focusKey);
+        }, [focusOptions.focusKey]);
+
+        useEffect(() => {
             if (focus) {
                 Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_MOUNT);
             }

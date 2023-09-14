@@ -23,7 +23,7 @@ class View extends FocusModel {
     private _parentScrollView?: ScrollView;
 
     private _isFocused: boolean;
-    private _focusKey: string;
+    private _focusKey?: string;
     private _hasPreferredFocus: boolean;
     private _verticalContentContainerGap = 0;
     private _horizontalContentContainerGap = 0;
@@ -51,7 +51,7 @@ class View extends FocusModel {
             onFocus,
             onBlur,
             onPress,
-            focusKey = '',
+            focusKey,
             hasPreferredFocus = false,
             verticalContentContainerGap = 0,
             horizontalContentContainerGap = 0,
@@ -214,8 +214,14 @@ class View extends FocusModel {
         return this._repeatContext;
     }
 
-    public getFocusKey(): string {
+    public getFocusKey(): string | undefined {
         return this._focusKey;
+    }
+
+    public setFocusKey(value?: string): this {
+        this._focusKey = value;
+
+        return this;
     }
 
     public hasPreferredFocus(): boolean {
