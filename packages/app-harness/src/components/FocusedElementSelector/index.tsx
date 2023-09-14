@@ -11,9 +11,9 @@ const FocusedElementSelector = () => {
         return (
             <View style={styles.container}>
                 <Text
-                    testID="focused-element-selector"
-                    accessibilityLabel="focused-element-selector"
-                    accessible={true}
+                    //testID="focused-element-selector"
+                    //accessibilityLabel="focused-element-selector"
+                    //accessible={true}
                     style={styles.title}
                 >
                     {focusedElementId}
