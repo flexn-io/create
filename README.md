@@ -27,10 +27,6 @@ Build apps for web, TVs, desktops, consoles, wearables and more.
 rnv new --projectTemplate @flexn/create-template-starter
 ```
 
-## Getting Started
-
-https://create.flexn.org/docs/tutorials/basics/quickstart
-
 ## Documentation
 
 https://create.flexn.org/docs/introduction
