@@ -42,7 +42,7 @@ const Row = ({ route }: NavigationProps) => {
                         },
                     },
                 }}
-                testID={`harness-R1-${index}-pressable`}
+                testID={`R1-${index}`}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>

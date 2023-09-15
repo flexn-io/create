@@ -47,7 +47,7 @@ const List = ({ route }: NavigationProps) => {
                         },
                     },
                 }}
-                testID={`harness-L1-${listIndex}-${index}-pressable`}
+                testID={`L1-${listIndex}-${index}`}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>

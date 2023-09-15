@@ -15,7 +15,7 @@ const Selector = ({ navigation }: NavigationProps) => {
     const renderItem = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
         return (
             <Pressable
-                testID={`harness-home-${item.id}-pressable`}
+                testID={`home-${item.id}`}
                 style={styles.button1}
                 focusRepeatContext={focusRepeatContext}
                 onPress={() => navigation.navigate(item.route)}

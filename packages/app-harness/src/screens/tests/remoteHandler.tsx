@@ -74,7 +74,7 @@ const RemoteHandler = ({ route }: NavigationProps) => {
                     alignItems: 'center',
                 }}
             >
-                <Text style={{ color: 'white', fontSize: 18 }} {...testProps('harness-RH1-pressed-button-text')}>
+                <Text style={{ color: 'white', fontSize: 18 }} {...testProps('RH1-pressed-button')}>
                     Supported events for {platform}: {supportedEvents().join(', ')}
                 </Text>
                 <Text style={{ color: 'white', marginTop: 20, fontSize: 18 }}>
