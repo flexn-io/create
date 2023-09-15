@@ -2478,10 +2478,10 @@
   resolved "https://registry.yarnpkg.com/@flexn/fonts/-/fonts-1.0.1.tgz#f6be8315cd9c9cd3b2c4e111a9252018f0849bc3"
   integrity sha512-psB8wfeY6Q77acI7vFlhzk12V5yMxE1oSn/H7mN+O3W+aY0B0Jjz2IxsSgBI3jqwQDJwBv/knGt2wLyXzFUdIg==
 
-"@flexn/graybox@1.0.0-feat.0":
-  version "1.0.0-feat.0"
-  resolved "https://registry.yarnpkg.com/@flexn/graybox/-/graybox-1.0.0-feat.0.tgz#93bfb57f47d4b787f740b37d3e53359537ef1f2d"
-  integrity sha512-6/C5lCo3N7Vw4d0SLeot1iQwCrdbARlk1G+oj1qEPB1gfPxqZg1/bWF/BCAimuSsDIb8klcW+0k4y8J7eVE1Cg==
+"@flexn/graybox@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@flexn/graybox/-/graybox-1.0.0.tgz#b55c64bb2f9d03d354595192bab490aff2c00aee"
+  integrity sha512-Z0PJCCmnmBMIImzXK8tEcz0g8x2Iuw8+r3Og/5+VZIfNwaOtsI8du6nOaz/Po5OUDx8FP7OtQU0iP3yD0sqJeA==
   dependencies:
     "@wdio/allure-reporter" "7.19.5"
     "@wdio/appium-service" "7.19.5"

@@ -66,7 +66,7 @@
         "@flexn/assets-create-outline": "0.3.3",
         "@flexn/create": "1.1.0",
         "@flexn/fonts": "1.0.1",
-        "@flexn/graybox": "1.0.0-feat.0",
+        "@flexn/graybox": "1.0.0",
         "@flexn/plugins": "1.0.9",
         "@flexn/recyclerlistview": "4.2.6",
         "@flexn/shopify-flash-list": "1.4.8",

@@ -5,7 +5,7 @@ import { getScaledValue, platform } from '@rnv/renative';
 import type { NavigationProps } from '../navigation';
 import Screen from './screen';
 import testsList, { Test } from '../testsList';
-import { Ratio } from '../utils';
+import { Ratio, testProps } from '../utils';
 
 const Selector = ({ navigation }: NavigationProps) => {
     const { width, height } = useWindowDimensions();
@@ -14,6 +14,7 @@ const Selector = ({ navigation }: NavigationProps) => {
     const renderItem = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
         return (
             <Pressable
+                {...testProps(`harness-home-${item.id}-pressable`)}
                 style={styles.button1}
                 focusRepeatContext={focusRepeatContext}
                 onPress={() => navigation.navigate(item.route)}

@@ -4,6 +4,7 @@ import { View, Text, useTVRemoteHandler } from '@flexn/create';
 import { platform } from '@rnv/renative';
 import Screen from './../screen';
 import { NavigationProps } from '../../navigation';
+import { testProps } from '../../utils';
 
 const supportedEvents = (): string[] => {
     switch (platform) {
@@ -73,7 +74,7 @@ const RemoteHandler = ({ route }: NavigationProps) => {
                     alignItems: 'center',
                 }}
             >
-                <Text style={{ color: 'white', fontSize: 18 }}>
+                <Text style={{ color: 'white', fontSize: 18 }} {...testProps('harness-RH1-pressed-button-text')}>
                     Supported events for {platform}: {supportedEvents().join(', ')}
                 </Text>
                 <Text style={{ color: 'white', marginTop: 20, fontSize: 18 }}>

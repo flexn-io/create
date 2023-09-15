@@ -11,50 +11,60 @@ const capabilities = {
     ios: [
         {
             platformName: 'iOS',
-            deviceName: 'iPhone 12',
-            platformVersion: '15.5',
-            automationName: 'XCUITest',
-            bundleId: 'io.flexn.harness.test',
-            app: 'platformBuilds/harness_ios/build/RNVApp/Build/Products/Debug-iphonesimulator/RNVApp.app',
+            'appium:options': {
+                deviceName: 'iPhone 14',
+                platformVersion: '16.2',
+                automationName: 'XCUITest',
+                bundleId: 'io.flexn.harness.test',
+                app: 'platformBuilds/harness_ios/build/RNVApp/Build/Products/Debug-iphonesimulator/RNVApp.app',
+            },
         },
     ],
     tvos: [
         {
             platformName: 'tvOS',
-            deviceName: 'Apple TV',
-            platformVersion: '15.4',
-            automationName: 'XCUITest',
-            bundleId: 'io.flexn.harness.test',
-            app: 'platformBuilds/harness_tvos/build/RNVAppTVOS/Build/Products/Debug-appletvsimulator/RNVAppTVOS.app',
+            'appium:options': {
+                deviceName: 'Apple TV',
+                platformVersion: '16.1',
+                automationName: 'XCUITest',
+                bundleId: 'io.flexn.harness.test',
+                app: 'platformBuilds/harness_tvos/build/RNVAppTVOS/Build/Products/Debug-appletvsimulator/RNVAppTVOS.app',
+            },
         },
     ],
     android: [
         {
             platformName: 'Android',
-            avd: 'Pixel_4_API_29',
-            platformVersion: '10',
-            automationName: 'UiAutomator2',
-            appPackage: 'io.flexn.harness.test',
-            appActivity: 'io.flexn.harness.test.MainActivity',
-            app: 'platformBuilds/harness_android/app/build/outputs/apk/debug/app-debug.apk',
+            'appium:options': {
+                avd: 'Pixel_4_API_29',
+                platformVersion: '10',
+                automationName: 'UiAutomator2',
+                appPackage: 'io.flexn.harness.test',
+                appActivity: 'io.flexn.harness.test.MainActivity',
+                app: 'platformBuilds/harness_android/app/build/outputs/apk/debug/app-debug.apk',
+            },
         },
     ],
     androidtv: [
         {
             platformName: 'Android',
-            avd: 'Android_TV_1080p_API_29',
-            platformVersion: '10',
-            automationName: 'UiAutomator2',
-            appPackage: 'io.flexn.harness.test',
-            appActivity: 'io.flexn.harness.test.MainActivity',
-            app: 'platformBuilds/harness_androidtv/app/build/outputs/apk/debug/app-debug.apk',
+            'appium:options': {
+                avd: 'Android_TV_1080p_API_29',
+                platformVersion: '10',
+                automationName: 'UiAutomator2',
+                appPackage: 'io.flexn.harness.test',
+                appActivity: 'io.flexn.harness.test.MainActivity',
+                app: 'platformBuilds/harness_androidtv/app/build/outputs/apk/debug/app-debug.apk',
+            },
         },
     ],
     macos: [
         {
-            platformName: 'Mac',
-            automationName: 'Mac2',
-            bundleId: 'io.flexn.harness.test',
+            browserName: 'chrome',
+            'goog:chromeOptions': {
+                binary: '../../node_modules/electron/dist/Electron.app/Contents/MacOS/Electron',
+                args: ['app=./platformBuilds/harness_macos/build'],
+            },
         },
     ],
     web: [
@@ -175,11 +185,13 @@ exports.config = {
     ...(process.env.PLATFORM === 'web' && {
         services: ['selenium-standalone'],
     }),
+    ...(process.env.PLATFORM === 'macos' && {
+        services: ['chromedriver'],
+    }),
     ...((process.env.PLATFORM === 'ios' ||
         process.env.PLATFORM === 'tvos' ||
         process.env.PLATFORM === 'android' ||
-        process.env.PLATFORM === 'androidtv' ||
-        process.env.PLATFORM === 'macos') && {
+        process.env.PLATFORM === 'androidtv') && {
         services: [
             [
                 'appium',
@@ -196,9 +208,6 @@ exports.config = {
                         }),
                         ...(process.env.PLATFORM === 'androidtv' && {
                             port: 3004,
-                        }),
-                        ...(process.env.PLATFORM === 'macos' && {
-                            port: 3005,
                         }),
                     },
                 },
