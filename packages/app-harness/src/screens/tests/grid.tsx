@@ -31,7 +31,7 @@ const Grid = ({ route }: NavigationProps) => {
     const rowRenderer = ({ item, focusRepeatContext, index }: CreateListRenderItemInfo<any>) => {
         return (
             <Pressable
-                testID={`G1-${index}`}
+                testID={`harness-G1-${index}-pressable`}
                 style={styles.packshot}
                 focusRepeatContext={focusRepeatContext}
                 focusOptions={{
