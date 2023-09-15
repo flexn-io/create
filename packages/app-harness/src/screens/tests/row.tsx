@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { View, FlashList, Image, CreateListRenderItemInfo } from '@flexn/create';
 import Screen from './../screen';
-import { Ratio, testProps } from '../../utils';
+import { Ratio } from '../../utils';
 import { NavigationProps } from '../../navigation';
 import Pressable from '../../components/Pressable';
 
@@ -42,7 +42,7 @@ const Row = ({ route }: NavigationProps) => {
                         },
                     },
                 }}
-                {...testProps(`harness-R1-${index}-pressable`)}
+                testID={`harness-R1-${index}-pressable`}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>
