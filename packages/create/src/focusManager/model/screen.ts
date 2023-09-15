@@ -154,7 +154,7 @@ class Screen extends FocusModel {
             setTimeout(() => {
                 delete this._componentsPendingLayoutMap[id];
 
-                if (Object.keys(this._componentsPendingLayoutMap).length <= 0) {
+                if (Object.keys(this._componentsPendingLayoutMap).length <= 0 && this._initialLoadInProgress) {
                     this._initialLoadInProgress = false;
                     if (this._stealFocus) {
                         this.setFocus(this.getFirstFocusableOnScreen());
