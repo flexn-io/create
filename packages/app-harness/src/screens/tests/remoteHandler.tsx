@@ -74,10 +74,10 @@ const RemoteHandler = ({ route }: NavigationProps) => {
                     alignItems: 'center',
                 }}
             >
-                <Text style={{ color: 'white', fontSize: 18 }} {...testProps('RH1-pressed-button')}>
+                <Text style={{ color: 'white', fontSize: 18 }}>
                     Supported events for {platform}: {supportedEvents().join(', ')}
                 </Text>
-                <Text style={{ color: 'white', marginTop: 20, fontSize: 18 }}>
+                <Text style={{ color: 'white', marginTop: 20, fontSize: 18 }} {...testProps('RH1-pressed-button')}>
                     You pressed <Text style={{ color: 'red' }}>{currentEvent}</Text>
                 </Text>
             </View>

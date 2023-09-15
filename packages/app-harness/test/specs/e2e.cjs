@@ -5,53 +5,62 @@ describe('Test Harness app', () => {
         FlexnRunner.launchApp();
     });
     it('check that all tests are displayed', async () => {
-        await FlexnRunner.expectToBeDisplayedById('harness-home-L1-pressable');
-        await FlexnRunner.expectToBeDisplayedById('harness-home-R1-pressable');
-        await FlexnRunner.expectToBeDisplayedById('harness-home-G1-pressable');
-        await FlexnRunner.expectToBeDisplayedById('harness-home-DR1-pressable');
-        await FlexnRunner.expectToBeDisplayedById('harness-home-RH1-pressable');
-        await FlexnRunner.expectToBeDisplayedById('harness-home-MWA1-pressable');
+        await FlexnRunner.expectToBeDisplayedById('home-L1');
+        await FlexnRunner.expectToBeDisplayedById('home-R1');
+        await FlexnRunner.expectToBeDisplayedById('home-G1');
+        await FlexnRunner.expectToBeDisplayedById('home-DR1');
+        await FlexnRunner.expectToBeDisplayedById('home-RH1');
+        await FlexnRunner.expectToBeDisplayedById('home-MWA1');
+    });
+
+    it('focus on row test', async () => {
+        await FlexnRunner.pressButtonRight(1);
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-R1');
     });
 
     it('open row test', async () => {
-        await FlexnRunner.pressButtonRight(1);
         await FlexnRunner.pressButtonSelect(1);
         await FlexnRunner.expectToBeDisplayedByText('#R1 ');
-        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'harness-R1-0-pressable');
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'R1-0');
     });
 
-    it.skip('focus on remote handler test', async () => {
-        await FlexnRunner.pressButtonRight(4);
-        await FlexnRunner.expectToBeFocusedById('harness-home-RH1-pressable');
+    it('go to home', async () => {
+        await FlexnRunner.pressButtonBack(1);
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-R1');
     });
 
-    it.skip('open remote handler test', async () => {
+    it('focus on remote handler test', async () => {
+        await FlexnRunner.pressButtonRight(3);
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-RH1');
+    });
+
+    it('open remote handler test', async () => {
         await FlexnRunner.pressButtonSelect(1);
         await FlexnRunner.expectToBeDisplayedByText('#RH1 ');
     });
 
-    it.skip('test up button', async () => {
+    it('test up button', async () => {
         await FlexnRunner.pressButtonUp(1);
-        await FlexnRunner.expectToHaveTextById('harness-RH1-pressed-button-text', 'You pressed up');
+        await FlexnRunner.expectToHaveTextById('RH1-pressed-button', 'You pressed up');
     });
 
-    it.skip('test down button', async () => {
+    it('test down button', async () => {
         await FlexnRunner.pressButtonDown(1);
-        await FlexnRunner.expectToHaveTextById('harness-RH1-pressed-button-text', 'You pressed down');
+        await FlexnRunner.expectToHaveTextById('RH1-pressed-button', 'You pressed down');
     });
 
-    it.skip('test left button', async () => {
+    it('test left button', async () => {
         await FlexnRunner.pressButtonLeft(1);
-        await FlexnRunner.expectToHaveTextById('harness-RH1-pressed-button-text', 'You pressed left');
+        await FlexnRunner.expectToHaveTextById('RH1-pressed-button', 'You pressed left');
     });
 
-    it.skip('test right button', async () => {
+    it('test right button', async () => {
         await FlexnRunner.pressButtonRight(1);
-        await FlexnRunner.expectToHaveTextById('harness-RH1-pressed-button-text', 'You pressed right');
+        await FlexnRunner.expectToHaveTextById('RH1-pressed-button', 'You pressed right');
     });
 
-    it.skip('test select button', async () => {
+    it('test select button', async () => {
         await FlexnRunner.pressButtonSelect(1);
-        await FlexnRunner.expectToHaveTextById('harness-RH1-pressed-button-text', 'You pressed select');
+        await FlexnRunner.expectToHaveTextById('RH1-pressed-button', 'You pressed select');
     });
 });
