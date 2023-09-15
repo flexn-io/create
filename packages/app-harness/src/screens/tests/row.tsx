@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
+import { View, FlashList, Image, CreateListRenderItemInfo } from '@flexn/create';
 import Screen from './../screen';
 import { Ratio } from '../../utils';
 import { NavigationProps } from '../../navigation';
+import Pressable from '../../components/Pressable';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -27,7 +28,7 @@ function generateData(width: number, height: number, items = 30) {
 const Row = ({ route }: NavigationProps) => {
     const [data] = useState(generateData(200, 200, 500));
 
-    const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
+    const rowRenderer = ({ item, focusRepeatContext, index }: CreateListRenderItemInfo<any>) => {
         return (
             <Pressable
                 style={styles.packshot}
@@ -41,6 +42,7 @@ const Row = ({ route }: NavigationProps) => {
                         },
                     },
                 }}
+                testID={`R1-${index}`}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>

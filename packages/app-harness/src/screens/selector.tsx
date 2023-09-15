@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, useWindowDimensions } from 'react-native';
-import { ScrollView, View, Text, FlashList, CreateListRenderItemInfo, Pressable } from '@flexn/create';
+import { ScrollView, View, Text, FlashList, CreateListRenderItemInfo } from '@flexn/create';
 import { getScaledValue, platform } from '@rnv/renative';
 import type { NavigationProps } from '../navigation';
 import Screen from './screen';
 import testsList, { Test } from '../testsList';
 import { Ratio } from '../utils';
+import Pressable from '../components/Pressable';
 
 const Selector = ({ navigation }: NavigationProps) => {
     const { width, height } = useWindowDimensions();
@@ -14,6 +15,7 @@ const Selector = ({ navigation }: NavigationProps) => {
     const renderItem = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
         return (
             <Pressable
+                testID={`home-${item.id}`}
                 style={styles.button1}
                 focusRepeatContext={focusRepeatContext}
                 onPress={() => navigation.navigate(item.route)}

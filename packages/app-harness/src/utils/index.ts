@@ -1,24 +1,6 @@
 import { Dimensions, PixelRatio } from 'react-native';
-import {
-    isPlatformAndroidtv,
-    isPlatformFiretv,
-    isPlatformIos,
-    isPlatformMacos,
-    isPlatformTvos,
-    isPlatformWeb,
-} from '@rnv/renative';
+import { isPlatformAndroidtv, isPlatformFiretv } from '@rnv/renative';
 const { height } = Dimensions.get('screen');
-
-export function testProps(testId: string | undefined) {
-    if (!testId) {
-        return;
-    }
-    const isApplePlatform = isPlatformIos || isPlatformTvos || isPlatformMacos;
-    if (isApplePlatform || isPlatformWeb) {
-        return { testID: testId };
-    }
-    return { accessibilityLabel: testId, accessible: true };
-}
 
 export enum CARD_TYPES {
     DEFAULT = 'default',

@@ -1,7 +1,9 @@
-import { Pressable, Text, FocusContext } from '@flexn/create';
+import { Text, FocusContext, PressableProps } from '@flexn/create';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { getScaledValue } from '@rnv/renative';
+import Pressable from '../Pressable';
+import { Ratio } from '../../utils';
 
 const styles = StyleSheet.create({
     button: {
@@ -9,6 +11,17 @@ const styles = StyleSheet.create({
         opacity: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        marginHorizontal: getScaledValue(20),
+        borderWidth: getScaledValue(2),
+        borderRadius: getScaledValue(25),
+        borderColor: '#62DBFB',
+        height: getScaledValue(50),
+        width: Ratio(500),
+        marginTop: getScaledValue(20),
+    },
+    textStyle: {
+        color: '#ffffff',
+        fontSize: Ratio(20),
     },
     icon: {
         marginRight: getScaledValue(20),
@@ -22,11 +35,8 @@ interface ButtonProps {
     style?: any;
     textStyle?: any;
     testID?: string;
-    accessible?: boolean;
-    accessibilityLabel?: string;
     onPress?: any;
     focusContext?: FocusContext;
-    focusOptions?: any;
 }
 
 const Button = ({
@@ -34,23 +44,19 @@ const Button = ({
     style,
     textStyle,
     testID,
-    accessible,
-    accessibilityLabel,
     onPress,
     focusContext,
     focusOptions,
-}: ButtonProps) => (
+}: ButtonProps & PressableProps) => (
     <Pressable
+        testID={testID}
         style={[styles.button, style]}
         onPress={onPress}
-        testID={testID}
-        accessible={accessible}
-        accessibilityLabel={accessibilityLabel}
         focusContext={focusContext}
         focusOptions={focusOptions}
     >
         {title ? (
-            <Text style={textStyle} accessible={false}>
+            <Text style={[styles.textStyle, textStyle]} accessible={false}>
                 {title}
             </Text>
         ) : null}

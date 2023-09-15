@@ -17,6 +17,9 @@ import hideAllElements from './hideAllElements';
 import dynamicRows from './dynamicRows';
 import remoteHandler from './remoteHandler';
 import measureWithAnimations from './measureWithAnimations';
+import setFocus from './setFocus';
+import nextFocus from './nextFocus';
+import preferredFocus from './preferredFocus';
 
 export default {
     viewGroup,
@@ -38,4 +41,7 @@ export default {
     dynamicRows,
     remoteHandler,
     measureWithAnimations,
+    setFocus,
+    nextFocus,
+    preferredFocus,
 };

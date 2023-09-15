@@ -4,6 +4,7 @@ import { View, Text, useTVRemoteHandler } from '@flexn/create';
 import { platform } from '@rnv/renative';
 import Screen from './../screen';
 import { NavigationProps } from '../../navigation';
+import { testProps } from '../../utils';
 
 const supportedEvents = (): string[] => {
     switch (platform) {
@@ -76,7 +77,7 @@ const RemoteHandler = ({ route }: NavigationProps) => {
                 <Text style={{ color: 'white', fontSize: 18 }}>
                     Supported events for {platform}: {supportedEvents().join(', ')}
                 </Text>
-                <Text style={{ color: 'white', marginTop: 20, fontSize: 18 }}>
+                <Text style={{ color: 'white', marginTop: 20, fontSize: 18 }} {...testProps('RH1-pressed-button')}>
                     You pressed <Text style={{ color: 'red' }}>{currentEvent}</Text>
                 </Text>
             </View>

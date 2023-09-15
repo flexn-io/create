@@ -1,15 +1,14 @@
-import { isPlatformIos, isPlatformMacos, isPlatformTvos, isPlatformWeb } from '@rnv/renative';
+import { isPlatformAndroid, isPlatformAndroidtv } from '@rnv/renative';
 import { getWidth } from './config';
 
-export function testProps(testId: string | undefined) {
-    if (!testId) {
+export function testProps(testID: string | undefined) {
+    if (!testID) {
         return;
     }
-    const isApplePlatform = isPlatformIos || isPlatformTvos || isPlatformMacos;
-    if (isApplePlatform || isPlatformWeb) {
-        return { testID: testId };
+    if (isPlatformAndroid || isPlatformAndroidtv) {
+        return { accessibilityLabel: testID, accessible: true };
     }
-    return { accessibilityLabel: testId, accessible: true };
+    return { testID };
 }
 
 const kittyNames = [
