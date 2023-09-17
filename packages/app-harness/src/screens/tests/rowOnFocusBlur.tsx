@@ -5,6 +5,7 @@ import type { NavigationProps } from '../../navigation';
 import Screen from './../screen';
 import { Ratio } from '../../utils';
 import Pressable from '../../components/Pressable';
+import { useDebugContext } from '../../context/debugContext';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -26,6 +27,9 @@ function generateData(width: number, height: number, items = 30) {
 }
 
 const RowOnFocusBlur = ({ route }: NavigationProps) => {
+    const { setAdditionalTextInfo } = useDebugContext();
+    const [focusTimesInRow, setFocusTimesInRow] = useState<Record<number, number>>({ 0: 0 });
+    const [blurTimesInRow, setBlurTimesInRow] = useState<Record<number, number>>({ 0: 0 });
     const [list] = useState(Array(10).fill(generateData(Ratio(200), Ratio(200), 10)));
 
     const rowRenderer = ({
@@ -70,10 +74,14 @@ const RowOnFocusBlur = ({ route }: NavigationProps) => {
                             estimatedItemSize={Ratio(200)}
                             style={{ flex: 1, marginVertical: Ratio(10) }}
                             onFocus={() => {
-                                console.log(`Row ${index} focused`);
+                                const next = (focusTimesInRow[index] ? focusTimesInRow[index] : 0) + 1;
+                                setFocusTimesInRow((prev) => ({ ...prev, [index]: next }));
+                                setAdditionalTextInfo((prev) => [`Row ${index} focused ${next}`, prev[1]]);
                             }}
                             onBlur={() => {
-                                console.log(`Row ${index} blurred`);
+                                const next = (blurTimesInRow[index] ? blurTimesInRow[index] : 0) + 1;
+                                setBlurTimesInRow((prev) => ({ ...prev, [index]: next }));
+                                setAdditionalTextInfo((prev) => [prev[0], `Row ${index} blurred ${next}`]);
                             }}
                         />
                     ))}
@@ -103,6 +111,6 @@ RowOnFocusBlur.platform = ['androidtv', 'firetv', 'tvos', 'tizen', 'webos'];
 RowOnFocusBlur.route = 'RowOnFocusBlur';
 RowOnFocusBlur.title = 'RowOnFocusBlur';
 RowOnFocusBlur.description =
-    "List component where focus should be predictable and every row has to remember it's position. Also any focused item should never be hidden.";
+    'There is multiple rows and when focus is inside of row you should see row id above and amount of times if was focused. Same if you leave there row there is indication about blur event';
 
 export default RowOnFocusBlur;
