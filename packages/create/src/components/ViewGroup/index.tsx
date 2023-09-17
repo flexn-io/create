@@ -30,6 +30,10 @@ const ViewGroup = React.forwardRef<View, ViewGroupProps>(
             model.setGroup(focusOptions.group);
         }, [focusOptions.group]);
 
+        useEffect(() => {
+            model.setFocusKey(focusOptions.focusKey);
+        }, [focusOptions.focusKey]);
+
         const { onLayout } = useOnLayout(model);
 
         const childrenWithProps = React.Children.map(children, (child) => {

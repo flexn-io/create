@@ -58,8 +58,14 @@ class ViewGroup extends FocusModel {
         return this;
     }
 
-    public getFocusKey() {
+    public getFocusKey(): string | undefined {
         return this._focusKey;
+    }
+
+    public setFocusKey(value?: string): this {
+        this._focusKey = value;
+
+        return this;
     }
 
     public getNode(): MutableRefObject<View> {

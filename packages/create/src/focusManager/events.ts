@@ -1,5 +1,4 @@
 export const EVENT_TYPES = {
-    ON_PROPERTY_CHANGED: 'onPropertyChanged',
     ON_MOUNT: 'onMount',
     ON_MOUNT_AND_MEASURED: 'onMountAndMeasured',
     ON_UNMOUNT: 'onUnMount',

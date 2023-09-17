@@ -1,5 +1,5 @@
 import { View as RNView } from 'react-native';
-import { ScreenProps, ScreenStates } from '../types';
+import { ScreenProps } from '../types';
 import CoreManager from '../service/core';
 import Logger from '../service/logger';
 import FocusModel, { MODEL_TYPES } from './abstractFocusModel';
@@ -30,7 +30,7 @@ class Screen extends FocusModel {
     private _verticalWindowAlignment: typeof VIEWPORT_ALIGNMENT[keyof typeof VIEWPORT_ALIGNMENT];
     private _horizontalWindowAlignment: typeof VIEWPORT_ALIGNMENT[keyof typeof VIEWPORT_ALIGNMENT];
     private _order: number;
-    private _focusKey: string;
+    private _focusKey?: string;
     private _horizontalViewportOffset: number;
     private _verticalViewportOffset: number;
     private _initialLoadInProgress: boolean;
@@ -52,7 +52,7 @@ class Screen extends FocusModel {
             screenState = SCREEN_STATES.FOREGROUND,
             screenOrder = 0,
             stealFocus = true,
-            focusKey = '',
+            focusKey,
             group,
             verticalWindowAlignment = VIEWPORT_ALIGNMENT.LOW_EDGE,
             horizontalWindowAlignment = VIEWPORT_ALIGNMENT.LOW_EDGE,
@@ -90,13 +90,11 @@ class Screen extends FocusModel {
         this._onMount = this._onMount.bind(this);
         this._onUnmount = this._onUnmount.bind(this);
         this._onLayout = this._onLayout.bind(this);
-        this._onPropertyChanged = this._onPropertyChanged.bind(this);
 
         this._events = [
             Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT, this._onMount),
             Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
             Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_PROPERTY_CHANGED, this._onPropertyChanged),
         ];
     }
 
@@ -114,22 +112,6 @@ class Screen extends FocusModel {
 
     private _onLayout() {
         measureSync({ model: this });
-    }
-
-    private _onPropertyChanged({ property, newValue }: { property: string; newValue: ScreenStates | number }) {
-        switch (property) {
-            case 'state':
-                this.setPrevState(this.getState()).setState(newValue as ScreenStates);
-                if (this.isPrevStateBackground() && this.isInForeground()) {
-                    this.setFocus(this.getFirstFocusableOnScreen());
-                }
-                break;
-            case 'order':
-                this.setOrder(newValue as number);
-                break;
-            default:
-                break;
-        }
     }
 
     // END EVENTS
@@ -290,8 +272,14 @@ class Screen extends FocusModel {
         return this._order;
     }
 
-    public getFocusKey(): string {
+    public getFocusKey(): string | undefined {
         return this._focusKey;
+    }
+
+    public setFocusKey(value?: string): this {
+        this._focusKey = value;
+
+        return this;
     }
 
     public getHorizontalViewportOffset(): number {
