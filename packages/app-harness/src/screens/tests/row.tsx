@@ -26,7 +26,7 @@ function generateData(width: number, height: number, items = 30) {
 }
 
 const Row = ({ route }: NavigationProps) => {
-    const [data] = useState(generateData(200, 200, 500));
+    const [data] = useState(generateData(200, 200, 50));
 
     const rowRenderer = ({ item, focusRepeatContext, index }: CreateListRenderItemInfo<any>) => {
         return (

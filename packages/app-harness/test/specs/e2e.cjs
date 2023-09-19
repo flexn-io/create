@@ -24,6 +24,26 @@ describe('Test Harness app', () => {
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'R1-0');
     });
 
+    it('Scroll row to the end', async () => {
+        await FlexnRunner.pressButtonRight(49);
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'R1-49');
+    });
+
+    it('Focus is on last item and click to right', async () => {
+        await FlexnRunner.pressButtonRight(1);
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'R1-49');
+    });
+
+    it('Scroll row to the beginning', async () => {
+        await FlexnRunner.pressButtonLeft(49);
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'R1-0');
+    });
+
+    it('Focus is on first item and click to left', async () => {
+        await FlexnRunner.pressButtonLeft(1);
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'R1-0')
+    });
+
     it('go to home', async () => {
         await FlexnRunner.pressButtonBack(1);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-R1');
@@ -63,4 +83,4 @@ describe('Test Harness app', () => {
         await FlexnRunner.pressButtonSelect(1);
         await FlexnRunner.expectToHaveTextById('RH1-pressed-button', 'You pressed select');
     });
-});
+ });
