@@ -20,6 +20,7 @@ import measureWithAnimations from './measureWithAnimations';
 import setFocus from './setFocus';
 import nextFocus from './nextFocus';
 import preferredFocus from './preferredFocus';
+import rowOnFocusBlur from './rowOnFocusBlur';
 
 export default {
     viewGroup,
@@ -44,4 +45,5 @@ export default {
     setFocus,
     nextFocus,
     preferredFocus,
+    rowOnFocusBlur,
 };

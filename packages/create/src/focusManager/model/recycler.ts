@@ -234,6 +234,13 @@ class RecyclerView extends FocusModel {
     public getNode(): MutableRefObject<ScrollView> {
         return this.node;
     }
+
+    public updateEvents({ onFocus, onBlur }: { onPress?(): void; onFocus?(): void; onBlur?(): void }) {
+        this._onFocus = onFocus;
+        this._onBlur = onBlur;
+
+        return this;
+    }
 }
 
 export default RecyclerView;

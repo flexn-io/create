@@ -228,8 +228,10 @@ class CoreManager {
                     return currentFocus;
                 }
 
-                currentFocus.getParent()?.onBlur();
-                closestView.getParent()?.onFocus();
+                if (findFocusInParent) {
+                    currentFocus.getParent()?.onBlur();
+                    closestView.getParent()?.onFocus();
+                }
 
                 if (closestView.getParent()?.getType() === MODEL_TYPES.ROW) {
                     const parent = closestView.getParent();
@@ -238,8 +240,10 @@ class CoreManager {
             }
 
             if (closestView.getScreen()?.getId() !== currentFocus.getScreen()?.getId()) {
-                currentFocus.getScreen()?.onBlur?.();
-                closestView.getScreen()?.onFocus?.();
+                if (findFocusInParent) {
+                    currentFocus.getScreen()?.onBlur?.();
+                    closestView.getScreen()?.onFocus?.();
+                }
 
                 if (closestView.getScreen()?.getCurrentFocus()) {
                     return closestView.getScreen()!.getCurrentFocus();

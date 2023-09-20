@@ -70,6 +70,13 @@ const FlashList = React.forwardRef((props: FlashListProps<any>, ref: LegacyRef<F
     const { onLayout } = useOnLayout(model);
 
     useEffect(() => {
+        model?.updateEvents?.({
+            onFocus,
+            onBlur,
+        });
+    }, [onFocus, onBlur]);
+
+    useEffect(() => {
         const unsubscribe = Event.subscribe(
             model.getType(),
             model.getId(),
