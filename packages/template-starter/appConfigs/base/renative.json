@@ -380,8 +380,14 @@
                 "debug": {
                     "bundleAssets": false
                 },
-                "test": {},
-                "canary": {},
+                "test": {
+                    "bundleAssets": true,
+                    "bundleIsDev": false
+                },
+                "canary": {
+                    "bundleAssets": true,
+                    "bundleIsDev": false
+                },
                 "production": {
                     "bundleAssets": true,
                     "bundleIsDev": false

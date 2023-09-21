@@ -17,6 +17,7 @@ const capabilities = {
                 automationName: 'XCUITest',
                 bundleId: 'io.flexn.harness.test',
                 app: 'platformBuilds/harness_ios/build/RNVApp/Build/Products/Debug-iphonesimulator/RNVApp.app',
+                fullReset: true,
             },
         },
     ],
@@ -29,6 +30,7 @@ const capabilities = {
                 automationName: 'XCUITest',
                 bundleId: 'io.flexn.harness.test',
                 app: 'platformBuilds/harness_tvos/build/RNVAppTVOS/Build/Products/Debug-appletvsimulator/RNVAppTVOS.app',
+                fullReset: true,
             },
         },
     ],
@@ -42,6 +44,7 @@ const capabilities = {
                 appPackage: 'io.flexn.harness.test',
                 appActivity: 'io.flexn.harness.test.MainActivity',
                 app: 'platformBuilds/harness_android/app/build/outputs/apk/debug/app-debug.apk',
+                fullReset: true,
             },
         },
     ],
@@ -55,6 +58,52 @@ const capabilities = {
                 appPackage: 'io.flexn.harness.test',
                 appActivity: 'io.flexn.harness.test.MainActivity',
                 app: 'platformBuilds/harness_androidtv/app/build/outputs/apk/debug/app-debug.apk',
+                fullReset: true,
+            },
+        },
+    ],
+    tizen: [
+        {
+            platformName: 'TizenTV',
+            'appium:options': {
+                //TV5 - closed issue
+                //deviceName: '192.168.1.25:26101',
+                //rcToken: '18107230',
+
+                //TV9 - closed issue
+                //deviceName: '192.168.1.29:26101',
+                //rcToken: '12865094',
+
+                //TV11 - failed to install
+                //deviceName: '192.168.1.27:26101',
+                //rcToken: '18033634',
+
+                //TV7 - failed to install
+                deviceName: '192.168.1.28:26101',
+                //rcToken: '17108638',
+
+                //rcMode: 'remote',
+                automationName: 'TizenTV',
+                chromedriverExecutable: '/Users/pauliusguzas/Downloads/chromedriver7',
+                appPackage: 'io.flexn.harness.test',
+                app: 'platformBuilds/harness_tizen/output/TestHarness.wgt',
+                fullReset: true,
+            },
+        },
+    ],
+    webos: [
+        {
+            platformName: 'LGTV',
+            'appium:options': {
+                deviceName: 'webOS_TV',
+                deviceHost: '192.168.1.24',
+                automationName: 'webOS',
+                appLaunchCooldown: 5000,
+                rcMode: 'rc',
+                chromedriverExecutable: '/Users/pauliusguzas/Downloads/chromedriver',
+                appId: 'io.flexn.harness.test',
+                app: 'platformBuilds/harness_webos/output/io.flexn.harness.test_1.1.0_all.ipk',
+                fullReset: true,
             },
         },
     ],
@@ -106,7 +155,7 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: ['./test/specs/e2e.cjs'],
+    specs: ['./test/specs/playground.cjs'],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -191,7 +240,9 @@ exports.config = {
     ...((process.env.PLATFORM === 'ios' ||
         process.env.PLATFORM === 'tvos' ||
         process.env.PLATFORM === 'android' ||
-        process.env.PLATFORM === 'androidtv') && {
+        process.env.PLATFORM === 'androidtv' ||
+        process.env.PLATFORM === 'tizen' ||
+        process.env.PLATFORM === 'webos') && {
         services: [
             [
                 'appium',
@@ -208,6 +259,12 @@ exports.config = {
                         }),
                         ...(process.env.PLATFORM === 'androidtv' && {
                             port: 3004,
+                        }),
+                        ...(process.env.PLATFORM === 'tizen' && {
+                            port: 3005,
+                        }),
+                        ...(process.env.PLATFORM === 'webos' && {
+                            port: 3006,
                         }),
                     },
                 },

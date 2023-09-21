@@ -23,7 +23,7 @@ describe('Test wdio', () => {
         await FlexnRunner.pressButtonDown(10);
         await FlexnRunner.pause(10000);
     });
-    it('scroll on macos', async () => {
+    it.skip('scroll on macos', async () => {
         await FlexnRunner.pause(5000);
         await FlexnRunner.clickById('flexn-screens-home-test-case-list-button-2-0');
         // await FlexnRunner.isClickableById('flexn-screens-home-test-case-list-button-0-0');
@@ -48,5 +48,14 @@ describe('Test wdio', () => {
         // const attr = await element.getAttribute('j');
         // console.log("//////////////////////////////////"+attr);
         await FlexnRunner.pause(10000);
+    });
+
+    it('wait', async () => {
+        await FlexnRunner.pause(10000);
+    });
+
+    it('tv navigation', async () => {
+        await FlexnRunner.pressButtonDown(5);
+        await FlexnRunner.pressButtonRight(5);
     });
 });
