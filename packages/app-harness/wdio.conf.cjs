@@ -84,7 +84,7 @@ const capabilities = {
 
                 //rcMode: 'remote',
                 automationName: 'TizenTV',
-                chromedriverExecutable: '/Users/pauliusguzas/Downloads/chromedriver7',
+                chromedriverExecutable: '/Users/pauliusguzas/Downloads/chromedriver',
                 appPackage: 'io.flexn.harness.test',
                 app: 'platformBuilds/harness_tizen/output/TestHarness.wgt',
                 fullReset: true,
