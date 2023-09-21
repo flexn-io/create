@@ -220,6 +220,10 @@ class CoreManager {
 
                 const nextForcedFocusKey = this.getNextForcedFocusKey(parent, direction);
                 if (nextForcedFocusKey) {
+                    if (findFocusInParent) {
+                        currentFocus.getParent()?.onBlur();
+                        closestView.getParent()?.onFocus();
+                    }
                     this.setFocus(nextForcedFocusKey);
                     return null;
                 }

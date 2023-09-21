@@ -83,4 +83,10 @@ const styles = StyleSheet.create({
     button10: {},
 });
 
+ViewGroup.id = 'VG1';
+ViewGroup.platform = ['androidtv', 'firetv', 'tvos', 'tizen', 'webos'];
+ViewGroup.route = 'ViewGroup';
+ViewGroup.title = 'ViewGroup';
+ViewGroup.description = 'ViewGroup';
+
 export default ViewGroup;
