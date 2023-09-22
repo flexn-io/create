@@ -10,11 +10,12 @@ class ViewGroup extends FocusModel {
     private _group?: string;
     private _focusKey?: string;
     private _currentFocus: View | null = null;
+    private _allowFocusOutsideGroup = false;
 
     constructor(params: Omit<ViewGroupProps & ViewGroupProps['focusOptions'], 'ref' | 'focusOptions'>) {
         super(params);
 
-        const { focusContext, group, focusKey } = params;
+        const { focusContext, group, focusKey, allowFocusOutsideGroup = false } = params;
 
         const id = CoreManager.generateID(8);
         this._id = focusContext?.getId() ? `${focusContext.getId()}:viewGroup-${id}` : `viewGroup-${id}`;
@@ -22,6 +23,7 @@ class ViewGroup extends FocusModel {
         this._type = 'viewGroup';
         this._group = group;
         this._focusKey = focusKey;
+        this._allowFocusOutsideGroup = allowFocusOutsideGroup;
 
         this._onMount = this._onMount.bind(this);
         this._onUnmount = this._onUnmount.bind(this);
@@ -100,6 +102,10 @@ class ViewGroup extends FocusModel {
 
     public getCurrentFocus(): View | null {
         return this._currentFocus;
+    }
+
+    public isFocusAllowedOutsideGroup(): boolean {
+        return this._allowFocusOutsideGroup;
     }
 
 }

@@ -134,6 +134,7 @@ export interface ViewProps extends RNViewProps, MouseEvents {
         nextFocusRight?: string | string[];
         nextFocusUp?: string | string[];
         nextFocusDown?: string | string[];
+        allowFocusOutsideGroup?: boolean;
     };
     focusContext?: FocusModel;
     focusRepeatContext?: CreateListRenderItemInfo<any>['focusRepeatContext'];
@@ -148,6 +149,7 @@ export interface ViewGroupProps extends RNViewProps {
         nextFocusRight?: string | string[];
         nextFocusUp?: string | string[];
         nextFocusDown?: string | string[];
+        allowFocusOutsideGroup?: boolean;
     };
     focusContext?: FocusContext;
     ref?: React.ForwardedRef<RNView> | React.MutableRefObject<RNView>;

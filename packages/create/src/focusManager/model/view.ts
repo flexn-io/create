@@ -272,7 +272,7 @@ class View extends FocusModel {
         let group;
 
         while (parent) {
-            if (parent instanceof ViewGroup) {
+            if (parent instanceof ViewGroup && !parent.isFocusAllowedOutsideGroup()) {
                 group = parent.getGroup();
                 parent = null;
             } else {
