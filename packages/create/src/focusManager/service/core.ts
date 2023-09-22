@@ -286,7 +286,6 @@ class CoreManager {
             for (const key in parents) {
                 const p = parents[key];
                 const _nextForcedFocusKey = this.getNextForcedFocusKey(p, direction);
-                console.log({_nextForcedFocusKey})
                 if (_nextForcedFocusKey) {
                     this.setFocus(_nextForcedFocusKey);
                     return null;

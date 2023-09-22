@@ -31,6 +31,13 @@ const ViewGroup = () => {
                     textStyle={styles.buttonTextStyle}
                 />
             </View>
+
+            <Button
+                focusOptions={{ nextFocusUp: 'test-group2' }}
+                style={{ ...styles.button, ...styles.button2 }}
+                title="Button something"
+                textStyle={styles.buttonTextStyle}
+            />
         </Screen>
     );
 };
