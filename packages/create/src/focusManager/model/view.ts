@@ -197,6 +197,17 @@ class View extends FocusModel {
             }
         }
 
+        if (value) {
+            let parent = this.getParent();
+            while (parent) {
+                if (parent instanceof ViewGroup) {
+                    parent.setCurrentFocus(this);
+                    break;
+                }
+                parent = parent?.getParent();
+            }
+        }
+
         return this;
     }
 
@@ -261,7 +272,7 @@ class View extends FocusModel {
         let group;
 
         while (parent) {
-            if (parent instanceof ViewGroup) {
+            if (parent instanceof ViewGroup && !parent.isFocusAllowedOutsideGroup()) {
                 group = parent.getGroup();
                 parent = null;
             } else {
