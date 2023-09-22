@@ -17,6 +17,7 @@ import View from './model/view';
 import { SCREEN_STATES, VIEWPORT_ALIGNMENT } from './model/screen';
 import Screen from './model/screen';
 import { DIRECTIONS } from './constants';
+import ViewGroup from './model/viewGroup';
 
 export type FocusDirection = typeof DIRECTIONS[keyof typeof DIRECTIONS];
 export type WindowAlignment = 'both-edge' | 'low-edge';
@@ -24,6 +25,7 @@ export type ScreenStates = 'background' | 'foreground';
 export type FocusContext = FocusModel;
 export type ScreenType = Screen;
 export type ViewType = View;
+export type ViewGroupType = ViewGroup;
 type AnimatorTypeScale = 'scale';
 type AnimatorTypeScaleWithBorder = 'scale_with_border';
 type AnimatorTypeAnimatorBorder = 'border';

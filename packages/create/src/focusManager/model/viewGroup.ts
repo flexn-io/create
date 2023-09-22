@@ -1,13 +1,15 @@
-import { View } from 'react-native';
-import FocusModel from './abstractFocusModel';
+import FocusModel, { MODEL_TYPES } from './abstractFocusModel';
 import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { MutableRefObject } from 'react';
 import { ViewGroupProps } from '../types';
+import View from './view';
+import RecyclerView from './recycler';
 
 class ViewGroup extends FocusModel {
     private _group?: string;
     private _focusKey?: string;
+    private _currentFocus: View | null = null;
 
     constructor(params: Omit<ViewGroupProps & ViewGroupProps['focusOptions'], 'ref' | 'focusOptions'>) {
         super(params);
@@ -48,6 +50,24 @@ class ViewGroup extends FocusModel {
 
     // END EVENTS
 
+    public getFirstFocusableInViewGroup = (): View | null => {
+        if (CoreManager.isFocusManagerEnabled()) {
+            if (this._currentFocus) return this._currentFocus;
+
+            const firstChildren = this._children.find((ch) => [MODEL_TYPES.ROW, MODEL_TYPES.GRID, MODEL_TYPES.VIEW].includes(ch.getType() as never))
+
+            if (firstChildren && firstChildren.getType() === MODEL_TYPES.VIEW) {
+                return firstChildren as View;
+            } else if (firstChildren) {
+                const recycler = firstChildren as RecyclerView;
+                if (recycler.getFocusedView()) return recycler.getFocusedView();
+                return recycler.getChildren[0];
+            }
+        }
+
+        return null;
+    };
+
     public getGroup() {
         return this._group;
     }
@@ -71,6 +91,17 @@ class ViewGroup extends FocusModel {
     public getNode(): MutableRefObject<View> {
         return this.node;
     }
+
+    public setCurrentFocus(model: View | null): this {
+        this._currentFocus = model;
+
+        return this;
+    }
+
+    public getCurrentFocus(): View | null {
+        return this._currentFocus;
+    }
+
 }
 
 export default ViewGroup;

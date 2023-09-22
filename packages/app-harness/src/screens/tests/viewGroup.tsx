@@ -11,7 +11,7 @@ const ViewGroup = () => {
         <Screen style={{ backgroundColor: '#222222' }}>
             <View
                 style={{ top: Ratio(20), flex: 1 }}
-                focusOptions={{ nextFocusDown: 'test-group-btn2', focusKey: 'test-group', group: 'test-group' }}
+                focusOptions={{ nextFocusDown: 'test-group2', focusKey: 'test-group', group: 'test-group' }}
             >
                 <Button
                     focusOptions={{ focusKey: 'test-group-btn' }}
@@ -22,7 +22,7 @@ const ViewGroup = () => {
             </View>
             <View
                 style={{ top: Ratio(20), flex: 1 }}
-                focusOptions={{ nextFocusUp: 'test-group-btn', group: 'test-group2' }}
+                focusOptions={{ nextFocusUp: 'test-group', group: 'test-group2', focusKey: 'test-group2' }}
             >
                 <Button
                     focusOptions={{ focusKey: 'test-group-btn2' }}
