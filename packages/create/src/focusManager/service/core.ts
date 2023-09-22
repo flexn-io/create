@@ -220,7 +220,7 @@ class CoreManager {
 
                 const nextForcedFocusKey = this.getNextForcedFocusKey(parent, direction);
                 if (nextForcedFocusKey) {
-                    if (findFocusInParent) {
+                    if (findFocusInParent && closestView.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
                         currentFocus.getParent()?.onBlur();
                         closestView.getParent()?.onFocus();
                     }
@@ -232,7 +232,7 @@ class CoreManager {
                     return currentFocus;
                 }
 
-                if (findFocusInParent) {
+                if (findFocusInParent && closestView.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
                     currentFocus.getParent()?.onBlur();
                     closestView.getParent()?.onFocus();
                 }
