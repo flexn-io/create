@@ -1,6 +1,6 @@
 const FlexnRunner = require('@flexn/graybox').default;
 
-describe('Test Harness app', () => {
+describe('L1', () => {
     before(() => {
         FlexnRunner.launchApp();
     });
@@ -11,7 +11,7 @@ describe('Test Harness app', () => {
     it('focus on list test', async () => {
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-L1');
     });
-    
+
     it('open list test', async () => {
         await FlexnRunner.pressButtonSelect(1);
         await FlexnRunner.expectToBeDisplayedByText('#L1 ');
@@ -55,7 +55,7 @@ describe('Test Harness app', () => {
         await FlexnRunner.pressButtonDown(8);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-9-0');
     });
-    
+
     it('focus remains on last row after clicking down', async () => {
         await FlexnRunner.pressButtonDown(1);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-9-0');
