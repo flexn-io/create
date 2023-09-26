@@ -114,6 +114,7 @@ exports.config = {
         [
             //'./test/specs/L1.cjs',
             './test/specs/R1.cjs',
+            './test/specs/G1.cjs',
             './test/specs/DR1.cjs',
             './test/specs/RH1.cjs',
             './test/specs/SF1.cjs',
