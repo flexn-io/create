@@ -1,6 +1,6 @@
 {
     "name": "flexn-template",
-    "version": "1.2.0-alpha.5",
+    "version": "1.2.0-alpha.6",
     "identifier": "io.flexn.template",
     "icon": "./static/icon.png"
 }
