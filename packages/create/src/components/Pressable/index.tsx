@@ -89,8 +89,9 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
 
         const { onLayout } = useOnLayout(model);
 
-        const { onLayout: onLayoutNonPressable } = useOnLayout(model, () => {
+        const { onLayout: onLayoutNonPressable } = useOnLayout(model, (event) => {
             model?.remeasureChildrenLayouts?.(model);
+            props.onLayout?.(event);
         });
 
         // We must re-assign repeat context as View instances are re-used in recycled
