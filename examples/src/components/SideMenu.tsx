@@ -14,7 +14,6 @@ const SideMenu = () => {
     const [focusedMenuItem, setFocusedMenuItem] = React.useState('Home');
 
     const onFocus = () => {
-        // console.log('focus...');
         Animated.timing(translateX, {
             toValue: 0,
             duration: 300,
@@ -23,7 +22,6 @@ const SideMenu = () => {
     };
 
     const onBlur = () => {
-        // console.log('blur...');
         Animated.timing(translateX, {
             toValue: -Ratio(800),
             duration: 300,
@@ -186,7 +184,6 @@ const styles = StyleSheet.create({
     },
     animatedView: {
         height,
-        // width: 800,
         position: 'absolute',
         top: 0,
         left: 0,

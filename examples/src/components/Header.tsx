@@ -35,7 +35,7 @@ const Header = ({ focusContext, headerRef }: Props) => {
 
     return (
         <View style={styles.container} focusContext={focusContext}>
-            <Image source={data?.bgSrc} style={styles.image} />
+            {data?.bgSrc && <Image source={data?.bgSrc} style={styles.image} />}
             <LinearGradient colors={['#00000000', '#000000CC', '#000000']} style={styles.linearGradient} />
             <Text style={styles.category}>{rowTitle}</Text>
             <Text style={styles.album}>{data?.album}</Text>
