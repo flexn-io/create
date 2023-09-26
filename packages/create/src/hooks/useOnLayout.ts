@@ -6,7 +6,8 @@ import FocusModel from '../focusManager/model/abstractFocusModel';
 
 export default function useOnLayout(
     model: FocusModel | null,
-    callback?: ((event: LayoutChangeEvent) => void) | (() => Promise<void>)
+    callback?: (() => void) | (() => Promise<void>),
+    onLayoutFromComponent?: (event: LayoutChangeEvent) => void
 ) {
     useEffect(() => {
         InteractionManager.runAfterInteractions(() => {
@@ -15,17 +16,20 @@ export default function useOnLayout(
     }, []);
 
     const onLayout = (event: LayoutChangeEvent) => {
-        sendOnLayoutEvent(event);
+        if (onLayoutFromComponent) {
+            onLayoutFromComponent(event);
+        }
+        sendOnLayoutEvent();
     };
 
-    const sendOnLayoutEvent = (event?: LayoutChangeEvent) => {
+    const sendOnLayoutEvent = () => {
         if (model) {
             CoreManager.setPendingLayoutMeasurement(model, () => {
                 Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_LAYOUT);
-                callback?.(event as LayoutChangeEvent);
+                callback?.();
             });
         } else {
-            callback?.(event as LayoutChangeEvent);
+            callback?.();
         }
     };
 
