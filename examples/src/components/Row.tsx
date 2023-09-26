@@ -31,11 +31,6 @@ const Row = ({ focusContext, data, onFocus, focusOptions, onRowFocus, onRowBlur 
                 horizontal
                 estimatedItemSize={Ratio(228)}
                 focusOptions={{ autoLayoutScaleAnimation: true, autoLayoutSize: 30, ...focusOptions }}
-                contentContainerStyle={
-                    {
-                        // paddingLeft: Ratio(230),
-                    }
-                }
                 scrollViewProps={{
                     showsHorizontalScrollIndicator: false,
                 }}

@@ -7,7 +7,7 @@ prepare_react_native_project!
 
 production = ENV["PRODUCTION"] == "1"
 
-target 'TestApp71' do
+target 'CreateExamples' do
 
   platform :ios, min_ios_version_supported
 
@@ -43,13 +43,13 @@ target 'TestApp71' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'TestApp71Tests' do
+  target 'CreateExamplesTests' do
     inherit! :complete
     # Pods for testing
   end
 end
 
-target 'TestApp71-tvOS' do
+target 'CreateExamples-tvOS' do
 
   platform :tvos, min_ios_version_supported
 
@@ -69,7 +69,7 @@ target 'TestApp71-tvOS' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'TestApp71-tvOSTests' do
+  target 'CreateExamples-tvOSTests' do
     inherit! :complete
     # Pods for testing
   end

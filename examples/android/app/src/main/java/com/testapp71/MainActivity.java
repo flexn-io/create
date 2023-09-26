@@ -41,7 +41,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "TestApp71";
+    return "CreateExamples";
   }
 
   /**
