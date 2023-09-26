@@ -114,6 +114,7 @@ export type RecyclableListFocusOptions = {
     nextFocusDown?: string | string[];
     autoLayoutScaleAnimation?: boolean;
     autoLayoutSize?: number;
+    listHeaderDimensions?: { width: number; height: number };
 };
 
 type MouseEvents = {

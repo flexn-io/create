@@ -102,12 +102,14 @@ const measure = ({
                             parentRecycler.getLayout().xMin +
                             rLayout.x +
                             model.horizontalContentContainerGap() +
-                            parentRecycler.getAutoLayoutSize();
+                            parentRecycler.getAutoLayoutSize() +
+                            (parentRecycler.isHorizontal() ? parentRecycler.getListHeaderDimensions().width : 0);
                         pgY =
                             parentRecycler.getLayout().yMin +
                             rLayout.y +
                             model.verticalContentContainerGap() +
-                            parentRecycler.getAutoLayoutSize();
+                            parentRecycler.getAutoLayoutSize() +
+                            (!parentRecycler.isHorizontal() ? parentRecycler.getListHeaderDimensions().height : 0);
                     }
                 }
             }

@@ -398,4 +398,12 @@ export default abstract class FocusModel {
     public getLayouts(): { x: number; y: number; width: number; height: number }[] {
         throw new Error('Not implemented');
     }
+
+    public isHorizontal(): boolean {
+        throw new Error('Not implemented');
+    }
+
+    public getListHeaderDimensions(): { width: number; height: number } {
+        throw new Error('Not implemented');
+    }
 }

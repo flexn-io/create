@@ -23,6 +23,7 @@ class RecyclerView extends FocusModel {
     private _isScrollingVertically: boolean;
     private _autoLayoutScaleAnimation = false;
     private _autoLayoutSize = 0;
+    private _listHeaderDimensions = { width: 0, height: 0 };
 
     constructor(
         params: Omit<
@@ -40,6 +41,7 @@ class RecyclerView extends FocusModel {
             onBlur,
             initialRenderIndex = 0,
             autoLayoutSize = 0,
+            listHeaderDimensions = { width: 0, height: 0 },
             autoLayoutScaleAnimation = false,
         } = params;
 
@@ -59,6 +61,7 @@ class RecyclerView extends FocusModel {
         this._isScrollingVertically = false;
         this._autoLayoutScaleAnimation = autoLayoutScaleAnimation;
         this._autoLayoutSize = autoLayoutSize;
+        this._listHeaderDimensions = listHeaderDimensions;
 
         this._onFocus = onFocus;
         this._onBlur = onBlur;
@@ -233,6 +236,10 @@ class RecyclerView extends FocusModel {
 
     public getNode(): MutableRefObject<ScrollView> {
         return this.node;
+    }
+
+    public getListHeaderDimensions(): { width: number; height: number } {
+        return this._listHeaderDimensions;
     }
 
     public updateEvents({ onFocus, onBlur }: { onPress?(): void; onFocus?(): void; onBlur?(): void }) {
