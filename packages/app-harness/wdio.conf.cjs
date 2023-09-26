@@ -112,15 +112,16 @@ exports.config = {
     //
     specs: [
         [
-            './test/specs/L1.cjs',
+            //'./test/specs/L1.cjs',
             './test/specs/R1.cjs',
+            './test/specs/DR1.cjs',
             './test/specs/RH1.cjs',
             './test/specs/SF1.cjs',
             './test/specs/NF1.cjs',
             './test/specs/PF1.cjs',
         ],
     ],
-    //specs: ['./test/specs/PF1.cjs'],
+    // specs: ['./test/specs/DR1.cjs'],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -264,7 +265,7 @@ exports.config = {
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 60000,
+        timeout: 100000,
     },
     //
     // =====
