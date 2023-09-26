@@ -9,7 +9,7 @@ describe('RH1', () => {
     });
 
     it('Focus on remote handler test', async () => {
-        await FlexnRunner.pressButtonRight(4);
+        await FlexnRunner.pressButtonRight(3);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-RH1');
     });
 
@@ -41,5 +41,10 @@ describe('RH1', () => {
     it('Click select button', async () => {
         await FlexnRunner.pressButtonSelect(1);
         await FlexnRunner.expectToHaveTextById('RH1-pressed-button', 'You pressed select');
+    });
+
+    it('Go back to home page', async () => {
+        await FlexnRunner.pressButtonBack(1);
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-RH1');
     });
 });

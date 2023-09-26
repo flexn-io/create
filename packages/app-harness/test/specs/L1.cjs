@@ -4,70 +4,85 @@ describe('L1', () => {
     before(() => {
         FlexnRunner.launchApp();
     });
-    it('check that all tests are displayed', async () => {
+    it('Check that list test is displayed in home page', async () => {
         await FlexnRunner.expectToBeDisplayedById('home-L1');
     });
 
-    it('focus on list test', async () => {
+    it('Focus on list test', async () => {
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-L1');
     });
 
-    it('open list test', async () => {
+    it('Open list test', async () => {
         await FlexnRunner.pressButtonSelect(1);
         await FlexnRunner.expectToBeDisplayedByText('#L1 ');
     });
 
-    it('focus on first item', async () => {
+    it('Focus is on first item', async () => {
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-0-0');
     });
 
-    it('focus remains on first item after clicking left', async () => {
+    it('Focus remains on first item after clicking left', async () => {
         await FlexnRunner.pressButtonLeft(1);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-0-0');
     });
 
-    it('focus remains on first item after clicking up', async () => {
+    it('Focus remains on first item after clicking up', async () => {
         await FlexnRunner.pressButtonUp(1);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-0-0');
     });
 
-    it('focus on second item on first row', async () => {
+    it('Focus on second item on first row', async () => {
         await FlexnRunner.pressButtonRight(1);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-0-1');
     });
 
-    it('focus on first item on second row', async () => {
+    it('Focus on first item on second row', async () => {
         await FlexnRunner.pressButtonDown(1);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-1-0');
     });
 
-    it('focus on last item on second row', async () => {
+    it('Focus on last item on second row', async () => {
         await FlexnRunner.pressButtonRight(9);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-1-9');
     });
 
-    it('focus remains on last item after clicking right', async () => {
+    it('Focus remains on last item after clicking right', async () => {
         await FlexnRunner.pressButtonRight(1);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-1-9');
     });
 
-    it('focus on first item on last row', async () => {
-        await FlexnRunner.pressButtonDown(8);
+    it('Focus on first item on third row', async () => {
+        await FlexnRunner.pressButtonDown(1);
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-2-0');
+    });
+
+    it('Focus on first item on last row', async () => {
+        await FlexnRunner.pressButtonDown(7);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-9-0');
     });
 
-    it('focus remains on last row after clicking down', async () => {
+    it('Focus remains on last row after clicking down', async () => {
         await FlexnRunner.pressButtonDown(1);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-9-0');
     });
 
-    it('check that it remembers focus of the second row', async () => {
-        await FlexnRunner.pressButtonUp(8);
+    it('Check that it remembers focus of the third row', async () => {
+        await FlexnRunner.pressButtonUp(7);
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-2-0');
+    });
+
+    it('Check that it remembers focus of the second row', async () => {
+        await FlexnRunner.pressButtonUp(1);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-1-9');
     });
 
-    it('check that it remembers focus of the first row', async () => {
+    it('Check that it remembers focus of the first row', async () => {
         await FlexnRunner.pressButtonUp(1);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'L1-0-1');
+    });
+
+    it('Go back to home page', async () => {
+        await FlexnRunner.pressButtonBack(1);
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-L1');
     });
 });

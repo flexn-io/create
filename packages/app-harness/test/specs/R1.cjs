@@ -16,6 +16,9 @@ describe('R1', () => {
     it('Open row test', async () => {
         await FlexnRunner.pressButtonSelect(1);
         await FlexnRunner.expectToBeDisplayedByText('#R1 ');
+    });
+
+    it('Focus is on first item', async () => {
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'R1-0');
     });
 
@@ -61,5 +64,10 @@ describe('R1', () => {
     it('Focus is on first item and click down', async () => {
         await FlexnRunner.pressButtonDown(1);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'R1-0');
+    });
+
+    it('Go back to home page', async () => {
+        await FlexnRunner.pressButtonBack(1);
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-R1');
     });
 });
