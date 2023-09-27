@@ -1,17 +1,24 @@
 import { useEffect } from 'react';
-import { InteractionManager } from 'react-native';
+import { InteractionManager, LayoutChangeEvent } from 'react-native';
 import CoreManager from '../focusManager/service/core';
 import Event, { EVENT_TYPES } from '../focusManager/events';
 import FocusModel from '../focusManager/model/abstractFocusModel';
 
-export default function useOnLayout(model: FocusModel | null, callback?: (() => void) | (() => Promise<void>)) {
+export default function useOnLayout(
+    model: FocusModel | null,
+    callback?: (() => void) | (() => Promise<void>),
+    onLayoutFromComponent?: (event: LayoutChangeEvent) => void
+) {
     useEffect(() => {
         InteractionManager.runAfterInteractions(() => {
             sendOnLayoutEvent();
         });
     }, []);
 
-    const onLayout = () => {
+    const onLayout = (event: LayoutChangeEvent) => {
+        if (onLayoutFromComponent) {
+            onLayoutFromComponent(event);
+        }
         sendOnLayoutEvent();
     };
 

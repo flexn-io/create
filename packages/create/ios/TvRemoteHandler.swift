@@ -135,7 +135,8 @@ class TvRemoteHandler: RCTEventEmitter, UIGestureRecognizerDelegate {
                     timer.invalidate()
                     return
                 }
-                self.sendAppleTVEvent(eventType: direction!, eventKeyAction: "down", velocity: 0.0)
+                self.sendAppleTVEvent(eventType: direction!, eventKeyAction: "longPress", velocity: 0.0)
+                timer.invalidate()
             }
             
         } else if gesture.state == .ended || gesture.state == .cancelled {

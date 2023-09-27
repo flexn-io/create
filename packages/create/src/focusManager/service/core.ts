@@ -5,11 +5,12 @@ import Scroller from './scroller';
 import Logger from './logger';
 import FocusModel, { MODEL_TYPES } from '../model/abstractFocusModel';
 import { DIRECTIONS } from '../constants';
-import { ClosestNodeOutput, FocusDirection, ScreenType, ViewType } from '../types';
+import { ClosestNodeOutput, FocusDirection, ScreenType, ViewType, ViewGroupType } from '../types';
 
 class CoreManager {
     private _focusAwareElements: Record<string, FocusModel> = {};
     private _views: Record<string, ViewType> = {};
+    private _viewGroups: Record<string, ViewGroupType> = {};
     private _screens: Record<string, ScreenType> = {};
     private _currentFocus: ViewType | null = null;
     private _debuggerEnabled = false;
@@ -60,6 +61,8 @@ class CoreManager {
             this._screens[model.getId()] = model as ScreenType;
         } else if (model.getType() === MODEL_TYPES.VIEW) {
             this._views[model.getId()] = model as ViewType;
+        } else if (model.getType() === MODEL_TYPES.VIEW_GROUP) {
+            this._viewGroups[model.getId()] = model as ViewGroupType;
         }
 
         Object.keys(this._focusAwareElements).forEach((k) => {
@@ -150,8 +153,21 @@ class CoreManager {
             const screen = Object.values(this._screens).find(
                 (model) => model.getFocusKey() === focusKey && model.isInForeground()
             );
+            
             if (screen) {
                 screen.setFocus(screen.getFirstFocusableOnScreen());
+                return;
+            }
+
+            const viewGroup = Object.values(this._viewGroups).find(
+                (model) => model.getFocusKey() === focusKey && model.isInForeground()
+            );
+
+            if (viewGroup) {
+                const element = viewGroup.getFirstFocusableInViewGroup();
+                if (element) {
+                    this.executeFocus(element);
+                }
             }
         }
     };
@@ -220,6 +236,10 @@ class CoreManager {
 
                 const nextForcedFocusKey = this.getNextForcedFocusKey(parent, direction);
                 if (nextForcedFocusKey) {
+                    if (findFocusInParent && closestView.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
+                        currentFocus.getParent()?.onBlur();
+                        closestView.getParent()?.onFocus();
+                    }
                     this.setFocus(nextForcedFocusKey);
                     return null;
                 }
@@ -228,8 +248,10 @@ class CoreManager {
                     return currentFocus;
                 }
 
-                currentFocus.getParent()?.onBlur();
-                closestView.getParent()?.onFocus();
+                if (findFocusInParent && closestView.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
+                    currentFocus.getParent()?.onBlur();
+                    closestView.getParent()?.onFocus();
+                }
 
                 if (closestView.getParent()?.getType() === MODEL_TYPES.ROW) {
                     const parent = closestView.getParent();
@@ -238,8 +260,10 @@ class CoreManager {
             }
 
             if (closestView.getScreen()?.getId() !== currentFocus.getScreen()?.getId()) {
-                currentFocus.getScreen()?.onBlur?.();
-                closestView.getScreen()?.onFocus?.();
+                if (findFocusInParent) {
+                    currentFocus.getScreen()?.onBlur?.();
+                    closestView.getScreen()?.onFocus?.();
+                }
 
                 if (closestView.getScreen()?.getCurrentFocus()) {
                     return closestView.getScreen()!.getCurrentFocus();
@@ -302,7 +326,7 @@ class CoreManager {
 
     public pickActiveForcedFocusContext(nextForcedFocusKey: string | string[]): string | null {
         const isActive = (focusKey: string) =>
-            Object.values({ ...this._views, ...this._screens }).find(
+            Object.values({ ...this._views, ...this._screens, ...this._viewGroups }).find(
                 (model) => model.getFocusKey() === focusKey && model.isInForeground()
             );
 

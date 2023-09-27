@@ -5,7 +5,7 @@ import { useDebugContext } from '../../context/debugContext';
 import { Ratio, testProps } from '../../utils';
 
 const FocusedElementSelector = () => {
-    const { focusedElementId } = useDebugContext();
+    const { focusedElementId, additionalTextInfo } = useDebugContext();
 
     if (focusedElementId) {
         return (
@@ -13,6 +13,25 @@ const FocusedElementSelector = () => {
                 <Text {...testProps('focused-element-selector')} style={styles.title}>
                     {focusedElementId}
                 </Text>
+                {additionalTextInfo[0] !== '' && (
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text {...testProps('additional-text-info-selector-0')} style={styles.title}>
+                            {additionalTextInfo[0]}
+                        </Text>
+                        <Text>{` `}</Text>
+                        {additionalTextInfo[1] !== '' && (
+                            <Text {...testProps('additional-text-info-selector-1')} style={styles.title}>
+                                {additionalTextInfo[1]}
+                            </Text>
+                        )}
+                        <Text>{` `}</Text>
+                        {additionalTextInfo[2] !== '' && (
+                            <Text {...testProps('additional-text-info-selector-2')} style={styles.title}>
+                                {additionalTextInfo[2]}
+                            </Text>
+                        )}
+                    </View>
+                )}
             </View>
         );
     }
