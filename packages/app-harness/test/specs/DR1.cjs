@@ -4,6 +4,7 @@ describe('DR1', () => {
     before(() => {
         FlexnRunner.launchApp();
     });
+
     it('Check that dynamic rows test is displayed in home page', async () => {
         await FlexnRunner.expectToBeDisplayedById('home-DR1');
     });

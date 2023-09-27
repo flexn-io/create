@@ -4,6 +4,7 @@ describe('R1', () => {
     before(() => {
         FlexnRunner.launchApp();
     });
+
     it('Check that row test is displayed in home page', async () => {
         await FlexnRunner.expectToBeDisplayedById('home-R1');
     });

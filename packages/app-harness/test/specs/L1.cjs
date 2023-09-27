@@ -4,6 +4,7 @@ describe('L1', () => {
     before(() => {
         FlexnRunner.launchApp();
     });
+
     it('Check that list test is displayed in home page', async () => {
         await FlexnRunner.expectToBeDisplayedById('home-L1');
     });
