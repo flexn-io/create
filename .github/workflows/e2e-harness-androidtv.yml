@@ -46,7 +46,7 @@ jobs:
             - name: E2E Harness App AndroidTV NF1
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
-                  cd packages/app-harness && yarn e2e:androidtvt --spec ./test/specs/NF1.cjs
+                  cd packages/app-harness && yarn e2e:androidtv --spec ./test/specs/NF1.cjs
             - name: E2E Harness App AndroidTV PF1
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
