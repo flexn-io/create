@@ -5,8 +5,12 @@ describe('G1', () => {
         FlexnRunner.launchApp();
     });
 
+    it('Check that grid test is displayed in home page', async () => {
+        await FlexnRunner.expectToBeDisplayedById('home-G1');
+    });
+
     it('focus on grid test', async () => {
-        await FlexnRunner.pressButtonRight(1);
+        await FlexnRunner.pressButtonRight(2);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-G1');
     });
 

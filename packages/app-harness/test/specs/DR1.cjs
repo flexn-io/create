@@ -9,7 +9,7 @@ describe('DR1', () => {
     });
 
     it('Focus on dynamic rows test', async () => {
-        await FlexnRunner.pressButtonRight(1);
+        await FlexnRunner.pressButtonRight(3);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-DR1');
     });
 

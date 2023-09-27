@@ -9,7 +9,6 @@ describe('SF1', () => {
     });
 
     it('Focus on set focus test', async () => {
-        await FlexnRunner.pressButtonLeft(4);
         await FlexnRunner.pressButtonDown(1);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-SF1');
     });

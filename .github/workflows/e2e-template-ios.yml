@@ -28,9 +28,12 @@ jobs:
             - name: Bootstrap
               run: |
                   yarn bootstrap-clean
+            - name: Build Template App iOS
+              run: |
+                  cd packages/template-starter && yarn build:ios-test
             - name: E2E Template App iOS
               run: |
-                  yarn e2e-template-ios
+                  cd packages/template-starter && yarn e2e:ios
             # Commented because e2e tests would fail due to minion issues
             # - name: Post message to Slack via Webhook
             #   if: ${{ github.event_name == 'push' && failure() }}

@@ -27,9 +27,12 @@ jobs:
             - name: Bootstrap
               run: |
                   yarn bootstrap-clean
+            - name: Build Harness App AndroidTV
+              run: |
+                  cd packages/app-harness && yarn build:androidtv-test
             - name: E2E Harness App AndroidTV
               run: |
-                  yarn e2e-harness-androidtv
+                  cd packages/app-harness && yarn e2e:androidtv
             # Commented because e2e tests would fail due to harness builds not working and minion issues
             # - name: Post message to Slack via Webhook
             #   if: ${{ github.event_name == 'push' && failure() }}
