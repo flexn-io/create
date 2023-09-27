@@ -31,9 +31,30 @@ jobs:
             - name: Build Harness App tvOS
               run: |
                   cd packages/app-harness && yarn build:tvos-test
-            - name: E2E Harness App tvOS
+            - name: E2E Harness App tvOS DR1
               run: |
-                  cd packages/app-harness && yarn e2e:tvos
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/DR1.cjs
+            - name: E2E Harness App tvOS G1
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/G1.cjs
+            - name: E2E Harness App tvOS L1
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/L1.cjs
+            - name: E2E Harness App tvOS NF1
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/NF1.cjs
+            - name: E2E Harness App tvOS PF1
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/PF1.cjs
+            - name: E2E Harness App tvOS R1
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/R1.cjs
+            - name: E2E Harness App tvOS RH1
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/RH1.cjs
+            - name: E2E Harness App tvOS SF1
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/SF1.cjs
             # Commented because e2e tests would fail due to harness builds not working and minion issues
             # - name: Post message to Slack via Webhook
             #   if: ${{ github.event_name == 'push' && failure() }}
