@@ -1,6 +1,6 @@
 const FlexnRunner = require('@flexn/graybox').default;
 
-describe('RH1', () => {
+describe('Remote Handler', () => {
     before(() => {
         FlexnRunner.launchApp();
     });

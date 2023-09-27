@@ -1,6 +1,6 @@
 const FlexnRunner = require('@flexn/graybox').default;
 
-describe('L1', () => {
+describe('List', () => {
     before(() => {
         FlexnRunner.launchApp();
     });

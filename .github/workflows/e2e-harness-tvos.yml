@@ -32,36 +32,36 @@ jobs:
               id: build
               run: |
                   cd packages/app-harness && yarn build:tvos-test
-            - name: E2E DR1
+            - name: E2E Dynamic Rows
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/DR1.cjs
-            - name: E2E G1
+            - name: E2E Grid
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/G1.cjs
             # skipped because on tvos list tests take 12 minutes
-            # - name: E2E L1
+            # - name: E2E List
             #   if: (success() || failure()) && steps.build.outcome == 'success'
             #   run: |
             #       cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/L1.cjs
-            - name: E2E NF1
+            - name: E2E Next Focus
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/NF1.cjs
-            - name: E2E PF1
+            - name: E2E Prefered Focus
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/PF1.cjs
-            - name: E2E R1
+            - name: E2E Row
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/R1.cjs
-            - name: E2E RH1
+            - name: E2E Remote Handler
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/RH1.cjs
-            - name: E2E SF1
+            - name: E2E Set Focus
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/SF1.cjs

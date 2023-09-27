@@ -1,6 +1,6 @@
 const FlexnRunner = require('@flexn/graybox').default;
 
-describe('NF1', () => {
+describe('Next Focus', () => {
     before(() => {
         FlexnRunner.launchApp();
     });
