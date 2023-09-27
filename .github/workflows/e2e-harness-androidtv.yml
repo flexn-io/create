@@ -30,7 +30,7 @@ jobs:
             - name: Build Harness App AndroidTV
               id: build
               run: |
-                  cd packages/app-harness && yarn build:androidtv-test
+                  cd packages/app-harness && yarn build:androidtv-testt
             - name: E2E Harness App AndroidTV DR1
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
