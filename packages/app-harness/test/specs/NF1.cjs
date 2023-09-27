@@ -10,7 +10,7 @@ describe('NF1', () => {
 
     it('Focus on next focus test', async () => {
         await FlexnRunner.pressButtonDown(1);
-        await FlexnRunner.pressButtonRight(1);
+        await FlexnRunner.pressButtonRight(2);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-NF1');
     });
 

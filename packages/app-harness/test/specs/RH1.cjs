@@ -9,7 +9,7 @@ describe('RH1', () => {
     });
 
     it('Focus on remote handler test', async () => {
-        await FlexnRunner.pressButtonRight(4);
+        await FlexnRunner.pressButtonRight(5);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-RH1');
     });
 

@@ -9,6 +9,7 @@ describe('L1', () => {
     });
 
     it('Focus on list test', async () => {
+        await FlexnRunner.pressButtonRight(1);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-L1');
     });
 

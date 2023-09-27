@@ -10,7 +10,7 @@ describe('G1', () => {
     });
 
     it('focus on grid test', async () => {
-        await FlexnRunner.pressButtonRight(2);
+        await FlexnRunner.pressButtonRight(3);
         await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-G1');
     });
 
