@@ -27,39 +27,39 @@ jobs:
             - name: Bootstrap
               run: |
                   yarn bootstrap-clean
-            - name: Build Harness App AndroidTV
+            - name: Build
               id: build
               run: |
                   cd packages/app-harness && yarn build:androidtv-test
-            - name: E2E Harness App AndroidTV DR1
+            - name: E2E DR1
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:androidtv --spec ./test/specs/DR1.cjs
-            - name: E2E Harness App AndroidTV G1
+            - name: E2E G1
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:androidtv --spec ./test/specs/G1.cjs
-            - name: E2E Harness App AndroidTV L1
+            - name: E2E L1
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:androidtv --spec ./test/specs/L1.cjs
-            - name: E2E Harness App AndroidTV NF1
+            - name: E2E NF1
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:androidtv --spec ./test/specs/NF1.cjs
-            - name: E2E Harness App AndroidTV PF1
+            - name: E2E PF1
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:androidtv --spec ./test/specs/PF1.cjs
-            - name: E2E Harness App AndroidTV R1
+            - name: E2E R1
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:androidtv --spec ./test/specs/R1.cjs
-            - name: E2E Harness App AndroidTV RH1
+            - name: E2E RH1
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:androidtv --spec ./test/specs/RH1.cjs
-            - name: E2E Harness App AndroidTV SF1
+            - name: E2E SF1
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:androidtv --spec ./test/specs/SF1.cjs

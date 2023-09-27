@@ -27,10 +27,10 @@ jobs:
             - name: Bootstrap
               run: |
                   yarn bootstrap-clean
-            - name: Build Harness App Android
+            - name: Build
               run: |
                   cd packages/app-harness && yarn build:android-test
-            - name: E2E Harness App Android
+            - name: E2E
               run: |
                   cd packages/app-harness && yarn e2e:android
             # Commented because e2e tests would fail due to harness builds not working and minion issues
