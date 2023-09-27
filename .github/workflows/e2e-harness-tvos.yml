@@ -40,10 +40,11 @@ jobs:
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
                   cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/G1.cjs
-            - name: E2E L1
-              if: (success() || failure()) && steps.build.outcome == 'success'
-              run: |
-                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/L1.cjs
+            # skipped because on tvos list tests take 12 minutes
+            # - name: E2E L1
+            #   if: (success() || failure()) && steps.build.outcome == 'success'
+            #   run: |
+            #       cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/L1.cjs
             - name: E2E NF1
               if: (success() || failure()) && steps.build.outcome == 'success'
               run: |
