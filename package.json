@@ -64,6 +64,8 @@
         "e2e-harness-android": "cd packages/app-harness && npx rnv build -p android -s test --packageManager yarn --ci && yarn e2e:android",
         "e2e-harness-tvos": "cd packages/app-harness && npx rnv build -p tvos -s test --packageManager yarn --ci && yarn e2e:tvos",
         "e2e-harness-androidtv": "cd packages/app-harness && npx rnv build -p androidtv -s test --packageManager yarn --ci && yarn e2e:androidtv",
+        "e2e-harness-tizen": "cd packages/app-harness && npx rnv build -p tizen -s test --packageManager yarn --ci && yarn e2e:tizen",
+        "e2e-harness-webos": "cd packages/app-harness && npx rnv build -p webos -s test --packageManager yarn --ci && yarn e2e:webos",
         "e2e-harness-macos": "cd packages/app-harness && npx rnv build -p macos -s test --packageManager yarn --ci && yarn e2e:macos",
         "e2e-harness-web": "cd packages/app-harness && npx rnv start -p web -s test --packageManager yarn --ci & sleep 60 && cd packages/app-harness && yarn e2e:web && kill $(lsof -t -i:8080)",
         "e2e-template-ios": "cd packages/template-starter && npx rnv build -p ios -s test -c template --packageManager yarn --ci && yarn e2e:ios",
