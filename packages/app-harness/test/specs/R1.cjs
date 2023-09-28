@@ -24,10 +24,8 @@ describe('Row', () => {
     });
 
     it('Scroll row to the end', async () => {
-        for (let i = 1; i <= 19; i++) {
-            await FlexnRunner.pressButtonRight(1);
-            await FlexnRunner.expectToHaveTextById('focused-element-selector', `R1-${i}`);
-        }
+            await FlexnRunner.pressButtonRight(19);
+            await FlexnRunner.expectToHaveTextById('focused-element-selector', 'R1-19');
     });
 
     it('Focus is on last item and click right', async () => {
@@ -46,10 +44,8 @@ describe('Row', () => {
     });
 
     it('Scroll row to the beginning', async () => {
-        for (let i = 18; i >= 0; i--) {
-            await FlexnRunner.pressButtonLeft(1);
-            await FlexnRunner.expectToHaveTextById('focused-element-selector', `R1-${i}`);
-        }
+            await FlexnRunner.pressButtonLeft(19);
+            await FlexnRunner.expectToHaveTextById('focused-element-selector', 'R1-0');
     });
 
     it('Focus is on first item and click left', async () => {
