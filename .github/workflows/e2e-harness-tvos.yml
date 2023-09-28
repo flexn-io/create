@@ -66,10 +66,10 @@ jobs:
               run: |
                   cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/SF1.cjs
             # skipped because on tvos Row on focus blur tests take 10 minutes
-            #- name: E2E Row on focus blur
-            #  if: (success() || failure()) && steps.build.outcome == 'success'
-            #  run: |
-            #      cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/RFB1.cjs
+            # - name: E2E Row on focus blur
+            #   if: (success() || failure()) && steps.build.outcome == 'success'
+            #   run: |
+            #       cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/RFB1.cjs
             # Commented because e2e tests would fail due to harness builds not working and minion issues
             # - name: Post message to Slack via Webhook
             #   if: ${{ github.event_name == 'push' && failure() }}

@@ -39,7 +39,12 @@ describe('Row on focus blur', () => {
     });
 
     it('Check first row blur count', async () => {
-        await FlexnRunner.expectToHaveTextById('additional-text-info-selector-1','Row 0 blurred 1');
+        await FlexnRunner.expectToHaveTextById('additional-text-info-selector-1', 'Row 0 blurred 1');
+    });
+
+    it('Blur count does not change after scrolling row', async () => {
+        await FlexnRunner.pressButtonRight(1);
+        await FlexnRunner.expectToHaveTextById('additional-text-info-selector-1', 'Row 0 blurred 1');
     });
 
     it('Check third row focus count', async () => {
@@ -48,13 +53,13 @@ describe('Row on focus blur', () => {
     });
 
     it('Check second row blur count', async () => {
-        await FlexnRunner.expectToHaveTextById('additional-text-info-selector-1','Row 1 blurred 1');
+        await FlexnRunner.expectToHaveTextById('additional-text-info-selector-1', 'Row 1 blurred 1');
     });
 
     it('Check second row focus count after going back', async () => {
         await FlexnRunner.pressButtonUp(1);
         await FlexnRunner.expectToHaveTextById('additional-text-info-selector-0', 'Row 1 focused 2');
-    }); 
+    });
 
     it('Check third row blur count', async () => {
         await FlexnRunner.expectToHaveTextById('additional-text-info-selector-1', 'Row 2 blurred 1');
@@ -63,7 +68,7 @@ describe('Row on focus blur', () => {
     it('Check first row focus count after going back', async () => {
         await FlexnRunner.pressButtonUp(1);
         await FlexnRunner.expectToHaveTextById('additional-text-info-selector-0', 'Row 0 focused 2');
-    }); 
+    });
 
     it('Check second row blur count after going back', async () => {
         await FlexnRunner.expectToHaveTextById('additional-text-info-selector-1', 'Row 1 blurred 2');
