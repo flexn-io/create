@@ -1,6 +1,6 @@
 {
     "name": "@flexn/create-template-starter",
-    "version": "1.2.0-alpha.7",
+    "version": "1.2.0-alpha.11",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/create#readme",
@@ -30,6 +30,11 @@
     "scripts": {
         "bootstrap": "cd ../.. && yarn bootstrap",
         "build": "yarn clean && yarn compile",
+        "build:android-test": "npx rnv build -p android -s test -c template --packageManager yarn --ci",
+        "build:androidtv-test": "npx rnv build -p androidtv -s test -c template --packageManager yarn --ci",
+        "build:ios-test": "npx rnv build -p ios -s test -c template --packageManager yarn --ci",
+        "build:macos-test": "npx rnv build -p macos -s test -c template --packageManager yarn --ci",
+        "build:tvos-test": "npx rnv build -p tvos -s test -c template --packageManager yarn --ci",
         "clean": "rm -rf ./lib && rm -rf tsconfig.tsbuildinfo",
         "compile": "tsc --noEmit",
         "deploy:android-alpha": "npx rnv deploy -p android -s canary --only --hooks",
@@ -46,12 +51,6 @@
         "deploy:tvos-prod": "npx rnv deploy -p tvos -s production --only --hooks",
         "deploy:web-alpha": "npx rnv deploy -p web -s canary --only --hooks",
         "deploy:web-prod": "npx rnv deploy -p web -s production --only --hooks",
-        "build:ios-test": "npx rnv build -p ios -s test -c template --packageManager yarn --ci",
-        "build:android-test": "npx rnv build -p android -s test -c template --packageManager yarn --ci",
-        "build:tvos-test": "npx rnv build -p tvos -s test -c template --packageManager yarn --ci",
-        "build:androidtv-test": "npx rnv build -p androidtv -s test -c template --packageManager yarn --ci",
-        "build:macos-test": "npx rnv build -p macos -s test -c template --packageManager yarn --ci",
-        "start:web-test": "npx rnv start -p web -s test -c template --packageManager yarn --ci",
         "e2e:android": "APPIUM_HOME=./ PLATFORM=android JAVA_HOME=$(/usr/libexec/java_home) npx wdio wdio.conf.cjs",
         "e2e:androidtv": "APPIUM_HOME=./ PLATFORM=androidtv JAVA_HOME=$(/usr/libexec/java_home) npx wdio wdio.conf.cjs",
         "e2e:ios": "APPIUM_HOME=./ PLATFORM=ios npx wdio wdio.conf.cjs",
@@ -62,6 +61,7 @@
         "report:generate": "npx allure generate --clean reporting/allure-results -o reporting/allure-report",
         "report:open": "npx allure open reporting/allure-report",
         "run-all": "ttab rnv run -p web -e engine-rn-web --ci && ttab rnv run -p web --ci && ttab rnv run -p ios -t 'iPhone 8' --ci && ttab rnv run -p android -t Pixel_2_API_28 --ci && ttab rnv run -p androidtv -t Android_TV_1080p_API_28 --ci && ttab rnv run -p tvos -t \"Apple TV\" --ci && ttab rnv run -p macos --ci && ttab rnv run -p tizen -t T-samsung-5.5-x86 --ci && ttab rnv run -p webos --ci && ttab rnv run -p androidwear -t Android_Wear_Round_API_28 --ci && ttab rnv run -p tizenwatch -t W-5.5-circle-x86 --ci && ttab rnv run -p tizenmobile -t M-5.5-x86 --ci",
+        "start:web-test": "npx rnv start -p web -s test -c template --packageManager yarn --ci",
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
     "dependencies": {
@@ -69,7 +69,7 @@
     },
     "devDependencies": {
         "@flexn/assets-create-outline": "0.3.3",
-        "@flexn/create": "1.2.0-alpha.10",
+        "@flexn/create": "1.2.0-alpha.11",
         "@flexn/fonts": "1.0.1",
         "@flexn/graybox": "1.0.0",
         "@flexn/plugins": "1.0.9",

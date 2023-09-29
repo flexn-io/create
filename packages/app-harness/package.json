@@ -1,9 +1,14 @@
 {
     "name": "@flexn/app-harness",
-    "version": "1.2.0-alpha.7",
+    "version": "1.2.0-alpha.11",
     "scripts": {
         "bootstrap": "cd ../.. && yarn bootstrap",
         "build": "yarn clean && yarn compile",
+        "build:android-test": "npx rnv build -p android -s test --packageManager yarn --ci",
+        "build:androidtv-test": "npx rnv build -p androidtv -s test --packageManager yarn --ci",
+        "build:ios-test": "npx rnv build -p ios -s test --packageManager yarn --ci",
+        "build:macos-test": "npx rnv build -p macos -s test --packageManager yarn --ci",
+        "build:tvos-test": "npx rnv build -p tvos -s test --packageManager yarn --ci",
         "clean": "rm -rf ./lib && rm -rf tsconfig.tsbuildinfo",
         "compile": "tsc --noEmit",
         "deploy:android-alpha": "npx rnv deploy -p android -s canary --only --hooks",
@@ -22,12 +27,6 @@
         "deploy:tvos-prod": "npx rnv deploy -p tvos -s production --only --hooks",
         "deploy:web-alpha": "npx rnv deploy -p web -s canary --only --hooks",
         "deploy:web-prod": "npx rnv deploy -p web -s production --only --hooks",
-        "build:ios-test": "npx rnv build -p ios -s test --packageManager yarn --ci",
-        "build:android-test": "npx rnv build -p android -s test --packageManager yarn --ci",
-        "build:tvos-test": "npx rnv build -p tvos -s test --packageManager yarn --ci",
-        "build:androidtv-test": "npx rnv build -p androidtv -s test --packageManager yarn --ci",
-        "build:macos-test": "npx rnv build -p macos -s test --packageManager yarn --ci",
-        "start:web-test": "npx rnv start -p web -s test --packageManager yarn --ci",
         "e2e:android": "APPIUM_HOME=./ PLATFORM=android JAVA_HOME=$(/usr/libexec/java_home) npx wdio wdio.conf.cjs",
         "e2e:androidtv": "APPIUM_HOME=./ PLATFORM=androidtv JAVA_HOME=$(/usr/libexec/java_home) npx wdio wdio.conf.cjs",
         "e2e:ios": "APPIUM_HOME=./ PLATFORM=ios npx wdio wdio.conf.cjs",
@@ -40,12 +39,13 @@
         "report:generate": "npx allure generate --clean reporting/allure-results -o reporting/allure-report",
         "report:open": "npx allure open reporting/allure-report",
         "run-all": "ttab rnv run -p web --ci && ttab rnv run -p ios -t 'iPhone 8' --ci && ttab rnv run -p android -t Pixel_2_API_28 --ci && ttab rnv run -p androidtv -t Android_TV_1080p_API_28 --ci && ttab rnv run -p tvos -t \"Apple TV\" --ci && ttab rnv run -p macos --ci && ttab rnv run -p tizen -t T-samsung-5.5-x86 --ci && ttab rnv run -p webos --ci && ttab rnv run -p androidwear -t Android_Wear_Round_API_28 --ci && ttab rnv run -p tizenwatch -t W-5.5-circle-x86 --ci && ttab rnv run -p tizenmobile -t M-5.5-x86 --ci",
+        "start:web-test": "npx rnv start -p web -s test --packageManager yarn --ci",
         "tvos:adhoc": "npx rnv export -p tvos -c harness -s adhoc --xcodebuildArchiveArgs \"-UseModernBuildSystem=NO\"",
         "watch": "tsc --watch --preserveWatchOutput --noEmit",
         "web:release": "npx rnv build -p web -c harness -s release && vercel ./platformBuilds/harness_web/project"
     },
     "dependencies": {
-        "@flexn/create": "1.2.0-alpha.10",
+        "@flexn/create": "1.2.0-alpha.11",
         "@flexn/fonts": "1.0.1",
         "@flexn/graybox": "1.0.0",
         "@flexn/recyclerlistview": "4.2.7",
@@ -90,7 +90,7 @@
         "tslib": "2.5.2"
     },
     "devDependencies": {
-        "@flexn/create-template-starter": "1.2.0-alpha.7",
+        "@flexn/create-template-starter": "1.2.0-alpha.11",
         "@flexn/plugins": "1.0.9",
         "@lightningjs/cli": "2.11.0",
         "@react-native-community/cli": "^6.0.0",
