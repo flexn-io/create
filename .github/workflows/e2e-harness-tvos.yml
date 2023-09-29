@@ -5,15 +5,15 @@ defaults:
         shell: zsh -l {0}
 on:
     workflow_dispatch:
-    # push:
-    #     branches:
-    #         - main
-    #         - 'release/**'
-    #     paths-ignore:
-    #         - 'docs/**'
-    #         - '**/README.md'
-    # pull_request:
-    #     types: [labeled]
+    push:
+        branches:
+            - main
+            - 'release/**'
+        paths-ignore:
+            - 'docs/**'
+            - '**/README.md'
+    pull_request:
+        types: [labeled]
 
 jobs:
     e2e-harness-tvos:
@@ -28,9 +28,48 @@ jobs:
             - name: Bootstrap
               run: |
                   yarn bootstrap-clean
-            - name: E2E Harness App tvOS
+            - name: Build
+              id: build
               run: |
-                  yarn e2e-harness-tvos
+                  cd packages/app-harness && yarn build:tvos-test
+            - name: E2E Dynamic Rows
+              if: (success() || failure()) && steps.build.outcome == 'success'
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/DR1.cjs
+            - name: E2E Grid
+              if: (success() || failure()) && steps.build.outcome == 'success'
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/G1.cjs
+            # skipped because on tvos list tests take 12 minutes
+            # - name: E2E List
+            #   if: (success() || failure()) && steps.build.outcome == 'success'
+            #   run: |
+            #       cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/L1.cjs
+            - name: E2E Next Focus
+              if: (success() || failure()) && steps.build.outcome == 'success'
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/NF1.cjs
+            - name: E2E Prefered Focus
+              if: (success() || failure()) && steps.build.outcome == 'success'
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/PF1.cjs
+            - name: E2E Row
+              if: (success() || failure()) && steps.build.outcome == 'success'
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/R1.cjs
+            - name: E2E Remote Handler
+              if: (success() || failure()) && steps.build.outcome == 'success'
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/RH1.cjs
+            - name: E2E Set Focus
+              if: (success() || failure()) && steps.build.outcome == 'success'
+              run: |
+                  cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/SF1.cjs
+            # skipped because on tvos Row on focus blur tests take 10 minutes
+            # - name: E2E Row on focus blur
+            #   if: (success() || failure()) && steps.build.outcome == 'success'
+            #   run: |
+            #       cd packages/app-harness && yarn e2e:tvos --spec ./test/specs/RFB1.cjs
             # Commented because e2e tests would fail due to harness builds not working and minion issues
             # - name: Post message to Slack via Webhook
             #   if: ${{ github.event_name == 'push' && failure() }}

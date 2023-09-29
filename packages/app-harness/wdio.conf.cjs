@@ -17,6 +17,7 @@ const capabilities = {
                 automationName: 'XCUITest',
                 bundleId: 'io.flexn.harness.test',
                 app: 'platformBuilds/harness_ios/build/RNVApp/Build/Products/Debug-iphonesimulator/RNVApp.app',
+                fullReset: true,
             },
         },
     ],
@@ -29,6 +30,7 @@ const capabilities = {
                 automationName: 'XCUITest',
                 bundleId: 'io.flexn.harness.test',
                 app: 'platformBuilds/harness_tvos/build/RNVAppTVOS/Build/Products/Debug-appletvsimulator/RNVAppTVOS.app',
+                fullReset: true,
             },
         },
     ],
@@ -42,6 +44,7 @@ const capabilities = {
                 appPackage: 'io.flexn.harness.test',
                 appActivity: 'io.flexn.harness.test.MainActivity',
                 app: 'platformBuilds/harness_android/app/build/outputs/apk/debug/app-debug.apk',
+                fullReset: true,
             },
         },
     ],
@@ -55,6 +58,7 @@ const capabilities = {
                 appPackage: 'io.flexn.harness.test',
                 appActivity: 'io.flexn.harness.test.MainActivity',
                 app: 'platformBuilds/harness_androidtv/app/build/outputs/apk/debug/app-debug.apk',
+                fullReset: true,
             },
         },
     ],
@@ -106,7 +110,7 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: ['./test/specs/e2e.cjs'],
+    specs: ['./test/specs/R1.cjs'],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
