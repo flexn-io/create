@@ -230,13 +230,27 @@ export default abstract class FocusModel {
         });
 
         if (model.isInForeground()) {
-            measureSync({ model });
+            measureSync({
+                model,
+                callback: () => {
+                    if (model.getType() === MODEL_TYPES.VIEW) {
+                        model.getScreen()?.removeComponentFromPendingLayoutMap(model.getId());
+                    }
+                },
+            });
         }
     }
 
     public remeasureSelfAndChildrenLayouts(model: FocusModel) {
         if (model.isInForeground()) {
-            measureSync({ model });
+            measureSync({
+                model,
+                callback: () => {
+                    if (model.getType() === MODEL_TYPES.VIEW) {
+                        model.getScreen()?.removeComponentFromPendingLayoutMap(model.getId());
+                    }
+                },
+            });
         }
 
         model.getChildren().forEach((a: FocusModel) => {

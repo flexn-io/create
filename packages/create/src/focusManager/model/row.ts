@@ -69,7 +69,7 @@ class Row extends Recycler {
 
             return Core.getNextFocusableContext(direction, candidates, false);
         } else if (!this._isInBounds(direction) || isVertical) {
-            const nextFocus = Core.getNextFocusableContext(direction, undefined, false);
+            const nextFocus = Core.getNextFocusableContext(direction, undefined, true, false);
 
             if (
                 isHorizontal &&

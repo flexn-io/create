@@ -47,7 +47,7 @@
     "plugins": {
         "@flexn/create": {
             "source": "flexn",
-            "version": "1.2.0-alpha.7"
+            "version": "1.2.0-alpha.10"
         },
         "@rnv/renative": {
             "source": "flexn",
@@ -213,17 +213,13 @@
         "web": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "chromecast": {
             "engine": "engine-rn-next",
             "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
+                "nextTranspileModules": ["lodash-es"]
             }
         },
         "tizen": {
@@ -240,9 +236,7 @@
         },
         "macos": {
             "engine": "engine-rn-electron",
-            "excludedPlugins": [
-                "react-native-linear-gradient"
-            ]
+            "excludedPlugins": ["react-native-linear-gradient"]
         },
         "windows": {
             "engine": "engine-rn-electron"

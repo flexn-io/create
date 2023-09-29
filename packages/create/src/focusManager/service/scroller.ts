@@ -1,5 +1,5 @@
 import { Dimensions } from 'react-native';
-import FocusModel from '../model/abstractFocusModel';
+import FocusModel, { MODEL_TYPES } from '../model/abstractFocusModel';
 import { DIRECTIONS } from '../constants';
 import ScrollView from '../model/scrollview';
 import View from '../model/view';
@@ -59,9 +59,19 @@ class Scroller {
     ) {
         const { currentFocus } = contextParameters;
         const currentLayout = currentFocus.getLayout();
-        const horizontalViewportOffset =
+        let horizontalViewportOffset =
             currentFocus.getScreen()?.getHorizontalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
         const verticalViewportOffset = currentFocus.getScreen()?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
+
+        // If FlashList has it's own ListHeaderComponent first item should scroll to header width
+        if (currentFocus.getParent()?.getType() === MODEL_TYPES.ROW) {
+            if (
+                currentFocus.getRepeatContext()?.index === 0 &&
+                currentFocus.getParent()?.getListHeaderDimensions()?.width
+            ) {
+                horizontalViewportOffset = currentFocus.getParent()?.getListHeaderDimensions()?.width as number;
+            }
+        }
 
         const scrollTarget = {
             x: scrollView.getScrollOffsetX(),

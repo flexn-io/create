@@ -153,7 +153,7 @@ class CoreManager {
             const screen = Object.values(this._screens).find(
                 (model) => model.getFocusKey() === focusKey && model.isInForeground()
             );
-            
+
             if (screen) {
                 screen.setFocus(screen.getFirstFocusableOnScreen());
                 return;
@@ -175,7 +175,8 @@ class CoreManager {
     public getNextFocusableContext = (
         direction: FocusDirection,
         ownCandidates?: ViewType[],
-        findFocusInParent = true
+        findFocusInParent = true,
+        withEvents = true
     ): ViewType | null => {
         const currentFocus = this._currentFocus;
         const views = this._views;
@@ -236,7 +237,7 @@ class CoreManager {
 
                 const nextForcedFocusKey = this.getNextForcedFocusKey(parent, direction);
                 if (nextForcedFocusKey) {
-                    if (findFocusInParent && closestView.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
+                    if (withEvents && closestView.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
                         currentFocus.getParent()?.onBlur();
                         closestView.getParent()?.onFocus();
                     }
@@ -248,7 +249,7 @@ class CoreManager {
                     return currentFocus;
                 }
 
-                if (findFocusInParent && closestView.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
+                if (withEvents && closestView.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
                     currentFocus.getParent()?.onBlur();
                     closestView.getParent()?.onFocus();
                 }
@@ -260,7 +261,7 @@ class CoreManager {
             }
 
             if (closestView.getScreen()?.getId() !== currentFocus.getScreen()?.getId()) {
-                if (findFocusInParent) {
+                if (withEvents) {
                     currentFocus.getScreen()?.onBlur?.();
                     closestView.getScreen()?.onFocus?.();
                 }
