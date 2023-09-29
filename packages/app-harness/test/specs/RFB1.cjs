@@ -73,4 +73,9 @@ describe('Row on focus blur', () => {
     it('Check second row blur count after going back', async () => {
         await FlexnRunner.expectToHaveTextById('additional-text-info-selector-1', 'Row 1 blurred 2');
     });
+
+    it('Go back to home page', async () => {
+        await FlexnRunner.pressButtonBack(1);
+        await FlexnRunner.expectToHaveTextById('focused-element-selector', 'home-RFB1');
+    });
 });
