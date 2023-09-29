@@ -5,19 +5,19 @@ defaults:
         shell: zsh -l {0}
 on:
     workflow_dispatch:
-    # push:
-    #     branches:
-    #         - main
-    #         - 'release/**'
-    #     paths-ignore:
-    #         - 'docs/**'
-    #         - '**/README.md'
-    # pull_request:
-    #     types: [labeled]
+    push:
+        branches:
+            - main
+            - 'release/**'
+        paths-ignore:
+            - 'docs/**'
+            - '**/README.md'
+    pull_request:
+        types: [labeled]
 
 jobs:
     e2e-template-androidtv:
-        if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event.label.name == 'e2e-template-androidtv' || github.event.label.name == 'e2e' }}
+        if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Merge pull request')) || github.event.label.name == 'e2e-template-androidtv' || github.event.label.name == 'e2e' }}
         runs-on: [self-hosted, macos, intel]
         steps:
             - uses: actions/checkout@v2
