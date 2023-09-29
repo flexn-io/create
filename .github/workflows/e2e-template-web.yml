@@ -5,17 +5,19 @@ defaults:
         shell: zsh -l {0}
 on:
     workflow_dispatch:
-    pull_request:
-        types: 
-            - labeled
-            - closed
+    push:
+        branches:
+            - main
+            - 'release/**'
         paths-ignore:
             - 'docs/**'
             - '**/README.md'
+    pull_request:
+        types: [labeled]
 
 jobs:
     e2e-template-web:
-        if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event.label.name == 'e2e-template-web' || github.event.label.name == 'e2e' || github.event.pull_request.merged }}
+        if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.event.action == 'closed') || github.event.label.name == 'e2e-template-web' || github.event.label.name == 'e2e'}}
         runs-on: [self-hosted, macos]
         steps:
             - uses: actions/checkout@v2
