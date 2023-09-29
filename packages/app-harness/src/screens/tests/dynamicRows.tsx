@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { View, FlashList, Pressable, Image, CreateListRenderItemInfo } from '@flexn/create';
+import { View, FlashList, Image, CreateListRenderItemInfo } from '@flexn/create';
 import type { NavigationProps } from '../../navigation';
 import Screen from './../screen';
 import { Ratio } from '../../utils';
+import Pressable from '../../components/Pressable';
 
 const kittyNames = ['Abby', 'Angel', 'Annie', 'Baby', 'Bailey', 'Bandit'];
 
@@ -28,7 +29,7 @@ const DynamicRows = ({ route }: NavigationProps) => {
     const [data] = useState(generateData(200, 200, 5));
     const [data2, setData2] = useState(generateData(200, 200, 5));
 
-    const rowRenderer = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
+    const rowRenderer = ({ item, focusRepeatContext, index }: CreateListRenderItemInfo<any>) => {
         return (
             <Pressable
                 style={styles.packshot}
@@ -45,13 +46,14 @@ const DynamicRows = ({ route }: NavigationProps) => {
                 onPress={() => {
                     setData2(generateData(interval(201, 210), interval(201, 210), interval(5, 10)));
                 }}
+                testID={`DR1-0-${index}`}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>
         );
     };
 
-    const rowRenderer2 = ({ item, focusRepeatContext }: CreateListRenderItemInfo<any>) => {
+    const rowRenderer2 = ({ item, focusRepeatContext, index }: CreateListRenderItemInfo<any>) => {
         return (
             <Pressable
                 style={styles.packshot}
@@ -65,6 +67,7 @@ const DynamicRows = ({ route }: NavigationProps) => {
                         },
                     },
                 }}
+                testID={`DR1-1-${index}`}
             >
                 <Image source={{ uri: item.backgroundImage }} style={styles.image} />
             </Pressable>
