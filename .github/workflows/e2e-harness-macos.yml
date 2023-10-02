@@ -12,12 +12,16 @@ on:
     #     paths-ignore:
     #         - 'docs/**'
     #         - '**/README.md'
+    #         - '**/lerna.json'
+    #         - '**/metadata.json'
+    #         - '**/renative.json'
+    #         - '**/package.json'
     # pull_request:
     #     types: [labeled]
 
 jobs:
     e2e-harness-macos:
-        if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Merge pull request')) || github.event.label.name == 'e2e-harness-macos' || github.event.label.name == 'e2e' }}
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event.label.name == 'e2e-harness-macos' || github.event.label.name == 'e2e' }}
         runs-on: [self-hosted, macos]
         steps:
             - uses: actions/checkout@v2
