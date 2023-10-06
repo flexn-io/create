@@ -89,6 +89,20 @@ class CoreManager {
         if (model.getId() === this._currentFocus?.getId()) {
             this._currentFocus = null;
         }
+
+        Object.keys(this._viewGroups).forEach((key) => {
+            const viewGroup = this._viewGroups[key];
+            if (viewGroup.getCurrentFocus()?.getId() === model.getId()) {
+                viewGroup.setCurrentFocus(null);
+            }
+        });
+
+        Object.keys(this._screens).forEach((key) => {
+            const screen = this._screens[key];
+            if (screen.getCurrentFocus()?.getId() === model.getId()) {
+                screen.setCurrentFocus(null);
+            }
+        });
     }
 
     public executeFocus(model: ViewType) {
