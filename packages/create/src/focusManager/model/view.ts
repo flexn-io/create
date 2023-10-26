@@ -29,9 +29,9 @@ class View extends FocusModel {
     private _horizontalContentContainerGap = 0;
     private _repeatContext:
         | {
-              focusContext: FocusModel;
-              index: number;
-          }
+            focusContext: FocusModel;
+            index: number;
+        }
         | undefined;
 
     private _onPress?: () => void;
@@ -124,6 +124,9 @@ class View extends FocusModel {
     private async _onLayout() {
         await measureAsync({ model: this });
         this.getScreen()?.removeComponentFromPendingLayoutMap(this.getId());
+        if (this.hasPreferredFocus()) {
+            this.getScreen()?.setFocus(this);
+        }
     }
 
     // END EVENTS

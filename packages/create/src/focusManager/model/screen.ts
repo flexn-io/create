@@ -148,9 +148,14 @@ class Screen extends FocusModel {
 
     public setFocus(model: View | null) {
         if (model) {
-            CoreManager.getCurrentFocus()?.getScreen()?.onBlur?.();
+            const screenIsDifferent = CoreManager.getCurrentFocus()?.getScreen()?.getId() !== model.getScreen()?.getId();
+            if (screenIsDifferent) {
+                CoreManager.getCurrentFocus()?.getScreen()?.onBlur?.();
+            }
             CoreManager.executeFocus(model);
-            model.getScreen()?.onFocus();
+            if (screenIsDifferent) {
+                model.getScreen()?.onFocus();
+            }
             if (model.getParent()?.getId() !== model.getScreen()?.getId()) {
                 model.getParent()?.onFocus();
             }
