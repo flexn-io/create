@@ -86,6 +86,7 @@ export type PressableFocusOptions = {
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
     hasPreferredFocus?: boolean;
+    verticalViewportOffset?: number;
 };
 
 export type ScreenFocusOptions = {
@@ -115,6 +116,7 @@ export type RecyclableListFocusOptions = {
     autoLayoutScaleAnimation?: boolean;
     autoLayoutSize?: number;
     listHeaderDimensions?: { width: number; height: number };
+    verticalViewportOffset?: number;
 };
 
 type MouseEvents = {
@@ -136,6 +138,7 @@ export interface ViewProps extends RNViewProps, MouseEvents {
         nextFocusUp?: string | string[];
         nextFocusDown?: string | string[];
         allowFocusOutsideGroup?: boolean;
+        verticalViewportOffset?: number;
     };
     focusContext?: FocusModel;
     focusRepeatContext?: CreateListRenderItemInfo<any>['focusRepeatContext'];
@@ -151,6 +154,7 @@ export interface ViewGroupProps extends RNViewProps {
         nextFocusUp?: string | string[];
         nextFocusDown?: string | string[];
         allowFocusOutsideGroup?: boolean;
+        verticalViewportOffset?: number;
     };
     focusContext?: FocusContext;
     ref?: React.ForwardedRef<RNView> | React.MutableRefObject<RNView>;

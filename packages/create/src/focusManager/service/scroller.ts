@@ -61,7 +61,7 @@ class Scroller {
         const currentLayout = currentFocus.getLayout();
         let horizontalViewportOffset =
             currentFocus.getScreen()?.getHorizontalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
-        const verticalViewportOffset = currentFocus.getScreen()?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
+        const verticalViewportOffset = this.getVerticalViewportOffset(currentFocus);
 
         // If FlashList has it's own ListHeaderComponent first item should scroll to header width
         if (currentFocus.getParent()?.getType() === 'row') {
@@ -88,12 +88,23 @@ class Scroller {
             scrollView.getScrollOffsetY(),
         ];
 
+        // console.log({verticalViewportOffset})
         switch (direction) {
             case DIRECTIONS.RIGHT:
                 {
-                    const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.min;
+                    const mathFunc = currentLayout.absolute.yMax >= screenHeight ? Math.max : Math.min;
                     scrollTarget.x = Math.max(...x);
-                    scrollTarget.y = mathFunc(...y);
+                    scrollTarget.y = y[0];
+
+                    console.log({...y})
+                    console.log("more", currentLayout.yMin, scrollView.getLayout().yMin)
+                    // console.log('verticalViewportOffset', 
+                    // currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset,
+                    // scrollView.getScrollOffsetY(),
+                    // currentFocus.getLayout().absolute.yMax,
+                    // screenHeight
+                    // );
+
                 }
                 break;
             case DIRECTIONS.LEFT:
@@ -103,9 +114,11 @@ class Scroller {
                         scrollTarget.x =
                             currentLayout.xMin - screenWidth + currentLayout.width + horizontalViewportOffset;
                     } else {
-                        const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.min;
+                        const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.max;
                         scrollTarget.x = Math.min(...x);
-                        scrollTarget.y = mathFunc(...y);
+                        scrollTarget.y = y[0];
+
+                        console.log({...y, y3: scrollTarget.y})
                     }
                 }
                 break;
@@ -155,8 +168,24 @@ class Scroller {
         }
 
         scrollView.setScrollTargetY(scrollTarget.y).setScrollTargetX(scrollTarget.x);
-
+        console.log('yTarget', scrollTarget.y)
         return scrollTarget;
+    }
+
+    private getVerticalViewportOffset(currentFocus: FocusModel): number {
+        let parent: FocusModel | undefined = currentFocus;
+        let viewportOffset = DEFAULT_VIEWPORT_OFFSET;
+
+        while(parent) {
+            if (parent.getVerticalViewportOffset()) {
+                viewportOffset = parent.getVerticalViewportOffset() as number;
+                parent = undefined;
+            } else {
+                parent = parent.getParent();
+            }
+        }
+
+        return viewportOffset;
     }
 }
 
