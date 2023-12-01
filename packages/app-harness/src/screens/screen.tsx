@@ -23,8 +23,8 @@ const Screen = ({ children, focusOptions, style, route, ...props }: Props) => {
 
     return (
         <FMScreen focusOptions={{ ...focusOptions, screenState }} style={style} {...props}>
-            {/* {id && description && <TestDescription id={id} description={description} />} */}
-            {/* <FocusedElementSelector /> */}
+            {id && description && <TestDescription id={id} description={description} />}
+            <FocusedElementSelector />
             {children}
         </FMScreen>
     );
