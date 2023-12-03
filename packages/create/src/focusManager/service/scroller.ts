@@ -88,23 +88,11 @@ class Scroller {
             scrollView.getScrollOffsetY(),
         ];
 
-        // console.log({verticalViewportOffset})
         switch (direction) {
             case DIRECTIONS.RIGHT:
                 {
-                    const mathFunc = currentLayout.absolute.yMax >= screenHeight ? Math.max : Math.min;
                     scrollTarget.x = Math.max(...x);
                     scrollTarget.y = y[0];
-
-                    console.log({...y})
-                    console.log("more", currentLayout.yMin, scrollView.getLayout().yMin)
-                    // console.log('verticalViewportOffset', 
-                    // currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset,
-                    // scrollView.getScrollOffsetY(),
-                    // currentFocus.getLayout().absolute.yMax,
-                    // screenHeight
-                    // );
-
                 }
                 break;
             case DIRECTIONS.LEFT:
@@ -114,11 +102,8 @@ class Scroller {
                         scrollTarget.x =
                             currentLayout.xMin - screenWidth + currentLayout.width + horizontalViewportOffset;
                     } else {
-                        const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.max;
                         scrollTarget.x = Math.min(...x);
                         scrollTarget.y = y[0];
-
-                        console.log({...y, y3: scrollTarget.y})
                     }
                 }
                 break;
@@ -168,7 +153,7 @@ class Scroller {
         }
 
         scrollView.setScrollTargetY(scrollTarget.y).setScrollTargetX(scrollTarget.x);
-        console.log('yTarget', scrollTarget.y)
+
         return scrollTarget;
     }
 

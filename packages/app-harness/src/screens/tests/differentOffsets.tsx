@@ -42,7 +42,7 @@ const DifferentOffsets = ({ route }: NavigationProps) => {
                 <View  style={{position: 'absolute', width: '100%', height: 2, backgroundColor: 'yellow', top: 290}} />
                 <View  style={{position: 'absolute', width: '100%', height: 2, backgroundColor: 'orange', top: 320}} />
                 <View style={{ top: Ratio(20), flex: 1, flexDirection: 'row', marginTop: 120 }}>
-                    <Button testID="SF1-B1" title="B1" style={{ top: 50 }} focusOptions={{verticalViewportOffset: 150}} />
+                    <Button testID="SF1-B1" title="B1" style={{ top: 50 }} focusOptions={{verticalViewportOffset: 250}} />
                     <FlashList
                         data={data}
                         renderItem={rowRenderer}
