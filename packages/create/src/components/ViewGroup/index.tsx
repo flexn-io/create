@@ -4,6 +4,7 @@ import type { ViewGroupProps } from '../../focusManager/types';
 import useOnLayout from '../../hooks/useOnLayout';
 import ViewGroupClass from '../../focusManager/model/viewGroup';
 import useOnComponentLifeCycle from '../../hooks/useOnComponentLifeCycle';
+import useOnRefChange from '../../hooks/useOnRefChange';
 import { CoreManager } from '../..';
 
 const ViewGroup = React.forwardRef<View, ViewGroupProps>(
@@ -23,6 +24,8 @@ const ViewGroup = React.forwardRef<View, ViewGroupProps>(
                     ...focusOptions,
                 })
         );
+
+        const { onRefChange } = useOnRefChange(model);
 
         useOnComponentLifeCycle({ model });
 
@@ -47,7 +50,7 @@ const ViewGroup = React.forwardRef<View, ViewGroupProps>(
         });
 
         return (
-            <View style={style} {...props} ref={ref} onLayout={onLayout}>
+            <View style={style} {...props} ref={onRefChange} onLayout={onLayout}>
                 {childrenWithProps}
             </View>
         );
