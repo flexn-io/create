@@ -22,6 +22,7 @@ interface FocusModelProps {
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
+    verticalViewportOffset?: number;
 }
 
 export default abstract class FocusModel {
@@ -36,6 +37,7 @@ export default abstract class FocusModel {
     protected _forbiddenFocusDirections: ForbiddenFocusDirections[];
     protected _isFocusable: boolean;
     protected _isScrollable: boolean;
+    protected _verticalViewportOffset?: number;
 
     protected _nextFocusRight: string | string[];
     protected _nextFocusLeft: string | string[];
@@ -48,7 +50,7 @@ export default abstract class FocusModel {
     protected _events: { (): void }[];
 
     constructor(params?: FocusModelProps) {
-        const { nextFocusRight = '', nextFocusLeft = '', nextFocusUp = '', nextFocusDown = '' } = params || {};
+        const { nextFocusRight = '', nextFocusLeft = '', nextFocusUp = '', nextFocusDown = '', verticalViewportOffset } = params || {};
 
         this._id = '';
         this._children = [];
@@ -61,6 +63,7 @@ export default abstract class FocusModel {
         this._nextFocusLeft = nextFocusLeft;
         this._nextFocusUp = nextFocusUp;
         this._nextFocusDown = nextFocusDown;
+        this._verticalViewportOffset = verticalViewportOffset;
         this._isLayoutMeasured = false;
 
         this._layout = {
@@ -383,6 +386,10 @@ export default abstract class FocusModel {
           }
         | undefined {
         throw new Error('Not implemented');
+    }
+
+    public getVerticalViewportOffset(): number | undefined {
+        return this._verticalViewportOffset;
     }
 
     public horizontalContentContainerGap(): number {

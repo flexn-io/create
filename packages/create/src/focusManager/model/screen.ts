@@ -32,7 +32,6 @@ class Screen extends FocusModel {
     private _order: number;
     private _focusKey?: string;
     private _horizontalViewportOffset: number;
-    private _verticalViewportOffset: number;
     private _initialLoadInProgress: boolean;
     private _componentsPendingLayoutMap: { [key: string]: boolean };
     private _unmountingComponents: number;
@@ -57,7 +56,6 @@ class Screen extends FocusModel {
             verticalWindowAlignment = VIEWPORT_ALIGNMENT.LOW_EDGE,
             horizontalWindowAlignment = VIEWPORT_ALIGNMENT.LOW_EDGE,
             horizontalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
-            verticalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
             forbiddenFocusDirections = [],
             autoFocusEnabled = true,
             onFocus,
@@ -74,7 +72,6 @@ class Screen extends FocusModel {
         this._verticalWindowAlignment = verticalWindowAlignment;
         this._horizontalWindowAlignment = horizontalWindowAlignment;
         this._horizontalViewportOffset = horizontalViewportOffset;
-        this._verticalViewportOffset = verticalViewportOffset;
         this._forbiddenFocusDirections = forbiddenFocusDirections;
         this._stealFocus = stealFocus;
         this._isFocused = false;
@@ -289,10 +286,6 @@ class Screen extends FocusModel {
 
     public getHorizontalViewportOffset(): number {
         return this._horizontalViewportOffset;
-    }
-
-    public getVerticalViewportOffset(): number {
-        return this._verticalViewportOffset;
     }
 
     public setInitialLoadInProgress(value: boolean): this {

@@ -85,6 +85,7 @@ class CoreManager {
         delete this._focusAwareElements[model.getId()];
         delete this._views[model.getId()];
         delete this._screens[model.getId()];
+        delete this._viewGroups[model.getId()];
 
         if (model.getId() === this._currentFocus?.getId()) {
             this._currentFocus = null;

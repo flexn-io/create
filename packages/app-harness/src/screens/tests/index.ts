@@ -21,6 +21,7 @@ import setFocus from './setFocus';
 import nextFocus from './nextFocus';
 import preferredFocus from './preferredFocus';
 import rowOnFocusBlur from './rowOnFocusBlur';
+import differentOffsets from './differentOffsets';
 
 export default {
     viewGroup,
@@ -46,4 +47,5 @@ export default {
     nextFocus,
     preferredFocus,
     rowOnFocusBlur,
+    differentOffsets,
 };
