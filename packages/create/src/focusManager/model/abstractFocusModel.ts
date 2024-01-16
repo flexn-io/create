@@ -193,8 +193,8 @@ export default abstract class FocusModel {
         return this._children;
     }
 
-    public getFirstFocusableChildren(): View | undefined {
-        return this._children.find((ch) => ch.isFocusable()) as View;
+    public getInitialFocusableChildren(index: number): View | undefined {
+        return this._children.find((ch, i) => ch.isFocusable() && index === i) as View;
     }
 
     public getMostBottomChildren(): FocusModel {

@@ -117,6 +117,7 @@ export type RecyclableListFocusOptions = {
     autoLayoutSize?: number;
     listHeaderDimensions?: { width: number; height: number };
     verticalViewportOffset?: number;
+    initialFocusIndex?: number;
 };
 
 type MouseEvents = {

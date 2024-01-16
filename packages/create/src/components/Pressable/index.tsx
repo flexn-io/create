@@ -144,11 +144,13 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         }, []);
 
         useEffect(() => {
-            model?.updateEvents?.({
-                onPress,
-                onFocus,
-                onBlur,
-            });
+            if (model && model.getType() === "view") {
+                model?.updateEvents?.({
+                    onPress,
+                    onFocus,
+                    onBlur,
+                });
+            }
         }, [onPress, onFocus, onBlur]);
 
         // In recycled mode we must re-measure on render

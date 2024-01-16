@@ -49,7 +49,7 @@ class Row extends Recycler {
     // END EVENTS
 
     public getLastFocused(): ViewType | null {
-        return this?.getFocusedView() ?? this.getFirstFocusableChildren() ?? null;
+        return this?.getFocusedView() ?? this.getInitialFocusableChildren(this.getInitialFocusIndex()) ?? null;
     }
 
     private getCurrentFocusIndex(): number {

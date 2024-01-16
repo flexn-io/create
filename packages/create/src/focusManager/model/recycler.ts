@@ -18,6 +18,7 @@ class RecyclerView extends FocusModel {
     private _isHorizontal: boolean;
     private _focusedIndex: number;
     private _initialRenderIndex: number;
+    private _initialFocusIndex: number;
     private _focusedView: View | null = null;
     private _isScrollingHorizontally: boolean;
     private _isScrollingVertically: boolean;
@@ -40,6 +41,7 @@ class RecyclerView extends FocusModel {
             onFocus,
             onBlur,
             initialRenderIndex = 0,
+            initialFocusIndex = 0,
             autoLayoutSize = 0,
             listHeaderDimensions = { width: 0, height: 0 },
             autoLayoutScaleAnimation = false,
@@ -57,6 +59,7 @@ class RecyclerView extends FocusModel {
         this._forbiddenFocusDirections = forbiddenFocusDirections;
         this._focusedIndex = 0;
         this._initialRenderIndex = initialRenderIndex;
+        this._initialFocusIndex = initialFocusIndex;
         this._isScrollingHorizontally = false;
         this._isScrollingVertically = false;
         this._autoLayoutScaleAnimation = autoLayoutScaleAnimation;
@@ -188,6 +191,11 @@ class RecyclerView extends FocusModel {
     public getInitialRenderIndex(): number {
         return this._initialRenderIndex;
     }
+
+    public getInitialFocusIndex(): number {
+        return this._initialFocusIndex;
+    }
+
 
     public getFocusedView(): View | null {
         return this._focusedView;
