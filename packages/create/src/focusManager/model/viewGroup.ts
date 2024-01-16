@@ -63,7 +63,7 @@ class ViewGroup extends FocusModel {
             } else if (firstChildren) {
                 const recycler = firstChildren as RecyclerView;
                 if (recycler.getFocusedView()) return recycler.getFocusedView();
-                return recycler.getChildren()[0] as View | null;
+                return recycler.getInitialFocusableChildren(recycler.getInitialFocusIndex()) as View | null;
             }
         }
 
