@@ -16,7 +16,7 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 const Navigation = () => {
     return (
         <NavigationContainer>
-            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Selector">
+            <RootStack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Row">
                 <RootStack.Screen name="Selector" component={Selector} />
                 {testsList().map((test: Test) => (
                     <RootStack.Screen

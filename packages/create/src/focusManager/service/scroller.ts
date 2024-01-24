@@ -62,7 +62,7 @@ class Scroller {
         let horizontalViewportOffset =
             currentFocus.getScreen()?.getHorizontalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
         const verticalViewportOffset = this.getVerticalViewportOffset(currentFocus);
-
+        console.log("verticalViewportOffset", verticalViewportOffset)
         // If FlashList has it's own ListHeaderComponent first item should scroll to header width
         if (currentFocus.getParent()?.getType() === 'row') {
             if (
@@ -91,8 +91,9 @@ class Scroller {
         switch (direction) {
             case DIRECTIONS.RIGHT:
                 {
+                    const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.min;
                     scrollTarget.x = Math.max(...x);
-                    scrollTarget.y = y[0];
+                    scrollTarget.y = mathFunc(...y);
                 }
                 break;
             case DIRECTIONS.LEFT:
@@ -102,8 +103,10 @@ class Scroller {
                         scrollTarget.x =
                             currentLayout.xMin - screenWidth + currentLayout.width + horizontalViewportOffset;
                     } else {
+                        const mathFunc = currentFocus.getLayout().absolute.yMax >= screenHeight ? Math.max : Math.min;
+
                         scrollTarget.x = Math.min(...x);
-                        scrollTarget.y = y[0];
+                        scrollTarget.y = mathFunc(...y);
                     }
                 }
                 break;
@@ -158,19 +161,19 @@ class Scroller {
     }
 
     private getVerticalViewportOffset(currentFocus: FocusModel): number {
-        let parent: FocusModel | undefined = currentFocus;
-        let viewportOffset = DEFAULT_VIEWPORT_OFFSET;
+        // let parent: FocusModel | undefined = currentFocus;
+        const verticalViewportOffset = currentFocus.getScreen()?.getVerticalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
 
-        while(parent) {
-            if (parent.getVerticalViewportOffset()) {
-                viewportOffset = parent.getVerticalViewportOffset() as number;
-                parent = undefined;
-            } else {
-                parent = parent.getParent();
-            }
-        }
+        // while(parent) {
+        //     if (parent.getVerticalViewportOffset()) {
+        //         viewportOffset = parent.getVerticalViewportOffset() as number;
+        //         parent = undefined;
+        //     } else {
+        //         parent = parent.getParent();
+        //     }
+        // }
 
-        return viewportOffset;
+        return verticalViewportOffset;
     }
 }
 

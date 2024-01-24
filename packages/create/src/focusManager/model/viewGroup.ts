@@ -56,7 +56,7 @@ class ViewGroup extends FocusModel {
         if (CoreManager.isFocusManagerEnabled()) {
             if (this._currentFocus) return this._currentFocus;
 
-            const firstChildren = this._children.find((ch) => [MODEL_TYPES.ROW, MODEL_TYPES.GRID, MODEL_TYPES.VIEW].includes(ch.getType() as never))
+            const firstChildren = this._children?.length > 0 ? this._children.reduce((prev, curr) => prev.getLayout().yMin <= curr.getLayout().yMin && prev.getLayout().xMin <= curr.getLayout().xMin ? prev : curr) : null;
 
             if (firstChildren && firstChildren.getType() === MODEL_TYPES.VIEW) {
                 return firstChildren as View;
