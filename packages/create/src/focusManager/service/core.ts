@@ -164,7 +164,7 @@ class CoreManager {
                 this.getCurrentFocus()?.getScreen()?.onBlur();
             }
 
-            if (view.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
+            if (view.getParent()?.getType() !== MODEL_TYPES.SCREEN && view.getId() !== this.getCurrentFocus()?.getId()) {
                 this.getCurrentFocus()?.getParent()?.onBlur();
                 view.getParent()?.onFocus();
             }
@@ -187,7 +187,7 @@ class CoreManager {
             if (viewGroup) {
                 const element = viewGroup.getFirstFocusableInViewGroup();
                 if (element) {
-                    if (element.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
+                    if (element.getParent()?.getType() !== MODEL_TYPES.SCREEN && element.getId() !== this.getCurrentFocus()?.getId()) {
                         this.getCurrentFocus()?.getParent()?.onBlur();
                         element.getParent()?.onFocus();
                     }
