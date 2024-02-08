@@ -59,11 +59,11 @@ class ViewGroup extends FocusModel {
             let firstChildren = null;
 
             if (this._children?.length > 0) {
-                firstChildren = this._children.filter((child) =>
+                const childrens = this._children.filter((child) =>
                     [MODEL_TYPES.ROW, MODEL_TYPES.GRID, MODEL_TYPES.VIEW].includes(child.getType() as never)
                 );
-                if (firstChildren && firstChildren.length > 0) {
-                    firstChildren = this._children.reduce((prev, curr) =>
+                if (childrens && childrens.length > 0) {
+                    firstChildren = childrens.reduce((prev, curr) =>
                         prev.getLayout().yMin <= curr.getLayout().yMin && prev.getLayout().xMin <= curr.getLayout().xMin
                             ? prev
                             : curr
