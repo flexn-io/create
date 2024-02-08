@@ -104,7 +104,12 @@ class View extends FocusModel {
         const screen = this.getScreen();
         if (screen) {
             screen.addComponentToPendingLayoutMap(this.getId());
-            if (this.hasPreferredFocus()) screen.setPreferredFocus(this);
+            if (this.hasPreferredFocus()) {
+                screen.setPreferredFocus(this);
+                if (CoreManager.getCurrentFocus()?.getId() !== this.getId()) {
+                    this.getScreen()?.setFocus(this);
+                }
+            }
         }
     }
 
@@ -124,9 +129,6 @@ class View extends FocusModel {
     private async _onLayout() {
         await measureAsync({ model: this });
         this.getScreen()?.removeComponentFromPendingLayoutMap(this.getId());
-        if (this.hasPreferredFocus()) {
-            this.getScreen()?.setFocus(this);
-        }
     }
 
     // END EVENTS
