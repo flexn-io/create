@@ -163,6 +163,12 @@ class CoreManager {
             if (view.getScreen()?.getId() !== this.getCurrentFocus()?.getScreen()?.getId()) {
                 this.getCurrentFocus()?.getScreen()?.onBlur();
             }
+
+            if (view.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
+                this.getCurrentFocus()?.getParent()?.onBlur();
+                view.getParent()?.onFocus();
+            }
+
             view.setFocus();
         } else {
             const screen = Object.values(this._screens).find(
@@ -181,6 +187,11 @@ class CoreManager {
             if (viewGroup) {
                 const element = viewGroup.getFirstFocusableInViewGroup();
                 if (element) {
+                    if (element.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
+                        this.getCurrentFocus()?.getParent()?.onBlur();
+                        element.getParent()?.onFocus();
+                    }
+
                     this.executeFocus(element);
                 }
             }
@@ -302,6 +313,7 @@ class CoreManager {
             for (const key in parents) {
                 const p = parents[key];
                 const _nextForcedFocusKey = this.getNextForcedFocusKey(p, direction);
+
                 if (_nextForcedFocusKey) {
                     this.setFocus(_nextForcedFocusKey);
                     return null;
