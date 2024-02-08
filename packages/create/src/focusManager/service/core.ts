@@ -185,7 +185,7 @@ class CoreManager {
             );
 
             if (viewGroup) {
-                const element = viewGroup.getFirstFocusableInViewGroup();
+                const element = viewGroup.getFirstFocusableInViewGroup(viewGroup);
                 if (element) {
                     if (element.getParent()?.getType() !== MODEL_TYPES.SCREEN && element.getId() !== this.getCurrentFocus()?.getId()) {
                         this.getCurrentFocus()?.getParent()?.onBlur();

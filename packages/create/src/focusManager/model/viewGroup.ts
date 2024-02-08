@@ -52,14 +52,14 @@ class ViewGroup extends FocusModel {
 
     // END EVENTS
 
-    public getFirstFocusableInViewGroup = (): View | null => {
+    public getFirstFocusableInViewGroup = (parent: FocusModel): View | null => {
         if (CoreManager.isFocusManagerEnabled()) {
             if (this._currentFocus) return this._currentFocus;
 
             let firstChildren = null;
 
-            if (this._children?.length > 0) {
-                const childrens = this._children.filter((child) =>
+            if (parent.getChildren()?.length > 0) {
+                const childrens = parent.getChildren().filter((child) =>
                     [MODEL_TYPES.ROW, MODEL_TYPES.GRID, MODEL_TYPES.VIEW].includes(child.getType() as never)
                 );
                 if (childrens && childrens.length > 0) {
@@ -69,16 +69,20 @@ class ViewGroup extends FocusModel {
                             : curr
                     );
                 } else {
-                    firstChildren = null;
+                    if (parent.getChildren()?.length > 0) {
+                        return parent.getChildren().map((child) => {
+                            return this.getFirstFocusableInViewGroup(child);
+                        })?.[0];
+                    }
                 }
-            }
 
-            if (firstChildren && firstChildren.getType() === MODEL_TYPES.VIEW) {
-                return firstChildren as View;
-            } else if (firstChildren) {
-                const recycler = firstChildren as RecyclerView;
-                if (recycler.getFocusedView()) return recycler.getFocusedView();
-                return recycler.getInitialFocusableChildren(recycler.getInitialFocusIndex()) as View | null;
+                if (firstChildren && firstChildren.getType() === MODEL_TYPES.VIEW) {
+                    return firstChildren as View;
+                } else if (firstChildren) {
+                    const recycler = firstChildren as RecyclerView;
+                    if (recycler.getFocusedView()) return recycler.getFocusedView();
+                    return recycler.getInitialFocusableChildren(recycler.getInitialFocusIndex()) as View | null;
+                }
             }
         }
 
