@@ -23,6 +23,7 @@ class ScaleAnimator extends AbstractAnimator implements TimeAnimator.TimeListene
 
     public void onFocus(boolean animated) {
         this.mView.setTranslationZ(1);
+        this.mView.setOutlineProvider(null);
         animateFocus(true, false);
     }
 

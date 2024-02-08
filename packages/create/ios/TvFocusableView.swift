@@ -18,7 +18,7 @@ class TvFocusableView : RCTTVView {
     
     override func addSubview(_ view: UIView) {
         super.addSubview(view)
-        selectedAnimator?.addChildView(view: view)
+        // selectedAnimator?.addChildView(view: view)
     }
     
     func focus(animated: Bool) {

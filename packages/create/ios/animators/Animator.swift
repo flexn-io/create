@@ -1,11 +1,11 @@
 import Foundation
 
 protocol Animator {
-    init(view: UIView, args: NSDictionary)
+    init(view: RCTTVView, args: NSDictionary)
     
     func onFocus(animated: Bool)
     
     func onBlur(animated: Bool)
     
-    func addChildView(view: UIView)
+    func addChildView(view: RCTTVView)
 }

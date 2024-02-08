@@ -1,10 +1,10 @@
 import Foundation
 
 class FadeAnimator: Animator {
-    var childView: UIView?
+    var childView: RCTTVView?
     var duration: TimeInterval
 
-    required init(view: UIView, args: NSDictionary) {
+    required init(view: RCTTVView, args: NSDictionary) {
         self.duration = args["duration"] as? TimeInterval ?? 0.2
     }
     
@@ -24,7 +24,7 @@ class FadeAnimator: Animator {
         }
     }
     
-    func addChildView(view: UIView) {
+    func addChildView(view: RCTTVView) {
         self.childView = view
     }
 }

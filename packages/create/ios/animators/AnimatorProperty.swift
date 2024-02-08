@@ -12,13 +12,13 @@ class AnimatorProperty {
     
     var focusScale: CGFloat = 1.2
     var focusDuration: CGFloat = 0.15
-    var focusBorderColor: CGColor?
+    var focusBorderColor: UIColor?
     var focusBackgroundColor: UIColor?
     var focusBorderWidth: CGFloat = 1
 
     var blurScale: CGFloat = 1
     var blurDuration: CGFloat = 0.15
-    var blurBorderColor: CGColor?
+    var blurBorderColor: UIColor?
     var blurBackgroundColor: UIColor?
     var blurBorderWidth: CGFloat = 1
 
@@ -33,7 +33,7 @@ class AnimatorProperty {
                 self.focusDuration = focusValues["duration"] as! Double / 1000
             }
             if (focusValues["borderColor"] != nil) {
-                self.focusBorderColor = parseColor(from: focusValues["borderColor"] as! String)?.cgColor
+                self.focusBorderColor = parseColor(from: focusValues["borderColor"] as! String)
             }
             if (focusValues["backgroundColor"] != nil) {
                 self.focusBackgroundColor = parseColor(from: focusValues["backgroundColor"] as! String)
@@ -54,7 +54,7 @@ class AnimatorProperty {
             }
             
             if (focusValues["borderColor"] != nil) {
-                self.blurBorderColor = parseColor(from: focusValues["borderColor"] as! String)?.cgColor
+                self.blurBorderColor = parseColor(from: focusValues["borderColor"] as! String)
             }
             if (focusValues["backgroundColor"] != nil) {
                 self.blurBackgroundColor = parseColor(from: focusValues["backgroundColor"] as! String)

@@ -56,7 +56,22 @@ class ViewGroup extends FocusModel {
         if (CoreManager.isFocusManagerEnabled()) {
             if (this._currentFocus) return this._currentFocus;
 
-            const firstChildren = this._children?.length > 0 ? this._children.reduce((prev, curr) => prev.getLayout().yMin <= curr.getLayout().yMin && prev.getLayout().xMin <= curr.getLayout().xMin ? prev : curr) : null;
+            let firstChildren = null;
+
+            if (this._children?.length > 0) {
+                firstChildren = this._children.filter((child) =>
+                    [MODEL_TYPES.ROW, MODEL_TYPES.GRID, MODEL_TYPES.VIEW].includes(child.getType() as never)
+                );
+                if (firstChildren && firstChildren.length > 0) {
+                    firstChildren = this._children.reduce((prev, curr) =>
+                        prev.getLayout().yMin <= curr.getLayout().yMin && prev.getLayout().xMin <= curr.getLayout().xMin
+                            ? prev
+                            : curr
+                    );
+                } else {
+                    firstChildren = null;
+                }
+            }
 
             if (firstChildren && firstChildren.getType() === MODEL_TYPES.VIEW) {
                 return firstChildren as View;
@@ -107,7 +122,6 @@ class ViewGroup extends FocusModel {
     public isFocusAllowedOutsideGroup(): boolean {
         return this._allowFocusOutsideGroup;
     }
-
 }
 
 export default ViewGroup;

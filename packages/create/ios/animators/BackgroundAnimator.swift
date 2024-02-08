@@ -1,11 +1,11 @@
 import Foundation
 
 class BackgroundAnimator: Animator {
-    var view: UIView
+    var view: RCTTVView
     var AnimProperty: AnimatorProperty
 
 
-    required init(view: UIView, args: NSDictionary) {
+    required init(view: RCTTVView, args: NSDictionary) {
         self.view = view
         self.AnimProperty = AnimatorProperty(args: args)
     }
@@ -30,7 +30,7 @@ class BackgroundAnimator: Animator {
         }
     }
     
-    func addChildView(view: UIView) {
+    func addChildView(view: RCTTVView) {
         
     }
 }

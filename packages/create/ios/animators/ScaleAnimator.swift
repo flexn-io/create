@@ -1,10 +1,10 @@
 import Foundation
 
 class ScaleAnimator: Animator {
-    var view: UIView
+    var view: RCTTVView
     var AnimProperty: AnimatorProperty
     
-    required init(view: UIView, args: NSDictionary) {
+    required init(view: RCTTVView, args: NSDictionary) {
         self.view = view
         self.AnimProperty = AnimatorProperty(args: args)
     }
@@ -23,7 +23,7 @@ class ScaleAnimator: Animator {
         }, completion: nil)
     }
     
-    func addChildView(view: UIView) {
+    func addChildView(view: RCTTVView) {
         
     }
 }

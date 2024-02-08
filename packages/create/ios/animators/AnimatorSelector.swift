@@ -7,7 +7,7 @@ class AnimatorSelector {
         case animation_scale_with_border
     }
     
-    static func selectAnimator(view: UIView, args: NSDictionary) -> Animator? {
+    static func selectAnimator(view: RCTTVView, args: NSDictionary) -> Animator? {
         let animationType = args["type"] as? String
         var animator: Animator? = nil
                 
