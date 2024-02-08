@@ -79,7 +79,10 @@ class Row extends Recycler {
                 return Core.getCurrentFocus();
             }
 
-            return Core.getNextFocusableContext(direction);
+            // TODO: double check
+            if (nextFocus) {
+                return Core.getNextFocusableContext(direction);
+            }
         }
 
         return null;
