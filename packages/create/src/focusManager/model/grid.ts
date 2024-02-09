@@ -85,6 +85,9 @@ class Grid extends Recycler {
 
             return next;
         } else if (!this._isInBounds(direction)) {
+            if (direction === DIRECTIONS.RIGHT && this.getCurrentFocusIndex() + 1 === this.getLayouts().length && this.getLayouts().length % this._itemsInRow !== 0) {
+                return null;
+            }
             return Core.getNextFocusableContext(direction);
         }
 
