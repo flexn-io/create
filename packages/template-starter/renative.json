@@ -65,7 +65,31 @@
         "react-native-media-query": "source:flexn",
         "@flexn/shopify-flash-list": "source:flexn",
         "@flexn/recyclerlistview": "source:flexn",
-        "react-native-gesture-handler": "source:flexn"
+        "react-native-gesture-handler": "source:flexn",
+        "react": "source:rnv",
+        "react-art": "source:rnv",
+        "react-dom": "source:rnv",
+        "@react-native-community/cli-platform-ios": {
+            "version": "11.3.7",
+            "disablePluginTemplateOverrides": false,
+            "disableNpm": true
+        },
+        "react-native": {
+            "version": "0.73.4"
+        },
+        "next": {
+            "version": "14.1.0",
+            "disablePluginTemplateOverrides": true
+        },
+        "react-native-web": {
+            "version": "0.19.9",
+            "webpackConfig": {
+                "modulePaths": true
+            }
+        },
+        "react-native-tvos": {
+            "version": "0.73.1-3"
+        }
     },
     "platforms": {
         "android": {
