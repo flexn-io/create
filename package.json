@@ -80,14 +80,17 @@
         "@types/chromecast-caf-receiver": "~6.0.6",
         "@types/react-native-snap-carousel": "~3.8.5",
         "@types/react-native-vector-icons": "6.4.13",
-        "eslint-config-prettier": "8.8.0",
+        "@typescript-eslint/eslint-plugin": "^5.4.0",
+        "@typescript-eslint/parser": "^5.4.0",
         "husky": "4.2.5",
         "jest": "27.3.1",
         "lerna": "6.6.2",
-        "rnv": "0.37.3",
+        "rnv": "1.0.0-rc.12",
         "typescript": "4.9.5",
         "prettier": "2.3.1",
-        "eslint": "8.40.0"
+        "eslint": "8.40.0",
+        "eslint-config-prettier": "8.8.0",
+        "eslint-plugin-react": "7.33.2"
     },
     "husky": {
         "hooks": {

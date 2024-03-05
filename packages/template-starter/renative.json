@@ -51,20 +51,11 @@
         },
         "@rnv/renative": {
             "source": "flexn",
-            "version": "0.37.3"
+            "version": "1.0.0-rc.12"
         },
-        "react-native": "source:flexn",
-        "react-native-web": "source:flexn",
-        "react-native-tvos": "source:flexn",
         "react-native-vector-icons": "source:flexn",
         "@lightningjs/cli": "source:flexn",
         "@lightningjs/sdk": "source:flexn",
-        "react": "source:flexn",
-        "react-art": "source:flexn",
-        "react-dom": "source:flexn",
-        "@react-native-community/cli-platform-ios": "source:flexn",
-        "@react-native-community/cli": "source:flexn",
-        "next": "source:flexn",
         "@react-navigation": "source:flexn",
         "@react-navigation/elements": "source:flexn",
         "react-native-screens": "source:flexn",
