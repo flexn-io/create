@@ -52,7 +52,6 @@
         "@flexn/shopify-flash-list": "1.4.8",
         "@lightningjs/core": "2.8.0",
         "@lightningjs/sdk": "5.2.0",
-        "@react-native-community/masked-view": "0.1.11",
         "@react-native-masked-view/masked-view": "0.2.9",
         "@react-navigation/bottom-tabs": "5.1.1",
         "@react-navigation/core": "6.1.0",
