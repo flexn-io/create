@@ -63,9 +63,19 @@
         "@lightningjs/sdk": "source:flexn",
         "@react-navigation": "source:flexn",
         "@react-navigation/elements": "source:flexn",
-        "react-native-screens": "source:flexn",
+        "react-native-screens": {
+            "version": "3.29.0",
+            "webpackConfig": {
+                "modulePaths": true
+            }
+        },
         "react-native-safe-area-context": "source:flexn",
-        "react-native-reanimated": "source:flexn",
+        "react-native-reanimated": {
+            "version": "3.6.1",
+            "webpackConfig": {
+                "modulePaths": true
+            }
+        },
         "@react-native-masked-view/masked-view": "source:flexn",
         "react-native-media-query": {
             "version": "2.0.0",
@@ -80,7 +90,9 @@
             }
         },
         "@flexn/recyclerlistview": "source:flexn",
-        "react-native-gesture-handler": "source:flexn",
+        "react-native-gesture-handler": {
+            "version": "2.14.1"
+        },
         "react": "source:rnv",
         "react-art": "source:rnv",
         "react-dom": "source:rnv",
@@ -109,12 +121,12 @@
     "platforms": {
         "android": {
             "minSdkVersion": 26,
-            "targetSdkVersion": 33,
-            "compileSdkVersion": 33,
-            "buildToolsVersion": "30.0.0",
+            "targetSdkVersion": 34,
+            "compileSdkVersion": 34,
+            "buildToolsVersion": "34.0.0",
             "gradleBuildToolsVersion": "4.2.2",
-            "gradleWrapperVersion": "6.7.1",
-            "kotlinVersion": "1.7.10",
+            "gradleWrapperVersion": "8.3",
+            "kotlinVersion": "1.8.0",
             "reactNativeEngine": "hermes",
             "enableAndroidX": true,
             "gradle.properties": {
@@ -156,12 +168,12 @@
         "androidtv": {
             "engine": "engine-rn-tvos",
             "minSdkVersion": 26,
-            "targetSdkVersion": 33,
-            "compileSdkVersion": 33,
-            "buildToolsVersion": "30.0.0",
+            "targetSdkVersion": 34,
+            "compileSdkVersion": 34,
+            "buildToolsVersion": "34.0.0",
             "gradleBuildToolsVersion": "4.2.2",
-            "gradleWrapperVersion": "6.7.1",
-            "kotlinVersion": "1.7.10",
+            "gradleWrapperVersion": "8.3",
+            "kotlinVersion": "1.8.0",
             "reactNativeEngine": "hermes",
             "enableAndroidX": true,
             "gradle.properties": {
@@ -207,8 +219,8 @@
             "compileSdkVersion": 33,
             "buildToolsVersion": "30.0.0",
             "gradleBuildToolsVersion": "4.2.2",
-            "gradleWrapperVersion": "6.7.1",
-            "kotlinVersion": "1.7.10",
+            "gradleWrapperVersion": "8.3",
+            "kotlinVersion": "1.8.0",
             "reactNativeEngine": "hermes",
             "enableAndroidX": true,
             "gradle.properties": {
