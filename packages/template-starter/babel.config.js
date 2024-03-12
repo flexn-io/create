@@ -1,3 +1,5 @@
 const { withRNVBabel } = require('rnv');
 
-module.exports = withRNVBabel({});
+module.exports = withRNVBabel({
+    plugins: ['react-native-reanimated/plugin'],
+});
