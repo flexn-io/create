@@ -133,7 +133,7 @@ export function generateRandomItemsRow(row: number, itemsInViewport = 6, height 
     for (let index = 0; index < items; index++) {
         itemsRow.push({
             index,
-            backgroundImage: `https://placekitten.com/${width}/${height + hIndex}`,
+            backgroundImage: `https://picsum.photos/${width}/${height + hIndex}`,
             title: `${kittyNames[interval()]} ${kittyNames[interval()]} ${kittyNames[interval()]}`,
             rowNumber: row,
         });

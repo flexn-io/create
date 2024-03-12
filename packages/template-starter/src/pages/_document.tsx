@@ -20,7 +20,6 @@ class MyDocument extends Document {
             <Html lang="en">
                 <Head>
                     <meta name="description" content="Flexn Create Example" />
-                    <meta name="viewport" content="width=device-width, initial-scale=1" />
                     <link rel="shortcut icon" href="/favicon.ico" />
                 </Head>
                 <body>
