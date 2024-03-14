@@ -56,6 +56,7 @@
         "react-native-vector-icons": {
             "source": "rnv",
             "version": "10.0.3",
+            "disablePluginTemplateOverrides": true,
             "webpackConfig": {
                 "modulePaths": true
             }
@@ -231,9 +232,9 @@
         "firetv": {
             "engine": "engine-rn-tvos",
             "minSdkVersion": 26,
-            "targetSdkVersion": 33,
-            "compileSdkVersion": 33,
-            "buildToolsVersion": "30.0.0",
+            "targetSdkVersion": 34,
+            "compileSdkVersion": 34,
+            "buildToolsVersion": "34.0.0",
             "gradleBuildToolsVersion": "4.2.2",
             "gradleWrapperVersion": "8.3",
             "kotlinVersion": "1.8.0",
@@ -294,6 +295,7 @@
         "tvos": {
             "engine": "engine-rn-tvos",
             "reactNativeEngine": "hermes",
+            "schemeTarget": "RNVApp-tvOS",
             "deploymentTarget": "14.0"
         },
         "macos": {
