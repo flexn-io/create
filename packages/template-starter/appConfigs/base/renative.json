@@ -132,7 +132,6 @@
             }
         },
         "tvos": {
-            "scheme": "RNVAppTVOS",
             "entryFile": "index",
             "provisioningStyle": "Automatic",
             "entitlements": {},
