@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { disableTVMenuKey, enableTVMenuKey, setFocusManagerEnabled, View } from '@flexn/create';
 import { isPlatformTizen, isPlatformWebos } from '@rnv/renative';
-// import { enableScreens } from 'react-native-screens';
+import { enableScreens } from 'react-native-screens';
 import { StyleSheet, Dimensions } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
@@ -10,7 +10,7 @@ import {
     createNavigatorFactory,
     StackRouter,
 } from '@react-navigation/native';
-// import { ScreenContainer, Screen } from 'react-native-screens';
+import { ScreenContainer, Screen } from 'react-native-screens';
 import ScreenHome from '../screens/home';
 import ScreenCarousels from '../screens/carousels';
 import ScreenDetails from '../screens/details';
@@ -22,7 +22,7 @@ import { ROUTES } from '../config';
 const { height } = Dimensions.get('window');
 
 setFocusManagerEnabled(true);
-// enableScreens();
+enableScreens();
 
 const createTVSideNavigator = createNavigatorFactory(Navigator);
 
@@ -51,7 +51,7 @@ function Navigator({ initialRouteName, children, screenOptions, drawerContent, .
                 })}
             </View>
 
-            <View style={styles.main}>
+            <ScreenContainer style={styles.main}>
                 {state.routes.map((route, i) => {
                     const isFocused = state.index === i;
                     const style =
@@ -60,12 +60,12 @@ function Navigator({ initialRouteName, children, screenOptions, drawerContent, .
                             : [StyleSheet.absoluteFill, { opacity: isFocused ? 1 : 0 }];
 
                     return (
-                        <View key={route.key} style={style}>
+                        <Screen key={route.key} style={style} active={isFocused ? 1 : 0}>
                             {descriptors[route.key].render()}
-                        </View>
+                        </Screen>
                     );
                 })}
-            </View>
+            </ScreenContainer>
         </NavigationContent>
     );
 }
