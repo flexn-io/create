@@ -45,3 +45,8 @@ reporting
 
 .rollup.cache
 vendor/
+
+platformBuilds/template_webos
+
+platformBuilds/template_webos/build
+platformBuilds/template_webos/build
