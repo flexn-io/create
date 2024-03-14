@@ -47,7 +47,10 @@
     "plugins": {
         "@flexn/create": {
             "source": "flexn",
-            "version": "1.3.0-alpha.2"
+            "version": "1.3.0-alpha.2",
+            "ios": {
+                "disabled": true
+            }
         },
         "@rnv/renative": {
             "source": "flexn",
