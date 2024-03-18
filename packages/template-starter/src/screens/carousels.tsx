@@ -1,7 +1,7 @@
 import { FlashList, View, Pressable, Image, ScrollView, Text } from '@flexn/create';
 import React, { useContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv/renative';
+import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv, isFactorWatch } from '@rnv/renative';
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { generateRandomItemsRow, interval, testProps } from '../utils';
 import Screen from './screen';
@@ -98,7 +98,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
 
 const styles = StyleSheet.create({
     screen: {
-        left: isFactorMobile || isPlatformMacos || isPlatformWeb ? 0 : Ratio(100),
+        left: isFactorMobile || isPlatformMacos || isPlatformWeb || isFactorWatch ? 0 : Ratio(100),
     },
     wrapper: {
         top: Ratio(20),

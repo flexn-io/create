@@ -167,53 +167,6 @@
                         "tag": "application",
                         "android:name": ".MainApplication",
                         "android:usesCleartextTraffic": true,
-                        "tools:targetApi": 28,
-                        "children": [
-                            {
-                                "tag": "activity",
-                                "android:name": ".MainActivity",
-                                "android:exported": true
-                            },
-                            {
-                                "tag": "activity",
-                                "android:name": ".SplashActivity",
-                                "android:exported": true
-                            }
-                        ]
-                    }
-                ]
-            },
-            "mainActivity": {
-                "onCreate": "super.onCreate(null)"
-            }
-        },
-        "androidtv": {
-            "engine": "engine-rn-tvos",
-            "minSdkVersion": 26,
-            "targetSdkVersion": 34,
-            "compileSdkVersion": 34,
-            "buildToolsVersion": "34.0.0",
-            "gradleBuildToolsVersion": "4.2.2",
-            "gradleWrapperVersion": "8.3",
-            "kotlinVersion": "1.8.0",
-            "reactNativeEngine": "hermes",
-            "enableAndroidX": true,
-            "gradle.properties": {
-                "android.useDeprecatedNdk": true,
-                "android.enableJetifier": true,
-                "android.useAndroidX": true,
-                "android.debug.obsoleteApi": true,
-                "org.gradle.jvmargs": "-Xmx3g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8",
-                "org.gradle.daemon": true,
-                "org.gradle.parallel": true,
-                "org.gradle.configureondemand": true
-            },
-            "AndroidManifest": {
-                "children": [
-                    {
-                        "tag": "application",
-                        "android:name": ".MainApplication",
-                        "android:usesCleartextTraffic": true,
                         "tools:targetApi": 30,
                         "children": [
                             {
@@ -234,40 +187,20 @@
                 "onCreate": "super.onCreate(null)"
             }
         },
+        "androidwear": {
+            "extendPlatform": "android"
+        },
+        "androidtv": {
+            "extendPlatform": "android",
+            "engine": "engine-rn-tvos"
+        },
         "firetv": {
+            "extendPlatform": "android",
             "engine": "engine-rn-tvos",
-            "minSdkVersion": 26,
-            "targetSdkVersion": 34,
-            "compileSdkVersion": 34,
-            "buildToolsVersion": "34.0.0",
-            "gradleBuildToolsVersion": "4.2.2",
-            "gradleWrapperVersion": "8.3",
-            "kotlinVersion": "1.8.0",
-            "reactNativeEngine": "hermes",
-            "enableAndroidX": true,
-            "gradle.properties": {
-                "android.useDeprecatedNdk": true,
-                "android.enableJetifier": true,
-                "android.useAndroidX": true,
-                "android.debug.obsoleteApi": true,
-                "org.gradle.jvmargs": "-Xmx3g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8",
-                "org.gradle.daemon": true,
-                "org.gradle.parallel": true,
-                "org.gradle.configureondemand": true
-            },
-            "AndroidManifest": {
-                "children": [
-                    {
-                        "tag": "application",
-                        "android:name": ".MainApplication",
-                        "android:usesCleartextTraffic": true,
-                        "tools:targetApi": 30
-                    }
-                ]
-            },
-            "mainActivity": {
-                "onCreate": "super.onCreate(null)"
-            }
+            "minSdkVersion": 21,
+            "includedPermissions": [
+                "INTERNET"
+            ]
         },
         "ios": {
             "engine": "engine-rn",
