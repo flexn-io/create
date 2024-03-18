@@ -78,7 +78,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                     forbiddenFocusDirections: ['up'],
                 }}
             >
-                <Icon name="md-home" size={theme.static.iconSize} color={theme.static.colorBrand} />
+                <Icon name="home" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <AnimatedText
                     style={[
                         theme.styles.buttonText,
@@ -93,7 +93,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                 </AnimatedText>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigate(ROUTES.CAROUSELS)} style={theme.styles.menuButton}>
-                <Icon name="md-rocket" size={theme.static.iconSize} color={theme.static.colorBrand} />
+                <Icon name="rocket" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <AnimatedText
                     style={[
                         theme.styles.buttonText,
@@ -114,7 +114,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                     forbiddenFocusDirections: ['down'],
                 }}
             >
-                <Icon name="ios-albums" size={theme.static.iconSize} color={theme.static.colorBrand} />
+                <Icon name="albums" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <AnimatedText
                     style={[
                         theme.styles.buttonText,

@@ -220,7 +220,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
         burgerMenuBtn: {
             flex: 1,
             display: 'none',
-            textAlign: 'end',
+            textAlign: 'right',
             right: 10,
             '@media (max-width: 768px)': {
                 display: 'flex !important;',

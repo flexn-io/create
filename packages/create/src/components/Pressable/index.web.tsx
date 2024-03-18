@@ -92,8 +92,10 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                     focus,
                     focusRepeatContext,
                     focusContext: parent,
-                    verticalContentContainerGap: typeof gapVertical === 'string' ? 0 : gapVertical,
-                    horizontalContentContainerGap: typeof gapHorizontal === 'string' ? 0 : gapHorizontal,
+                    verticalContentContainerGap:
+                        typeof gapVertical === 'string' ? 0 : (gapVertical as number | undefined),
+                    horizontalContentContainerGap:
+                        typeof gapHorizontal === 'string' ? 0 : (gapHorizontal as number | undefined),
                     ...focusOptions,
                     onFocus: onComponentFocus,
                     onBlur: onComponentBlur,

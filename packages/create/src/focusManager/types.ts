@@ -8,8 +8,9 @@ import type {
     ScrollView,
     ColorValue,
     View as RNView,
+    MouseEvent,
 } from 'react-native';
-import type { MouseEvent, PointerEvent } from 'react';
+import type { PointerEvent } from 'react';
 import type { FlashListProps as FLProps, ListRenderItemInfo } from '@flexn/shopify-flash-list';
 
 import FocusModel from './model/abstractFocusModel';
@@ -171,8 +172,8 @@ export interface PressableProps extends RNPressableProps, MouseEvents {
     onFocus?: () => void;
     className?: string;
     style?: ViewProps['style'];
-    onHoverIn?: (e: PointerEvent) => void;
-    onHoverOut?: (e: PointerEvent) => void;
+    onHoverIn?: (e: MouseEvent) => void;
+    onHoverOut?: (e: MouseEvent) => void;
 }
 
 export interface TouchableOpacityProps extends RNTouchableOpacityProps {

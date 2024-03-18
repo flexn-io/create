@@ -27,7 +27,7 @@ if (typeof global.performance.now !== 'function') {
 }
 
 export const renderApp = (App: FC<any>, options?: { enableWarnings: boolean }) => {
-    AppRegistry.registerComponent('App', () => App);
+    AppRegistry.registerComponent('RNVApp', () => App);
     if (options?.enableWarnings) {
         LogBox.ignoreAllLogs(); // Ignore all log notifications
     }

@@ -12,3 +12,4 @@ tsconfig.tsbuildinfo
 
 !**/overrides/**/lib
 !**/overrides/**/build
+.rnv

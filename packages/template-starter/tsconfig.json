@@ -1,8 +1,19 @@
 {
-    "extends": "@flexn/typescript-config/tsconfig.app.json",
-    "compilerOptions": {
-        "outDir": "./lib",
-        "rootDir": "."
-    },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "extends": "@flexn/typescript-config/tsconfig.app.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": ".",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "platformBuilds/template_web/output/types/**/*.ts"
+  ]
 }

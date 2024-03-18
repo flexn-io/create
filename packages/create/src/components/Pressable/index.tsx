@@ -78,8 +78,10 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                     focus,
                     focusRepeatContext,
                     focusContext: parent,
-                    verticalContentContainerGap: typeof gapVertical === 'string' ? 0 : gapVertical,
-                    horizontalContentContainerGap: typeof gapHorizontal === 'string' ? 0 : gapHorizontal,
+                    verticalContentContainerGap:
+                        typeof gapVertical === 'string' ? 0 : (gapVertical as number | undefined),
+                    horizontalContentContainerGap:
+                        typeof gapHorizontal === 'string' ? 0 : (gapHorizontal as number | undefined),
                     ...focusOptions,
                 });
             }
@@ -89,9 +91,13 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
 
         const { onLayout } = useOnLayout(model);
 
-        const { onLayout: onLayoutNonPressable } = useOnLayout(model, () => {
-            model?.remeasureChildrenLayouts?.(model);
-        }, props.onLayout);
+        const { onLayout: onLayoutNonPressable } = useOnLayout(
+            model,
+            () => {
+                model?.remeasureChildrenLayouts?.(model);
+            },
+            props.onLayout
+        );
 
         // We must re-assign repeat context as View instances are re-used in recycled
         if (focusRepeatContext && typeof model.setRepeatContext === 'function') {
@@ -144,7 +150,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         }, []);
 
         useEffect(() => {
-            if (model && model.getType() === "view") {
+            if (model && model.getType() === 'view') {
                 model?.updateEvents?.({
                     onPress,
                     onFocus,
@@ -189,7 +195,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                         blur: {
                             borderWidth,
                             borderColor,
-                            borderRadius,
+                            borderRadius: borderRadius as number | undefined,
                             backgroundColor,
                         },
                     }}

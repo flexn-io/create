@@ -17,7 +17,7 @@ import ScreenDetails from '../screens/details';
 import ScreenModal from '../screens/modal';
 import Menu from '../components/menu';
 import { ROUTES } from '../config';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+// import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const { height } = Dimensions.get('window');
 
@@ -84,14 +84,14 @@ const SideNavigator = () => (
 );
 
 const App = () => (
-    <SafeAreaProvider>
-        <NavigationContainer>
-            <RootStack.Navigator screenOptions={{ headerShown: false }}>
-                <RootStack.Screen name="stack" component={SideNavigator} />
-                <RootStack.Screen name={ROUTES.MODAL} component={ScreenModal} />
-            </RootStack.Navigator>
-        </NavigationContainer>
-    </SafeAreaProvider>
+    // <SafeAreaProvider>
+    <NavigationContainer>
+        <RootStack.Navigator screenOptions={{ headerShown: false }}>
+            <RootStack.Screen name="stack" component={SideNavigator} />
+            <RootStack.Screen name={ROUTES.MODAL} component={ScreenModal} />
+        </RootStack.Navigator>
+    </NavigationContainer>
+    // </SafeAreaProvider>
 );
 
 const styles = StyleSheet.create({
