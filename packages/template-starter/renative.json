@@ -40,10 +40,18 @@
             "androidwear",
             "tizen",
             "webos"
-        ]
+        ],
+        "defaultCommandSchemes": {
+            "run": "debug",
+            "build": "release",
+            "export": "release"
+        },
+        "targets": {}
     },
-    "isMonorepo": true,
-    "isTemplate": true,
+    "templateConfig": {
+        "name": "@flexn/create-template-starter",
+        "version": "1.3.0-alpha.2"
+    },
     "plugins": {
         "@flexn/create": {
             "source": "flexn",

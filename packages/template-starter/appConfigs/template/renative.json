@@ -1,6 +1,9 @@
 {
     "id": "template",
+    "extend": "base",
     "skipBootstrapCopy": true,
+    "isMonorepo": true,
+    "isTemplate": true,
     "common": {
         "id": "io.flexn.template",
         "title": "Flexn Template",
@@ -26,7 +29,12 @@
         "ignoreWarnings": true,
         "ignoreLogs": true,
         "enableSourceMaps": true,
-        "firebaseGroups": "RS"
+        "firebaseGroups": "RS",
+        "runtime": {
+            "welcomeMessage": "Flexn!",
+            "appVersion": "{{files.project.package.version}}",
+            "timestamp": "{{runtimeProps.timestamp}}"
+        }
     },
     "platforms": {
         "android": {

@@ -32,9 +32,6 @@
             }
         },
         "backgroundColor": "#111111",
-        "runtime": {
-            "welcomeMessage": "Flexn!"
-        },
         "fontSources": [
             "{{resolvePackage(react-native-vector-icons)}}/Fonts",
             "{{resolvePackage(@flexn/fonts)}}/fonts"
@@ -591,9 +588,5 @@
                 ]
             }
         }
-    },
-    "runtime": {
-        "appVersion": "{{files.project.package.version}}",
-        "timestamp": "{{runtimeProps.timestamp}}"
     }
 }

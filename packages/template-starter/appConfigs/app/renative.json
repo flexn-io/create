@@ -5,7 +5,12 @@
         "id": "myapp.example.com",
         "title": "My App",
         "description": "My App",
-        "buildSchemes": {}
+        "buildSchemes": {},
+        "runtime": {
+            "welcomeMessage": "Flexn!",
+            "appVersion": "{{files.project.package.version}}",
+            "timestamp": "{{runtimeProps.timestamp}}"
+        }
     },
     "platforms": {}
 }
