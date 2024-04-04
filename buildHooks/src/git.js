@@ -1,5 +1,5 @@
 import path from 'path';
-import { FileUtils, Logger } from 'rnv';
+import { FileUtils, Logger } from '@rnv/core';
 import simpleGit from 'simple-git';
 
 const { readObjectSync } = FileUtils;
