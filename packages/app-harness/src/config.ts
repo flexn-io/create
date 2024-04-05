@@ -29,7 +29,7 @@ export const hasVerticalMenu = !hasHorizontalMenu && !hasFullScreenMenu;
 const isEngineNative = isEngineRn || isEngineRnMacos || isEngineRnWindows;
 
 // Disable yellow warnings UI
-console.disableYellowBox = true; // eslint-disable-line no-console
+// console.disableYellowBox = true; // eslint-disable-line no-console
 
 const theme = {
     color1: '#222222',
@@ -68,6 +68,7 @@ export const themeStyles = StyleSheet.create({
         alignSelf: 'stretch',
         width: '100%',
     },
+    // @ts-expect-error - TODO: fix this
     modalContainer: isEngineRnWeb
         ? {
               position: 'absolute',

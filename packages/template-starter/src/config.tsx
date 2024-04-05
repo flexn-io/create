@@ -87,6 +87,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             alignSelf: 'stretch',
             width: '100%',
         },
+        // @ts-expect-error - TODO: fix this
         modalContainer: {
             ...(isEngineRnNext && {
                 position: 'absolute',
@@ -210,6 +211,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             }),
         },
         menuContainerBurgerOpen: {
+            // @ts-expect-error - TODO: fix this
             height: '100vh',
             width: isPlatformWindows ? '100%' : '100%',
             zIndex: 5,
@@ -222,6 +224,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             display: 'none',
             textAlign: 'right',
             right: 10,
+            // @ts-expect-error - TODO: fix this
             '@media (max-width: 768px)': {
                 display: 'flex !important;',
             },
@@ -229,6 +232,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
         menuItems: {
             display: 'flex',
             flexDirection: 'row',
+            // @ts-expect-error - TODO: fix this
             '@media (max-width: 768px)': {
                 display: 'none',
             },

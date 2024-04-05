@@ -8,7 +8,7 @@ import ScreenHome from '../screens/home';
 import ScreenCarousels from '../screens/carousels';
 import ScreenDetails from '../screens/details';
 import ScreenModal from '../screens/modal';
-import Menu, { DrawerButton } from '../components/menu';
+import { DrawerButton } from '../components/menu';
 import { ROUTES, ThemeContext } from '../config';
 
 const ModalStack = createStackNavigator();

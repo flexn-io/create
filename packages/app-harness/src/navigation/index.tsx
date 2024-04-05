@@ -6,7 +6,7 @@ import Selector from '../screens/selector';
 import testsList, { Test } from '../testsList';
 
 export type RootStackParamList = {
-    List: { description: string; id: string } | undefined;
+    [key: string]: { description: string; id: string } | undefined;
 };
 
 export type NavigationProps = StackScreenProps<RootStackParamList>;

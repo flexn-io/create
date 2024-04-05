@@ -10,7 +10,6 @@ import type {
     View as RNView,
     MouseEvent,
 } from 'react-native';
-import type { PointerEvent } from 'react';
 import type { FlashListProps as FLProps, ListRenderItemInfo } from '@flexn/shopify-flash-list';
 
 import FocusModel from './model/abstractFocusModel';

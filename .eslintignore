@@ -13,3 +13,4 @@ packages/**/lib/**
 **/platformAssets/**
 **/platformBuilds/**
 packages/template-starter/appConfigs/base/assets/webos/public/webOSTVjs-1.1.1/**
+packages/template-starter/build/**
