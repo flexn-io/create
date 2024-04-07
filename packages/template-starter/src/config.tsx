@@ -17,6 +17,7 @@ import {
     isPlatformMacos,
     isEngineRnMacos,
     isEngineRnWindows,
+    isPlatformIos,
 } from '@rnv/renative';
 import '../platformAssets/runtime/fontManager';
 import { StaticTheme, Theme } from './types';
@@ -179,7 +180,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
         header: {
             backgroundColor: currentTheme.colorBgPrimary,
             borderBottomWidth: 1,
-            height: getScaledValue(70),
+            height: getScaledValue(isPlatformIos ? 120 : 70),
         },
         modalHeader: {
             width: '100%',
