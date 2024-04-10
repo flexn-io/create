@@ -117,6 +117,7 @@
         ]
     },
     "resolutions": {
+        "@babel/core": "7.24.4",
         "@types/react": "18.2.6",
         "tslib": "2.5.2"
     }

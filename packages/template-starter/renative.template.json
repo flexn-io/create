@@ -78,7 +78,9 @@
             },
             "resolutions": {
                 "@babel/traverse": "7.15.0",
-                "@types/react": "18.2.6"
+                "@types/react": "18.2.6",
+                "@babel/core": "7.24.4"
+                
             },
             "browserslist": [
                 "> 2%"
