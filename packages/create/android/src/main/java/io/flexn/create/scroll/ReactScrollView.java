@@ -5,11 +5,15 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.widget.ScrollView;
+
 import androidx.annotation.Nullable;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.uimanager.FabricViewStateManager;
+import com.facebook.react.uimanager.StateWrapper;
 import com.facebook.react.uimanager.PixelUtil;
+import com.facebook.react.uimanager.StateWrapper;
 import com.facebook.react.uimanager.common.UIManagerType;
 import com.facebook.react.uimanager.common.ViewUtil;
 import com.facebook.react.bridge.ReactContext;
@@ -32,7 +36,7 @@ public class ReactScrollView extends com.facebook.react.views.scroll.ReactScroll
 
   private static final int UNSET_CONTENT_OFFSET = -1;
 
-  private final FabricViewStateManager mFabricViewStateManager = new FabricViewStateManager();
+ private final FabricViewStateManager mFabricViewStateManager = new FabricViewStateManager();
 
   private int mScrollAwayPaddingTop = 0;
 
@@ -122,17 +126,15 @@ public class ReactScrollView extends com.facebook.react.views.scroll.ReactScroll
     final int scrollY = mLastStateUpdateScrollY;
     final int scrollAwayPaddingTop = mScrollAwayPaddingTop;
 
-    mFabricViewStateManager.setState(
-        new FabricViewStateManager.StateUpdateCallback() {
-          @Override
-          public WritableMap getStateUpdate() {
-            WritableMap map = new WritableNativeMap();
-            map.putDouble(CONTENT_OFFSET_LEFT, PixelUtil.toDIPFromPixel(scrollX));
-            map.putDouble(CONTENT_OFFSET_TOP, PixelUtil.toDIPFromPixel(scrollY));
-            map.putDouble(SCROLL_AWAY_PADDING_TOP, PixelUtil.toDIPFromPixel(scrollAwayPaddingTop));
-            return map;
-          }
-        });
+      StateWrapper stateWrapper = getStateWrapper();
+      if (stateWrapper != null) {
+          WritableMap newStateData = new WritableNativeMap();
+          newStateData.putDouble(CONTENT_OFFSET_LEFT, PixelUtil.toDIPFromPixel(scrollX));
+          newStateData.putDouble(CONTENT_OFFSET_TOP, PixelUtil.toDIPFromPixel(scrollY));
+          newStateData.putDouble(
+              SCROLL_AWAY_PADDING_TOP, PixelUtil.toDIPFromPixel(scrollAwayPaddingTop));
+          stateWrapper.updateState(newStateData);
+      }
   }
 
   private boolean updateStateOnScroll() {

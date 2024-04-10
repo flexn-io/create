@@ -1,6 +1,16 @@
-import React, { ForwardedRef, useEffect, useRef, useState, LegacyRef } from 'react';
-import { View as RNView, Platform } from 'react-native';
-import { FlashList as FlashListComp, ListRenderItemInfo, CellContainer } from '@flexn/shopify-flash-list';
+import React, {
+    ForwardedRef,
+    useEffect,
+    useRef,
+    useState,
+    LegacyRef,
+} from 'react';
+import { View as RNView, Platform, Dimensions, PixelRatio } from 'react-native';
+import {
+    FlashList as FlashListComp,
+    ListRenderItemInfo,
+    CellContainer,
+} from '@flexn/shopify-flash-list';
 import BaseScrollComponent from '@flexn/recyclerlistview/dist/reactnative/core/scrollcomponent/BaseScrollComponent';
 import Grid from '../../focusManager/model/grid';
 import Row from '../../focusManager/model/row';
@@ -10,208 +20,256 @@ import useOnRefChange from '../../hooks/useOnRefChange';
 import { useCombinedRefs } from '../../hooks/useCombinedRef';
 import useFocusAwareComponentRegister from '../../hooks/useOnComponentLifeCycle';
 import Event, { EVENT_TYPES } from '../../focusManager/events';
-import { Ratio } from '../../helpers';
 import View from '../../focusManager/model/view';
 import { CoreManager } from '../..';
 
-const FlashList = React.forwardRef((props: FlashListProps<any>, ref: LegacyRef<FlashListComp<any>>) => {
-    if (!CoreManager.isFocusManagerEnabled()) {
-        return <FlashListComp {...props} ref={ref} />;
-    }
+function Ratio(pixels: number): number {
+    if (!CoreManager.isTV()) return pixels;
+    if (Platform.OS !== 'android') return pixels;
+    const resolution = Dimensions.get('screen').height * PixelRatio.get();
 
-    const {
-        style,
-        scrollViewProps,
-        focusContext,
-        horizontal = true,
-        renderItem,
-        focusOptions = {},
-        type,
-        initialRenderIndex,
-        data,
-        estimatedItemSize,
-        onFocus = () => {
-            return null;
-        },
-        onBlur = () => {
-            return null;
-        },
-        ...restProps
-    } = props;
+    return Math.round(pixels / (resolution < 2160 ? 2 : 1));
+}
 
-    const [measured, setMeasured] = useState(false);
-
-    const scrollViewRef = useRef<BaseScrollComponent | null>();
-
-    // `any` is the type of data. Since we don't know data type here we're using any
-    const rlvRef = useRef<FlashListComp<any> | null>(null);
-
-    const [model] = useState<Grid | Row>(() => {
-        const params = {
-            horizontal,
-            focusContext,
-            initialRenderIndex,
-            onFocus,
-            onBlur,
-            ...focusOptions,
-        };
-
-        if (type === 'grid') {
-            return new Grid(params);
-        } else {
-            return new Row(params);
+const FlashList = React.forwardRef(
+    (props: FlashListProps<any>, ref: LegacyRef<FlashListComp<any>>) => {
+        if (!CoreManager.isFocusManagerEnabled()) {
+            return <FlashListComp {...props} ref={ref} />;
         }
-    });
 
-    useFocusAwareComponentRegister({ model, measured });
+        const {
+            style,
+            scrollViewProps,
+            focusContext,
+            horizontal = true,
+            renderItem,
+            focusOptions = {},
+            type,
+            initialRenderIndex,
+            data,
+            estimatedItemSize,
+            onFocus = () => {
+                return null;
+            },
+            onBlur = () => {
+                return null;
+            },
+            onScroll,
+            ...restProps
+        } = props;
 
-    const { onRefChange } = useOnRefChange(model);
+        const [measured, setMeasured] = useState(false);
 
-    const { onLayout } = useOnLayout(model);
+        const scrollViewRef = useRef<BaseScrollComponent | null>();
 
-    useEffect(() => {
-        model?.updateEvents?.({
-            onFocus,
-            onBlur,
-        });
-    }, [onFocus, onBlur]);
+        // `any` is the type of data. Since we don't know data type here we're using any
+        const rlvRef = useRef<FlashListComp<any> | null>(null);
 
-    useEffect(() => {
-        const unsubscribe = Event.subscribe(
-            model.getType(),
-            model.getId(),
-            EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED,
-            () => {
-                setMeasured(true);
+        const [model] = useState<Grid | Row>(() => {
+            const params = {
+                horizontal,
+                focusContext,
+                initialRenderIndex,
+                onFocus,
+                onBlur,
+                ...focusOptions,
+            };
+
+            if (type === 'grid') {
+                return new Grid(params);
+            } else {
+                return new Row(params);
             }
-        );
+        });
 
-        return () => unsubscribe();
-    }, []);
+        useFocusAwareComponentRegister({ model, measured });
 
-    const rowRendererWithProps = ({ item, index, target }: ListRenderItemInfo<any>) => {
-        const lm = rlvRef.current?.state?.layoutProvider.getLayoutManager();
-        const layouts: { x: number; y: number; width: number; height: number }[] | undefined = lm?.getLayouts();
+        const { onRefChange } = useOnRefChange(model);
 
-        model.updateLayouts(layouts);
+        const { onLayout } = useOnLayout(model);
 
-        return renderItem?.({
+        useEffect(() => {
+            model?.updateEvents?.({
+                onFocus,
+                onBlur,
+            });
+        }, [onFocus, onBlur]);
+
+        useEffect(() => {
+            const unsubscribe = Event.subscribe(
+                model.getType(),
+                model.getId(),
+                EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED,
+                () => {
+                    setMeasured(true);
+                }
+            );
+
+            return () => unsubscribe();
+        }, []);
+
+        const rowRendererWithProps = ({
             item,
             index,
             target,
-            focusRepeatContext: { focusContext: model, index },
-        });
-    };
+        }: ListRenderItemInfo<any>) => {
+            const lm = rlvRef.current?.state?.layoutProvider.getLayoutManager();
+            const layouts:
+                | { x: number; y: number; width: number; height: number }[]
+                | undefined = lm?.getLayouts();
 
-    const ItemContainer = React.forwardRef((props: CellContainerProps, ref: ForwardedRef<any>) => {
-        const target = useCombinedRefs<RNView>({ refs: [ref], model: null });
+            model.updateLayouts(layouts);
 
-        useEffect(() => {
-            const eventFocus = Event.subscribe(
-                model.getType(),
-                model.getId(),
-                EVENT_TYPES.ON_CELL_CONTAINER_FOCUS,
-                (index) => {
-                    if (index === props.index) {
-                        target.current?.setNativeProps({ zIndex: 1 });
-                    }
-                }
-            );
-            const eventBlur = Event.subscribe(
-                model.getType(),
-                model.getId(),
-                EVENT_TYPES.ON_CELL_CONTAINER_BLUR,
-                (index) => {
-                    if (index === props.index) {
-                        target.current?.setNativeProps({ zIndex: 0 });
-                    }
-                }
-            );
+            return renderItem?.({
+                item,
+                index,
+                target,
+                focusRepeatContext: { focusContext: model, index },
+            });
+        };
 
-            return () => {
-                eventFocus();
-                eventBlur();
-            };
-        }, [props.index]);
+        const ItemContainer = React.forwardRef(
+            (props: CellContainerProps, ref: ForwardedRef<any>) => {
+                const target = useCombinedRefs<RNView>({
+                    refs: [ref],
+                    model: null,
+                });
 
-        return <CellContainer ref={target} {...props} />;
-    });
+                useEffect(() => {
+                    const eventFocus = Event.subscribe(
+                        model.getType(),
+                        model.getId(),
+                        EVENT_TYPES.ON_CELL_CONTAINER_FOCUS,
+                        (index) => {
+                            if (index === props.index) {
+                                target.current?.setNativeProps({ zIndex: 1 });
+                            }
+                        }
+                    );
+                    const eventBlur = Event.subscribe(
+                        model.getType(),
+                        model.getId(),
+                        EVENT_TYPES.ON_CELL_CONTAINER_BLUR,
+                        (index) => {
+                            if (index === props.index) {
+                                target.current?.setNativeProps({ zIndex: 0 });
+                            }
+                        }
+                    );
 
-    return (
-        <RNView ref={onRefChange} onLayout={onLayout} style={style}>
-            {measured && (
-                <FlashListComp
-                    ref={(ref) => {
-                        if (ref) {
-                            rlvRef.current = ref;
-                            if (ref.recyclerlistview_unsafe) {
-                                ref.recyclerlistview_unsafe.setScrollComponent(
-                                    scrollViewRef.current as BaseScrollComponent
+                    return () => {
+                        eventFocus();
+                        eventBlur();
+                    };
+                }, [props.index]);
+
+                return <CellContainer ref={target} {...props} />;
+            }
+        );
+
+        return (
+            <RNView ref={onRefChange} onLayout={onLayout} style={style}>
+                {measured && (
+                    <FlashListComp
+                        ref={(ref) => {
+                            if (ref) {
+                                rlvRef.current = ref;
+                                if (ref.recyclerlistview_unsafe) {
+                                    ref.recyclerlistview_unsafe.setScrollComponent(
+                                        scrollViewRef.current as BaseScrollComponent
+                                    );
+                                }
+                            }
+                        }}
+                        data={data}
+                        renderItem={rowRendererWithProps}
+                        horizontal={horizontal}
+                        estimatedItemSize={
+                            estimatedItemSize
+                                ? Math.round(estimatedItemSize)
+                                : undefined
+                        }
+                        {...restProps}
+                        contentContainerStyle={{
+                            ...restProps.contentContainerStyle,
+                            // TODO: Needs to be calculated
+                            ...(focusOptions.autoLayoutScaleAnimation && {
+                                paddingHorizontal: Ratio(
+                                    focusOptions.autoLayoutSize || 0
+                                ),
+                                paddingVertical: Ratio(
+                                    focusOptions.autoLayoutSize || 0
+                                ),
+                            }),
+                        }}
+                        onItemLayout={(index) => {
+                            // Initial layout can change we need to ensure that every change is instantly remeasured
+                            const children = model
+                                .getChildren()
+                                .find(
+                                    (ch) =>
+                                        ch instanceof View &&
+                                        ch.getRepeatContext()?.index === index
                                 );
+
+                            if (children) {
+                                model.remeasureSelfAndChildrenLayouts(children);
                             }
+                        }}
+                        CellRendererComponent={
+                            Platform.OS === 'web' ? undefined : ItemContainer
                         }
-                    }}
-                    data={data}
-                    renderItem={rowRendererWithProps}
-                    horizontal={horizontal}
-                    estimatedItemSize={estimatedItemSize ? Math.round(estimatedItemSize) : undefined}
-                    {...restProps}
-                    contentContainerStyle={{
-                        ...restProps.contentContainerStyle,
-                        // TODO: Needs to be calculated
-                        ...(focusOptions.autoLayoutScaleAnimation && {
-                            paddingHorizontal: Ratio(focusOptions.autoLayoutSize || 0),
-                            paddingVertical: Ratio(focusOptions.autoLayoutSize || 0),
-                        }),
-                    }}
-                    onItemLayout={(index) => {
-                        // Initial layout can change we need to ensure that every change is instantly remeasured
-                        const children = model
-                            .getChildren()
-                            .find((ch) => ch instanceof View && ch.getRepeatContext()?.index === index);
+                        overrideProps={{
+                            ...scrollViewProps,
+                            ref: (ref: BaseScrollComponent) => {
+                                scrollViewRef.current = ref;
+                                setTimeout(() => {
+                                    if (model.getNode()?.current) {
+                                        model.getNode().current.scrollTo = (
+                                            props
+                                        ) => {
+                                            // @ts-expect-error mystery which needs to be resolved from recyclerlistview perspective
+                                            scrollViewRef.current?._scrollViewRef?.scrollTo(
+                                                props
+                                            );
+                                        };
+                                    }
+                                }, 1);
+                            },
+                            scrollEnabled: false,
+                            scrollEventThrottle: 1,
+                        }}
+                        onScroll={(event) => {
+                            const { height } = event.nativeEvent.contentSize;
+                            const { height: scrollContentHeight } =
+                                event.nativeEvent.layoutMeasurement;
+                            const { y, x } = event.nativeEvent.contentOffset;
+                            const endY = scrollContentHeight + y >= height;
 
-                        if (children) {
-                            model.remeasureSelfAndChildrenLayouts(children);
-                        }
-                    }}
-                    CellRendererComponent={Platform.OS === 'web' ? undefined : ItemContainer}
-                    overrideProps={{
-                        ...scrollViewProps,
-                        ref: (ref: BaseScrollComponent) => {
-                            scrollViewRef.current = ref;
-
-                            if (model.getNode()?.current) {
-                                //@ts-expect-error mystery which needs to be resolved from recyclerlistview perspective
-                                model.getNode().current.scrollTo = ref?._scrollViewRef?.scrollTo;
+                            if (model.getScrollTargetY() === y || endY) {
+                                model.setIsScrollingVertically(false);
+                            } else {
+                                model.setIsScrollingVertically(true);
                             }
-                        },
-                        scrollEnabled: false,
-                        scrollEventThrottle: 320,
-                    }}
-                    onScroll={(event) => {
-                        const { height } = event.nativeEvent.contentSize;
-                        const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
-                        const { y, x } = event.nativeEvent.contentOffset;
-                        const endY = scrollContentHeight + y >= height;
 
-                        if (model.getScrollTargetY() === y || endY) {
-                            model.setIsScrollingVertically(false);
-                        } else {
-                            model.setIsScrollingVertically(true);
-                        }
+                            model
+                                .setScrollOffsetY(y)
+                                .setScrollOffsetX(x)
+                                .updateLayoutProperty('yMaxScroll', height)
+                                .updateLayoutProperty(
+                                    'scrollContentHeight',
+                                    scrollContentHeight
+                                );
 
-                        model
-                            .setScrollOffsetY(y)
-                            .setScrollOffsetX(x)
-                            .updateLayoutProperty('yMaxScroll', height)
-                            .updateLayoutProperty('scrollContentHeight', scrollContentHeight);
+                            model.recalculateChildrenAbsoluteLayouts(model);
 
-                        model.recalculateChildrenAbsoluteLayouts(model);
-                    }}
-                />
-            )}
-        </RNView>
-    );
-});
+                            onScroll?.(event);
+                        }}
+                    />
+                )}
+            </RNView>
+        );
+    }
+);
 
 export default FlashList;

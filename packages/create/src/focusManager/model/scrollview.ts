@@ -18,7 +18,16 @@ class ScrollView extends FocusModel {
     constructor(
         params: Omit<
             ScrollViewProps & ScrollViewProps['focusOptions'],
-            'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
+            | 'style'
+            | 'scrollViewProps'
+            | 'renderItem'
+            | 'type'
+            | 'data'
+            | 'focusOptions'
+            | 'nextFocusDown'
+            | 'nextFocusLeft'
+            | 'nextFocusUp'
+            | 'nextFocusRight'
         >
     ) {
         super(params);
@@ -40,9 +49,24 @@ class ScrollView extends FocusModel {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT, this._onMount),
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_MOUNT,
+                this._onMount
+            ),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_UNMOUNT,
+                this._onUnmount
+            ),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_LAYOUT,
+                this._onLayout
+            ),
         ];
     }
 

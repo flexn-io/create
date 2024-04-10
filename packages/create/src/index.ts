@@ -1,10 +1,10 @@
-import { NativeSyntheticEvent } from 'react-native';
+import type { NativeSyntheticEvent } from 'react-native';
 
 // Functions
 import CoreManager from './focusManager/service/core';
 
-export * from './rootRenderer';
 export * from './tvMenuControl';
+export * from './rootRenderer';
 
 export { CoreManager };
 
@@ -44,7 +44,7 @@ export { default as FlashList } from './components/FlashList';
 export { default as StyleSheet } from './apis/StyleSheet';
 export { default as Animated } from './apis/Animated';
 export { default as Appearance } from './apis/Appearance';
-export {
+export type {
     ScreenProps,
     ViewProps,
     ViewGroupProps,
@@ -72,13 +72,11 @@ export { ANIMATION_TYPES } from './focusManager/model/view';
 
 // Hooks & Hocs
 export { withParentContextMapper } from './hocs/withParentContextMapper';
-export {
-    useTVRemoteHandler,
-    TVRemoteHandler,
+export { useTVRemoteHandler, TVRemoteHandler } from './remoteHandler';
+export type {
     RemoteHandlerCallback,
     ClassRemoteHandlerCallback,
 } from './remoteHandler';
-
 // Type declarations
 import 'react-native';
 declare module 'react-native' {
@@ -204,7 +202,10 @@ declare module '@flexn/create' {
             interpolate(config: InterpolationConfigType): AnimatedInterpolation;
         }
 
-        type ValueXYListenerCallback = (value: { x: number; y: number }) => void;
+        type ValueXYListenerCallback = (value: {
+            x: number;
+            y: number;
+        }) => void;
 
         /**
          * 2D Value for driving 2D animations, such as pan gestures.  Almost identical
@@ -215,7 +216,10 @@ declare module '@flexn/create' {
             x: AnimatedValue;
             y: AnimatedValue;
 
-            constructor(valueIn?: { x: number | AnimatedValue; y: number | AnimatedValue });
+            constructor(valueIn?: {
+                x: number | AnimatedValue;
+                y: number | AnimatedValue;
+            });
 
             setValue(value: { x: number; y: number }): void;
 
@@ -225,7 +229,9 @@ declare module '@flexn/create' {
 
             extractOffset(): void;
 
-            stopAnimation(callback?: (value: { x: number; y: number }) => void): void;
+            stopAnimation(
+                callback?: (value: { x: number; y: number }) => void
+            ): void;
 
             addListener(callback: ValueXYListenerCallback): string;
 
@@ -249,7 +255,10 @@ declare module '@flexn/create' {
              *  }}
              *```
              */
-            getTranslateTransform(): [{ translateX: AnimatedValue }, { translateY: AnimatedValue }];
+            getTranslateTransform(): [
+                { translateX: AnimatedValue },
+                { translateY: AnimatedValue }
+            ];
         }
 
         type EndResult = { finished: boolean };
@@ -291,7 +300,10 @@ declare module '@flexn/create' {
          * Animates a value from an initial velocity to zero based on a decay
          * coefficient.
          */
-        export function decay(value: AnimatedValue | AnimatedValueXY, config: DecayAnimationConfig): CompositeAnimation;
+        export function decay(
+            value: AnimatedValue | AnimatedValueXY,
+            config: DecayAnimationConfig
+        ): CompositeAnimation;
 
         interface DecayAnimationConfig extends AnimationConfig {
             velocity: number | { x: number; y: number };
@@ -308,14 +320,23 @@ declare module '@flexn/create' {
         ) => CompositeAnimation;
 
         interface TimingAnimationConfig extends AnimationConfig {
-            toValue: number | AnimatedValue | { x: number; y: number } | AnimatedValueXY | AnimatedInterpolation;
+            toValue:
+                | number
+                | AnimatedValue
+                | { x: number; y: number }
+                | AnimatedValueXY
+                | AnimatedInterpolation;
             easing?: ((value: number) => number) | undefined;
             duration?: number | undefined;
             delay?: number | undefined;
         }
 
         interface SpringAnimationConfig extends AnimationConfig {
-            toValue: number | AnimatedValue | { x: number; y: number } | AnimatedValueXY;
+            toValue:
+                | number
+                | AnimatedValue
+                | { x: number; y: number }
+                | AnimatedValueXY;
             overshootClamping?: boolean | undefined;
             restDisplacementThreshold?: number | undefined;
             restSpeedThreshold?: number | undefined;
@@ -366,7 +387,10 @@ declare module '@flexn/create' {
          * Creates a new Animated value composed from two Animated values multiplied
          * together.
          */
-        export function multiply(a: Animated, b: Animated): AnimatedMultiplication;
+        export function multiply(
+            a: Animated,
+            b: Animated
+        ): AnimatedMultiplication;
 
         class AnimatedMultiplication extends AnimatedInterpolation {}
 
@@ -387,7 +411,11 @@ declare module '@flexn/create' {
          * This is useful with scroll events, for example, to show the navbar when
          * scrolling up and to hide it when scrolling down.
          */
-        export function diffClamp(a: Animated, min: number, max: number): AnimatedDiffClamp;
+        export function diffClamp(
+            a: Animated,
+            min: number,
+            max: number
+        ): AnimatedDiffClamp;
 
         class AnimatedDiffClamp extends AnimatedInterpolation {}
 
@@ -401,14 +429,19 @@ declare module '@flexn/create' {
          * before starting the next.  If the current running animation is stopped, no
          * following animations will be started.
          */
-        export function sequence(animations: Array<CompositeAnimation>): CompositeAnimation;
+        export function sequence(
+            animations: Array<CompositeAnimation>
+        ): CompositeAnimation;
 
         /**
          * Array of animations may run in parallel (overlap), but are started in
          * sequence with successive delays.  Nice for doing trailing effects.
          */
 
-        export function stagger(time: number, animations: Array<CompositeAnimation>): CompositeAnimation;
+        export function stagger(
+            time: number,
+            animations: Array<CompositeAnimation>
+        ): CompositeAnimation;
 
         /**
          * Loops a given animation continuously, so that each time it reaches the end,
@@ -417,7 +450,10 @@ declare module '@flexn/create' {
          * the UI thread if the child animation is set to 'useNativeDriver'.
          */
 
-        export function loop(animation: CompositeAnimation, config?: LoopAnimationConfig): CompositeAnimation;
+        export function loop(
+            animation: CompositeAnimation,
+            config?: LoopAnimationConfig
+        ): CompositeAnimation;
 
         /**
          * Spring animation based on Rebound and Origami.  Tracks velocity state to
@@ -437,7 +473,10 @@ declare module '@flexn/create' {
          * of the animations is stopped, they will all be stopped.  You can override
          * this with the `stopTogether` flag.
          */
-        export function parallel(animations: Array<CompositeAnimation>, config?: ParallelConfig): CompositeAnimation;
+        export function parallel(
+            animations: Array<CompositeAnimation>,
+            config?: ParallelConfig
+        ): CompositeAnimation;
 
         type Mapping = { [key: string]: Mapping } | AnimatedValue;
         interface EventConfig<T> {
@@ -461,9 +500,16 @@ declare module '@flexn/create' {
          *  ]),
          *```
          */
-        export function event<T>(argMapping: Array<Mapping | null>, config?: EventConfig<T>): (...args: any[]) => void;
+        export function event<T>(
+            argMapping: Array<Mapping | null>,
+            config?: EventConfig<T>
+        ): (...args: any[]) => void;
 
-        export type ComponentProps<T> = T extends React.ComponentType<infer P> | React.Component<infer P> ? P : never;
+        export type ComponentProps<T> = T extends
+            | React.ComponentType<infer P>
+            | React.Component<infer P>
+            ? P
+            : never;
 
         export type LegacyRef<C> = { getNode(): C };
 
@@ -489,7 +535,9 @@ declare module '@flexn/create' {
 
         type NonAnimatedProps = 'key' | 'ref';
 
-        type TAugmentRef<T> = T extends React.Ref<infer R> ? React.Ref<R | LegacyRef<R>> : never;
+        type TAugmentRef<T> = T extends React.Ref<infer R>
+            ? React.Ref<R | LegacyRef<R>>
+            : never;
 
         export type AnimatedProps<T> = {
             [key in keyof T]: key extends NonAnimatedProps
@@ -510,7 +558,9 @@ declare module '@flexn/create' {
         /**
          * Make any React component Animatable.  Used to create `Animated.View`, etc.
          */
-        export function createAnimatedComponent<T extends React.ComponentType<any>>(
+        export function createAnimatedComponent<
+            T extends React.ComponentType<any>
+        >(
             component: T,
             options?: AnimatedComponentOptions
         ): AnimatedComponent<T>;

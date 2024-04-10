@@ -77,6 +77,12 @@ class TvRemoteHandler: RCTEventEmitter, UIGestureRecognizerDelegate {
         recognizerSelect.allowedPressTypes = [UIPress.PressType.select.rawValue as NSNumber]
         rootViewController?.view.addGestureRecognizer(recognizerSelect)
 
+        // TAP LONG SELECT
+        let recognizerLongSelect = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureAction))
+        recognizerLongSelect.minimumPressDuration = 0.2
+        recognizerLongSelect.allowedPressTypes = [UIPress.PressType.select.rawValue as NSNumber]
+        rootViewController?.view.addGestureRecognizer(recognizerLongSelect)
+
         // TAP MENU
          let recognizerMenu = UITapGestureRecognizer(target: self, action: #selector(tapGestureAction))
         recognizerMenu.delegate = self
@@ -126,16 +132,23 @@ class TvRemoteHandler: RCTEventEmitter, UIGestureRecognizerDelegate {
     }
         
     @objc func longPressGestureAction(gesture: UITapGestureRecognizer) {
-        let direction = gesturesMap[gesture.allowedPressTypes[0]]
+        var direction = gesturesMap[gesture.allowedPressTypes[0]]
         if gesture.state == .began {
             timer?.invalidate()
-            sendAppleTVEvent(eventType: direction!, eventKeyAction: "down", velocity: 0.0)
+            if (direction != "select") {
+                sendAppleTVEvent(eventType: direction!, eventKeyAction: "down", velocity: 0.0)
+            } else {
+                direction = "longSelect"
+            }
             timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { [weak self] timer in
                 guard let self = self else {
                     timer.invalidate()
                     return
                 }
-                self.sendAppleTVEvent(eventType: direction!, eventKeyAction: "longPress", velocity: 0.0)
+
+                let eventKeyAction = direction == "longSelect" ? "down" : "longPress"
+
+                self.sendAppleTVEvent(eventType: direction!, eventKeyAction: eventKeyAction, velocity: 0.0)
                 timer.invalidate()
             }
             

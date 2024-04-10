@@ -1,7 +1,14 @@
-import { Ratio } from '../helpers';
+import { Dimensions, PixelRatio, Platform } from 'react-native';
 import { DIRECTIONS } from './constants';
 import View from './model/view';
 import { ClosestNodeOutput, FocusDirection } from './types';
+
+function Ratio(pixels: number): number {
+    if (Platform.OS !== 'android') return pixels;
+    const resolution = Dimensions.get('screen').height * PixelRatio.get();
+
+    return Math.round(pixels / (resolution < 2160 ? 2 : 1));
+}
 
 const OVERLAP_THRESHOLD_PERCENTAGE = 20;
 const OVERLAP_NEXT_VALUE = 30;
@@ -42,7 +49,11 @@ const intersects = (
     return false;
 };
 
-const euclideanDistance = (current: View, next: View, direction: FocusDirection): number => {
+const euclideanDistance = (
+    current: View,
+    next: View,
+    direction: FocusDirection
+): number => {
     const currentLayout = current.getLayout().absolute;
     const nextLayout = next.getLayout().absolute;
 
@@ -86,13 +97,20 @@ const euclideanDistance = (current: View, next: View, direction: FocusDirection)
     );
 };
 
-const closestDist = (current: View, next: View, direction: FocusDirection): [string, number] => {
+const closestDist = (
+    current: View,
+    next: View,
+    direction: FocusDirection
+): [string, number] => {
     const currentLayout = current.getLayout().absolute;
     const nextLayout = next.getLayout().absolute;
 
     switch (direction) {
         case DIRECTIONS.UP: {
-            if (currentLayout.yMin >= nextLayout.yMax - nextOverlapValue(next.getLayout().height)) {
+            if (
+                currentLayout.yMin >=
+                nextLayout.yMax - nextOverlapValue(next.getLayout().height)
+            ) {
                 const isIntersects = intersects(
                     currentLayout.xCenter,
                     current.getLayout().width,
@@ -120,7 +138,11 @@ const closestDist = (current: View, next: View, direction: FocusDirection): [str
             break;
         }
         case DIRECTIONS.DOWN: {
-            if (currentLayout.yMin + nextOverlapValue(current.getLayout().height) <= nextLayout.yMin) {
+            if (
+                currentLayout.yMin +
+                    nextOverlapValue(current.getLayout().height) <=
+                nextLayout.yMin
+            ) {
                 const isIntersects = intersects(
                     currentLayout.xCenter,
                     current.getLayout().width,
@@ -147,7 +169,10 @@ const closestDist = (current: View, next: View, direction: FocusDirection): [str
             break;
         }
         case DIRECTIONS.LEFT: {
-            if (currentLayout.xMin >= nextLayout.xMax - nextOverlapValue(next.getLayout().width)) {
+            if (
+                currentLayout.xMin >=
+                nextLayout.xMax - nextOverlapValue(next.getLayout().width)
+            ) {
                 const isIntersects = intersects(
                     currentLayout.yCenter,
                     current.getLayout().height,
@@ -174,7 +199,10 @@ const closestDist = (current: View, next: View, direction: FocusDirection): [str
             break;
         }
         case DIRECTIONS.RIGHT: {
-            if (currentLayout.xMax <= nextLayout.xMin + nextOverlapValue(next.getLayout().width)) {
+            if (
+                currentLayout.xMax <=
+                nextLayout.xMin + nextOverlapValue(next.getLayout().width)
+            ) {
                 const isIntersects = intersects(
                     currentLayout.yCenter,
                     current.getLayout().height,
@@ -219,7 +247,10 @@ export const distCalc = (
     switch (priority) {
         case 'p1':
             {
-                if (dist !== undefined && currentClosestNodeOutput.match1 >= dist) {
+                if (
+                    dist !== undefined &&
+                    currentClosestNodeOutput.match1 >= dist
+                ) {
                     output.match1 = dist;
                     output.match1Model = next;
                 }
@@ -227,7 +258,10 @@ export const distCalc = (
             break;
         case 'p2':
             {
-                if (dist !== undefined && currentClosestNodeOutput.match2 >= dist) {
+                if (
+                    dist !== undefined &&
+                    currentClosestNodeOutput.match2 >= dist
+                ) {
                     output.match2 = dist;
                     output.match2Model = next;
                 }

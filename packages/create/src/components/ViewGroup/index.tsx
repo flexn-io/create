@@ -50,7 +50,12 @@ const ViewGroup = React.forwardRef<View, ViewGroupProps>(
         });
 
         return (
-            <View style={style} {...props} ref={onRefChange} onLayout={onLayout}>
+            <View
+                style={style}
+                {...props}
+                ref={onRefChange}
+                onLayout={onLayout}
+            >
                 {childrenWithProps}
             </View>
         );

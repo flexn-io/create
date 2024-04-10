@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View as RNView, StyleSheet, Insets, Platform, Pressable } from 'react-native';
+import {
+    View as RNView,
+    StyleSheet,
+    Insets,
+    Platform,
+    Pressable,
+} from 'react-native';
 import type { PressableProps } from '../../focusManager/types';
 import { measureSync } from '../../focusManager/layoutManager';
 import TvFocusableViewManager from '../../focusableView';
@@ -21,6 +27,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
             focusContext,
             focusRepeatContext,
             onPress,
+            onLongPress,
             onFocus,
             onBlur,
             hitSlop,
@@ -79,15 +86,18 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                     focusRepeatContext,
                     focusContext: parent,
                     verticalContentContainerGap:
-                        typeof gapVertical === 'string' ? 0 : (gapVertical as number | undefined),
+                        (typeof gapVertical === 'string' ? 0 : gapVertical || 0) as number,
                     horizontalContentContainerGap:
-                        typeof gapHorizontal === 'string' ? 0 : (gapHorizontal as number | undefined),
+                        (typeof gapHorizontal === 'string' ? 0 : gapHorizontal) as number,
                     ...focusOptions,
                 });
             }
         });
 
-        const ref = useCombinedRefs<RNView>({ refs: [refOuter, refInner], model: focus ? model : null });
+        const ref = useCombinedRefs<RNView>({
+            refs: [refOuter, refInner],
+            model: focus ? model : null,
+        });
 
         const { onLayout } = useOnLayout(model);
 
@@ -100,7 +110,10 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         );
 
         // We must re-assign repeat context as View instances are re-used in recycled
-        if (focusRepeatContext && typeof model.setRepeatContext === 'function') {
+        if (
+            focusRepeatContext &&
+            typeof model.setRepeatContext === 'function'
+        ) {
             model.setRepeatContext(focusRepeatContext);
         }
 
@@ -111,20 +124,29 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                     focus: true,
                     focusRepeatContext,
                     focusContext: parent,
-                    forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
+                    forbiddenFocusDirections:
+                        focusOptions.forbiddenFocusDirections,
                 });
 
                 setModel(model);
 
-                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_MOUNT);
+                Event.emit(
+                    model.getType(),
+                    model.getId(),
+                    EVENT_TYPES.ON_MOUNT
+                );
             }
         }, [focus]);
 
         useEffect(() => {
-            if (focusOptions.nextFocusDown) model.setNextFocusDown(focusOptions.nextFocusDown);
-            if (focusOptions.nextFocusUp) model.setNextFocusUp(focusOptions.nextFocusUp);
-            if (focusOptions.nextFocusLeft) model.setNextFocusLeft(focusOptions.nextFocusLeft);
-            if (focusOptions.nextFocusRight) model.setNextFocusRight(focusOptions.nextFocusRight);
+            if (focusOptions.nextFocusDown)
+                model.setNextFocusDown(focusOptions.nextFocusDown);
+            if (focusOptions.nextFocusUp)
+                model.setNextFocusUp(focusOptions.nextFocusUp);
+            if (focusOptions.nextFocusLeft)
+                model.setNextFocusLeft(focusOptions.nextFocusLeft);
+            if (focusOptions.nextFocusRight)
+                model.setNextFocusRight(focusOptions.nextFocusRight);
         }, [
             focusOptions.nextFocusDown,
             focusOptions.nextFocusUp,
@@ -138,13 +160,26 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
             }
         }, [focusOptions.focusKey]);
 
+        // useEffect(() => {
+        //     if (focus && focusOptions.hasPreferredFocus) {
+        //     }
+        // }, [focusOptions.hasPreferredFocus]);
+
         useEffect(() => {
             if (focus) {
-                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_MOUNT);
+                Event.emit(
+                    model.getType(),
+                    model.getId(),
+                    EVENT_TYPES.ON_MOUNT
+                );
             }
             return () => {
                 if (focus) {
-                    Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_UNMOUNT);
+                    Event.emit(
+                        model.getType(),
+                        model.getId(),
+                        EVENT_TYPES.ON_UNMOUNT
+                    );
                 }
             };
         }, []);
@@ -155,33 +190,48 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                     onPress,
                     onFocus,
                     onBlur,
+                    onLongPress,
                 });
             }
-        }, [onPress, onFocus, onBlur]);
+        }, [onPress, onFocus, onBlur, onLongPress]);
 
         // In recycled mode we must re-measure on render
         if (focusRepeatContext && ref?.current) {
             measureSync({ model });
         }
 
-        const childrenWithProps = React.Children.map(children as React.ReactElement[], (child) => {
-            if (React.isValidElement(child)) {
-                return React.cloneElement(child as React.ReactElement<any>, {
-                    focusContext: model,
-                });
-            }
+        const childrenWithProps = React.Children.map(
+            children as React.ReactElement[],
+            (child) => {
+                if (React.isValidElement(child)) {
+                    return React.cloneElement(
+                        child as React.ReactElement<any>,
+                        {
+                            focusContext: model,
+                        }
+                    );
+                }
 
-            return child;
-        });
+                return child;
+            }
+        );
 
         if (focus) {
-            const animatorOptions = focusOptions.animator || { type: 'scale', focus: { scale: 1.1 } };
+            const animatorOptions = focusOptions.animator || {
+                type: 'scale',
+                focus: { scale: 1.1 },
+            };
             const flattenStyle = { ...StyleSheet.flatten(style) } || {};
-            const { borderWidth, borderColor, borderRadius, backgroundColor } = flattenStyle;
+            const { borderWidth, borderColor, borderRadius, backgroundColor } =
+                flattenStyle;
 
-            if (Platform.isTV && Platform.OS === 'android') {
-                if (animatorOptions.type === 'border' || animatorOptions.type === 'scale_with_border') {
-                    flattenStyle.borderWidth = animatorOptions.focus.borderWidth;
+            if (CoreManager.isTV() && Platform.OS === 'android') {
+                if (
+                    animatorOptions.type === 'border' ||
+                    animatorOptions.type === 'scale_with_border'
+                ) {
+                    flattenStyle.borderWidth =
+                        animatorOptions.focus.borderWidth;
                 }
             }
 
@@ -195,7 +245,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                         blur: {
                             borderWidth,
                             borderColor,
-                            borderRadius: borderRadius as number | undefined,
+                            borderRadius: borderRadius as number,
                             backgroundColor,
                         },
                     }}
@@ -208,7 +258,13 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         }
 
         return (
-            <RNView style={style} {...props} ref={ref} onLayout={onLayoutNonPressable} hitSlop={hitSlop as Insets}>
+            <RNView
+                style={style}
+                {...props}
+                ref={ref}
+                onLayout={onLayoutNonPressable}
+                hitSlop={hitSlop as Insets}
+            >
                 {childrenWithProps}
             </RNView>
         );

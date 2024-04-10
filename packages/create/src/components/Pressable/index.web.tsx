@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View as RNView, StyleSheet, Animated, Insets, Pressable } from 'react-native';
+import {
+    View as RNView,
+    StyleSheet,
+    Animated,
+    Insets,
+    Pressable,
+} from 'react-native';
 import type { PressableProps } from '../../focusManager/types';
 import { measureSync } from '../../focusManager/layoutManager';
 import ViewClass from '../../focusManager/model/view';
@@ -30,6 +36,9 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
             onPress = () => {
                 return null;
             },
+            onLongPress = () => {
+                return null;
+            },
             onFocus = () => {
                 return null;
             },
@@ -48,6 +57,7 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                     onPress={onPress}
                     onFocus={onFocus}
                     onBlur={onBlur}
+                    onLongPress={onLongPress}
                     {...props}
                 >
                     {children}
@@ -60,7 +70,10 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
 
         const prevFocus = usePrevious(focus);
         const parent = focusRepeatContext?.focusContext || focusContext;
-        const animatorOptions = focusOptions.animator || { type: 'scale', focus: { scale: 1.1 } };
+        const animatorOptions = focusOptions.animator || {
+            type: 'scale',
+            focus: { scale: 1.1 },
+        };
         const flattenStyle = StyleSheet.flatten(style);
 
         const [model, setModel] = useState<ViewClass>(() => {
@@ -93,9 +106,9 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                     focusRepeatContext,
                     focusContext: parent,
                     verticalContentContainerGap:
-                        typeof gapVertical === 'string' ? 0 : (gapVertical as number | undefined),
+                        (typeof gapVertical === 'string' ? 0 : gapVertical as number),
                     horizontalContentContainerGap:
-                        typeof gapHorizontal === 'string' ? 0 : (gapHorizontal as number | undefined),
+                        (typeof gapHorizontal === 'string' ? 0 : gapHorizontal as number),
                     ...focusOptions,
                     onFocus: onComponentFocus,
                     onBlur: onComponentBlur,
@@ -103,42 +116,55 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
             }
         });
 
-        const ref = useCombinedRefs<RNView>({ refs: [refOuter, refInner], model: focus ? model : null });
+        const ref = useCombinedRefs<RNView>({
+            refs: [refOuter, refInner],
+            model: focus ? model : null,
+        });
 
         const onComponentFocus = () => {
             switch (animatorOptions.type) {
                 case ANIMATION_TYPES.SCALE:
                     Animated.timing(scaleAnim, {
-                        toValue: (animatorOptions as AnimatorScale).focus.scale as number,
+                        toValue: (animatorOptions as AnimatorScale).focus
+                            .scale as number,
                         duration: 200,
                         useNativeDriver: true,
                     }).start();
                     break;
                 case ANIMATION_TYPES.SCALE_BORDER:
                     Animated.timing(scaleAnim, {
-                        toValue: (animatorOptions as AnimatorScale).focus.scale as number,
+                        toValue: (animatorOptions as AnimatorScale).focus
+                            .scale as number,
                         duration: 200,
                         useNativeDriver: true,
                     }).start();
                     ref.current?.setNativeProps?.({
                         style: {
-                            borderColor: (animatorOptions as AnimatorScaleWithBorder).focus.borderColor,
-                            borderWidth: (animatorOptions as AnimatorScaleWithBorder).focus.borderWidth,
+                            borderColor: (
+                                animatorOptions as AnimatorScaleWithBorder
+                            ).focus.borderColor,
+                            borderWidth: (
+                                animatorOptions as AnimatorScaleWithBorder
+                            ).focus.borderWidth,
                         },
                     });
                     break;
                 case ANIMATION_TYPES.BORDER:
                     ref.current?.setNativeProps?.({
                         style: {
-                            borderColor: (animatorOptions as AnimatorBorder).focus.borderColor,
-                            borderWidth: (animatorOptions as AnimatorBorder).focus.borderWidth,
+                            borderColor: (animatorOptions as AnimatorBorder)
+                                .focus.borderColor,
+                            borderWidth: (animatorOptions as AnimatorBorder)
+                                .focus.borderWidth,
                         },
                     });
                     break;
                 case ANIMATION_TYPES.BACKGROUND:
                     ref.current?.setNativeProps?.({
                         style: {
-                            backgroundColor: (animatorOptions as AnimatorBackground).focus.backgroundColor,
+                            backgroundColor: (
+                                animatorOptions as AnimatorBackground
+                            ).focus.backgroundColor,
                         },
                     });
                     break;
@@ -192,7 +218,10 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         };
 
         // We must re-assign repeat context as View instances are re-used in recycled
-        if (focusRepeatContext && typeof model.setRepeatContext === 'function') {
+        if (
+            focusRepeatContext &&
+            typeof model.setRepeatContext === 'function'
+        ) {
             model.setRepeatContext(focusRepeatContext);
         }
 
@@ -232,22 +261,57 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
                     focus: true,
                     focusRepeatContext,
                     focusContext: parent,
-                    forbiddenFocusDirections: focusOptions.forbiddenFocusDirections,
+                    forbiddenFocusDirections:
+                        focusOptions.forbiddenFocusDirections,
                 });
 
                 setModel(model);
 
-                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_MOUNT);
+                Event.emit(
+                    model.getType(),
+                    model.getId(),
+                    EVENT_TYPES.ON_MOUNT
+                );
             }
         }, [focus]);
 
         useEffect(() => {
+            if (focusOptions.nextFocusDown)
+                model.setNextFocusDown(focusOptions.nextFocusDown);
+            if (focusOptions.nextFocusUp)
+                model.setNextFocusUp(focusOptions.nextFocusUp);
+            if (focusOptions.nextFocusLeft)
+                model.setNextFocusLeft(focusOptions.nextFocusLeft);
+            if (focusOptions.nextFocusRight)
+                model.setNextFocusRight(focusOptions.nextFocusRight);
+        }, [
+            focusOptions.nextFocusDown,
+            focusOptions.nextFocusUp,
+            focusOptions.nextFocusLeft,
+            focusOptions.nextFocusRight,
+        ]);
+
+        useEffect(() => {
             if (focus) {
-                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_MOUNT);
+                model.setFocusKey(focusOptions.focusKey);
+            }
+        }, [focusOptions.focusKey]);
+
+        useEffect(() => {
+            if (focus) {
+                Event.emit(
+                    model.getType(),
+                    model.getId(),
+                    EVENT_TYPES.ON_MOUNT
+                );
             }
             return () => {
                 if (focus) {
-                    Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_UNMOUNT);
+                    Event.emit(
+                        model.getType(),
+                        model.getId(),
+                        EVENT_TYPES.ON_UNMOUNT
+                    );
                 }
             };
         }, []);
@@ -255,36 +319,54 @@ const View = React.forwardRef<RNView | undefined, PressableProps>(
         useEffect(() => {
             model?.updateEvents?.({
                 onPress,
+                onLongPress,
                 onFocus: onComponentFocus,
                 onBlur: onComponentBlur,
             });
-        }, [onPress, onFocus, onBlur]);
+        }, [onPress, onFocus, onBlur, onLongPress]);
 
         // In recycled mode we must re-measure on render
         if (focusRepeatContext && ref?.current) {
             measureSync({ model });
         }
 
-        const childrenWithProps = React.Children.map(children as React.ReactElement[], (child) => {
-            if (React.isValidElement(child)) {
-                return React.cloneElement(child as React.ReactElement<any>, {
-                    focusContext: model,
-                });
-            }
+        const childrenWithProps = React.Children.map(
+            children as React.ReactElement[],
+            (child) => {
+                if (React.isValidElement(child)) {
+                    return React.cloneElement(
+                        child as React.ReactElement<any>,
+                        {
+                            focusContext: model,
+                        }
+                    );
+                }
 
-            return child;
-        });
+                return child;
+            }
+        );
 
         if (focus) {
             return (
-                <RNView style={flattenStyle} onLayout={onLayout} {...props} ref={ref}>
+                <RNView
+                    style={flattenStyle}
+                    onLayout={onLayout}
+                    {...props}
+                    ref={ref}
+                >
                     {childrenWithProps}
                 </RNView>
             );
         }
 
         return (
-            <RNView style={style} {...props} ref={ref} onLayout={onLayoutNonPressable} hitSlop={hitSlop as Insets}>
+            <RNView
+                style={style}
+                {...props}
+                ref={ref}
+                onLayout={onLayoutNonPressable}
+                hitSlop={hitSlop as Insets}
+            >
                 {childrenWithProps}
             </RNView>
         );

@@ -1,7 +1,14 @@
 import { useEffect } from 'react';
 
 export type RemoteHandlerEventKeyActions = 'down';
-export type RemoteHandlerEventTypesWebTV = 'left' | 'right' | 'up' | 'down' | 'select' | 'playPause' | 'back';
+export type RemoteHandlerEventTypesWebTV =
+    | 'left'
+    | 'right'
+    | 'up'
+    | 'down'
+    | 'select'
+    | 'playPause'
+    | 'back';
 
 const EVENT_TYPE_SELECT = 'select';
 const EVENT_TYPE_RIGHT = 'right';
@@ -30,11 +37,18 @@ export type RemoteHandlerCallbackWebTV = (args: {
 }) => void;
 export type ClassRemoteHandlerCallbackWebTV = (
     comp: React.Component,
-    args: { eventType: RemoteHandlerEventTypesWebTV; eventKeyAction: RemoteHandlerEventKeyActions; velocity: number }
+    args: {
+        eventType: RemoteHandlerEventTypesWebTV;
+        eventKeyAction: RemoteHandlerEventKeyActions;
+        velocity: number;
+    }
 ) => void;
 
 class TVRemoteHandler {
-    enable(_component: React.Component, _callback: ClassRemoteHandlerCallbackWebTV) {
+    enable(
+        _component: React.Component,
+        _callback: ClassRemoteHandlerCallbackWebTV
+    ) {
         //void
     }
 

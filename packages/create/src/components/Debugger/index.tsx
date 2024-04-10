@@ -1,12 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Text, Dimensions, View as RNView, Platform } from 'react-native';
+import {
+    Text,
+    Dimensions,
+    View as RNView,
+    Platform,
+    PixelRatio,
+} from 'react-native';
 import CoreManager from '../../focusManager/service/core';
-import { INTERSECTION_MARGIN_HORIZONTAL, INTERSECTION_MARGIN_VERTICAL } from '../../focusManager/nextFocusFinder';
+import {
+    INTERSECTION_MARGIN_HORIZONTAL,
+    INTERSECTION_MARGIN_VERTICAL,
+} from '../../focusManager/nextFocusFinder';
 import AbstractFocusModel from '../../focusManager/model/abstractFocusModel';
 import View from '../../focusManager/model/view';
-import { Ratio } from '../../helpers';
 import { useTVRemoteHandler } from '../../remoteHandler';
 import Logger from '../../focusManager/service/logger';
+
+function Ratio(pixels: number): number {
+    if (!CoreManager.isTV()) return pixels;
+    if (Platform.OS !== 'android') return pixels;
+    const resolution = Dimensions.get('screen').height * PixelRatio.get();
+
+    return Math.round(pixels / (resolution < 2160 ? 2 : 1));
+}
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -16,7 +32,7 @@ export default function FocusDebugger() {
         return <RNView />;
     }
 
-    const [_, setSeconds] = useState(0); // eslint-disable-line
+    const [, setSeconds] = useState(0);
     const [enabled, _setEnabled] = useState(false);
     const enabledRef = React.useRef(enabled);
     const interval: any = React.useRef();
@@ -48,13 +64,19 @@ export default function FocusDebugger() {
     useTVRemoteHandler(({ eventType, eventKeyAction }) => {
         if (Platform.OS === 'ios' || Platform.OS === 'web') {
             if (eventKeyAction === 'down' && eventType === 'playPause') {
-                CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
-                Logger.setIsDebuggerEnabled(CoreManager.isDebuggerEnabled()).debug(CoreManager);
+                CoreManager.setDebuggerEnabled(
+                    !CoreManager.isDebuggerEnabled()
+                );
+                Logger.setIsDebuggerEnabled(
+                    CoreManager.isDebuggerEnabled()
+                ).debug(CoreManager);
                 setEnabled(!enabledRef.current);
             }
         } else {
             if (eventKeyAction === 'down' && eventType === 'd') {
-                CoreManager.setDebuggerEnabled(!CoreManager.isDebuggerEnabled());
+                CoreManager.setDebuggerEnabled(
+                    !CoreManager.isDebuggerEnabled()
+                );
                 setEnabled(!enabledRef.current);
             }
         }
@@ -112,7 +134,7 @@ export default function FocusDebugger() {
 
     if (enabledRef.current) {
         const contexts: any = [];
-        const contextMap = CoreManager.getFocusMap(); // eslint-disable-line prefer-destructuring
+        const contextMap = CoreManager.getFocusMap();
         Object.values(contextMap)
             .filter((ctx) => ctx.getType() === 'view')
             .forEach((ctx: AbstractFocusModel) => {
@@ -123,16 +145,31 @@ export default function FocusDebugger() {
                         <RNView
                             key={`${ctx.getId()}${ctx.nodeId}`}
                             style={{
-                                width: isNaN(ctx.getLayout().width) ? 0 : ctx.getLayout().width,
-                                height: isNaN(ctx.getLayout().height) ? 0 : ctx.getLayout().height,
+                                width: isNaN(ctx.getLayout().width)
+                                    ? 0
+                                    : ctx.getLayout().width,
+                                height: isNaN(ctx.getLayout().height)
+                                    ? 0
+                                    : ctx.getLayout().height,
                                 borderColor,
-                                borderWidth: (ctx as View).getIsFocused() ? 5 : 1,
+                                borderWidth: (ctx as View).getIsFocused()
+                                    ? 5
+                                    : 1,
                                 position: 'absolute',
-                                top: isNaN(ctx.getLayout().absolute.yMin) ? 0 : ctx.getLayout().absolute.yMin,
-                                left: isNaN(ctx.getLayout().absolute.xMin) ? 0 : ctx.getLayout().absolute.xMin,
+                                top: isNaN(ctx.getLayout().absolute.yMin)
+                                    ? 0
+                                    : ctx.getLayout().absolute.yMin,
+                                left: isNaN(ctx.getLayout().absolute.xMin)
+                                    ? 0
+                                    : ctx.getLayout().absolute.xMin,
                             }}
                         >
-                            <RNView style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', width: Ratio(50) }}>
+                            <RNView
+                                style={{
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    width: Ratio(50),
+                                }}
+                            >
                                 <Text
                                     style={{
                                         color: borderColor,
@@ -141,7 +178,9 @@ export default function FocusDebugger() {
                                         textAlign: 'center',
                                     }}
                                 >
-                                    {typeof ctx.nodeId === 'number' ? ctx.nodeId : ctx.getId()}
+                                    {typeof ctx.nodeId === 'number'
+                                        ? ctx.nodeId
+                                        : ctx.getId()}
                                 </Text>
                             </RNView>
                         </RNView>,
@@ -156,14 +195,18 @@ export default function FocusDebugger() {
                                 top: isNaN(ctx.getLayout().absolute.xCenter - 3)
                                     ? 0
                                     : ctx.getLayout().absolute.xCenter - 3,
-                                left: isNaN(ctx.getLayout().absolute.yCenter - 3)
+                                left: isNaN(
+                                    ctx.getLayout().absolute.yCenter - 3
+                                )
                                     ? 0
                                     : ctx.getLayout().absolute.yCenter - 3,
                             }}
                         />
                     );
 
-                    if (CoreManager.getCurrentFocus()?.getId() === ctx.getId()) {
+                    if (
+                        CoreManager.getCurrentFocus()?.getId() === ctx.getId()
+                    ) {
                         const a1 =
                             ctx.getLayout().absolute.xCenter -
                             ctx.getLayout().width * 0.5 -
@@ -239,7 +282,9 @@ export default function FocusDebugger() {
                         width: '100%',
                         height: 2,
                         backgroundColor: 'red',
-                        top: CoreManager.getCurrentFocus()?.getLayout()?.absolute?.yCenter ?? 0,
+                        top:
+                            CoreManager.getCurrentFocus()?.getLayout()?.absolute
+                                ?.yCenter ?? 0,
                         position: 'absolute',
                     }}
                 />
@@ -248,7 +293,9 @@ export default function FocusDebugger() {
                         height: '100%',
                         width: 2,
                         backgroundColor: 'red',
-                        left: CoreManager.getCurrentFocus()?.getLayout()?.absolute?.xCenter ?? 0,
+                        left:
+                            CoreManager.getCurrentFocus()?.getLayout()?.absolute
+                                ?.xCenter ?? 0,
                         position: 'absolute',
                     }}
                 />

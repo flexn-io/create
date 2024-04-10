@@ -8,7 +8,10 @@ import useOnComponentLifeCycle from '../../hooks/useOnComponentLifeCycle';
 import { CoreManager } from '../..';
 
 const Screen = React.forwardRef<RNView | undefined, ScreenProps>(
-    ({ children, style, focusOptions = {}, onFocus, onBlur, ...props }, refOuter) => {
+    (
+        { children, style, focusOptions = {}, onFocus, onBlur, ...props },
+        refOuter
+    ) => {
         if (!CoreManager.isFocusManagerEnabled()) {
             return (
                 <RNView style={style} {...props}>
@@ -27,7 +30,10 @@ const Screen = React.forwardRef<RNView | undefined, ScreenProps>(
                 })
         );
 
-        const ref = useCombinedRefs<RNView>({ refs: [refOuter, refInner], model });
+        const ref = useCombinedRefs<RNView>({
+            refs: [refOuter, refInner],
+            model,
+        });
 
         const { onLayout } = useOnLayout(model);
 
@@ -39,9 +45,30 @@ const Screen = React.forwardRef<RNView | undefined, ScreenProps>(
 
         useEffect(() => {
             if (focusOptions.screenState) {
-                model.setPrevState(model.getState()).setState(focusOptions.screenState);
-                if (model.isPrevStateBackground() && model.isInForeground()) {
-                    model.setFocus(model.getFirstFocusableOnScreen());
+                const anotherScreenInForeground = Object.values(
+                    CoreManager.getScreens()
+                ).find(
+                    (s) => s.getId() !== model.getId() && s.isInForeground()
+                );
+                const anotherForegroundScreenHasFocus =
+                    anotherScreenInForeground &&
+                    anotherScreenInForeground.getCurrentFocus() &&
+                    CoreManager.getCurrentFocus() &&
+                    anotherScreenInForeground.getCurrentFocus()?.getId() ===
+                        CoreManager.getCurrentFocus()?.getId();
+
+                model
+                    .setPrevState(model.getState())
+                    .setState(focusOptions.screenState);
+
+                if (
+                    model.isPrevStateBackground() &&
+                    model.isInForeground() &&
+                    !anotherForegroundScreenHasFocus
+                ) {
+                    model
+                        .getFirstFocusableOnScreen()
+                        ?.then((view) => CoreManager.executeFocus(view));
                 }
             }
         }, [focusOptions.screenState]);
@@ -52,17 +79,27 @@ const Screen = React.forwardRef<RNView | undefined, ScreenProps>(
             }
         }, [focusOptions.screenOrder]);
 
-        const chRendered = typeof children === 'function' ? (children as any)(model) : children;
+        const chRendered =
+            typeof children === 'function'
+                ? (children as any)(model)
+                : children;
 
         const childrenWithProps = React.Children.map(chRendered, (child) => {
             if (React.isValidElement(child)) {
-                return React.cloneElement(child as React.ReactElement<any>, { focusContext: model });
+                return React.cloneElement(child as React.ReactElement<any>, {
+                    focusContext: model,
+                });
             }
             return child;
         });
 
         return (
-            <RNView style={[{ flex: 1 }, style]} {...props} ref={ref} onLayout={onLayout}>
+            <RNView
+                style={[{ flex: 1 }, style]}
+                {...props}
+                ref={ref}
+                onLayout={onLayout}
+            >
                 {childrenWithProps}
             </RNView>
         );

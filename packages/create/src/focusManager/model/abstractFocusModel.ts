@@ -1,5 +1,9 @@
 import { MutableRefObject } from 'react';
-import { measureSync, recalculateAbsolutes } from '../layoutManager';
+import {
+    measureAsync,
+    measureSync,
+    recalculateAbsolutes,
+} from '../layoutManager';
 import { ForbiddenFocusDirections, Layout } from '../types';
 import Grid from './grid';
 import RecyclerView from './recycler';
@@ -30,7 +34,7 @@ export default abstract class FocusModel {
     protected _isLayoutMeasured: boolean;
 
     protected _id: string;
-    protected _type: typeof MODEL_TYPES[keyof typeof MODEL_TYPES] = 'view';
+    protected _type: (typeof MODEL_TYPES)[keyof typeof MODEL_TYPES] = 'view';
     protected _parent: FocusModel | undefined;
     protected _children: FocusModel[];
     protected _screen: Screen | undefined;
@@ -50,7 +54,13 @@ export default abstract class FocusModel {
     protected _events: { (): void }[];
 
     constructor(params?: FocusModelProps) {
-        const { nextFocusRight = '', nextFocusLeft = '', nextFocusUp = '', nextFocusDown = '', verticalViewportOffset } = params || {};
+        const {
+            nextFocusRight = '',
+            nextFocusLeft = '',
+            nextFocusUp = '',
+            nextFocusDown = '',
+            verticalViewportOffset,
+        } = params || {};
 
         this._id = '';
         this._children = [];
@@ -94,7 +104,7 @@ export default abstract class FocusModel {
     public nodeId?: number | null;
     public node: MutableRefObject<any>;
 
-    public getType(): typeof MODEL_TYPES[keyof typeof MODEL_TYPES] {
+    public getType(): (typeof MODEL_TYPES)[keyof typeof MODEL_TYPES] {
         return this._type;
     }
 
@@ -104,6 +114,31 @@ export default abstract class FocusModel {
 
     public getParent(): FocusModel | undefined {
         return this._parent;
+    }
+
+    public isParentInGroup(group: string) {
+        const parentGroup = this.getGroup();
+
+        return parentGroup && parentGroup === group;
+    }
+
+    public getGroup(): string | undefined {
+        let parent: FocusModel | undefined | null = this.getParent();
+        let group;
+
+        while (parent) {
+            if (
+                parent.getType() === 'viewGroup' &&
+                !parent.isFocusAllowedOutsideGroup()
+            ) {
+                group = parent.getGroup();
+                parent = null;
+            } else {
+                parent = parent?.getParent();
+            }
+        }
+
+        return group || this.getScreen()?.getGroup();
     }
 
     public getId(): string {
@@ -194,7 +229,9 @@ export default abstract class FocusModel {
     }
 
     public getInitialFocusableChildren(index: number): View | undefined {
-        return this._children.find((ch, i) => ch.isFocusable() && index === i) as View;
+        return this._children.find(
+            (ch, i) => ch.isFocusable() && index === i
+        ) as View;
     }
 
     public getMostBottomChildren(): FocusModel {
@@ -218,30 +255,29 @@ export default abstract class FocusModel {
     }
 
     public recalculateChildrenAbsoluteLayouts(ch: FocusModel) {
-        ch.getChildren().forEach((a: FocusModel) => {
-            this.recalculateChildrenAbsoluteLayouts(a);
-        });
-
         if (ch.isInForeground()) {
             recalculateAbsolutes(ch);
         }
+
+        ch.getChildren().forEach((a: FocusModel) => {
+            this.recalculateChildrenAbsoluteLayouts(a);
+        });
     }
 
-    public remeasureChildrenLayouts(model: FocusModel) {
+    public async remeasureChildrenLayouts(model: FocusModel) {
+        if (model.isInForeground()) {
+            await measureAsync({ model });
+
+            if (model.getType() === MODEL_TYPES.VIEW) {
+                model
+                    .getScreen()
+                    ?.removeComponentFromPendingLayoutMap(model.getId());
+            }
+        }
+
         model.getChildren().forEach((a: FocusModel) => {
             this.remeasureChildrenLayouts(a);
         });
-
-        if (model.isInForeground()) {
-            measureSync({
-                model,
-                callback: () => {
-                    if (model.getType() === MODEL_TYPES.VIEW) {
-                        model.getScreen()?.removeComponentFromPendingLayoutMap(model.getId());
-                    }
-                },
-            });
-        }
     }
 
     public remeasureSelfAndChildrenLayouts(model: FocusModel) {
@@ -250,7 +286,11 @@ export default abstract class FocusModel {
                 model,
                 callback: () => {
                     if (model.getType() === MODEL_TYPES.VIEW) {
-                        model.getScreen()?.removeComponentFromPendingLayoutMap(model.getId());
+                        model
+                            .getScreen()
+                            ?.removeComponentFromPendingLayoutMap(
+                                model.getId()
+                            );
                     }
                 },
             });
@@ -306,13 +346,13 @@ export default abstract class FocusModel {
     }
 
     public onFocus(): void {
-        if (this._onFocus) {
+        if (this._onFocus && this.getNode().current) {
             this._onFocus();
         }
     }
 
     public onBlur(): void {
-        if (this._onBlur) {
+        if (this._onBlur && this.getNode().current) {
             this._onBlur();
         }
     }
@@ -416,7 +456,16 @@ export default abstract class FocusModel {
         throw new Error('Not implemented');
     }
 
-    public getLayouts(): { x: number; y: number; width: number; height: number }[] {
+    public isFocusAllowedOutsideGroup(): boolean {
+        throw new Error('Not implemented');
+    }
+
+    public getLayouts(): {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+    }[] {
         throw new Error('Not implemented');
     }
 

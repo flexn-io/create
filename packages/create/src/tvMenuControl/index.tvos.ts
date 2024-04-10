@@ -1,4 +1,4 @@
-// @ts-expect-error - TODO fix this properly
+// @ts-ignore
 import { TVMenuControl } from 'react-native';
 
 export const enableTVMenuKey = () => {

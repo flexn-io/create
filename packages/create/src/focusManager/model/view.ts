@@ -1,4 +1,4 @@
-import { View as RNView } from 'react-native';
+import { Platform, View as RNView } from 'react-native';
 import CoreManager from '../service/core';
 import FocusModel, { MODEL_TYPES } from './abstractFocusModel';
 import Recycler from './recycler';
@@ -29,15 +29,24 @@ class View extends FocusModel {
     private _horizontalContentContainerGap = 0;
     private _repeatContext:
         | {
-            focusContext: FocusModel;
-            index: number;
-        }
+              focusContext: FocusModel;
+              index: number;
+          }
         | undefined;
 
     private _onPress?: () => void;
+    private _onLongPress?: () => void;
+
+    private _pendingEvents = {
+        _onFocus: false,
+        _onBlur: false,
+    };
 
     constructor(
-        params: Omit<PressableProps & PressableProps['focusOptions'], 'style' | 'focusOptions' | 'className'> & {
+        params: Omit<
+            PressableProps & PressableProps['focusOptions'],
+            'style' | 'focusOptions' | 'className'
+        > & {
             verticalContentContainerGap?: number;
             horizontalContentContainerGap?: number;
         }
@@ -58,7 +67,9 @@ class View extends FocusModel {
         } = params;
 
         const id = CoreManager.generateID(8);
-        this._id = focusContext?.getId() ? `${focusContext.getId()}:view-${id}` : `view-${id}`;
+        this._id = focusContext?.getId()
+            ? `${focusContext.getId()}:view-${id}`
+            : `view-${id}`;
         this._type = 'view';
         this._parent = focusContext;
         this._isFocused = false;
@@ -79,9 +90,24 @@ class View extends FocusModel {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT, this._onMount),
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_MOUNT,
+                this._onMount
+            ),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_UNMOUNT,
+                this._onUnmount
+            ),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_LAYOUT,
+                this._onLayout
+            ),
         ];
 
         this.init();
@@ -90,9 +116,16 @@ class View extends FocusModel {
     private init() {
         if (this.getParent()?.getType() === MODEL_TYPES.RECYCLER) {
             const parent = this.getParent() as Recycler;
-            if (parent.getInitialRenderIndex() && parent.getInitialRenderIndex() === this.getRepeatContext()?.index) {
+            if (
+                parent.getInitialRenderIndex() &&
+                parent.getInitialRenderIndex() ===
+                    this.getRepeatContext()?.index
+            ) {
                 parent.setFocusedView(this);
-            } else if (!parent.getFocusedView() && this.getRepeatContext()?.index === 0) {
+            } else if (
+                !parent.getFocusedView() &&
+                this.getRepeatContext()?.index === 0
+            ) {
                 parent.setFocusedView(this);
             }
         }
@@ -104,14 +137,22 @@ class View extends FocusModel {
         const screen = this.getScreen();
         if (screen) {
             screen.addComponentToPendingLayoutMap(this.getId());
-            if (this.hasPreferredFocus()) screen.setPreferredFocus(this);
+            if (this.hasPreferredFocus()) {
+                screen.setPreferredFocus(this);
+                CoreManager.executeFocus(this);
+            }
         }
     }
 
     private _onUnmount() {
+        const wasCurrentFocusedView =
+            CoreManager.getCurrentFocus()?.getId() === this.getId();
         CoreManager.removeFocusAwareComponent(this);
-        this.getScreen()?.onViewRemoved(this);
-        if (this.getParent() instanceof Row || this.getParent() instanceof Grid) {
+        this.getScreen()?.onViewRemoved(this, wasCurrentFocusedView);
+        if (
+            this.getParent() instanceof Row ||
+            this.getParent() instanceof Grid
+        ) {
             const parent = this.getParent() as Recycler;
             if (parent.getFocusedView()?.getId() === this.getId()) {
                 parent.setFocusedView(null);
@@ -123,9 +164,18 @@ class View extends FocusModel {
 
     private async _onLayout() {
         await measureAsync({ model: this });
-        this.getScreen()?.removeComponentFromPendingLayoutMap(this.getId());
-        if (this.hasPreferredFocus()) {
-            this.getScreen()?.setFocus(this);
+        await this.getScreen()?.removeComponentFromPendingLayoutMap(
+            this.getId()
+        );
+
+        if (
+            !this.getScreen()?.isInitialLoadInProgress() &&
+            (!CoreManager.getCurrentFocus() ||
+                CoreManager.getCurrentFocus()?.isInBackground())
+        ) {
+            CoreManager.executeFocus(
+                await this.getScreen()!.getFirstFocusableOnScreen()
+            );
         }
     }
 
@@ -134,8 +184,16 @@ class View extends FocusModel {
     public onBlur(): void {
         const parent = this.getParent();
 
-        if (this._onBlur) {
-            this._onBlur();
+        if (this._onBlur && this.getNode().current) {
+            if (Platform.OS === 'web') {
+                setTimeout(() => {
+                    this._onBlur?.();
+                }, 1);
+            } else {
+                this._onBlur();
+            }
+        } else {
+            this._pendingEvents['_onBlur'] = true;
         }
 
         if (parent instanceof Row || parent instanceof Grid) {
@@ -151,9 +209,18 @@ class View extends FocusModel {
     public onFocus(): void {
         const parent = this.getParent();
 
-        if (this._onFocus) {
-            this._onFocus();
+        if (this._onFocus && this.getNode().current) {
+            if (Platform.OS === 'web') {
+                setTimeout(() => {
+                    this._onFocus?.();
+                }, 1);
+            } else {
+                this._onFocus();
+            }
+        } else {
+            this._pendingEvents['_onFocus'] = true;
         }
+
         if (parent instanceof Row) {
             parent.setFocusedView(this);
         }
@@ -172,21 +239,42 @@ class View extends FocusModel {
         return true;
     }
 
-    public updateEvents({ onPress, onFocus, onBlur }: { onPress?(): void; onFocus?(): void; onBlur?(): void }) {
+    public updateEvents({
+        onPress,
+        onFocus,
+        onBlur,
+        onLongPress,
+    }: {
+        onPress?(): void;
+        onFocus?(): void;
+        onBlur?(): void;
+        onLongPress?(): void;
+    }) {
         this._onPress = onPress;
         this._onFocus = onFocus;
         this._onBlur = onBlur;
+        this._onLongPress = onLongPress;
 
+        if (this._onFocus && this._pendingEvents['_onFocus']) {
+            this._onFocus();
+            this._pendingEvents['_onFocus'] = false;
+        }
+        if (this._onBlur && this._pendingEvents['_onBlur']) {
+            this._onBlur();
+            this._pendingEvents['_onBlur'] = false;
+        }
         return this;
     }
 
-    public setFocus() {
-        CoreManager.executeFocus(this);
+    public onPress(): void {
+        if (this._onPress && this.getNode().current) {
+            this._onPress();
+        }
     }
 
-    public onPress(): void {
-        if (this._onPress) {
-            this._onPress();
+    public onLongPress(): void {
+        if (this._onLongPress && this.getNode().current) {
+            this._onLongPress();
         }
     }
 
@@ -196,7 +284,9 @@ class View extends FocusModel {
         if (value && this.getParent()?.getType() === MODEL_TYPES.RECYCLER) {
             const currentIndex = this.getRepeatContext()?.index;
             if (currentIndex !== undefined) {
-                (this.getParent() as Recycler).setFocusedIndex(currentIndex).setFocusedView(this);
+                (this.getParent() as Recycler)
+                    .setFocusedIndex(currentIndex)
+                    .setFocusedView(this);
             }
         }
 
@@ -218,13 +308,18 @@ class View extends FocusModel {
         return this._isFocused;
     }
 
-    public setRepeatContext(value: { focusContext: FocusModel; index: number }): this {
+    public setRepeatContext(value: {
+        focusContext: FocusModel;
+        index: number;
+    }): this {
         this._repeatContext = value;
 
         return this;
     }
 
-    public getRepeatContext(): { focusContext: FocusModel; index: number } | undefined {
+    public getRepeatContext():
+        | { focusContext: FocusModel; index: number }
+        | undefined {
         return this._repeatContext;
     }
 
@@ -268,22 +363,6 @@ class View extends FocusModel {
 
     public horizontalContentContainerGap(): number {
         return this._horizontalContentContainerGap;
-    }
-
-    public getGroup(): string | undefined {
-        let parent: FocusModel | undefined | null = this.getParent();
-        let group;
-
-        while (parent) {
-            if (parent instanceof ViewGroup && !parent.isFocusAllowedOutsideGroup()) {
-                group = parent.getGroup();
-                parent = null;
-            } else {
-                parent = parent?.getParent();
-            }
-        }
-
-        return group || this.getScreen()?.getGroup();
     }
 
     public getNode(): MutableRefObject<RNView> {

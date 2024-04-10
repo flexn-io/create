@@ -1,6 +1,11 @@
 import { useEffect, useCallback } from 'react';
-import { NativeModules, NativeEventEmitter, EmitterSubscription, Platform } from 'react-native';
+import {
+    NativeModules,
+    NativeEventEmitter,
+    EmitterSubscription,
+} from 'react-native';
 import throttle from 'lodash.throttle';
+import { CoreManager } from '..';
 
 const EVENT_NAME = 'onTVRemoteKey';
 
@@ -15,6 +20,7 @@ export type RemoteHandlerEventTypesAppleTV =
     | 'up'
     | 'down'
     | 'select'
+    | 'longSelect'
     | 'menu'
     | 'playPause';
 
@@ -25,7 +31,11 @@ export type RemoteHandlerCallbackAppleTV = (args: {
 
 export type ClassRemoteHandlerCallbackAppleTV = (
     comp: React.Component,
-    args: { eventType: RemoteHandlerEventTypesAppleTV; eventKeyAction: RemoteHandlerEventKeyActions; velocity: number }
+    args: {
+        eventType: RemoteHandlerEventTypesAppleTV;
+        eventKeyAction: RemoteHandlerEventKeyActions;
+        velocity: number;
+    }
 ) => void;
 
 class TVRemoteHandler {
@@ -55,7 +65,7 @@ const useTVRemoteHandler = (callback: RemoteHandlerCallbackAppleTV) => {
 
     useEffect(() => {
         let listener: EmitterSubscription;
-        if (Platform.isTV) {
+        if (CoreManager.isTV()) {
             const { TvRemoteHandler } = NativeModules;
             const eventEmitter = new NativeEventEmitter(TvRemoteHandler);
             listener = eventEmitter.addListener(

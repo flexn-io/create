@@ -1,6 +1,7 @@
-import { DeviceEventEmitter, EmitterSubscription, Platform } from 'react-native';
+import { DeviceEventEmitter, EmitterSubscription } from 'react-native';
 import { useEffect, useCallback } from 'react';
 import throttle from 'lodash.throttle';
+import { CoreManager } from '..';
 
 const EVENT_NAME = 'onTVRemoteKey';
 
@@ -11,6 +12,7 @@ export type RemoteHandlerEventTypesAndroid =
     | 'up'
     | 'down'
     | 'select'
+    | 'longSelect'
     | 'space'
     | 'playPause'
     | 'back'
@@ -35,20 +37,30 @@ export type RemoteHandlerCallbackAndroid = (args: {
 }) => void;
 export type ClassRemoteHandlerCallbackAndroid = (
     comp: React.Component,
-    args: { eventType: RemoteHandlerEventTypesAndroid; eventKeyAction: RemoteHandlerEventKeyActions; velocity: number }
+    args: {
+        eventType: RemoteHandlerEventTypesAndroid;
+        eventKeyAction: RemoteHandlerEventKeyActions;
+        velocity: number;
+    }
 ) => void;
 
 class TVRemoteHandler {
     __listener: any;
 
-    enable(component: React.Component, callback: ClassRemoteHandlerCallbackAndroid): void {
-        this.__listener = DeviceEventEmitter.addListener(EVENT_NAME, ({ eventKeyAction, eventType }) => {
-            return callback(component, {
-                eventType,
-                eventKeyAction,
-                velocity: 0,
-            });
-        });
+    enable(
+        component: React.Component,
+        callback: ClassRemoteHandlerCallbackAndroid
+    ): void {
+        this.__listener = DeviceEventEmitter.addListener(
+            EVENT_NAME,
+            ({ eventKeyAction, eventType }) => {
+                return callback(component, {
+                    eventType,
+                    eventKeyAction,
+                    velocity: 0,
+                });
+            }
+        );
     }
 
     disable(): void {
@@ -62,14 +74,17 @@ function useTVRemoteHandler(callback: RemoteHandlerCallbackAndroid) {
     useEffect(() => {
         let listener: EmitterSubscription;
 
-        if (Platform.isTV) {
-            listener = DeviceEventEmitter.addListener(EVENT_NAME, ({ eventKeyAction, eventType }) => {
-                return handler({
-                    eventType,
-                    eventKeyAction,
-                    velocity: 0,
-                });
-            });
+        if (CoreManager.isTV()) {
+            listener = DeviceEventEmitter.addListener(
+                EVENT_NAME,
+                ({ eventKeyAction, eventType }) => {
+                    return handler({
+                        eventType,
+                        eventKeyAction,
+                        velocity: 0,
+                    });
+                }
+            );
         }
 
         return () => {

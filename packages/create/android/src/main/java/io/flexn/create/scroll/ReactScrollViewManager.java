@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package io.flexn.create.scroll;
+ package io.flexn.create.scroll;
 
 import androidx.annotation.Nullable;
 import com.facebook.react.module.annotations.ReactModule;

@@ -1,6 +1,6 @@
 import { FlashList, View, Pressable, Image, ScrollView, Text } from '@flexn/create';
 import React, { useContext, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv, isFactorWatch } from '@rnv/renative';
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { generateRandomItemsRow, interval, testProps } from '../utils';
@@ -33,7 +33,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const [data] = useState(() =>
         [...Array(5).keys()].map((rowNumber) => {
             const itemsInViewport = interval(isFactorMobile ? 1 : 3, isFactorMobile ? 3 : 5);
-            return generateRandomItemsRow(rowNumber, itemsInViewport);
+            return generateRandomItemsRow(rowNumber, itemsInViewport, 250, 250);
         })
     );
 
@@ -79,13 +79,13 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                 {data.map((list, index) => (
                     <View style={styles.listSeparator} key={index}>
                         <FlashList
-                            key={index}
                             data={list}
                             extraData={{ dark }}
                             renderItem={renderItem}
                             type="row"
                             estimatedItemSize={getCarouselSize().height}
                             horizontal
+                            drawDistance={Ratio(Dimensions.get('window').width)}
                             showsHorizontalScrollIndicator={false}
                             style={{ flex: 1 }}
                         />

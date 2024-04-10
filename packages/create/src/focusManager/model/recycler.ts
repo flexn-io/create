@@ -1,4 +1,4 @@
-import { ScrollView } from 'react-native';
+import { Dimensions, PixelRatio, Platform, ScrollView } from 'react-native';
 import FocusModel from './abstractFocusModel';
 import { FlashListProps, ForbiddenFocusDirections } from '../types';
 import View from './view';
@@ -6,8 +6,14 @@ import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import { MutableRefObject } from 'react';
-import { Ratio } from '../../helpers';
 
+function Ratio(pixels: number): number {
+    if (!CoreManager.isTV()) return pixels;
+    if (Platform.OS !== 'android') return pixels;
+    const resolution = Dimensions.get('screen').height * PixelRatio.get();
+
+    return Math.round(pixels / (resolution < 2160 ? 2 : 1));
+}
 class RecyclerView extends FocusModel {
     private _layouts: { x: number; y: number; width: number; height: number }[];
     private _layoutsReady: boolean;
@@ -29,7 +35,12 @@ class RecyclerView extends FocusModel {
     constructor(
         params: Omit<
             FlashListProps<any> & FlashListProps<any>['focusOptions'],
-            'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
+            | 'style'
+            | 'scrollViewProps'
+            | 'renderItem'
+            | 'type'
+            | 'data'
+            | 'focusOptions'
         >
     ) {
         super(params);
@@ -74,9 +85,24 @@ class RecyclerView extends FocusModel {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_MOUNT_AND_MEASURED,
+                this._onMountAndMeasured
+            ),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_UNMOUNT,
+                this._onUnmount
+            ),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_LAYOUT,
+                this._onLayout
+            ),
         ];
     }
 
@@ -93,16 +119,29 @@ class RecyclerView extends FocusModel {
     protected async _onLayout() {
         await measureAsync({ model: this });
         this.remeasureChildrenLayouts(this);
-        Event.emit(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
+        Event.emit(
+            this.getType(),
+            this.getId(),
+            EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED
+        );
     }
 
     // END EVENTS
 
-    public getLayouts(): { x: number; y: number; width: number; height: number }[] {
+    public getLayouts(): {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+    }[] {
         return this._layouts;
     }
 
-    public updateLayouts(layouts: { x: number; y: number; width: number; height: number }[] | undefined) {
+    public updateLayouts(
+        layouts:
+            | { x: number; y: number; width: number; height: number }[]
+            | undefined
+    ) {
         if (layouts && this._layouts.length !== layouts.length) {
             this._layouts = layouts;
 
@@ -115,7 +154,10 @@ class RecyclerView extends FocusModel {
             this._layoutsReady = true;
 
             const repeatLayout = layouts[layouts.length - 1];
-            this.updateLayoutProperty('xMaxScroll', this.getLayout().xMax + repeatLayout.x).updateLayoutProperty(
+            this.updateLayoutProperty(
+                'xMaxScroll',
+                this.getLayout().xMax + repeatLayout.x
+            ).updateLayoutProperty(
                 'yMaxScroll',
                 this.getLayout().yMax + repeatLayout.y
             );
@@ -196,7 +238,6 @@ class RecyclerView extends FocusModel {
         return this._initialFocusIndex;
     }
 
-
     public getFocusedView(): View | null {
         return this._focusedView;
     }
@@ -250,7 +291,14 @@ class RecyclerView extends FocusModel {
         return this._listHeaderDimensions;
     }
 
-    public updateEvents({ onFocus, onBlur }: { onPress?(): void; onFocus?(): void; onBlur?(): void }) {
+    public updateEvents({
+        onFocus,
+        onBlur,
+    }: {
+        onPress?(): void;
+        onFocus?(): void;
+        onBlur?(): void;
+    }) {
         this._onFocus = onFocus;
         this._onBlur = onBlur;
 

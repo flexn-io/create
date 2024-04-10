@@ -8,10 +8,21 @@ export const EVENT_TYPES = {
     ON_CELL_CONTAINER_BLUR: 'onCellContainerBlur',
 };
 
-const events: { [key: string]: { [key: string]: { [key: string]: { [key: string]: (...args: any) => void } } } } = {};
+const events: {
+    [key: string]: {
+        [key: string]: {
+            [key: string]: { [key: string]: (...args: any) => void };
+        };
+    };
+} = {};
 
 class Event {
-    static subscribe(callerType: string, callerId: string, eventName: string, cb: (...args: any) => void) {
+    static subscribe(
+        callerType: string,
+        callerId: string,
+        eventName: string,
+        cb: (...args: any) => void
+    ) {
         if (!eventName) throw 'Event name cannot be empty or null';
         if (!cb) throw 'A callback must be registered for subscription';
 
@@ -40,10 +51,28 @@ class Event {
                 .toString(16)
                 .substring(1);
 
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+        return (
+            s4() +
+            s4() +
+            '-' +
+            s4() +
+            '-' +
+            s4() +
+            '-' +
+            s4() +
+            '-' +
+            s4() +
+            s4() +
+            s4()
+        );
     }
 
-    static emit(callerType: string, callerId: string, eventName: string, data = {}) {
+    static emit(
+        callerType: string,
+        callerId: string,
+        eventName: string,
+        data = {}
+    ) {
         if (!eventName) throw 'An event name is required for emission.';
         // The callbacks for eventName are registered listener Id keys under events[eventName]
         const registeredListeners = events[callerType]?.[callerId]?.[eventName];
@@ -59,7 +88,12 @@ class Event {
         return true;
     }
 
-    static _unsubscribe(callerType: string, callerId: string, eventName: string, uuid: string) {
+    static _unsubscribe(
+        callerType: string,
+        callerId: string,
+        eventName: string,
+        uuid: string
+    ) {
         delete events[callerType]?.[callerId]?.[eventName]?.[uuid];
     }
 
