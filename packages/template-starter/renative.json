@@ -159,6 +159,9 @@
             "disablePluginTemplateOverrides": true,
             "webpackConfig": {
                 "modulePaths": true
+            },
+            "tvos": {
+                "disabled": true
             }
         },
         "@react-native-masked-view/masked-view": "0.3.1",
