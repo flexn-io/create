@@ -7,6 +7,8 @@
         "@rnv/engine-rn-tvos": "source:rnv",
         "@rnv/engine-rn-web": "source:rnv"
     },
+    "$schema": ".rnv/schema/rnv.project.json",
+    "isMonorepo": true,
     "projectName": "@flexn/create-template-starter",
     "workspaceID": "flexn",
     "paths": {
@@ -56,8 +58,57 @@
         "@flexn/create": {
             "source": "flexn",
             "version": "1.3.0-feat-rnv-update.0",
-            "ios": {
-                "disabled": true
+            "androidtv": {
+                "templateAndroid": {
+                    "MainActivity_kt": {
+                        "imports": ["io.flexn.create.TvRemoteHandlerModule", "android.view.KeyEvent;"],
+                        "methods": [
+                            "override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {",
+                            "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"up\");",
+                            "return super.onKeyUp(keyCode, event)",
+                            "}",
+                            "override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {",
+                            "   TvRemoteHandlerModule.getInstance().onKeyEvent(event,  \"longPress\");",
+                            "    return super.onKeyLongPress(keyCode, event)",
+                            "}",
+                            "override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {",
+                            "if(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {",
+                            "event?.startTracking();",
+                            "TvRemoteHandlerModule.getInstance().onKeyEvent(event,\"down\");",
+                            "return true;",
+                            "}",
+                            "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"down\");",
+                            "return super.onKeyDown(keyCode, event)",
+                            "}"
+                        ]
+                    }
+                }
+            },
+            "firetv": {
+                "templateAndroid": {
+                    "MainActivity_kt": {
+                        "activityImports": ["io.flexn.create.TvRemoteHandlerModule", "android.view.KeyEvent;"],
+                        "activityMethods": [
+                            "override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {",
+                            "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"up\");",
+                            "return super.onKeyUp(keyCode, event)",
+                            "}",
+                            "override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {",
+                            "   TvRemoteHandlerModule.getInstance().onKeyEvent(event,  \"longPress\");",
+                            "    return super.onKeyLongPress(keyCode, event)",
+                            "}",
+                            "override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {",
+                            "if(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {",
+                            "event?.startTracking();",
+                            "TvRemoteHandlerModule.getInstance().onKeyEvent(event,\"down\");",
+                            "return true;",
+                            "}",
+                            "TvRemoteHandlerModule.getInstance().onKeyEvent(event, \"down\");",
+                            "return super.onKeyDown(keyCode, event)",
+                            "}"
+                        ]
+                    }
+                }
             },
             "webpackConfig": {
                 "modulePaths": true
@@ -181,40 +232,42 @@
             "kotlinVersion": "1.8.0",
             "reactNativeEngine": "hermes",
             "enableAndroidX": true,
-            "gradle.properties": {
-                "android.useDeprecatedNdk": true,
-                "android.enableJetifier": true,
-                "android.useAndroidX": true,
-                "android.debug.obsoleteApi": true,
-                "org.gradle.jvmargs": "-Xmx3g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8",
-                "org.gradle.daemon": true,
-                "org.gradle.parallel": true,
-                "org.gradle.configureondemand": true
-            },
-            "AndroidManifest": {
-                "children": [
-                    {
-                        "tag": "application",
-                        "android:name": ".MainApplication",
-                        "android:usesCleartextTraffic": true,
-                        "tools:targetApi": 30,
-                        "children": [
-                            {
-                                "tag": "activity",
-                                "android:name": ".MainActivity",
-                                "android:exported": true
-                            },
-                            {
-                                "tag": "activity",
-                                "android:name": ".SplashActivity",
-                                "android:exported": true
-                            }
-                        ]
-                    }
-                ]
-            },
-            "mainActivity": {
-                "onCreate": "super.onCreate(null)"
+            "templateAndroid": {
+                "gradle_properties": {
+                    "android.useDeprecatedNdk": true,
+                    "android.enableJetifier": true,
+                    "android.useAndroidX": true,
+                    "android.debug.obsoleteApi": true,
+                    "org.gradle.jvmargs": "-Xmx3g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8",
+                    "org.gradle.daemon": true,
+                    "org.gradle.parallel": true,
+                    "org.gradle.configureondemand": true
+                },
+                "AndroidManifest_xml": {
+                    "children": [
+                        {
+                            "tag": "application",
+                            "android:name": ".MainApplication",
+                            "android:usesCleartextTraffic": true,
+                            "tools:targetApi": 30,
+                            "children": [
+                                {
+                                    "tag": "activity",
+                                    "android:name": ".MainActivity",
+                                    "android:exported": true
+                                },
+                                {
+                                    "tag": "activity",
+                                    "android:name": ".SplashActivity",
+                                    "android:exported": true
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "MainActivity_kt": {
+                    "onCreate": "super.onCreate(null)"
+                }
             }
         },
         "androidwear": {
@@ -290,6 +343,7 @@
         }
     },
     "crypto": {
+        "path": "./ci/privateConfigs.enc",
         "optional": true,
         "encrypt": {
             "dest": "PROJECT_HOME/secrets/privateConfigs.enc"
