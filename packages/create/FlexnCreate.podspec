@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.platforms       = { :ios => "10.0", :tvos => "10.0" }
   s.source          = { :git => "https://github.com/flexn-io/create.git", :tag => "#{s.version}" }
 
-  s.tvos.source_files    = "ios/**/*.{h,m,mm,swift}"
+  s.source_files    = "ios/**/*.{h,m,mm,swift}"
   s.swift_version   = '5.0'
 
   s.dependency "React-Core"
