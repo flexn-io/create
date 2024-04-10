@@ -133,13 +133,9 @@
             "provisioningStyle": "Automatic",
             "entitlements": {},
             "allowProvisioningUpdates": true,
+            "assetSources": ["{{resolvePackage(@flexn/assets-renative-outline)}}/assets"],
             "permissions": [
                 "*"
-            ],
-            "excludedArchs": [
-                {
-                    "sdk=iphonesimulator*": "arm64"
-                }
             ],
             "excludedPlugins": [
                 "react-native-carplay"
