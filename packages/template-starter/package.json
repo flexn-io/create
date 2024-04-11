@@ -21,7 +21,8 @@
         "src",
         "tsconfig.json",
         "metro.config.js",
-        "babel.config.js"
+        "babel.config.js",
+        "webpack.config.js"
     ],
     "main": "index",
     "repository": {
