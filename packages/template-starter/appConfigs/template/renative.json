@@ -173,9 +173,10 @@
             }
         },
         "tizen": {
-            "package": "samsungdev",
-            "id": "samsungdev.TestHarness",
-            "certificateProfile": "RNVanillaCert"
+            "package": "NkVRhWHJST",
+            "id": "NkVRhWHJST.RNVanillaTV",
+            "certificateProfile": "RNVanillaCert",
+            "appName": "TemplateStarter"
         },
         "tizenwatch": {
             "package": "cHIP2fIRQZ",
