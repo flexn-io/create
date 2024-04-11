@@ -56,11 +56,14 @@
     "plugins": {
         "@flexn/create": {
             "source": "flexn",
-            "version": "1.3.0-feat-rnv-update.2",
+            "version": "1.3.0-feat-rnv-update.3",
             "androidtv": {
                 "templateAndroid": {
                     "MainActivity_kt": {
-                        "imports": ["io.flexn.create.TvRemoteHandlerModule", "android.view.KeyEvent"],
+                        "imports": [
+                            "io.flexn.create.TvRemoteHandlerModule",
+                            "android.view.KeyEvent"
+                        ],
                         "methods": [
                             "override fun dispatchKeyEvent(ev: KeyEvent?): Boolean {",
                             "TvRemoteHandlerModule.getInstance().handleKeyEvent(ev)",
@@ -73,7 +76,10 @@
             "firetv": {
                 "templateAndroid": {
                     "MainActivity_kt": {
-                        "imports": ["io.flexn.create.TvRemoteHandlerModule", "android.view.KeyEvent"],
+                        "imports": [
+                            "io.flexn.create.TvRemoteHandlerModule",
+                            "android.view.KeyEvent"
+                        ],
                         "methods": [
                             "override fun dispatchKeyEvent(ev: KeyEvent?): Boolean {",
                             "TvRemoteHandlerModule.getInstance().handleKeyEvent(ev)",
