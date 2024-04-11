@@ -50,7 +50,7 @@
         "@flexn/fonts": "1.0.1",
         "@flexn/graybox": "1.0.0",
         "@flexn/recyclerlistview": "4.2.7",
-        "@flexn/shopify-flash-list": "1.4.8",
+        "@flexn/shopify-flash-list": "1.4.9",
         "@react-native-masked-view/masked-view": "0.3.1",
         "@react-navigation/bottom-tabs": "6.5.19",
         "@react-navigation/core": "6.4.15",

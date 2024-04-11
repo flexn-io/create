@@ -2342,10 +2342,10 @@
     prop-types "15.8.1"
     ts-object-utils "0.0.5"
 
-"@flexn/shopify-flash-list@1.4.8":
-  version "1.4.8"
-  resolved "https://registry.npmjs.org/@flexn/shopify-flash-list/-/shopify-flash-list-1.4.8.tgz#2449f615d877ad6db23b48b659d48ace71aefbc6"
-  integrity sha512-4azBiKBvk+KmLUwaQsANwybksft36C/TJxF9qiV/ZnoHVxTAQxvMfGsXtvyjKbNKPYHQjHvq/lLZpWQ0kSpAqw==
+"@flexn/shopify-flash-list@1.4.9":
+  version "1.4.9"
+  resolved "https://registry.yarnpkg.com/@flexn/shopify-flash-list/-/shopify-flash-list-1.4.9.tgz#6f375aa43721061c0739acc2a3ec464992c63e6b"
+  integrity sha512-WNuBppUuOzw26kO/IOM0Lc3qNkXMyqTf1RbCDlSMBZQnGbInOiGEOcj6E1k05F+J52EcDCQC8/vFYd7VvRjn/w==
   dependencies:
     "@flexn/recyclerlistview" "4.2.6"
     tslib "2.4.0"

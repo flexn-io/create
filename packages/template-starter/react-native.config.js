@@ -2,9 +2,11 @@
 const { withRNVRNConfig } = require('@rnv/adapter');
 
 module.exports = withRNVRNConfig({
-    'react-native-vector-icons': {
-        platforms: {
-            ios: null,
+    dependencies: {
+        'react-native-vector-icons': {
+            platforms: {
+                ios: null,
+            },
         },
-    },
+    }
 });

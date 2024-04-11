@@ -1,7 +1,0 @@
-{
-    "overrides": {
-        "android/src/main/kotlin/com/shopify/reactnative/flash_list/AutoLayoutView.kt": {
-            "Canvas?": "Canvas"
-        }
-    }
-}

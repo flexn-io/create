@@ -149,7 +149,7 @@
             }
         },
         "@flexn/shopify-flash-list": {
-            "version": "1.4.8",
+            "version": "1.4.9",
             "webpackConfig": {
                 "modulePaths": true
             }
