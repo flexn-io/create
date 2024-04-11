@@ -19,7 +19,9 @@
         "renative.json",
         "renative.template.json",
         "src",
-        "tsconfig.json"
+        "tsconfig.json",
+        "metro.config.js",
+        "babel.config.js"
     ],
     "main": "index",
     "repository": {
