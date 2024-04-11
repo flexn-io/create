@@ -96,9 +96,13 @@
             "version": "1.0.0-rc.16"
         },
         "react-native-vector-icons": {
-            "source": "rnv",
+            "source": "flexn",
             "version": "10.0.3",
-            "disablePluginTemplateOverrides": true,
+            "tvos": {
+                "podNames": [
+                    "pod 'RNVectorIcons', :path => \"#{Pod::Config.instance.installation_root}/../../node_modules/react-native-vector-icons\""
+                ]
+            },
             "webpackConfig": {
                 "modulePaths": true
             }
