@@ -22,7 +22,18 @@
         "renative.template.json",
         "src",
         "tsconfig.json",
-        "webpack.config.js"
+        "webpack.config.js",
+        "Gemfile",
+        "Gemfile.lock",
+        ".gitignore",
+        "LICENSE",
+        "README.md",
+        "buildHooks/src",
+        "next-env.d.ts",
+        "react-native.config.js",
+        "renative.json",
+        "renative.template.json",
+        "templateOverrides"
     ],
     "main": "index",
     "repository": {
