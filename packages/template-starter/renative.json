@@ -8,7 +8,7 @@
         "@rnv/engine-rn-web": "source:rnv"
     },
     "$schema": ".rnv/schema/rnv.project.json",
-    "isMonorepo": true,
+    "isMonorepo": false,
     "projectName": "@flexn/create-template-starter",
     "workspaceID": "flexn",
     "paths": {
@@ -90,7 +90,7 @@
         },
         "@rnv/renative": {
             "source": "flexn",
-            "version": "1.0.0-rc.13"
+            "version": "1.0.0-rc.16"
         },
         "react-native-vector-icons": {
             "source": "rnv",

@@ -4379,17 +4379,17 @@
     history "^4.7.2"
     query-string "^6.2.0"
 
-"@rnv/adapter@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/adapter/-/adapter-1.0.0-rc.13.tgz#9c3dddaf204f2b6ae6d063cecd3170afab6a1d75"
-  integrity sha512-WDHfpFY2eoIrYcuLSPZxlRtomRzfHG6zVaSl7pbaxlHQuWisOGGPBxNr2JyirdU373tDjeAtzOhMbTFydlohgg==
+"@rnv/adapter@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/adapter/-/adapter-1.0.0-rc.16.tgz#6d57db5fa4f3fed1f15b0336d085425221800720"
+  integrity sha512-QZyxSlMrLyFB2vs6u1pNEZfVTCjHmPAWddHSqYawE+mEHvz4/0Re30HZjwbB9fiwlf7TwaX55pGOwlowSVfpUQ==
   dependencies:
     babel-plugin-module-resolver "^5.0.0"
 
-"@rnv/core@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/core/-/core-1.0.0-rc.13.tgz#817179e9f640fec0cd19247c8494d35b1f451241"
-  integrity sha512-0QAWGCfKIUnLiI0UEM5Sx46jehxXB0xLfT5O/VI76UY+PQk+CuVoENpfPt1kJ9swPK06eJQwUWhIk+mZdRmyfQ==
+"@rnv/core@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/core/-/core-1.0.0-rc.16.tgz#bef436de5e6c69531bb6d12884ff3a1dba5f371e"
+  integrity sha512-4CZoFGBIOEtGwaW6utWtJghiKIEcMspAdxgC7fQ6lTWvwGLghevoEwKHKWvZnZO9kjOf2gVqciIur8ka/9q5UA==
   dependencies:
     ajv "7.0.0-beta.0"
     deepmerge "3.2.0"
@@ -4408,131 +4408,132 @@
     type-fest "4.14.0"
     zod "3.22.4"
 
-"@rnv/engine-lightning@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/engine-lightning/-/engine-lightning-1.0.0-rc.13.tgz#c6e63a853688be5f7cb1ea8b809c986b56ed2ec7"
-  integrity sha512-BIcfqyNDu+FnINohHSp728VgUeVKJV4kE1W5qXfakwUWh5mRIYZVbGnVEk80A24VxzRobboaREUXsK8GGqiIag==
+"@rnv/engine-lightning@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-lightning/-/engine-lightning-1.0.0-rc.16.tgz#2b5c5db1f9bffe122f3f58d63186283962143cc5"
+  integrity sha512-1KLFROeOPsb6+Xi+8UmQ4l7FggEPQOIor5+gTEBPSvVHiMaZcyghuXYUYi2an9tYvyQpP9tJ81XwAc0+wuHHkA==
   dependencies:
     "@lightningjs/cli" "2.13.0"
     "@lightningjs/sdk" "5.5.1"
-    "@rnv/sdk-tizen" "1.0.0-rc.13"
-    "@rnv/sdk-utils" "1.0.0-rc.13"
-    "@rnv/sdk-webos" "1.0.0-rc.13"
+    "@rnv/sdk-tizen" "1.0.0-rc.16"
+    "@rnv/sdk-utils" "1.0.0-rc.16"
+    "@rnv/sdk-webos" "1.0.0-rc.16"
 
-"@rnv/engine-rn-electron@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-electron/-/engine-rn-electron-1.0.0-rc.13.tgz#2002b3ec4aea6bfc17d7a0bdbbb73f4a69dde189"
-  integrity sha512-kRFXYncbtY/XildhSCYpg6kXqY4GZsNyRh/w/tWK6WPH+X8Ke6QYqm/LRgjVg4NCbceKO3hnv5++qF2MdZzE+Q==
+"@rnv/engine-rn-electron@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-electron/-/engine-rn-electron-1.0.0-rc.16.tgz#9fdeecac9efaa926c0b7c2c05d7cda083570d0a0"
+  integrity sha512-hMIIXFPgRt+kw2hRd3QDLseUV3UTrxIBlH9zXD4X/nlR2iwyfPdYKmn0PncniddTZQZFSu+LaLdi5E0eoc3Rug==
   dependencies:
     "@react-native/babel-preset" "0.73.21"
-    "@rnv/adapter" "1.0.0-rc.13"
-    "@rnv/sdk-react-native" "1.0.0-rc.13"
-    "@rnv/sdk-utils" "1.0.0-rc.13"
-    "@rnv/sdk-webpack" "1.0.0-rc.13"
+    "@rnv/adapter" "1.0.0-rc.16"
+    "@rnv/sdk-react-native" "1.0.0-rc.16"
+    "@rnv/sdk-utils" "1.0.0-rc.16"
+    "@rnv/sdk-webpack" "1.0.0-rc.16"
     electron "26.3.0"
     electron-builder "24.6.4"
     electron-notarize "1.2.2"
     metro-react-native-babel-preset "0.76.8"
 
-"@rnv/engine-rn-next@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-next/-/engine-rn-next-1.0.0-rc.13.tgz#e9d066c4fca8a72f33514f7b6f377d5b3501319e"
-  integrity sha512-t6bqQJJn3XrtNimzoLGHqRU8LucbDj0JWiDaFmdcNqubaSZt1HE8BwZY4Dojj4ZOWYG7wQwCui7rBH3Kk4cUNA==
+"@rnv/engine-rn-next@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-next/-/engine-rn-next-1.0.0-rc.16.tgz#a236e4f050884d5b2e4b4380a10634627d25fe55"
+  integrity sha512-uzzDtPgOx9KKIBk5OU7VM1IKFzFiOMEAnkvHGn7D/252VxNh4D9fqOt4xfo1cqRtzmmvhdQS5+4mkz9Spxs7ow==
   dependencies:
-    "@rnv/adapter" "1.0.0-rc.13"
-    "@rnv/sdk-utils" "1.0.0-rc.13"
+    "@rnv/adapter" "1.0.0-rc.16"
+    "@rnv/sdk-utils" "1.0.0-rc.16"
     babel-preset-expo "9.5.2"
     next-fonts "1.5.1"
     next-images "1.8.4"
+    webpack "^5.64.4"
 
-"@rnv/engine-rn-tvos@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-tvos/-/engine-rn-tvos-1.0.0-rc.13.tgz#a927d666ae11c8e7c25bde992bee8880db9cf370"
-  integrity sha512-ebfuEaWiOzL2j/OF55e8ayGIYglGF+sBgC7RcKzHZmXVU25te4VN/nJI4uMuisREafe6Q5clYv1fnwKLEPD8VQ==
+"@rnv/engine-rn-tvos@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-tvos/-/engine-rn-tvos-1.0.0-rc.16.tgz#895ab7fbf406dbebb957af756f1e15f960358e66"
+  integrity sha512-cm8Ue3UADJ4tVUMbpRMtfK/8Bgcz4SJmDMHNzFwvMFD+Oi4DZ0SLIcbi/sgRJV88aUmGNRXrGc9VRWQDikuTsA==
   dependencies:
     "@react-native/babel-preset" "0.73.21"
-    "@rnv/adapter" "1.0.0-rc.13"
-    "@rnv/sdk-android" "1.0.0-rc.13"
-    "@rnv/sdk-apple" "1.0.0-rc.13"
-    "@rnv/sdk-react-native" "1.0.0-rc.13"
+    "@rnv/adapter" "1.0.0-rc.16"
+    "@rnv/sdk-android" "1.0.0-rc.16"
+    "@rnv/sdk-apple" "1.0.0-rc.16"
+    "@rnv/sdk-react-native" "1.0.0-rc.16"
 
-"@rnv/engine-rn-web@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-web/-/engine-rn-web-1.0.0-rc.13.tgz#72b10f3dab5c0b8199e2c49f6ec0941f22a77e0f"
-  integrity sha512-qxVv7OxPLEnjntlZy1msKu4BHNE4nL1nM5LG52oELIbh8CV51qkxEtPLrYZODiU5MBfMYiZw2SdmvhPpjfJAjg==
+"@rnv/engine-rn-web@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn-web/-/engine-rn-web-1.0.0-rc.16.tgz#d4be23d8655f9aa493d97559f2dd8ccc213db44f"
+  integrity sha512-Pho2My7eQml/E/0jUUu+h259H4Wdmtd3w77EBY7ZwAzVrMffIQmxL/d1WLkdnlThiRtm0MNDWMHhHlpyC4I0MQ==
   dependencies:
     "@react-native/babel-preset" "0.73.21"
-    "@rnv/adapter" "1.0.0-rc.13"
-    "@rnv/sdk-kaios" "1.0.0-rc.13"
-    "@rnv/sdk-tizen" "1.0.0-rc.13"
-    "@rnv/sdk-utils" "1.0.0-rc.13"
-    "@rnv/sdk-webos" "1.0.0-rc.13"
-    "@rnv/sdk-webpack" "1.0.0-rc.13"
+    "@rnv/adapter" "1.0.0-rc.16"
+    "@rnv/sdk-kaios" "1.0.0-rc.16"
+    "@rnv/sdk-tizen" "1.0.0-rc.16"
+    "@rnv/sdk-utils" "1.0.0-rc.16"
+    "@rnv/sdk-webos" "1.0.0-rc.16"
+    "@rnv/sdk-webpack" "1.0.0-rc.16"
     metro-react-native-babel-preset "0.76.8"
 
-"@rnv/engine-rn@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/engine-rn/-/engine-rn-1.0.0-rc.13.tgz#ffc6e0945456fe77716fb08d317fb171539b35f4"
-  integrity sha512-q6ImuqjN7nopNLE/nXCEjRuMTbc5MOGIY3zoCyvIa69pJmIvU+DzG69eNRkuUCU/HI1gSK8+kiYLxYGfmuhAWg==
+"@rnv/engine-rn@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/engine-rn/-/engine-rn-1.0.0-rc.16.tgz#258a85a943eb88374fd447897234ea6b4b37ba27"
+  integrity sha512-Ph+cWpBFNZIWBGkqhVU/Gub5fJkKyZGOg7qmOUC5nCt3oaDkJjYmiigi+9Wti6wKFzDRPLOlZPuaJxaZDiPCUw==
   dependencies:
     "@react-native/babel-preset" "0.73.21"
-    "@rnv/adapter" "1.0.0-rc.13"
-    "@rnv/sdk-android" "1.0.0-rc.13"
-    "@rnv/sdk-apple" "1.0.0-rc.13"
-    "@rnv/sdk-react-native" "1.0.0-rc.13"
+    "@rnv/adapter" "1.0.0-rc.16"
+    "@rnv/sdk-android" "1.0.0-rc.16"
+    "@rnv/sdk-apple" "1.0.0-rc.16"
+    "@rnv/sdk-react-native" "1.0.0-rc.16"
 
-"@rnv/renative@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/renative/-/renative-1.0.0-rc.13.tgz#4de4685312b81164deafc8079f96d972964d2455"
-  integrity sha512-ukCSAy6UKDpEKbBNqZ8IDLSyj24EoGycqu4sAsLqq9mhizMelOH5/AgRkdDofIpeImS7xJCLjb0zO58Z2laCLA==
+"@rnv/renative@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/renative/-/renative-1.0.0-rc.16.tgz#0bfa8a44c1b640ca063a656a7bdd6dfe68e5c948"
+  integrity sha512-AY8f7Wc6FOPgOvtumVvk2NdJiISINBh7eTkl0am3x0IiS6ZDlUFRx7wZVhs9jc0b7F0mHAkqwj/pP0/F+Sfpzg==
 
-"@rnv/sdk-android@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/sdk-android/-/sdk-android-1.0.0-rc.13.tgz#f82f414785b93298785bad2ed15a294f7769cec6"
-  integrity sha512-zKON0uIhTJGiXDKXxcKvnX9n9L4ecwS7fS8cdVvPih1wgIbkS4OV77ERXzEa7E2qoAQUaSXMxSgeb+Z41/5pSw==
+"@rnv/sdk-android@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-android/-/sdk-android-1.0.0-rc.16.tgz#cfaefdea6f476c66f3315fa70e366f4f0c8c52c3"
+  integrity sha512-EoszKdBbyQsCKWL2ci41a3ZLQ2FJwO48J8C0bk0iAtoo31YIeYEMOqdLDoCJi+iVbHRsGKgiJ3e8C8akI5P9hw==
   dependencies:
-    "@rnv/sdk-react-native" "1.0.0-rc.13"
-    "@rnv/sdk-utils" "1.0.0-rc.13"
+    "@rnv/sdk-react-native" "1.0.0-rc.16"
+    "@rnv/sdk-utils" "1.0.0-rc.16"
     jetifier "2.0.0"
 
-"@rnv/sdk-apple@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/sdk-apple/-/sdk-apple-1.0.0-rc.13.tgz#b7a40e4ca2727a3f9fd5f335f5e4b8b4c84d355c"
-  integrity sha512-+BxXWZ8bdEjlzQP4xO7oRkGZ8ULoOnAnYo6HAOLa/LbvAo6ftgX5VHu0U/esXBPZTj87sbCxwxfWkbrnYooO9g==
+"@rnv/sdk-apple@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-apple/-/sdk-apple-1.0.0-rc.16.tgz#71d3dc4084da878b83ec2e5ce252089e5724915c"
+  integrity sha512-yi+ezfLe0ShZVav1/StvmszQUtrFNXrbeE6dcKTcSLRRBoE9qR0G21rFTpve/AWvUnbBl+Z3Q4Z1QN3k2mXNpA==
   dependencies:
-    "@rnv/sdk-react-native" "1.0.0-rc.13"
-    "@rnv/sdk-utils" "1.0.0-rc.13"
+    "@rnv/sdk-react-native" "1.0.0-rc.16"
+    "@rnv/sdk-utils" "1.0.0-rc.16"
     appium-ios-device "2.7.10"
     ios-mobileprovision-finder "1.1.0"
     xcode "2.1.0"
 
-"@rnv/sdk-kaios@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/sdk-kaios/-/sdk-kaios-1.0.0-rc.13.tgz#ff9d08ebcc54b47e21663a1625b62ce81ccf1ccd"
-  integrity sha512-ZkePWKBB4dSsDd0tXpHNi6Tc86UUM9DvzpO3RdblsOU0N5iR/RS3bAIaYFffR+O3g2TjCErtEJkAdgd/ypacdA==
+"@rnv/sdk-kaios@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-kaios/-/sdk-kaios-1.0.0-rc.16.tgz#9cf00aa0693572857a19d69f2033753d9c4aa01f"
+  integrity sha512-ZTPoQk3vSUXnPRpITArDB+kP46MBFUNyJgfZZ8qCdGtHMb2E4PBEuGTWO6DKFr/Tnb46LwPedw4y3eHl7BL6cg==
 
-"@rnv/sdk-react-native@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/sdk-react-native/-/sdk-react-native-1.0.0-rc.13.tgz#19d5eade9d8f6c0f5c052b7ea5419d65a52fc4f8"
-  integrity sha512-P2/vksWxleHtXuF+L155sR2X0T9qLgQVxKvpTll0hRrwLh2BeDa85JxIJfTaTplWXsBLykXYOG8Lj0viw/KRxA==
+"@rnv/sdk-react-native@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-react-native/-/sdk-react-native-1.0.0-rc.16.tgz#6f17262276c33c2fa5619c2d6106a65b1d2651fa"
+  integrity sha512-w+JZki9oU09XDbh+YvCegPSQSN3aeRScSHEo/WH5OCKyPXdPGE+w4K4v5GDsF0TSEm02vMt/T4pwqnUL0Tv1wQ==
   dependencies:
     "@react-native/metro-babel-transformer" "^0.74.0"
-    "@rnv/sdk-utils" "1.0.0-rc.13"
+    "@rnv/sdk-utils" "1.0.0-rc.16"
     shell-quote "1.8.1"
 
-"@rnv/sdk-tizen@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/sdk-tizen/-/sdk-tizen-1.0.0-rc.13.tgz#bf9eca1ea4ef0fca3e243445865048e93e796b1c"
-  integrity sha512-Cl75iQ5jnVe3zEizSSkm8ULin6f+LYL8uWI32Ud0oNejCN4bmKIJiUW0scAKO/kZWmQ/1HWPvk/lywibxNJIBg==
+"@rnv/sdk-tizen@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-tizen/-/sdk-tizen-1.0.0-rc.16.tgz#a05d57da7ed5a40d4698e365fc7663c67d1a21a9"
+  integrity sha512-OC9taS1VFKk0U1Tmt/vOBefltXi+aDCYuVzQl8eaZe+GWI8IqL0QeUTS7vaerwD85g8DCTQgYbRwJ1fPgYLhzg==
   dependencies:
-    "@rnv/sdk-utils" "1.0.0-rc.13"
-    "@rnv/sdk-webpack" "1.0.0-rc.13"
+    "@rnv/sdk-utils" "1.0.0-rc.16"
+    "@rnv/sdk-webpack" "1.0.0-rc.16"
     xml2js "0.6.2"
 
-"@rnv/sdk-utils@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/sdk-utils/-/sdk-utils-1.0.0-rc.13.tgz#8fe7c2d39d30228976fd90d5765e3410c3634de7"
-  integrity sha512-2/hG/9lhL/HCSHnhVivIS7Hx62H0V1Pyeqj6Phmuxy3Fk3Sgph/opK+cO41RRAvHfOWfOZ8s1IzoZysdDIKnXQ==
+"@rnv/sdk-utils@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-utils/-/sdk-utils-1.0.0-rc.16.tgz#902eaf3de426fe39880bd9e9894727d947a39e66"
+  integrity sha512-dFMhQm51jElx/5xD60cYHta9yCth2uzxQNiegCBwVm3gNGLSm67XjJgMbo2+X33xyVPjIMMfQUrqYBNpwt42qw==
   dependencies:
     axios "1.6.0"
     better-opn "1.0.0"
@@ -4541,21 +4542,21 @@
     ip "2.0.1"
     kill-port "1.6.1"
 
-"@rnv/sdk-webos@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/sdk-webos/-/sdk-webos-1.0.0-rc.13.tgz#67ddc57bfcfbb41f3be114d91357bd4a00f124ba"
-  integrity sha512-hiICuxTotPIaSofG7s0R5EPt6Z41ZRQpEdSbX54q487GtGcYHBLUg+UkApig84/ZaZyY8k/tN9UaDkyxDUcnDg==
+"@rnv/sdk-webos@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-webos/-/sdk-webos-1.0.0-rc.16.tgz#5b90bd418e873a05017fdda210126de36696e78a"
+  integrity sha512-NXMQDQqmOlRyjcw3lZyOmKwQEa7oopZxCLDKrax2fIfyfadqZqQdWGEDVE+Nbd5eY50095kiLrfhK3GkVkp+Ww==
   dependencies:
-    "@rnv/sdk-utils" "1.0.0-rc.13"
-    "@rnv/sdk-webpack" "1.0.0-rc.13"
+    "@rnv/sdk-utils" "1.0.0-rc.16"
+    "@rnv/sdk-webpack" "1.0.0-rc.16"
 
-"@rnv/sdk-webpack@1.0.0-rc.13":
-  version "1.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/@rnv/sdk-webpack/-/sdk-webpack-1.0.0-rc.13.tgz#1609839dc0a5d4f9d4981d1a01c3b5101d85e90d"
-  integrity sha512-cnpcON7ZyaImMWHJCkW1QQfJp3ZEnN1NuTX9GVAPQSSBgwUj44e4v9NfsGx+TbLREgMEVr4VWC6DAAowEuGe6w==
+"@rnv/sdk-webpack@1.0.0-rc.16":
+  version "1.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@rnv/sdk-webpack/-/sdk-webpack-1.0.0-rc.16.tgz#2717b496d413ba1470e6c0938b85407a06adac54"
+  integrity sha512-fPiUSH1oK0da853CVJRqXZ2qeQf7lVXn5AuI21W+mcjafcSqTraseQdwZZ90O+pL4vimTXgdwUNTVE3qb6muIA==
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin" "^0.5.3"
-    "@rnv/sdk-utils" "1.0.0-rc.13"
+    "@rnv/sdk-utils" "1.0.0-rc.16"
     "@svgr/webpack" "6.3.1"
     bfj "^7.0.2"
     browserslist "^4.18.1"
