@@ -35,10 +35,8 @@
             "tvos",
             "web",
             "macos",
-            "linux",
             "firetv",
             "chromecast",
-            "androidwear",
             "tizen",
             "webos"
         ],
@@ -250,20 +248,40 @@
                 }
             }
         },
-        "androidwear": {
-            "extendPlatform": "android"
-        },
         "androidtv": {
             "extendPlatform": "android",
-            "engine": "engine-rn-tvos"
+            "engine": "engine-rn-tvos",
+            "templateAndroid": {
+                "AndroidManifest_xml": {
+                    "children": [
+                        {
+                            "tag": "application",
+                            "android:name": ".MainApplication",
+                            "children": [
+                                {
+                                    "tag": "activity",
+                                    "android:name": ".SplashActivity",
+                                    "children": [
+                                        {
+                                            "tag": "intent-filter",
+                                            "children": [
+                                                {
+                                                    "tag": "category",
+                                                    "android:name": "android.intent.category.LAUNCHER"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
         },
         "firetv": {
-            "extendPlatform": "android",
-            "engine": "engine-rn-tvos",
-            "minSdkVersion": 21,
-            "includedPermissions": [
-                "INTERNET"
-            ]
+            "extendPlatform": "androidtv",
+            "engine": "engine-rn-tvos"
         },
         "ios": {
             "engine": "engine-rn",
@@ -304,9 +322,6 @@
             "excludedPlugins": [
                 "react-native-linear-gradient"
             ]
-        },
-        "windows": {
-            "engine": "engine-rn-electron"
         }
     },
     "permissions": {

@@ -49,9 +49,7 @@
                 "platforms": [
                     "macos",
                     "tizen",
-                    "webos",
-                    "tizenwatch",
-                    "tizenmobile"
+                    "webos"
                 ]
             }
         ],
