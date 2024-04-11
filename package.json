@@ -25,7 +25,7 @@
         "release": "lerna version --force-publish --no-git-tag-version --no-push && yarn update-versions && yarn gitCommit && lerna publish from-package && yarn gitTag",
         "release-alpha": "lerna version --force-publish --no-git-tag-version --no-push && yarn update-versions && yarn gitCommit && lerna publish from-package --dist-tag alpha --yes && yarn gitTag",
         "release-rc": "lerna version --force-publish --no-git-tag-version --no-push && yarn update-versions && yarn gitCommit && lerna publish from-package --dist-tag rc --yes && yarn gitTag",
-        "release-feat": "lerna version --force-publish --no-git-tag-version --no-push && lerna publish from-package --dist-tag feat --yes && yarn gitTag",
+        "release-feat": "lerna version --force-publish --no-git-tag-version --no-push && yarn update-versions && lerna publish from-package --dist-tag feat --yes && yarn gitTag",
         "release-dry": "lerna version --force-publish --no-git-tag-version --no-push && npx rnv hooks run -x updateVersions",
         "deploy-packages": "npm run deploy-all && npx lerna publish from-package --yes && git push origin HEAD",
         "decrypt-harness": "cd packages/app-harness && npx rnv crypto decrypt --ci",
