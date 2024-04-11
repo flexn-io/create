@@ -1,6 +1,6 @@
 {
     "name": "@flexn/create-template-starter",
-    "version": "1.3.0-feat-rnv-update.5",
+    "version": "1.3.0-feat-rnv-update.6",
     "description": "Flexn Template",
     "keywords": [],
     "homepage": "https://github.com/flexn-io/create#readme",
@@ -17,8 +17,8 @@
         "README.md",
         "appConfigs/app",
         "appConfigs/base/assets/runtime",
-        "appConfigs/base/fonts",
         "appConfigs/base/builds",
+        "appConfigs/base/fonts",
         "appConfigs/base/renative.json",
         "babel.config.js",
         "buildHooks/src",
@@ -80,7 +80,7 @@
         "watch": "tsc --watch --preserveWatchOutput --noEmit"
     },
     "dependencies": {
-        "@flexn/create": "1.3.0-feat-rnv-update.5",
+        "@flexn/create": "1.3.0-feat-rnv-update.6",
         "@react-native-masked-view/masked-view": "0.3.1",
         "@react-navigation/bottom-tabs": "6.5.19",
         "@react-navigation/core": "6.4.15",
