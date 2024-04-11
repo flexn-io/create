@@ -18,6 +18,7 @@
         "appConfigs/app",
         "appConfigs/base/assets/runtime",
         "appConfigs/base/fonts",
+        "appConfigs/base/plugins",
         "appConfigs/base/renative.json",
         "babel.config.js",
         "buildHooks/src",
