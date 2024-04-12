@@ -397,7 +397,7 @@
         }
     },
     "crypto": {
-        "path": "./ci/privateConfigs.enc",
+        "path": "./secrets/privateConfigs.enc",
         "optional": true,
         "encrypt": {
             "dest": "PROJECT_HOME/secrets/privateConfigs.enc"
