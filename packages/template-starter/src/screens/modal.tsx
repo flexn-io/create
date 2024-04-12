@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Text, View, ScrollView, TouchableOpacity } from '@flexn/create';
+import { Text, View, TouchableOpacity } from '@flexn/create';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ThemeContext } from '../config';
 import { usePop } from '../hooks';
@@ -21,14 +21,15 @@ const ScreenModal = ({ navigation }: { navigation?: any }) => {
                 <TouchableOpacity
                     onPress={() => pop()}
                     style={theme.styles.icon}
+                    focusOptions={{ hasPreferredFocus: true }}
                     {...testProps('template-modal-screen-close-button')}
                 >
                     <Icon name="close" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 </TouchableOpacity>
             </View>
-            <ScrollView contentContainerStyle={[theme.styles.container, { flex: 1 }]}>
+            <View style={[theme.styles.container, { flex: 1 }]}>
                 <Text style={theme.styles.textH2}>This is my Modal!</Text>
-            </ScrollView>
+            </View>
         </Screen>
     );
 };

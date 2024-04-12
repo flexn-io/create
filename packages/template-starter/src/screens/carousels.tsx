@@ -1,7 +1,7 @@
 import { FlashList, View, Pressable, Image, ScrollView, Text } from '@flexn/create';
 import React, { useContext, useState } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
-import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv, isFactorWatch } from '@rnv/renative';
+import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv/renative';
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { generateRandomItemsRow, interval, testProps } from '../utils';
 import Screen from './screen';
@@ -11,8 +11,8 @@ const getCarouselSize = () => {
     switch (true) {
         case isFactorTv:
             return {
-                width: Ratio(250),
-                height: Ratio(250),
+                width: Ratio(300),
+                height: Ratio(300),
             };
         case isFactorMobile:
             return {
@@ -98,16 +98,18 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
 
 const styles = StyleSheet.create({
     screen: {
-        left: isFactorMobile || isPlatformMacos || isPlatformWeb || isFactorWatch ? 0 : Ratio(100),
+        ...isFactorTv && {
+            left: Ratio(100),
+            width: Dimensions.get('screen').width - Ratio(100)
+        }
     },
     wrapper: {
-        top: Ratio(20),
+        top: Ratio(30),
         marginBottom: isFactorTv ? Ratio(30) : 20,
+        height: Dimensions.get('screen').height
     },
     listSeparator: {
-        paddingRight: isFactorTv ? Ratio(100) : 0,
-        paddingBottom: isPlatformMacos || isPlatformWeb ? Ratio(20) : 0,
-        flex: 1,
+        paddingBottom: isPlatformMacos || isPlatformWeb ? Ratio(20) : Ratio(30),
     },
     cardStyle: {
         ...getCarouselSize(),

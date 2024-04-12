@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useState } from 'react';
-import { Dimensions, PixelRatio, StatusBarStyle } from 'react-native';
+import { Dimensions, DimensionValue, PixelRatio, StatusBarStyle } from 'react-native';
 import StyleSheet from 'react-native-media-query';
 import {
     getScaledValue,
@@ -87,8 +87,10 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             minHeight: getScaledValue(300),
             alignSelf: 'stretch',
             width: '100%',
+            ...isFactorTv && {
+                height: Dimensions.get('screen').height
+            }
         },
-        // @ts-expect-error - TODO: fix this
         modalContainer: {
             ...(isEngineRnNext && {
                 position: 'absolute',
@@ -96,7 +98,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
                 zIndex: 100,
                 top: 0,
                 left: 0,
-                height: '100vh',
+                height: '100vh' as DimensionValue,
                 width: '100%',
             }),
             ...(!isEngineRnNext && {
@@ -195,7 +197,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
         },
         menuContainer: {
             ...(isFactorTv && {
-                height: '100%',
+                height: Dimensions.get('screen').height,
                 alignItems: 'center',
                 justifyContent: 'center',
             }),
@@ -212,8 +214,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             }),
         },
         menuContainerBurgerOpen: {
-            // @ts-expect-error - TODO: fix this
-            height: '100vh',
+            height: '100vh' as DimensionValue,
             width: isPlatformWindows ? '100%' : '100%',
             zIndex: 5,
             justifyContent: 'flex-start',
@@ -225,7 +226,6 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             display: 'none',
             textAlign: 'right',
             right: 10,
-            // @ts-expect-error - TODO: fix this
             '@media (max-width: 768px)': {
                 display: 'flex !important;',
             },
@@ -233,7 +233,6 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
         menuItems: {
             display: 'flex',
             flexDirection: 'row',
-            // @ts-expect-error - TODO: fix this
             '@media (max-width: 768px)': {
                 display: 'none',
             },

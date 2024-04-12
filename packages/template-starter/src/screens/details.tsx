@@ -43,6 +43,7 @@ const ScreenDetails = ({ route, navigation, router }: { navigation?: any; router
                         style={theme.styles.button}
                         onPress={() => pop()}
                         focusOptions={{
+                            hasPreferredFocus: true,
                             forbiddenFocusDirections: ['up'],
                             animator: {
                                 type: 'border',
