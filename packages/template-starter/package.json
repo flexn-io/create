@@ -102,7 +102,7 @@
         "@rnv/config-templates": "1.0.0-rc.16",
         "@types/react": "18.2.52",
         "@types/react-dom": "18.2.18",
-        "@types/react-native": "0.72.2",
+        "@types/react-native": "0.72.3",
         "jetifier": "1.6.5",
         "react": "18.2.0",
         "react-art": "18.2.0",
