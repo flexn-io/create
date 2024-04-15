@@ -94,9 +94,8 @@
         "@rnv/engine-rn-next": "1.0.0-rc.16",
         "@rnv/engine-rn-tvos": "1.0.0-rc.16",
         "@rnv/engine-rn-web": "1.0.0-rc.16",
-        "jetifier": "1.6.5",
-        "ts-node": "^10.9.1",
-        "xcode": "2.1.0"
+        "@rnv/config-templates": "1.0.0-rc.16",
+        "jetifier": "1.6.5"
     },
     "private": true,
     "browserslist": [

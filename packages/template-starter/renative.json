@@ -1,4 +1,5 @@
 {
+    "$schema": ".rnv/schema/rnv.project.json",
     "engines": {
         "@rnv/engine-rn": "source:rnv",
         "@rnv/engine-rn-electron": "source:rnv",
@@ -6,27 +7,9 @@
         "@rnv/engine-rn-tvos": "source:rnv",
         "@rnv/engine-rn-web": "source:rnv"
     },
-    "$schema": ".rnv/schema/rnv.project.json",
-    "isMonorepo": false,
+    "isMonorepo": true,
     "projectName": "@flexn/create-template-starter",
     "workspaceID": "flexn",
-    "paths": {
-        "appConfigsDir": "./appConfigs",
-        "entryDir": "./",
-        "platformAssetsDir": "./platformAssets",
-        "platformBuildsDir": "./platformBuilds",
-        "pluginTemplates": {
-            "flexn": {
-                "npm": "@flexn/plugins",
-                "path": "./pluginTemplates"
-            }
-        }
-    },
-    "tasks": {
-        "install": {
-            "script": "yarn bootstrap"
-        }
-    },
     "defaults": {
         "supportedPlatforms": [
             "android",
@@ -44,8 +27,7 @@
             "run": "debug",
             "build": "release",
             "export": "release"
-        },
-        "targets": {}
+        }
     },
     "templateConfig": {
         "name": "@flexn/create-template-starter",
@@ -53,209 +35,44 @@
     },
     "plugins": {
         "@flexn/create": {
-            "source": "flexn",
-            "version": "1.3.0-feat-rnv-update.8",
-            "androidtv": {
-                "templateAndroid": {
-                    "MainActivity_kt": {
-                        "imports": [
-                            "io.flexn.create.TvRemoteHandlerModule",
-                            "android.view.KeyEvent"
-                        ],
-                        "methods": [
-                            "override fun dispatchKeyEvent(ev: KeyEvent?): Boolean {",
-                            "TvRemoteHandlerModule.getInstance().handleKeyEvent(ev)",
-                            "return super.dispatchKeyEvent(ev)",
-                            "}"
-                        ]
-                    }
-                }
-            },
-            "firetv": {
-                "templateAndroid": {
-                    "MainActivity_kt": {
-                        "imports": [
-                            "io.flexn.create.TvRemoteHandlerModule",
-                            "android.view.KeyEvent"
-                        ],
-                        "methods": [
-                            "override fun dispatchKeyEvent(ev: KeyEvent?): Boolean {",
-                            "TvRemoteHandlerModule.getInstance().handleKeyEvent(ev)",
-                            "return super.dispatchKeyEvent(ev)",
-                            "}"
-                        ]
-                    }
-                }
-            },
-            "webpackConfig": {
-                "modulePaths": true
-            }
+            "version": "1.3.0-feat-rnv-update.8"
         },
         "@rnv/renative": {
-            "source": "flexn",
             "version": "1.0.0-rc.16"
         },
-        "react-native-vector-icons": {
-            "source": "flexn",
-            "version": "10.0.3",
-            "tvos": {
-                "podNames": [
-                    "pod 'RNVectorIcons', :path => \"#{Pod::Config.instance.installation_root}/../../node_modules/react-native-vector-icons\""
-                ]
-            },
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "@react-navigation/core": {
-            "version": "6.4.15",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "@react-navigation/bottom-tabs": {
-            "version": "6.5.19",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "@react-navigation/drawer": {
-            "version": "6.6.14",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "@react-navigation/material-bottom-tabs": {
-            "version": "6.2.27",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "@react-navigation/material-top-tabs": {
-            "version": "6.6.12",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "@react-navigation/native": {
-            "version": "6.1.16",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "@react-navigation/routers": {
-            "version": "6.1.9",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "@react-navigation/stack": {
-            "version": "6.3.28",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "@react-navigation/web": {
-            "version": "1.0.0-alpha.9",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "@react-navigation/native-stack": {
-            "version": "6.9.25",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
+        "react-native-vector-icons": "source:rnv",
+        "@react-navigation/core": "source:rnv",
+        "@react-navigation/bottom-tabs": "source:rnv",
+        "@react-navigation/drawer": "source:rnv",
+        "@react-navigation/material-bottom-tabs": "source:rnv",
+        "@react-navigation/material-top-tabs": "source:rnv",
+        "@react-navigation/native": "source:rnv",
+        "@react-navigation/routers": "source:rnv",
+        "@react-navigation/stack": "source:rnv",
+        "@react-navigation/web": "source:rnv",
+        "@react-navigation/native-stack": "source:rnv",
         "@react-native-community/masked-view": null,
-        "@react-navigation/elements": {
-            "version": "1.3.29",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "react-native-screens": {
-            "version": "3.29.0",
-            "disablePluginTemplateOverrides": true,
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "react-native-safe-area-context": {
-            "version": "4.9.0",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
+        "@react-navigation/elements": "source:rnv",
+        "react-native-screens": "source:rnv",
+        "react-native-safe-area-context": "source:rnv",
         "react-native-reanimated": {
-            "version": "3.6.1",
-            "disablePluginTemplateOverrides": true,
-            "webpackConfig": {
-                "modulePaths": true
-            },
             "tvos": {
                 "disabled": true
             }
         },
         "@react-native-masked-view/masked-view": "0.3.1",
-        "react-native-media-query": {
-            "version": "2.0.0",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "@flexn/shopify-flash-list": {
-            "version": "1.4.9",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "@flexn/recyclerlistview": {
-            "source": "flexn",
-            "webpackConfig": {
-                "modulePaths": true
-            }
-        },
-        "react-native-gesture-handler": {
-            "version": "2.14.1"
-        },
+        "react-native-media-query": "source:rnv",
+        "@flexn/shopify-flash-list": "source:rnv",
+        "@flexn/recyclerlistview": "source:rnv",
+        "react-native-gesture-handler": "source:rnv",
         "react": "source:rnv",
         "react-art": "source:rnv",
         "react-dom": "source:rnv",
-        "@react-native-community/cli-platform-ios": {
-            "version": "11.3.7",
-            "disablePluginTemplateOverrides": false,
-            "disableNpm": true
-        },
-        "react-native": {
-            "version": "0.73.4"
-        },
-        "next": {
-            "version": "14.1.4",
-            "supportedPlatforms": [
-                "web"
-            ]
-        },
-        "react-native-web": {
-            "version": "0.19.9",
-            "webpackConfig": {
-                "modulePaths": true
-            },
-            "supportedPlatforms": [
-                "web",
-                "tizen",
-                "webos",
-                "macos"
-            ]
-        },
-        "react-native-tvos": {
-            "version": "0.73.6-0",
-            "supportedPlatforms": [
-                "tvos",
-                "firetv",
-                "androidtv"
-            ]
-        }
+        "@react-native-community/cli-platform-ios": "source:rnv",
+        "react-native": "source:rnv",
+        "next": "source:rnv",
+        "react-native-web": "source:rnv",
+        "react-native-tvos": "source:rnv"
     },
     "platforms": {
         "android": {
@@ -280,6 +97,7 @@
                     "org.gradle.configureondemand": true
                 },
                 "AndroidManifest_xml": {
+                    "tag": "manifest",
                     "children": [
                         {
                             "tag": "application",
@@ -308,37 +126,10 @@
         },
         "androidtv": {
             "extendPlatform": "android",
-            "engine": "engine-rn-tvos",
-            "templateAndroid": {
-                "AndroidManifest_xml": {
-                    "children": [
-                        {
-                            "tag": "application",
-                            "android:name": ".MainApplication",
-                            "children": [
-                                {
-                                    "tag": "activity",
-                                    "android:name": ".SplashActivity",
-                                    "children": [
-                                        {
-                                            "tag": "intent-filter",
-                                            "children": [
-                                                {
-                                                    "tag": "category",
-                                                    "android:name": "android.intent.category.LAUNCHER"
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            }
+            "engine": "engine-rn-tvos"
         },
         "firetv": {
-            "extendPlatform": "androidtv",
+            "extendPlatform": "android",
             "engine": "engine-rn-tvos"
         },
         "ios": {
@@ -348,19 +139,11 @@
         },
         "web": {
             "engine": "engine-rn-next",
-            "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
-            }
+            "nextTranspileModules": ["lodash-es"]
         },
         "chromecast": {
             "engine": "engine-rn-next",
-            "webpackConfig": {
-                "nextTranspileModules": [
-                    "lodash-es"
-                ]
-            }
+            "nextTranspileModules": ["lodash-es"]
         },
         "tizen": {
             "engine": "engine-rn-web",
@@ -378,9 +161,7 @@
         },
         "macos": {
             "engine": "engine-rn-electron",
-            "excludedPlugins": [
-                "react-native-linear-gradient"
-            ]
+            "excludedPlugins": ["react-native-linear-gradient"]
         }
     },
     "permissions": {
@@ -394,16 +175,6 @@
                 "key": "android.permission.SYSTEM_ALERT_WINDOW",
                 "security": "signature"
             }
-        }
-    },
-    "crypto": {
-        "path": "./secrets/privateConfigs.enc",
-        "optional": true,
-        "encrypt": {
-            "dest": "PROJECT_HOME/secrets/privateConfigs.enc"
-        },
-        "decrypt": {
-            "source": "PROJECT_HOME/secrets/privateConfigs.enc"
         }
     }
 }

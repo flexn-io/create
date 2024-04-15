@@ -1,7 +1,7 @@
 {
+    "$schema": "../../.rnv/schema/rnv.app.json",
     "id": "base",
     "hidden": true,
-    "skipBootstrapCopy": true,
     "common": {
         "author": "Flexn BV",
         "license": "MIT",
@@ -13,24 +13,6 @@
         ],
         "versionCodeFormat": "00.00.00.0000",
         "versionFormat": "0.0.0",
-        "buildSchemes": {
-            "debug": {
-                "description": "Use for local development",
-                "title": "Flexn Debug"
-            },
-            "test": {
-                "description": "Use to run automation",
-                "title": "Flexn Test"
-            },
-            "canary": {
-                "description": "Use for pre-production deployments",
-                "title": "Flexn Canary"
-            },
-            "production": {
-                "description": "Use for production deployments",
-                "title": "Flexn Production"
-            }
-        },
         "backgroundColor": "#111111",
         "fontSources": [
             "{{resolvePackage(react-native-vector-icons)}}/Fonts",

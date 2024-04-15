@@ -1,4 +1,5 @@
 {
+    "$schema": "../../.rnv/schema/rnv.app.json",
     "id": "template",
     "extend": "base",
     "skipBootstrapCopy": true,
@@ -12,17 +13,21 @@
         "buildSchemes": {
             "debug": {
                 "id": "io.flexn.template.debug",
+                "description": "Use for local development",
                 "title": "Template Debug"
             },
             "test": {
                 "id": "io.flexn.template.test",
+                "description": "Use to run automation",
                 "title": "Template Test"
             },
             "canary": {
                 "id": "io.flexn.template.alpha",
+                "description": "Use for pre-production deployments",
                 "title": "Template Alpha"
             },
             "production": {
+                "description": "Use for production deployments",
                 "title": "Template Production"
             }
         },

@@ -1,3 +1,3 @@
-const { withRNV } = require('@rnv/engine-rn-next');
+const { withRNVNext } = require('@rnv/adapter');
 
-module.exports = withRNV({});
+module.exports = withRNVNext({});
