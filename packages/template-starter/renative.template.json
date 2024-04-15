@@ -18,39 +18,16 @@
                 ]
             },
             {
-                "paths": [
-                    "Gemfile",
-                    "metro.config.js",
-                    ".bundle",
-                    "react-native.config.js"
-                ],
-                "platforms": [
-                    "ios",
-                    "android",
-                    "tvos",
-                    "firetv",
-                    "androidtv"
-                ]
+                "paths": ["Gemfile", "metro.config.js", ".bundle", "react-native.config.js"],
+                "platforms": ["ios", "android", "tvos", "firetv", "androidtv"]
             },
             {
-                "paths": [
-                    "next.config.js",
-                    "next-env.d.ts",
-                    "src/pages"
-                ],
-                "platforms": [
-                    "web"
-                ]
+                "paths": ["next.config.js", "next-env.d.ts", "src/pages"],
+                "platforms": ["web"]
             },
             {
-                "paths": [
-                    "webpack.config.js"
-                ],
-                "platforms": [
-                    "macos",
-                    "tizen",
-                    "webos"
-                ]
+                "paths": ["webpack.config.js"],
+                "platforms": ["macos", "tizen", "webos"]
             }
         ],
         "renative_json": {
@@ -74,15 +51,7 @@
             "dependencies": {
                 "axios": "1.6.8"
             },
-            "resolutions": {
-                "@babel/traverse": "7.15.0",
-                "@types/react": "18.2.6",
-                "@babel/core": "7.24.4"
-                
-            },
-            "browserslist": [
-                "> 2%"
-            ]
+            "browserslist": ["> 2%"]
         }
     },
     "bootstrapConfig": {
@@ -90,11 +59,6 @@
             "pkg-dir": "7.0.0",
             "xmlbuilder": "^15.1.1"
         },
-        "defaultSelectedPlatforms": [
-            "web",
-            "ios",
-            "android",
-            "macos"
-        ]
+        "defaultSelectedPlatforms": ["web", "ios", "android", "macos"]
     }
 }
