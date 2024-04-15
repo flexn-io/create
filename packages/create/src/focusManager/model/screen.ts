@@ -47,14 +47,9 @@ class Screen extends FocusModel {
     private _isFocused: boolean;
     private _group?: string;
     private _autoFocusEnabled = true;
-    private _interval?: NodeJS.Timer;
+    private _interval?: NodeJS.Timeout;
 
-    constructor(
-        params: Omit<
-            ScreenProps & ScreenProps['focusOptions'],
-            'style' | 'children' | 'focusOptions'
-        >
-    ) {
+    constructor(params: Omit<ScreenProps & ScreenProps['focusOptions'], 'style' | 'children' | 'focusOptions'>) {
         super(params);
 
         const {
@@ -98,24 +93,9 @@ class Screen extends FocusModel {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(
-                this.getType(),
-                this.getId(),
-                EVENT_TYPES.ON_MOUNT,
-                this._onMount
-            ),
-            Event.subscribe(
-                this.getType(),
-                this.getId(),
-                EVENT_TYPES.ON_UNMOUNT,
-                this._onUnmount
-            ),
-            Event.subscribe(
-                this.getType(),
-                this.getId(),
-                EVENT_TYPES.ON_LAYOUT,
-                this._onLayout
-            ),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT, this._onMount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
         ];
     }
 
@@ -145,11 +125,7 @@ class Screen extends FocusModel {
             if (this._initialLoadInProgress) {
                 setTimeout(() => {
                     delete this._componentsPendingLayoutMap[id];
-                    if (
-                        Object.keys(this._componentsPendingLayoutMap).length <=
-                            0 &&
-                        this._initialLoadInProgress
-                    ) {
+                    if (Object.keys(this._componentsPendingLayoutMap).length <= 0 && this._initialLoadInProgress) {
                         this._initialLoadInProgress = false;
                     }
                     resolve(true);
@@ -160,10 +136,7 @@ class Screen extends FocusModel {
         });
     }
 
-    public async onViewRemoved(
-        model: View,
-        wasCurrentFocusedView: boolean
-    ): Promise<void> {
+    public async onViewRemoved(model: View, wasCurrentFocusedView: boolean): Promise<void> {
         // TODO: double check this if don't need to executeFocus
         delete this._componentsPendingLayoutMap[model.getId()];
 
@@ -202,16 +175,9 @@ class Screen extends FocusModel {
             if (this._preferredFocus) return this._preferredFocus;
             if (this._precalculatedFocus) {
                 const parent = this._precalculatedFocus.getParent();
-                if (
-                    parent &&
-                    [MODEL_TYPES.ROW, MODEL_TYPES.GRID].includes(
-                        parent.getType() as never
-                    )
-                ) {
-                    const recycler =
-                        this._precalculatedFocus.getParent() as Recycler;
-                    if (recycler.getFocusedView())
-                        return recycler.getFocusedView();
+                if (parent && [MODEL_TYPES.ROW, MODEL_TYPES.GRID].includes(parent.getType() as never)) {
+                    const recycler = this._precalculatedFocus.getParent() as Recycler;
+                    if (recycler.getFocusedView()) return recycler.getFocusedView();
                 }
                 return this._precalculatedFocus;
             }
@@ -234,9 +200,7 @@ class Screen extends FocusModel {
             findLowestRelativeCoordinates(model as View);
         }
 
-        return model
-            .getChildren()
-            .map(async (ch) => await this.precalculateFocusAsync(ch));
+        return model.getChildren().map(async (ch) => await this.precalculateFocusAsync(ch));
     }
 
     private precalculateFocus(model: FocusModel) {
@@ -267,9 +231,7 @@ class Screen extends FocusModel {
         return this._state === SCREEN_STATES.FOREGROUND;
     }
 
-    public setPrevState(
-        value: (typeof SCREEN_STATES)[keyof typeof SCREEN_STATES]
-    ) {
+    public setPrevState(value: (typeof SCREEN_STATES)[keyof typeof SCREEN_STATES]) {
         this._prevState = value;
 
         return this;

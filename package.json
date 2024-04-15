@@ -117,5 +117,10 @@
             "**/appium-*",
             "**/@wdio/*"
         ]
+    },
+    "resolutions": {
+        "@babel/core": "7.24.4",
+        "@types/react": "18.2.52",
+        "tslib": "2.5.2"
     }
 }
