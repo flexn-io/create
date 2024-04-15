@@ -4,6 +4,7 @@
     "scripts": {
         "bootstrap": "npx lerna@6 bootstrap && npx jetify && yarn build",
         "bootstrap-clean": "rm -rf ./node_modules; npx lerna clean --yes && yarn bootstrap",
+        "clean-gitignore": "git clean -f -d -i",
         "build": "lerna run build",
         "watch-alt": "npx lerna run compile & npx lerna watch -- lerna run compile",
         "watch": "npx lerna exec yarn watch --parallel",
