@@ -1,4 +1,4 @@
-import { FlashList, View, Pressable, Image, ScrollView, Text } from '@flexn/create';
+import { FlashList, View, Pressable, Image, ScrollView, Text, setFocus } from '@flexn/create';
 import React, { useContext, useState } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv/renative';
@@ -36,6 +36,10 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
             return generateRandomItemsRow(rowNumber, itemsInViewport, 250, 250);
         })
     );
+
+    React.useEffect(() => {
+        setFocus('page');
+    }, []);
 
     const renderItem = ({ item, focusRepeatContext, index }: any) => {
         return (
