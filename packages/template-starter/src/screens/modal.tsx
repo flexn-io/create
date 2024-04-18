@@ -5,14 +5,16 @@ import { ThemeContext } from '../config';
 import { usePop } from '../hooks';
 import Screen from './screen';
 import { testProps } from '../utils';
+import { useWindowDimensions } from 'react-native';
 
 const ScreenModal = ({ navigation }: { navigation?: any }) => {
     const pop = usePop({ navigation });
+    const { height } = useWindowDimensions();
     const { theme } = useContext(ThemeContext);
 
     return (
         <Screen
-            style={theme.styles.screenModal}
+            style={[theme.styles.screen, { minHeight: height }]}
             focusOptions={{
                 screenOrder: 1,
             }}
