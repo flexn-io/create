@@ -5,6 +5,7 @@ import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { generateRandomItemsRow, interval, testProps } from '../utils';
 import Screen from './screen';
+import { useWindowDimensions } from 'react-native';
 import { useNavigate } from '../hooks/navigation';
 
 const getCarouselSize = () => {
@@ -30,6 +31,7 @@ const getCarouselSize = () => {
 const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const { theme, dark } = useContext(ThemeContext);
     const navigate = useNavigate({ navigation });
+    const { height, width } = useWindowDimensions();
     const [data] = useState(() =>
         [...Array(5).keys()].map((rowNumber) => {
             const itemsInViewport = interval(isFactorMobile ? 1 : 3, isFactorMobile ? 3 : 5);
@@ -76,7 +78,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
 
     return (
         <Screen
-            style={[theme.styles.screen, styles.screen]}
+            style={[theme.styles.screen, styles.screen, { minHeight: height, minWidth: width }]}
             focusOptions={{ nextFocusLeft: 'side-menu', focusKey: 'page' }}
         >
             <ScrollView {...testProps('template-carousels-screen-container')} style={styles.wrapper}>
@@ -102,15 +104,15 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
 
 const styles = StyleSheet.create({
     screen: {
-        ...isFactorTv && {
+        ...(isFactorTv && {
             left: Ratio(100),
-            width: Dimensions.get('screen').width - Ratio(100)
-        }
+            width: Dimensions.get('screen').width - Ratio(100),
+        }),
     },
     wrapper: {
         top: Ratio(30),
         marginBottom: isFactorTv ? Ratio(30) : 20,
-        height: Dimensions.get('screen').height
+        height: Dimensions.get('screen').height,
     },
     listSeparator: {
         paddingBottom: isPlatformMacos || isPlatformWeb ? Ratio(20) : Ratio(30),
