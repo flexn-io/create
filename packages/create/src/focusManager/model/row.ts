@@ -33,24 +33,9 @@ class Row extends Recycler {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(
-                this.getType(),
-                this.getId(),
-                EVENT_TYPES.ON_MOUNT_AND_MEASURED,
-                this._onMountAndMeasured
-            ),
-            Event.subscribe(
-                this.getType(),
-                this.getId(),
-                EVENT_TYPES.ON_UNMOUNT,
-                this._onUnmount
-            ),
-            Event.subscribe(
-                this.getType(),
-                this.getId(),
-                EVENT_TYPES.ON_LAYOUT,
-                this._onLayout
-            ),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
         ];
     }
 
@@ -67,21 +52,13 @@ class Row extends Recycler {
     protected async _onLayout() {
         await measureAsync({ model: this });
         this.remeasureChildrenLayouts(this);
-        Event.emit(
-            this.getType(),
-            this.getId(),
-            EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED
-        );
+        Event.emit(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
     }
 
     // END EVENTS
 
     public getLastFocused(): ViewType | null {
-        return (
-            this?.getFocusedView() ??
-            this.getInitialFocusableChildren(this.getInitialFocusIndex()) ??
-            null
-        );
+        return this?.getFocusedView() ?? this.getInitialFocusableChildren(this.getInitialFocusIndex()) ?? null;
     }
 
     private getCurrentFocusIndex(): number {
@@ -92,33 +69,25 @@ class Row extends Recycler {
         view: ViewType | null;
         forcedFocusKey?: string;
     } {
-        const isHorizontal =
-            DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction;
-        const isVertical =
-            DIRECTIONS.UP === direction || DIRECTIONS.DOWN === direction;
+        const isHorizontal = DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction;
+        const isVertical = DIRECTIONS.UP === direction || DIRECTIONS.DOWN === direction;
         if (this._isInBounds(direction) && isHorizontal) {
             const candidates = Object.values(Core.getViews()).filter(
                 (c) =>
                     c.isInForeground() &&
-                    c.getParent()?.getId() ===
-                        Core.getCurrentFocus()?.getParent()?.getId() &&
+                    c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId() &&
                     c.getOrder() === Core.getCurrentMaxOrder()
             );
 
-            const { view: next } = Core.getNextFocusableContext(
-                direction,
-                candidates
-            );
+            const { view: next } = Core.getNextFocusableContext(direction, candidates);
 
             // Prevent focus loose on fast scrolling
             if (
-                Core.getCurrentFocus()?.getRepeatContext()?.index !==
-                    undefined &&
+                Core.getCurrentFocus()?.getRepeatContext()?.index !== undefined &&
                 next?.getRepeatContext()?.index !== undefined
             ) {
                 const diff = Math.abs(
-                    Core.getCurrentFocus()?.getRepeatContext()?.index! -
-                        next?.getRepeatContext()?.index!
+                    Core.getCurrentFocus()?.getRepeatContext()!.index as number - next?.getRepeatContext()!.index
                 );
 
                 if (diff > 1) {
@@ -134,15 +103,12 @@ class Row extends Recycler {
 
             if (isVertical) {
                 if (
-                    Core.getCurrentFocus()?.getRepeatContext()?.index !==
-                        undefined &&
+                    Core.getCurrentFocus()?.getRepeatContext()?.index !== undefined &&
                     next?.getRepeatContext()?.index !== undefined &&
-                    Core.getCurrentFocus()?.getParent()?.getId() ===
-                        next.getParent()?.getId()
+                    Core.getCurrentFocus()?.getParent()?.getId() === next.getParent()?.getId()
                 ) {
                     const diff = Math.abs(
-                        Core.getCurrentFocus()?.getRepeatContext()?.index! -
-                            next?.getRepeatContext()?.index!
+                        Core.getCurrentFocus()?.getRepeatContext()!.index as number - next?.getRepeatContext()!.index
                     );
 
                     if (diff > 1) {
@@ -176,10 +142,7 @@ class Row extends Recycler {
     private _isInBounds(direction: string): boolean {
         const current = this.getCurrentFocusIndex();
 
-        if (
-            !this.isHorizontal() &&
-            (DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction)
-        ) {
+        if (!this.isHorizontal() && (DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction)) {
             return false;
         }
 
@@ -187,10 +150,7 @@ class Row extends Recycler {
             return false;
         }
 
-        if (
-            DIRECTIONS.RIGHT === direction &&
-            current === this.getLayouts().length - 1
-        ) {
+        if (DIRECTIONS.RIGHT === direction && current === this.getLayouts().length - 1) {
             return false;
         }
 
@@ -202,8 +162,7 @@ class Row extends Recycler {
             const currentChildren = this.getChildren().find(
                 (ch) =>
                     ch.getType() === MODEL_TYPES.VIEW &&
-                    (ch as ViewType).getRepeatContext()?.index ===
-                        this.getInitialRenderIndex()
+                    (ch as ViewType).getRepeatContext()?.index === this.getInitialRenderIndex()
             );
             if (currentChildren) {
                 this.setFocusedView(currentChildren as ViewType);

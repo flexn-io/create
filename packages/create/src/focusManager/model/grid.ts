@@ -34,24 +34,9 @@ class Grid extends Recycler {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(
-                this.getType(),
-                this.getId(),
-                EVENT_TYPES.ON_MOUNT_AND_MEASURED,
-                this._onMountAndMeasured
-            ),
-            Event.subscribe(
-                this.getType(),
-                this.getId(),
-                EVENT_TYPES.ON_UNMOUNT,
-                this._onUnmount
-            ),
-            Event.subscribe(
-                this.getType(),
-                this.getId(),
-                EVENT_TYPES.ON_LAYOUT,
-                this._onLayout
-            ),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
+            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
         ];
     }
 
@@ -68,11 +53,7 @@ class Grid extends Recycler {
     protected async _onLayout() {
         await measureAsync({ model: this });
         this.remeasureChildrenLayouts(this);
-        Event.emit(
-            this.getType(),
-            this.getId(),
-            EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED
-        );
+        Event.emit(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
     }
 
     // END EVENTS
@@ -82,9 +63,7 @@ class Grid extends Recycler {
     }
 
     private getCurrentRow() {
-        return (
-            Math.ceil((this.getCurrentFocusIndex() + 1) / this._itemsInRow) || 1
-        );
+        return Math.ceil((this.getCurrentFocusIndex() + 1) / this._itemsInRow) || 1;
     }
 
     private getMaxRows() {
@@ -101,27 +80,20 @@ class Grid extends Recycler {
             const candidates = Object.values(Core.getViews()).filter(
                 (c) =>
                     c.isInForeground() &&
-                    c.getParent()?.getId() ===
-                        Core.getCurrentFocus()?.getParent()?.getId() &&
+                    c.getParent()?.getId() === Core.getCurrentFocus()?.getParent()?.getId() &&
                     c.getOrder() === Core.getCurrentMaxOrder()
             );
 
-            const { view: next } = Core.getNextFocusableContext(
-                direction,
-                candidates
-            );
+            const { view: next } = Core.getNextFocusableContext(direction, candidates);
 
             // Prevent focus loose on fast scrolling
             if (
-                Core.getCurrentFocus()?.getRepeatContext()?.index !==
-                    undefined &&
+                Core.getCurrentFocus()?.getRepeatContext()?.index !== undefined &&
                 next?.getRepeatContext()?.index !== undefined &&
-                Core.getCurrentFocus()?.getParent()?.getId() ===
-                    next.getParent()?.getId()
+                Core.getCurrentFocus()?.getParent()?.getId() === next.getParent()?.getId()
             ) {
                 const diff = Math.abs(
-                    Core.getCurrentFocus()?.getRepeatContext()?.index! -
-                        next?.getRepeatContext()?.index!
+                    Core.getCurrentFocus()?.getRepeatContext()!.index as number - next?.getRepeatContext()!.index
                 );
 
                 if (diff > this._itemsInRow) {
@@ -134,14 +106,9 @@ class Grid extends Recycler {
                 next?.getId() === Core.getCurrentFocus()?.getId() &&
                 this.getCurrentRow() === this.getMaxRows() - 1
             ) {
-                const max = Math.max(
-                    ...candidates.map((o) => o.getRepeatContext()?.index || 0)
-                );
+                const max = Math.max(...candidates.map((o) => o.getRepeatContext()?.index || 0));
                 return {
-                    view:
-                        candidates.find(
-                            (o) => o.getRepeatContext()?.index === max
-                        ) ?? null,
+                    view: candidates.find((o) => o.getRepeatContext()?.index === max) ?? null,
                 };
             }
 
@@ -162,9 +129,7 @@ class Grid extends Recycler {
     }
 
     private _isInBounds(direction: FocusDirection): boolean {
-        const row =
-            Math.ceil((this.getCurrentFocusIndex() + 1) / this._itemsInRow) ||
-            1;
+        const row = Math.ceil((this.getCurrentFocusIndex() + 1) / this._itemsInRow) || 1;
         const maxRows = Math.ceil(this.getLayouts().length / this._itemsInRow);
 
         if (row === 1 && direction === DIRECTIONS.UP) {
