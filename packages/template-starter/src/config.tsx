@@ -87,9 +87,9 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             minHeight: getScaledValue(300),
             alignSelf: 'stretch',
             width: '100%',
-            ...isFactorTv && {
-                height: Dimensions.get('screen').height
-            }
+            ...(isFactorTv && {
+                height: Dimensions.get('screen').height,
+            }),
         },
         modalContainer: {
             ...(isEngineRnNext && {
@@ -269,6 +269,7 @@ export const createStyleSheet = (currentTheme: StaticTheme) =>
             marginLeft: isFactorTv ? Ratio(16) : 8,
             ...(isFactorTv && {
                 position: 'absolute',
+                width: Ratio(300),
                 ...((isPlatformAndroidtv || isPlatformFiretv) && {
                     left: -50,
                 }),
