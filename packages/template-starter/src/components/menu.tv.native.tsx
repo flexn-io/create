@@ -135,7 +135,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                         },
                     ]}
                 >
-                    My Modal
+                    Modal
                 </AnimatedText>
             </TouchableOpacity>
         </Screen>
