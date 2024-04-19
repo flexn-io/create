@@ -45,7 +45,7 @@ class Screen extends FocusModel {
     private _precalculatedFocus: View | null = null;
     private _ignoreInitialFocus: boolean;
     private _group?: string;
-    private _interval?: NodeJS.Timer;
+    private _interval?: NodeJS.Timeout;
 
     constructor(
         params: Omit<
@@ -187,7 +187,6 @@ class Screen extends FocusModel {
                     const view = await this.getFirstFocusableOnScreen();
                     if (view) {
                         CoreManager.executeFocus(view);
-                        // @ts-ignore
                         clearInterval(this._interval);
                     }
                 }, INTERVAL_TIME_IN_MS);
