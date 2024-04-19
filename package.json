@@ -97,11 +97,6 @@
         "typescript": "5.2.2",
         "typescript-coverage-report": "0.8.0"
     },
-    "husky": {
-        "hooks": {
-            "pre-commit": "yarn sanity"
-        }
-    },
     "lint-staged": {
         "*.js": [
             "eslint"
