@@ -13,7 +13,7 @@ import type { MouseEvent } from 'react';
 import type {
     FlashListProps as FLProps,
     ListRenderItemInfo,
-} from '@flexn/shopify-flash-list'
+} from '@flexn/shopify-flash-list';
 
 import FocusModel from './model/abstractFocusModel';
 import View from './model/view';
@@ -109,7 +109,7 @@ export type ScreenFocusOptions = {
     nextFocusDown?: string | string[];
     screenState?: (typeof SCREEN_STATES)[keyof typeof SCREEN_STATES];
     screenOrder?: number;
-    stealFocus?: boolean;
+    ignoreInitialFocus?: boolean;
     autoFocusEnabled?: boolean;
     group?: string;
 };

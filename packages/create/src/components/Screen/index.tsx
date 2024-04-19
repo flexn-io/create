@@ -62,6 +62,7 @@ const Screen = React.forwardRef<RNView | undefined, ScreenProps>(
                     .setState(focusOptions.screenState);
 
                 if (
+                    !model.isInitialFocusIgnored() &&
                     model.isPrevStateBackground() &&
                     model.isInForeground() &&
                     !anotherForegroundScreenHasFocus

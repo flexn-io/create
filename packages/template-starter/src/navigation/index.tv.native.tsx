@@ -18,7 +18,7 @@ import ScreenModal from '../screens/modal';
 import Menu from '../components/menu';
 import { ROUTES } from '../config';
 
-const { height } = Dimensions.get('window');
+const { height, width } = Dimensions.get('screen');
 
 setFocusManagerEnabled(true);
 enableScreens();
@@ -55,11 +55,13 @@ function Navigator({ initialRouteName, children, screenOptions, drawerContent, .
                     const isFocused = state.index === i;
                     const style =
                         isPlatformTizen || isPlatformWebos
-                            ? { opacity: isFocused ? 1 : 0 }
-                            : [StyleSheet.absoluteFill, { opacity: isFocused ? 1 : 0 }];
+                            ? { opacity: isFocused ? 1 : 0, width, height }
+                            : { opacity: isFocused ? 1 : 0 };
+
+                    const active = isPlatformTizen || isPlatformWebos ? 1 : isFocused ? 1 : 0;
 
                     return (
-                        <Screen key={route.key} style={style} active={isFocused ? 1 : 0}>
+                        <Screen key={route.key} style={[StyleSheet.absoluteFill, style]} active={active}>
                             {descriptors[route.key].render()}
                         </Screen>
                     );
@@ -79,6 +81,7 @@ const SideNavigator = () => (
         <SideNavigatorStack.Screen name={ROUTES.HOME} component={ScreenHome} />
         <SideNavigatorStack.Screen name={ROUTES.CAROUSELS} component={ScreenCarousels} />
         <SideNavigatorStack.Screen name={ROUTES.DETAILS} component={ScreenDetails} />
+        <RootStack.Screen name={ROUTES.MODAL} component={ScreenModal} />
     </SideNavigatorStack.Navigator>
 );
 
@@ -86,7 +89,6 @@ const App = () => (
     <NavigationContainer>
         <RootStack.Navigator screenOptions={{ headerShown: false }}>
             <RootStack.Screen name="stack" component={SideNavigator} />
-            <RootStack.Screen name={ROUTES.MODAL} component={ScreenModal} />
         </RootStack.Navigator>
     </NavigationContainer>
 );

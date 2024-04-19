@@ -24,6 +24,7 @@ class CoreManager {
     private _isTV: boolean | undefined = undefined;
     private _keyEventsEnabled = true;
     private _viewIsAnimating = false;
+    private _lastFocusedActiveScreen: ScreenType | undefined;
     private _pendingLayoutMeasurements: Record<
         string,
         NodeJS.Timeout | number
@@ -177,6 +178,10 @@ class CoreManager {
             currentFocus?.getScreen()?.getId() !==
             nextFocus.getScreen()?.getId()
         ) {
+            if (currentFocus?.getScreen()?.isInForeground()) {
+                this._lastFocusedActiveScreen = currentFocus?.getScreen();
+            }
+
             currentFocus?.getScreen()?.onBlur();
             nextFocus.getScreen()?.onFocus();
         }
@@ -222,7 +227,7 @@ class CoreManager {
         );
     }
 
-    public setFocus = (focusKey: string) => {
+    public setFocus = (focusKey: string, direction?: FocusDirection) => {
         const view = Object.values(this._views).find(
             (model) =>
                 model.getFocusKey() === focusKey && model.isInForeground()
@@ -230,6 +235,7 @@ class CoreManager {
 
         if (view) {
             this.executeFocus(view);
+            if (direction) this.executeScroll(direction);
         } else {
             const screen = Object.values(this._screens).find(
                 (model) =>
@@ -237,9 +243,10 @@ class CoreManager {
             );
 
             if (screen) {
-                screen
-                    .getFirstFocusableOnScreen()
-                    .then((view) => this.executeFocus(view));
+                screen.getFirstFocusableOnScreen().then((view) => {
+                    this.executeFocus(view);
+                    if (direction) this.executeScroll(direction);
+                });
             } else {
                 const viewGroup = Object.values(this._viewGroups).find(
                     (model) =>
@@ -250,11 +257,69 @@ class CoreManager {
                 if (viewGroup) {
                     const element =
                         viewGroup.getFirstFocusableInViewGroup(viewGroup);
-                    if (element) this.executeFocus(element);
+                    if (element) {
+                        this.executeFocus(element);
+                        if (direction) this.executeScroll(direction);
+                    }
                 }
             }
         }
     };
+
+    public setFocusByListOrGridIndex(nextIndex: number) {
+        const currentFocus = this._currentFocus;
+        if (currentFocus) {
+            const layout = currentFocus.getParent()?.getLayouts()[nextIndex];
+            const parent = currentFocus.getParent();
+            if (layout && parent) {
+                const currentIndex = currentFocus.getRepeatContext()
+                    ?.index as number;
+                let direction: FocusDirection | undefined;
+                let nextScrollPoint: { x?: number; y?: number } = {};
+                if (MODEL_TYPES.GRID === parent.getType()) {
+                    direction = currentIndex > nextIndex ? 'up' : 'down';
+                    nextScrollPoint.y = layout.y;
+                } else if (MODEL_TYPES.ROW === parent.getType()) {
+                    if (parent.isHorizontal()) {
+                        direction = currentIndex > nextIndex ? 'left' : 'right';
+                        nextScrollPoint.x = layout.x;
+                    } else {
+                        direction = currentIndex > nextIndex ? 'up' : 'down';
+                        nextScrollPoint.y = layout.y;
+                    }
+                }
+
+                if (
+                    nextScrollPoint.x !== undefined ||
+                    nextScrollPoint.y !== undefined
+                ) {
+                    currentFocus
+                        .getParent()
+                        ?.node.current.scrollTo(nextScrollPoint);
+                    const interval = setInterval(() => {
+                        const isScrolling = currentFocus
+                            ?.getParent()
+                            ?.isScrolling();
+                        if (!isScrolling) {
+                            const children = currentFocus
+                                ?.getParent()
+                                ?.getChildren()
+                                .find(
+                                    (ch) =>
+                                        ch.getRepeatContext()?.index ===
+                                        nextIndex
+                                );
+                            if (children) {
+                                clearInterval(interval);
+                                this.executeFocus(children as ViewType);
+                                this.executeScroll(direction!);
+                            }
+                        }
+                    }, 50);
+                }
+            }
+        }
+    }
 
     public getNextFocusableContext = (
         direction: FocusDirection,
@@ -337,13 +402,26 @@ class CoreManager {
                     return { view: null, forcedFocusKey: nextForcedFocusKey };
                 }
 
-                if (parent.containsForbiddenDirection(direction)) {
-                    return { view: currentFocus };
-                }
-
                 if (closestView.getParent()?.getType() === MODEL_TYPES.ROW) {
                     const parent = closestView.getParent();
                     closestView = parent?.getLastFocused() ?? closestView;
+                }
+
+                if (
+                    closestView.getParent()?.getType() ===
+                    MODEL_TYPES.VIEW_GROUP
+                ) {
+                    const parent = closestView.getParent() as ViewGroupType;
+                    closestView = parent?.getCurrentFocus() ?? closestView;
+                }
+
+                const parents = currentFocus.getParents(group);
+
+                for (const key in parents) {
+                    const p = parents[key];
+                    if (p!.containsForbiddenDirection(direction)) {
+                        return { view: currentFocus };
+                    }
                 }
             }
 
@@ -359,22 +437,7 @@ class CoreManager {
         }
 
         if (this._currentFocus?.getParent()) {
-            let parent = this._currentFocus.getParent();
-            if (
-                group &&
-                !this._currentFocus?.getParent()?.isParentInGroup(group)
-            ) {
-                parent = undefined;
-            }
-            const parents = parent ? [parent] : [];
-            while (parent) {
-                parent = parent?.getParent();
-                if (group && parent && parent.isParentInGroup(group)) {
-                    parents.push(parent);
-                } else if (parent && !group) {
-                    parents.push(parent);
-                }
-            }
+            const parents = this._currentFocus.getParents(group);
 
             for (const key in parents) {
                 const p = parents[key];
@@ -554,6 +617,10 @@ class CoreManager {
 
     public setIsTV(isTV: boolean) {
         this._isTV = isTV;
+    }
+
+    public getLastFocusedActiveScreen(): ScreenType | undefined {
+        return this._lastFocusedActiveScreen;
     }
 }
 

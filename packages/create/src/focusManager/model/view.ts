@@ -137,7 +137,10 @@ class View extends FocusModel {
         const screen = this.getScreen();
         if (screen) {
             screen.addComponentToPendingLayoutMap(this.getId());
-            if (this.hasPreferredFocus()) {
+            if (
+                this.hasPreferredFocus() &&
+                !this.getScreen()?.isInitialFocusIgnored()
+            ) {
                 screen.setPreferredFocus(this);
                 CoreManager.executeFocus(this);
             }
@@ -169,6 +172,7 @@ class View extends FocusModel {
         );
 
         if (
+            !this.getScreen()?.isInitialFocusIgnored() &&
             !this.getScreen()?.isInitialLoadInProgress() &&
             (!CoreManager.getCurrentFocus() ||
                 CoreManager.getCurrentFocus()?.isInBackground())

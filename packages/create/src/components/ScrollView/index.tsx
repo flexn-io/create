@@ -95,6 +95,8 @@ const ScrollView = React.forwardRef<RNScrollView, ScrollViewProps>(
                         model.setIsScrollingVertically(true);
                     }
 
+                    model.fireScroll();
+
                     model
                         .setScrollOffsetY(y)
                         .setScrollOffsetX(x)

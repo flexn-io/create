@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from 'react';
 import { Animated } from 'react-native';
-import { TouchableOpacity, Text, Screen } from '@flexn/create';
+import { TouchableOpacity, Text, Screen, setFocus } from '@flexn/create';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { useNavigate } from '../hooks';
@@ -63,7 +63,6 @@ const Menu = ({ navigation }: { navigation?: any }) => {
             onFocus={onFocus}
             onBlur={onBlur}
             focusOptions={{
-                stealFocus: false,
                 focusKey: 'side-menu',
                 nextFocusRight: 'page',
             }}
@@ -72,7 +71,11 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                 style={[theme.styles.sideMenuContainerAnimation, { transform: [{ translateX: translateBgAnim }] }]}
             />
             <TouchableOpacity
-                onPress={() => navigate(ROUTES.HOME)}
+                onPress={() => {
+                    navigate(ROUTES.HOME);
+                    onBlur();
+                    setTimeout(() => setFocus('page'), 1);
+                }}
                 style={theme.styles.menuButton}
                 focusOptions={{
                     forbiddenFocusDirections: ['up'],
@@ -92,7 +95,14 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                     Home
                 </AnimatedText>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigate(ROUTES.CAROUSELS)} style={theme.styles.menuButton}>
+            <TouchableOpacity
+                onPress={() => {
+                    navigate(ROUTES.CAROUSELS);
+                    onBlur();
+                    setTimeout(() => setFocus('page'), 1);
+                }}
+                style={theme.styles.menuButton}
+            >
                 <Icon name="rocket" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <AnimatedText
                     style={[

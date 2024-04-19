@@ -3,18 +3,17 @@ import type { NativeSyntheticEvent } from 'react-native';
 // Functions
 import CoreManager from './focusManager/service/core';
 
-export * from './tvMenuControl';
 export * from './rootRenderer';
+export * from './tvMenuControl';
 
 export { CoreManager };
 
-// @deprecated
-export function focusElementByFocusKey(focusKey: string) {
-    CoreManager.setFocus(focusKey);
+export function setFocus(focusKey: string, direction?: FocusDirection) {
+    CoreManager.setFocus(focusKey, direction);
 }
 
-export function setFocus(focusKey: string) {
-    CoreManager.setFocus(focusKey);
+export function setFocusByListOrGridIndex(index: number) {
+    CoreManager.setFocusByListOrGridIndex(index);
 }
 
 export function setFocusManagerEnabled(isEnabled: boolean) {
@@ -79,6 +78,7 @@ export type {
 } from './remoteHandler';
 // Type declarations
 import 'react-native';
+import { FocusDirection } from './focusManager/types';
 declare module 'react-native' {
     interface AccessibilityProps {
         accessibilityLevel?: number;

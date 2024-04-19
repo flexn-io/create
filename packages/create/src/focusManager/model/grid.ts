@@ -120,8 +120,8 @@ class Grid extends Recycler {
                     next.getParent()?.getId()
             ) {
                 const diff = Math.abs(
-                    (Core.getCurrentFocus()?.getRepeatContext()?.index as number) -
-                        (next?.getRepeatContext?.()?.index as number)
+                    Core.getCurrentFocus()?.getRepeatContext()?.index! -
+                        next?.getRepeatContext()?.index!
                 );
 
                 if (diff > this._itemsInRow) {

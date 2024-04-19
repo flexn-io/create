@@ -1,7 +1,14 @@
 import { FlashList, View, Pressable, Image, ScrollView, Text, setFocus } from '@flexn/create';
 import React, { useContext, useState } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
-import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv/renative';
+import {
+    isFactorMobile,
+    isPlatformMacos,
+    isPlatformWeb,
+    isFactorTv,
+    isPlatformWebos,
+    isPlatformTizen,
+} from '@rnv/renative';
 import { ThemeContext, ROUTES, Ratio } from '../config';
 import { generateRandomItemsRow, interval, testProps } from '../utils';
 import Screen from './screen';
@@ -89,7 +96,11 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                             type="row"
                             estimatedItemSize={getCarouselSize().height}
                             horizontal
-                            drawDistance={Ratio(Dimensions.get('window').width)}
+                            drawDistance={
+                                isPlatformWebos || isPlatformTizen
+                                    ? Dimensions.get('window').width / 3
+                                    : Ratio(Dimensions.get('window').width)
+                            }
                             showsHorizontalScrollIndicator={false}
                             style={{ flex: 1 }}
                         />
@@ -102,15 +113,15 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
 
 const styles = StyleSheet.create({
     screen: {
-        ...isFactorTv && {
+        ...(isFactorTv && {
             left: Ratio(100),
-            width: Dimensions.get('screen').width - Ratio(100)
-        }
+            width: Dimensions.get('screen').width - Ratio(100),
+        }),
     },
     wrapper: {
         top: Ratio(30),
         marginBottom: isFactorTv ? Ratio(30) : 20,
-        height: Dimensions.get('screen').height
+        height: Dimensions.get('screen').height,
     },
     listSeparator: {
         paddingBottom: isPlatformMacos || isPlatformWeb ? Ratio(20) : Ratio(30),

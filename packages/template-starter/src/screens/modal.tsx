@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { Dimensions } from 'react-native';
 import { Text, View, TouchableOpacity } from '@flexn/create';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ThemeContext } from '../config';
@@ -7,15 +6,13 @@ import { usePop } from '../hooks';
 import Screen from './screen';
 import { testProps } from '../utils';
 
-const { width, height } = Dimensions.get('screen');
-
 const ScreenModal = ({ navigation }: { navigation?: any }) => {
     const pop = usePop({ navigation });
     const { theme } = useContext(ThemeContext);
 
     return (
         <Screen
-            style={[theme.styles.screenModal, { width, height }]}
+            style={[theme.styles.screenModal]}
             focusOptions={{
                 screenOrder: 1,
             }}

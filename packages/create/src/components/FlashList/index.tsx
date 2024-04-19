@@ -252,6 +252,8 @@ const FlashList = React.forwardRef(
                                 model.setIsScrollingVertically(true);
                             }
 
+                            model.fireScroll();
+
                             model
                                 .setScrollOffsetY(y)
                                 .setScrollOffsetX(x)

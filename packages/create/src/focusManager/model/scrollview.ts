@@ -12,8 +12,10 @@ class ScrollView extends FocusModel {
     private _scrollTargetY?: number;
     private _scrollTargetX?: number;
     private _isHorizontal: boolean;
-    private _isScrollingHorizontally: boolean;
     private _isScrollingVertically: boolean;
+    private _isScrolling = false;
+
+    private _scrollTimeout?: NodeJS.Timeout;
 
     constructor(
         params: Omit<
@@ -41,7 +43,6 @@ class ScrollView extends FocusModel {
         this._scrollOffsetX = 0;
         this._scrollOffsetY = 0;
         this._isScrollable = true;
-        this._isScrollingHorizontally = false;
         this._isScrollingVertically = false;
 
         this._onMount = this._onMount.bind(this);
@@ -131,12 +132,6 @@ class ScrollView extends FocusModel {
         return this._isHorizontal;
     }
 
-    public setIsScrollingHorizontally(value: boolean): this {
-        this._isScrollingHorizontally = value;
-
-        return this;
-    }
-
     public setIsScrollingVertically(value: boolean): this {
         this._isScrollingVertically = value;
 
@@ -147,12 +142,21 @@ class ScrollView extends FocusModel {
         return this._isScrollingVertically;
     }
 
-    public isScrollingHorizontally(): boolean {
-        return this._isScrollingHorizontally;
-    }
-
     public getNode(): MutableRefObject<RNScrollView> {
         return this.node;
+    }
+
+    public fireScroll() {
+        this._isScrolling = true;
+        clearTimeout(this._scrollTimeout);
+
+        this._scrollTimeout = setTimeout(() => {
+            this._isScrolling = false;
+        }, 30);
+    }
+
+    public isScrolling(): boolean {
+        return this._isScrolling;
     }
 }
 

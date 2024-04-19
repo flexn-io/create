@@ -26,11 +26,13 @@ class RecyclerView extends FocusModel {
     private _initialRenderIndex: number;
     private _initialFocusIndex: number;
     private _focusedView: View | null = null;
-    private _isScrollingHorizontally: boolean;
     private _isScrollingVertically: boolean;
     private _autoLayoutScaleAnimation = false;
     private _autoLayoutSize = 0;
     private _listHeaderDimensions = { width: 0, height: 0 };
+    private _isScrolling = false;
+
+    private _scrollTimeout?: NodeJS.Timeout;
 
     constructor(
         params: Omit<
@@ -71,7 +73,6 @@ class RecyclerView extends FocusModel {
         this._focusedIndex = 0;
         this._initialRenderIndex = initialRenderIndex;
         this._initialFocusIndex = initialFocusIndex;
-        this._isScrollingHorizontally = false;
         this._isScrollingVertically = false;
         this._autoLayoutScaleAnimation = autoLayoutScaleAnimation;
         this._autoLayoutSize = autoLayoutSize;
@@ -246,12 +247,6 @@ class RecyclerView extends FocusModel {
         //TODO: implement
     }
 
-    public setIsScrollingHorizontally(value: boolean): this {
-        this._isScrollingHorizontally = value;
-
-        return this;
-    }
-
     public setIsScrollingVertically(value: boolean): this {
         this._isScrollingVertically = value;
 
@@ -260,10 +255,6 @@ class RecyclerView extends FocusModel {
 
     public isScrollingVertically(): boolean {
         return this._isScrollingVertically;
-    }
-
-    public isScrollingHorizontally(): boolean {
-        return this._isScrollingHorizontally;
     }
 
     public verticalContentContainerGap(): number {
@@ -303,6 +294,19 @@ class RecyclerView extends FocusModel {
         this._onBlur = onBlur;
 
         return this;
+    }
+
+    public fireScroll() {
+        this._isScrolling = true;
+        clearTimeout(this._scrollTimeout);
+
+        this._scrollTimeout = setTimeout(() => {
+            this._isScrolling = false;
+        }, 30);
+    }
+
+    public isScrolling(): boolean {
+        return this._isScrolling;
     }
 }
 

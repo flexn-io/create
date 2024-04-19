@@ -43,26 +43,28 @@ class Screen extends FocusModel {
     private _preferredFocus: View | null = null;
     private _currentFocus: View | null = null;
     private _precalculatedFocus: View | null = null;
-    private _stealFocus: boolean;
-    private _isFocused: boolean;
+    private _ignoreInitialFocus: boolean;
     private _group?: string;
-    private _autoFocusEnabled = true;
-    private _interval?: NodeJS.Timeout;
+    private _interval?: NodeJS.Timer;
 
-    constructor(params: Omit<ScreenProps & ScreenProps['focusOptions'], 'style' | 'children' | 'focusOptions'>) {
+    constructor(
+        params: Omit<
+            ScreenProps & ScreenProps['focusOptions'],
+            'style' | 'children' | 'focusOptions'
+        >
+    ) {
         super(params);
 
         const {
             screenState = SCREEN_STATES.FOREGROUND,
             screenOrder = 0,
-            stealFocus = true,
+            ignoreInitialFocus = false,
             focusKey,
             group,
             verticalWindowAlignment = VIEWPORT_ALIGNMENT.LOW_EDGE,
             horizontalWindowAlignment = VIEWPORT_ALIGNMENT.LOW_EDGE,
             horizontalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
             forbiddenFocusDirections = [],
-            autoFocusEnabled = true,
             onFocus,
             onBlur,
         } = params;
@@ -78,10 +80,8 @@ class Screen extends FocusModel {
         this._horizontalWindowAlignment = horizontalWindowAlignment;
         this._horizontalViewportOffset = horizontalViewportOffset;
         this._forbiddenFocusDirections = forbiddenFocusDirections;
-        this._stealFocus = stealFocus;
-        this._isFocused = false;
+        this._ignoreInitialFocus = ignoreInitialFocus;
         this._initialLoadInProgress = true;
-        this._autoFocusEnabled = autoFocusEnabled;
 
         this._componentsPendingLayoutMap = {};
 
@@ -93,9 +93,24 @@ class Screen extends FocusModel {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT, this._onMount),
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_MOUNT,
+                this._onMount
+            ),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_UNMOUNT,
+                this._onUnmount
+            ),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_LAYOUT,
+                this._onLayout
+            ),
         ];
     }
 
@@ -125,7 +140,11 @@ class Screen extends FocusModel {
             if (this._initialLoadInProgress) {
                 setTimeout(() => {
                     delete this._componentsPendingLayoutMap[id];
-                    if (Object.keys(this._componentsPendingLayoutMap).length <= 0 && this._initialLoadInProgress) {
+                    if (
+                        Object.keys(this._componentsPendingLayoutMap).length <=
+                            0 &&
+                        this._initialLoadInProgress
+                    ) {
                         this._initialLoadInProgress = false;
                     }
                     resolve(true);
@@ -136,7 +155,10 @@ class Screen extends FocusModel {
         });
     }
 
-    public async onViewRemoved(model: View, wasCurrentFocusedView: boolean): Promise<void> {
+    public async onViewRemoved(
+        model: View,
+        wasCurrentFocusedView: boolean
+    ): Promise<void> {
         // TODO: double check this if don't need to executeFocus
         delete this._componentsPendingLayoutMap[model.getId()];
 
@@ -151,7 +173,10 @@ class Screen extends FocusModel {
         }
 
         // TODO: synchronize with state updates
-        if (wasCurrentFocusedView) {
+        // This might happen if button onblur hide itself but then
+        // fm finds another focus, that's fine then we don't need to
+        // exec this function
+        if (wasCurrentFocusedView && CoreManager.getCurrentFocus()) {
             const view = await this.getFirstFocusableOnScreen();
 
             if (view) {
@@ -162,9 +187,26 @@ class Screen extends FocusModel {
                     const view = await this.getFirstFocusableOnScreen();
                     if (view) {
                         CoreManager.executeFocus(view);
+                        // @ts-ignore
                         clearInterval(this._interval);
                     }
                 }, INTERVAL_TIME_IN_MS);
+            } else {
+                const anotherScreenInForeground = Object.values(
+                    CoreManager.getScreens()
+                ).find((s) => {
+                    return (
+                        s.isInForeground() &&
+                        s.getId() ===
+                            CoreManager.getLastFocusedActiveScreen()?.getId()
+                    );
+                });
+
+                if (anotherScreenInForeground) {
+                    const view =
+                        await anotherScreenInForeground.getFirstFocusableOnScreen();
+                    if (view) CoreManager.executeFocus(view);
+                }
             }
         }
     }
@@ -175,9 +217,16 @@ class Screen extends FocusModel {
             if (this._preferredFocus) return this._preferredFocus;
             if (this._precalculatedFocus) {
                 const parent = this._precalculatedFocus.getParent();
-                if (parent && [MODEL_TYPES.ROW, MODEL_TYPES.GRID].includes(parent.getType() as never)) {
-                    const recycler = this._precalculatedFocus.getParent() as Recycler;
-                    if (recycler.getFocusedView()) return recycler.getFocusedView();
+                if (
+                    parent &&
+                    [MODEL_TYPES.ROW, MODEL_TYPES.GRID].includes(
+                        parent.getType() as never
+                    )
+                ) {
+                    const recycler =
+                        this._precalculatedFocus.getParent() as Recycler;
+                    if (recycler.getFocusedView())
+                        return recycler.getFocusedView();
                 }
                 return this._precalculatedFocus;
             }
@@ -200,7 +249,9 @@ class Screen extends FocusModel {
             findLowestRelativeCoordinates(model as View);
         }
 
-        return model.getChildren().map(async (ch) => await this.precalculateFocusAsync(ch));
+        return model
+            .getChildren()
+            .map(async (ch) => await this.precalculateFocusAsync(ch));
     }
 
     private precalculateFocus(model: FocusModel) {
@@ -231,7 +282,9 @@ class Screen extends FocusModel {
         return this._state === SCREEN_STATES.FOREGROUND;
     }
 
-    public setPrevState(value: (typeof SCREEN_STATES)[keyof typeof SCREEN_STATES]) {
+    public setPrevState(
+        value: (typeof SCREEN_STATES)[keyof typeof SCREEN_STATES]
+    ) {
         this._prevState = value;
 
         return this;
@@ -317,22 +370,8 @@ class Screen extends FocusModel {
         return this._precalculatedFocus;
     }
 
-    public setIsFocused(isFocused: boolean): this {
-        this._isFocused = isFocused;
-
-        return this;
-    }
-
-    public getIsFocused(): boolean {
-        return this._isFocused;
-    }
-
-    public hasStealFocus(): boolean {
-        return this._stealFocus;
-    }
-
-    public isAutoFocusEnabled(): boolean {
-        return this._autoFocusEnabled;
+    public isInitialFocusIgnored(): boolean {
+        return this._ignoreInitialFocus;
     }
 
     public getGroup() {

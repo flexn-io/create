@@ -399,6 +399,25 @@ export default abstract class FocusModel {
         }
     }
 
+    public getParents(group?: string): FocusModel[] {
+        let parent = this.getParent();
+        if (group && !this?.getParent()?.isParentInGroup(group)) {
+            parent = undefined;
+        }
+
+        const parents = parent ? [parent] : [];
+        while (parent) {
+            parent = parent?.getParent();
+            if (group && parent && parent.isParentInGroup(group)) {
+                parents.push(parent);
+            } else if (parent && !group) {
+                parents.push(parent);
+            }
+        }
+
+        return parents;
+    }
+
     public setNode(ref: MutableRefObject<any>): FocusModel {
         this.node = ref;
 
@@ -474,6 +493,10 @@ export default abstract class FocusModel {
     }
 
     public getListHeaderDimensions(): { width: number; height: number } {
+        throw new Error('Not implemented');
+    }
+
+    public isScrolling(): boolean {
         throw new Error('Not implemented');
     }
 }
