@@ -1,12 +1,12 @@
-import { View as RNView, Platform, Dimensions, PixelRatio } from 'react-native';
-import { ScreenProps } from '../types';
-import CoreManager from '../service/core';
-import FocusModel, { MODEL_TYPES } from './abstractFocusModel';
-import View from './view';
-import { findLowestRelativeCoordinates, measureSync } from '../layoutManager';
-import Recycler from './recycler';
-import Event, { EVENT_TYPES } from '../events';
 import { MutableRefObject } from 'react';
+import { Dimensions, PixelRatio, Platform, View as RNView } from 'react-native';
+import Event, { EVENT_TYPES } from '../events';
+import { findLowestRelativeCoordinates, measureSync } from '../layoutManager';
+import CoreManager from '../service/core';
+import { ScreenProps } from '../types';
+import FocusModel, { MODEL_TYPES } from './abstractFocusModel';
+import Recycler from './recycler';
+import View from './view';
 
 function Ratio(pixels: number): number {
     if (Platform.OS !== 'android') return pixels;
@@ -176,7 +176,7 @@ class Screen extends FocusModel {
         // This might happen if button onblur hide itself but then
         // fm finds another focus, that's fine then we don't need to
         // exec this function
-        if (wasCurrentFocusedView && CoreManager.getCurrentFocus()) {
+        if (wasCurrentFocusedView && !CoreManager.getCurrentFocus()) {
             const view = await this.getFirstFocusableOnScreen();
 
             if (view) {
