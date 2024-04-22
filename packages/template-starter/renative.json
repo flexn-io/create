@@ -48,7 +48,9 @@
         "@react-navigation/native": "source:rnv",
         "@react-navigation/routers": "source:rnv",
         "@react-navigation/stack": "source:rnv",
-        "@react-navigation/web": "source:rnv",
+        "@react-navigation/web": {
+            "version": "0.18.9"
+        },
         "@react-navigation/native-stack": "source:rnv",
         "@react-native-community/masked-view": null,
         "@react-navigation/elements": "source:rnv",
