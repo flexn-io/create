@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { Animated } from 'react-native';
+import { Animated, useWindowDimensions } from 'react-native';
 import { TouchableOpacity, Text, Screen, setFocus } from '@flexn/create';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ThemeContext, ROUTES, Ratio } from '../config';
@@ -11,6 +11,7 @@ const TRANSLATE_VAL_HIDDEN = Ratio(-300);
 
 const Menu = ({ navigation }: { navigation?: any }) => {
     const navigate = useNavigate({ navigation });
+    const { height } = useWindowDimensions();
     const { theme } = useContext(ThemeContext);
 
     const translateBgAnim = useRef(new Animated.Value(TRANSLATE_VAL_HIDDEN)).current;
@@ -59,7 +60,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
 
     return (
         <Screen
-            style={theme.styles.menuContainer}
+            style={[theme.styles.menuContainer, { minHeight: height }]}
             onFocus={onFocus}
             onBlur={onBlur}
             focusOptions={{
