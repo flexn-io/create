@@ -499,7 +499,7 @@ export default abstract class FocusModel {
         throw new Error('Not implemented');
     }
 
-    public getFocusedView(): View {
+    public getFocusedView(): View | null {
         throw new Error('Not implemented');
     }
 
