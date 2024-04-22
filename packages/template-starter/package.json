@@ -109,7 +109,7 @@
         "react-native-screens": "3.29.0",
         "react-native-tvos": "0.73.6-0",
         "react-native-vector-icons": "10.0.3",
-        "react-native-web": "0.19.9"
+        "react-native-web": "0.18.9"
     },
     "publishConfig": {
         "access": "public"

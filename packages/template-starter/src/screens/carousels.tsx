@@ -40,7 +40,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const [data] = useState(() =>
         [...Array(5).keys()].map((rowNumber) => {
             const itemsInViewport = interval(isFactorMobile ? 1 : 3, isFactorMobile ? 3 : 5);
-            return generateRandomItemsRow(rowNumber, itemsInViewport, 250, 250);
+            return generateRandomItemsRow(rowNumber, itemsInViewport, 250, 50);
         })
     );
 
@@ -108,7 +108,12 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                                     : Ratio(Dimensions.get('window').width)
                             }
                             showsHorizontalScrollIndicator={false}
-                            style={{ flex: 1 }}
+                            style={{
+                                flex: 1,
+                                ...(isFactorTv && {
+                                    width: Dimensions.get('screen').width - Ratio(100),
+                                }),
+                            }}
                         />
                     </View>
                 ))}
@@ -128,6 +133,9 @@ const styles = StyleSheet.create({
         top: Ratio(30),
         marginBottom: isFactorTv ? Ratio(30) : 20,
         height: Dimensions.get('screen').height,
+        ...isFactorMobile && {
+            marginBottom: 100
+        }
     },
     listSeparator: {
         paddingBottom: isPlatformMacos || isPlatformWeb ? Ratio(20) : Ratio(30),
