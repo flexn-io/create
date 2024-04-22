@@ -1,18 +1,18 @@
-import { FlashList, View, Pressable, Image, ScrollView, Text, setFocus } from '@flexn/create';
-import React, { useContext, useState } from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
+import { CreateListRenderItemInfo, FlashList, Image, Pressable, ScrollView, Text, View, setFocus } from '@flexn/create';
 import {
     isFactorMobile,
-    isPlatformMacos,
-    isPlatformWeb,
     isFactorTv,
-    isPlatformWebos,
+    isPlatformMacos,
     isPlatformTizen,
+    isPlatformWeb,
+    isPlatformWebos,
 } from '@rnv/renative';
-import { ThemeContext, ROUTES, Ratio } from '../config';
+import React, { useContext, useState } from 'react';
+import { Dimensions, StyleSheet } from 'react-native';
+import { ROUTES, Ratio, ThemeContext } from '../config';
+import { useNavigate } from '../hooks/navigation';
 import { generateRandomItemsRow, interval, testProps } from '../utils';
 import Screen from './screen';
-import { useNavigate } from '../hooks/navigation';
 
 const getCarouselSize = () => {
     switch (true) {
@@ -48,7 +48,12 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
         setFocus('page');
     }, []);
 
-    const renderItem = ({ item, focusRepeatContext, index }: any) => {
+    const renderItem = ({
+        item,
+        focusRepeatContext,
+        index,
+        listIndex,
+    }: CreateListRenderItemInfo<any> & { listIndex: number }) => {
         return (
             <Pressable
                 {...testProps(`template-carousels-screen-${index}-packshot`)}
@@ -62,6 +67,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                     }
                 }}
                 focusOptions={{
+                    hasPreferredFocus: listIndex === 0 && index === 0 ? true : false,
                     animator: {
                         type: 'border',
                         focus: {
@@ -92,7 +98,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                         <FlashList
                             data={list}
                             extraData={{ dark }}
-                            renderItem={renderItem}
+                            renderItem={(props) => renderItem({ ...props, listIndex: index })}
                             type="row"
                             estimatedItemSize={getCarouselSize().height}
                             horizontal

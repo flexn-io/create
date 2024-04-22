@@ -1,11 +1,11 @@
-import { findNodeHandle, UIManager, Platform } from 'react-native';
-import { distCalc } from '../nextFocusFinder';
-import { recalculateAbsolutes } from '../layoutManager';
-import Scroller from './scroller';
-import Logger from './logger';
-import FocusModel, { MODEL_TYPES } from '../model/abstractFocusModel';
+import { Platform, UIManager, findNodeHandle } from 'react-native';
 import { DIRECTIONS } from '../constants';
-import { ClosestNodeOutput, FocusDirection, ScreenType, ViewType, ViewGroupType } from '../types';
+import { recalculateAbsolutes } from '../layoutManager';
+import FocusModel, { MODEL_TYPES } from '../model/abstractFocusModel';
+import { distCalc } from '../nextFocusFinder';
+import { ClosestNodeOutput, FocusDirection, ScreenType, ViewGroupType, ViewType } from '../types';
+import Logger from './logger';
+import Scroller from './scroller';
 
 class CoreManager {
     private _focusAwareElements: Record<string, FocusModel> = {};
@@ -18,7 +18,6 @@ class CoreManager {
     private _isTV: boolean | undefined = undefined;
     private _keyEventsEnabled = true;
     private _viewIsAnimating = false;
-    private _lastFocusedActiveScreen: ScreenType | undefined;
     private _pendingLayoutMeasurements: Record<string, NodeJS.Timeout | number> = {};
 
     constructor() {
@@ -145,10 +144,6 @@ class CoreManager {
 
         // SCREEN EVENTS
         if (currentFocus?.getScreen()?.getId() !== nextFocus.getScreen()?.getId()) {
-            if (currentFocus?.getScreen()?.isInForeground()) {
-                this._lastFocusedActiveScreen = currentFocus?.getScreen();
-            }
-
             currentFocus?.getScreen()?.onBlur();
             nextFocus.getScreen()?.onFocus();
         }
@@ -522,10 +517,6 @@ class CoreManager {
 
     public setIsTV(isTV: boolean) {
         this._isTV = isTV;
-    }
-
-    public getLastFocusedActiveScreen(): ScreenType | undefined {
-        return this._lastFocusedActiveScreen;
     }
 }
 

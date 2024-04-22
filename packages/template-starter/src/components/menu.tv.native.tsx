@@ -1,8 +1,8 @@
-import React, { useContext, useRef } from 'react';
+import { Screen, Text, TouchableOpacity, setFocus } from '@flexn/create';
+import { useContext, useRef } from 'react';
 import { Animated } from 'react-native';
-import { TouchableOpacity, Text, Screen, setFocus } from '@flexn/create';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { ThemeContext, ROUTES, Ratio } from '../config';
+import { ROUTES, Ratio, ThemeContext } from '../config';
 import { useNavigate } from '../hooks';
 
 const AnimatedText = Animated.createAnimatedComponent(Text);
@@ -65,6 +65,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
             focusOptions={{
                 focusKey: 'side-menu',
                 nextFocusRight: 'page',
+                stealFocus: false,
             }}
         >
             <Animated.View

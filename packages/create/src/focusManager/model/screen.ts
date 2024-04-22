@@ -44,6 +44,7 @@ class Screen extends FocusModel {
     private _currentFocus: View | null = null;
     private _precalculatedFocus: View | null = null;
     private _ignoreInitialFocus: boolean;
+    private _stealFocus: boolean;
     private _group?: string;
     private _interval?: NodeJS.Timeout;
 
@@ -61,6 +62,7 @@ class Screen extends FocusModel {
             ignoreInitialFocus = false,
             focusKey,
             group,
+            stealFocus = true,
             verticalWindowAlignment = VIEWPORT_ALIGNMENT.LOW_EDGE,
             horizontalWindowAlignment = VIEWPORT_ALIGNMENT.LOW_EDGE,
             horizontalViewportOffset = DEFAULT_VIEWPORT_OFFSET,
@@ -82,6 +84,7 @@ class Screen extends FocusModel {
         this._forbiddenFocusDirections = forbiddenFocusDirections;
         this._ignoreInitialFocus = ignoreInitialFocus;
         this._initialLoadInProgress = true;
+        this._stealFocus = stealFocus;
 
         this._componentsPendingLayoutMap = {};
 
@@ -196,11 +199,9 @@ class Screen extends FocusModel {
                 ).find((s) => {
                     return (
                         s.isInForeground() &&
-                        s.getId() ===
-                            CoreManager.getLastFocusedActiveScreen()?.getId()
+                        s.hasStealFocus()
                     );
                 });
-
                 if (anotherScreenInForeground) {
                     const view =
                         await anotherScreenInForeground.getFirstFocusableOnScreen();
@@ -379,6 +380,10 @@ class Screen extends FocusModel {
 
     public getNode(): MutableRefObject<RNView> {
         return this.node;
+    }
+
+    public hasStealFocus(): boolean {
+        return this._stealFocus;
     }
 }
 

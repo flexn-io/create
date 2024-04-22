@@ -1,15 +1,15 @@
+import { MutableRefObject } from 'react';
 import { Platform, View as RNView } from 'react-native';
-import CoreManager from '../service/core';
-import FocusModel, { MODEL_TYPES } from './abstractFocusModel';
-import Recycler from './recycler';
-import ScrollView from './scrollview';
 import Event, { EVENT_TYPES } from '../events';
 import { measureAsync } from '../layoutManager';
-import Row from './row';
-import ViewGroup from './viewGroup';
-import Grid from './grid';
-import { MutableRefObject } from 'react';
+import CoreManager from '../service/core';
 import { PressableProps } from '../types';
+import FocusModel, { MODEL_TYPES } from './abstractFocusModel';
+import Grid from './grid';
+import Recycler from './recycler';
+import Row from './row';
+import ScrollView from './scrollview';
+import ViewGroup from './viewGroup';
 
 export const ANIMATION_TYPES = {
     BORDER: 'border',
@@ -170,7 +170,7 @@ class View extends FocusModel {
         await this.getScreen()?.removeComponentFromPendingLayoutMap(
             this.getId()
         );
-
+        
         if (
             !this.getScreen()?.isInitialFocusIgnored() &&
             !this.getScreen()?.isInitialLoadInProgress() &&

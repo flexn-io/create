@@ -1,25 +1,24 @@
 import type {
-    ScrollViewProps as RNScrollViewProps,
-    StyleProp,
-    ViewProps as RNViewProps,
-    PressableProps as RNPressableProps,
-    TouchableOpacityProps as RNTouchableOpacityProps,
-    ViewStyle,
-    ScrollView,
-    ColorValue,
-    View as RNView,
-} from 'react-native';
-import type { MouseEvent } from 'react';
-import type {
     FlashListProps as FLProps,
     ListRenderItemInfo,
 } from '@flexn/shopify-flash-list';
+import type { MouseEvent } from 'react';
+import type {
+    ColorValue,
+    PressableProps as RNPressableProps,
+    ScrollViewProps as RNScrollViewProps,
+    TouchableOpacityProps as RNTouchableOpacityProps,
+    View as RNView,
+    ViewProps as RNViewProps,
+    ScrollView,
+    StyleProp,
+    ViewStyle,
+} from 'react-native';
 
-import FocusModel from './model/abstractFocusModel';
-import View from './model/view';
-import { SCREEN_STATES, VIEWPORT_ALIGNMENT } from './model/screen';
-import Screen from './model/screen';
 import { DIRECTIONS } from './constants';
+import FocusModel from './model/abstractFocusModel';
+import Screen, { SCREEN_STATES, VIEWPORT_ALIGNMENT } from './model/screen';
+import View from './model/view';
 import ViewGroup from './model/viewGroup';
 
 export type FocusDirection = (typeof DIRECTIONS)[keyof typeof DIRECTIONS];
@@ -111,6 +110,7 @@ export type ScreenFocusOptions = {
     screenOrder?: number;
     ignoreInitialFocus?: boolean;
     autoFocusEnabled?: boolean;
+    stealFocus?: boolean;
     group?: string;
 };
 
