@@ -1,14 +1,13 @@
 import { MutableRefObject } from 'react';
+import { SCREEN_STATES } from '../constants';
 import {
     measureAsync,
     measureSync,
     recalculateAbsolutes,
 } from '../layoutManager';
-import { ForbiddenFocusDirections, Layout } from '../types';
+import { ForbiddenFocusDirections, Layout, ScreenType } from '../types';
 import Grid from './grid';
-import RecyclerView from './recycler';
 import Row from './row';
-import Screen, { SCREEN_STATES } from './screen';
 import View from './view';
 
 export const MODEL_TYPES = {
@@ -37,7 +36,7 @@ export default abstract class FocusModel {
     protected _type: (typeof MODEL_TYPES)[keyof typeof MODEL_TYPES] = 'view';
     protected _parent: FocusModel | undefined;
     protected _children: FocusModel[];
-    protected _screen: Screen | undefined;
+    protected _screen: ScreenType | undefined;
     protected _forbiddenFocusDirections: ForbiddenFocusDirections[];
     protected _isFocusable: boolean;
     protected _isScrollable: boolean;
@@ -184,7 +183,7 @@ export default abstract class FocusModel {
         return this._isFocusable;
     }
 
-    public getScreen(): Screen | undefined {
+    public getScreen(): ScreenType | undefined {
         if (this._screen) {
             return this._screen;
         }
@@ -195,7 +194,7 @@ export default abstract class FocusModel {
         }
 
         if (parentCls?.getType() === MODEL_TYPES.SCREEN) {
-            this._screen = parentCls as Screen;
+            this._screen = parentCls as ScreenType;
             return this._screen;
         }
     }
@@ -210,9 +209,9 @@ export default abstract class FocusModel {
                     }
                 });
             if (this.getParent()?.getType() === MODEL_TYPES.RECYCLER) {
-                const recycler = this.getParent() as RecyclerView;
-                if (recycler.getFocusedView()?.getId() === this.getId()) {
-                    recycler.setFocusedView(null);
+                const recycler = this.getParent();
+                if (recycler!.getFocusedView()?.getId() === this.getId()) {
+                    recycler!.setFocusedView(null);
                 }
             }
         } else {
@@ -497,6 +496,14 @@ export default abstract class FocusModel {
     }
 
     public isScrolling(): boolean {
+        throw new Error('Not implemented');
+    }
+
+    public getFocusedView(): View {
+        throw new Error('Not implemented');
+    }
+
+    public setFocusedView(_view: View | null)  {
         throw new Error('Not implemented');
     }
 }

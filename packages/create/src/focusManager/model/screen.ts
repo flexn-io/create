@@ -1,12 +1,12 @@
-import { MutableRefObject } from 'react';
 import { Dimensions, PixelRatio, Platform, View as RNView } from 'react-native';
-import Event, { EVENT_TYPES } from '../events';
 import { findLowestRelativeCoordinates, measureSync } from '../layoutManager';
 import CoreManager from '../service/core';
 import { ScreenProps } from '../types';
 import FocusModel, { MODEL_TYPES } from './abstractFocusModel';
-import Recycler from './recycler';
 import View from './view';
+
+import { MutableRefObject } from 'react';
+import Event, { EVENT_TYPES } from '../events';
 
 function Ratio(pixels: number): number {
     if (Platform.OS !== 'android') return pixels;
@@ -224,9 +224,9 @@ class Screen extends FocusModel {
                     )
                 ) {
                     const recycler =
-                        this._precalculatedFocus.getParent() as Recycler;
-                    if (recycler.getFocusedView())
-                        return recycler.getFocusedView();
+                        this._precalculatedFocus.getParent();
+                    if (recycler!.getFocusedView())
+                        return recycler!.getFocusedView();
                 }
                 return this._precalculatedFocus;
             }

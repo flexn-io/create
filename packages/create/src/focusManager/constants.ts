@@ -4,3 +4,8 @@ export const DIRECTIONS = {
     LEFT: 'left',
     RIGHT: 'right',
 } as const;
+
+export const SCREEN_STATES = {
+    BACKGROUND: 'background',
+    FOREGROUND: 'foreground',
+} as const;
