@@ -15,6 +15,7 @@ class CoreManager {
     private _currentFocus: ViewType | null = null;
     private _debuggerEnabled = false;
     private _isEnabled = true;
+    private _isLongPressEventsEnabled = true;
     private _isTV: boolean | undefined = undefined;
     private _keyEventsEnabled = true;
     private _viewIsAnimating = false;
@@ -517,6 +518,14 @@ class CoreManager {
 
     public setIsTV(isTV: boolean) {
         this._isTV = isTV;
+    }
+
+    public isLongPressEventEnabled(): boolean {
+        return this._isLongPressEventsEnabled;
+    }
+
+    public setLongPressEventsEnabled(value: boolean) {
+        this._isLongPressEventsEnabled = value;
     }
 }
 

@@ -1,10 +1,4 @@
-import {
-    NativeModules,
-    NativeEventEmitter,
-    DeviceEventEmitter,
-    EmitterSubscription,
-    Platform,
-} from 'react-native';
+import { NativeModules, NativeEventEmitter, DeviceEventEmitter, EmitterSubscription, Platform } from 'react-native';
 import throttle from 'lodash.throttle';
 import {
     RemoteHandlerEventTypesAppleTV,
@@ -49,14 +43,12 @@ class KeyHandler {
 
         if (CoreManager.isTV() && Platform.OS === 'ios') {
             const { TvRemoteHandler } = NativeModules;
-            this.eventEmitter = new NativeEventEmitter(
-                TvRemoteHandler
-            ).addListener('onTVRemoteKey', this.handleKeyEvent);
-        } else {
-            this.eventEmitter = DeviceEventEmitter.addListener(
+            this.eventEmitter = new NativeEventEmitter(TvRemoteHandler).addListener(
                 'onTVRemoteKey',
-                this.handleKeyEventAndroid
+                this.handleKeyEvent
             );
+        } else {
+            this.eventEmitter = DeviceEventEmitter.addListener('onTVRemoteKey', this.handleKeyEventAndroid);
         }
     }
 
@@ -69,19 +61,13 @@ class KeyHandler {
         eventType,
     }: {
         eventKeyAction: RemoteHandlerEventKeyActions;
-        eventType:
-            | RemoteHandlerEventTypesAppleTV
-            | RemoteHandlerEventTypesAndroid;
+        eventType: RemoteHandlerEventTypesAppleTV | RemoteHandlerEventTypesAndroid;
     }) {
-        const isFocusAndKeyEventsEnabled =
-            CoreManager.isFocusManagerEnabled() &&
-            CoreManager.isKeyEventsEnabled();
+        const isFocusAndKeyEventsEnabled = CoreManager.isFocusManagerEnabled() && CoreManager.isKeyEventsEnabled();
         const isFocusReady =
             CoreManager.getCurrentFocus() &&
             CoreManager.getCurrentFocus()?.getScreen()?.isInForeground() &&
-            !CoreManager.getCurrentFocus()
-                ?.getScreen()
-                ?.isInitialLoadInProgress();
+            !CoreManager.getCurrentFocus()?.getScreen()?.isInitialLoadInProgress();
 
         if (isFocusAndKeyEventsEnabled && isFocusReady) {
             switch (eventKeyAction) {
@@ -102,19 +88,13 @@ class KeyHandler {
         eventType,
     }: {
         eventKeyAction: RemoteHandlerEventKeyActions;
-        eventType:
-            | RemoteHandlerEventTypesAppleTV
-            | RemoteHandlerEventTypesAndroid;
+        eventType: RemoteHandlerEventTypesAppleTV | RemoteHandlerEventTypesAndroid;
     }) {
-        const isFocusAndKeyEventsEnabled =
-            CoreManager.isFocusManagerEnabled() &&
-            CoreManager.isKeyEventsEnabled();
+        const isFocusAndKeyEventsEnabled = CoreManager.isFocusManagerEnabled() && CoreManager.isKeyEventsEnabled();
         const isFocusReady =
             CoreManager.getCurrentFocus() &&
             CoreManager.getCurrentFocus()?.getScreen()?.isInForeground() &&
-            !CoreManager.getCurrentFocus()
-                ?.getScreen()
-                ?.isInitialLoadInProgress();
+            !CoreManager.getCurrentFocus()?.getScreen()?.isInitialLoadInProgress();
 
         if (isFocusAndKeyEventsEnabled && isFocusReady) {
             switch (eventKeyAction) {
@@ -134,11 +114,7 @@ class KeyHandler {
         }
     }
 
-    private onKeyDown(
-        eventType:
-            | RemoteHandlerEventTypesAppleTV
-            | RemoteHandlerEventTypesAndroid
-    ) {
+    private onKeyDown(eventType: RemoteHandlerEventTypesAppleTV | RemoteHandlerEventTypesAndroid) {
         if (!this._stopKeyDownEvents) {
             if (eventType === EVENT_TYPE_SELECT) {
                 CoreManager.getCurrentFocus()?.onPress();
@@ -171,25 +147,28 @@ class KeyHandler {
         }
     }
 
-    private onKeyLongPress(
-        eventType:
-            | RemoteHandlerEventTypesAppleTV
-            | RemoteHandlerEventTypesAndroid
-    ) {
+    private onKeyLongPress(eventType: RemoteHandlerEventTypesAppleTV | RemoteHandlerEventTypesAndroid) {
         const direction = this.getDirectionName(eventType);
+        const parent = CoreManager.getCurrentFocus()?.getParent();
+
+        if (direction &&
+            (parent?.isHorizontal() && ['down', 'up'].includes(direction!)) ||
+            (!parent?.isHorizontal() && ['left', 'right'].includes(direction!))
+        ) {
+            CoreManager.executeDirectionalFocus(direction!);
+            CoreManager.executeScroll(direction!);
+            return;
+        }
+
         if (this.isInRecycler() && direction) {
             this._stopKeyDownEvents = true;
             this._longPressInterval = setInterval(
                 () => {
                     const selectedIndex = this.getSelectedIndex();
-
                     CoreManager.executeDirectionalFocus(direction);
                     CoreManager.executeScroll(direction, true);
 
-                    if (
-                        selectedIndex === 0 ||
-                        selectedIndex === this.getMaxIndex()
-                    ) {
+                    if (selectedIndex === 0 || selectedIndex === this.getMaxIndex()) {
                         this.onKeyUp(direction);
                     }
                 },
@@ -200,11 +179,7 @@ class KeyHandler {
         }
     }
 
-    private onKeyUp(
-        eventType:
-            | RemoteHandlerEventTypesAppleTV
-            | RemoteHandlerEventTypesAndroid
-    ) {
+    private onKeyUp(eventType: RemoteHandlerEventTypesAppleTV | RemoteHandlerEventTypesAndroid) {
         const direction = this.getDirectionName(eventType);
         if (this._longPressInterval) {
             clearInterval(this._longPressInterval);
@@ -226,10 +201,7 @@ class KeyHandler {
 
     private getMaxIndex(): number {
         const parent = CoreManager.getCurrentFocus()?.getParent();
-        const isRecyclable =
-            parent instanceof RecyclerView ||
-            parent instanceof Row ||
-            parent instanceof Grid;
+        const isRecyclable = parent instanceof RecyclerView || parent instanceof Row || parent instanceof Grid;
 
         if (parent && isRecyclable) {
             return parent.getLayouts().length;
@@ -241,11 +213,7 @@ class KeyHandler {
     private isInRecycler(): boolean {
         const parent = CoreManager.getCurrentFocus()?.getParent();
 
-        return parent instanceof RecyclerView ||
-            parent instanceof Row ||
-            parent instanceof Grid
-            ? true
-            : false;
+        return parent instanceof RecyclerView || parent instanceof Row || parent instanceof Grid ? true : false;
     }
 
     public getDirectionName(direction: string): FocusDirection | null {

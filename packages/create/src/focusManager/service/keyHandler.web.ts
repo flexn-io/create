@@ -10,7 +10,7 @@ const EVENT_TYPE_DOWN = 'down';
 const EVENT_TYPE_UP = 'up';
 const EVENT_TYPE_PLAY_PAUSE = 'playPause';
 const EVENT_TYPE_BACK = 'back';
-const LONG_PRESS_TIMEOUT_MS = 200;
+const LONG_PRESS_TIMEOUT_MS = 400;
 const EVENT_KEY_ACTION_LONG_PRESS = 'longPress';
 
 const DEFAULT_KEY_MAP: any = {
@@ -41,7 +41,7 @@ class KeyHandler {
         this.keyDownEventListener = (event: KeyboardEvent) => {
             const eventType = DEFAULT_KEY_MAP[event.keyCode];
 
-            if (eventType === EVENT_TYPE_SELECT) {
+            if (eventType === EVENT_TYPE_SELECT && CoreManager.isLongPressEventEnabled()) {
                 if (event.repeat) return;
                 this.longPressTimeout = setTimeout(() => {
                     this.onKeyDown(EVENT_KEY_ACTION_LONG_PRESS);
@@ -49,13 +49,14 @@ class KeyHandler {
                     clearTimeout(this.longPressTimeout!);
                 }, LONG_PRESS_TIMEOUT_MS);
             } else {
+                if (event.repeat) return;
                 this.onKeyDown(eventType);
             }
         };
         this.keyUpEventListener = (event: KeyboardEvent) => {
             const eventType = DEFAULT_KEY_MAP[event.keyCode];
 
-            if (eventType === EVENT_TYPE_SELECT) {
+            if (eventType === EVENT_TYPE_SELECT && CoreManager.isLongPressEventEnabled()) {
                 if (this.longPressTimeout) {
                     clearTimeout(this.longPressTimeout);
                     this.longPressTimeout = null;
@@ -90,6 +91,7 @@ class KeyHandler {
 
         if (isFocusAndKeyEventsEnabled && isFocusReady) {
             if (eventType === EVENT_TYPE_SELECT) {
+                console.log('PRESS...')
                 CoreManager.getCurrentFocus()?.onPress();
             }
 
