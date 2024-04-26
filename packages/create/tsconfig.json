@@ -2,8 +2,7 @@
     "extends": "@flexn/typescript-config/tsconfig.lib.react.json",
     "compilerOptions": {
         "outDir": "./lib",
-        "rootDir": "./src",
-        "allowJs": true
+        "rootDir": "./src"
     },
     "exclude": ["node_modules", "**/lib/**/", "**/pluginTemplates/**"]
 }
