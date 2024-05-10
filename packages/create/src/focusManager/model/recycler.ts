@@ -1,4 +1,4 @@
-import { ScrollView } from 'react-native';
+import { Dimensions, PixelRatio, Platform, ScrollView } from 'react-native';
 import FocusModel from './abstractFocusModel';
 import { FlashListProps, ForbiddenFocusDirections } from '../types';
 import View from './view';
@@ -6,8 +6,14 @@ import Event, { EVENT_TYPES } from '../events';
 import { CoreManager } from '../..';
 import { measureAsync } from '../layoutManager';
 import { MutableRefObject } from 'react';
-import { Ratio } from '../../helpers';
 
+function Ratio(pixels: number): number {
+    if (!CoreManager.isTV()) return pixels;
+    if (Platform.OS !== 'android') return pixels;
+    const resolution = Dimensions.get('screen').height * PixelRatio.get();
+
+    return Math.round(pixels / (resolution < 2160 ? 2 : 1));
+}
 class RecyclerView extends FocusModel {
     private _layouts: { x: number; y: number; width: number; height: number }[];
     private _layoutsReady: boolean;
@@ -20,16 +26,23 @@ class RecyclerView extends FocusModel {
     private _initialRenderIndex: number;
     private _initialFocusIndex: number;
     private _focusedView: View | null = null;
-    private _isScrollingHorizontally: boolean;
     private _isScrollingVertically: boolean;
     private _autoLayoutScaleAnimation = false;
     private _autoLayoutSize = 0;
     private _listHeaderDimensions = { width: 0, height: 0 };
+    private _isScrolling = false;
+
+    private _scrollTimeout?: NodeJS.Timeout;
 
     constructor(
         params: Omit<
             FlashListProps<any> & FlashListProps<any>['focusOptions'],
-            'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
+            | 'style'
+            | 'scrollViewProps'
+            | 'renderItem'
+            | 'type'
+            | 'data'
+            | 'focusOptions'
         >
     ) {
         super(params);
@@ -60,7 +73,6 @@ class RecyclerView extends FocusModel {
         this._focusedIndex = 0;
         this._initialRenderIndex = initialRenderIndex;
         this._initialFocusIndex = initialFocusIndex;
-        this._isScrollingHorizontally = false;
         this._isScrollingVertically = false;
         this._autoLayoutScaleAnimation = autoLayoutScaleAnimation;
         this._autoLayoutSize = autoLayoutSize;
@@ -74,9 +86,24 @@ class RecyclerView extends FocusModel {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT_AND_MEASURED, this._onMountAndMeasured),
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_MOUNT_AND_MEASURED,
+                this._onMountAndMeasured
+            ),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_UNMOUNT,
+                this._onUnmount
+            ),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_LAYOUT,
+                this._onLayout
+            ),
         ];
     }
 
@@ -93,16 +120,29 @@ class RecyclerView extends FocusModel {
     protected async _onLayout() {
         await measureAsync({ model: this });
         this.remeasureChildrenLayouts(this);
-        Event.emit(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED);
+        Event.emit(
+            this.getType(),
+            this.getId(),
+            EVENT_TYPES.ON_LAYOUT_MEASURE_COMPLETED
+        );
     }
 
     // END EVENTS
 
-    public getLayouts(): { x: number; y: number; width: number; height: number }[] {
+    public getLayouts(): {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+    }[] {
         return this._layouts;
     }
 
-    public updateLayouts(layouts: { x: number; y: number; width: number; height: number }[] | undefined) {
+    public updateLayouts(
+        layouts:
+            | { x: number; y: number; width: number; height: number }[]
+            | undefined
+    ) {
         if (layouts && this._layouts.length !== layouts.length) {
             this._layouts = layouts;
 
@@ -115,7 +155,10 @@ class RecyclerView extends FocusModel {
             this._layoutsReady = true;
 
             const repeatLayout = layouts[layouts.length - 1];
-            this.updateLayoutProperty('xMaxScroll', this.getLayout().xMax + repeatLayout.x).updateLayoutProperty(
+            this.updateLayoutProperty(
+                'xMaxScroll',
+                this.getLayout().xMax + repeatLayout.x
+            ).updateLayoutProperty(
                 'yMaxScroll',
                 this.getLayout().yMax + repeatLayout.y
             );
@@ -196,19 +239,12 @@ class RecyclerView extends FocusModel {
         return this._initialFocusIndex;
     }
 
-
     public getFocusedView(): View | null {
         return this._focusedView;
     }
 
     public scrollToInitialRenderIndex(): void {
         //TODO: implement
-    }
-
-    public setIsScrollingHorizontally(value: boolean): this {
-        this._isScrollingHorizontally = value;
-
-        return this;
     }
 
     public setIsScrollingVertically(value: boolean): this {
@@ -219,10 +255,6 @@ class RecyclerView extends FocusModel {
 
     public isScrollingVertically(): boolean {
         return this._isScrollingVertically;
-    }
-
-    public isScrollingHorizontally(): boolean {
-        return this._isScrollingHorizontally;
     }
 
     public verticalContentContainerGap(): number {
@@ -250,11 +282,31 @@ class RecyclerView extends FocusModel {
         return this._listHeaderDimensions;
     }
 
-    public updateEvents({ onFocus, onBlur }: { onPress?(): void; onFocus?(): void; onBlur?(): void }) {
+    public updateEvents({
+        onFocus,
+        onBlur,
+    }: {
+        onPress?(): void;
+        onFocus?(): void;
+        onBlur?(): void;
+    }) {
         this._onFocus = onFocus;
         this._onBlur = onBlur;
 
         return this;
+    }
+
+    public fireScroll() {
+        this._isScrolling = true;
+        clearTimeout(this._scrollTimeout);
+
+        this._scrollTimeout = setTimeout(() => {
+            this._isScrolling = false;
+        }, 30);
+    }
+
+    public isScrolling(): boolean {
+        return this._isScrolling;
     }
 }
 

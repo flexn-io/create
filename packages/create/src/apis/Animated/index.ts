@@ -1,5 +1,6 @@
 import { Animated } from 'react-native';
 import FocusModel from '../../focusManager/model/abstractFocusModel';
+import CoreManager from '../../focusManager/service/core';
 
 type EndResult = { finished: boolean };
 type EndCallback = (result: EndResult) => void;
@@ -10,11 +11,39 @@ const onAnimationEnds = (focusContext?: FocusModel) => {
     }
 };
 
-const getPropsFromAnimatableValue = (value: Animated.Value | Animated.ValueXY) => {
-    // @ts-ignore it's internal property not intended to be used outside, but now it's only why
+const getPropsFromAnimatableValue = (
+    value: Animated.Value | Animated.ValueXY
+) => {
+    // it's internal property not intended to be used outside, but now it's only why
     // to determine which component we're animating
-    const focusContext = value._children?.[0]?._children?.[0]?._children?.[0]?._props?.focusContext;
+    const focusContext =
+        // @ts-ignore
+        value._children?.[0]?._children?.[0]?._children?.[0]?._props
+            ?.focusContext;
 
+    if (!focusContext) {
+        // it's internal property not intended to be used outside, but now it's only why
+        // to determine which component we're animating
+        const focusKey =
+            // @ts-ignore
+            value._children?.[0]?._children?.[0]?._children?.[0]?._props
+                ?.focusOptions?.focusKey;
+
+        if (focusKey) {
+            const element = Object.values({
+                ...CoreManager.getViews(),
+                ...CoreManager.getScreens(),
+                ...CoreManager.getViewGroups(),
+            }).find(
+                (model) =>
+                    model.getFocusKey() === focusKey && model.isInForeground()
+            );
+
+            if (element) {
+                return element;
+            }
+        }
+    }
     return focusContext;
 };
 

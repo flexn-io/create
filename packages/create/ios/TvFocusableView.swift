@@ -1,3 +1,4 @@
+#if os(tvOS)
 class TvFocusableView : RCTTVView {
     private var selectedAnimator: Animator? = nil
 
@@ -51,3 +52,4 @@ extension UIView {
         return nil
     }
 }
+#endif

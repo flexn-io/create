@@ -55,6 +55,7 @@ const ScreenHome = ({ navigation }: { navigation?: any }) => {
                     }}
                     style={theme.styles.button}
                     focusOptions={{
+                        hasPreferredFocus: true,
                         nextFocusLeft: 'side-menu',
                         animator: focusAnimation,
                         forbiddenFocusDirections: ['up'],

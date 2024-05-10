@@ -13,10 +13,26 @@ export type ScrollViewHandle = {
 };
 
 const ScrollView = React.forwardRef<RNScrollView, ScrollViewProps>(
-    ({ children, style, focusContext, horizontal, focusOptions, ...props }: ScrollViewProps, refOuter) => {
+    (
+        {
+            children,
+            style,
+            focusContext,
+            horizontal,
+            focusOptions,
+            onScroll,
+            ...props
+        }: ScrollViewProps,
+        refOuter
+    ) => {
         if (!CoreManager.isFocusManagerEnabled()) {
             return (
-                <RNScrollView style={style} horizontal={horizontal} {...props} ref={refOuter}>
+                <RNScrollView
+                    style={style}
+                    horizontal={horizontal}
+                    {...props}
+                    ref={refOuter}
+                >
                     {children}
                 </RNScrollView>
             );
@@ -51,7 +67,9 @@ const ScrollView = React.forwardRef<RNScrollView, ScrollViewProps>(
 
         const childrenWithProps = React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
-                return React.cloneElement(child as React.ReactElement<any>, { focusContext: model });
+                return React.cloneElement(child as React.ReactElement<any>, {
+                    focusContext: model,
+                });
             }
             return child;
         });
@@ -63,11 +81,12 @@ const ScrollView = React.forwardRef<RNScrollView, ScrollViewProps>(
                 style={style}
                 horizontal={horizontal}
                 scrollEnabled={false}
-                scrollEventThrottle={320}
+                scrollEventThrottle={1}
                 onScroll={(event) => {
                     const { height, width } = event.nativeEvent.contentSize;
                     const { y, x } = event.nativeEvent.contentOffset;
-                    const { height: scrollContentHeight } = event.nativeEvent.layoutMeasurement;
+                    const { height: scrollContentHeight } =
+                        event.nativeEvent.layoutMeasurement;
                     const endY = scrollContentHeight + y >= height;
 
                     if (model.getScrollTargetY() === y || endY) {
@@ -76,14 +95,21 @@ const ScrollView = React.forwardRef<RNScrollView, ScrollViewProps>(
                         model.setIsScrollingVertically(true);
                     }
 
+                    model.fireScroll();
+
                     model
                         .setScrollOffsetY(y)
                         .setScrollOffsetX(x)
                         .updateLayoutProperty('yMaxScroll', height)
                         .updateLayoutProperty('xMaxScroll', width)
-                        .updateLayoutProperty('scrollContentHeight', scrollContentHeight);
+                        .updateLayoutProperty(
+                            'scrollContentHeight',
+                            scrollContentHeight
+                        );
 
                     model.recalculateChildrenAbsoluteLayouts(model);
+
+                    onScroll?.(event);
                 }}
                 {...props}
             >

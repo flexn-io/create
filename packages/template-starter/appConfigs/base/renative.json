@@ -1,7 +1,7 @@
 {
+    "$schema": "../../.rnv/schema/rnv.app.json",
     "id": "base",
     "hidden": true,
-    "skipBootstrapCopy": true,
     "common": {
         "author": "Flexn BV",
         "license": "MIT",
@@ -13,28 +13,7 @@
         ],
         "versionCodeFormat": "00.00.00.0000",
         "versionFormat": "0.0.0",
-        "buildSchemes": {
-            "debug": {
-                "description": "Use for local development",
-                "title": "Flexn Debug"
-            },
-            "test": {
-                "description": "Use to run automation",
-                "title": "Flexn Test"
-            },
-            "canary": {
-                "description": "Use for pre-production deployments",
-                "title": "Flexn Canary"
-            },
-            "production": {
-                "description": "Use for production deployments",
-                "title": "Flexn Production"
-            }
-        },
         "backgroundColor": "#111111",
-        "runtime": {
-            "welcomeMessage": "Flexn!"
-        },
         "fontSources": [
             "{{resolvePackage(react-native-vector-icons)}}/Fonts",
             "{{resolvePackage(@flexn/fonts)}}/fonts"
@@ -132,18 +111,13 @@
             }
         },
         "tvos": {
-            "scheme": "RNVAppTVOS",
             "entryFile": "index",
             "provisioningStyle": "Automatic",
             "entitlements": {},
             "allowProvisioningUpdates": true,
+            "assetSources": ["{{resolvePackage(@flexn/assets-renative-outline)}}/assets"],
             "permissions": [
                 "*"
-            ],
-            "excludedArchs": [
-                {
-                    "sdk=iphonesimulator*": "arm64"
-                }
             ],
             "excludedPlugins": [
                 "react-native-carplay"
@@ -592,9 +566,5 @@
                 ]
             }
         }
-    },
-    "runtime": {
-        "appVersion": "{{files.project.package.version}}",
-        "timestamp": "{{runtimeProps.timestamp}}"
     }
 }

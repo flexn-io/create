@@ -1,47 +1,67 @@
 {
     "templateConfig": {
-        "includedPaths": ["buildHooks", "src", "index.js", "tsconfig.json"],
-        "packageTemplate": {
+        "includedPaths": [
+            {
+                "paths": [
+                    "buildHooks",
+                    "src",
+                    "static",
+                    "index.js",
+                    "tsconfig.json",
+                    "babel.config.js",
+                    ".gitignore",
+                    "appConfigs/app",
+                    "appConfigs/base/assets",
+                    "appConfigs/base/fonts",
+                    "appConfigs/base/plugins",
+                    "appConfigs/base/builds"
+                ]
+            },
+            {
+                "paths": ["Gemfile", "metro.config.js", ".bundle", "react-native.config.js"],
+                "platforms": ["ios", "android", "tvos", "firetv", "androidtv"]
+            },
+            {
+                "paths": ["next.config.js", "next-env.d.ts", "src/pages"],
+                "platforms": ["web"]
+            },
+            {
+                "paths": ["webpack.config.js"],
+                "platforms": ["macos", "tizen", "webos"]
+            }
+        ],
+        "renative_json": {
+            "extendsTemplate": "@flexn/create-template-starter/renative.json"
+        },
+        "package_json": {
             "devDependencies": {
-                "typescript": "4.9.5",
-                "@types/react": "18.2.6",
-                "@flexn/plugins": "1.0.8",
-                "@flexn/assets-create-outline": "0.3.3",
+                "typescript": "5.2.2",
+                "@types/react": "18.2.52",
+                "@types/react-dom": "18.2.18",
+                "@types/react-native": "0.72.3",
                 "@flexn/typescript-config": "1.0.0",
+                "@flexn/assets-create-outline": "1.0.0",
                 "@types/react-native-vector-icons": "6.4.13",
-                "@types/react-native": "~0.67.2",
-                "@types/react-dom": "~18.2.4"
+                "@rnv/core": "1.0.0-rc.17",
+                "@rnv/cli": "1.0.0-rc.17",
+                "@rnv/adapter": "1.0.0-rc.17",
+                "@rnv/config-templates": "1.0.0-rc.17"
+            },
+            "dependencies": {
+                "axios": "1.6.8",
+                "next": "14.1.4"
             },
             "resolutions": {
-                "@babel/traverse": "7.15.0",
-                "@types/react": "18.2.6"
+                "react-native-web": "0.18.9"
             },
             "browserslist": ["> 2%"]
         }
     },
-    "defaults": {
-        "supportedPlatforms": [
-            "android",
-            "androidtv",
-            "firetv",
-            "androidwear",
-            "ios",
-            "web",
-            "macos",
-            "tvos",
-            "tizen",
-            "webos"
-        ]
-    },
-    "engines": {
-        "@rnv/engine-lightning": "source:rnv",
-        "@rnv/engine-rn-electron": "source:rnv",
-        "@rnv/engine-rn": "source:rnv",
-        "@rnv/engine-rn-web": "source:rnv",
-        "@rnv/engine-rn-next": "source:rnv",
-        "@rnv/engine-rn-tvos": "source:rnv"
-    },
-    "plugins": {},
-    "platforms": {},
-    "extendsTemplate": "renative.json"
+    "bootstrapConfig": {
+        "rnvNewPatchDependencies": {
+            "pkg-dir": "7.0.0",
+            "xmlbuilder": "^15.1.1"
+        },
+        "defaultSelectedPlatforms": ["web", "ios", "android", "macos"]
+    }
 }

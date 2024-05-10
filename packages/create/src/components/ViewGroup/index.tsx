@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import type { ViewGroupProps } from '../../focusManager/types';
 import useOnLayout from '../../hooks/useOnLayout';
 import ViewGroupClass from '../../focusManager/model/viewGroup';
 import useOnComponentLifeCycle from '../../hooks/useOnComponentLifeCycle';
-import useOnRefChange from '../../hooks/useOnRefChange';
 import { CoreManager } from '../..';
+import { useCombinedRefs } from '../../hooks/useCombinedRef';
 
 const ViewGroup = React.forwardRef<View, ViewGroupProps>(
-    ({ children, focusContext, focusOptions, style, ...props }, ref) => {
+    ({ children, focusContext, focusOptions, style, ...props }, refOuter) => {
         if (!CoreManager.isFocusManagerEnabled()) {
             return (
-                <View style={style} {...props} ref={ref}>
+                <View style={style} {...props} ref={refOuter}>
                     {children}
                 </View>
             );
@@ -25,7 +25,13 @@ const ViewGroup = React.forwardRef<View, ViewGroupProps>(
                 })
         );
 
-        const { onRefChange } = useOnRefChange(model);
+        const refInner = useRef<View>();
+        const ref = useCombinedRefs<View>({
+            refs: refOuter
+                ? [refOuter as React.MutableRefObject<View>, refInner]
+                : [],
+            model,
+        });
 
         useOnComponentLifeCycle({ model });
 
@@ -50,7 +56,7 @@ const ViewGroup = React.forwardRef<View, ViewGroupProps>(
         });
 
         return (
-            <View style={style} {...props} ref={onRefChange} onLayout={onLayout}>
+            <View style={style} {...props} ref={ref} onLayout={onLayout}>
                 {childrenWithProps}
             </View>
         );

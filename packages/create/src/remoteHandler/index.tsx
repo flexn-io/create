@@ -16,7 +16,9 @@ import type {
     RemoteHandlerEventTypesWebTV,
 } from './index.web';
 
-type RemoteHandlerCallback = RemoteHandlerCallbackAndroid & RemoteHandlerCallbackAppleTV & RemoteHandlerCallbackWebTV;
+type RemoteHandlerCallback = RemoteHandlerCallbackAndroid &
+    RemoteHandlerCallbackAppleTV &
+    RemoteHandlerCallbackWebTV;
 type ClassRemoteHandlerCallback = ClassRemoteHandlerCallbackAndroid &
     ClassRemoteHandlerCallbackAppleTV &
     ClassRemoteHandlerCallbackWebTV;

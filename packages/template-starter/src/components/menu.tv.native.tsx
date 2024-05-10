@@ -1,8 +1,8 @@
-import React, { useContext, useRef } from 'react';
-import { Animated } from 'react-native';
-import { TouchableOpacity, Text, Screen } from '@flexn/create';
+import { Screen, Text, TouchableOpacity, setFocus } from '@flexn/create';
+import { useContext, useRef } from 'react';
+import { Animated, useWindowDimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { ThemeContext, ROUTES, Ratio } from '../config';
+import { ROUTES, Ratio, ThemeContext } from '../config';
 import { useNavigate } from '../hooks';
 
 const AnimatedText = Animated.createAnimatedComponent(Text);
@@ -11,6 +11,7 @@ const TRANSLATE_VAL_HIDDEN = Ratio(-300);
 
 const Menu = ({ navigation }: { navigation?: any }) => {
     const navigate = useNavigate({ navigation });
+    const { height } = useWindowDimensions();
     const { theme } = useContext(ThemeContext);
 
     const translateBgAnim = useRef(new Animated.Value(TRANSLATE_VAL_HIDDEN)).current;
@@ -59,26 +60,30 @@ const Menu = ({ navigation }: { navigation?: any }) => {
 
     return (
         <Screen
-            style={theme.styles.menuContainer}
+            style={[theme.styles.menuContainer, { minHeight: height }]}
             onFocus={onFocus}
             onBlur={onBlur}
             focusOptions={{
-                stealFocus: false,
                 focusKey: 'side-menu',
                 nextFocusRight: 'page',
+                stealFocus: false,
             }}
         >
             <Animated.View
                 style={[theme.styles.sideMenuContainerAnimation, { transform: [{ translateX: translateBgAnim }] }]}
             />
             <TouchableOpacity
-                onPress={() => navigate(ROUTES.HOME)}
+                onPress={() => {
+                    navigate(ROUTES.HOME);
+                    onBlur();
+                    setTimeout(() => setFocus('page'), 1);
+                }}
                 style={theme.styles.menuButton}
                 focusOptions={{
                     forbiddenFocusDirections: ['up'],
                 }}
             >
-                <Icon name="md-home" size={theme.static.iconSize} color={theme.static.colorBrand} />
+                <Icon name="home" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <AnimatedText
                     style={[
                         theme.styles.buttonText,
@@ -92,8 +97,15 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                     Home
                 </AnimatedText>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigate(ROUTES.CAROUSELS)} style={theme.styles.menuButton}>
-                <Icon name="md-rocket" size={theme.static.iconSize} color={theme.static.colorBrand} />
+            <TouchableOpacity
+                onPress={() => {
+                    navigate(ROUTES.CAROUSELS);
+                    onBlur();
+                    setTimeout(() => setFocus('page'), 1);
+                }}
+                style={theme.styles.menuButton}
+            >
+                <Icon name="rocket" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <AnimatedText
                     style={[
                         theme.styles.buttonText,
@@ -114,7 +126,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                     forbiddenFocusDirections: ['down'],
                 }}
             >
-                <Icon name="ios-albums" size={theme.static.iconSize} color={theme.static.colorBrand} />
+                <Icon name="albums" size={theme.static.iconSize} color={theme.static.colorBrand} />
                 <AnimatedText
                     style={[
                         theme.styles.buttonText,
@@ -125,7 +137,7 @@ const Menu = ({ navigation }: { navigation?: any }) => {
                         },
                     ]}
                 >
-                    My Modal
+                    Modal
                 </AnimatedText>
             </TouchableOpacity>
         </Screen>

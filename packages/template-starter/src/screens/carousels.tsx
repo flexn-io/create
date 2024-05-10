@@ -1,18 +1,25 @@
-import { FlashList, View, Pressable, Image, ScrollView, Text } from '@flexn/create';
+import { CreateListRenderItemInfo, FlashList, Image, Pressable, ScrollView, Text, View, setFocus } from '@flexn/create';
+import {
+    isFactorMobile,
+    isFactorTv,
+    isPlatformMacos,
+    isPlatformTizen,
+    isPlatformWeb,
+    isPlatformWebos,
+} from '@rnv/renative';
 import React, { useContext, useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { isFactorMobile, isPlatformMacos, isPlatformWeb, isFactorTv } from '@rnv/renative';
-import { ThemeContext, ROUTES, Ratio } from '../config';
+import { Dimensions, StyleSheet } from 'react-native';
+import { ROUTES, Ratio, ThemeContext } from '../config';
+import { useNavigate } from '../hooks/navigation';
 import { generateRandomItemsRow, interval, testProps } from '../utils';
 import Screen from './screen';
-import { useNavigate } from '../hooks/navigation';
 
 const getCarouselSize = () => {
     switch (true) {
         case isFactorTv:
             return {
-                width: Ratio(250),
-                height: Ratio(250),
+                width: Ratio(300),
+                height: Ratio(300),
             };
         case isFactorMobile:
             return {
@@ -33,11 +40,20 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
     const [data] = useState(() =>
         [...Array(5).keys()].map((rowNumber) => {
             const itemsInViewport = interval(isFactorMobile ? 1 : 3, isFactorMobile ? 3 : 5);
-            return generateRandomItemsRow(rowNumber, itemsInViewport);
+            return generateRandomItemsRow(rowNumber, itemsInViewport, 250, 50);
         })
     );
 
-    const renderItem = ({ item, focusRepeatContext, index }: any) => {
+    React.useEffect(() => {
+        setFocus('page');
+    }, []);
+
+    const renderItem = ({
+        item,
+        focusRepeatContext,
+        index,
+        listIndex,
+    }: CreateListRenderItemInfo<any> & { listIndex: number }) => {
         return (
             <Pressable
                 {...testProps(`template-carousels-screen-${index}-packshot`)}
@@ -51,6 +67,7 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                     }
                 }}
                 focusOptions={{
+                    hasPreferredFocus: listIndex === 0 && index === 0 ? true : false,
                     animator: {
                         type: 'border',
                         focus: {
@@ -79,15 +96,24 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                 {data.map((list, index) => (
                     <View style={styles.listSeparator} key={index}>
                         <FlashList
-                            key={index}
                             data={list}
                             extraData={{ dark }}
-                            renderItem={renderItem}
+                            renderItem={(props) => renderItem({ ...props, listIndex: index })}
                             type="row"
                             estimatedItemSize={getCarouselSize().height}
                             horizontal
+                            drawDistance={
+                                isPlatformWebos || isPlatformTizen
+                                    ? Dimensions.get('window').width / 3
+                                    : Ratio(Dimensions.get('window').width)
+                            }
                             showsHorizontalScrollIndicator={false}
-                            style={{ flex: 1 }}
+                            style={{
+                                flex: 1,
+                                ...(isFactorTv && {
+                                    width: Dimensions.get('screen').width - Ratio(100),
+                                }),
+                            }}
                         />
                     </View>
                 ))}
@@ -98,16 +124,21 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
 
 const styles = StyleSheet.create({
     screen: {
-        left: isFactorMobile || isPlatformMacos || isPlatformWeb ? 0 : Ratio(100),
+        ...(isFactorTv && {
+            left: Ratio(100),
+            width: Dimensions.get('screen').width - Ratio(100),
+        }),
     },
     wrapper: {
-        top: Ratio(20),
+        top: Ratio(30),
         marginBottom: isFactorTv ? Ratio(30) : 20,
+        height: Dimensions.get('screen').height,
+        ...isFactorMobile && {
+            marginBottom: 100
+        }
     },
     listSeparator: {
-        paddingRight: isFactorTv ? Ratio(100) : 0,
-        paddingBottom: isPlatformMacos || isPlatformWeb ? Ratio(20) : 0,
-        flex: 1,
+        paddingBottom: isPlatformMacos || isPlatformWeb ? Ratio(20) : Ratio(30),
     },
     cardStyle: {
         ...getCarouselSize(),

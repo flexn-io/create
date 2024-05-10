@@ -1,6 +1,10 @@
 {
+    "$schema": "../../.rnv/schema/rnv.app.json",
     "id": "template",
+    "extend": "base",
     "skipBootstrapCopy": true,
+    "isMonorepo": true,
+    "isTemplate": true,
     "common": {
         "id": "io.flexn.template",
         "title": "Flexn Template",
@@ -9,24 +13,33 @@
         "buildSchemes": {
             "debug": {
                 "id": "io.flexn.template.debug",
+                "description": "Use for local development",
                 "title": "Template Debug"
             },
             "test": {
                 "id": "io.flexn.template.test",
+                "description": "Use to run automation",
                 "title": "Template Test"
             },
             "canary": {
                 "id": "io.flexn.template.alpha",
+                "description": "Use for pre-production deployments",
                 "title": "Template Alpha"
             },
             "production": {
+                "description": "Use for production deployments",
                 "title": "Template Production"
             }
         },
         "ignoreWarnings": true,
         "ignoreLogs": true,
         "enableSourceMaps": true,
-        "firebaseGroups": "RS"
+        "firebaseGroups": "RS",
+        "runtime": {
+            "welcomeMessage": "Flexn!",
+            "appVersion": "{{files.project.package.version}}",
+            "timestamp": "{{runtimeProps.timestamp}}"
+        }
     },
     "platforms": {
         "android": {
@@ -165,9 +178,10 @@
             }
         },
         "tizen": {
-            "package": "samsungdev",
-            "id": "samsungdev.TestHarness",
-            "certificateProfile": "RNVanillaCert"
+            "package": "NkVRhWHJST",
+            "id": "NkVRhWHJST.RNVanillaTV",
+            "certificateProfile": "RNVanillaCert",
+            "appName": "TemplateStarter"
         },
         "tizenwatch": {
             "package": "cHIP2fIRQZ",

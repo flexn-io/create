@@ -15,7 +15,7 @@ const Overflow = () => {
         <View style={{ backgroundColor: '#222222', flex: 1 }}>
             <Screen
                 style={{ backgroundColor: '#222222', position: 'absolute' }}
-                focusOptions={{ nextFocusRight: ['layer2'], focusKey: 'layer1', group: 'layer1', stealFocus: true }}
+                focusOptions={{ nextFocusRight: ['layer2'], focusKey: 'layer1', group: 'layer1'}}
             >
                 <View style={{ position: 'absolute' }}>
                     {layer1Buttons.map((_, i) => (
@@ -30,7 +30,7 @@ const Overflow = () => {
             </Screen>
             <Screen
                 style={{ backgroundColor: '#222222', position: 'absolute' }}
-                focusOptions={{ nextFocusLeft: ['layer1'], focusKey: 'layer2', group: 'layer2', stealFocus: false }}
+                focusOptions={{ nextFocusLeft: ['layer1'], focusKey: 'layer2', group: 'layer2' }}
             >
                 <View style={{ position: 'absolute' }}>
                     {layer2Buttons.map((_, i) => (
@@ -43,7 +43,7 @@ const Overflow = () => {
                     ))}
                 </View>
             </Screen>
-            <Screen style={{ backgroundColor: '#222222', position: 'absolute' }} focusOptions={{ stealFocus: false }}>
+            <Screen style={{ backgroundColor: '#222222', position: 'absolute' }}>
                 <View style={{ position: 'absolute' }}>
                     {layer3Buttons.map((_, i) => (
                         <Button

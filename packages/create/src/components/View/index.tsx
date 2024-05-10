@@ -5,34 +5,44 @@ import type { ViewProps } from '../../focusManager/types';
 import ViewGroup from '../ViewGroup';
 import { CoreManager } from '../..';
 
-const View = React.forwardRef<RNView, ViewProps>(({ children, focusContext, focusOptions, ...props }, ref) => {
-    if (!CoreManager.isFocusManagerEnabled()) {
-        return (
-            <RNView {...props} ref={ref}>
-                {children}
-            </RNView>
-        );
-    }
+const View = React.forwardRef<RNView, ViewProps>(
+    ({ children, focusContext, focusOptions, ...props }, ref) => {
+        if (!CoreManager.isFocusManagerEnabled()) {
+            return (
+                <RNView {...props} ref={ref}>
+                    {children}
+                </RNView>
+            );
+        }
 
-    if (focusOptions?.group) {
+        if (focusOptions?.group) {
+            return (
+                <ViewGroup
+                    focusContext={focusContext}
+                    focusOptions={{
+                        ...focusOptions,
+                        group: focusOptions.group,
+                    }}
+                    {...props}
+                    ref={ref}
+                >
+                    {children}
+                </ViewGroup>
+            );
+        }
+
         return (
-            <ViewGroup
+            <Pressable
                 focusContext={focusContext}
-                focusOptions={{ ...focusOptions, group: focusOptions.group }}
                 {...props}
+                focus={false}
                 ref={ref}
             >
                 {children}
-            </ViewGroup>
+            </Pressable>
         );
     }
-
-    return (
-        <Pressable focusContext={focusContext} {...props} focus={false} ref={ref}>
-            {children}
-        </Pressable>
-    );
-});
+);
 
 View.displayName = 'View';
 

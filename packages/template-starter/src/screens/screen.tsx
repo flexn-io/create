@@ -16,7 +16,11 @@ const Screen = ({ children, focusOptions, style, ...rest }: ScreenProps) => {
     );
 
     return (
-        <FMScreen focusOptions={{ ...focusOptions, screenState }} style={style} {...rest}>
+        <FMScreen
+            focusOptions={{ ...focusOptions, screenState }}
+            style={[style]}
+            {...rest}
+        >
             {children}
         </FMScreen>
     );

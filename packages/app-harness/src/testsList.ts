@@ -112,7 +112,7 @@ import tests from './screens/tests';
 // ];
 
 export type Test = {
-    component: () => Element;
+    component: () => React.JSX.Element;
     title: string;
     route: string;
     id: string;

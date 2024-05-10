@@ -6,7 +6,10 @@ export function useCombinedRefs<T = undefined>({
     refs,
     model,
 }: {
-    refs: MutableRefObject<T | undefined>[] | ForwardedRef<T | undefined>[];
+    refs:
+        | MutableRefObject<T | undefined>[]
+        | ForwardedRef<T | undefined>[]
+        | [];
     model: FocusModel | null;
 }): MutableRefObject<T> {
     const { targetRef } = useOnRefChange(model);

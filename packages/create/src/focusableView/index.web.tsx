@@ -1,6 +1,11 @@
 import React from 'react';
 import { View as RNView, ViewProps, ColorValue } from 'react-native';
-import { AnimatorBackground, AnimatorBorder, AnimatorScale, AnimatorScaleWithBorder } from '..';
+import {
+    AnimatorBackground,
+    AnimatorBorder,
+    AnimatorScale,
+    AnimatorScaleWithBorder,
+} from '..';
 
 // AnimatorBackground | AnimatorBorder | AnimatorScale | AnimatorScaleWithBorder
 interface Props extends ViewProps {
@@ -26,6 +31,8 @@ interface Props extends ViewProps {
     };
 }
 
-const View = React.forwardRef<RNView, Props>((props, ref) => <RNView {...props} ref={ref} />);
+const View = React.forwardRef<RNView, Props>((props, ref) => (
+    <RNView {...props} ref={ref} />
+));
 
 export default View;

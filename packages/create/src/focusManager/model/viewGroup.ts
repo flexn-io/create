@@ -10,15 +10,33 @@ class ViewGroup extends FocusModel {
     private _group?: string;
     private _focusKey?: string;
     private _currentFocus: View | null = null;
+    private _lastScreenFocus: View | null = null;
     private _allowFocusOutsideGroup = false;
 
-    constructor(params: Omit<ViewGroupProps & ViewGroupProps['focusOptions'], 'ref' | 'focusOptions'>) {
+    constructor(
+        params: Omit<
+            ViewGroupProps & ViewGroupProps['focusOptions'],
+            | 'ref'
+            | 'focusOptions'
+            | 'nextFocusDown'
+            | 'nextFocusLeft'
+            | 'nextFocusUp'
+            | 'nextFocusRight'
+        >
+    ) {
         super(params);
 
-        const { focusContext, group, focusKey, allowFocusOutsideGroup = false } = params;
+        const {
+            focusContext,
+            group,
+            focusKey,
+            allowFocusOutsideGroup = false,
+        } = params;
 
         const id = CoreManager.generateID(8);
-        this._id = focusContext?.getId() ? `${focusContext.getId()}:viewGroup-${id}` : `viewGroup-${id}`;
+        this._id = focusContext?.getId()
+            ? `${focusContext.getId()}:viewGroup-${id}`
+            : `viewGroup-${id}`;
         this._parent = focusContext;
         this._type = 'viewGroup';
         this._group = group;
@@ -30,9 +48,24 @@ class ViewGroup extends FocusModel {
         this._onLayout = this._onLayout.bind(this);
 
         this._events = [
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_MOUNT, this._onMount),
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_UNMOUNT, this._onUnmount),
-            Event.subscribe(this.getType(), this.getId(), EVENT_TYPES.ON_LAYOUT, this._onLayout),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_MOUNT,
+                this._onMount
+            ),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_UNMOUNT,
+                this._onUnmount
+            ),
+            Event.subscribe(
+                this.getType(),
+                this.getId(),
+                EVENT_TYPES.ON_LAYOUT,
+                this._onLayout
+            ),
         ];
     }
 
@@ -43,6 +76,9 @@ class ViewGroup extends FocusModel {
 
     private _onUnmount() {
         CoreManager.removeFocusAwareComponent(this);
+        this.getScreen()?.setCurrentFocus(this.getLastScreenFocus());
+        CoreManager.executeFocus(this.getLastScreenFocus());
+        this.setLastScreenFocus(null);
         this.unsubscribeEvents();
     }
 
@@ -52,18 +88,52 @@ class ViewGroup extends FocusModel {
 
     // END EVENTS
 
-    public getFirstFocusableInViewGroup = (): View | null => {
+    public getFirstFocusableInViewGroup = (parent: FocusModel): View | null => {
         if (CoreManager.isFocusManagerEnabled()) {
             if (this._currentFocus) return this._currentFocus;
 
-            const firstChildren = this._children.find((ch) => [MODEL_TYPES.ROW, MODEL_TYPES.GRID, MODEL_TYPES.VIEW].includes(ch.getType() as never))
+            let firstChildren = null;
 
-            if (firstChildren && firstChildren.getType() === MODEL_TYPES.VIEW) {
-                return firstChildren as View;
-            } else if (firstChildren) {
-                const recycler = firstChildren as RecyclerView;
-                if (recycler.getFocusedView()) return recycler.getFocusedView();
-                return recycler.getChildren()[0] as View | null;
+            if (parent.getChildren()?.length > 0) {
+                const childrens = parent
+                    .getChildren()
+                    .filter((child) =>
+                        [
+                            MODEL_TYPES.ROW,
+                            MODEL_TYPES.GRID,
+                            MODEL_TYPES.VIEW,
+                        ].includes(child.getType() as never)
+                    );
+                if (childrens && childrens.length > 0) {
+                    firstChildren = childrens.reduce((prev, curr) =>
+                        prev.getLayout().yMin <= curr.getLayout().yMin &&
+                        prev.getLayout().xMin <= curr.getLayout().xMin
+                            ? prev
+                            : curr
+                    );
+                } else {
+                    if (parent.getChildren()?.length > 0) {
+                        return (
+                            parent.getChildren().map((child) => {
+                                return this.getFirstFocusableInViewGroup(child);
+                            })?.[0] ?? null
+                        );
+                    }
+                }
+
+                if (
+                    firstChildren &&
+                    firstChildren.getType() === MODEL_TYPES.VIEW
+                ) {
+                    return firstChildren as View;
+                } else if (firstChildren) {
+                    const recycler = firstChildren as RecyclerView;
+                    if (recycler.getFocusedView())
+                        return recycler.getFocusedView();
+                    return recycler.getInitialFocusableChildren(
+                        recycler.getInitialFocusIndex()
+                    ) as View | null;
+                }
             }
         }
 
@@ -95,6 +165,11 @@ class ViewGroup extends FocusModel {
     }
 
     public setCurrentFocus(model: View | null): this {
+        if (!this._lastScreenFocus) {
+            this.setLastScreenFocus(
+                this.getScreen()?.getCurrentFocus() ?? null
+            );
+        }
         this._currentFocus = model;
 
         return this;
@@ -104,10 +179,19 @@ class ViewGroup extends FocusModel {
         return this._currentFocus;
     }
 
+    public setLastScreenFocus(model: View | null): this {
+        this._lastScreenFocus = model;
+
+        return this;
+    }
+
+    public getLastScreenFocus(): View | null {
+        return this._lastScreenFocus;
+    }
+
     public isFocusAllowedOutsideGroup(): boolean {
         return this._allowFocusOutsideGroup;
     }
-
 }
 
 export default ViewGroup;

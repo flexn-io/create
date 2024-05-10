@@ -1,11 +1,11 @@
-import { findNodeHandle, UIManager, Platform } from 'react-native';
-import { distCalc } from '../nextFocusFinder';
-import { recalculateAbsolutes } from '../layoutManager';
-import Scroller from './scroller';
-import Logger from './logger';
-import FocusModel, { MODEL_TYPES } from '../model/abstractFocusModel';
+import { Platform, UIManager, findNodeHandle } from 'react-native';
 import { DIRECTIONS } from '../constants';
-import { ClosestNodeOutput, FocusDirection, ScreenType, ViewType, ViewGroupType } from '../types';
+import { recalculateAbsolutes } from '../layoutManager';
+import FocusModel, { MODEL_TYPES } from '../model/abstractFocusModel';
+import { distCalc } from '../nextFocusFinder';
+import { ClosestNodeOutput, FocusDirection, ScreenType, ViewGroupType, ViewType } from '../types';
+import Logger from './logger';
+import Scroller from './scroller';
 
 class CoreManager {
     private _focusAwareElements: Record<string, FocusModel> = {};
@@ -15,7 +15,10 @@ class CoreManager {
     private _currentFocus: ViewType | null = null;
     private _debuggerEnabled = false;
     private _isEnabled = true;
+    private _isLongPressEventsEnabled = true;
+    private _isTV: boolean | undefined = undefined;
     private _keyEventsEnabled = true;
+    private _viewIsAnimating = false;
     private _pendingLayoutMeasurements: Record<string, NodeJS.Timeout | number> = {};
 
     constructor() {
@@ -69,11 +72,11 @@ class CoreManager {
             const v = this._focusAwareElements[k];
 
             // Register as parent for children
-            if (v.getParent() && v.getParent()?.getId() === model.getId()) {
+            if (v && v.getParent() && v.getParent()?.getId() === model.getId()) {
                 model.addChildren(v);
             }
             // Register as child in parent
-            if (model.getParent() && model.getParent()?.getId() === v.getId()) {
+            if (v && model.getParent() && model.getParent()?.getId() === v.getId()) {
                 v.addChildren(model);
             }
         });
@@ -93,42 +96,66 @@ class CoreManager {
 
         Object.keys(this._viewGroups).forEach((key) => {
             const viewGroup = this._viewGroups[key];
-            if (viewGroup.getCurrentFocus()?.getId() === model.getId()) {
-                viewGroup.setCurrentFocus(null);
+            if (viewGroup?.getCurrentFocus()?.getId() === model.getId()) {
+                viewGroup!.setCurrentFocus(null);
             }
         });
 
         Object.keys(this._screens).forEach((key) => {
             const screen = this._screens[key];
-            if (screen.getCurrentFocus()?.getId() === model.getId()) {
-                screen.setCurrentFocus(null);
+            if (screen?.getCurrentFocus()?.getId() === model.getId()) {
+                screen!.setCurrentFocus(null);
             }
         });
     }
 
-    public executeFocus(model: ViewType) {
-        if (model.getId() === this._currentFocus?.getId()) {
-            return;
-        }
-
-        if (this._currentFocus) {
-            if (this._currentFocus.node.current && Platform.OS !== 'web') {
-                UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId as number, 'cmdBlur', undefined);
+    public executeFocus(model: ViewType | null) {
+        if (model?.getNode().current) {
+            if (model.getId() === this._currentFocus?.getId()) {
+                return;
             }
-            this._currentFocus.onBlur();
-            this._currentFocus.setIsFocused(false);
-        }
 
-        this._currentFocus = model;
+            this.executeEvents(model);
 
-        if (model.node.current && Platform.OS !== 'web') {
-            UIManager.dispatchViewManagerCommand(model.nodeId as number, 'cmdFocus', undefined);
-        }
-        model.onFocus();
-        model.setIsFocused(true);
+            if (this._currentFocus) {
+                if (this._currentFocus.node.current && Platform.OS !== 'web') {
+                    UIManager.dispatchViewManagerCommand(this._currentFocus.nodeId as number, 'cmdBlur', undefined);
+                }
+                this._currentFocus.setIsFocused(false);
+            }
 
-        if (model.getScreen()) {
+            this._currentFocus = model;
+
+            if (model.node.current && Platform.OS !== 'web') {
+                UIManager.dispatchViewManagerCommand(model.nodeId as number, 'cmdFocus', undefined);
+            }
+
+            model.setIsFocused(true);
             model.getScreen()?.setCurrentFocus(model);
+        } else {
+            Logger.log('Focusable not found');
+        }
+    }
+
+    private executeEvents(nextFocus: ViewType) {
+        const currentFocus = this._currentFocus;
+
+        currentFocus?.onBlur();
+        nextFocus?.onFocus();
+
+        // SCREEN EVENTS
+        if (currentFocus?.getScreen()?.getId() !== nextFocus.getScreen()?.getId()) {
+            currentFocus?.getScreen()?.onBlur();
+            nextFocus.getScreen()?.onFocus();
+        }
+
+        // PARENT EVENTS
+        if (
+            currentFocus?.getParent()?.getId() !== nextFocus.getParent()?.getId() &&
+            nextFocus.getParent()?.getType() !== MODEL_TYPES.SCREEN
+        ) {
+            currentFocus?.getParent()?.onBlur();
+            nextFocus.getParent()?.onFocus();
         }
     }
 
@@ -137,11 +164,13 @@ class CoreManager {
             if (this._currentFocus.getFocusTaskExecutor(direction)) {
                 const focusExecutor = this._currentFocus.getFocusTaskExecutor(direction);
                 const next = focusExecutor?.getNextFocusable(direction);
-                if (next) this.executeFocus(next);
+                if (next?.view) this.executeFocus(next.view);
+                if (next?.forcedFocusKey) this.setFocus(next.forcedFocusKey);
                 return;
             }
-            const next = this.getNextFocusableContext(direction);
-            if (next) this.executeFocus(next);
+            const { view, forcedFocusKey } = this.getNextFocusableContext(direction);
+            if (view) this.executeFocus(view);
+            if (forcedFocusKey) this.setFocus(forcedFocusKey);
         }
     }
 
@@ -154,67 +183,108 @@ class CoreManager {
         Scroller.calculateAndScrollToTarget(direction, longPress, contextParameters);
     }
 
-    public setFocus = (focusKey: string) => {
+    public setFocus = (focusKey: string, direction?: FocusDirection) => {
         const view = Object.values(this._views).find(
             (model) => model.getFocusKey() === focusKey && model.isInForeground()
         );
 
         if (view) {
-            if (view.getScreen()?.getId() !== this.getCurrentFocus()?.getScreen()?.getId()) {
-                this.getCurrentFocus()?.getScreen()?.onBlur();
-            }
-            view.setFocus();
+            this.executeFocus(view);
+            if (direction) this.executeScroll(direction);
         } else {
             const screen = Object.values(this._screens).find(
                 (model) => model.getFocusKey() === focusKey && model.isInForeground()
             );
 
             if (screen) {
-                screen.setFocus(screen.getFirstFocusableOnScreen());
-                return;
-            }
+                screen.getFirstFocusableOnScreen().then((view) => {
+                    this.executeFocus(view);
+                    if (direction) this.executeScroll(direction);
+                });
+            } else {
+                const viewGroup = Object.values(this._viewGroups).find(
+                    (model) => model.getFocusKey() === focusKey && model.isInForeground()
+                );
 
-            const viewGroup = Object.values(this._viewGroups).find(
-                (model) => model.getFocusKey() === focusKey && model.isInForeground()
-            );
-
-            if (viewGroup) {
-                const element = viewGroup.getFirstFocusableInViewGroup();
-                if (element) {
-                    this.executeFocus(element);
+                if (viewGroup) {
+                    const element = viewGroup.getFirstFocusableInViewGroup(viewGroup);
+                    if (element) {
+                        this.executeFocus(element);
+                        if (direction) this.executeScroll(direction);
+                    }
                 }
             }
         }
     };
 
+    public setFocusByListOrGridIndex(nextIndex: number) {
+        const currentFocus = this._currentFocus;
+        if (currentFocus) {
+            const layout = currentFocus.getParent()?.getLayouts()[nextIndex];
+            const parent = currentFocus.getParent();
+            if (layout && parent) {
+                const currentIndex = currentFocus.getRepeatContext()?.index as number;
+                let direction: FocusDirection | undefined;
+                const nextScrollPoint: { x?: number; y?: number } = {};
+                if (MODEL_TYPES.GRID === parent.getType()) {
+                    direction = currentIndex > nextIndex ? 'up' : 'down';
+                    nextScrollPoint.y = layout.y;
+                } else if (MODEL_TYPES.ROW === parent.getType()) {
+                    if (parent.isHorizontal()) {
+                        direction = currentIndex > nextIndex ? 'left' : 'right';
+                        nextScrollPoint.x = layout.x;
+                    } else {
+                        direction = currentIndex > nextIndex ? 'up' : 'down';
+                        nextScrollPoint.y = layout.y;
+                    }
+                }
+
+                if (nextScrollPoint.x !== undefined || nextScrollPoint.y !== undefined) {
+                    currentFocus.getParent()?.node.current.scrollTo(nextScrollPoint);
+                    const interval = setInterval(() => {
+                        const isScrolling = currentFocus?.getParent()?.isScrolling();
+                        if (!isScrolling) {
+                            const children = currentFocus
+                                ?.getParent()
+                                ?.getChildren()
+                                .find((ch) => ch.getRepeatContext()?.index === nextIndex);
+                            if (children) {
+                                clearInterval(interval);
+                                this.executeFocus(children as ViewType);
+                                this.executeScroll(direction!);
+                            }
+                        }
+                    }, 50);
+                }
+            }
+        }
+    }
+
     public getNextFocusableContext = (
         direction: FocusDirection,
-        ownCandidates?: ViewType[],
-        findFocusInParent = true,
-        withEvents = true
-    ): ViewType | null => {
+        ownCandidates?: ViewType[]
+    ): { view: ViewType | null; forcedFocusKey?: string } => {
         const currentFocus = this._currentFocus;
         const views = this._views;
 
         if (!currentFocus) {
-            return views[Object.keys(views)[0]];
+            const firstView = Object.keys(views)[0];
+            return { view: firstView ? (views[0] as ViewType) : null };
         }
 
         const nextForcedFocusKey = this.getNextForcedFocusKey(currentFocus, direction);
         if (nextForcedFocusKey) {
-            this.setFocus(nextForcedFocusKey);
-
-            return null;
+            return { view: null, forcedFocusKey: nextForcedFocusKey };
         }
 
         if (currentFocus.containsForbiddenDirection(direction)) {
-            return currentFocus;
+            return { view: this._currentFocus };
         }
 
         // This can happen if we opened new screen which doesn't have any focusable
         // then last screen in context map still keeping focus
         if (currentFocus?.isInBackground()) {
-            return currentFocus;
+            return { view: this._currentFocus };
         }
 
         let closestView: ViewType | null;
@@ -225,10 +295,11 @@ class CoreManager {
             match2Model: null,
         };
 
+        const group = this.getCurrentFocus()?.getGroup();
+
         const candidates =
             ownCandidates ??
             Object.values(views).filter((c) => {
-                const group = this.getCurrentFocus()?.getGroup();
                 return (
                     c.isInForeground() &&
                     c.getId() !== currentFocus.getId() &&
@@ -240,7 +311,7 @@ class CoreManager {
         for (let i = 0; i < candidates.length; i++) {
             const cls = candidates[i];
 
-            const nextOutput = this.findClosestNode(cls, direction, closestNodeOutput);
+            const nextOutput = this.findClosestNode(cls!, direction, closestNodeOutput);
             if (nextOutput) closestNodeOutput = nextOutput;
         }
 
@@ -251,72 +322,61 @@ class CoreManager {
                 const parent = currentFocus.getParent() as FocusModel;
 
                 const nextForcedFocusKey = this.getNextForcedFocusKey(parent, direction);
+
                 if (nextForcedFocusKey) {
-                    if (withEvents && closestView.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
-                        currentFocus.getParent()?.onBlur();
-                        closestView.getParent()?.onFocus();
-                    }
-                    this.setFocus(nextForcedFocusKey);
-                    return null;
-                }
-
-                if (parent.containsForbiddenDirection(direction)) {
-                    return currentFocus;
-                }
-
-                if (withEvents && closestView.getParent()?.getType() !== MODEL_TYPES.SCREEN) {
-                    currentFocus.getParent()?.onBlur();
-                    closestView.getParent()?.onFocus();
+                    return { view: null, forcedFocusKey: nextForcedFocusKey };
                 }
 
                 if (closestView.getParent()?.getType() === MODEL_TYPES.ROW) {
                     const parent = closestView.getParent();
                     closestView = parent?.getLastFocused() ?? closestView;
                 }
-            }
 
-            if (closestView.getScreen()?.getId() !== currentFocus.getScreen()?.getId()) {
-                if (withEvents) {
-                    currentFocus.getScreen()?.onBlur?.();
-                    closestView.getScreen()?.onFocus?.();
+                if (closestView.getParent()?.getType() === MODEL_TYPES.VIEW_GROUP) {
+                    const parent = closestView.getParent() as ViewGroupType;
+                    closestView = parent?.getCurrentFocus() ?? closestView;
                 }
 
-                if (closestView.getScreen()?.getCurrentFocus()) {
-                    return closestView.getScreen()!.getCurrentFocus();
+                const parents = currentFocus.getParents(group);
+
+                for (const key in parents) {
+                    const p = parents[key];
+                    if (p!.containsForbiddenDirection(direction)) {
+                        return { view: currentFocus };
+                    }
                 }
             }
 
-            return closestView;
+            if (
+                closestView.getScreen()?.getId() !== currentFocus.getScreen()?.getId() &&
+                closestView.getScreen()?.getCurrentFocus()
+            ) {
+                return { view: closestView.getScreen()!.getCurrentFocus() };
+            }
+
+            return { view: closestView };
         }
 
-        if (this._currentFocus?.getParent() && findFocusInParent) {
-            let parent = this._currentFocus.getParent();
-            const parents = parent ? [parent] : [];
-            while (parent) {
-                parent = parent?.getParent();
-                if (parent) {
-                    parents.push(parent);
-                }
-            }
+        if (this._currentFocus?.getParent()) {
+            const parents = this._currentFocus.getParents(group);
 
             for (const key in parents) {
                 const p = parents[key];
-                const _nextForcedFocusKey = this.getNextForcedFocusKey(p, direction);
+                const _nextForcedFocusKey = this.getNextForcedFocusKey(p!, direction);
                 if (_nextForcedFocusKey) {
-                    this.setFocus(_nextForcedFocusKey);
-                    return null;
+                    return { view: null, forcedFocusKey: _nextForcedFocusKey };
                 }
             }
 
             for (const key in parents) {
                 const p = parents[key];
-                if (p.containsForbiddenDirection(direction)) {
-                    return currentFocus;
+                if (p!.containsForbiddenDirection(direction)) {
+                    return { view: currentFocus };
                 }
             }
         }
 
-        return this._currentFocus;
+        return { view: currentFocus };
     };
 
     public getNextForcedFocusKey(model: FocusModel, direction: FocusDirection): string | null {
@@ -342,15 +402,17 @@ class CoreManager {
 
     public pickActiveForcedFocusContext(nextForcedFocusKey: string | string[]): string | null {
         const isActive = (focusKey: string) =>
-            Object.values({ ...this._views, ...this._screens, ...this._viewGroups }).find(
-                (model) => model.getFocusKey() === focusKey && model.isInForeground()
-            );
+            Object.values({
+                ...this._views,
+                ...this._screens,
+                ...this._viewGroups,
+            }).find((model) => model.getFocusKey() === focusKey && model.isInForeground());
 
         if (Array.isArray(nextForcedFocusKey)) {
             for (let index = 0; index < nextForcedFocusKey.length; index++) {
                 const focusKey = nextForcedFocusKey[index];
 
-                if (isActive(focusKey)) return focusKey;
+                if (focusKey && isActive(focusKey)) return focusKey;
             }
             return null;
         }
@@ -432,6 +494,38 @@ class CoreManager {
 
     public getScreens(): Record<string, ScreenType> {
         return this._screens;
+    }
+
+    public getViewGroups(): Record<string, ViewGroupType> {
+        return this._viewGroups;
+    }
+
+    public setViewIsAnimating(value: boolean) {
+        this._viewIsAnimating = value;
+    }
+
+    public isViewAnimating(): boolean {
+        return this._viewIsAnimating;
+    }
+
+    public isTV(): boolean {
+        if (this._isTV !== undefined) {
+            return this._isTV;
+        }
+
+        return Platform.isTV;
+    }
+
+    public setIsTV(isTV: boolean) {
+        this._isTV = isTV;
+    }
+
+    public isLongPressEventEnabled(): boolean {
+        return this._isLongPressEventsEnabled;
+    }
+
+    public setLongPressEventsEnabled(value: boolean) {
+        this._isLongPressEventsEnabled = value;
     }
 }
 

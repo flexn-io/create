@@ -1,3 +1,4 @@
+#if os(tvOS)
 @objc(TvFocusableViewManager)
 class TvFocusableViewManager: RCTViewManager {
 
@@ -27,3 +28,4 @@ class TvFocusableViewManager: RCTViewManager {
       return false
     }
 }
+#endif

@@ -12,7 +12,16 @@ class Row extends Recycler {
     constructor(
         params: Omit<
             FlashListProps<any> & FlashListProps<any>['focusOptions'],
-            'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
+            | 'style'
+            | 'scrollViewProps'
+            | 'renderItem'
+            | 'type'
+            | 'data'
+            | 'focusOptions'
+            | 'nextFocusDown'
+            | 'nextFocusLeft'
+            | 'nextFocusUp'
+            | 'nextFocusRight'
         >
     ) {
         super(params);
@@ -56,7 +65,10 @@ class Row extends Recycler {
         return Core.getCurrentFocus()?.getRepeatContext()?.index || 0;
     }
 
-    public getNextFocusable(direction: FocusDirection): ViewType | null {
+    public getNextFocusable(direction: FocusDirection): {
+        view: ViewType | null;
+        forcedFocusKey?: string;
+    } {
         const isHorizontal = DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction;
         const isVertical = DIRECTIONS.UP === direction || DIRECTIONS.DOWN === direction;
         if (this._isInBounds(direction) && isHorizontal) {
@@ -67,22 +79,64 @@ class Row extends Recycler {
                     c.getOrder() === Core.getCurrentMaxOrder()
             );
 
-            return Core.getNextFocusableContext(direction, candidates, false);
+            const { view: next } = Core.getNextFocusableContext(direction, candidates);
+
+            // Prevent focus loose on fast scrolling
+            if (
+                Core.getCurrentFocus()?.getRepeatContext()?.index !== undefined &&
+                next?.getRepeatContext()?.index !== undefined
+            ) {
+                const diff = Math.abs(
+                    Core.getCurrentFocus()?.getRepeatContext()!.index as number - next?.getRepeatContext()!.index
+                );
+
+                if (diff > 1) {
+                    return { view: Core.getCurrentFocus() };
+                }
+            }
+
+            return { view: next };
         } else if (!this._isInBounds(direction) || isVertical) {
-            const nextFocus = Core.getNextFocusableContext(direction, undefined, true, false);
+            // const currentIndex = this.getCurrentFocusIndex();
+
+            const { view: next } = Core.getNextFocusableContext(direction);
+
+            if (isVertical) {
+                if (
+                    Core.getCurrentFocus()?.getRepeatContext()?.index !== undefined &&
+                    next?.getRepeatContext()?.index !== undefined &&
+                    Core.getCurrentFocus()?.getParent()?.getId() === next.getParent()?.getId()
+                ) {
+                    const diff = Math.abs(
+                        Core.getCurrentFocus()?.getRepeatContext()!.index as number - next?.getRepeatContext()!.index
+                    );
+
+                    if (diff > 1) {
+                        return { view: Core.getCurrentFocus() };
+                    }
+                }
+                // if (
+                //     currentIndex > 1 &&
+                //     next?.getRepeatContext()?.index === undefined
+                // ) {
+                //     // console.log('WHATS GOING ON', Core.getCurrentFocus());
+                //     return { view: Core.getCurrentFocus() };
+                // }
+            }
 
             if (
                 isHorizontal &&
-                nextFocus?.getParent() instanceof RecyclerView &&
-                (nextFocus?.getParent() as RecyclerView)?.isHorizontal()
+                next?.getParent() instanceof RecyclerView &&
+                (next?.getParent() as RecyclerView)?.isHorizontal()
             ) {
-                return Core.getCurrentFocus();
+                return { view: Core.getCurrentFocus() };
             }
 
+            // TODO: double check
             return Core.getNextFocusableContext(direction);
         }
 
-        return null;
+        return { view: null };
     }
 
     private _isInBounds(direction: string): boolean {

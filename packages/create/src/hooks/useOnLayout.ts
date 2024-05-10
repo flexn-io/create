@@ -25,7 +25,11 @@ export default function useOnLayout(
     const sendOnLayoutEvent = () => {
         if (model) {
             CoreManager.setPendingLayoutMeasurement(model, () => {
-                Event.emit(model.getType(), model.getId(), EVENT_TYPES.ON_LAYOUT);
+                Event.emit(
+                    model.getType(),
+                    model.getId(),
+                    EVENT_TYPES.ON_LAYOUT
+                );
                 callback?.();
             });
         } else {

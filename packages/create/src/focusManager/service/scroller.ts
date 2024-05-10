@@ -37,11 +37,24 @@ class Scroller {
         }
 
         scrollContextParents.forEach((p: ScrollView) => {
-            const scrollTarget = this.calculateScrollViewTarget(direction, p, longPress, contextParameters);
+            const scrollTarget = this.calculateScrollViewTarget(
+                direction,
+                p,
+                longPress,
+                contextParameters
+            );
 
             if (scrollTarget) {
-                if (p.getScrollOffsetX() !== scrollTarget.x || p.getScrollOffsetY() !== scrollTarget.y) {
-                    p.node.current.scrollTo(scrollTarget);
+                if (
+                    p.getScrollOffsetX() !== scrollTarget.x ||
+                    p.getScrollOffsetY() !== scrollTarget.y
+                ) {
+                    if (!p.node.current?.scrollTo) {
+                        console.warn(
+                            'Scroller does not exists it should not be like that'
+                        );
+                    }
+                    p.node.current.scrollTo?.(scrollTarget);
                 }
             }
         });
@@ -60,16 +73,19 @@ class Scroller {
         const { currentFocus } = contextParameters;
         const currentLayout = currentFocus.getLayout();
         let horizontalViewportOffset =
-            currentFocus.getScreen()?.getHorizontalViewportOffset() ?? DEFAULT_VIEWPORT_OFFSET;
-        const verticalViewportOffset = this.getVerticalViewportOffset(currentFocus);
-
+            currentFocus.getScreen()?.getHorizontalViewportOffset() ??
+            DEFAULT_VIEWPORT_OFFSET;
+        const verticalViewportOffset =
+            this.getVerticalViewportOffset(currentFocus);
         // If FlashList has it's own ListHeaderComponent first item should scroll to header width
         if (currentFocus.getParent()?.getType() === 'row') {
             if (
                 currentFocus.getRepeatContext()?.index === 0 &&
                 currentFocus.getParent()?.getListHeaderDimensions()?.width
             ) {
-                horizontalViewportOffset = currentFocus.getParent()?.getListHeaderDimensions()?.width as number;
+                horizontalViewportOffset = currentFocus
+                    .getParent()
+                    ?.getListHeaderDimensions()?.width as number;
             }
         }
 
@@ -79,20 +95,28 @@ class Scroller {
         };
 
         const x = [
-            currentLayout.xMin - scrollView.getLayout().xMin - horizontalViewportOffset,
+            currentLayout.xMin -
+                scrollView.getLayout().xMin -
+                horizontalViewportOffset,
             scrollView.getScrollOffsetX(),
         ];
 
         const y = [
-            currentLayout.yMin - scrollView.getLayout().yMin - verticalViewportOffset,
+            currentLayout.yMin -
+                scrollView.getLayout().yMin -
+                verticalViewportOffset,
             scrollView.getScrollOffsetY(),
         ];
 
         switch (direction) {
             case DIRECTIONS.RIGHT:
                 {
+                    const mathFunc =
+                        currentFocus.getLayout().absolute.yMax >= screenHeight
+                            ? Math.max
+                            : Math.min;
                     scrollTarget.x = Math.max(...x);
-                    scrollTarget.y = y[0];
+                    scrollTarget.y = mathFunc(...y);
                 }
                 break;
             case DIRECTIONS.LEFT:
@@ -100,33 +124,73 @@ class Scroller {
                     if (longPress) {
                         // Keep viewport to right side to boost recycling
                         scrollTarget.x =
-                            currentLayout.xMin - screenWidth + currentLayout.width + horizontalViewportOffset;
+                            currentLayout.xMin -
+                            screenWidth +
+                            currentLayout.width +
+                            horizontalViewportOffset;
                     } else {
+                        const mathFunc =
+                            currentFocus.getLayout().absolute.yMax >=
+                            screenHeight
+                                ? Math.max
+                                : Math.min;
+
                         scrollTarget.x = Math.min(...x);
-                        scrollTarget.y = y[0];
+                        scrollTarget.y = mathFunc(...y);
                     }
                 }
                 break;
             case DIRECTIONS.UP:
                 {
-                    const mathFunc = currentFocus.getLayout().absolute.xMax >= screenWidth ? Math.max : Math.min;
-                    // If element is on the top and there is no more elements above which is higher than verticalViewportOffset
-                    // then we move whole viewport to the 0 position
-                    const lowestFocusableYMin =
-                        currentFocus.getScreen()?.getPrecalculatedFocus()?.getLayout()?.yMin || 0;
+                    if (longPress) {
+                        scrollTarget.y =
+                            currentLayout.yMin -
+                            screenHeight +
+                            currentLayout.height +
+                            verticalViewportOffset;
+                    } else {
+                        const mathFunc =
+                            currentFocus.getLayout().absolute.xMax >=
+                            screenWidth
+                                ? Math.max
+                                : Math.min;
+                        // If element is on the top and there is no more elements above which is higher than verticalViewportOffset
+                        // then we move whole viewport to the 0 position
+                        const lowestFocusableYMin =
+                            currentFocus
+                                .getScreen()
+                                ?.getPrecalculatedFocus()
+                                ?.getLayout()?.yMin || 0;
 
-                    scrollTarget.y = Math.min(
-                        y[0] < lowestFocusableYMin && currentLayout.yMax < screenHeight ? 0 : y[0],
-                        y[1]
-                    );
-                    scrollTarget.x = mathFunc(...x);
+                        scrollTarget.y = Math.min(
+                            y[0] < lowestFocusableYMin &&
+                                currentLayout.yMax < screenHeight
+                                ? 0
+                                : y[0],
+                            y[1]
+                        );
+
+                        scrollTarget.x = mathFunc(...x);
+                    }
                 }
                 break;
             case DIRECTIONS.DOWN:
                 {
-                    const mathFunc = currentFocus.getLayout().absolute.xMax >= screenWidth ? Math.max : Math.min;
-                    scrollTarget.y = Math.max(...y);
-                    scrollTarget.x = mathFunc(...x);
+                    if (longPress) {
+                        scrollTarget.y =
+                            currentLayout.yMin +
+                            screenHeight -
+                            currentLayout.height -
+                            verticalViewportOffset;
+                    } else {
+                        const mathFunc =
+                            currentFocus.getLayout().absolute.xMax >=
+                            screenWidth
+                                ? Math.max
+                                : Math.min;
+                        scrollTarget.y = Math.max(...y);
+                        scrollTarget.x = mathFunc(...x);
+                    }
                 }
                 break;
             default:
@@ -138,7 +202,10 @@ class Scroller {
 
         // If scroll direction is being changed from vertical to horizontal and it's still
         // does not finished scroll action, we wait for vertical scrolling to be completed
-        if (scrollView.isScrollingVertically() && (DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction)) {
+        if (
+            scrollView.isScrollingVertically() &&
+            (DIRECTIONS.LEFT === direction || DIRECTIONS.RIGHT === direction)
+        ) {
             return null;
         }
 
@@ -152,25 +219,29 @@ class Scroller {
             return null;
         }
 
-        scrollView.setScrollTargetY(scrollTarget.y).setScrollTargetX(scrollTarget.x);
+        scrollView
+            .setScrollTargetY(scrollTarget.y)
+            .setScrollTargetX(scrollTarget.x);
 
         return scrollTarget;
     }
 
     private getVerticalViewportOffset(currentFocus: FocusModel): number {
-        let parent: FocusModel | undefined = currentFocus;
-        let viewportOffset = DEFAULT_VIEWPORT_OFFSET;
+        // let parent: FocusModel | undefined = currentFocus;
+        const verticalViewportOffset =
+            currentFocus.getScreen()?.getVerticalViewportOffset() ??
+            DEFAULT_VIEWPORT_OFFSET;
 
-        while(parent) {
-            if (parent.getVerticalViewportOffset()) {
-                viewportOffset = parent.getVerticalViewportOffset() as number;
-                parent = undefined;
-            } else {
-                parent = parent.getParent();
-            }
-        }
+        // while(parent) {
+        //     if (parent.getVerticalViewportOffset()) {
+        //         viewportOffset = parent.getVerticalViewportOffset() as number;
+        //         parent = undefined;
+        //     } else {
+        //         parent = parent.getParent();
+        //     }
+        // }
 
-        return viewportOffset;
+        return verticalViewportOffset;
     }
 }
 

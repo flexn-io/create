@@ -1,25 +1,27 @@
 import type {
-    ScrollViewProps as RNScrollViewProps,
-    StyleProp,
-    ViewProps as RNViewProps,
-    PressableProps as RNPressableProps,
-    TouchableOpacityProps as RNTouchableOpacityProps,
-    ViewStyle,
-    ScrollView,
+    FlashListProps as FLProps,
+    ListRenderItemInfo,
+} from '@flexn/shopify-flash-list';
+import type { MouseEvent } from 'react';
+import type {
     ColorValue,
+    PressableProps as RNPressableProps,
+    ScrollViewProps as RNScrollViewProps,
+    TouchableOpacityProps as RNTouchableOpacityProps,
     View as RNView,
+    ViewProps as RNViewProps,
+    ScrollView,
+    StyleProp,
+    ViewStyle,
 } from 'react-native';
-import type { MouseEvent, PointerEvent } from 'react';
-import type { FlashListProps as FLProps, ListRenderItemInfo } from '@flexn/shopify-flash-list';
 
-import FocusModel from './model/abstractFocusModel';
-import View from './model/view';
-import { SCREEN_STATES, VIEWPORT_ALIGNMENT } from './model/screen';
-import Screen from './model/screen';
 import { DIRECTIONS } from './constants';
+import FocusModel from './model/abstractFocusModel';
+import Screen, { SCREEN_STATES, VIEWPORT_ALIGNMENT } from './model/screen';
+import View from './model/view';
 import ViewGroup from './model/viewGroup';
 
-export type FocusDirection = typeof DIRECTIONS[keyof typeof DIRECTIONS];
+export type FocusDirection = (typeof DIRECTIONS)[keyof typeof DIRECTIONS];
 export type WindowAlignment = 'both-edge' | 'low-edge';
 export type ScreenStates = 'background' | 'foreground';
 export type FocusContext = FocusModel;
@@ -30,7 +32,11 @@ type AnimatorTypeScale = 'scale';
 type AnimatorTypeScaleWithBorder = 'scale_with_border';
 type AnimatorTypeAnimatorBorder = 'border';
 type AnimatorTypeAnimatorBackground = 'background';
-export type Animator = AnimatorScale | AnimatorBorder | AnimatorScaleWithBorder | AnimatorBackground;
+export type Animator =
+    | AnimatorScale
+    | AnimatorBorder
+    | AnimatorScaleWithBorder
+    | AnimatorBackground;
 
 export type ClosestNodeOutput = {
     match1: number;
@@ -92,18 +98,19 @@ export type PressableFocusOptions = {
 export type ScreenFocusOptions = {
     forbiddenFocusDirections?: ForbiddenFocusDirections[];
     focusKey?: string;
-    verticalWindowAlignment?: typeof VIEWPORT_ALIGNMENT[keyof typeof VIEWPORT_ALIGNMENT];
-    horizontalWindowAlignment?: typeof VIEWPORT_ALIGNMENT[keyof typeof VIEWPORT_ALIGNMENT];
+    verticalWindowAlignment?: (typeof VIEWPORT_ALIGNMENT)[keyof typeof VIEWPORT_ALIGNMENT];
+    horizontalWindowAlignment?: (typeof VIEWPORT_ALIGNMENT)[keyof typeof VIEWPORT_ALIGNMENT];
     horizontalViewportOffset?: number;
     verticalViewportOffset?: number;
     nextFocusLeft?: string | string[];
     nextFocusRight?: string | string[];
     nextFocusUp?: string | string[];
     nextFocusDown?: string | string[];
-    screenState?: typeof SCREEN_STATES[keyof typeof SCREEN_STATES];
+    screenState?: (typeof SCREEN_STATES)[keyof typeof SCREEN_STATES];
     screenOrder?: number;
-    stealFocus?: boolean;
+    ignoreInitialFocus?: boolean;
     autoFocusEnabled?: boolean;
+    stealFocus?: boolean;
     group?: string;
 };
 
@@ -168,11 +175,10 @@ export interface PressableProps extends RNPressableProps, MouseEvents {
     focusRepeatContext?: CreateListRenderItemInfo<any>['focusRepeatContext'];
     onBlur?: () => void;
     onPress?: () => void;
+    onLongPress?: () => void;
     onFocus?: () => void;
     className?: string;
     style?: ViewProps['style'];
-    onHoverIn?: (e: PointerEvent) => void;
-    onHoverOut?: (e: PointerEvent) => void;
 }
 
 export interface TouchableOpacityProps extends RNTouchableOpacityProps {
@@ -224,7 +230,9 @@ export type CreateListRenderItemInfo<Item> = {
     };
 } & ListRenderItemInfo<Item>;
 
-export type CreateListRenderItem<Item> = (info: CreateListRenderItemInfo<Item>) => React.ReactElement | null;
+export type CreateListRenderItem<Item> = (
+    info: CreateListRenderItemInfo<Item>
+) => React.ReactElement | null;
 
 export type Layout = {
     xMin: number;

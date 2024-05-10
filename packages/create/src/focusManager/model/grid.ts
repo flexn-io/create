@@ -12,7 +12,16 @@ class Grid extends Recycler {
     constructor(
         params: Omit<
             FlashListProps<any> & FlashListProps<any>['focusOptions'],
-            'style' | 'scrollViewProps' | 'renderItem' | 'type' | 'data' | 'focusOptions'
+            | 'style'
+            | 'scrollViewProps'
+            | 'renderItem'
+            | 'type'
+            | 'data'
+            | 'focusOptions'
+            | 'nextFocusDown'
+            | 'nextFocusLeft'
+            | 'nextFocusUp'
+            | 'nextFocusRight'
         >
     ) {
         super(params);
@@ -61,7 +70,10 @@ class Grid extends Recycler {
         return Math.ceil(this.getLayouts().length / this._itemsInRow);
     }
 
-    public getNextFocusable(direction: FocusDirection): View | null {
+    public getNextFocusable(direction: FocusDirection): {
+        view: View | null;
+        forcedFocusKey?: string;
+    } {
         this.getItemsInRow();
 
         if (this._isInBounds(direction)) {
@@ -72,7 +84,22 @@ class Grid extends Recycler {
                     c.getOrder() === Core.getCurrentMaxOrder()
             );
 
-            const next = Core.getNextFocusableContext(direction, candidates, false);
+            const { view: next } = Core.getNextFocusableContext(direction, candidates);
+
+            // Prevent focus loose on fast scrolling
+            if (
+                Core.getCurrentFocus()?.getRepeatContext()?.index !== undefined &&
+                next?.getRepeatContext()?.index !== undefined &&
+                Core.getCurrentFocus()?.getParent()?.getId() === next.getParent()?.getId()
+            ) {
+                const diff = Math.abs(
+                    Core.getCurrentFocus()?.getRepeatContext()!.index as number - next?.getRepeatContext()!.index
+                );
+
+                if (diff > this._itemsInRow) {
+                    return { view: Core.getCurrentFocus() };
+                }
+            }
 
             if (
                 direction === DIRECTIONS.DOWN &&
@@ -80,15 +107,25 @@ class Grid extends Recycler {
                 this.getCurrentRow() === this.getMaxRows() - 1
             ) {
                 const max = Math.max(...candidates.map((o) => o.getRepeatContext()?.index || 0));
-                return candidates.find((o) => o.getRepeatContext()?.index === max) ?? null;
+                return {
+                    view: candidates.find((o) => o.getRepeatContext()?.index === max) ?? null,
+                };
             }
 
-            return next;
+            return { view: next };
         } else if (!this._isInBounds(direction)) {
+            if (
+                direction === DIRECTIONS.RIGHT &&
+                this.getCurrentFocusIndex() + 1 === this.getLayouts().length &&
+                this.getLayouts().length % this._itemsInRow !== 0
+            ) {
+                return { view: null };
+            }
+
             return Core.getNextFocusableContext(direction);
         }
 
-        return null;
+        return { view: null };
     }
 
     private _isInBounds(direction: FocusDirection): boolean {

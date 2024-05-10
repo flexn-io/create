@@ -1,11 +1,16 @@
 {
+    "$schema": "../../.rnv/schema/rnv.app.json",
     "extendsTemplate": "@flexn/create-template-starter/appConfigs/base/renative.json",
     "id": "app",
     "common": {
         "id": "myapp.example.com",
         "title": "My App",
         "description": "My App",
-        "buildSchemes": {}
-    },
-    "platforms": {}
+        "buildSchemes": {},
+        "runtime": {
+            "welcomeMessage": "Flexn!",
+            "appVersion": "{{files.project.package.version}}",
+            "timestamp": "{{runtimeProps.timestamp}}"
+        }
+    }
 }

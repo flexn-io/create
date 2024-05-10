@@ -10,9 +10,9 @@ import {
 import { CoreManager } from '../..';
 import KeyHandler from '../../focusManager/service/keyHandler';
 
-const isAndroidBased = Platform.isTV && Platform.OS === 'android';
-
 export default function App({ children, ...props }: ViewProps) {
+    const isAndroidBased = CoreManager.isTV() && Platform.OS === 'android';
+
     if (!CoreManager.isFocusManagerEnabled()) {
         return <RNView {...props}>{children}</RNView>;
     }
@@ -45,7 +45,10 @@ export default function App({ children, ...props }: ViewProps) {
             {isAndroidBased && (
                 <RNView style={{ width: 0, height: 0 }}>
                     <RNScrollView>
-                        <TouchableOpacity ref={focusTrapRef} hasTVPreferredFocus />
+                        <TouchableOpacity
+                            ref={focusTrapRef}
+                            hasTVPreferredFocus
+                        />
                     </RNScrollView>
                 </RNView>
             )}
