@@ -116,12 +116,6 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
                                         : Ratio(Dimensions.get('window').width)
                                 }
                                 showsHorizontalScrollIndicator={false}
-                                // style={{
-                                //     flex: 1,
-                                //     ...(isFactorTv && {
-                                //         width: Dimensions.get('screen').width - Ratio(100),
-                                //     }),
-                                // }}
                             />
                         </View>
                     </View>
