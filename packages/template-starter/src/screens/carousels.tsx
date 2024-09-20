@@ -95,26 +95,29 @@ const ScreenCarousels = ({ navigation }: { navigation?: any }) => {
             <ScrollView {...testProps('template-carousels-screen-container')} style={styles.wrapper}>
                 {data.map((list, index) => (
                     <View style={styles.listSeparator} key={index}>
-                        <FlashList
-                            data={list}
-                            extraData={{ dark }}
-                            renderItem={(props) => renderItem({ ...props, listIndex: index })}
-                            type="row"
-                            estimatedItemSize={getCarouselSize().height}
-                            horizontal
-                            drawDistance={
-                                isPlatformWebos || isPlatformTizen
-                                    ? Dimensions.get('window').width / 3
-                                    : Ratio(Dimensions.get('window').width)
-                            }
-                            showsHorizontalScrollIndicator={false}
+                        <View
                             style={{
                                 flex: 1,
                                 ...(isFactorTv && {
                                     width: Dimensions.get('screen').width - Ratio(100),
                                 }),
                             }}
-                        />
+                        >
+                            <FlashList
+                                data={list}
+                                extraData={{ dark }}
+                                renderItem={(props) => renderItem({ ...props, listIndex: index })}
+                                type="row"
+                                estimatedItemSize={getCarouselSize().height}
+                                horizontal
+                                drawDistance={
+                                    isPlatformWebos || isPlatformTizen
+                                        ? Dimensions.get('window').width / 3
+                                        : Ratio(Dimensions.get('window').width)
+                                }
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        </View>
                     </View>
                 ))}
             </ScrollView>
@@ -133,9 +136,9 @@ const styles = StyleSheet.create({
         top: Ratio(30),
         marginBottom: isFactorTv ? Ratio(30) : 20,
         height: Dimensions.get('screen').height,
-        ...isFactorMobile && {
-            marginBottom: 100
-        }
+        ...(isFactorMobile && {
+            marginBottom: 100,
+        }),
     },
     listSeparator: {
         paddingBottom: isPlatformMacos || isPlatformWeb ? Ratio(20) : Ratio(30),
