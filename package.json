@@ -72,7 +72,7 @@
         "@flexn/prettier-config": "1.0.0",
         "@flexn/typescript-config": "1.0.0",
         "@flexn/build-hooks": "1.0.0-feat-rnv-update.0",
-        "@rnv/core": "1.1.0",
+        "@rnv/core": "1.0.0-rc.17",
         "@types/jest": "^29.5.12",
         "@types/lodash-es": "~4.17.5",
         "@types/lodash.debounce": "~4.0.6",
@@ -120,7 +120,7 @@
     },
     "resolutions": {
         "@babel/core": "7.24.4",
-        "@types/react": "18.3.3",
+        "@types/react": "18.2.52",
         "tslib": "2.5.2"
     }
 }

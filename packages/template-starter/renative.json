@@ -37,7 +37,7 @@
             "version": "1.3.0-feat-rnv-update.19"
         },
         "@rnv/renative": {
-            "version": "1.1.0"
+            "version": "1.0.0-rc.17"
         },
         "react-native-vector-icons": "source:rnv",
         "@react-navigation/core": "source:rnv",
@@ -71,7 +71,7 @@
         "react-native": "source:rnv",
         "next": "source:rnv",
         "react-native-web": {
-            "version": "0.19.12"
+            "version": "0.18.9"
         },
         "react-native-tvos": "source:rnv"
     },
@@ -81,7 +81,6 @@
             "targetSdkVersion": 34,
             "compileSdkVersion": 34,
             "buildToolsVersion": "34.0.0",
-            "ndkVersion": "26.0.10792818",
             "gradleBuildToolsVersion": "4.2.2",
             "gradleWrapperVersion": "8.3",
             "kotlinVersion": "1.8.0",
@@ -141,11 +140,15 @@
         },
         "web": {
             "engine": "engine-rn-next",
-            "nextTranspileModules": ["lodash-es"]
+            "nextTranspileModules": [
+                "lodash-es"
+            ]
         },
         "chromecast": {
             "engine": "engine-rn-next",
-            "nextTranspileModules": ["lodash-es"]
+            "nextTranspileModules": [
+                "lodash-es"
+            ]
         },
         "tizen": {
             "engine": "engine-rn-web",
@@ -163,7 +166,9 @@
         },
         "macos": {
             "engine": "engine-rn-electron",
-            "excludedPlugins": ["react-native-linear-gradient"]
+            "excludedPlugins": [
+                "react-native-linear-gradient"
+            ]
         }
     },
     "permissions": {
